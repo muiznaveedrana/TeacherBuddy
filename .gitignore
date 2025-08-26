@@ -1,0 +1,4 @@
+node_modules
+.bmad-core/
+.next/
+.claude/
