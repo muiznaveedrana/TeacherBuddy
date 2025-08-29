@@ -6,11 +6,92 @@ import { Button } from '@/components/ui/button'
 import { Navigation } from '@/components/ui/navigation'
 import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { Footer } from '@/components/ui/footer'
-import { BookOpen, Users, Settings } from 'lucide-react'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Label } from '@/components/ui/label'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Progress } from '@/components/ui/progress'
+import { BookOpen, Download, Info, Loader2 } from 'lucide-react'
 import WelcomeTour from '@/components/WelcomeTour'
+
+// Mock data for UK National Curriculum topics
+const mockTopics = [
+  { value: 'number-operations', label: 'Number and Operations' },
+  { value: 'fractions-decimals', label: 'Fractions and Decimals' },
+  { value: 'measurement', label: 'Measurement' },
+  { value: 'geometry', label: 'Geometry and Shape' },
+  { value: 'statistics-data', label: 'Statistics and Data' },
+  { value: 'algebra-patterns', label: 'Algebra and Patterns' }
+]
+
+const mockSubtopics: Record<string, { value: string; label: string }[]> = {
+  'number-operations': [
+    { value: 'addition-subtraction', label: 'Addition and Subtraction' },
+    { value: 'multiplication-division', label: 'Multiplication and Division' },
+    { value: 'place-value', label: 'Place Value' },
+    { value: 'mental-maths', label: 'Mental Mathematics' }
+  ],
+  'fractions-decimals': [
+    { value: 'equivalent-fractions', label: 'Equivalent Fractions' },
+    { value: 'adding-fractions', label: 'Adding Fractions' },
+    { value: 'decimal-place-value', label: 'Decimal Place Value' },
+    { value: 'fraction-decimal-conversion', label: 'Fraction to Decimal Conversion' }
+  ]
+  // Other subtopics would be added here
+}
+
+const mockNameLists = [
+  { value: 'year3-class-a', label: 'Year 3 Class A (25 students)' },
+  { value: 'year4-maths-group', label: 'Year 4 Maths Group (18 students)' },
+  { value: 'reception-class', label: 'Reception Class (20 students)' }
+]
+
+type GenerationState = 'idle' | 'generating' | 'completed' | 'error'
+type DifficultyLevel = 'easy' | 'average' | 'hard'
 
 export default function DashboardPage() {
   const [showTour, setShowTour] = useState(true)
+  
+  // Configuration state
+  const [topic, setTopic] = useState<string>('')
+  const [subtopic, setSubtopic] = useState<string>('')
+  const [difficulty, setDifficulty] = useState<DifficultyLevel>('average')
+  const [questionCount, setQuestionCount] = useState<number>(15)
+  const [nameList, setNameList] = useState<string>('')
+  
+  // Generation state
+  const [generationState, setGenerationState] = useState<GenerationState>('idle')
+  const [progress, setProgress] = useState<number>(0)
+  
+  const hasConfiguration = topic && subtopic && nameList
+  const canGenerate = hasConfiguration && (generationState === 'idle' || generationState === 'completed')
+  const showPreview = generationState === 'completed'
+  const showAds = generationState !== 'completed'
+  
+  const handleGenerate = async () => {
+    if (!hasConfiguration) return
+    
+    setGenerationState('generating')
+    setProgress(0)
+    
+    // Mock generation process (5-7 second simulation)
+    const duration = 6000 + Math.random() * 1000 // 6-7 seconds
+    const steps = 20
+    const stepDuration = duration / steps
+    
+    for (let i = 0; i <= steps; i++) {
+      await new Promise(resolve => setTimeout(resolve, stepDuration))
+      setProgress((i / steps) * 100)
+    }
+    
+    setGenerationState('completed')
+  }
+  
+  const handleConfigurationChange = () => {
+    if (generationState === 'completed') {
+      setGenerationState('idle')
+      setProgress(0)
+    }
+  }
   
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
@@ -33,97 +114,256 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto">
           <Breadcrumb 
             items={[
-              { label: 'Dashboard', current: true }
+              { label: 'Worksheet Generator', current: true }
             ]}
             showHome={false}
           />
         </div>
       </div>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        {/* Welcome Message */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">
-            Welcome back! Ready to create some worksheets?
-          </h2>
-          <p className="text-slate-600">
-            You&apos;re all set up and ready to start generating personalized worksheets for your students.
-          </p>
+      {/* Main Content - Two Column Layout */}
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 lg:gap-6">
+          {/* Left Panel - Configuration (30% on desktop) */}
+          <div className="lg:col-span-3 order-1 lg:order-1">
+            <Card className="h-full">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <BookOpen className="h-5 w-5 text-blue-600" />
+                  Worksheet Configuration
+                </CardTitle>
+                <CardDescription>
+                  Configure your worksheet settings and generate personalized content for your students
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Topic Selection */}
+                <div className="space-y-2">
+                  <Label htmlFor="topic">Topic</Label>
+                  <Select value={topic} onValueChange={(value) => { setTopic(value); setSubtopic(''); handleConfigurationChange(); }}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a curriculum topic" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {mockTopics.map(topic => (
+                        <SelectItem key={topic.value} value={topic.value}>
+                          {topic.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Subtopic Selection */}
+                <div className="space-y-2">
+                  <Label htmlFor="subtopic">Subtopic</Label>
+                  <Select 
+                    value={subtopic} 
+                    onValueChange={(value) => { setSubtopic(value); handleConfigurationChange(); }}
+                    disabled={!topic}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder={topic ? "Select a subtopic" : "Select topic first"} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {topic && mockSubtopics[topic]?.map(sub => (
+                        <SelectItem key={sub.value} value={sub.value}>
+                          {sub.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Difficulty Selection */}
+                <div className="space-y-3">
+                  <Label>Difficulty Level</Label>
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                    {[
+                      { value: 'easy', label: 'Easy', description: 'Basic concepts and simple problems' },
+                      { value: 'average', label: 'Average', description: 'Standard curriculum level' },
+                      { value: 'hard', label: 'Hard', description: 'Challenging problems for extension' }
+                    ].map(({ value, label, description }) => (
+                      <div key={value} className="flex items-center space-x-2">
+                        <input
+                          type="radio"
+                          id={`difficulty-${value}`}
+                          name="difficulty"
+                          value={value}
+                          checked={difficulty === value}
+                          onChange={(e) => { setDifficulty(e.target.value as DifficultyLevel); handleConfigurationChange(); }}
+                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                        />
+                        <div>
+                          <Label htmlFor={`difficulty-${value}`} className="font-medium">
+                            {label}
+                          </Label>
+                          <p className="text-xs text-slate-500">{description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Question Count */}
+                <div className="space-y-3">
+                  <Label htmlFor="question-count">Number of Questions: {questionCount}</Label>
+                  <input
+                    type="range"
+                    id="question-count"
+                    min="5"
+                    max="30"
+                    value={questionCount}
+                    onChange={(e) => { setQuestionCount(parseInt(e.target.value)); handleConfigurationChange(); }}
+                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer slider"
+                  />
+                  <div className="flex justify-between text-xs text-slate-500">
+                    <span>5 questions</span>
+                    <span>30 questions</span>
+                  </div>
+                </div>
+
+                {/* Name List Selection */}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Label htmlFor="name-list">Student Name List</Label>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Info className="h-4 w-4 text-slate-400" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Student names will be used in word problems to personalize the worksheet</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                  <div className="flex gap-2">
+                    <Select value={nameList} onValueChange={(value) => { setNameList(value); handleConfigurationChange(); }}>
+                      <SelectTrigger className="flex-1">
+                        <SelectValue placeholder="Select a name list" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {mockNameLists.map(list => (
+                          <SelectItem key={list.value} value={list.value}>
+                            {list.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Button variant="outline" size="sm">
+                      Create New
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Generation Progress */}
+                {generationState === 'generating' && (
+                  <div className="space-y-3 p-4 bg-blue-50 rounded-lg border">
+                    <div className="flex items-center gap-2">
+                      <Loader2 className="h-4 w-4 animate-spin text-blue-600" />
+                      <span className="text-sm font-medium text-blue-900">Generating your worksheet...</span>
+                    </div>
+                    <Progress value={progress} className="w-full" />
+                    <p className="text-xs text-blue-700">
+                      Creating curriculum-aligned questions with personalized student names
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Right Panel - Preview/Ads (70% on desktop) */}
+          <div className="lg:col-span-7 order-2 lg:order-2">
+            <Card className="h-full">
+              <CardContent className="p-0 h-full">
+                {showAds ? (
+                  /* Ad Placeholder */
+                  <div className="h-full flex items-center justify-center bg-slate-100 border-2 border-dashed border-slate-300 rounded-lg m-4">
+                    <div className="text-center p-6">
+                      <div className="w-16 h-16 bg-slate-300 rounded mx-auto mb-3"></div>
+                      <p className="text-sm font-medium text-slate-600">Advertisement</p>
+                      <p className="text-xs text-slate-500 mt-1">
+                        Support free worksheets
+                      </p>
+                      <p className="text-xs text-slate-400 mt-2">
+                        Upgrade to Pro to remove ads
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  /* Worksheet Preview */
+                  <div className="p-4 h-full">
+                    <div className="bg-white border rounded-lg shadow-sm h-full p-4 overflow-y-auto">
+                      <div className="text-center border-b pb-3 mb-4">
+                        <h3 className="font-bold text-lg">Mathematics Worksheet</h3>
+                        <p className="text-sm text-slate-600">
+                          {mockTopics.find(t => t.value === topic)?.label} - {mockSubtopics[topic]?.find(s => s.value === subtopic)?.label}
+                        </p>
+                        <p className="text-xs text-slate-500">Difficulty: {difficulty} | {questionCount} questions</p>
+                      </div>
+                      
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <p className="text-sm"><strong>Name:</strong> _________________</p>
+                          <p className="text-sm"><strong>Date:</strong> _________________</p>
+                        </div>
+                        
+                        <div className="space-y-3">
+                          <h4 className="font-medium text-sm">Instructions:</h4>
+                          <p className="text-xs text-slate-600">
+                            Show all your working out. Use the space provided for each question.
+                          </p>
+                        </div>
+
+                        <div className="space-y-4">
+                          {[1, 2, 3, 4, 5].map(num => (
+                            <div key={num} className="border-b pb-2">
+                              <p className="text-sm">
+                                <strong>{num}.</strong> Emma has 24 stickers. She gives 8 stickers to Oliver. How many stickers does Emma have left?
+                              </p>
+                              <div className="mt-2 h-8 border-b border-dotted border-slate-300"></div>
+                            </div>
+                          ))}
+                          <p className="text-xs text-slate-500 text-center">...and {questionCount - 5} more questions</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="hover:shadow-md transition-shadow cursor-pointer" data-tour="generate-worksheet">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <BookOpen className="h-5 w-5 text-blue-600" />
-                Generate Worksheet
-              </CardTitle>
-              <CardDescription>
-                Create a new worksheet with AI-generated questions
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full">
-                Start Generating
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-md transition-shadow cursor-pointer" data-tour="name-lists">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Users className="h-5 w-5 text-green-600" />
-                Manage Name Lists
-              </CardTitle>
-              <CardDescription>
-                Add or edit student name lists for personalized worksheets
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="outline" className="w-full">
-                View Name Lists
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-md transition-shadow cursor-pointer" data-tour="profile-settings">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Settings className="h-5 w-5 text-slate-600" />
-                Profile Settings
-              </CardTitle>
-              <CardDescription>
-                Update your teaching preferences and account settings
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="outline" className="w-full">
-                Edit Profile
-              </Button>
-            </CardContent>
-          </Card>
+        {/* Action Buttons */}
+        <div className="flex justify-center gap-4 mt-6">
+          <Button 
+            onClick={handleGenerate}
+            disabled={!canGenerate || generationState === 'generating'}
+            size="lg"
+            className="min-w-32"
+          >
+            {generationState === 'generating' ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                Generating...
+              </>
+            ) : showPreview ? (
+              'Regenerate'
+            ) : (
+              'Generate Worksheet'
+            )}
+          </Button>
+          
+          {showPreview && (
+            <Button variant="outline" size="lg" className="min-w-32">
+              <Download className="h-4 w-4 mr-2" />
+              Download PDF
+            </Button>
+          )}
         </div>
-
-        {/* Recent Activity Placeholder */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
-            <CardDescription>
-              Your worksheet generation history will appear here
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-center py-8 text-slate-500">
-              <BookOpen className="h-12 w-12 mx-auto mb-4 opacity-50" />
-              <p className="text-lg font-medium mb-2">No worksheets generated yet</p>
-              <p className="text-sm">
-                Once you start creating worksheets, they&apos;ll appear here for easy access.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
       </main>
 
       {/* Welcome Tour */}
