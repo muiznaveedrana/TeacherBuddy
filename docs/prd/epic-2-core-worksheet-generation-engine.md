@@ -1,135 +1,115 @@
 # Epic 2: Core Worksheet Generation Engine
 
-**Epic Goal:** Implement the complete AI-powered worksheet generation system with advanced curriculum-aligned content generation, professional PDF output, comprehensive Topic/Subtopic taxonomy, and optimized two-column user interface that delivers 5-7 second generation times with 85%+ curriculum alignment satisfaction.
+**Epic Goal:** Integrate the AI-powered worksheet generation system with the Epic 0 UI components, replacing mock worksheet generation with real Google Gemini API integration, curriculum-aligned content generation, professional PDF output, and optimized performance that delivers 5-7 second generation times with 85%+ curriculum alignment satisfaction.
 
-## Story 2.1: UK National Curriculum Topic Taxonomy
+## Story 2.1: Curriculum Data Integration with Epic 0 Interface
 
 As a UK primary school teacher,
-I want to select from comprehensive UK National Curriculum math topics and subtopics,
+I want to select from real UK National Curriculum math topics using the Epic 0 interface,
 so that I can generate worksheets aligned with specific learning objectives for my year group.
 
 **Acceptance Criteria:**
-1. Topic dropdown includes all UK National Curriculum math domains: Number & Place Value, Addition & Subtraction, Multiplication & Division, Fractions, Measurement, Geometry, Statistics
-2. Subtopic dropdown dynamically populates based on selected Topic and user's Year Group (from profile)
-3. Year-appropriate subtopic filtering ensures teachers only see age-appropriate options
-4. Topic/Subtopic combinations map to specific curriculum learning objectives
-5. Dropdown selections persist during session for quick regeneration
-6. Clear labeling indicates curriculum alignment (e.g., "Year 3 - Comparing Numbers")
-7. Graceful handling when no subtopics exist for Topic/Year combination
-8. Fast dropdown loading without API delays
+1. Replace mock dropdown options from Epic 0 with real UK National Curriculum data
+2. Topic dropdown populated with real curriculum domains: Number & Place Value, Addition & Subtraction, Multiplication & Division, Fractions, Measurement, Geometry, Statistics
+3. Subtopic dropdown dynamically populated based on selected Topic and user's Year Group from real profile data
+4. Maintain Epic 0 UI design while adding real curriculum data integration
+5. Year-appropriate subtopic filtering using real curriculum alignment data
+6. Topic/Subtopic combinations map to specific learning objectives in database
+7. Dropdown selections persist using real user profile persistence from Epic 1
+8. Clear labeling with real curriculum alignment indicators (e.g., "Year 3 - Comparing Numbers")
+9. Performance optimization for fast dropdown loading with real data
+10. Error handling for curriculum data loading failures
 
-## Story 2.2: Advanced AI Prompt Engineering System
+## Story 2.2: Google Gemini API Integration with Name List System
 
 As the system,
-I want to generate highly curriculum-aligned worksheet content using sophisticated prompt engineering with personalized name integration,
-so that teachers receive pedagogically appropriate and educationally sound worksheets with student names embedded in questions.
+I want to replace Epic 0 mock worksheet generation with real Google Gemini API integration,
+so that teachers receive real curriculum-aligned worksheets with personalized student names.
 
 **Acceptance Criteria:**
-1. Curriculum-specific prompt templates for each Topic/Subtopic/Year combination
-2. Prompt engineering includes learning objective alignment, age-appropriate language, and progressive difficulty within worksheets
-3. Name list integration seamlessly incorporates student names into word problems and contextual questions
-4. Generated content follows UK educational formatting standards and terminology
-5. Difficulty levels (Easy/Average/Hard) produce meaningful progression in problem complexity
-6. Question types vary appropriately within each worksheet (e.g., word problems, calculations, visual problems)
-7. Content avoids cultural bias and uses UK-specific contexts and terminology
-8. Generated worksheets include clear instructions and example problems where appropriate
-9. AI output consistently produces valid HTML structure for PDF conversion
-10. Name integration maintains educational quality and curriculum alignment
-11. Personalized questions feel natural and contextually appropriate for the math concepts
+1. Replace Epic 0 mock generation progress with real Google Gemini API calls
+2. Integrate real name list data from Epic 0/Epic 1 name list management system
+3. Curriculum-specific prompt templates for each Topic/Subtopic/Year combination using real curriculum data
+4. Prompt engineering includes learning objective alignment, age-appropriate language, and progressive difficulty
+5. Real name list integration incorporates actual student names into word problems and questions
+6. Generated content follows UK educational formatting standards and terminology
+7. Difficulty levels (Easy/Average/Hard) produce real progression in problem complexity
+8. AI output produces valid HTML structure for PDF conversion pipeline
+9. Real error handling replacing Epic 0 mock error states
+10. Performance optimization to maintain Epic 0's target 5-7 second generation time
+11. Integration with real usage tracking system from Epic 1
 
-## Story 2.3: Professional PDF Generation & Formatting
+## Story 2.3: Real PDF Generation Pipeline Integration
 
 As a UK primary school teacher,
-I want to download professionally formatted PDF worksheets,
+I want to download real professionally formatted PDF worksheets using the Epic 0 interface,
 so that I can print and distribute high-quality materials in my classroom.
 
 **Acceptance Criteria:**
-1. HTML-to-PDF conversion maintains consistent formatting across all worksheet types
-2. PDF output includes proper page margins, headers, and professional styling
-3. Worksheet title includes curriculum alignment information (Year Group, Topic, Subtopic)
-4. Generated PDFs are optimized for standard A4 printing
-5. PDF formatting handles various question types (text, numbers, diagrams) appropriately
-6. Page breaks occur naturally and avoid splitting questions inappropriately
-7. PDF file naming convention includes timestamp and curriculum details for teacher organization
-8. Download completes within 2-3 seconds after generation finishes
-9. PDF quality remains consistent across different browsers and devices
-10. Generated PDFs include space for student name and date fields
+1. Replace Epic 0 mock PDF preview with real HTML-to-PDF conversion using Puppeteer
+2. Maintain Epic 0 download button functionality with real PDF generation
+3. Real PDF output includes proper page margins, headers, and professional styling
+4. Integration with real worksheet content from Google Gemini API
+5. PDF formatting handles real generated question types appropriately
+6. Real file storage integration with Supabase Storage for generated PDFs
+7. Real PDF file naming convention includes timestamp and curriculum details
+8. Download functionality works within Epic 0's 2-3 second target after generation
+9. Real PDF quality maintained across different browsers and devices
+10. Integration with usage tracking - increment counters on successful PDF generation
+11. Error handling for PDF generation failures with user-friendly messages
 
-## Story 2.4: Optimized Two-Column Interface with Name List Management
+## Story 2.4: Real Name List System Integration
 
 As a UK primary school teacher,
-I want an intuitive two-column worksheet generation interface with name list management,
-so that I can efficiently configure personalized worksheets and manage student names during my limited planning time.
+I want the Epic 0 name list management interface to work with real data and integrate with worksheet generation,
+so that I can create personalized worksheets using my actual student names.
 
 **Acceptance Criteria:**
-1. Left column contains all configuration controls in logical vertical order: Topic, Subtopic, Worksheet Type, Question Count, Difficulty Level, Name List selection
-2. Right column displays ads during generation, then worksheet preview after completion
-3. Interface is fully responsive for desktop, laptop, and tablet usage
-4. Name list dropdown shows default name list selected with option to choose from saved lists
-5. "Create New Name List" button with info icon explaining names will be used in worksheet questions
-6. Name list creation modal allows teachers to input student names for personalized worksheets
-7. Generate/Regenerate button at bottom of configuration changes label based on state: "Generate" for new configurations, "Regenerate" when modifying existing
-8. Download button appears only when right panel shows PDF preview, disappears when configuration changes
-9. Configuration changes empty the preview section and show ads in right panel
-10. Progress indicator shows generation status during 5-7 second AI processing
-11. Preview area includes zoom functionality for detailed worksheet review
-12. Clear visual separation between configuration and preview areas
-13. Interface maintains state during regeneration (no flickering or layout shifts)
-14. Quick access to user profile settings and usage counter in navigation
-15. Configuration persistence loads user's last selections on login
+1. Replace Epic 0 mock name lists with real database integration from Epic 1
+2. Maintain Epic 0 name list creation modal interface with real data persistence
+3. Real name list dropdown populated with user's actual saved name lists
+4. Integration between real name list selection and worksheet generation process
+5. Real name list creation, editing, and deletion functionality
+6. Real bulk import functionality for CSV/text files with name lists
+7. Integration with Epic 2 AI prompt system for personalized question generation
+8. Real validation for name list requirements and appropriate names
+9. Maintain Epic 0 UI design and user experience while adding real functionality
+10. Real persistence of name list selections in user profile
+11. Error handling for name list operations with user-friendly messages
+12. Performance optimization for name list loading and selection
 
-## Story 2.5: Generation Performance Optimization
+## Story 2.5: End-to-End Generation Performance Integration
 
 As a UK primary school teacher,
-I want worksheets to generate in 5-7 seconds consistently,
+I want the Epic 0 worksheet generation interface to deliver real worksheets in 5-7 seconds,
 so that I can quickly create multiple worksheets during my planning sessions.
 
 **Acceptance Criteria:**
-1. End-to-end generation time (click to PDF ready) consistently under 7 seconds
-2. AI API calls optimized with efficient prompt structure and appropriate model selection
-3. HTML-to-PDF conversion optimized for speed without sacrificing quality
-4. Progress bar provides accurate time estimates and completion feedback
-5. Concurrent generation requests handled gracefully without performance degradation
-6. Error recovery mechanisms prevent infinite loading states
-7. Generation performance monitored and logged for optimization
-8. Caching strategies implemented where appropriate (prompt templates, static assets)
-9. Fallback mechanisms for API timeouts or failures
-10. Performance maintains consistency during peak usage times
+1. Replace Epic 0 mock 5-7 second generation simulation with real end-to-end pipeline
+2. Real AI API calls optimized with efficient prompt structure and Gemini model selection
+3. Real HTML-to-PDF conversion optimized for speed without sacrificing quality
+4. Epic 0 progress bar updated with real progress tracking and accurate time estimates
+5. Real concurrent generation request handling without performance degradation
+6. Real error recovery mechanisms replacing Epic 0 mock error states
+7. Performance monitoring and logging integration for real usage optimization
+8. Caching strategies for prompt templates and static assets
+9. Real fallback mechanisms for API timeouts or failures
+10. Consistent performance during peak usage times with real load testing
 
-## Story 2.6: Name List Management System
-
-As a UK primary school teacher,
-I want to create and manage lists of student names for personalized worksheet generation,
-so that I can generate worksheets with my students' names included in the questions for better engagement.
-
-**Acceptance Criteria:**
-1. Name list creation interface allows teachers to input multiple student names
-2. Default name list provided with common UK primary school names for immediate use
-3. Teachers can create multiple name lists for different classes or groups
-4. Name list selector dropdown in configuration panel shows all saved lists
-5. Info icon next to name list creation explains how names will be integrated into worksheet questions
-6. Name lists persist across sessions and are tied to user accounts
-7. Edit functionality allows modification of existing name lists
-8. Delete functionality for removing unused name lists with confirmation dialog
-9. Name lists integrate seamlessly with AI prompt generation for personalized questions
-10. Name validation ensures appropriate names for educational content
-11. Import functionality for bulk name addition from CSV or text files
-12. Name list management accessible from main interface and profile settings
-
-## Story 2.7: Enhanced Worksheet Customization
+## Story 2.6: Configuration State Management Integration
 
 As a UK primary school teacher,
-I want additional customization options for worksheet generation,
-so that I can create materials perfectly suited to my lesson plans and student needs.
+I want the Epic 0 configuration interface to work with real state persistence and generation triggering,
+so that my selections are saved and trigger real worksheet generation.
 
 **Acceptance Criteria:**
-1. Question count selector expanded to include 5, 10, 15, 20, 25, 30 options
-2. Worksheet format options: Problems only, Problems with answer sheet, Mixed practice
-3. Additional difficulty granularity: Very Easy, Easy, Average, Hard, Very Hard
-4. Optional worksheet instructions customization (brief teacher notes)
-5. Layout options: Single column, Two column, Mixed layout based on question type
-6. Font size options: Small, Medium, Large for different age groups and accessibility needs
-7. Answer key generation option as separate PDF
-8. Customization options respect curriculum requirements and don't compromise educational quality
-9. Advanced options collapsible to maintain interface simplicity for basic users
-10. Customization preferences saved per user session
+1. Replace Epic 0 mock configuration state with real state management integration
+2. Real Generate/Regenerate button functionality triggering actual AI generation
+3. Real configuration changes triggering Epic 0 UI state updates (empty preview, show ads)
+4. Real Download button appearing only when actual PDF is generated and ready
+5. Integration with real user profile persistence from Epic 1 for configuration saving
+6. Real-time state synchronization between configuration changes and UI updates
+7. Real session-based configuration persistence during browser session
+8. Integration with real usage tracking - prevent generation when limits exceeded
+9. Real loading states replacing Epic 0 mock progress indicators
+10. Error handling for configuration validation and generation failures

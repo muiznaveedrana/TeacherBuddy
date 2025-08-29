@@ -1,24 +1,24 @@
 # Epic 1: Foundation & Authentication Infrastructure
 
-**Epic Goal:** Establish the foundational project infrastructure including Next.js setup, Supabase integration, Google OAuth authentication, user profile management, and basic usage tracking while delivering a minimal viable worksheet generation capability to validate the core AI pipeline and provide immediate user value.
+**Epic Goal:** Implement the foundational backend infrastructure and integrate it with the UI components created in Epic 0, including Supabase setup, Google OAuth authentication, user profile management, and basic usage tracking. This epic focuses on replacing mock authentication and profile management with real functionality while maintaining the established UI design.
 
-## Story 1.1: Project Setup & Core Infrastructure
+## Story 1.1: Project Setup & Backend Infrastructure Integration
 
 As a developer,
-I want to set up the Next.js 14 project with essential dependencies and deployment pipeline,
-so that I have a solid foundation for building the worksheet generation platform.
+I want to integrate the backend infrastructure with the UI components from Epic 0,
+so that I have a working foundation with real data persistence and authentication.
 
 **Acceptance Criteria:**
-1. Next.js 14+ project created with App Router configuration
-2. Tailwind CSS and shadcn/ui components integrated and configured
-3. Supabase client initialized with environment variables
+1. Next.js 14+ project structure maintained from Epic 0 UI implementation
+2. Supabase client initialized with production environment variables
+3. Database connection established and tested with local development
 4. Vercel deployment pipeline configured with automatic deployments
-5. Basic folder structure established (/app, /components, /lib, /types)
-6. Package.json includes all required dependencies (Next.js, Tailwind, Supabase, etc.)
-7. Environment variables template created for local development
-8. Engaging landing page with banner featuring "Start Now" and "Watch Demo" action buttons
-9. Landing page includes sections highlighting features and teacher testimonials explaining why teachers love WorksheetGenerator.AI
-10. Clean typography optimized for educational use and child-friendly appearance
+5. Environment variables configured for all services (Supabase, Google OAuth)
+6. Integration of Epic 0 landing page components with real deployment
+7. Database schema implemented matching the architecture specification
+8. Connection between UI components and backend services established
+9. Error handling and logging infrastructure setup
+10. Performance monitoring and analytics foundation implemented
 
 ## Story 1.2: Supabase Database & Authentication Setup
 
@@ -36,71 +36,75 @@ so that users can securely authenticate and have their data properly stored.
 7. Supabase Auth hooks configured for profile creation
 8. Local development environment connects successfully to Supabase
 
-## Story 1.3: Google OAuth Authentication Flow
+## Story 1.3: Google OAuth Authentication Integration
 
 As a UK primary school teacher,
-I want to sign in with my Gmail account,
-so that I can access the worksheet generation platform quickly without creating new credentials.
+I want to sign in with my Gmail account using the interface from Epic 0,
+so that I can access the worksheet generation platform with real authentication.
 
 **Acceptance Criteria:**
-1. Landing page displays "Sign in with Google" button using shadcn/ui components
-2. Google OAuth flow redirects to Google consent screen
-3. Successful authentication creates user record in Supabase
-4. User is redirected to profile setup page after first authentication
-5. Returning users bypass profile setup and go directly to generation interface
-6. Sign out functionality clears authentication state and redirects to landing page
-7. Authentication state persists across browser sessions
-8. Error handling displays user-friendly messages for authentication failures
+1. Replace mock Google OAuth from Epic 0 with real Supabase Auth integration
+2. Maintain existing "Sign in with Google" UI components and flow
+3. Real Google OAuth flow redirects to Google consent screen
+4. Successful authentication creates user record in Supabase database
+5. User is redirected to real profile setup page after first authentication
+6. Returning users bypass profile setup and go to main application interface
+7. Real sign out functionality clears authentication state and redirects to landing page
+8. Authentication state persists across browser sessions using real tokens
+9. Replace mock error states with real error handling and user-friendly messages
+10. Integration testing with Google OAuth in development and production environments
 
-## Story 1.4: User Profile Setup & Management
+## Story 1.4: User Profile Data Integration
 
 As a UK primary school teacher,
-I want to set up my profile with Country, Curriculum, and Year/Grade Group,
+I want to set up my profile using the Epic 0 interface with real data persistence,
 so that the system can provide relevant worksheet options and remember my preferences.
 
 **Acceptance Criteria:**
-1. Profile setup form displays after first-time authentication
-2. Country field auto-populated as "England" with option to change
-3. Curriculum dropdown shows "UK National Curriculum" as default option
-4. Year/Grade Group dropdown shows UK curriculum years (Reception through Year 6)
-5. Profile data saves to Supabase profiles table with user relationship
-6. Profile can be updated later through settings/profile page
-7. Form validation ensures required fields are completed
-8. Successful profile creation redirects to worksheet generation interface
-9. Last configuration settings (Topic, Subtopic, Difficulty, Question Count, Name List) persist in user profile
-10. Configuration persistence enables users to see their previous selections on login
-11. Profile includes default name list selection for immediate worksheet generation
+1. Replace mock profile setup form from Epic 0 with real Supabase integration
+2. Maintain existing UI design and form validation from Epic 0
+3. Real profile data saves to Supabase user_profiles table with proper relationships
+4. Profile can be updated later through existing settings/profile page interface
+5. Form validation integrated with backend validation and error handling
+6. Successful profile creation redirects to main worksheet generation interface
+7. Last configuration settings (Topic, Subtopic, Difficulty, Question Count, Name List) persist in real database
+8. Configuration persistence enables users to see their actual previous selections on login
+9. Profile includes real default name list selection for immediate worksheet generation
+10. Integration between profile data and main application state management
+11. Data migration and update patterns for profile changes
 
-## Story 1.5: Basic Usage Tracking System
+## Story 1.5: Basic Usage Tracking Foundation
 
 As the system,
-I want to track user worksheet generation counts,
-so that usage limits can be enforced in future sprints.
+I want to implement real usage tracking that integrates with Epic 0 usage indicators,
+so that usage limits can be enforced and displayed accurately.
 
 **Acceptance Criteria:**
-1. Usage tracking table created in Supabase with user relationships
-2. Generation counter increments with each worksheet creation
-3. Monthly and daily counters reset automatically at appropriate intervals
-4. Usage data is retrievable for display in navigation (prepared for Epic 3)
-5. Database functions created for usage queries and resets
-6. Usage tracking works independently without affecting generation workflow
-7. Historical usage data preserved for analytics
-8. Counter increments are atomic and handle concurrent requests
+1. Replace mock usage counter from Epic 0 navigation with real Supabase data
+2. Usage tracking table created in Supabase with user relationships
+3. Real-time usage counter updates in navigation bar
+4. Database functions created for usage queries and resets
+5. Usage tracking infrastructure prepared for Epic 2 worksheet generation integration
+6. Historical usage data structure established for Epic 3 analytics
+7. Atomic counter operations handling concurrent requests
+8. Integration between usage tracking and existing Epic 0 UI components
+9. Usage counter display maintains Epic 0 visual design
+10. Foundation for usage limit enforcement in subsequent epics
 
-## Story 1.6: Minimal Worksheet Generation (AI Pipeline Validation)
+## Story 1.6: Navigation and State Management Integration
 
 As a UK primary school teacher,
-I want to generate a basic math worksheet,
-so that I can validate the core AI functionality works as expected.
+I want the Epic 0 application shell to work with real user data and authentication,
+so that I have a complete foundational application experience.
 
 **Acceptance Criteria:**
-1. Simple generation form with basic Topic dropdown (Addition, Subtraction, Multiplication)
-2. Difficulty selector with Easy/Average/Hard options
-3. Question count selector (5, 10, 15, 20 questions)
-4. Integration with Google Gemini API for content generation
-5. Generated content displays in HTML format in preview area
-6. Basic HTML-to-PDF conversion functionality working
-7. Download PDF button provides downloadable worksheet file
-8. Generation completes within 10 seconds (will optimize to 5-7s in Epic 2)
-9. Generated worksheets contain curriculum-appropriate math problems
-10. Error handling for API failures with user-friendly messages
+1. Replace mock user data in Epic 0 navigation with real authenticated user information
+2. Real user profile picture and name display in navigation dropdown
+3. Working sign out functionality that clears real authentication state
+4. Integration between real profile data and navigation display
+5. Real subscription tier display replacing mock tier badges
+6. State management integration between authentication and UI components
+7. Route protection for authenticated vs. unauthenticated users
+8. Real loading states replacing mock loading experiences
+9. Error handling for authentication and data loading failures
+10. Responsive design maintained from Epic 0 while adding real functionality
