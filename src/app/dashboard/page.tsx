@@ -12,6 +12,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Progress } from '@/components/ui/progress'
 import { BookOpen, Download, Info, Loader2 } from 'lucide-react'
 import WelcomeTour from '@/components/WelcomeTour'
+import { PullToRefresh } from '@/components/mobile/PullToRefresh'
 
 // Mock data for UK National Curriculum topics
 const mockTopics = [
@@ -63,7 +64,7 @@ export default function DashboardPage() {
   const [progress, setProgress] = useState<number>(0)
   
   const hasConfiguration = topic && subtopic && nameList
-  const canGenerate = hasConfiguration && (generationState === 'idle' || generationState === 'completed')
+  const canGenerate = hasConfiguration && generationState !== 'generating'
   const showPreview = generationState === 'completed'
   const showAds = generationState !== 'completed'
   
@@ -93,8 +94,16 @@ export default function DashboardPage() {
     }
   }
   
+  const handleRefresh = async () => {
+    // Simulate refreshing page data
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    // Reset state if needed
+    console.log('Page refreshed')
+  }
+  
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <PullToRefresh onRefresh={handleRefresh}>
+      <div className="min-h-screen bg-slate-50 flex flex-col">
       {/* Enhanced Navigation */}
       <Navigation 
         user={{
@@ -121,11 +130,12 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Main Content - Two Column Layout */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 lg:gap-6">
-          {/* Left Panel - Configuration (30% on desktop) */}
-          <div className="lg:col-span-3 order-1 lg:order-1">
+      {/* Main Content - Mobile-First Responsive Layout */}
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-4 md:py-6">
+        {/* Mobile: Stack vertically, Tablet: 2 columns, Desktop: Optimized layout */}
+        <div className="flex flex-col lg:grid lg:grid-cols-10 gap-4 md:gap-6">
+          {/* Configuration Panel - Full width on mobile, 30% on desktop */}
+          <div className="w-full lg:col-span-3 order-1">
             <Card className="h-full">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -136,12 +146,12 @@ export default function DashboardPage() {
                   Configure your worksheet settings and generate personalized content for your students
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-4 md:space-y-6">
                 {/* Topic Selection */}
                 <div className="space-y-2">
-                  <Label htmlFor="topic">Topic</Label>
+                  <Label htmlFor="topic" className="text-base md:text-sm">Topic</Label>
                   <Select value={topic} onValueChange={(value) => { setTopic(value); setSubtopic(''); handleConfigurationChange(); }}>
-                    <SelectTrigger>
+                    <SelectTrigger className="h-12 md:h-10 text-base md:text-sm">
                       <SelectValue placeholder="Select a curriculum topic" />
                     </SelectTrigger>
                     <SelectContent>
@@ -156,13 +166,13 @@ export default function DashboardPage() {
 
                 {/* Subtopic Selection */}
                 <div className="space-y-2">
-                  <Label htmlFor="subtopic">Subtopic</Label>
+                  <Label htmlFor="subtopic" className="text-base md:text-sm">Subtopic</Label>
                   <Select 
                     value={subtopic} 
                     onValueChange={(value) => { setSubtopic(value); handleConfigurationChange(); }}
                     disabled={!topic}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="h-12 md:h-10 text-base md:text-sm">
                       <SelectValue placeholder={topic ? "Select a subtopic" : "Select topic first"} />
                     </SelectTrigger>
                     <SelectContent>
@@ -177,14 +187,14 @@ export default function DashboardPage() {
 
                 {/* Difficulty Selection */}
                 <div className="space-y-3">
-                  <Label>Difficulty Level</Label>
-                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                  <Label className="text-base md:text-sm">Difficulty Level</Label>
+                  <div className="flex flex-col gap-4 md:gap-3">
                     {[
                       { value: 'easy', label: 'Easy', description: 'Basic concepts and simple problems' },
                       { value: 'average', label: 'Average', description: 'Standard curriculum level' },
                       { value: 'hard', label: 'Hard', description: 'Challenging problems for extension' }
                     ].map(({ value, label, description }) => (
-                      <div key={value} className="flex items-center space-x-2">
+                      <div key={value} className="flex items-start space-x-3 p-3 md:p-2 border rounded-lg hover:bg-slate-50 cursor-pointer touch-manipulation" onClick={() => { setDifficulty(value as DifficultyLevel); handleConfigurationChange(); }}>
                         <input
                           type="radio"
                           id={`difficulty-${value}`}
@@ -192,13 +202,13 @@ export default function DashboardPage() {
                           value={value}
                           checked={difficulty === value}
                           onChange={(e) => { setDifficulty(e.target.value as DifficultyLevel); handleConfigurationChange(); }}
-                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                          className="h-5 w-5 md:h-4 md:w-4 text-blue-600 focus:ring-blue-500 border-gray-300 mt-0.5"
                         />
-                        <div>
-                          <Label htmlFor={`difficulty-${value}`} className="font-medium">
+                        <div className="flex-1">
+                          <Label htmlFor={`difficulty-${value}`} className="font-medium text-base md:text-sm cursor-pointer">
                             {label}
                           </Label>
-                          <p className="text-xs text-slate-500">{description}</p>
+                          <p className="text-sm md:text-xs text-slate-500 mt-1">{description}</p>
                         </div>
                       </div>
                     ))}
@@ -207,7 +217,7 @@ export default function DashboardPage() {
 
                 {/* Question Count */}
                 <div className="space-y-3">
-                  <Label htmlFor="question-count">Number of Questions: {questionCount}</Label>
+                  <Label htmlFor="question-count" className="text-base md:text-sm">Number of Questions: {questionCount}</Label>
                   <input
                     type="range"
                     id="question-count"
@@ -215,22 +225,22 @@ export default function DashboardPage() {
                     max="30"
                     value={questionCount}
                     onChange={(e) => { setQuestionCount(parseInt(e.target.value)); handleConfigurationChange(); }}
-                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer slider"
+                    className="w-full h-3 md:h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer slider touch-manipulation"
                   />
-                  <div className="flex justify-between text-xs text-slate-500">
+                  <div className="flex justify-between text-sm md:text-xs text-slate-500">
                     <span>5 questions</span>
                     <span>30 questions</span>
                   </div>
                 </div>
 
                 {/* Name List Selection */}
-                <div className="space-y-2">
+                <div className="space-y-3 md:space-y-2">
                   <div className="flex items-center gap-2">
-                    <Label htmlFor="name-list">Student Name List</Label>
+                    <Label htmlFor="name-list" className="text-base md:text-sm">Student Name List</Label>
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger>
-                          <Info className="h-4 w-4 text-slate-400" />
+                          <Info className="h-5 w-5 md:h-4 md:w-4 text-slate-400" />
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>Student names will be used in word problems to personalize the worksheet</p>
@@ -238,9 +248,9 @@ export default function DashboardPage() {
                       </Tooltip>
                     </TooltipProvider>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex flex-col md:flex-row gap-3 md:gap-2">
                     <Select value={nameList} onValueChange={(value) => { setNameList(value); handleConfigurationChange(); }}>
-                      <SelectTrigger className="flex-1">
+                      <SelectTrigger className="flex-1 h-12 md:h-10 text-base md:text-sm">
                         <SelectValue placeholder="Select a name list" />
                       </SelectTrigger>
                       <SelectContent>
@@ -251,7 +261,7 @@ export default function DashboardPage() {
                         ))}
                       </SelectContent>
                     </Select>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="default" className="md:flex-shrink-0">
                       Create New
                     </Button>
                   </div>
@@ -274,9 +284,9 @@ export default function DashboardPage() {
             </Card>
           </div>
 
-          {/* Right Panel - Preview/Ads (70% on desktop) */}
-          <div className="lg:col-span-7 order-2 lg:order-2">
-            <Card className="h-full">
+          {/* Preview/Ads Panel - Full width on mobile, 70% on desktop */}
+          <div className="w-full lg:col-span-7 order-2">
+            <Card className="h-full min-h-[400px] md:min-h-[500px]">
               <CardContent className="p-0 h-full">
                 {showAds ? (
                   /* Ad Placeholder */
@@ -337,17 +347,17 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex justify-center gap-4 mt-6">
+        {/* Action Buttons - Mobile optimized */}
+        <div className="flex flex-col md:flex-row justify-center gap-3 md:gap-4 mt-6">
           <Button 
             onClick={handleGenerate}
-            disabled={!canGenerate || generationState === 'generating'}
-            size="lg"
-            className="min-w-32"
+            disabled={!canGenerate}
+            size="touch"
+            className="w-full md:w-auto md:min-w-32 text-lg md:text-base font-semibold"
           >
             {generationState === 'generating' ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                <Loader2 className="h-5 w-5 md:h-4 md:w-4 animate-spin mr-2" />
                 Generating...
               </>
             ) : showPreview ? (
@@ -358,8 +368,8 @@ export default function DashboardPage() {
           </Button>
           
           {showPreview && (
-            <Button variant="outline" size="lg" className="min-w-32">
-              <Download className="h-4 w-4 mr-2" />
+            <Button variant="outline" size="touch" className="w-full md:w-auto md:min-w-32 text-lg md:text-base">
+              <Download className="h-5 w-5 md:h-4 md:w-4 mr-2" />
               Download PDF
             </Button>
           )}
@@ -371,8 +381,9 @@ export default function DashboardPage() {
         <WelcomeTour onComplete={() => setShowTour(false)} />
       )}
 
-      {/* Footer */}
-      <Footer version="v1.0.0-beta" />
-    </div>
+        {/* Footer */}
+        <Footer version="v1.0.0-beta" />
+      </div>
+    </PullToRefresh>
   )
 }

@@ -44,65 +44,65 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
+      {/* Hero Section - Mobile-First Responsive */}
+      <section className="relative px-4 py-12 mx-auto max-w-7xl md:py-16 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 md:text-4xl lg:text-5xl xl:text-6xl leading-tight">
             <span className="block">Transform worksheet creation</span>
-            <span className="block text-blue-700">from hours to seconds</span>
+            <span className="block text-blue-700 mt-2">from hours to seconds</span>
           </h1>
-          <p className="max-w-2xl mx-auto mt-6 text-xl text-gray-600">
+          <p className="max-w-2xl mx-auto mt-6 text-lg md:text-xl text-gray-600 leading-relaxed px-4">
             AI-powered worksheet generator designed for UK primary school teachers. 
             Create curriculum-aligned worksheets with personalized student names in seconds.
           </p>
-          <div className="flex justify-center mt-10">
-            <Button size="lg" className="text-lg px-8 py-6 bg-blue-700 hover:bg-blue-800">
+          <div className="flex justify-center mt-8 md:mt-10 px-4">
+            <Button size="touch" className="w-full max-w-sm md:w-auto text-lg px-8 py-6 bg-blue-700 hover:bg-blue-800 touch-manipulation">
               Start Creating Now
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </div>
 
-          {/* Demo Section */}
-          <div className="mt-20 text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8">See WorksheetsAI in Action</h2>
+          {/* Demo Section - Mobile Optimized */}
+          <div className="mt-16 md:mt-20 text-center px-4">
+            <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-6 md:mb-8">See WorksheetsAI in Action</h2>
             <div className="max-w-4xl mx-auto">
               <div className="relative rounded-lg overflow-hidden shadow-2xl bg-gray-900">
                 <div className="aspect-video">
                   <div className="flex items-center justify-center h-full bg-gradient-to-br from-gray-800 to-gray-900">
-                    <div className="text-center text-white">
-                      <div className="w-20 h-20 mx-auto mb-4 bg-cyan-600 rounded-full flex items-center justify-center">
-                        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                    <div className="text-center text-white p-4">
+                      <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 bg-cyan-600 rounded-full flex items-center justify-center">
+                        <svg className="w-6 h-6 md:w-8 md:h-8" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M8 5v14l11-7z"/>
                         </svg>
                       </div>
-                      <p className="text-lg font-medium mb-2">Demo Video</p>
-                      <p className="text-gray-400 text-sm">Watch how teachers create worksheets in seconds</p>
-                      <button className="mt-4 px-6 py-2 bg-cyan-600 hover:bg-cyan-700 rounded-full text-sm font-medium transition-colors">
+                      <p className="text-base md:text-lg font-medium mb-2">Demo Video</p>
+                      <p className="text-gray-400 text-sm md:text-base">Watch how teachers create worksheets in seconds</p>
+                      <button className="mt-4 px-6 py-3 md:px-6 md:py-2 bg-cyan-600 hover:bg-cyan-700 rounded-full text-sm md:text-sm font-medium transition-colors touch-manipulation min-h-[44px] md:min-h-auto">
                         Play Demo
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
-              <p className="mt-4 text-gray-600 text-sm">2 minute overview • See real worksheet generation</p>
+              <p className="mt-4 text-gray-600 text-sm md:text-base">2 minute overview • See real worksheet generation</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-20 bg-white">
+      {/* Features Section - Mobile Optimized */}
+      <section id="features" className="py-16 md:py-20 bg-white">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
+            <h2 className="text-2xl font-bold text-gray-900 md:text-3xl lg:text-4xl">
               Why Teachers Love WorksheetGenerator.AI
             </h2>
-            <p className="max-w-2xl mx-auto mt-4 text-xl text-gray-600">
+            <p className="max-w-2xl mx-auto mt-4 text-lg md:text-xl text-gray-600 px-4">
               Designed specifically for busy UK primary school teachers
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-8 mt-16 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 mt-12 md:mt-16 md:grid-cols-2 lg:grid-cols-3 md:gap-8">
             <Card className="text-center hover:shadow-lg transition-shadow duration-300 border-0 shadow-md">
               <CardHeader>
                 <div className="flex justify-center">

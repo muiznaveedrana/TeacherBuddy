@@ -1,8 +1,9 @@
 import '@testing-library/jest-dom'
 import React from 'react'
+import { vi } from 'vitest'
 
 // Mock Next.js Image component
-jest.mock('next/image', () => ({
+vi.mock('next/image', () => ({
   __esModule: true,
   default: (props: any) => {
     // eslint-disable-next-line jsx-a11y/alt-text, @next/next/no-img-element
@@ -11,23 +12,23 @@ jest.mock('next/image', () => ({
 }))
 
 // Mock Next.js router
-jest.mock('next/router', () => ({
+vi.mock('next/router', () => ({
   useRouter() {
     return {
       route: '/',
       pathname: '/',
       query: '',
       asPath: '/',
-      push: jest.fn(),
-      pop: jest.fn(),
-      reload: jest.fn(),
-      back: jest.fn(),
-      prefetch: jest.fn().mockResolvedValue(undefined),
-      beforePopState: jest.fn(),
+      push: vi.fn(),
+      pop: vi.fn(),
+      reload: vi.fn(),
+      back: vi.fn(),
+      prefetch: vi.fn().mockResolvedValue(undefined),
+      beforePopState: vi.fn(),
       events: {
-        on: jest.fn(),
-        off: jest.fn(),
-        emit: jest.fn(),
+        on: vi.fn(),
+        off: vi.fn(),
+        emit: vi.fn(),
       },
     }
   },
