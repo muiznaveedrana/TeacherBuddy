@@ -1,6 +1,6 @@
-# Epic 2: Core Worksheet Generation Engine
+# Epic 2: Enhanced Worksheet Generation Engine
 
-**Epic Goal:** Integrate the AI-powered worksheet generation system with the Epic 0 UI components, replacing mock worksheet generation with real Google Gemini API integration, curriculum-aligned content generation, professional PDF output, and optimized performance that delivers 5-7 second generation times with 85%+ curriculum alignment satisfaction.
+**Epic Goal:** Expand the proven POC worksheet generation system with comprehensive UK National Curriculum taxonomy, advanced customization options, name list management, and performance optimization. This epic builds on the validated core generation pipeline to deliver complete curriculum coverage and sophisticated personalization features.
 
 ## Story 2.1: Curriculum Data Integration with Epic 0 Interface
 

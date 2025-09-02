@@ -1,6 +1,6 @@
 # Epic 4: AdSense Integration & Revenue Optimization
 
-**Epic Goal:** Integrate real AdSense advertising with the Epic 0 ad placeholder system, replacing mock ads with actual revenue-generating advertisements, implementing intelligent placement during generation phases, and optimizing for £0.15-0.50 per free user monthly while maintaining the established professional user experience.
+**Epic Goal:** Complete the monetization strategy by integrating real AdSense advertising with intelligent placement optimization, building upon the validated worksheet generation platform, established user authentication, and subscription management systems. This epic maximizes revenue per free user while preserving the professional user experience established in previous epics.
 
 ## Story 4.1: Real AdSense Integration with Epic 0 Placeholders
 

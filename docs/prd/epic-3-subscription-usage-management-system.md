@@ -1,6 +1,6 @@
 # Epic 3: Subscription & Usage Management System
 
-**Epic Goal:** Integrate the complete three-tier freemium business model with the Epic 0 subscription management interface, replacing mock usage counters and billing with real Stripe integration, automated usage limit enforcement, and conversion optimization that enables 15% free-to-paid conversion while maintaining the established user experience.
+**Epic Goal:** Implement the complete three-tier freemium business model with Stripe integration and automated usage limit enforcement, leveraging the established worksheet generation engine and user authentication infrastructure. This epic enables monetization through subscription tiers while maintaining seamless user experience from Epic POC and Epic 1.
 
 ## Story 3.1: Real Subscription Tier System Integration
 

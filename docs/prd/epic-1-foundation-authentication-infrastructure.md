@@ -1,6 +1,6 @@
 # Epic 1: Foundation & Authentication Infrastructure
 
-**Epic Goal:** Implement the foundational backend infrastructure and integrate it with the UI components created in Epic 0, including Supabase setup, Google OAuth authentication, user profile management, and basic usage tracking. This epic focuses on replacing mock authentication and profile management with real functionality while maintaining the established UI design.
+**Epic Goal:** Build upon POC success by implementing Supabase authentication infrastructure, user profile management, and usage tracking systems. This epic integrates the proven worksheet generation engine from Epic POC with real user accounts, replacing mock authentication and profile data while preserving the validated generation workflow.
 
 ## Story 1.1: Project Setup & Backend Infrastructure Integration
 
