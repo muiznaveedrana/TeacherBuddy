@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateWorksheet } from '@/lib/services/gemini'
-import { WorksheetConfig, WorksheetGenerationResult } from '@/lib/types/worksheet'
+import { WorksheetConfig, WorksheetGenerationResult, LayoutType } from '@/lib/types/worksheet'
 import { validateWorksheetRequest, sanitizeWorksheetRequest } from '@/lib/utils/validation'
 
 // Mock name lists data (will eventually come from database)
@@ -30,7 +30,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       }, { status: 400 })
     }
 
-    const { topic, subtopic, difficulty, questionCount, nameList, yearGroup } = sanitizedBody as {
+    const { layout, topic, subtopic, difficulty, questionCount, nameList, yearGroup } = sanitizedBody as {
+      layout: string
       topic: string
       subtopic: string
       difficulty: 'easy' | 'average' | 'hard'
@@ -62,8 +63,20 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       }, { status: 400 })
     }
 
+    // Validate layout parameter
+    if (!layout || typeof layout !== 'string') {
+      return NextResponse.json({
+        success: false,
+        error: 'Validation failed',
+        message: 'Layout selection is required',
+        generationTime: Date.now() - startTime,
+        timestamp: new Date().toISOString()
+      }, { status: 400 })
+    }
+
     // Create worksheet configuration
     const config: WorksheetConfig = {
+      layout: layout as LayoutType,
       topic,
       subtopic,
       difficulty,

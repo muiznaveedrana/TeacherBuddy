@@ -14,6 +14,8 @@ import { BookOpen, Download, Info, Loader2, AlertCircle } from 'lucide-react'
 import WelcomeTour from '@/components/WelcomeTour'
 import { PullToRefresh } from '@/components/mobile/PullToRefresh'
 import { YEAR_GROUPS } from '@/lib/data/curriculum'
+import { LAYOUT_TEMPLATES, DEFAULT_LAYOUT, getLayoutOptions } from '@/lib/data/layouts'
+import type { LayoutType } from '@/lib/types/worksheet'
 
 const mockNameLists = [
   { value: 'year3-class-a', label: 'Year 3 Class A (25 students)' },
@@ -41,6 +43,7 @@ export default function DashboardPage() {
   const [showTour, setShowTour] = useState(true)
   
   // Configuration state
+  const [layout, setLayout] = useState<LayoutType>(DEFAULT_LAYOUT) // Layout selection drives template
   const [yearGroup, setYearGroup] = useState<string>('Year 3') // Default from mock profile - NOW FIRST
   const [availableTopics, setAvailableTopics] = useState<{value: string, label: string}[]>([])
   const [availableSubtopics, setAvailableSubtopics] = useState<{value: string, label: string}[]>([])
@@ -58,7 +61,7 @@ export default function DashboardPage() {
   const [loadingTopics, setLoadingTopics] = useState<boolean>(false)
   const [loadingSubtopics, setLoadingSubtopics] = useState<boolean>(false)
   
-  const hasConfiguration = yearGroup && topic && subtopic && nameList
+  const hasConfiguration = layout && yearGroup && topic && subtopic && nameList
   const canGenerate = hasConfiguration && generationState !== 'generating'
   const showPreview = generationState === 'completed' && generatedWorksheet
   const showAds = generationState !== 'completed'
@@ -94,6 +97,7 @@ export default function DashboardPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          layout,
           topic,
           subtopic,
           difficulty,
@@ -253,7 +257,67 @@ export default function DashboardPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 md:space-y-6">
-                {/* Year Group Selection - NOW FIRST */}
+                {/* Layout Selection - FIRST for pedagogical choice */}
+                <div className="space-y-3 md:space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Label htmlFor="layout" className="text-base md:text-sm font-semibold">Worksheet Layout</Label>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Info className="h-5 w-5 md:h-4 md:w-4 text-slate-400" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Choose the layout style that best fits your teaching objective</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                  <Select value={layout} onValueChange={(value) => { setLayout(value as LayoutType); handleConfigurationChange(); }}>
+                    <SelectTrigger className="h-12 md:h-10 text-base md:text-sm border-2 border-purple-200 bg-purple-50">
+                      <SelectValue placeholder="Select worksheet layout">
+                        {layout && (
+                          <div className="flex items-center gap-2">
+                            <span className="text-lg">{LAYOUT_TEMPLATES[layout].icon}</span>
+                            <span>{LAYOUT_TEMPLATES[layout].name}</span>
+                          </div>
+                        )}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {getLayoutOptions().map(layoutOption => (
+                        <SelectItem key={layoutOption.id} value={layoutOption.id}>
+                          <div className="flex items-center gap-2">
+                            <span className="text-lg">{layoutOption.icon}</span>
+                            <div>
+                              <div className="font-medium">{layoutOption.name}</div>
+                              <div className="text-xs text-slate-500">{layoutOption.description}</div>
+                            </div>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {layout && (
+                    <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg">
+                      <div className="flex items-start gap-2">
+                        <span className="text-lg">{LAYOUT_TEMPLATES[layout].icon}</span>
+                        <div>
+                          <p className="text-sm font-medium text-purple-800">{LAYOUT_TEMPLATES[layout].name}</p>
+                          <p className="text-xs text-purple-700 mt-1">{LAYOUT_TEMPLATES[layout].description}</p>
+                          <div className="flex flex-wrap gap-1 mt-2">
+                            {LAYOUT_TEMPLATES[layout].features.slice(0, 2).map(feature => (
+                              <span key={feature} className="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded">
+                                {feature}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Year Group Selection - SECOND */}
                 <div className="space-y-3 md:space-y-2">
                   <div className="flex items-center gap-2">
                     <Label htmlFor="year-group" className="text-base md:text-sm font-semibold">Year Group</Label>
@@ -566,14 +630,14 @@ export default function DashboardPage() {
             ) : hasConfiguration ? (
               'Generate Worksheet'
             ) : (
-              `Complete Configuration (${[!yearGroup && 'Year Group', !topic && 'Topic', !subtopic && 'Subtopic', !nameList && 'Name List'].filter(Boolean).join(', ')})`
+              `Complete Configuration (${[!layout && 'Layout', !yearGroup && 'Year Group', !topic && 'Topic', !subtopic && 'Subtopic', !nameList && 'Name List'].filter(Boolean).join(', ')})`
             )}
           </Button>
           
           {!hasConfiguration && (
             <div className="text-center">
               <p className="text-sm text-slate-600 mt-2">
-                Follow the curriculum-aligned flow: Year Group → Topic → Subtopic → Name List
+                Follow the flow: Layout → Year Group → Topic → Subtopic → Name List
               </p>
             </div>
           )}

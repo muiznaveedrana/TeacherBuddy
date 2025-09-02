@@ -172,6 +172,8 @@ interface User {
 - last_subtopic: string - Persisted configuration
 - last_difficulty: string - Easy/Average/Hard
 - last_question_count: number - 5-30 questions
+- last_layout_type: string - Last selected layout type
+- last_layout_options: JSON - Layout-specific configuration options
 - last_name_list_id: UUID - Reference to selected name list
 
 #### TypeScript Interface
@@ -185,6 +187,8 @@ interface UserProfile {
   last_subtopic?: string;
   last_difficulty?: 'Easy' | 'Average' | 'Hard';
   last_question_count?: number;
+  last_layout_type?: LayoutType;
+  last_layout_options?: LayoutOptions;
   last_name_list_id?: string;
   created_at: string;
   updated_at: string;
@@ -329,6 +333,65 @@ interface UsageCounter {
 - Belongs to User
 - Incremented by WorksheetGeneration
 - Checked against Subscription limits
+
+### Layout Types and Configuration (Enhanced POC)
+
+**Purpose:** Support for 5 pedagogical worksheet layouts with layout-specific configuration options
+
+#### Layout Type Definitions
+```typescript
+type LayoutType = 'standard' | 'fluency' | 'grid' | 'differentiated' | 'reasoning';
+
+interface LayoutOptions {
+  // Standard Layout
+  answerSpaceStyle?: 'blank' | 'lined' | 'squared';
+  workingSpaceLines?: number;
+  
+  // Fluency Layout  
+  columnCount?: number;
+  randomizeQuestions?: boolean;
+  
+  // Grid Layout
+  gridType?: 'multiplication' | 'place-value' | 'number-square';
+  autoFillPercentage?: number;
+  fontSize?: 'small' | 'medium' | 'large';
+  
+  // Differentiated Layout
+  enableColorCoding?: boolean;
+  sectionQuestionCounts?: { mild: number; medium: number; hot: number };
+  
+  // Reasoning Layout
+  boxStyle?: 'standard' | 'bordered' | 'shaded';
+  includeExtension?: boolean;
+}
+
+interface LayoutTemplate {
+  id: string;
+  type: LayoutType;
+  name: string;
+  description: string;
+  htmlTemplate: string;
+  cssStyles: string;
+  configurationSchema: LayoutConfigSchema;
+  yearGroupCompatibility: string[];
+}
+
+interface EnhancedGenerationConfig {
+  // Existing fields
+  yearGroup: string;
+  topic: string;
+  subtopic: string;
+  difficulty: DifficultyLevel;
+  questionCount: number;
+  
+  // New layout fields for Enhanced POC
+  layoutType: LayoutType;
+  layoutOptions: LayoutOptions;
+  
+  // Mock data (no user authentication in POC)
+  mockStudentNames: string[];
+}
+```
 
 ## API Specification
 
@@ -717,18 +780,34 @@ Based on the architectural patterns, tech stack, and data models, here are the m
 
 **Technology Stack:** Supabase Auth client with Next.js middleware for route protection
 
-### WorksheetGenerator
+### WorksheetGenerator (Enhanced for Layouts)
 
-**Responsibility:** Core business logic for AI-powered worksheet generation, managing the complete pipeline from configuration to PDF output
+**Responsibility:** Core business logic for AI-powered worksheet generation with layout variety support, managing the complete pipeline from configuration to PDF output
 
 **Key Interfaces:**
-- generateWorksheet(config: GenerationConfig): Promise<WorksheetResult>
-- validateUsageLimit(userId: string): Promise<boolean>
+- generateWorksheet(config: EnhancedGenerationConfig): Promise<LayoutWorksheetResult>
+- validateLayoutParameters(layout: LayoutType, config: any): ValidationResult
 - saveGenerationRecord(generation: WorksheetGeneration): Promise<void>
+- getLayoutConfigurationSchema(layout: LayoutType): ConfigSchema
 
-**Dependencies:** Google Gemini API, Puppeteer service, UsageTracker, FileStorage
+**Dependencies:** LayoutTemplateEngine, Google Gemini API, Puppeteer service, UsageTracker, FileStorage
 
-**Technology Stack:** Next.js API routes with Google Gemini integration and Puppeteer for PDF conversion
+**Technology Stack:** Next.js API routes with Google Gemini integration and enhanced Puppeteer for layout-specific PDF conversion
+
+### LayoutTemplateEngine (New POC Component)
+
+**Responsibility:** Manages 5 layout templates with dynamic HTML generation, layout-specific validation, and PDF formatting optimization for the Enhanced POC Epic
+
+**Key Interfaces:**
+- generateLayoutHTML(content: AIContent, layout: LayoutType, options: LayoutOptions): Promise<string>
+- validateLayoutConfig(layout: LayoutType, config: LayoutConfig): ValidationResult
+- getLayoutDefaults(layout: LayoutType, yearGroup: string): LayoutOptions
+- previewLayout(layout: LayoutType, mockData: MockData): PreviewHTML
+- getAvailableLayouts(): LayoutType[]
+
+**Dependencies:** AI generation service, PDF conversion service, curriculum data
+
+**Technology Stack:** Template engine with layout-specific HTML/CSS, integrated with existing POC services, mock data compatible
 
 ### ConfigurationManager
 

@@ -7,7 +7,20 @@ export type DifficultyLevel = 'easy' | 'average' | 'hard'
 
 export type QuestionType = 'word-problem' | 'calculation' | 'visual-problem'
 
+export type LayoutType = 'standard' | 'fluency' | 'grid' | 'differentiated' | 'reasoning'
+
+export interface LayoutTemplate {
+  id: LayoutType
+  name: string
+  description: string
+  icon: string
+  features: string[]
+  suitable: string[]
+  questionRange?: { min: number; max: number }
+}
+
 export interface WorksheetConfig {
+  layout: LayoutType // Layout selection drives template and configuration options
   topic: string
   subtopic: string
   difficulty: DifficultyLevel

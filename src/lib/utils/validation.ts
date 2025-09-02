@@ -3,13 +3,14 @@
  * Centralized validation logic with detailed error reporting
  */
 
-import { ValidationError, WorksheetValidationResult } from '@/lib/types/worksheet'
+import { ValidationError, WorksheetValidationResult, LayoutType } from '@/lib/types/worksheet'
 
 export const VALIDATION_RULES = {
   QUESTION_COUNT: { min: 5, max: 30 },
   TOPIC_MIN_LENGTH: 3,
   SUBTOPIC_MIN_LENGTH: 3,
   DIFFICULTY_LEVELS: ['easy', 'average', 'hard'] as const,
+  LAYOUT_TYPES: ['standard', 'fluency', 'grid', 'differentiated', 'reasoning'] as const,
   YEAR_GROUPS: ['Reception', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6'] as const,
   STUDENT_NAMES_MIN_COUNT: 1,
   STUDENT_NAME_MAX_LENGTH: 50
@@ -23,7 +24,7 @@ export function validateWorksheetRequest(body: unknown): WorksheetValidationResu
   const bodyData = body as Record<string, unknown>
 
   // Check required fields
-  const requiredFields = ['topic', 'subtopic', 'difficulty', 'questionCount', 'nameList', 'yearGroup']
+  const requiredFields = ['layout', 'topic', 'subtopic', 'difficulty', 'questionCount', 'nameList', 'yearGroup']
   for (const field of requiredFields) {
     if (!bodyData[field]) {
       errors.push({
@@ -32,6 +33,21 @@ export function validateWorksheetRequest(body: unknown): WorksheetValidationResu
         code: 'REQUIRED_FIELD_MISSING'
       })
     }
+  }
+
+  // Validate layout
+  if (bodyData.layout && typeof bodyData.layout !== 'string') {
+    errors.push({
+      field: 'layout',
+      message: 'Layout must be a string',
+      code: 'INVALID_TYPE'
+    })
+  } else if (bodyData.layout && !VALIDATION_RULES.LAYOUT_TYPES.includes(bodyData.layout as LayoutType)) {
+    errors.push({
+      field: 'layout',
+      message: `Layout must be one of: ${VALIDATION_RULES.LAYOUT_TYPES.join(', ')}`,
+      code: 'INVALID_VALUE'
+    })
   }
 
   // Validate topic

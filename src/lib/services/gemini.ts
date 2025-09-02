@@ -4,8 +4,10 @@ import {
   GeneratedWorksheet, 
   GenerationMetrics
 } from '@/lib/types/worksheet'
+import { renderLayout, validateLayoutQuestionCount, WorksheetQuestion } from '@/lib/templates/layouts'
+import { LAYOUT_TEMPLATES } from '@/lib/data/layouts'
 import { validateGeneratedHTML, validateStudentNames } from '@/lib/utils/validation'
-import { CURRICULUM_MAPPING, getTopicDetails } from '@/lib/data/curriculum'
+import { getTopicDetails } from '@/lib/data/curriculum'
 
 if (!process.env.GEMINI_API_KEY) {
   throw new Error('GEMINI_API_KEY environment variable is not configured')
@@ -37,6 +39,13 @@ export async function generateWorksheet(config: WorksheetConfig): Promise<Genera
   }
 
   try {
+    // Validate layout and question count compatibility
+    if (!validateLayoutQuestionCount(config.layout, config.questionCount)) {
+      const layoutTemplate = LAYOUT_TEMPLATES[config.layout]
+      const range = layoutTemplate.questionRange
+      throw new Error(`Question count ${config.questionCount} is not suitable for ${layoutTemplate.name} layout (range: ${range?.min}-${range?.max})`)
+    }
+    
     // Validate student names only if array is not empty (empty arrays use fallback names)
     if (config.studentNames.length > 0) {
       const nameValidation = validateStudentNames(config.studentNames)
@@ -107,10 +116,13 @@ export async function generateWorksheet(config: WorksheetConfig): Promise<Genera
  * Creates a sophisticated prompt for generating UK National Curriculum aligned worksheets
  */
 function createPrompt(config: WorksheetConfig): string {
-  const { topic, subtopic, difficulty, questionCount, yearGroup, studentNames } = config
+  const { layout, topic, subtopic, difficulty, questionCount, yearGroup, studentNames } = config
   
   // Get curriculum-specific context with year group
   const curriculumContext = getCurriculumContext(topic, subtopic, yearGroup)
+  
+  // Get layout-specific context
+  const layoutTemplate = LAYOUT_TEMPLATES[layout]
   
   // Create name pool for personalization
   const namePool = studentNames.length > 0 
@@ -129,13 +141,19 @@ function createPrompt(config: WorksheetConfig): string {
 - Mathematical Focus: ${curriculumContext.mathFocus}
 - Complexity Level: ${curriculumContext.complexity}
 
+**LAYOUT SPECIFICATIONS:**
+- Layout Type: ${layoutTemplate.name} (${layoutTemplate.description})
+- Layout Features: ${layoutTemplate.features.join(', ')}
+- Suitable for: ${layoutTemplate.suitable.join(', ')}
+- Question Count: ${questionCount} (optimized for this layout)
+
 **WORKSHEET SPECIFICATIONS:**
-- Generate exactly ${questionCount} questions
+- Generate exactly ${questionCount} questions optimized for ${layoutTemplate.name} layout
 - Use UK mathematical terminology and contexts
-- Include varied question types: word problems (60%), calculations (30%), visual problems (10%)
+- Include varied question types appropriate for ${layoutTemplate.name}
 - Integrate student names naturally: ${namePool.join(', ')}
 - Ensure progressive difficulty within the worksheet
-- Include clear instructions and working space
+- Follow ${layoutTemplate.name} layout conventions and formatting
 
 **QUALITY STANDARDS:**
 - Age-appropriate language and contexts
@@ -145,34 +163,23 @@ function createPrompt(config: WorksheetConfig): string {
 - Clear, printable formatting
 
 **OUTPUT FORMAT:**
-Return your response as a structured HTML document with the following format:
+Return your response as a JSON object containing only the questions array. Each question should be an object with a 'text' property containing the question text. Do NOT include HTML formatting, headers, or styling - just the mathematical questions.
 
-<div class="worksheet-container">
-  <header class="worksheet-header">
-    <h1>Mathematics Worksheet</h1>
-    <h2>${curriculumContext.yearGroup} Mathematics: ${curriculumContext.topicName} - ${curriculumContext.subtopicName}</h2>
-    <div class="worksheet-info">
-      <p>Name: _________________  Date: _________________</p>
-      <p>Difficulty: ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} | ${questionCount} Questions</p>
-    </div>
-  </header>
-  
-  <section class="instructions">
-    <h3>Instructions:</h3>
-    <p>Show all your working out. Use the space provided for each question. Read each question carefully.</p>
-  </section>
-  
-  <section class="questions">
-    [Generate ${questionCount} questions here with proper HTML structure]
-    Each question should be in this format:
-    <div class="question">
-      <p class="question-number"><strong>1.</strong> [Question text with student name integration]</p>
-      <div class="working-space"></div>
-    </div>
-  </section>
-</div>
+Example format:
+[
+  {"text": "Emma has 12 apples. She gives 5 to her friend Oliver. How many apples does Emma have left?"},
+  {"text": "Calculate: 7 × 8 = ?"},
+  {"text": "Sophie buys a book for £4.50 and a pencil for £1.25. How much change does she get from £10?"}
+]
 
-Generate the worksheet now, ensuring all ${questionCount} questions are mathematically sound, curriculum-aligned, and engaging for primary school students.`
+Generate exactly ${questionCount} mathematically sound, curriculum-aligned questions that are:
+- Appropriate for ${layoutTemplate.name} layout style
+- Suitable for ${curriculumContext.yearGroup} students
+- Using student names from: ${namePool.join(', ')}
+- Following UK National Curriculum for ${curriculumContext.topicName} - ${curriculumContext.subtopicName}
+- Progressive in difficulty from ${difficulty} level
+
+Return only the JSON array of questions, no additional text or formatting.`
 
   return prompt
 }
@@ -262,37 +269,71 @@ function getCurriculumContext(topic: string, subtopic: string, yearGroup: string
 }
 
 /**
- * Parses the generated content from Gemini AI
+ * Parses the generated content from Gemini AI and renders using layout templates
  */
 function parseGeneratedContent(content: string, config: WorksheetConfig): GeneratedWorksheet {
-  // Clean and validate the HTML content
-  let html = content.trim()
+  // Clean the content
+  let cleanContent = content.trim()
   
   // If the content is wrapped in markdown code blocks, extract it
-  if (html.startsWith('```html') && html.endsWith('```')) {
-    html = html.slice(7, -3).trim()
-  } else if (html.startsWith('```') && html.endsWith('```')) {
-    html = html.slice(3, -3).trim()
+  if (cleanContent.startsWith('```json') && cleanContent.endsWith('```')) {
+    cleanContent = cleanContent.slice(7, -3).trim()
+  } else if (cleanContent.startsWith('```') && cleanContent.endsWith('```')) {
+    cleanContent = cleanContent.slice(3, -3).trim()
   }
   
-  // Ensure we have valid HTML structure
-  if (!html.includes('<div class="worksheet-container">')) {
-    throw new Error('Generated content does not contain valid worksheet HTML structure')
+  // Parse the JSON questions
+  let questions: WorksheetQuestion[]
+  try {
+    questions = JSON.parse(cleanContent)
+    if (!Array.isArray(questions)) {
+      throw new Error('Response is not an array of questions')
+    }
+    
+    // Validate questions structure
+    for (let i = 0; i < questions.length; i++) {
+      if (!questions[i].text || typeof questions[i].text !== 'string') {
+        throw new Error(`Question ${i + 1} does not have valid text property`)
+      }
+    }
+    
+    // Validate question count
+    if (questions.length !== config.questionCount) {
+      console.warn(`Expected ${config.questionCount} questions, got ${questions.length}`)
+    }
+    
+  } catch (error) {
+    console.error('Failed to parse questions JSON:', cleanContent.substring(0, 200) + '...')
+    throw new Error(`Invalid question format: ${error instanceof Error ? error.message : 'Unknown parsing error'}`)
   }
   
-  // Create metadata
+  // Create metadata and render context
   const curriculumContext = getCurriculumContext(config.topic, config.subtopic, config.yearGroup)
   
-  return {
+  const renderContext = {
     title: `${curriculumContext.topicName} - ${curriculumContext.subtopicName} Worksheet`,
+    content: '', // Will be filled by template renderer
+    difficulty: config.difficulty,
+    yearGroup: config.yearGroup,
+    topic: curriculumContext.topicName,
+    subtopic: curriculumContext.subtopicName,
+    questionCount: questions.length,
+    generatedAt: new Date().toISOString()
+  }
+  
+  // Render using layout template system
+  const html = renderLayout(config.layout, questions, renderContext)
+  
+  return {
+    title: renderContext.title,
     html: html,
     metadata: {
       topic: curriculumContext.topicName,
       subtopic: curriculumContext.subtopicName,
       difficulty: config.difficulty,
-      questionCount: config.questionCount,
+      questionCount: questions.length,
       curriculum: 'UK National Curriculum',
-      generatedAt: new Date().toISOString()
+      generatedAt: renderContext.generatedAt
     }
   }
 }
