@@ -30,7 +30,25 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       }, { status: 400 })
     }
 
-    const { topic, subtopic, difficulty, questionCount, nameList } = sanitizedBody
+    const { topic, subtopic, difficulty, questionCount, nameList, yearGroup } = sanitizedBody as {
+      topic: string
+      subtopic: string
+      difficulty: 'easy' | 'average' | 'hard'
+      questionCount: number
+      nameList: string
+      yearGroup: string
+    }
+    
+    // Validate yearGroup is provided
+    if (!yearGroup) {
+      return NextResponse.json({
+        success: false,
+        error: 'Validation failed',
+        message: 'Year Group is required for age-appropriate worksheet generation',
+        generationTime: Date.now() - startTime,
+        timestamp: new Date().toISOString()
+      }, { status: 400 })
+    }
 
     // Get student names from selected name list
     const studentNames = mockNameLists[nameList] || []
@@ -50,6 +68,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       subtopic,
       difficulty,
       questionCount,
+      yearGroup,
       studentNames
     }
 

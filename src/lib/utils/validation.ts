@@ -10,6 +10,7 @@ export const VALIDATION_RULES = {
   TOPIC_MIN_LENGTH: 3,
   SUBTOPIC_MIN_LENGTH: 3,
   DIFFICULTY_LEVELS: ['easy', 'average', 'hard'] as const,
+  YEAR_GROUPS: ['Reception', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6'] as const,
   STUDENT_NAMES_MIN_COUNT: 1,
   STUDENT_NAME_MAX_LENGTH: 50
 } as const
@@ -22,7 +23,7 @@ export function validateWorksheetRequest(body: unknown): WorksheetValidationResu
   const bodyData = body as Record<string, unknown>
 
   // Check required fields
-  const requiredFields = ['topic', 'subtopic', 'difficulty', 'questionCount', 'nameList']
+  const requiredFields = ['topic', 'subtopic', 'difficulty', 'questionCount', 'nameList', 'yearGroup']
   for (const field of requiredFields) {
     if (!bodyData[field]) {
       errors.push({
@@ -86,6 +87,23 @@ export function validateWorksheetRequest(body: unknown): WorksheetValidationResu
         field: 'questionCount',
         message: `Question count must be between ${VALIDATION_RULES.QUESTION_COUNT.min} and ${VALIDATION_RULES.QUESTION_COUNT.max}`,
         code: 'OUT_OF_RANGE'
+      })
+    }
+  }
+
+  // Validate yearGroup
+  if (bodyData.yearGroup) {
+    if (typeof bodyData.yearGroup !== 'string') {
+      errors.push({
+        field: 'yearGroup',
+        message: 'Year group must be a string',
+        code: 'INVALID_TYPE'
+      })
+    } else if (!VALIDATION_RULES.YEAR_GROUPS.includes(bodyData.yearGroup as typeof VALIDATION_RULES.YEAR_GROUPS[number])) {
+      errors.push({
+        field: 'yearGroup',
+        message: `Year group must be one of: ${VALIDATION_RULES.YEAR_GROUPS.join(', ')}`,
+        code: 'INVALID_VALUE'
       })
     }
   }
@@ -215,6 +233,7 @@ export function sanitizeWorksheetRequest(body: unknown): unknown {
     subtopic: typeof bodyData.subtopic === 'string' ? bodyData.subtopic.trim().toLowerCase() : bodyData.subtopic,
     difficulty: typeof bodyData.difficulty === 'string' ? bodyData.difficulty.trim().toLowerCase() : bodyData.difficulty,
     questionCount: parseInt(String(bodyData.questionCount)),
-    nameList: typeof bodyData.nameList === 'string' ? bodyData.nameList.trim() : bodyData.nameList
+    nameList: typeof bodyData.nameList === 'string' ? bodyData.nameList.trim() : bodyData.nameList,
+    yearGroup: typeof bodyData.yearGroup === 'string' ? bodyData.yearGroup.trim() : bodyData.yearGroup
   }
 }

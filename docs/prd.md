@@ -24,11 +24,11 @@ WorksheetGenerator.AI addresses the critical time-waste problem where UK primary
 
 **FR1:** The system shall authenticate users via Google OAuth (Gmail login) and redirect to worksheet generation interface upon successful authentication.
 
-**FR2:** The system shall collect and store user profile data including Country (auto-populated as UK), Curriculum (show UK National Curriculums), and Year Group during onboarding.
+**FR2:** The system shall collect and store user profile data including Country (auto-populated as UK), Curriculum (show UK National Curriculums), and Year Group (Reception, Year 1-6) during onboarding, with Year Group being mandatory for curriculum-appropriate worksheet generation.
 
 **FR3:** The system shall provide a two-column worksheet generation interface with configuration controls (Topic dropdown, Subtopic dropdown, Worksheet Type, Question Count selector, Difficulty Level: Easy/Average/Hard), name list (default name list selected) (new name list creation button with info icon telling that you provide list of names which will be used in questions) in the left panel.
 
-**FR4:** The configuration options and profile settings will help to craft a qua;ity prompt.The system shall generate curriculum-aligned math worksheets using AI (Google Gemini API) within 5-7 seconds using that prompt to generate HTML contnet. The system shall convert AI-generated HTML content to professional PDF format and display preview in the right panel.
+**FR4:** The system shall use user profile Year Group (mandatory) and configuration options to craft curriculum-specific prompts. The system shall generate age-appropriate, curriculum-aligned math worksheets using AI (Google Gemini API) within 5-7 seconds. The Year Group from profile must be displayed and editable in worksheet configuration to ensure content matches specific year level (e.g., "Year 3" not "Primary Years 1-6"). The system shall convert AI-generated HTML content to professional PDF format and display preview in the right panel.
 
 **FR5:** The system shall enforce usage limits based on subscription tier: Free (30 worksheets/month + ads), Pro (90 worksheets/month @ £2.99), Pro Plus (150 worksheets/month).
 
@@ -42,7 +42,9 @@ WorksheetGenerator.AI addresses the critical time-waste problem where UK primary
 
 **FR10:** The system shall integrate Stripe for subscription management and payment processing for Pro and Pro Plus tiers.
 
-**FR10:** The system shall persists the last configuratio settings so whenever user logins the he/she is able to see what was his last selection. Whenever configuration changed by user then preview section will get empty and download button will disappear and right pabe start showing an ad and the button at the bottom will show generate label instead of regenerate. 
+**FR12:** The system shall enforce Year Group selection before allowing worksheet generation. Users who skip profile setup must select Year Group in worksheet configuration before proceeding. The system shall validate Year Group selection and display age-appropriate curriculum contexts in generated worksheets.
+
+**FR11:** The system shall persist the last configuration settings (including Year Group from profile) so whenever user logs in they see their last selection. Year Group should default from profile but be editable in worksheet generation interface. Whenever configuration is changed by user, preview section will empty, download button will disappear, right panel shows ads, and bottom button shows "Generate" instead of "Regenerate". 
 
 ### Non-Functional Requirements
 

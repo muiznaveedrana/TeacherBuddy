@@ -5,6 +5,7 @@ import {
   GenerationMetrics
 } from '@/lib/types/worksheet'
 import { validateGeneratedHTML, validateStudentNames } from '@/lib/utils/validation'
+import { CURRICULUM_MAPPING, getTopicDetails } from '@/lib/data/curriculum'
 
 if (!process.env.GEMINI_API_KEY) {
   throw new Error('GEMINI_API_KEY environment variable is not configured')
@@ -106,10 +107,10 @@ export async function generateWorksheet(config: WorksheetConfig): Promise<Genera
  * Creates a sophisticated prompt for generating UK National Curriculum aligned worksheets
  */
 function createPrompt(config: WorksheetConfig): string {
-  const { topic, subtopic, difficulty, questionCount, studentNames } = config
+  const { topic, subtopic, difficulty, questionCount, yearGroup, studentNames } = config
   
-  // Get curriculum-specific context
-  const curriculumContext = getCurriculumContext(topic, subtopic)
+  // Get curriculum-specific context with year group
+  const curriculumContext = getCurriculumContext(topic, subtopic, yearGroup)
   
   // Create name pool for personalization
   const namePool = studentNames.length > 0 
@@ -121,9 +122,12 @@ function createPrompt(config: WorksheetConfig): string {
 **CURRICULUM REQUIREMENTS:**
 - Topic: ${curriculumContext.topicName}
 - Subtopic: ${curriculumContext.subtopicName}
+- Year Group: ${curriculumContext.yearGroup}
+- Age Group: ${curriculumContext.ageGroup}
 - Difficulty Level: ${difficulty}
 - Learning Objectives: ${curriculumContext.learningObjectives.join(', ')}
-- Age Group: ${curriculumContext.ageGroup}
+- Mathematical Focus: ${curriculumContext.mathFocus}
+- Complexity Level: ${curriculumContext.complexity}
 
 **WORKSHEET SPECIFICATIONS:**
 - Generate exactly ${questionCount} questions
@@ -146,7 +150,7 @@ Return your response as a structured HTML document with the following format:
 <div class="worksheet-container">
   <header class="worksheet-header">
     <h1>Mathematics Worksheet</h1>
-    <h2>${curriculumContext.topicName} - ${curriculumContext.subtopicName}</h2>
+    <h2>${curriculumContext.yearGroup} Mathematics: ${curriculumContext.topicName} - ${curriculumContext.subtopicName}</h2>
     <div class="worksheet-info">
       <p>Name: _________________  Date: _________________</p>
       <p>Difficulty: ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} | ${questionCount} Questions</p>
@@ -174,87 +178,86 @@ Generate the worksheet now, ensuring all ${questionCount} questions are mathemat
 }
 
 /**
- * Gets curriculum-specific context for prompt generation
+ * Gets year group specific details for curriculum alignment
  */
-function getCurriculumContext(topic: string, subtopic: string) {
-  const topicMapping: Record<string, {
-    topicName: string
-    ageGroup: string
-    subtopics: Record<string, {
-      subtopicName: string
-      learningObjectives: string[]
-    }>
+function getYearGroupDetails(yearGroup: string) {
+  const yearGroupMapping: Record<string, {
+    ageDescription: string
+    ageRange: string
+    mathFocus: string
+    complexity: string
   }> = {
-    'number-operations': {
-      topicName: 'Number and Operations',
-      ageGroup: 'Primary Years 1-6',
-      subtopics: {
-        'addition-subtraction': {
-          subtopicName: 'Addition and Subtraction',
-          learningObjectives: [
-            'Add and subtract numbers using formal written methods',
-            'Solve addition and subtraction word problems',
-            'Estimate and check answers using inverse operations'
-          ]
-        },
-        'multiplication-division': {
-          subtopicName: 'Multiplication and Division',
-          learningObjectives: [
-            'Recall multiplication and division facts',
-            'Use written methods for multiplication and division',
-            'Solve problems involving multiplication and division'
-          ]
-        },
-        'place-value': {
-          subtopicName: 'Place Value',
-          learningObjectives: [
-            'Understand the value of digits in different positions',
-            'Compare and order numbers',
-            'Round numbers to the nearest 10, 100, or 1000'
-          ]
-        },
-        'mental-maths': {
-          subtopicName: 'Mental Mathematics',
-          learningObjectives: [
-            'Use mental strategies for calculations',
-            'Estimate answers before calculating',
-            'Use known facts to derive new facts'
-          ]
-        }
-      }
+    'Reception': {
+      ageDescription: 'Reception (Ages 4-5)',
+      ageRange: '4-5 years',
+      mathFocus: 'Numbers to 10, basic counting, simple shapes',
+      complexity: 'Very simple language, visual-heavy, concrete examples'
     },
-    'fractions-decimals': {
-      topicName: 'Fractions and Decimals',
-      ageGroup: 'Primary Years 3-6',
-      subtopics: {
-        'equivalent-fractions': {
-          subtopicName: 'Equivalent Fractions',
-          learningObjectives: [
-            'Recognize equivalent fractions',
-            'Find equivalent fractions using multiplication and division',
-            'Compare fractions with different denominators'
-          ]
-        },
-        'adding-fractions': {
-          subtopicName: 'Adding Fractions',
-          learningObjectives: [
-            'Add fractions with the same denominator',
-            'Add fractions with different denominators',
-            'Solve word problems involving fraction addition'
-          ]
-        }
-      }
+    'Year 1': {
+      ageDescription: 'Year 1 (Ages 5-6)',
+      ageRange: '5-6 years',
+      mathFocus: 'Numbers to 20, addition/subtraction to 10, basic shapes',
+      complexity: 'Simple language, concrete examples, minimal text'
+    },
+    'Year 2': {
+      ageDescription: 'Year 2 (Ages 6-7)',
+      ageRange: '6-7 years',
+      mathFocus: 'Numbers to 100, times tables 2/5/10, money, measurement',
+      complexity: 'Basic word problems, simple reasoning, clear instructions'
+    },
+    'Year 3': {
+      ageDescription: 'Year 3 (Ages 7-8)',
+      ageRange: '7-8 years',
+      mathFocus: 'Numbers to 1000, multiplication/division, fractions (halves, quarters)',
+      complexity: 'Multi-step problems, logical reasoning, varied question types'
+    },
+    'Year 4': {
+      ageDescription: 'Year 4 (Ages 8-9)',
+      ageRange: '8-9 years',
+      mathFocus: 'Numbers to 10,000, times tables to 12x12, decimal tenths',
+      complexity: 'Complex word problems, multiple operations, problem-solving strategies'
+    },
+    'Year 5': {
+      ageDescription: 'Year 5 (Ages 9-10)',
+      ageRange: '9-10 years',
+      mathFocus: 'Large numbers, fractions/decimals, percentages, area/perimeter',
+      complexity: 'Advanced reasoning, multi-step calculations, real-world contexts'
+    },
+    'Year 6': {
+      ageDescription: 'Year 6 (Ages 10-11)',
+      ageRange: '10-11 years',
+      mathFocus: 'All four operations, advanced fractions, algebra basics, ratio',
+      complexity: 'SATs preparation level, complex reasoning, independent problem-solving'
     }
   }
+  
+  return yearGroupMapping[yearGroup] || {
+    ageDescription: 'Primary School',
+    ageRange: '5-11 years',
+    mathFocus: 'General mathematics',
+    complexity: 'Age-appropriate content'
+  }
+}
 
-  const topicData = topicMapping[topic]
-  const subtopicData = topicData?.subtopics[subtopic]
+/**
+ * Gets curriculum-specific context for prompt generation with year group specificity
+ * Now uses centralized curriculum data for consistency
+ */
+function getCurriculumContext(topic: string, subtopic: string, yearGroup: string) {
+  const yearDetails = getYearGroupDetails(yearGroup)
+  const topicDetails = getTopicDetails(yearGroup, topic)
+  
+  // Find the specific subtopic in the topic's subtopics array
+  const subtopicData = topicDetails?.subtopics.find(sub => sub.value === subtopic)
   
   return {
-    topicName: topicData?.topicName || 'Mathematics',
-    subtopicName: subtopicData?.subtopicName || 'Problem Solving',
-    ageGroup: topicData?.ageGroup || 'Primary School',
-    learningObjectives: subtopicData?.learningObjectives || ['Solve mathematical problems', 'Show working clearly']
+    topicName: topicDetails?.label || 'Mathematics',
+    subtopicName: subtopicData?.label || 'Problem Solving',
+    ageGroup: yearDetails.ageDescription,
+    learningObjectives: topicDetails?.learningObjectives || ['Solve mathematical problems', 'Show working clearly'],
+    yearGroup: yearGroup,
+    complexity: yearDetails.complexity,
+    mathFocus: yearDetails.mathFocus
   }
 }
 
@@ -278,7 +281,7 @@ function parseGeneratedContent(content: string, config: WorksheetConfig): Genera
   }
   
   // Create metadata
-  const curriculumContext = getCurriculumContext(config.topic, config.subtopic)
+  const curriculumContext = getCurriculumContext(config.topic, config.subtopic, config.yearGroup)
   
   return {
     title: `${curriculumContext.topicName} - ${curriculumContext.subtopicName} Worksheet`,

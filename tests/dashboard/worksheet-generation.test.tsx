@@ -1,13 +1,14 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
 import DashboardPage from '@/app/dashboard/page'
 
 // Mock the WelcomeTour component to prevent it from interfering with tests
-jest.mock('@/components/WelcomeTour', () => {
-  return function MockWelcomeTour({ onComplete }: { onComplete: () => void }) {
+vi.mock('@/components/WelcomeTour', () => ({
+  default: function MockWelcomeTour({ onComplete }: { onComplete: () => void }) {
     return null // Don't render anything in tests
   }
-})
+}))
 
 describe('Worksheet Generation Interface', () => {
   beforeEach(() => {
@@ -36,6 +37,7 @@ describe('Worksheet Generation Interface', () => {
       expect(screen.getByText('Subtopic')).toBeInTheDocument()
       expect(screen.getByText('Difficulty Level')).toBeInTheDocument()
       expect(screen.getByText(/Number of Questions:/)).toBeInTheDocument()
+      expect(screen.getByText('Year Group')).toBeInTheDocument()
       expect(screen.getByText('Student Name List')).toBeInTheDocument()
     })
 
@@ -68,6 +70,19 @@ describe('Worksheet Generation Interface', () => {
     it('shows info tooltip for name list', () => {
       const infoIcon = screen.getByRole('button', { name: /info/i })
       expect(infoIcon).toBeInTheDocument()
+    })
+
+    it('renders year group selector with default value', () => {
+      expect(screen.getByText('Year Group')).toBeInTheDocument()
+      expect(screen.getByDisplayValue('Year 3 (Ages 7-8)')).toBeInTheDocument()
+    })
+
+    it('shows year group tooltip explaining importance', () => {
+      const tooltipTriggers = screen.getAllByRole('button')
+      const yearGroupTooltip = tooltipTriggers.find(btn => 
+        btn.closest('div')?.previousElementSibling?.textContent?.includes('Year Group')
+      )
+      expect(yearGroupTooltip).toBeInTheDocument()
     })
   })
 
@@ -105,6 +120,23 @@ describe('Worksheet Generation Interface', () => {
       await user.click(hardRadio)
       
       expect(hardRadio).toBeChecked()
+    })
+
+    it('updates year group when dropdown selection changes', async () => {
+      const user = userEvent.setup()
+      
+      // Click year group dropdown
+      const yearGroupTrigger = screen.getByDisplayValue('Year 3 (Ages 7-8)')
+      await user.click(yearGroupTrigger)
+      
+      // Select different year group
+      const year5Option = screen.getByText('Year 5 (Ages 9-10)')
+      await user.click(year5Option)
+      
+      // Verify year group changed
+      await waitFor(() => {
+        expect(screen.getByDisplayValue('Year 5 (Ages 9-10)')).toBeInTheDocument()
+      })
     })
   })
 

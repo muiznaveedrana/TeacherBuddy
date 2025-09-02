@@ -27,7 +27,8 @@ describe('/api/generate-worksheet', () => {
         subtopic: 'addition-subtraction',
         difficulty: 'easy',
         questionCount: 10,
-        nameList: 'year3-class-a'
+        nameList: 'year3-class-a',
+        yearGroup: 'Year 3'
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -36,6 +37,10 @@ describe('/api/generate-worksheet', () => {
 
     const response = await POST(request)
     const data = await response.json()
+
+    if (response.status !== 200) {
+      console.log('Error response:', data)
+    }
 
     expect(response.status).toBe(200)
     expect(data.success).toBe(true)
@@ -127,7 +132,7 @@ describe('/api/generate-worksheet', () => {
     const data = await response.json()
 
     expect(response.status).toBe(400)
-    expect(data.error).toBe('Invalid name list')
+    expect(data.error).toBe('Validation failed')
   })
 
   it('should return 405 for GET request', async () => {

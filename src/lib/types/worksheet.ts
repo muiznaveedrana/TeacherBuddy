@@ -12,7 +12,7 @@ export interface WorksheetConfig {
   subtopic: string
   difficulty: DifficultyLevel
   questionCount: number
-  yearGroup?: string
+  yearGroup: string // Mandatory for age-appropriate content
   studentNames: string[]
 }
 
@@ -36,6 +36,9 @@ export interface CurriculumContext {
   subtopicName: string
   ageGroup: string
   learningObjectives: string[]
+  yearGroup: string
+  complexity: string
+  mathFocus: string
 }
 
 export interface WorksheetGenerationResult {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Navigation } from '@/components/ui/navigation'
@@ -10,35 +10,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Progress } from '@/components/ui/progress'
-import { BookOpen, Download, Info, Loader2 } from 'lucide-react'
+import { BookOpen, Download, Info, Loader2, AlertCircle } from 'lucide-react'
 import WelcomeTour from '@/components/WelcomeTour'
 import { PullToRefresh } from '@/components/mobile/PullToRefresh'
-
-// Mock data for UK National Curriculum topics
-const mockTopics = [
-  { value: 'number-operations', label: 'Number and Operations' },
-  { value: 'fractions-decimals', label: 'Fractions and Decimals' },
-  { value: 'measurement', label: 'Measurement' },
-  { value: 'geometry', label: 'Geometry and Shape' },
-  { value: 'statistics-data', label: 'Statistics and Data' },
-  { value: 'algebra-patterns', label: 'Algebra and Patterns' }
-]
-
-const mockSubtopics: Record<string, { value: string; label: string }[]> = {
-  'number-operations': [
-    { value: 'addition-subtraction', label: 'Addition and Subtraction' },
-    { value: 'multiplication-division', label: 'Multiplication and Division' },
-    { value: 'place-value', label: 'Place Value' },
-    { value: 'mental-maths', label: 'Mental Mathematics' }
-  ],
-  'fractions-decimals': [
-    { value: 'equivalent-fractions', label: 'Equivalent Fractions' },
-    { value: 'adding-fractions', label: 'Adding Fractions' },
-    { value: 'decimal-place-value', label: 'Decimal Place Value' },
-    { value: 'fraction-decimal-conversion', label: 'Fraction to Decimal Conversion' }
-  ]
-  // Other subtopics would be added here
-}
+import { YEAR_GROUPS } from '@/lib/data/curriculum'
 
 const mockNameLists = [
   { value: 'year3-class-a', label: 'Year 3 Class A (25 students)' },
@@ -66,6 +41,9 @@ export default function DashboardPage() {
   const [showTour, setShowTour] = useState(true)
   
   // Configuration state
+  const [yearGroup, setYearGroup] = useState<string>('Year 3') // Default from mock profile - NOW FIRST
+  const [availableTopics, setAvailableTopics] = useState<{value: string, label: string}[]>([])
+  const [availableSubtopics, setAvailableSubtopics] = useState<{value: string, label: string}[]>([])
   const [topic, setTopic] = useState<string>('')
   const [subtopic, setSubtopic] = useState<string>('')
   const [difficulty, setDifficulty] = useState<DifficultyLevel>('average')
@@ -77,12 +55,18 @@ export default function DashboardPage() {
   const [progress, setProgress] = useState<number>(0)
   const [generatedWorksheet, setGeneratedWorksheet] = useState<GeneratedWorksheet | null>(null)
   const [errorMessage, setErrorMessage] = useState<string>('')
+  const [loadingTopics, setLoadingTopics] = useState<boolean>(false)
+  const [loadingSubtopics, setLoadingSubtopics] = useState<boolean>(false)
   
-  const hasConfiguration = topic && subtopic && nameList
+  const hasConfiguration = yearGroup && topic && subtopic && nameList
   const canGenerate = hasConfiguration && generationState !== 'generating'
   const showPreview = generationState === 'completed' && generatedWorksheet
   const showAds = generationState !== 'completed'
   const showError = generationState === 'error'
+  
+  // Curriculum hierarchy state
+  const isTopicDisabled = !yearGroup || loadingTopics
+  const isSubtopicDisabled = !yearGroup || !topic || loadingSubtopics
   
   const handleGenerate = async () => {
     if (!hasConfiguration) return
@@ -115,6 +99,7 @@ export default function DashboardPage() {
           difficulty,
           questionCount,
           nameList,
+          yearGroup,
         }),
       })
       
@@ -150,6 +135,70 @@ export default function DashboardPage() {
       setProgress(0)
     }
   }
+  
+  // Load topics when year group changes
+  useEffect(() => {
+    if (!yearGroup) {
+      setAvailableTopics([])
+      return
+    }
+    
+    const loadTopics = async () => {
+      setLoadingTopics(true)
+      setTopic('') // Clear topic when year group changes
+      setSubtopic('') // Clear subtopic when year group changes
+      setAvailableSubtopics([])
+      
+      try {
+        const response = await fetch(`/api/curriculum/topics?yearGroup=${encodeURIComponent(yearGroup)}`)
+        if (response.ok) {
+          const data = await response.json()
+          setAvailableTopics(data.topics || [])
+        } else {
+          console.error('Failed to load topics')
+          setAvailableTopics([])
+        }
+      } catch (error) {
+        console.error('Error loading topics:', error)
+        setAvailableTopics([])
+      } finally {
+        setLoadingTopics(false)
+      }
+    }
+    
+    loadTopics()
+  }, [yearGroup])
+  
+  // Load subtopics when topic changes
+  useEffect(() => {
+    if (!yearGroup || !topic) {
+      setAvailableSubtopics([])
+      return
+    }
+    
+    const loadSubtopics = async () => {
+      setLoadingSubtopics(true)
+      setSubtopic('') // Clear subtopic when topic changes
+      
+      try {
+        const response = await fetch(`/api/curriculum/subtopics?yearGroup=${encodeURIComponent(yearGroup)}&topic=${encodeURIComponent(topic)}`)
+        if (response.ok) {
+          const data = await response.json()
+          setAvailableSubtopics(data.subtopics || [])
+        } else {
+          console.error('Failed to load subtopics')
+          setAvailableSubtopics([])
+        }
+      } catch (error) {
+        console.error('Error loading subtopics:', error)
+        setAvailableSubtopics([])
+      } finally {
+        setLoadingSubtopics(false)
+      }
+    }
+    
+    loadSubtopics()
+  }, [yearGroup, topic])
   
   const handleRefresh = async () => {
     // Simulate refreshing page data
@@ -204,15 +253,70 @@ export default function DashboardPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 md:space-y-6">
-                {/* Topic Selection */}
-                <div className="space-y-2">
-                  <Label htmlFor="topic" className="text-base md:text-sm">Topic</Label>
-                  <Select value={topic} onValueChange={(value) => { setTopic(value); setSubtopic(''); handleConfigurationChange(); }}>
-                    <SelectTrigger className="h-12 md:h-10 text-base md:text-sm">
-                      <SelectValue placeholder="Select a curriculum topic" />
+                {/* Year Group Selection - NOW FIRST */}
+                <div className="space-y-3 md:space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Label htmlFor="year-group" className="text-base md:text-sm font-semibold">Year Group</Label>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Info className="h-5 w-5 md:h-4 md:w-4 text-slate-400" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Year group drives curriculum-aligned topics and content difficulty</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                  <Select value={yearGroup} onValueChange={(value) => { setYearGroup(value); handleConfigurationChange(); }}>
+                    <SelectTrigger className="h-12 md:h-10 text-base md:text-sm border-2 border-blue-200 bg-blue-50">
+                      <SelectValue placeholder="Select year group" />
                     </SelectTrigger>
                     <SelectContent>
-                      {mockTopics.map(topic => (
+                      {YEAR_GROUPS.map(year => (
+                        <SelectItem key={year.value} value={year.value}>
+                          {year.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {!yearGroup && (
+                    <div className="flex items-center gap-2 text-amber-600 text-sm">
+                      <AlertCircle className="h-4 w-4" />
+                      <span>Please select a year group to continue</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Topic Selection - Depends on Year Group */}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Label htmlFor="topic" className="text-base md:text-sm">Topic</Label>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Info className="h-5 w-5 md:h-4 md:w-4 text-slate-400" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Topics are filtered to match your selected year group&apos;s curriculum</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                  <Select 
+                    value={topic} 
+                    onValueChange={(value) => { setTopic(value); setSubtopic(''); handleConfigurationChange(); }}
+                    disabled={isTopicDisabled}
+                  >
+                    <SelectTrigger className={`h-12 md:h-10 text-base md:text-sm ${isTopicDisabled ? 'bg-slate-100' : ''}`}>
+                      <SelectValue placeholder={
+                        loadingTopics ? "Loading topics..." :
+                        !yearGroup ? "Select year group first" :
+                        "Select a curriculum topic"
+                      } />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableTopics.map(topic => (
                         <SelectItem key={topic.value} value={topic.value}>
                           {topic.label}
                         </SelectItem>
@@ -221,19 +325,36 @@ export default function DashboardPage() {
                   </Select>
                 </div>
 
-                {/* Subtopic Selection */}
+                {/* Subtopic Selection - Depends on Year Group + Topic */}
                 <div className="space-y-2">
-                  <Label htmlFor="subtopic" className="text-base md:text-sm">Subtopic</Label>
+                  <div className="flex items-center gap-2">
+                    <Label htmlFor="subtopic" className="text-base md:text-sm">Subtopic</Label>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Info className="h-5 w-5 md:h-4 md:w-4 text-slate-400" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Subtopics are specific to your year group and chosen topic</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
                   <Select 
                     value={subtopic} 
                     onValueChange={(value) => { setSubtopic(value); handleConfigurationChange(); }}
-                    disabled={!topic}
+                    disabled={isSubtopicDisabled}
                   >
-                    <SelectTrigger className="h-12 md:h-10 text-base md:text-sm">
-                      <SelectValue placeholder={topic ? "Select a subtopic" : "Select topic first"} />
+                    <SelectTrigger className={`h-12 md:h-10 text-base md:text-sm ${isSubtopicDisabled ? 'bg-slate-100' : ''}`}>
+                      <SelectValue placeholder={
+                        loadingSubtopics ? "Loading subtopics..." :
+                        !yearGroup ? "Select year group first" :
+                        !topic ? "Select topic first" :
+                        "Select a subtopic"
+                      } />
                     </SelectTrigger>
                     <SelectContent>
-                      {topic && mockSubtopics[topic]?.map(sub => (
+                      {availableSubtopics.map(sub => (
                         <SelectItem key={sub.value} value={sub.value}>
                           {sub.label}
                         </SelectItem>
@@ -289,6 +410,21 @@ export default function DashboardPage() {
                     <span>30 questions</span>
                   </div>
                 </div>
+
+                {/* Curriculum Alignment Notice */}
+                {yearGroup && topic && (
+                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <div className="flex items-start gap-2">
+                      <BookOpen className="h-4 w-4 text-green-600 mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium text-green-800">Curriculum Aligned</p>
+                        <p className="text-xs text-green-700 mt-1">
+                          Content will be appropriate for {yearGroup} students studying {availableTopics.find(t => t.value === topic)?.label}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Name List Selection */}
                 <div className="space-y-3 md:space-y-2">
@@ -416,7 +552,9 @@ export default function DashboardPage() {
             onClick={handleGenerate}
             disabled={!canGenerate}
             size="touch"
-            className="w-full md:w-auto md:min-w-32 text-lg md:text-base font-semibold"
+            className={`w-full md:w-auto md:min-w-32 text-lg md:text-base font-semibold ${
+              !hasConfiguration ? 'bg-slate-300 cursor-not-allowed' : ''
+            }`}
           >
             {generationState === 'generating' ? (
               <>
@@ -425,10 +563,20 @@ export default function DashboardPage() {
               </>
             ) : showPreview ? (
               'Regenerate'
-            ) : (
+            ) : hasConfiguration ? (
               'Generate Worksheet'
+            ) : (
+              `Complete Configuration (${[!yearGroup && 'Year Group', !topic && 'Topic', !subtopic && 'Subtopic', !nameList && 'Name List'].filter(Boolean).join(', ')})`
             )}
           </Button>
+          
+          {!hasConfiguration && (
+            <div className="text-center">
+              <p className="text-sm text-slate-600 mt-2">
+                Follow the curriculum-aligned flow: Year Group → Topic → Subtopic → Name List
+              </p>
+            </div>
+          )}
           
           {showPreview && (
             <Button variant="outline" size="touch" className="w-full md:w-auto md:min-w-32 text-lg md:text-base">
