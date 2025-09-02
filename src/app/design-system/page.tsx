@@ -225,7 +225,7 @@ export default function DesignSystemPage() {
                       id="demo-toggle"
                       label="Enable notifications"
                       checked={true}
-                      onCheckedChange={() => {}}
+                      onChange={() => {}}
                     />
                   </div>
                   

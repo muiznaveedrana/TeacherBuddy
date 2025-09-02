@@ -11,3 +11,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - use dev environment only
 -  rm -rf .next to clean trace file, which may have permission issue
 - before build or clean operation,make usre that already available ports starting from 3000 to 3005 are killed, if they are there
+## Core E2E Tests (Simplified Strategy)
+- Run all E2E tests: npx playwright test tests/e2e/
+- Run core authentication flows: npx playwright test user-authentication-flows.spec.ts new-user-flow-simple.spec.ts --project=chromium-desktop
+- Run user journeys: npx playwright test user-journeys-visual.spec.ts --project=chromium-desktop
+- Run name lists tests: npx playwright test name-lists.spec.ts --project=chromium-desktop
+- Update visual baselines: npx playwright test --update-snapshots
+- Cross-browser: add --project=firefox-desktop or --project=webkit-desktop
+- Mobile: add --project=chromium-mobile
+- Kill ports before testing: npx kill-port 3000 && npx kill-port 3001
+  

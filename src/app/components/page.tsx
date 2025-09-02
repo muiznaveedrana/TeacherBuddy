@@ -342,13 +342,13 @@ export default function ComponentLibraryPage() {
   id="notifications"
   label="Enable notifications"
   checked={checked}
-  onCheckedChange={setChecked}
+  onChange={setChecked}
 />`}
           props={[
             { name: "id", type: "string", description: "HTML ID for the input" },
             { name: "label", type: "string", description: "Label text" },
             { name: "checked", type: "boolean", description: "Checked state" },
-            { name: "onCheckedChange", type: "function", description: "Change handler" },
+            { name: "onChange", type: "function", description: "Change handler" },
             { name: "disabled", type: "boolean", default: "false", description: "Disable the switch" }
           ]}
         >
@@ -357,20 +357,19 @@ export default function ComponentLibraryPage() {
               id="demo-toggle-1"
               label="Email notifications"
               checked={toggleState}
-              onCheckedChange={setToggleState}
+              onChange={setToggleState}
             />
             <ToggleSwitch
               id="demo-toggle-2"
               label="Marketing emails"
               checked={false}
-              onCheckedChange={() => {}}
+              onChange={() => {}}
             />
             <ToggleSwitch
               id="demo-toggle-3"
               label="Disabled option"
               checked={false}
-              onCheckedChange={() => {}}
-              disabled
+              onChange={() => {}}
             />
           </div>
         </ComponentExample>
