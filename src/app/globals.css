@@ -166,3 +166,136 @@
     }
   }
 }
+
+/* Worksheet Preview Styles */
+.worksheet-preview {
+  font-family: 'Times New Roman', serif;
+  line-height: 1.6;
+  color: #000;
+}
+
+.worksheet-preview .worksheet-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background: white;
+}
+
+.worksheet-preview .worksheet-header {
+  text-align: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #333;
+}
+
+.worksheet-preview .worksheet-header h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #000;
+}
+
+.worksheet-preview .worksheet-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.worksheet-preview .worksheet-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 14px;
+  color: #666;
+  margin-top: 12px;
+}
+
+.worksheet-preview .instructions {
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-left: 4px solid #007bff;
+}
+
+.worksheet-preview .instructions h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.worksheet-preview .instructions p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.worksheet-preview .questions {
+  margin-top: 24px;
+}
+
+.worksheet-preview .question {
+  margin-bottom: 32px;
+  page-break-inside: avoid;
+}
+
+.worksheet-preview .question-number {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #000;
+}
+
+.worksheet-preview .working-space {
+  margin-top: 12px;
+  height: 60px;
+  border-bottom: 1px dotted #ccc;
+  position: relative;
+}
+
+.worksheet-preview .working-space::after {
+  content: "Working space";
+  position: absolute;
+  right: 8px;
+  bottom: 4px;
+  font-size: 11px;
+  color: #999;
+  font-style: italic;
+}
+
+/* Print-friendly styles */
+@media print {
+  .worksheet-preview {
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+  
+  .worksheet-preview .worksheet-container {
+    padding: 0;
+    box-shadow: none;
+  }
+  
+  .worksheet-preview .question {
+    page-break-inside: avoid;
+    margin-bottom: 24pt;
+  }
+}
+
+/* Mobile responsiveness for worksheet */
+@media (max-width: 768px) {
+  .worksheet-preview .worksheet-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .worksheet-preview .worksheet-header h1 {
+    font-size: 20px;
+  }
+  
+  .worksheet-preview .worksheet-header h2 {
+    font-size: 16px;
+  }
+}

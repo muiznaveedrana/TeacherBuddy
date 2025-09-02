@@ -7,6 +7,7 @@
 - [User Interface Design Goals](./user-interface-design-goals.md)
 - [Technical Assumptions](./technical-assumptions.md)
 - [Epic List](./epic-list.md)
+- [Epic POC: Core Worksheet Generation Proof of Concept](./epic-poc-core-worksheet-generation.md) ⚠️ **IN PROGRESS**
 - [Epic 1: Foundation & Authentication Infrastructure](./epic-1-foundation-authentication-infrastructure.md)
 - [Epic 2: Core Worksheet Generation Engine](./epic-2-core-worksheet-generation-engine.md)
 - [Epic 3: Subscription & Usage Management System](./epic-3-subscription-usage-management-system.md)

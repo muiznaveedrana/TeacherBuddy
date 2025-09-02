@@ -49,6 +49,19 @@ const mockNameLists = [
 type GenerationState = 'idle' | 'generating' | 'completed' | 'error'
 type DifficultyLevel = 'easy' | 'average' | 'hard'
 
+interface GeneratedWorksheet {
+  title: string
+  html: string
+  metadata: {
+    topic: string
+    subtopic: string
+    difficulty: string
+    questionCount: number
+    curriculum: string
+    generatedAt: string
+  }
+}
+
 export default function DashboardPage() {
   const [showTour, setShowTour] = useState(true)
   
@@ -62,29 +75,73 @@ export default function DashboardPage() {
   // Generation state
   const [generationState, setGenerationState] = useState<GenerationState>('idle')
   const [progress, setProgress] = useState<number>(0)
+  const [generatedWorksheet, setGeneratedWorksheet] = useState<GeneratedWorksheet | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string>('')
   
   const hasConfiguration = topic && subtopic && nameList
   const canGenerate = hasConfiguration && generationState !== 'generating'
-  const showPreview = generationState === 'completed'
+  const showPreview = generationState === 'completed' && generatedWorksheet
   const showAds = generationState !== 'completed'
+  const showError = generationState === 'error'
   
   const handleGenerate = async () => {
     if (!hasConfiguration) return
     
     setGenerationState('generating')
     setProgress(0)
+    setErrorMessage('')
+    setGeneratedWorksheet(null)
     
-    // Mock generation process (5-7 second simulation)
-    const duration = 6000 + Math.random() * 1000 // 6-7 seconds
-    const steps = 20
-    const stepDuration = duration / steps
-    
-    for (let i = 0; i <= steps; i++) {
-      await new Promise(resolve => setTimeout(resolve, stepDuration))
-      setProgress((i / steps) * 100)
+    try {
+      // Start progress animation
+      const progressInterval = setInterval(() => {
+        setProgress(prev => {
+          if (prev < 90) {
+            return prev + Math.random() * 10
+          }
+          return prev
+        })
+      }, 300)
+      
+      // Call the worksheet generation API
+      const response = await fetch('/api/generate-worksheet', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          topic,
+          subtopic,
+          difficulty,
+          questionCount,
+          nameList,
+        }),
+      })
+      
+      clearInterval(progressInterval)
+      setProgress(100)
+      
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.message || 'Failed to generate worksheet')
+      }
+      
+      const data = await response.json()
+      
+      if (data.success && data.worksheet) {
+        setGeneratedWorksheet(data.worksheet)
+        setGenerationState('completed')
+        console.log(`Worksheet generated successfully in ${data.generationTime}ms`)
+      } else {
+        throw new Error('Invalid response format')
+      }
+      
+    } catch (error) {
+      console.error('Generation error:', error)
+      setGenerationState('error')
+      setErrorMessage(error instanceof Error ? error.message : 'An unexpected error occurred')
+      setProgress(0)
     }
-    
-    setGenerationState('completed')
   }
   
   const handleConfigurationChange = () => {
@@ -302,43 +359,49 @@ export default function DashboardPage() {
                       </p>
                     </div>
                   </div>
-                ) : (
-                  /* Worksheet Preview */
+                ) : showError ? (
+                  /* Error State */
+                  <div className="h-full flex items-center justify-center p-4">
+                    <div className="text-center max-w-md">
+                      <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-lg font-medium text-red-900 mb-2">Generation Failed</h3>
+                      <p className="text-sm text-red-700 mb-4">{errorMessage}</p>
+                      <Button 
+                        onClick={() => setGenerationState('idle')}
+                        variant="outline"
+                        className="text-red-600 border-red-300 hover:bg-red-50"
+                      >
+                        Try Again
+                      </Button>
+                    </div>
+                  </div>
+                ) : showPreview && generatedWorksheet ? (
+                  /* Real Worksheet Preview */
                   <div className="p-4 h-full">
                     <div className="bg-white border rounded-lg shadow-sm h-full p-4 overflow-y-auto">
-                      <div className="text-center border-b pb-3 mb-4">
-                        <h3 className="font-bold text-lg">Mathematics Worksheet</h3>
-                        <p className="text-sm text-slate-600">
-                          {mockTopics.find(t => t.value === topic)?.label} - {mockSubtopics[topic]?.find(s => s.value === subtopic)?.label}
-                        </p>
-                        <p className="text-xs text-slate-500">Difficulty: {difficulty} | {questionCount} questions</p>
-                      </div>
-                      
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <p className="text-sm"><strong>Name:</strong> _________________</p>
-                          <p className="text-sm"><strong>Date:</strong> _________________</p>
-                        </div>
-                        
-                        <div className="space-y-3">
-                          <h4 className="font-medium text-sm">Instructions:</h4>
-                          <p className="text-xs text-slate-600">
-                            Show all your working out. Use the space provided for each question.
-                          </p>
-                        </div>
-
-                        <div className="space-y-4">
-                          {[1, 2, 3, 4, 5].map(num => (
-                            <div key={num} className="border-b pb-2">
-                              <p className="text-sm">
-                                <strong>{num}.</strong> Emma has 24 stickers. She gives 8 stickers to Oliver. How many stickers does Emma have left?
-                              </p>
-                              <div className="mt-2 h-8 border-b border-dotted border-slate-300"></div>
-                            </div>
-                          ))}
-                          <p className="text-xs text-slate-500 text-center">...and {questionCount - 5} more questions</p>
-                        </div>
-                      </div>
+                      <div 
+                        className="worksheet-preview text-sm"
+                        dangerouslySetInnerHTML={{ __html: generatedWorksheet.html }}
+                        style={{
+                          fontFamily: "'Times New Roman', serif",
+                          lineHeight: 1.6,
+                        }}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  /* Initial State - No content generated yet */
+                  <div className="h-full flex items-center justify-center bg-slate-50 border-2 border-dashed border-slate-200 rounded-lg m-4">
+                    <div className="text-center p-6">
+                      <BookOpen className="w-16 h-16 text-slate-400 mx-auto mb-3" />
+                      <h3 className="text-sm font-medium text-slate-600 mb-1">Ready to Generate</h3>
+                      <p className="text-xs text-slate-500">
+                        Configure your worksheet settings and click Generate
+                      </p>
                     </div>
                   </div>
                 )}

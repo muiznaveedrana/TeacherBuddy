@@ -69,7 +69,7 @@ test.describe('New User Flow - Simplified', () => {
     await page.waitForLoadState('networkidle')
     
     // Verify essential elements work on mobile
-    await expect(page.locator('h1:has-text("WorksheetGenerator.AI")')).toBeVisible()
+    await expect(page.locator('h1:has-text("WG.AI")')).toBeVisible()
     await expect(page.locator('text=Generate Worksheet')).toBeVisible()
     
     console.log('✅ Mobile new user flow test completed!')
