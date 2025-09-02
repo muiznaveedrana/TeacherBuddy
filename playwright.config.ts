@@ -46,54 +46,6 @@ export default defineConfig({
       name: 'chromium-desktop',
       use: { 
         ...devices['Desktop Chrome'],
-        viewport: { width: 1200, height: 800 } // Staff room computers
-      },
-    },
-    
-    {
-      name: 'chromium-tablet-portrait',
-      use: { 
-        ...devices['iPad'],
-        viewport: { width: 768, height: 1024 } // Primary classroom device
-      },
-    },
-    
-    {
-      name: 'chromium-tablet-landscape', 
-      use: { 
-        ...devices['iPad landscape'],
-        viewport: { width: 1024, height: 768 } // Classroom tablet landscape
-      },
-    },
-    
-    {
-      name: 'chromium-mobile',
-      use: { 
-        ...devices['iPhone 12'],
-        viewport: { width: 375, height: 667 } // Teacher's mobile device
-      },
-    },
-    
-    {
-      name: 'chromium-ultrawide',
-      use: { 
-        ...devices['Desktop Chrome'],
-        viewport: { width: 1920, height: 1080 } // Interactive whiteboards
-      },
-    },
-
-    {
-      name: 'firefox-desktop',
-      use: { 
-        ...devices['Desktop Firefox'],
-        viewport: { width: 1200, height: 800 }
-      },
-    },
-
-    {
-      name: 'webkit-desktop',
-      use: { 
-        ...devices['Desktop Safari'],
         viewport: { width: 1200, height: 800 }
       },
     },
