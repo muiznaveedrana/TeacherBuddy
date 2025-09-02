@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, Clock, Zap, BookOpen, Star, ArrowRight, Menu } from "lucide-react";
+import Link from "next/link";
 
 export default function LandingPage() {
   return (
@@ -31,9 +32,11 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="hidden md:block">
-              <Button size="sm" className="bg-blue-700 hover:bg-blue-800">
-                Start Creating
-              </Button>
+              <Link href="/login">
+                <Button size="sm" className="bg-blue-700 hover:bg-blue-800">
+                  Start Creating
+                </Button>
+              </Link>
             </div>
             <div className="md:hidden">
               <button className="text-gray-600 hover:text-gray-900">
@@ -56,10 +59,12 @@ export default function LandingPage() {
             Create curriculum-aligned worksheets with personalized student names in seconds.
           </p>
           <div className="flex justify-center mt-8 md:mt-10 px-4">
-            <Button size="touch" className="w-full max-w-sm md:w-auto text-lg px-8 py-6 bg-blue-700 hover:bg-blue-800 touch-manipulation">
-              Start Creating Now
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
+            <Link href="/login">
+              <Button size="touch" className="w-full max-w-sm md:w-auto text-lg px-8 py-6 bg-blue-700 hover:bg-blue-800 touch-manipulation">
+                Start Creating Now
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </Link>
           </div>
 
           {/* Demo Section - Mobile Optimized */}

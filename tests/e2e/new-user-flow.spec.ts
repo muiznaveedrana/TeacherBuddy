@@ -11,13 +11,16 @@ test.describe('New User Flow - Simplified', () => {
     await page.goto('/')
     await page.waitForLoadState('networkidle')
     
-    // Step 2: Check Start Creating button
+    // Step 2: Check Start Creating button and test navigation
     const startButton = page.locator('text=Start Creating').first()
     await expect(startButton).toBeVisible()
     
-    // Step 3: Navigate to login page directly (simulating button click result)
-    await page.goto('/login')
+    // Step 3: Click Start Creating button and verify it navigates to login
+    await startButton.click()
     await page.waitForLoadState('networkidle')
+    
+    // Verify we're on the login page
+    await expect(page).toHaveURL('/login')
     
     // Step 4: Test Google Sign In button (find button by role and text content)
     const googleButton = page.getByRole('button', { name: /sign in with google/i })
