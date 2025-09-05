@@ -173,7 +173,7 @@ interface User {
 - last_difficulty: string - Easy/Average/Hard
 - last_question_count: number - 5-30 questions
 - last_layout_type: string - Last selected layout type
-- last_layout_options: JSON - Layout-specific configuration options
+- last_layout_options: JSON - Layout-selected generation options
 - last_name_list_id: UUID - Reference to selected name list
 
 #### TypeScript Interface
@@ -336,7 +336,7 @@ interface UsageCounter {
 
 ### Layout Types and Configuration (Enhanced POC)
 
-**Purpose:** Support for 5 pedagogical worksheet layouts with layout-specific configuration options
+**Purpose:** Support for 5 pedagogical worksheet layouts with simplified generation options
 
 #### Layout Type Definitions
 ```typescript

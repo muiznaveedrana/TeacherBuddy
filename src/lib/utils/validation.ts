@@ -197,12 +197,12 @@ export function validateGeneratedHTML(html: string): WorksheetValidationResult {
     return { isValid: false, errors }
   }
 
-  // Check for required structure elements
+  // Check for required structure elements based on actual layout template structure
   const requiredElements = [
-    { element: '<div class="worksheet-container">', description: 'worksheet container' },
-    { element: '<header class="worksheet-header">', description: 'worksheet header' },
-    { element: '<section class="instructions">', description: 'instructions section' },
-    { element: '<section class="questions">', description: 'questions section' }
+    { element: '<div class="worksheet-header">', description: 'worksheet header' },
+    { element: '<div class="worksheet-content">', description: 'worksheet content' },
+    { element: '<title>', description: 'HTML title' },
+    { element: '<body>', description: 'HTML body' }
   ]
 
   for (const { element, description } of requiredElements) {
@@ -216,10 +216,11 @@ export function validateGeneratedHTML(html: string): WorksheetValidationResult {
   }
 
   // Check for potential security issues (basic XSS prevention)
+  // More specific patterns to avoid false positives with legitimate CSS
   const dangerousPatterns = [
     /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
     /javascript:/gi,
-    /on\w+\s*=/gi
+    /\son\w+\s*=/gi  // Only match event handlers as HTML attributes (with leading space)
   ]
 
   for (const pattern of dangerousPatterns) {
@@ -245,6 +246,7 @@ export function validateGeneratedHTML(html: string): WorksheetValidationResult {
 export function sanitizeWorksheetRequest(body: unknown): unknown {
   const bodyData = body as Record<string, unknown>
   return {
+    layout: typeof bodyData.layout === 'string' ? bodyData.layout.trim().toLowerCase() : bodyData.layout,
     topic: typeof bodyData.topic === 'string' ? bodyData.topic.trim().toLowerCase() : bodyData.topic,
     subtopic: typeof bodyData.subtopic === 'string' ? bodyData.subtopic.trim().toLowerCase() : bodyData.subtopic,
     difficulty: typeof bodyData.difficulty === 'string' ? bodyData.difficulty.trim().toLowerCase() : bodyData.difficulty,

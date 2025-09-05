@@ -54,7 +54,7 @@ The Year Group from profile must be displayed and editable in worksheet configur
 
 **FR11:** The system shall persist the last configuration settings (including Year Group from profile) so whenever user logs in they see their last selection. Year Group should default from profile but be editable in worksheet generation interface. Whenever configuration is changed by user, preview section will empty, download button will disappear, right panel shows ads, and bottom button shows "Generate" instead of "Regenerate".
 
-**FR13:** The system shall provide layout-specific configuration options including answer space style (blank/lined/squared), question randomization toggle, grid type selection (multiplication/place value/number squares), difficulty section color-coding, and extension question options. Layout selection shall drive available configuration parameters and AI prompt templates. 
+ 
 
 ### Non-Functional Requirements
 
@@ -237,25 +237,7 @@ so that I can generate pedagogically appropriate worksheets for varied classroom
 9. Layout selection persists during session for quick regeneration testing
 10. Preview panel adapts to show layout-appropriate preview styling
 
-### Story POC.4: Layout-Specific Configuration Interface (NEW)
-
-As a UK primary school teacher,
-I want layout-specific configuration options that appear based on my layout selection,
-so that I can customize worksheets precisely for different mathematical learning objectives while maintaining the familiar interface flow.
-
-**Acceptance Criteria:**
-1. Dynamic configuration options appear/disappear based on layout selection
-2. Standard Layout: Answer space style (blank/lined/squared), working space lines (2-5)
-3. Fluency Layout: Column count (2-3), question count (10-50), randomization toggle
-4. Grid Layout: Grid type (multiplication/place value/number squares), auto-fill percentage, font size
-5. Differentiated Layout: Color-coding toggle, section question counts, difficulty progression
-6. Reasoning Layout: Box style options, working space allocation, extension question toggle
-7. Configuration changes integrate with existing Generate/Regenerate button logic
-8. Layout-specific validation prevents invalid parameter combinations
-9. Progressive disclosure maintains interface simplicity while providing layout customization
-10. All configuration options work with existing mock data approach without authentication requirements
-
-### Story POC.5: Performance-Optimized Generation Workflow (Enhanced)
+### Story POC.4: Performance-Optimized Generation Workflow (Enhanced)
 
 As a UK primary school teacher,
 I want worksheets to generate in 5-7 seconds consistently across all layout types,
@@ -273,7 +255,7 @@ so that I can quickly create varied worksheet formats during my limited planning
 9. Error recovery mechanisms maintain user experience during failures
 10. Performance remains consistent during varying load conditions
 
-### Story POC.6: Seamless UI Integration with Mock Data (Enhanced)
+### Story POC.5: Seamless UI Integration with Mock Data (Enhanced)
 
 As a UK primary school teacher,
 I want the existing dashboard interface to work identically with real worksheet generation across all layout types,
@@ -291,7 +273,7 @@ so that I can evaluate complete layout variety while using familiar configuratio
 9. Error states integrate smoothly with existing UI patterns
 10. Mobile and tablet responsiveness preserved during generation workflow
 
-### Story POC.7: Layout-Ready Architecture Foundation (Enhanced)
+### Story POC.6: Layout-Ready Architecture Foundation (Enhanced)
 
 As a developer,
 I want to build the enhanced POC with architecture patterns supporting both layout variety and future Epic development,

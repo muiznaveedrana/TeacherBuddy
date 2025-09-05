@@ -105,7 +105,7 @@ so that I can generate pedagogically appropriate worksheets for varied classroom
 ### Unit Tests Required
 - [ ] Layout selector component functionality
 - [ ] Layout template rendering for all 5 types
-- [ ] Layout-specific configuration validation
+- [ ] Layout-based generation validation
 - [ ] Template HTML structure validation
 - [ ] Layout selection persistence
 - [ ] Progressive disclosure logic

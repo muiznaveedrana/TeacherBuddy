@@ -49,25 +49,7 @@ so that I can generate pedagogically appropriate worksheets for varied classroom
 9. Layout selection persists during session for quick regeneration testing
 10. Preview panel adapts to show layout-appropriate preview styling
 
-## Story POC.3: Layout-Specific Configuration Interface (NEW)
-
-As a UK primary school teacher,
-I want layout-specific configuration options that appear based on my layout selection,
-so that I can customize worksheets precisely for different mathematical learning objectives while maintaining the familiar interface flow.
-
-**Acceptance Criteria:**
-1. Dynamic configuration options appear/disappear based on layout selection
-2. Standard Layout: Answer space style (blank/lined/squared), working space lines (2-5)
-3. Fluency Layout: Column count (2-3), question count (10-50), randomization toggle
-4. Grid Layout: Grid type (multiplication/place value/number squares), auto-fill percentage, font size
-5. Differentiated Layout: Color-coding toggle, section question counts, difficulty progression
-6. Reasoning Layout: Box style options, working space allocation, extension question toggle
-7. Configuration changes integrate with existing Generate/Regenerate button logic
-8. Layout-specific validation prevents invalid parameter combinations
-9. Progressive disclosure maintains interface simplicity while providing layout customization
-10. All configuration options work with existing mock data approach without authentication requirements
-
-## Story POC.4: Seamless UI Integration with Mock Data (Enhanced)
+## Story POC.3: Seamless UI Integration with Mock Data (Enhanced)
 
 As a UK primary school teacher,
 I want the existing dashboard interface to work identically with real worksheet generation across all layout types,
@@ -77,7 +59,7 @@ so that I can evaluate complete layout variety while using familiar configuratio
 1. All existing Epic 0 mock dropdowns continue functioning with layout system
 2. Layout selector integrates seamlessly above existing configuration hierarchy
 3. Generate/Regenerate button logic preserved with layout-aware API integration
-4. Configuration changes reset preview and show appropriate layout-specific options
+4. Configuration changes reset preview and show layout-appropriate question generation
 5. Preview panel displays real generated worksheets in selected layout format
 6. Download button appears only after successful generation completion
 7. Progress indicator during generation provides meaningful feedback
@@ -85,7 +67,7 @@ so that I can evaluate complete layout variety while using familiar configuratio
 9. Error states integrate smoothly with existing UI patterns
 10. Mobile and tablet responsiveness preserved during generation workflow
 
-## Story POC.5: Professional PDF Generation & Download (Enhanced for Layouts)
+## Story POC.4: Professional PDF Generation & Download (Enhanced for Layouts)
 
 As a UK primary school teacher,
 I want to download professionally formatted PDF worksheets in multiple layout styles,
@@ -103,7 +85,7 @@ so that I can print and distribute high-quality materials optimized for differen
 9. Download functionality provides immediate access to generated worksheets
 10. PDF quality remains consistent across different browsers, devices, and layout types
 
-## Story POC.6: Performance-Optimized Generation Workflow (Enhanced)
+## Story POC.5: Performance-Optimized Generation Workflow (Enhanced)
 
 As a UK primary school teacher,
 I want worksheets to generate in 5-7 seconds consistently across all layout types,
@@ -121,7 +103,7 @@ so that I can quickly create varied worksheet formats during my limited planning
 9. Error recovery mechanisms maintain user experience during failures
 10. Performance remains consistent during varying load conditions
 
-## Story POC.7: Layout-Ready Architecture Foundation (Enhanced)
+## Story POC.6: Layout-Ready Architecture Foundation (Enhanced)
 
 As a developer,
 I want to build the enhanced POC with architecture patterns supporting both layout variety and future Epic development,
@@ -150,14 +132,13 @@ so that the comprehensive worksheet generation system can seamlessly integrate w
 - **Type Safety:** Full TypeScript implementation with proper interfaces
 - **Security:** API key management, input sanitization, and XSS prevention
 
-### 🚧 **Enhanced Implementation Phase (3-4 weeks)**
-**Stories POC.2-POC.7:** Complete Layout System Implementation
+### 🚧 **Enhanced Implementation Phase (2-3 weeks)**
+**Stories POC.2-POC.6:** Complete Layout System Implementation
 - **POC.2:** Complete layout template system (Standard, Fluency, Grid, Differentiated, Reasoning)
-- **POC.3:** Dynamic configuration interface with layout-specific options
-- **POC.4:** Seamless layout integration with existing mock data UI
-- **POC.5:** Layout-aware PDF generation with 5 template types
-- **POC.6:** Performance optimization across all layout complexity
-- **POC.7:** Architecture foundation prepared for Epic 1 handoff
+- **POC.3:** Seamless layout integration with existing mock data UI
+- **POC.4:** Layout-aware PDF generation with 5 template types
+- **POC.5:** Performance optimization across all layout complexity
+- **POC.6:** Architecture foundation prepared for Epic 1 handoff
 
 ### 🎯 **Enhanced Value Proposition Validation**
 - **Core Value:** ✅ PROVEN - AI generates curriculum-aligned worksheets in 3.7 seconds vs 2-3 hours manual
