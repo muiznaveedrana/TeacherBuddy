@@ -8,6 +8,7 @@ import { renderLayout, validateLayoutQuestionCount, WorksheetQuestion } from '@/
 import { LAYOUT_TEMPLATES } from '@/lib/data/layouts'
 import { validateGeneratedHTML, validateStudentNames } from '@/lib/utils/validation'
 import { getTopicDetails } from '@/lib/data/curriculum'
+import { PromptEngineeringService, PromptTemplate, QualityMetrics } from '@/lib/services/promptEngineering'
 
 if (!process.env.GEMINI_API_KEY) {
   throw new Error('GEMINI_API_KEY environment variable is not configured')
@@ -26,9 +27,13 @@ const model = genAI.getGenerativeModel({
 
 /**
  * Generates a curriculum-aligned math worksheet using Google Gemini AI
- * Enhanced with comprehensive validation, error handling, and performance tracking
+ * Enhanced with USP.1 LLM Prompt Engineering Foundation for competitive excellence
+ * Features advanced prompt templates, OpenClipart SVG integration, and quality assurance
  */
-export async function generateWorksheet(config: WorksheetConfig): Promise<GeneratedWorksheet> {
+export async function generateWorksheet(
+  config: WorksheetConfig, 
+  promptTemplate: PromptTemplate = 'structured'
+): Promise<GeneratedWorksheet> {
   const metrics: GenerationMetrics = {
     startTime: Date.now(),
     endTime: 0,
@@ -54,8 +59,17 @@ export async function generateWorksheet(config: WorksheetConfig): Promise<Genera
       }
     }
 
-    const prompt = createPrompt(config)
+    // Use advanced prompt engineering service (USP.1 implementation)
+    const prompt = PromptEngineeringService.generatePrompt(config, promptTemplate)
     metrics.promptLength = prompt.length
+    
+    console.log('USP.1 Prompt Engineering:', {
+      template: promptTemplate,
+      yearGroup: config.yearGroup,
+      topic: config.topic,
+      isPhase1Combination: isPhase1Combination(config),
+      promptLength: metrics.promptLength
+    })
     
     const result = await model.generateContent(prompt)
     const response = result.response
@@ -63,13 +77,24 @@ export async function generateWorksheet(config: WorksheetConfig): Promise<Genera
     metrics.responseLength = text.length
     
     // Parse and validate the generated content
-    const worksheet = parseGeneratedContent(text, config)
+    const worksheet = parseGeneratedContent(text, config, promptTemplate)
     
     // Validate the generated HTML structure
     const htmlValidation = validateGeneratedHTML(worksheet.html)
     if (!htmlValidation.isValid) {
       throw new Error(`Invalid HTML structure: ${htmlValidation.errors.map(e => e.message).join(', ')}`)
     }
+    
+    // USP.1 Quality Assurance - evaluate against 5-metric framework
+    const qualityMetrics = PromptEngineeringService.evaluateWorksheetQuality(worksheet.html, config)
+    const averageScore = calculateAverageQualityScore(qualityMetrics)
+    
+    console.log('USP.1 Quality Metrics:', {
+      ...qualityMetrics,
+      averageScore,
+      meetsTarget: averageScore >= 4.0,
+      template: promptTemplate
+    })
     
     metrics.endTime = Date.now()
     metrics.duration = metrics.endTime - metrics.startTime
@@ -114,6 +139,7 @@ export async function generateWorksheet(config: WorksheetConfig): Promise<Genera
 
 /**
  * Creates a sophisticated prompt for generating UK National Curriculum aligned worksheets
+ * @deprecated This function has been replaced by PromptEngineeringService.generatePrompt
  */
 function createPrompt(config: WorksheetConfig): string {
   const { layout, topic, subtopic, difficulty, questionCount, yearGroup, studentNames } = config
@@ -270,8 +296,9 @@ function getCurriculumContext(topic: string, subtopic: string, yearGroup: string
 
 /**
  * Parses the generated content from Gemini AI and renders using layout templates
+ * Enhanced for USP.1 LLM-driven worksheet generation with SVG integration
  */
-function parseGeneratedContent(content: string, config: WorksheetConfig): GeneratedWorksheet {
+function parseGeneratedContent(content: string, config: WorksheetConfig, promptTemplate?: PromptTemplate): GeneratedWorksheet {
   // Clean the content
   let cleanContent = content.trim()
   
@@ -333,7 +360,80 @@ function parseGeneratedContent(content: string, config: WorksheetConfig): Genera
       difficulty: config.difficulty,
       questionCount: questions.length,
       curriculum: 'UK National Curriculum',
-      generatedAt: renderContext.generatedAt
+      generatedAt: renderContext.generatedAt,
+      promptTemplate: promptTemplate || 'structured'
     }
   }
+}
+
+/**
+ * Helper function to identify Phase 1 combinations for USP.1
+ */
+function isPhase1Combination(config: WorksheetConfig): boolean {
+  const { yearGroup, topic } = config
+
+  // Reception/Year 1 addition with counting objects
+  if ((yearGroup === 'Reception' || yearGroup === 'Year 1') && 
+      topic.toLowerCase().includes('addition')) {
+    return true
+  }
+
+  // Year 3 multiplication/division
+  if (yearGroup === 'Year 3' && 
+      (topic.toLowerCase().includes('multiplication') || topic.toLowerCase().includes('division'))) {
+    return true
+  }
+
+  // Year 5 fractions with visual representations
+  if (yearGroup === 'Year 5' && topic.toLowerCase().includes('fraction')) {
+    return true
+  }
+
+  return false
+}
+
+/**
+ * Calculates weighted average quality score for USP.1 metrics
+ * Visual Appeal (25%), Educational Appropriateness (25%), SVG Integration (20%), 
+ * Curriculum Alignment (15%), Accessibility (15%)
+ */
+function calculateAverageQualityScore(metrics: QualityMetrics): number {
+  const weights = {
+    visualAppeal: 0.25,
+    educationalAppropriateness: 0.25,
+    svgIntegration: 0.20,
+    curriculumAlignment: 0.15,
+    accessibility: 0.15
+  }
+
+  return (
+    metrics.visualAppeal * weights.visualAppeal +
+    metrics.educationalAppropriateness * weights.educationalAppropriateness +
+    metrics.svgIntegration * weights.svgIntegration +
+    metrics.curriculumAlignment * weights.curriculumAlignment +
+    metrics.accessibility * weights.accessibility
+  )
+}
+
+/**
+ * Enhanced worksheet generation function with A/B testing support
+ * Supports USP.1 Template A, B, C variations for systematic optimization
+ */
+export async function generateWorksheetWithABTesting(
+  config: WorksheetConfig
+): Promise<Record<PromptTemplate, GeneratedWorksheet>> {
+  const templates: PromptTemplate[] = ['structured', 'creative', 'gamified']
+  const results: Record<string, GeneratedWorksheet> = {}
+
+  for (const template of templates) {
+    try {
+      console.log(`Generating worksheet with ${template} template...`)
+      results[template] = await generateWorksheet(config, template)
+    } catch (error) {
+      console.error(`Failed to generate ${template} template:`, error)
+      // Continue with other templates even if one fails
+    }
+  }
+
+  return results as Record<PromptTemplate, GeneratedWorksheet>
 }

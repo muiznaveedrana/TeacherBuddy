@@ -42,6 +42,9 @@ export interface WorksheetMetadata {
   questionCount: number
   curriculum: string
   generatedAt: string
+  promptTemplate?: string // USP.1 prompt template used
+  qualityScore?: number // USP.1 quality assurance score
+  isPhase1Combination?: boolean // USP.1 Phase 1 target identification
 }
 
 export interface CurriculumContext {
