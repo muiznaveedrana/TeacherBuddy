@@ -17,5 +17,8 @@ Expand the proven POC worksheet generation system with comprehensive UK National
 **Epic 3: Subscription & Usage Management System**
 Integrate the complete three-tier freemium business model, replacing mock usage counters with real Stripe integration and automated usage limit enforcement, leveraging the established worksheet generation and user infrastructure.
 
+**Epic USP: Professional Worksheet Generation Enhancement** 🎯 **NEW**
+Transform the worksheet generation system from basic output to professionally competitive, visually engaging, and pedagogically valuable worksheets that teachers love to use and students love to complete, making it the unique selling point for the application.
+
 **Epic 4: AdSense Integration & Revenue Optimization**
 Integrate real AdSense advertising with intelligent placement optimization for £0.15-0.50 per free user monthly revenue target, completing the monetization strategy for the validated worksheet generation platform.
