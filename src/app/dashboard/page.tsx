@@ -60,6 +60,7 @@ export default function DashboardPage() {
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [loadingTopics, setLoadingTopics] = useState<boolean>(false)
   const [loadingSubtopics, setLoadingSubtopics] = useState<boolean>(false)
+  const [pdfGenerating, setPdfGenerating] = useState<boolean>(false)
   
   const hasConfiguration = layout && yearGroup && topic && subtopic && nameList
   const canGenerate = hasConfiguration && generationState !== 'generating'
@@ -133,6 +134,64 @@ export default function DashboardPage() {
     }
   }
   
+  const handleDownloadPdf = async () => {
+    if (!generatedWorksheet || !hasConfiguration) return
+
+    setPdfGenerating(true)
+    try {
+      const config = {
+        layout,
+        topic,
+        subtopic,
+        difficulty: difficulty as DifficultyLevel,
+        questionCount: parseInt(questionCount.toString()),
+        yearGroup,
+        studentNames: [] // No personal data in PDFs
+      }
+
+      const pdfRequest = {
+        config,
+        generatedContent: generatedWorksheet.html.replace(/<[^>]*>/g, ' '), // Strip HTML for content extraction
+        title: generatedWorksheet.title
+      }
+
+      const response = await fetch('/api/worksheets/generate-pdf', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer mock-session-token' // Replace with real auth token
+        },
+        body: JSON.stringify(pdfRequest)
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'PDF generation failed')
+      }
+
+      // Handle the PDF download
+      const blob = await response.blob()
+      const filename = response.headers.get('Content-Disposition')?.match(/filename="([^"]+)"/)?.[1] || 'worksheet.pdf'
+      
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = filename
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+
+      console.log(`PDF downloaded successfully: ${filename}`)
+      
+    } catch (error) {
+      console.error('PDF download error:', error)
+      setErrorMessage(`PDF download failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    } finally {
+      setPdfGenerating(false)
+    }
+  }
+
   const handleConfigurationChange = () => {
     if (generationState === 'completed') {
       setGenerationState('idle')
@@ -643,9 +702,24 @@ export default function DashboardPage() {
           )}
           
           {showPreview && (
-            <Button variant="outline" size="touch" className="w-full md:w-auto md:min-w-32 text-lg md:text-base">
-              <Download className="h-5 w-5 md:h-4 md:w-4 mr-2" />
-              Download PDF
+            <Button 
+              variant="outline" 
+              size="touch" 
+              className="w-full md:w-auto md:min-w-32 text-lg md:text-base"
+              onClick={handleDownloadPdf}
+              disabled={pdfGenerating}
+            >
+              {pdfGenerating ? (
+                <>
+                  <Loader2 className="h-5 w-5 md:h-4 md:w-4 animate-spin mr-2" />
+                  Generating PDF...
+                </>
+              ) : (
+                <>
+                  <Download className="h-5 w-5 md:h-4 md:w-4 mr-2" />
+                  Download PDF
+                </>
+              )}
             </Button>
           )}
         </div>
