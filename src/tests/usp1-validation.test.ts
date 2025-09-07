@@ -12,7 +12,7 @@
 
 import { describe, it, expect } from 'vitest'
 import { WorksheetConfig, DifficultyLevel } from '@/lib/types/worksheet'
-import { PromptEngineeringService, PromptTemplate } from '@/lib/services/promptEngineering'
+import { PromptService, PromptVariation } from '@/lib/services/promptService'
 import { QualityAssuranceService } from '@/lib/services/qualityAssurance'
 import { ABTestingService } from '@/lib/services/abTesting'
 import { generateWorksheet, generateWorksheetWithABTesting } from '@/lib/services/gemini'
@@ -62,7 +62,7 @@ describe('USP.1 LLM Prompt Engineering Foundation', () => {
   describe('AC1: Research-Backed Prompt Foundation', () => {
     it('should generate research-backed prompts for all Phase 1 combinations', () => {
       PHASE_1_COMBINATIONS.forEach(config => {
-        const prompt = PromptEngineeringService.generatePrompt(config, 'structured')
+        const prompt = PromptService.generatePrompt(config, 'structured')
         
         // Validate prompt includes research-backed elements
         expect(prompt).toContain('UK National Curriculum')
@@ -76,7 +76,7 @@ describe('USP.1 LLM Prompt Engineering Foundation', () => {
 
     it('should include curriculum context and pedagogical guidance', () => {
       const config = PHASE_1_COMBINATIONS[0]
-      const prompt = PromptEngineeringService.generatePrompt(config)
+      const prompt = PromptService.generatePrompt(config)
       
       expect(prompt.toLowerCase()).toMatch(/(learning objectives|curriculum alignment)/)
       expect(prompt.toLowerCase()).toMatch(/(mathematical focus|math focus)/)
@@ -88,14 +88,14 @@ describe('USP.1 LLM Prompt Engineering Foundation', () => {
   describe('AC2: Phase 1 Target Combinations', () => {
     it('should correctly identify Phase 1 combinations', () => {
       PHASE_1_COMBINATIONS.forEach(config => {
-        const prompt = PromptEngineeringService.generatePrompt(config)
+        const prompt = PromptService.generatePrompt(config)
         expect(prompt.length).toBeGreaterThan(500) // Should generate full prompts for Phase 1
       })
     })
 
     it('should generate appropriate prompts for Reception/Year 1 addition', () => {
       const config = PHASE_1_COMBINATIONS[0] // Reception addition
-      const prompt = PromptEngineeringService.generatePrompt(config)
+      const prompt = PromptService.generatePrompt(config)
       
       expect(prompt.toLowerCase()).toMatch(/(counting|count)/)
       expect(prompt.toLowerCase()).toMatch(/(one.to.one|correspondence|basic counting)/)
@@ -105,7 +105,7 @@ describe('USP.1 LLM Prompt Engineering Foundation', () => {
 
     it('should generate appropriate prompts for Year 3 multiplication/division', () => {
       const config = PHASE_1_COMBINATIONS[2] // Year 3 multiplication
-      const prompt = PromptEngineeringService.generatePrompt(config)
+      const prompt = PromptService.generatePrompt(config)
       
       expect(prompt.toLowerCase()).toMatch(/(multiplication|times table)/)
       expect(prompt.toLowerCase()).toContain('array')
@@ -115,7 +115,7 @@ describe('USP.1 LLM Prompt Engineering Foundation', () => {
 
     it('should generate appropriate prompts for Year 5 fractions', () => {
       const config = PHASE_1_COMBINATIONS[3] // Year 5 fractions
-      const prompt = PromptEngineeringService.generatePrompt(config)
+      const prompt = PromptService.generatePrompt(config)
       
       expect(prompt.toLowerCase()).toContain('equivalent')
       expect(prompt.toLowerCase()).toMatch(/(visual representation|visual|pie chart|fraction bar)/)
@@ -127,7 +127,7 @@ describe('USP.1 LLM Prompt Engineering Foundation', () => {
   describe('AC3: OpenClipart Integration', () => {
     it('should include OpenClipart sourcing instructions in all prompts', () => {
       PHASE_1_COMBINATIONS.forEach(config => {
-        const prompt = PromptEngineeringService.generatePrompt(config)
+        const prompt = PromptService.generatePrompt(config)
         
         expect(prompt).toContain('OpenClipart.org')
         expect(prompt).toContain('CC0 license')
@@ -138,15 +138,15 @@ describe('USP.1 LLM Prompt Engineering Foundation', () => {
 
     it('should provide specific SVG instructions for each combination type', () => {
       const receptionConfig = PHASE_1_COMBINATIONS[0]
-      const receptionPrompt = PromptEngineeringService.generatePrompt(receptionConfig)
+      const receptionPrompt = PromptService.generatePrompt(receptionConfig)
       expect(receptionPrompt.toLowerCase()).toMatch(/(counting.*svg|apple.*openclipart|toy.*openclipart)/)
       
       const year3Config = PHASE_1_COMBINATIONS[2]
-      const year3Prompt = PromptEngineeringService.generatePrompt(year3Config)
+      const year3Prompt = PromptService.generatePrompt(year3Config)
       expect(year3Prompt.toLowerCase()).toMatch(/(array.*svg|multiplication.*svg|grid.*openclipart)/)
       
       const year5Config = PHASE_1_COMBINATIONS[3]
-      const year5Prompt = PromptEngineeringService.generatePrompt(year5Config)
+      const year5Prompt = PromptService.generatePrompt(year5Config)
       expect(year5Prompt.toLowerCase()).toMatch(/(fraction.*svg|pie chart.*svg|bar.*openclipart)/)
     })
   })
@@ -198,7 +198,7 @@ describe('USP.1 LLM Prompt Engineering Foundation', () => {
     it('should generate three distinct template variations', () => {
       const config = PHASE_1_COMBINATIONS[0]
       
-      const variations = PromptEngineeringService.generateTemplateVariations(config)
+      const variations = PromptService.generateTemplateVariations(config)
       
       expect(variations).toHaveProperty('structured')
       expect(variations).toHaveProperty('creative')
@@ -209,9 +209,9 @@ describe('USP.1 LLM Prompt Engineering Foundation', () => {
       expect(variations.structured).not.toEqual(variations.gamified)
     })
 
-    it('should implement Template B (Creative Storytelling)', () => {
+    it('should implement optimal unified template', () => {
       const config = PHASE_1_COMBINATIONS[0] // Reception addition
-      const creativePrompt = PromptEngineeringService.generatePrompt(config, 'creative')
+      const optimalPrompt = PromptService.generatePrompt(config)
       
       expect(creativePrompt.toLowerCase()).toMatch(/(theme|creative theme)/)
       expect(creativePrompt.toLowerCase()).toMatch(/(narrative|story)/)
@@ -219,9 +219,9 @@ describe('USP.1 LLM Prompt Engineering Foundation', () => {
       expect(creativePrompt.toLowerCase()).toMatch(/(story|narrative|theme)/)
     })
 
-    it('should implement Template C (Gamified Challenge)', () => {
+    it('should generate consistent optimal prompts', () => {
       const config = PHASE_1_COMBINATIONS[0]
-      const gamifiedPrompt = PromptEngineeringService.generatePrompt(config, 'gamified')
+      const optimalPrompt = PromptService.generatePrompt(config)
       
       expect(gamifiedPrompt.toLowerCase()).toMatch(/(game|gamified)/)
       expect(gamifiedPrompt.toLowerCase()).toContain('achievement')
@@ -240,7 +240,7 @@ describe('USP.1 LLM Prompt Engineering Foundation', () => {
       // Test that A/B testing service can be instantiated with proper config
       const testConfig = {
         runAllTemplates: true,
-        templates: ['structured', 'creative', 'gamified'] as PromptTemplate[],
+        templates: ['structured', 'creative', 'gamified'] as PromptVariation[],
         includePerformanceAnalysis: true,
         generateRecommendations: true,
         minimumQualityThreshold: 4.0
@@ -259,7 +259,7 @@ describe('USP.1 LLM Prompt Engineering Foundation', () => {
   describe('Competitive Excellence Validation', () => {
     it('should generate prompts significantly more detailed than basic approaches', () => {
       const config = PHASE_1_COMBINATIONS[0]
-      const advancedPrompt = PromptEngineeringService.generatePrompt(config, 'structured')
+      const advancedPrompt = PromptService.generatePrompt(config, 'structured')
       
       // Advanced prompts should be comprehensive
       expect(advancedPrompt.length).toBeGreaterThan(1500)
@@ -289,8 +289,8 @@ describe('USP.1 LLM Prompt Engineering Foundation', () => {
       // Verify that the prompt engineering service supports iterative improvement
       const config = PHASE_1_COMBINATIONS[0]
       
-      const baselinePrompt = PromptEngineeringService.generatePrompt(config, 'structured')
-      const creativePrompt = PromptEngineeringService.generatePrompt(config, 'creative')
+      const baselinePrompt = PromptService.generatePrompt(config, 'structured')
+      const creativePrompt = PromptService.generatePrompt(config, 'creative')
       
       // Should generate distinct approaches for optimization
       expect(baselinePrompt).not.toEqual(creativePrompt)
@@ -315,7 +315,7 @@ describe('USP.1 LLM Prompt Engineering Foundation', () => {
       
       // Should not throw errors, should provide fallback
       expect(() => {
-        PromptEngineeringService.generatePrompt(edgeConfig)
+        PromptService.generatePrompt(edgeConfig)
       }).not.toThrow()
     })
 
@@ -352,7 +352,7 @@ describe('USP.1 Performance Requirements', () => {
       const testHTML = '<html><body><h1>Test</h1></body></html>'
       const config = PHASE_1_COMBINATIONS[0]
       
-      const metrics = PromptEngineeringService.evaluateWorksheetQuality(testHTML, config)
+      const metrics = PromptService.evaluateWorksheetQuality(testHTML, config)
       
       expect(typeof metrics.visualAppeal).toBe('number')
       expect(typeof metrics.educationalAppropriateness).toBe('number')
@@ -376,15 +376,15 @@ describe('USP.1 Performance Requirements', () => {
       }
       
       expect(() => {
-        PromptEngineeringService.generatePrompt(futureConfig)
+        PromptService.generatePrompt(futureConfig)
       }).not.toThrow()
     })
 
     it('should maintain repeatable methodology', () => {
       const config = PHASE_1_COMBINATIONS[0]
       
-      const prompt1 = PromptEngineeringService.generatePrompt(config, 'structured')
-      const prompt2 = PromptEngineeringService.generatePrompt(config, 'structured')
+      const prompt1 = PromptService.generatePrompt(config, 'structured')
+      const prompt2 = PromptService.generatePrompt(config, 'structured')
       
       // Should be consistent (repeatable methodology)
       expect(prompt1).toEqual(prompt2)

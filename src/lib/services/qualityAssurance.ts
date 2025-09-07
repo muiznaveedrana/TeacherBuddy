@@ -12,7 +12,7 @@
  */
 
 import { WorksheetConfig } from '@/lib/types/worksheet'
-import { QualityMetrics } from '@/lib/services/promptEngineering'
+import { QualityMetrics } from '@/lib/services/promptService'
 
 export interface DetailedQualityAssessment {
   metrics: QualityMetrics

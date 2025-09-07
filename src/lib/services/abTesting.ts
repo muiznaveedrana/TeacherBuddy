@@ -10,14 +10,14 @@
  */
 
 import { WorksheetConfig, GeneratedWorksheet } from '@/lib/types/worksheet'
-import { PromptTemplate, QualityMetrics } from '@/lib/services/promptEngineering'
+import { PromptVariation, QualityMetrics } from '@/lib/services/promptService'
 import { generateWorksheet } from '@/lib/services/gemini'
 import { QualityAssuranceService, DetailedQualityAssessment } from '@/lib/services/qualityAssurance'
 
 export interface ABTestResult {
   testId: string
   config: WorksheetConfig
-  templateResults: Record<PromptTemplate, TemplateResult>
+  templateResults: Record<PromptVariation, TemplateResult>
   analysis: ABTestAnalysis
   recommendation: TemplateRecommendation
   timestamp: string
@@ -39,8 +39,8 @@ export interface PerformanceMetrics {
 }
 
 export interface ABTestAnalysis {
-  winningTemplate: PromptTemplate
-  qualityScores: Record<PromptTemplate, number>
+  winningTemplate: PromptVariation
+  qualityScores: Record<PromptVariation, number>
   significantDifferences: string[]
   insights: TestInsight[]
   statisticalConfidence: number
@@ -54,7 +54,7 @@ export interface TestInsight {
 }
 
 export interface TemplateRecommendation {
-  primary: PromptTemplate
+  primary: PromptVariation
   reasoning: string[]
   hybridOpportunities: string[]
   nextIterationSuggestions: string[]
@@ -62,7 +62,7 @@ export interface TemplateRecommendation {
 
 export interface ABTestConfig {
   runAllTemplates: boolean
-  templates: PromptTemplate[]
+  templates: PromptVariation[]
   includePerformanceAnalysis: boolean
   generateRecommendations: boolean
   minimumQualityThreshold: number
@@ -146,13 +146,13 @@ export class ABTestingService {
     }
 
     // Analyze results and generate insights
-    const analysis = this.analyzeResults(templateResults as Record<PromptTemplate, TemplateResult>)
-    const recommendation = this.generateRecommendation(templateResults as Record<PromptTemplate, TemplateResult>, analysis)
+    const analysis = this.analyzeResults(templateResults as Record<PromptVariation, TemplateResult>)
+    const recommendation = this.generateRecommendation(templateResults as Record<PromptVariation, TemplateResult>, analysis)
 
     const result: ABTestResult = {
       testId,
       config: worksheetConfig,
-      templateResults: templateResults as Record<PromptTemplate, TemplateResult>,
+      templateResults: templateResults as Record<PromptVariation, TemplateResult>,
       analysis,
       recommendation,
       timestamp: new Date().toISOString(),
@@ -172,7 +172,7 @@ export class ABTestingService {
   public static async runFocusedTest(
     worksheetConfig: WorksheetConfig,
     focusMetric: keyof QualityMetrics,
-    templates: PromptTemplate[] = ['structured', 'creative']
+    templates: PromptVariation[] = ['optimal']
   ): Promise<ABTestResult> {
     
     const result = await this.runABTest(worksheetConfig, {
@@ -226,20 +226,20 @@ export class ABTestingService {
   /**
    * Analyze A/B test results and generate insights
    */
-  private static analyzeResults(templateResults: Record<PromptTemplate, TemplateResult>): ABTestAnalysis {
-    const qualityScores: Record<PromptTemplate, number> = {} as Record<PromptTemplate, number>
+  private static analyzeResults(templateResults: Record<PromptVariation, TemplateResult>): ABTestAnalysis {
+    const qualityScores: Record<PromptVariation, number> = {} as Record<PromptVariation, number>
     const insights: TestInsight[] = []
     const significantDifferences: string[] = []
 
     // Calculate quality scores
     Object.entries(templateResults).forEach(([template, result]) => {
-      qualityScores[template as PromptTemplate] = result.qualityAssessment.weightedScore
+      qualityScores[template as PromptVariation] = result.qualityAssessment.weightedScore
     })
 
     // Identify winning template
     const winningTemplate = Object.entries(qualityScores).reduce((a, b) => 
-      qualityScores[a[0] as PromptTemplate] > qualityScores[b[0] as PromptTemplate] ? a : b
-    )[0] as PromptTemplate
+      qualityScores[a[0] as PromptVariation] > qualityScores[b[0] as PromptVariation] ? a : b
+    )[0] as PromptVariation
 
     // Generate insights
     insights.push(...this.generateQualityInsights(templateResults))
@@ -267,7 +267,7 @@ export class ABTestingService {
    * Generate actionable recommendations based on test results
    */
   private static generateRecommendation(
-    templateResults: Record<PromptTemplate, TemplateResult>,
+    templateResults: Record<PromptVariation, TemplateResult>,
     analysis: ABTestAnalysis
   ): TemplateRecommendation {
     
@@ -310,7 +310,7 @@ export class ABTestingService {
   /**
    * Helper methods for analysis and insights
    */
-  private static generateQualityInsights(templateResults: Record<PromptTemplate, TemplateResult>): TestInsight[] {
+  private static generateQualityInsights(templateResults: Record<PromptVariation, TemplateResult>): TestInsight[] {
     const insights: TestInsight[] = []
 
     // Compare visual appeal across templates
@@ -333,7 +333,7 @@ export class ABTestingService {
     return insights
   }
 
-  private static generatePerformanceInsights(templateResults: Record<PromptTemplate, TemplateResult>): TestInsight[] {
+  private static generatePerformanceInsights(templateResults: Record<PromptVariation, TemplateResult>): TestInsight[] {
     const insights: TestInsight[] = []
 
     const avgGenerationTime = Object.values(templateResults).reduce((sum, result) => 
@@ -372,7 +372,7 @@ export class ABTestingService {
     return lowest[1] < 4.0 ? lowest[0] : null
   }
 
-  private static calculateStatisticalConfidence(scores: Record<PromptTemplate, number>): number {
+  private static calculateStatisticalConfidence(scores: Record<PromptVariation, number>): number {
     // Simplified confidence calculation
     const values = Object.values(scores)
     const mean = values.reduce((a, b) => a + b, 0) / values.length

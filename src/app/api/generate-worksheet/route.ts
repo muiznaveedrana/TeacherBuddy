@@ -107,7 +107,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       yearGroup,
       studentNames,
       // Enhanced configuration options (USP.2) 
-      // USP.Integration: These drive the integrated prompt generation system
+      // Unified Service: These drive the consolidated prompt generation system
       ...(visualTheme && { visualTheme }),
       ...(problemTypes && { problemTypes }),
       ...(engagementStyle && { engagementStyle }),
@@ -118,9 +118,9 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
     const worksheet = await generateWorksheet(config)
     const generationTime = Date.now() - startTime
 
-    // Log performance for monitoring (USP.Integration)
+    // Log performance for monitoring (Unified Service)
     const hasEnhanced = !!(visualTheme || problemTypes || engagementStyle || promptTemplate)
-    console.log(`USP.Integration worksheet generated in ${generationTime}ms`, {
+    console.log(`Unified PromptService worksheet generated in ${generationTime}ms`, {
       topic,
       subtopic,
       yearGroup,

@@ -16,7 +16,7 @@ export type ProblemType = 'word-problems' | 'visual-arrays' | 'mixed-formats' | 
 
 export type EngagementStyle = 'structured' | 'storytelling' | 'gamified'
 
-export type PromptTemplate = 'A' | 'B' | 'C'
+export type PromptTemplate = 'optimal'
 
 export interface LayoutTemplate {
   id: LayoutType

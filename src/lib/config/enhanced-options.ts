@@ -196,18 +196,16 @@ export const getSmartDefaults = (yearGroup: string, topic?: string, layout?: Lay
     return ['word-problems', 'standard-calculations']
   }
 
-  // Prompt template defaults (for USP.1 integration)
-  const getDefaultPromptTemplate = (yearGroup: string, topic?: string): PromptTemplate => {
-    if (yearGroup === 'Reception' || yearGroup === 'Year 1') return 'A'
-    if (topic?.toLowerCase().includes('problem-solving') || topic?.toLowerCase().includes('reasoning')) return 'C'
-    return 'B'
+  // Simplified prompt template (single optimal approach)
+  const getDefaultPromptTemplate = (): PromptTemplate => {
+    return 'optimal' // Always use the single optimal template
   }
 
   return {
     visualTheme: getDefaultVisualTheme(yearGroup),
     problemTypes: getDefaultProblemTypes(topic, layout),
     engagementStyle: getDefaultEngagementStyle(yearGroup),
-    promptTemplate: getDefaultPromptTemplate(yearGroup, topic)
+    promptTemplate: getDefaultPromptTemplate()
   }
 }
 
