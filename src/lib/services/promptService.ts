@@ -168,48 +168,41 @@ export class PromptService {
     const accessibilityRequirements = this.getAccessibilityRequirements(config.yearGroup)
     const themeContext = this.getThemeContext(config.visualTheme, config.yearGroup)
 
-    return `**CONTEXT:** Create an exceptional mathematics worksheet for ${config.yearGroup} students focusing on ${config.topic} - ${config.subtopic}. This must achieve ≥4.5/5.0 quality through engaging content that captivates students while maintaining professional educational standards.
+    return `Create a ${config.yearGroup} ${config.topic} worksheet: "${config.subtopic}" (${config.difficulty} level, ${config.questionCount} questions).
 
-**EDUCATIONAL EXCELLENCE:**
-- Topic Focus: ${curriculumContext.topic} (${curriculumContext.subtopic})
-- UK National Curriculum: ${curriculumContext.learningObjectives.join(', ')}
-- Age-appropriate language: ${curriculumContext.languageLevel}
-- Question count: ${config.questionCount} problems with progressive difficulty
-- Mathematical rigor: ${curriculumContext.mathFocus}
-- Learning progression: ${curriculumContext.progressionGuideline}
+**Requirements:**
+- UK National Curriculum aligned
+- Age-appropriate vocabulary with mathematical precision
+- Use names: Emma, Oliver, Sophie, James, Lily, Thomas, Grace, Harry
+- Theme: ${themeContext}
 
-**ENGAGING THEME INTEGRATION:**
-- Theme context: ${themeContext}
-- Real-world scenarios that relate to students' interests and experiences
-- Problems embedded in engaging contexts that motivate learning
-- Clear connection between theme elements and mathematical concepts
-- Story-like flow that maintains student interest throughout
+**Format:** Complete HTML with embedded SVG icons (small, simple shapes from OpenClipart.org: ${svgInstructions.searchTerms.join(', ')}).
 
-**PROFESSIONAL VISUAL DESIGN:**
-- A4 format (210 × 297 mm) optimized for classroom printing
-- Font specifications: ${accessibilityRequirements.fontRequirements}
-- Layout structure: ${this.getLayoutStructure(config.layout)}
-- Professional color palette with excellent contrast and accessibility
-- Generous white space for reduced cognitive load and clarity
-- Clear visual hierarchy guiding students through the content
+**CRITICAL - HTML STRUCTURE MUST BE:**
+<!DOCTYPE html>
+<html>
+<head>
+    <title>${config.topic} - ${config.subtopic}</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: ${accessibilityRequirements.fontRequirements.includes('16-18pt') ? '16pt' : '14pt'}; line-height: 1.6; margin: 20px; }
+        .worksheet-header { text-align: center; margin-bottom: 20px; }
+        .worksheet-content { margin: 20px 0; }
+        .question { margin: 15px 0; }
+        svg { width: 40px; height: 40px; vertical-align: middle; }
+    </style>
+</head>
+<body>
+    <div class="worksheet-header">
+        <h1>${config.topic}: ${config.subtopic}</h1>
+        <div class="student-info">Name: _____________ Date: _____________</div>
+    </div>
+    <div class="worksheet-content">
+        [Generate exactly ${config.questionCount} questions here with embedded SVG elements]
+    </div>
+</body>
+</html>
 
-**SVG INTEGRATION EXCELLENCE:**
-Source all visual elements from OpenClipart.org (CC0 license):
-- Search terms: ${svgInstructions.searchTerms.join(', ')}
-- Object sizing: ${svgInstructions.sizingGuidelines}
-- Arrangement: ${svgInstructions.arrangementInstructions}
-- Quality standards: ${svgInstructions.qualityRequirements}
-- Educational purpose: Every visual element supports mathematical understanding
-
-**QUALITY SUPERIORITY REQUIREMENTS:**
-- Student Engagement: Captivating content that makes mathematics enjoyable
-- Educational Value: Clear learning objectives with appropriate challenge levels
-- Professional Presentation: Clean, organized design that teachers trust
-- Curriculum Compliance: Perfect alignment with UK National Curriculum
-- Accessibility Excellence: SEND-friendly with dyslexia-conscious design
-- Competitive Edge: Demonstrably superior to existing worksheet solutions
-
-**OUTPUT FORMAT:** Complete HTML document with embedded SVGs, optimized for PDF conversion and classroom use.`
+IMPORTANT: The HTML MUST contain these exact CSS classes: "worksheet-header" and "worksheet-content" or it will be rejected.`
   }
 
   /**

@@ -1,5 +1,4 @@
 import puppeteer from 'puppeteer-core'
-import { renderLayout } from '@/lib/templates/layouts'
 import { LayoutType, WorksheetConfig } from '@/lib/types/worksheet'
 
 export interface PdfGenerationRequest {
@@ -97,23 +96,8 @@ export async function generateWorksheetPdf(
       }
     }
     
-    // Parse questions from generated content
-    const questions = parseQuestionsFromContent(request.generatedContent)
-    
-    // Create layout context
-    const layoutContext = {
-      title: request.title,
-      content: request.generatedContent,
-      difficulty: request.config.difficulty,
-      yearGroup: request.config.yearGroup,
-      topic: request.config.topic,
-      subtopic: request.config.subtopic,
-      questionCount: questions.length,
-      generatedAt: new Date().toISOString()
-    }
-    
-    // Generate HTML using existing layout system
-    const html = renderLayout(request.config.layout, questions, layoutContext)
+    // Use the generated HTML directly (same as dashboard preview)
+    const html = request.generatedContent
     
     // Configure Puppeteer for both development and serverless environments
     const isProduction = process.env.NODE_ENV === 'production'

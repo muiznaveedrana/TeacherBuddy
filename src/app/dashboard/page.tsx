@@ -51,7 +51,7 @@ export default function DashboardPage() {
   const [topic, setTopic] = useState<string>('')
   const [subtopic, setSubtopic] = useState<string>('')
   const [difficulty, setDifficulty] = useState<DifficultyLevel>('average')
-  const [questionCount, setQuestionCount] = useState<number>(15)
+  const [questionCount, setQuestionCount] = useState<number>(5)
   const [nameList, setNameList] = useState<string>('')
   
   // Enhanced configuration state (USP.2)
@@ -159,7 +159,7 @@ export default function DashboardPage() {
 
       const pdfRequest = {
         config,
-        generatedContent: generatedWorksheet.html.replace(/<[^>]*>/g, ' '), // Strip HTML for content extraction
+        generatedContent: generatedWorksheet.html, // Use the HTML directly as preview does
         title: generatedWorksheet.title
       }
 
@@ -521,18 +521,63 @@ export default function DashboardPage() {
                 {/* Question Count */}
                 <div className="space-y-3">
                   <Label htmlFor="question-count" className="text-base md:text-sm">Number of Questions: {questionCount}</Label>
-                  <input
-                    type="range"
-                    id="question-count"
-                    min="5"
-                    max="30"
-                    value={questionCount}
-                    onChange={(e) => { setQuestionCount(parseInt(e.target.value)); handleConfigurationChange(); }}
-                    className="w-full h-3 md:h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer slider touch-manipulation"
-                  />
+                  <div className="relative">
+                    <input
+                      type="range"
+                      id="question-count"
+                      min="5"
+                      max="10"
+                      value={questionCount}
+                      onChange={(e) => { setQuestionCount(parseInt(e.target.value)); handleConfigurationChange(); }}
+                      className="w-full cursor-pointer slider touch-manipulation question-count-slider"
+                      style={{
+                        background: '#9ca3af',
+                        height: '8px',
+                        borderRadius: '4px',
+                        appearance: 'none',
+                        WebkitAppearance: 'none',
+                      }}
+                    />
+                    <style jsx>{`
+                      .question-count-slider::-webkit-slider-track {
+                        background: #9ca3af !important;
+                        height: 8px !important;
+                        border-radius: 4px !important;
+                        border: 1px solid #6b7280 !important;
+                      }
+                      .question-count-slider::-webkit-slider-thumb {
+                        -webkit-appearance: none !important;
+                        appearance: none !important;
+                        height: 24px !important;
+                        width: 24px !important;
+                        border-radius: 50% !important;
+                        background: #2563eb !important;
+                        border: 2px solid white !important;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+                        cursor: pointer !important;
+                        margin-top: -8px !important;
+                      }
+                      .question-count-slider::-moz-range-track {
+                        background: #9ca3af !important;
+                        height: 8px !important;
+                        border-radius: 4px !important;
+                        border: 1px solid #6b7280 !important;
+                      }
+                      .question-count-slider::-moz-range-thumb {
+                        height: 24px !important;
+                        width: 24px !important;
+                        border-radius: 50% !important;
+                        background: #2563eb !important;
+                        border: 2px solid white !important;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+                        cursor: pointer !important;
+                        border: none !important;
+                      }
+                    `}</style>
+                  </div>
                   <div className="flex justify-between text-sm md:text-xs text-slate-500">
                     <span>5 questions</span>
-                    <span>30 questions</span>
+                    <span>10 questions</span>
                   </div>
                 </div>
 

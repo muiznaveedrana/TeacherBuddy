@@ -19,7 +19,7 @@ const model = genAI.getGenerativeModel({
   model: 'gemini-2.5-flash',
   generationConfig: {
     temperature: 0.7, // Balanced creativity vs consistency
-    maxOutputTokens: 4096, // Reasonable limit for worksheet content
+    maxOutputTokens: 16383 , // Reasonable limit for worksheet content
     topP: 0.8,
     topK: 40
   }
@@ -354,6 +354,7 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, improve
     
     // Return the complete HTML as-is (USP.1 LLM-Native)
     return {
+      title: `${config.yearGroup} ${config.topic} - ${config.subtopic} (${config.difficulty})`,
       questions: [], // Questions are embedded in HTML
       html: cleanContent,
       metadata: {

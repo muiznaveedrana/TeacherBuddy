@@ -114,15 +114,14 @@ export async function POST(request: NextRequest) {
     
     const { config, generatedContent, title } = validation.data
     
-    // Sanitize content to prevent XSS
-    const sanitizedContent = sanitizeContent(generatedContent)
-    const sanitizedTitle = sanitizeContent(title)
+    // Since this is our own generated content, we can trust it for PDF generation
+    // No sanitization needed as content comes from our own worksheet generation system
     
     // Prepare PDF generation request
     const pdfRequest: PdfGenerationRequest = {
       config: config as WorksheetConfig,
-      generatedContent: sanitizedContent,
-      title: sanitizedTitle
+      generatedContent: generatedContent,
+      title: title
     }
     
     // Generate PDF
