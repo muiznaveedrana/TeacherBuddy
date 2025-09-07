@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
@@ -41,6 +41,7 @@ export function EnhancedConfigurationPanel({
   useEffect(() => {
     if (yearGroup) {
       const newSuggestions = getContextualSuggestions(yearGroup, topic, layout)
+      console.log('Enhanced Panel Suggestions:', { yearGroup, topic, layout, suggestions: newSuggestions })
       setSuggestions(newSuggestions)
     }
   }, [yearGroup, topic, layout])
@@ -104,8 +105,11 @@ export function EnhancedConfigurationPanel({
               </SelectValue>
             </SelectTrigger>
             <SelectContent>
-              {(suggestions?.visualTheme || VISUAL_THEME_OPTIONS).map(option => (
-                <SelectItem key={option.value} value={option.value}>
+              {(() => {
+                const options = suggestions?.visualTheme || VISUAL_THEME_OPTIONS
+                console.log('Visual theme options:', options)
+                return options.map(option => (
+                  <SelectItem key={option.value} value={option.value}>
                   <div className="flex items-center gap-3">
                     <span className="text-lg">{option.icon}</span>
                     <div>
@@ -114,7 +118,8 @@ export function EnhancedConfigurationPanel({
                     </div>
                   </div>
                 </SelectItem>
-              ))}
+                ))
+              })()}
             </SelectContent>
           </Select>
           {visualTheme && (

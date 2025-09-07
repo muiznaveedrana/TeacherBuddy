@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateWorksheet } from '@/lib/services/gemini'
-import { WorksheetConfig, WorksheetGenerationResult, LayoutType, VisualTheme, ProblemType, EngagementStyle } from '@/lib/types/worksheet'
+import { WorksheetConfig, WorksheetGenerationResult, LayoutType, VisualTheme, ProblemType, EngagementStyle, PromptTemplate } from '@/lib/types/worksheet'
 import { validateWorksheetRequest, sanitizeWorksheetRequest } from '@/lib/utils/validation'
 
 // Mock name lists data (will eventually come from database)
@@ -16,7 +16,11 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
   try {
     // Parse and sanitize request body
     const rawBody = await request.json()
+    console.log('🔍 RAW API REQUEST BODY:', JSON.stringify(rawBody, null, 2))
+    console.log('🎨 Visual Theme in Raw Body:', rawBody.visualTheme)
     const sanitizedBody = sanitizeWorksheetRequest(rawBody)
+    console.log('🧹 SANITIZED BODY:', JSON.stringify(sanitizedBody, null, 2))
+    console.log('🎨 Visual Theme in Sanitized Body:', sanitizedBody.visualTheme)
 
     // Comprehensive validation
     const validation = validateWorksheetRequest(sanitizedBody)
@@ -41,7 +45,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       // Enhanced configuration options (USP.2)
       visualTheme,
       problemTypes,
-      engagementStyle
+      engagementStyle,
+      promptTemplate
     } = sanitizedBody as {
       layout: string
       topic: string
@@ -54,6 +59,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       visualTheme?: VisualTheme
       problemTypes?: ProblemType[]
       engagementStyle?: EngagementStyle
+      promptTemplate?: PromptTemplate
     }
     
     // Validate yearGroup is provided
@@ -100,18 +106,32 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       questionCount,
       yearGroup,
       studentNames,
-      // Enhanced configuration options (USP.2)
+      // Enhanced configuration options (USP.2) 
+      // USP.Integration: These drive the integrated prompt generation system
       ...(visualTheme && { visualTheme }),
       ...(problemTypes && { problemTypes }),
-      ...(engagementStyle && { engagementStyle })
+      ...(engagementStyle && { engagementStyle }),
+      ...(promptTemplate && { promptTemplate })
     }
 
     // Generate worksheet using Gemini AI
     const worksheet = await generateWorksheet(config)
     const generationTime = Date.now() - startTime
 
-    // Log performance for monitoring
-    console.log(`Worksheet generated in ${generationTime}ms for topic: ${topic}, subtopic: ${subtopic}`)
+    // Log performance for monitoring (USP.Integration)
+    const hasEnhanced = !!(visualTheme || problemTypes || engagementStyle || promptTemplate)
+    console.log(`USP.Integration worksheet generated in ${generationTime}ms`, {
+      topic,
+      subtopic,
+      yearGroup,
+      enhancedSystem: hasEnhanced,
+      ...(hasEnhanced && {
+        visualTheme,
+        problemTypes: problemTypes?.join(', '),
+        engagementStyle,
+        promptTemplate
+      })
+    })
 
     // Return successful response
     return NextResponse.json({

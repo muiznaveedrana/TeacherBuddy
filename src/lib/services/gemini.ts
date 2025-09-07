@@ -9,6 +9,7 @@ import { LAYOUT_TEMPLATES } from '@/lib/data/layouts'
 import { validateGeneratedHTML, validateStudentNames } from '@/lib/utils/validation'
 import { getTopicDetails } from '@/lib/data/curriculum'
 import { PromptEngineeringService, PromptTemplate, QualityMetrics } from '@/lib/services/promptEngineering'
+import { IntegratedPromptService, IntegrationMetadata } from '@/lib/services/integratedPromptService'
 
 if (!process.env.GEMINI_API_KEY) {
   throw new Error('GEMINI_API_KEY environment variable is not configured')
@@ -27,8 +28,9 @@ const model = genAI.getGenerativeModel({
 
 /**
  * Generates a curriculum-aligned math worksheet using Google Gemini AI
- * Enhanced with USP.1 LLM Prompt Engineering Foundation for competitive excellence
- * Features advanced prompt templates, OpenClipart SVG integration, and quality assurance
+ * Enhanced with USP.Integration: USP.1 + USP.2 integrated systems for superior quality
+ * Features integrated prompt templates, smart defaults, and enhanced visual themes
+ * Target: ≥4.2 quality score through combined system excellence
  */
 export async function generateWorksheet(
   config: WorksheetConfig, 
@@ -42,6 +44,8 @@ export async function generateWorksheet(
     responseLength: 0,
     success: false
   }
+
+  let integrationMetadata: IntegrationMetadata | undefined
 
   try {
     // Validate layout and question count compatibility
@@ -59,17 +63,22 @@ export async function generateWorksheet(
       }
     }
 
-    // Use advanced prompt engineering service (USP.1 implementation)
-    const prompt = PromptEngineeringService.generatePrompt(config, promptTemplate)
-    metrics.promptLength = prompt.length
+    // USP.1 LLM-Native Architecture: ALWAYS use new prompt engineering system
+    // "Configuration → Optimized Prompt → Gemini 2.5 Flash → HTML with embedded SVGs"
+    console.log('🚀 USING NEW LLM-NATIVE SYSTEM (IntegratedPromptService) - USP.1 Architecture')
     
-    console.log('USP.1 Prompt Engineering:', {
-      template: promptTemplate,
-      yearGroup: config.yearGroup,
-      topic: config.topic,
-      isPhase1Combination: isPhase1Combination(config),
-      promptLength: metrics.promptLength
+    const integrationResult = await IntegratedPromptService.generateEnhancedPromptWithMetrics(config)
+    const prompt = integrationResult.prompt
+    integrationMetadata = integrationResult.metadata
+    
+    console.log('🎨 LLM-Native System Generated Prompt (first 500 chars):', prompt.substring(0, 500))
+    console.log('USP.1 LLM-Native Generation:', {
+      integrationTime: integrationResult.performanceMetrics.integrationTime,
+      meetsPerformanceTarget: integrationResult.performanceMetrics.integrationTime < 100,
+      ...integrationMetadata
     })
+    
+    metrics.promptLength = prompt.length
     
     const result = await model.generateContent(prompt)
     const response = result.response
@@ -77,7 +86,7 @@ export async function generateWorksheet(
     metrics.responseLength = text.length
     
     // Parse and validate the generated content
-    const worksheet = parseGeneratedContent(text, config, promptTemplate)
+    const worksheet = parseGeneratedContent(text, config, promptTemplate, integrationMetadata)
     
     // Validate the generated HTML structure
     const htmlValidation = validateGeneratedHTML(worksheet.html)
@@ -85,29 +94,35 @@ export async function generateWorksheet(
       throw new Error(`Invalid HTML structure: ${htmlValidation.errors.map(e => e.message).join(', ')}`)
     }
     
-    // USP.1 Quality Assurance - evaluate against 5-metric framework
+    // Enhanced Quality Assurance - evaluate against integrated framework
     const qualityMetrics = PromptEngineeringService.evaluateWorksheetQuality(worksheet.html, config)
     const averageScore = calculateAverageQualityScore(qualityMetrics)
+    const targetScore = 4.2 // USP.1 LLM-Native target quality score
     
-    console.log('USP.1 Quality Metrics:', {
+    console.log('Quality Metrics (USP.Integration):', {
       ...qualityMetrics,
       averageScore,
-      meetsTarget: averageScore >= 4.0,
-      template: promptTemplate
+      targetScore,
+      meetsTarget: averageScore >= targetScore,
+      enhancedSystem: true, // Always using USP.1 LLM-Native system
+      integrationApplied: !!integrationMetadata,
+      qualityEnhancements: integrationMetadata?.qualityEnhancements
     })
     
     metrics.endTime = Date.now()
     metrics.duration = metrics.endTime - metrics.startTime
     metrics.success = true
     
-    // Log performance metrics for monitoring
-    console.log('Worksheet generation metrics:', {
+    // Enhanced performance logging
+    console.log('Worksheet generation metrics (USP.Integration):', {
       duration: metrics.duration,
       promptLength: metrics.promptLength,
       responseLength: metrics.responseLength,
       topic: config.topic,
       subtopic: config.subtopic,
-      questionCount: config.questionCount
+      questionCount: config.questionCount,
+      systemUsed: 'USP.1 LLM-Native',
+      qualityTarget: targetScore
     })
     
     return worksheet
@@ -392,20 +407,64 @@ function getCurriculumContext(topic: string, subtopic: string, yearGroup: string
 
 /**
  * Parses the generated content from Gemini AI and renders using layout templates
- * Enhanced for USP.1 LLM-driven worksheet generation with SVG integration
+ * Enhanced for USP.Integration: USP.1 + USP.2 integrated system with metadata tracking
  */
-function parseGeneratedContent(content: string, config: WorksheetConfig, promptTemplate?: PromptTemplate): GeneratedWorksheet {
+function parseGeneratedContent(content: string, config: WorksheetConfig, promptTemplate?: PromptTemplate, integrationMetadata?: IntegrationMetadata): GeneratedWorksheet {
+  // USP.1 LLM-Native Architecture: Handle complete HTML worksheets with embedded SVGs
+  console.log('🚀 Processing USP.1 LLM-Native HTML+SVG content...')
+  
   // Clean the content
   let cleanContent = content.trim()
   
-  // If the content is wrapped in markdown code blocks, extract it
-  if (cleanContent.startsWith('```json') && cleanContent.endsWith('```')) {
+  // Clean various formats that LLM might return
+  if (cleanContent.startsWith('```html') && cleanContent.endsWith('```')) {
+    cleanContent = cleanContent.slice(7, -3).trim()
+  } else if (cleanContent.startsWith('```json') && cleanContent.endsWith('```')) {
     cleanContent = cleanContent.slice(7, -3).trim()
   } else if (cleanContent.startsWith('```') && cleanContent.endsWith('```')) {
     cleanContent = cleanContent.slice(3, -3).trim()
+  } else if (cleanContent.startsWith('json\n')) {
+    // Handle case where LLM prefixes with "json"
+    cleanContent = cleanContent.slice(5).trim()
+  } else if (cleanContent.startsWith('html\n')) {
+    // Handle case where LLM prefixes with "html"
+    cleanContent = cleanContent.slice(5).trim()
   }
   
-  // Parse the JSON questions
+  // Check if we received HTML from the LLM (USP.1 LLM-Native format)
+  if (cleanContent.includes('<!DOCTYPE html>') || cleanContent.includes('<html')) {
+    console.log('✅ Received complete HTML worksheet from LLM - USP.1 LLM-Native Architecture')
+    
+    // Validate basic HTML structure
+    if (!cleanContent.includes('<head>') || !cleanContent.includes('<body>')) {
+      throw new Error('Generated HTML is missing required structure (head/body)')
+    }
+    
+    // Extract questions count for validation (count number of .question divs)
+    const questionMatches = cleanContent.match(/class="question[^"]*"/g)
+    const questionCount = questionMatches ? questionMatches.length : 0
+    
+    console.log(`📊 HTML Questions Generated: ${questionCount} (expected: ${config.questionCount})`)
+    
+    // Return the complete HTML as-is (USP.1 LLM-Native)
+    return {
+      questions: [], // Questions are embedded in HTML
+      html: cleanContent,
+      metadata: {
+        generatedAt: new Date().toISOString(),
+        questionCount: questionCount,
+        expectedQuestionCount: config.questionCount,
+        systemUsed: 'USP.1 LLM-Native',
+        integrationMetadata,
+        format: 'HTML+SVG'
+      }
+    }
+  }
+  
+  // Fallback: Handle JSON format for backward compatibility
+  console.log('📄 Processing JSON format (fallback mode)...')
+  
+  // Parse the enhanced JSON questions
   let questions: WorksheetQuestion[]
   try {
     questions = JSON.parse(cleanContent)
@@ -420,26 +479,20 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, promptT
       }
     }
     
+    console.log(`📊 Enhanced Questions Generated: ${questions.length} (expected: ${config.questionCount})`)
+    console.log('🎨 Sample Enhanced Content:', questions[0]?.text.substring(0, 150) + '...')
+    
     // Validate question count
     if (questions.length !== config.questionCount) {
       console.warn(`Expected ${config.questionCount} questions, got ${questions.length}`)
     }
     
   } catch (error) {
-    console.error('Failed to parse questions JSON:', cleanContent.substring(0, 200) + '...')
-    
-    // Fallback: Try to parse markdown format response
-    console.log('Attempting to parse markdown format response...')
-    try {
-      questions = parseMarkdownToQuestions(content, config.questionCount)
-      console.log(`Successfully extracted ${questions.length} questions from markdown format`)
-    } catch (markdownError) {
-      console.error('Failed to parse markdown format:', markdownError)
-      throw new Error(`Invalid question format: ${error instanceof Error ? error.message : 'Unknown parsing error'}`)
-    }
+    console.error('Failed to parse content:', cleanContent.substring(0, 200) + '...')
+    throw new Error(`Invalid content format: ${error instanceof Error ? error.message : 'Unknown parsing error'}`)
   }
   
-  // Create metadata and render context
+  // Create metadata and render context for JSON fallback
   const curriculumContext = getCurriculumContext(config.topic, config.subtopic, config.yearGroup)
   
   const renderContext = {
@@ -453,7 +506,7 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, promptT
     generatedAt: new Date().toISOString()
   }
   
-  // Render using layout template system
+  // Render using layout template system with enhanced content
   const html = renderLayout(config.layout, questions, renderContext)
   
   return {
@@ -466,7 +519,16 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, promptT
       questionCount: questions.length,
       curriculum: 'UK National Curriculum',
       generatedAt: renderContext.generatedAt,
-      promptTemplate: promptTemplate || 'structured'
+      promptTemplate: promptTemplate || 'structured',
+      // USP.Integration metadata
+      ...(integrationMetadata && {
+        integrationUsed: true,
+        integrationVersion: integrationMetadata.integrationVersion,
+        visualTheme: integrationMetadata.usp2VisualTheme,
+        engagementStyle: integrationMetadata.usp2EngagementStyle,
+        qualityEnhancements: integrationMetadata.qualityEnhancements,
+        enhancedConfiguration: integrationMetadata.enhancedConfigurationApplied
+      })
     }
   }
 }

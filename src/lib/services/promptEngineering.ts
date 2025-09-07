@@ -23,13 +23,6 @@ export interface QualityMetrics {
   accessibility: number // 15% weight
 }
 
-// Phase 1 target combinations (USP.1 AC: 2)
-export interface Phase1Combination {
-  yearGroup: 'Reception' | 'Year 1' | 'Year 3' | 'Year 5'
-  topic: string
-  subtopic: string
-  type: 'reception-addition' | 'year3-multiplication' | 'year5-fractions'
-}
 
 // SVG sourcing instructions for OpenClipart integration (USP.1 AC: 3)
 export interface SVGInstructions {
@@ -53,22 +46,16 @@ export class PromptEngineeringService {
     config: WorksheetConfig, 
     template: PromptTemplate = 'structured'
   ): string {
-    const combination = this.identifyPhase1Combination(config)
-    
-    if (!combination) {
-      // Fallback to standard prompt for non-Phase 1 combinations
-      return this.generateStandardPrompt(config)
-    }
-
+    // Always use the latest prompt engineering approach
     switch (template) {
       case 'structured':
-        return this.generateStructuredPrompt(config, combination)
+        return this.generateStructuredPrompt(config)
       case 'creative':
-        return this.generateCreativePrompt(config, combination)
+        return this.generateCreativePrompt(config)
       case 'gamified':
-        return this.generateGamifiedPrompt(config, combination)
+        return this.generateGamifiedPrompt(config)
       default:
-        return this.generateStructuredPrompt(config, combination)
+        return this.generateStructuredPrompt(config)
     }
   }
 
@@ -77,14 +64,13 @@ export class PromptEngineeringService {
    * Research-backed instructions with explicit SVG integration
    */
   private static generateStructuredPrompt(
-    config: WorksheetConfig, 
-    combination: Phase1Combination
+    config: WorksheetConfig
   ): string {
     const curriculumContext = this.getCurriculumContext(config)
-    const svgInstructions = this.getSVGInstructions(combination.type)
+    const svgInstructions = this.getSVGInstructions(config.visualTheme || 'standard')
     const accessibilityRequirements = this.getAccessibilityRequirements(config.yearGroup)
 
-    return `**CONTEXT:** Generate a high-quality, professionally designed mathematics worksheet for ${config.yearGroup} students focusing on ${combination.topic} - ${combination.subtopic}. This should be competitive with premium educational platforms and demonstrate superior quality.
+    return `**CONTEXT:** Generate a high-quality, professionally designed mathematics worksheet for ${config.yearGroup} students focusing on ${config.topic} - ${config.subtopic}. This should be competitive with premium educational platforms and demonstrate superior quality.
 
 **EDUCATIONAL REQUIREMENTS:**
 - Topic: ${curriculumContext.topic} (${curriculumContext.subtopic})
@@ -124,14 +110,9 @@ Source all visual elements from OpenClipart.org (CC0 license, no attribution req
 - Clear instructions: Simple, unambiguous language
 
 **OUTPUT FORMAT:**
-Return your response as a JSON array containing only the questions. Each question should be an object with a 'text' property containing the question text. Do NOT include HTML formatting, headers, or styling - just the mathematical questions.
+Return complete HTML worksheet document with embedded SVG elements sourced from OpenClipart.org.
 
-Example format:
-[
-  {"text": "Emma has 12 apples. She gives 5 to her friend Oliver. How many apples does Emma have left?"},
-  {"text": "Calculate: 7 × 8 = ?"},
-  {"text": "Sophie buys a book for £4.50 and a pencil for £1.25. How much change does she get from £10?"}
-]
+Generate a professional worksheet with proper HTML structure, CSS styling, and embedded SVG visuals that enhance the mathematical problems.
 
 **QUALITY EXPECTATIONS (Target: ≥4.0/5.0):**
 Produce questions that:
@@ -147,7 +128,7 @@ Integrate student names naturally: ${config.studentNames.length > 0 ? config.stu
 
 Generate exactly ${config.questionCount} mathematically sound, curriculum-aligned questions that demonstrate competitive excellence in educational worksheet design.
 
-Return only the JSON array of questions, no additional text or formatting.`
+Return complete HTML document with embedded SVGs, no JSON format.`
   }
 
   /**
@@ -155,11 +136,10 @@ Return only the JSON array of questions, no additional text or formatting.`
    * Engaging narrative contexts with educational rigor
    */
   private static generateCreativePrompt(
-    config: WorksheetConfig, 
-    combination: Phase1Combination
+    config: WorksheetConfig
   ): string {
-    const themeContext = this.getCreativeTheme(combination.type)
-    const basePrompt = this.generateStructuredPrompt(config, combination)
+    const themeContext = this.getCreativeTheme(config.visualTheme || 'standard')
+    const basePrompt = this.generateStructuredPrompt(config)
 
     // Inject creative theme elements into the structured prompt
     const themeHeader = '**CONTEXT AND CREATIVE THEME:**\n' +
@@ -188,11 +168,10 @@ Return only the JSON array of questions, no additional text or formatting.`
    * Achievement-based learning with competitive elements
    */
   private static generateGamifiedPrompt(
-    config: WorksheetConfig, 
-    combination: Phase1Combination
+    config: WorksheetConfig
   ): string {
-    const gameContext = this.getGameContext(combination.type)
-    const basePrompt = this.generateStructuredPrompt(config, combination)
+    const gameContext = this.getGameContext(config.visualTheme || 'standard')
+    const basePrompt = this.generateStructuredPrompt(config)
 
     return basePrompt.replace(
       '**CONTEXT:**',
@@ -212,46 +191,6 @@ Return only the JSON array of questions, no additional text or formatting.`
     )
   }
 
-  /**
-   * Identifies if the config matches Phase 1 target combinations (USP.1 AC: 2)
-   */
-  private static identifyPhase1Combination(config: WorksheetConfig): Phase1Combination | null {
-    const { yearGroup, topic, subtopic } = config
-
-    // Reception/Year 1 addition with counting objects
-    if ((yearGroup === 'Reception' || yearGroup === 'Year 1') && 
-        topic.toLowerCase().includes('addition')) {
-      return {
-        yearGroup: yearGroup as 'Reception' | 'Year 1',
-        topic,
-        subtopic,
-        type: 'reception-addition'
-      }
-    }
-
-    // Year 3 multiplication/division
-    if (yearGroup === 'Year 3' && 
-        (topic.toLowerCase().includes('multiplication') || topic.toLowerCase().includes('division'))) {
-      return {
-        yearGroup: 'Year 3',
-        topic,
-        subtopic,
-        type: 'year3-multiplication'
-      }
-    }
-
-    // Year 5 fractions with visual representations
-    if (yearGroup === 'Year 5' && topic.toLowerCase().includes('fraction')) {
-      return {
-        yearGroup: 'Year 5',
-        topic,
-        subtopic,
-        type: 'year5-fractions'
-      }
-    }
-
-    return null
-  }
 
   /**
    * Gets comprehensive curriculum context with research integration
@@ -422,32 +361,6 @@ Return only the JSON array of questions, no additional text or formatting.`
     return contexts[combinationType] || contexts['reception-addition']
   }
 
-  /**
-   * Fallback to standard prompt for non-Phase 1 combinations
-   */
-  private static generateStandardPrompt(config: WorksheetConfig): string {
-    const curriculumContext = this.getCurriculumContext(config)
-    
-    return 'You are a UK primary school mathematics teacher creating a professional worksheet that aligns with the UK National Curriculum.\n\n' +
-      '**CURRICULUM REQUIREMENTS:**\n' +
-      '- Topic: ' + curriculumContext.topic + ' (' + curriculumContext.subtopic + ')\n' +
-      '- Year Group: ' + config.yearGroup + '\n' +
-      '- Difficulty Level: ' + config.difficulty + '\n' +
-      '- Question count: ' + config.questionCount + ' problems\n' +
-      '- Learning objectives: ' + curriculumContext.learningObjectives.join(', ') + '\n\n' +
-      '**STUDENT PERSONALIZATION:**\n' +
-      'Integrate student names naturally: ' + (config.studentNames.length > 0 ? config.studentNames.join(', ') : 'Use diverse UK-appropriate names') + '\n\n' +
-      '**OUTPUT FORMAT:**\n' +
-      'Return your response as a JSON array containing only the questions. Each question should be an object with a \'text\' property containing the question text. Do NOT include HTML formatting, headers, or styling - just the mathematical questions.\n\n' +
-      'Example format:\n' +
-      '[\n' +
-      '  {"text": "Emma has 12 apples. She gives 5 to her friend Oliver. How many apples does Emma have left?"},\n' +
-      '  {"text": "Calculate: 7 × 8 = ?"},\n' +
-      '  {"text": "Sophie buys a book for £4.50 and a pencil for £1.25. How much change does she get from £10?"}\n' +
-      ']\n\n' +
-      'Generate exactly ' + config.questionCount + ' mathematically sound, curriculum-aligned questions that are appropriate for ' + config.yearGroup + ' students.\n\n' +
-      'Return only the JSON array of questions, no additional text or formatting.'
-  }
 
   /**
    * Helper methods for curriculum context
