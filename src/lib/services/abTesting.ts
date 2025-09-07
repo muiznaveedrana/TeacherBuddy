@@ -507,7 +507,7 @@ export class ABTestingService {
     const allResults: ABTestResult[] = []
     let successCount = 0
     let totalAttempts = 0
-    let qualityScores: number[] = []
+    const qualityScores: number[] = []
 
     for (let i = 0; i < iterations; i++) {
       for (const config of testConfigs) {

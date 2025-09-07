@@ -138,6 +138,102 @@ export async function generateWorksheet(
 }
 
 /**
+ * Fallback function to extract questions from markdown format responses
+ * Handles cases where LLM returns markdown instead of JSON despite instructions
+ */
+function parseMarkdownToQuestions(content: string, expectedCount: number): WorksheetQuestion[] {
+  const questions: WorksheetQuestion[] = []
+  
+  // Remove header content and find question section
+  const lines = content.split('\n')
+  let questionSection = false
+  let currentQuestion = ''
+  let questionNumber = 1
+  
+  for (const line of lines) {
+    const trimmedLine = line.trim()
+    
+    // Skip empty lines and headers
+    if (!trimmedLine || trimmedLine.startsWith('#') || trimmedLine.startsWith('*')) {
+      continue
+    }
+    
+    // Look for numbered questions (1. 2. etc) or questions with numbers
+    const questionMatch = trimmedLine.match(/^(\d+)\.?\s+(.+)/) || 
+                         trimmedLine.match(/^Question\s+(\d+)[:.]?\s*(.+)/) ||
+                         trimmedLine.match(/^(\d+)\)\s+(.+)/)
+    
+    if (questionMatch) {
+      // Save previous question if we have one
+      if (currentQuestion) {
+        questions.push({ text: currentQuestion.trim() })
+      }
+      
+      // Start new question
+      currentQuestion = questionMatch[2] || questionMatch[1]
+      questionSection = true
+      // questionNumber++ // Track question numbering but not used in current implementation
+    } else if (questionSection && trimmedLine) {
+      // Continue building current question
+      currentQuestion += ' ' + trimmedLine
+    }
+    
+    // Also look for lines that look like math problems
+    if (!questionSection && (
+      trimmedLine.includes('=') || 
+      trimmedLine.includes('How many') ||
+      trimmedLine.includes('Calculate') ||
+      trimmedLine.includes('Find') ||
+      trimmedLine.includes('What is') ||
+      trimmedLine.includes('If') ||
+      trimmedLine.includes('£') ||
+      /\d+\s*[+\-×÷]\s*\d+/.test(trimmedLine)
+    )) {
+      questions.push({ text: trimmedLine })
+    }
+  }
+  
+  // Add the last question if we have one
+  if (currentQuestion) {
+    questions.push({ text: currentQuestion.trim() })
+  }
+  
+  // If we didn't find enough questions with numbered format, try to extract any math-like content
+  if (questions.length < expectedCount / 2) {
+    const mathLines = lines.filter(line => {
+      const trimmed = line.trim()
+      return trimmed && 
+             !trimmed.startsWith('#') && 
+             !trimmed.startsWith('*') &&
+             (trimmed.includes('=') || 
+              trimmed.includes('How') ||
+              trimmed.includes('Calculate') ||
+              trimmed.includes('What') ||
+              /\d/.test(trimmed))
+    })
+    
+    // Clear previous attempts and use all math-like lines
+    questions.length = 0
+    mathLines.forEach(line => {
+      if (line.trim()) {
+        questions.push({ text: line.trim() })
+      }
+    })
+  }
+  
+  // Ensure we don't exceed expected count
+  if (questions.length > expectedCount) {
+    questions.splice(expectedCount)
+  }
+  
+  if (questions.length === 0) {
+    throw new Error('No questions could be extracted from the response')
+  }
+  
+  return questions
+}
+
+/**
  * Creates a sophisticated prompt for generating UK National Curriculum aligned worksheets
  * @deprecated This function has been replaced by PromptEngineeringService.generatePrompt
  */
@@ -331,7 +427,16 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, promptT
     
   } catch (error) {
     console.error('Failed to parse questions JSON:', cleanContent.substring(0, 200) + '...')
-    throw new Error(`Invalid question format: ${error instanceof Error ? error.message : 'Unknown parsing error'}`)
+    
+    // Fallback: Try to parse markdown format response
+    console.log('Attempting to parse markdown format response...')
+    try {
+      questions = parseMarkdownToQuestions(content, config.questionCount)
+      console.log(`Successfully extracted ${questions.length} questions from markdown format`)
+    } catch (markdownError) {
+      console.error('Failed to parse markdown format:', markdownError)
+      throw new Error(`Invalid question format: ${error instanceof Error ? error.message : 'Unknown parsing error'}`)
+    }
   }
   
   // Create metadata and render context

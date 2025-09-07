@@ -14,12 +14,6 @@ interface TourStep {
 
 const tourSteps: TourStep[] = [
   {
-    target: '[data-tour="usage-counter"]',
-    title: 'Track Your Usage',
-    content: 'Keep an eye on your monthly worksheet limit. Free accounts get 30 worksheets per month.',
-    position: 'bottom'
-  },
-  {
     target: '[data-tour="generate-worksheet"]',
     title: 'Generate Worksheets',
     content: 'Click here to start creating personalized worksheets for your students with AI assistance.',

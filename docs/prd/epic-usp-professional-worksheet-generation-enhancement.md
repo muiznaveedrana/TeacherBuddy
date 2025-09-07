@@ -48,16 +48,16 @@
 - Version control for prompt evolution
 
 ### Story USP.2: Enhanced Configuration System
-**Focus:** Teacher-optimized configuration flow with smart defaults  
+**Focus:** Teacher-optimized configuration flow with simplified enhanced options  
 **Effort:** 2-3 weeks  
 **Dependencies:** USP.1 (for prompt template integration)  
 
-**Story:** As a teacher, I want an intuitive configuration flow with research-backed options so that I can quickly create professional worksheets without feeling overwhelmed.
+**Story:** As a teacher, I want an intuitive configuration flow with essential enhanced options (visual themes and student name lists) so that I can quickly create personalized worksheets without complexity.
 
 **Key Components:**
 - Teacher-optimized configuration sequence
-- Smart defaults and contextual suggestions
-- Enhanced options integrated with existing layout system
+- Simplified enhanced options (visual themes + student name lists only)
+- Optional enhancements that don't overwhelm the interface
 - Maintains current dropdown hierarchy (Year Group → Topics → Subtopics)
 - No regression in existing workflows
 

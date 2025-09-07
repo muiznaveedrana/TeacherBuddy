@@ -9,6 +9,15 @@ export type QuestionType = 'word-problem' | 'calculation' | 'visual-problem'
 
 export type LayoutType = 'standard' | 'fluency' | 'grid' | 'differentiated' | 'reasoning'
 
+// Enhanced configuration types for USP.2
+export type VisualTheme = 'animals' | 'food' | 'sports' | 'space' | 'standard'
+
+export type ProblemType = 'word-problems' | 'visual-arrays' | 'mixed-formats' | 'standard-calculations'
+
+export type EngagementStyle = 'structured' | 'storytelling' | 'gamified'
+
+export type PromptTemplate = 'A' | 'B' | 'C'
+
 export interface LayoutTemplate {
   id: LayoutType
   name: string
@@ -20,6 +29,7 @@ export interface LayoutTemplate {
 }
 
 export interface WorksheetConfig {
+  // Core configuration (existing)
   layout: LayoutType // Layout selection drives template and configuration options
   topic: string
   subtopic: string
@@ -27,6 +37,20 @@ export interface WorksheetConfig {
   questionCount: number
   yearGroup: string // Mandatory for age-appropriate content
   studentNames: string[]
+
+  // Enhanced configuration options (USP.2)
+  visualTheme?: VisualTheme
+  problemTypes?: ProblemType[]
+  engagementStyle?: EngagementStyle
+  promptTemplate?: PromptTemplate
+}
+
+// Enhanced WorksheetConfig with required USP.2 fields
+export interface EnhancedWorksheetConfig extends WorksheetConfig {
+  visualTheme: VisualTheme
+  problemTypes: ProblemType[]
+  engagementStyle: EngagementStyle
+  promptTemplate: PromptTemplate
 }
 
 export interface GeneratedWorksheet {

@@ -124,28 +124,30 @@ Source all visual elements from OpenClipart.org (CC0 license, no attribution req
 - Clear instructions: Simple, unambiguous language
 
 **OUTPUT FORMAT:**
-Generate complete HTML with:
-- Embedded CSS for professional styling
-- Inline SVG elements from OpenClipart with proper attribution structure
-- Print-optimized layout with appropriate margins and page breaks
-- Structured problem format with clear answer spaces
-- Professional typography and mathematical notation
+Return your response as a JSON array containing only the questions. Each question should be an object with a 'text' property containing the question text. Do NOT include HTML formatting, headers, or styling - just the mathematical questions.
+
+Example format:
+[
+  {"text": "Emma has 12 apples. She gives 5 to her friend Oliver. How many apples does Emma have left?"},
+  {"text": "Calculate: 7 × 8 = ?"},
+  {"text": "Sophie buys a book for £4.50 and a pencil for £1.25. How much change does she get from £10?"}
+]
 
 **QUALITY EXPECTATIONS (Target: ≥4.0/5.0):**
-Produce a worksheet that:
-- Engages ${config.yearGroup} students through superior visual design
-- Demonstrates professional educational publishing quality
-- Follows evidence-based mathematics pedagogy
-- Exceeds quality standards of existing worksheet generators
-- Supports diverse learning needs through thoughtful design
-- Maintains curriculum confidence for UK teachers
+Produce questions that:
+- Engage ${config.yearGroup} students through age-appropriate contexts
+- Demonstrate professional educational publishing quality
+- Follow evidence-based mathematics pedagogy
+- Exceed quality standards of existing worksheet generators
+- Support diverse learning needs through thoughtful design
+- Maintain curriculum confidence for UK teachers
 
 **STUDENT PERSONALIZATION:**
 Integrate student names naturally: ${config.studentNames.length > 0 ? config.studentNames.join(', ') : 'Use diverse UK-appropriate names'}
 
 Generate exactly ${config.questionCount} mathematically sound, curriculum-aligned questions that demonstrate competitive excellence in educational worksheet design.
 
-Return only the complete HTML document with embedded styling and SVG elements.`
+Return only the JSON array of questions, no additional text or formatting.`
   }
 
   /**
@@ -160,24 +162,24 @@ Return only the complete HTML document with embedded styling and SVG elements.`
     const basePrompt = this.generateStructuredPrompt(config, combination)
 
     // Inject creative theme elements into the structured prompt
+    const themeHeader = '**CONTEXT AND CREATIVE THEME:**\n' +
+      'Theme: ' + themeContext.theme + '\n' +
+      'Narrative: ' + themeContext.narrative + '\n' +
+      'Characters: ' + themeContext.characters.join(', ') + '\n' +
+      'Setting: ' + themeContext.setting + '\n\n' +
+      '**EDUCATIONAL CONTEXT:**'
+    
     return basePrompt.replace(
       '**CONTEXT:**', 
-      `**CONTEXT & CREATIVE THEME:**
-Theme: ${themeContext.theme}
-Narrative: ${themeContext.narrative}
-Characters: ${themeContext.characters.join(', ')}
-Setting: ${themeContext.setting}
-
-**EDUCATIONAL CONTEXT:**`
+      themeHeader
     ).replace(
       '**SVG INTEGRATION INSTRUCTIONS:**',
-      `**THEMED SVG INTEGRATION:**
-Creative theme integration with OpenClipart.org sources:
-- Theme-specific search terms: ${themeContext.svgSearchTerms.join(', ')}
-- Narrative consistency: Maintain visual story throughout worksheet
-- Character development: ${themeContext.visualCharacterGuidelines}
-
-**STANDARD SVG INTEGRATION INSTRUCTIONS:**`
+      '**THEMED SVG INTEGRATION:**\n' +
+      'Creative theme integration with OpenClipart.org sources:\n' +
+      '- Theme-specific search terms: ' + themeContext.svgSearchTerms.join(', ') + '\n' +
+      '- Narrative consistency: Maintain visual story throughout worksheet\n' +
+      '- Character development: ' + themeContext.visualCharacterGuidelines + '\n\n' +
+      '**STANDARD SVG INTEGRATION INSTRUCTIONS:**'
     )
   }
 
@@ -194,21 +196,19 @@ Creative theme integration with OpenClipart.org sources:
 
     return basePrompt.replace(
       '**CONTEXT:**',
-      `**GAMIFIED CONTEXT:**
-Game Theme: ${gameContext.theme}
-Achievement System: ${gameContext.achievementSystem}
-Challenge Progression: ${gameContext.challengeProgression}
-Success Rewards: ${gameContext.successRewards}
-
-**EDUCATIONAL CONTEXT:**`
+      '**GAMIFIED CONTEXT:**\n' +
+      'Game Theme: ' + gameContext.theme + '\n' +
+      'Achievement System: ' + gameContext.achievementSystem + '\n' +
+      'Challenge Progression: ' + gameContext.challengeProgression + '\n' +
+      'Success Rewards: ' + gameContext.successRewards + '\n\n' +
+      '**EDUCATIONAL CONTEXT:**'
     ).replace(
       '**QUALITY EXPECTATIONS',
-      `**GAMIFICATION ELEMENTS:**
-- Badge system: ${gameContext.badgeSystem}
-- Progress tracking: ${gameContext.progressTracking}
-- Challenge levels: ${gameContext.challengeLevels}
-
-**QUALITY EXPECTATIONS`
+      '**GAMIFICATION ELEMENTS:**\n' +
+      '- Badge system: ' + gameContext.badgeSystem + '\n' +
+      '- Progress tracking: ' + gameContext.progressTracking + '\n' +
+      '- Challenge levels: ' + gameContext.challengeLevels + '\n\n' +
+      '**QUALITY EXPECTATIONS'
     )
   }
 
@@ -265,7 +265,7 @@ Success Rewards: ${gameContext.successRewards}
       topic: topicDetails?.label || config.topic,
       subtopic: subtopicData?.label || config.subtopic,
       learningObjectives: topicDetails?.learningObjectives || [],
-      programmOfStudy: `${config.yearGroup} Programme of Study - ${topicDetails?.label}`,
+      programmOfStudy: config.yearGroup + ' Programme of Study - ' + (topicDetails?.label || ''),
       keyVocabulary: this.getKeyVocabulary(config.yearGroup, config.topic),
       assessmentFocus: this.getAssessmentFocus(config.yearGroup, config.topic),
       languageLevel: yearGroupDetails.languageLevel,
@@ -426,8 +426,27 @@ Success Rewards: ${gameContext.successRewards}
    * Fallback to standard prompt for non-Phase 1 combinations
    */
   private static generateStandardPrompt(config: WorksheetConfig): string {
-    // Return existing prompt logic or simplified version
-    return `Generate a ${config.yearGroup} mathematics worksheet for ${config.topic} - ${config.subtopic} with ${config.questionCount} questions at ${config.difficulty} difficulty level.`
+    const curriculumContext = this.getCurriculumContext(config)
+    
+    return 'You are a UK primary school mathematics teacher creating a professional worksheet that aligns with the UK National Curriculum.\n\n' +
+      '**CURRICULUM REQUIREMENTS:**\n' +
+      '- Topic: ' + curriculumContext.topic + ' (' + curriculumContext.subtopic + ')\n' +
+      '- Year Group: ' + config.yearGroup + '\n' +
+      '- Difficulty Level: ' + config.difficulty + '\n' +
+      '- Question count: ' + config.questionCount + ' problems\n' +
+      '- Learning objectives: ' + curriculumContext.learningObjectives.join(', ') + '\n\n' +
+      '**STUDENT PERSONALIZATION:**\n' +
+      'Integrate student names naturally: ' + (config.studentNames.length > 0 ? config.studentNames.join(', ') : 'Use diverse UK-appropriate names') + '\n\n' +
+      '**OUTPUT FORMAT:**\n' +
+      'Return your response as a JSON array containing only the questions. Each question should be an object with a \'text\' property containing the question text. Do NOT include HTML formatting, headers, or styling - just the mathematical questions.\n\n' +
+      'Example format:\n' +
+      '[\n' +
+      '  {"text": "Emma has 12 apples. She gives 5 to her friend Oliver. How many apples does Emma have left?"},\n' +
+      '  {"text": "Calculate: 7 × 8 = ?"},\n' +
+      '  {"text": "Sophie buys a book for £4.50 and a pencil for £1.25. How much change does she get from £10?"}\n' +
+      ']\n\n' +
+      'Generate exactly ' + config.questionCount + ' mathematically sound, curriculum-aligned questions that are appropriate for ' + config.yearGroup + ' students.\n\n' +
+      'Return only the JSON array of questions, no additional text or formatting.'
   }
 
   /**
@@ -473,7 +492,7 @@ Success Rewards: ${gameContext.successRewards}
   }
 
   private static getAssessmentFocus(yearGroup: string, topic: string): string {
-    return `${yearGroup} age-appropriate mathematical reasoning and problem-solving skills`
+    return yearGroup + ' age-appropriate mathematical reasoning and problem-solving skills'
   }
 
   private static getLayoutStructure(layout: string): string {

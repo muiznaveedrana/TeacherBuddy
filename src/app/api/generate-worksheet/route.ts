@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateWorksheet } from '@/lib/services/gemini'
-import { WorksheetConfig, WorksheetGenerationResult, LayoutType } from '@/lib/types/worksheet'
+import { WorksheetConfig, WorksheetGenerationResult, LayoutType, VisualTheme, ProblemType, EngagementStyle } from '@/lib/types/worksheet'
 import { validateWorksheetRequest, sanitizeWorksheetRequest } from '@/lib/utils/validation'
 
 // Mock name lists data (will eventually come from database)
@@ -30,7 +30,19 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       }, { status: 400 })
     }
 
-    const { layout, topic, subtopic, difficulty, questionCount, nameList, yearGroup } = sanitizedBody as {
+    const { 
+      layout, 
+      topic, 
+      subtopic, 
+      difficulty, 
+      questionCount, 
+      nameList, 
+      yearGroup,
+      // Enhanced configuration options (USP.2)
+      visualTheme,
+      problemTypes,
+      engagementStyle
+    } = sanitizedBody as {
       layout: string
       topic: string
       subtopic: string
@@ -38,6 +50,10 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       questionCount: number
       nameList: string
       yearGroup: string
+      // Enhanced options (optional)
+      visualTheme?: VisualTheme
+      problemTypes?: ProblemType[]
+      engagementStyle?: EngagementStyle
     }
     
     // Validate yearGroup is provided
@@ -51,8 +67,9 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       }, { status: 400 })
     }
 
-    // Get student names from selected name list
-    const studentNames = mockNameLists[nameList] || []
+    // Get student names from selected name list or use default
+    const effectiveNameList = nameList || 'year3-class-a' // Use default if empty
+    const studentNames = mockNameLists[effectiveNameList] || []
     if (studentNames.length === 0) {
       return NextResponse.json({
         success: false,
@@ -82,7 +99,11 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       difficulty,
       questionCount,
       yearGroup,
-      studentNames
+      studentNames,
+      // Enhanced configuration options (USP.2)
+      ...(visualTheme && { visualTheme }),
+      ...(problemTypes && { problemTypes }),
+      ...(engagementStyle && { engagementStyle })
     }
 
     // Generate worksheet using Gemini AI

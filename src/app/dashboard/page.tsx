@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Navigation } from '@/components/ui/navigation'
@@ -15,7 +15,8 @@ import WelcomeTour from '@/components/WelcomeTour'
 import { PullToRefresh } from '@/components/mobile/PullToRefresh'
 import { YEAR_GROUPS } from '@/lib/data/curriculum'
 import { LAYOUT_TEMPLATES, DEFAULT_LAYOUT, getLayoutOptions } from '@/lib/data/layouts'
-import type { LayoutType } from '@/lib/types/worksheet'
+import type { LayoutType, VisualTheme } from '@/lib/types/worksheet'
+import { EnhancedConfigurationPanel } from '@/components/worksheet/EnhancedConfigurationPanel'
 
 const mockNameLists = [
   { value: 'year3-class-a', label: 'Year 3 Class A (25 students)' },
@@ -40,7 +41,7 @@ interface GeneratedWorksheet {
 }
 
 export default function DashboardPage() {
-  const [showTour, setShowTour] = useState(true)
+  const [showTour, setShowTour] = useState(false)
   
   // Configuration state
   const [layout, setLayout] = useState<LayoutType>(DEFAULT_LAYOUT) // Layout selection drives template
@@ -53,6 +54,9 @@ export default function DashboardPage() {
   const [questionCount, setQuestionCount] = useState<number>(15)
   const [nameList, setNameList] = useState<string>('')
   
+  // Enhanced configuration state (USP.2)
+  const [visualTheme, setVisualTheme] = useState<VisualTheme | undefined>(undefined)
+  
   // Generation state
   const [generationState, setGenerationState] = useState<GenerationState>('idle')
   const [progress, setProgress] = useState<number>(0)
@@ -62,7 +66,8 @@ export default function DashboardPage() {
   const [loadingSubtopics, setLoadingSubtopics] = useState<boolean>(false)
   const [pdfGenerating, setPdfGenerating] = useState<boolean>(false)
   
-  const hasConfiguration = layout && yearGroup && topic && subtopic && nameList
+  const hasConfiguration = layout && yearGroup && topic && subtopic
+  
   const canGenerate = hasConfiguration && generationState !== 'generating'
   const showPreview = generationState === 'completed' && generatedWorksheet
   const showAds = generationState !== 'completed'
@@ -71,6 +76,7 @@ export default function DashboardPage() {
   // Curriculum hierarchy state
   const isTopicDisabled = !yearGroup || loadingTopics
   const isSubtopicDisabled = !yearGroup || !topic || loadingSubtopics
+
   
   const handleGenerate = async () => {
     if (!hasConfiguration) return
@@ -105,6 +111,8 @@ export default function DashboardPage() {
           questionCount,
           nameList,
           yearGroup,
+          // Enhanced configuration options (USP.2)
+          visualTheme,
         }),
       })
       
@@ -198,6 +206,7 @@ export default function DashboardPage() {
       setProgress(0)
     }
   }
+
   
   // Load topics when year group changes
   useEffect(() => {
@@ -208,8 +217,7 @@ export default function DashboardPage() {
     
     const loadTopics = async () => {
       setLoadingTopics(true)
-      setTopic('') // Clear topic when year group changes
-      setSubtopic('') // Clear subtopic when year group changes
+      // Only clear topic/subtopic on initial load or when topics change
       setAvailableSubtopics([])
       
       try {
@@ -305,7 +313,7 @@ export default function DashboardPage() {
         <div className="flex flex-col lg:grid lg:grid-cols-10 gap-4 md:gap-6">
           {/* Configuration Panel - Full width on mobile, 30% on desktop */}
           <div className="w-full lg:col-span-3 order-1">
-            <Card className="h-full">
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <BookOpen className="h-5 w-5 text-blue-600" />
@@ -356,24 +364,6 @@ export default function DashboardPage() {
                       ))}
                     </SelectContent>
                   </Select>
-                  {layout && (
-                    <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg">
-                      <div className="flex items-start gap-2">
-                        <span className="text-lg">{LAYOUT_TEMPLATES[layout].icon}</span>
-                        <div>
-                          <p className="text-sm font-medium text-purple-800">{LAYOUT_TEMPLATES[layout].name}</p>
-                          <p className="text-xs text-purple-700 mt-1">{LAYOUT_TEMPLATES[layout].description}</p>
-                          <div className="flex flex-wrap gap-1 mt-2">
-                            {LAYOUT_TEMPLATES[layout].features.slice(0, 2).map(feature => (
-                              <span key={feature} className="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded">
-                                {feature}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
                 </div>
 
                 {/* Year Group Selection - SECOND */}
@@ -391,9 +381,17 @@ export default function DashboardPage() {
                       </Tooltip>
                     </TooltipProvider>
                   </div>
-                  <Select value={yearGroup} onValueChange={(value) => { setYearGroup(value); handleConfigurationChange(); }}>
+                  <Select value={yearGroup} onValueChange={(value) => { 
+                    setYearGroup(value); 
+                    // Clear topic/subtopic when year group actually changes
+                    setTopic('');
+                    setSubtopic('');
+                    handleConfigurationChange(); 
+                  }}>
                     <SelectTrigger className="h-12 md:h-10 text-base md:text-sm border-2 border-blue-200 bg-blue-50">
-                      <SelectValue placeholder="Select year group" />
+                      <SelectValue placeholder="Select year group">
+                        {yearGroup && YEAR_GROUPS.find(y => y.value === yearGroup)?.label}
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       {YEAR_GROUPS.map(year => (
@@ -428,7 +426,11 @@ export default function DashboardPage() {
                   </div>
                   <Select 
                     value={topic} 
-                    onValueChange={(value) => { setTopic(value); setSubtopic(''); handleConfigurationChange(); }}
+                    onValueChange={(value) => { 
+                      setTopic(value); 
+                      setSubtopic(''); 
+                      handleConfigurationChange(); 
+                    }}
                     disabled={isTopicDisabled}
                   >
                     <SelectTrigger className={`h-12 md:h-10 text-base md:text-sm ${isTopicDisabled ? 'bg-slate-100' : ''}`}>
@@ -549,39 +551,6 @@ export default function DashboardPage() {
                   </div>
                 )}
 
-                {/* Name List Selection */}
-                <div className="space-y-3 md:space-y-2">
-                  <div className="flex items-center gap-2">
-                    <Label htmlFor="name-list" className="text-base md:text-sm">Student Name List</Label>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <Info className="h-5 w-5 md:h-4 md:w-4 text-slate-400" />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Student names will be used in word problems to personalize the worksheet</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                  <div className="flex flex-col md:flex-row gap-3 md:gap-2">
-                    <Select value={nameList} onValueChange={(value) => { setNameList(value); handleConfigurationChange(); }}>
-                      <SelectTrigger className="flex-1 h-12 md:h-10 text-base md:text-sm">
-                        <SelectValue placeholder="Select a name list" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {mockNameLists.map(list => (
-                          <SelectItem key={list.value} value={list.value}>
-                            {list.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <Button variant="outline" size="default" className="md:flex-shrink-0">
-                      Create New
-                    </Button>
-                  </div>
-                </div>
 
                 {/* Generation Progress */}
                 {generationState === 'generating' && (
@@ -598,6 +567,19 @@ export default function DashboardPage() {
                 )}
               </CardContent>
             </Card>
+            
+            {/* Enhanced Configuration Panel - USP.2 */}
+            <div className="mt-4 w-full">
+              <EnhancedConfigurationPanel
+                yearGroup={yearGroup}
+                topic={topic}
+                layout={layout}
+                visualTheme={visualTheme}
+                nameList={nameList}
+                onVisualThemeChange={setVisualTheme}
+                onNameListChange={(value) => { setNameList(value); handleConfigurationChange(); }}
+              />
+            </div>
           </div>
 
           {/* Preview/Ads Panel - Full width on mobile, 70% on desktop */}
@@ -689,7 +671,7 @@ export default function DashboardPage() {
             ) : hasConfiguration ? (
               'Generate Worksheet'
             ) : (
-              `Complete Configuration (${[!layout && 'Layout', !yearGroup && 'Year Group', !topic && 'Topic', !subtopic && 'Subtopic', !nameList && 'Name List'].filter(Boolean).join(', ')})`
+              `Complete Configuration (${[!layout && 'Layout', !yearGroup && 'Year Group', !topic && 'Topic', !subtopic && 'Subtopic'].filter(Boolean).join(', ')})`
             )}
           </Button>
           

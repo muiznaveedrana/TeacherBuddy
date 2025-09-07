@@ -24,7 +24,7 @@ export function validateWorksheetRequest(body: unknown): WorksheetValidationResu
   const bodyData = body as Record<string, unknown>
 
   // Check required fields
-  const requiredFields = ['layout', 'topic', 'subtopic', 'difficulty', 'questionCount', 'nameList', 'yearGroup']
+  const requiredFields = ['layout', 'topic', 'subtopic', 'difficulty', 'questionCount', 'yearGroup']
   for (const field of requiredFields) {
     if (!bodyData[field]) {
       errors.push({
