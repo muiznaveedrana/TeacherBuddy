@@ -33,6 +33,13 @@ function parseCliArgs(args: string[]): CliOptions {
       if (value) {
         options.outputDir = value
       }
+    } else if (arg === '--assess') {
+      options.assess = true
+    } else if (arg.startsWith('--golden-ref=')) {
+      const value = arg.split('=', 2)[1]?.replace(/^["']|["']$/g, '')
+      if (value) {
+        options.goldenRef = value
+      }
     }
   }
   
@@ -84,7 +91,9 @@ async function main(): Promise<void> {
     await generateWorksheetCommand(
       options.config,
       options.promptVariant || 'baseline',
-      options.outputDir
+      options.outputDir,
+      options.assess,
+      options.goldenRef
     )
     
   } catch (error) {

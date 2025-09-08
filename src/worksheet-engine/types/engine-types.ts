@@ -22,6 +22,8 @@ export interface CliOptions {
   outputDir?: string
   help?: boolean
   listConfigs?: boolean
+  assess?: boolean
+  goldenRef?: string
 }
 
 export interface GenerationResult {
@@ -60,6 +62,67 @@ export interface ConfigMapping {
 }
 
 export interface CliError extends Error {
-  code: 'CONFIG_NOT_FOUND' | 'INVALID_CONFIG' | 'GENERATION_FAILED' | 'OUTPUT_ERROR' | 'SERVICE_ERROR'
+  code: 'CONFIG_NOT_FOUND' | 'INVALID_CONFIG' | 'GENERATION_FAILED' | 'OUTPUT_ERROR' | 'SERVICE_ERROR' | 'ASSESSMENT_FAILED'
   details?: unknown
+}
+
+// Quality Assessment Types
+
+export interface QualityScores {
+  visualSimilarity: VisualSimilarityScore
+  contentAnalysis: ContentAnalysisScore
+  ruleBasedLayout: RuleBasedLayoutScore
+  composite: number
+}
+
+export interface VisualSimilarityScore {
+  score: number
+  details: {
+    structuralSimilarity: number
+    layoutConsistency: number
+    visualAlignment: number
+  }
+}
+
+export interface ContentAnalysisScore {
+  score: number
+  details: {
+    curriculumAlignment: number
+    languageAppropriate: number
+    mathematicalAccuracy: number
+  }
+}
+
+export interface RuleBasedLayoutScore {
+  score: number
+  details: {
+    fontConsistency: number
+    spacingQuality: number
+    elementPositioning: number
+  }
+}
+
+export interface QualityAssessmentResult {
+  assessmentId: string
+  timestamp: string
+  config: string
+  scores: QualityScores
+  qualityGate: 'PASSED' | 'FAILED'
+  recommendations: string[]
+  assessmentTime: number
+}
+
+export interface AssessmentOptions {
+  enableVisualSimilarity: boolean
+  enableContentAnalysis: boolean
+  enableRuleBasedLayout: boolean
+  goldenReferencePath?: string
+  qualityThreshold?: number
+}
+
+export interface AssessmentContext {
+  worksheetPdfPath: string
+  worksheetHtmlPath: string
+  config: EngineConfig
+  options: AssessmentOptions
 }

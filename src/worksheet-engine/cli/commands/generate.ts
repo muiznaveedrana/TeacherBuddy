@@ -7,13 +7,16 @@ import { generateWorksheet } from '@/lib/services/gemini'
 import { parseConfigId, validateConfig } from '../utils/config-parser'
 import { OutputManager } from '../utils/output-manager'
 import { mapEngineConfigToWorksheetConfig, validateServiceCompatibility } from '../integration/config-mapper'
-import { CliError, GenerationResult } from '../types/engine-types'
+import { CliError, GenerationResult, AssessmentContext } from '../types/engine-types'
 import { Logger } from '../../utils/logger'
+import { AssessmentRunner } from '../../assessment'
 
 export async function generateWorksheetCommand(
   configId: string,
   promptVariant: string = 'baseline',
-  outputDir?: string
+  outputDir?: string,
+  enableAssessment?: boolean,
+  goldenReferencePath?: string
 ): Promise<GenerationResult> {
   const startTime = Date.now()
   
@@ -50,6 +53,53 @@ export async function generateWorksheetCommand(
     const processingTime = Date.now() - startTime
     const result = await outputManager.saveResults(worksheet, engineConfig, processingTime)
     
+    // Step 5: Run quality assessment if requested
+    if (enableAssessment) {
+      Logger.separator()
+      Logger.step(5, 5, 'Running quality assessment...')
+      
+      try {
+        const assessmentContext: AssessmentContext = {
+          worksheetPdfPath: result.outputPath.replace('.html', '.pdf'),
+          worksheetHtmlPath: result.outputPath,
+          config: engineConfig,
+          options: {
+            enableVisualSimilarity: !!goldenReferencePath,
+            enableContentAnalysis: true,
+            enableRuleBasedLayout: true,
+            goldenReferencePath,
+            qualityThreshold: 7.0
+          }
+        }
+
+        const assessmentRunner = new AssessmentRunner(assessmentContext)
+        const assessmentResult = await assessmentRunner.runAssessment()
+        
+        // Save assessment results
+        const assessmentReportPath = await assessmentRunner.saveResults(assessmentResult, finalOutputDir)
+        
+        // Display assessment summary
+        Logger.separator()
+        Logger.success('Quality assessment completed!')
+        Logger.info(`Composite Score: ${assessmentResult.scores.composite}/10`)
+        Logger.info(`Quality Gate: ${assessmentResult.qualityGate}`)
+        Logger.info(`Assessment Time: ${assessmentResult.assessmentTime}s`)
+        
+        if (assessmentResult.recommendations.length > 0) {
+          Logger.info('\n📝 Recommendations:')
+          assessmentResult.recommendations.forEach(rec => {
+            Logger.info(`  • ${rec}`)
+          })
+        }
+        
+        Logger.info(`Assessment report: ${assessmentReportPath}`)
+        
+      } catch (assessmentError) {
+        Logger.warn('Assessment failed, but generation was successful')
+        console.error('Assessment error:', assessmentError)
+      }
+    }
+    
     Logger.separator()
     Logger.success('Generation completed successfully!')
     Logger.info(`Processing time: ${processingTime}ms`)
@@ -61,6 +111,9 @@ export async function generateWorksheetCommand(
     Logger.info('  - worksheet.pdf            # Generated PDF (placeholder)')
     Logger.info('  - generation-log.json      # Generation metadata')
     Logger.info('  - engine-metadata.json     # Engine-specific metadata')
+    if (enableAssessment) {
+      Logger.info('  - assessment/              # Quality assessment results')
+    }
     
     return result
     

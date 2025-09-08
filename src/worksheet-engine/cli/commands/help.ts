@@ -14,12 +14,20 @@ OPTIONS:
   --config=<config-id>          Configuration ID for worksheet generation
   --prompt-variant=<variant>    Prompt variation (default: baseline)
   --output-dir=<directory>      Output directory for generated files
+  --assess                     Enable quality assessment of generated worksheet
+  --golden-ref=<path>          Path to golden reference PDF for visual similarity
   --list-configs               List all available configuration IDs
   --help                       Show this help message
 
 EXAMPLES:
   # Generate a worksheet with specific configuration
   worksheet-engine --config="year3-addition-standard-average-5q" --prompt-variant="baseline" --output-dir="./results/test-001"
+
+  # Generate with quality assessment
+  worksheet-engine --config="year3-addition-standard-average-5q" --assess --output-dir="./results/test-001"
+
+  # Generate and compare against golden reference
+  worksheet-engine --config="year3-addition-standard-average-5q" --assess --golden-ref="./golden/year3-addition-standard.pdf" --output-dir="./results/test-001"
 
   # List available configurations
   worksheet-engine --list-configs
@@ -40,7 +48,10 @@ OUTPUT STRUCTURE:
   ├── worksheet.html           # Generated HTML worksheet
   ├── worksheet.pdf            # Generated PDF (placeholder)
   ├── generation-log.json      # Generation metadata
-  └── engine-metadata.json     # Engine-specific metadata
+  ├── engine-metadata.json     # Engine-specific metadata
+  └── assessment/              # Quality assessment results (if --assess enabled)
+      ├── assessment-[id].json # Detailed assessment results
+      └── temp_images/         # Temporary comparison images
 
 INTEGRATION:
   This CLI engine integrates with the existing worksheet generation services
