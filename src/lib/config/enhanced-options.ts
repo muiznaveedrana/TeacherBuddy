@@ -162,59 +162,96 @@ export interface SmartDefaults {
   promptTemplate: PromptTemplate
 }
 
+// Age-based configuration maps for cleaner logic
+const VISUAL_THEME_BY_YEAR: Record<string, VisualTheme> = {
+  'Reception': 'animals',
+  'Year 1': 'animals',
+  'Year 2': 'food',
+  'Year 3': 'food', 
+  'Year 4': 'sports',
+  'Year 5': 'space',
+  'Year 6': 'space'
+}
+
+const ENGAGEMENT_STYLE_BY_YEAR: Record<string, EngagementStyle> = {
+  'Reception': 'storytelling',
+  'Year 1': 'storytelling',
+  'Year 2': 'storytelling',
+  'Year 3': 'gamified',
+  'Year 4': 'gamified',
+  'Year 5': 'structured',
+  'Year 6': 'structured'
+}
+
+// Topic-based problem type strategies
+interface ProblemTypeStrategy {
+  keywords: string[]
+  getTypes: (layout?: LayoutType) => ProblemType[]
+}
+
+const PROBLEM_TYPE_STRATEGIES: ProblemTypeStrategy[] = [
+  {
+    keywords: ['multiplication', 'division'],
+    getTypes: (layout) => layout === 'grid' ? ['visual-arrays'] : ['word-problems', 'standard-calculations']
+  },
+  {
+    keywords: ['problem-solving', 'reasoning'],
+    getTypes: () => ['word-problems', 'mixed-formats']
+  },
+  {
+    keywords: ['fractions'],
+    getTypes: () => ['visual-arrays', 'word-problems']
+  },
+  {
+    keywords: ['mental', 'fluency'],
+    getTypes: () => ['standard-calculations']
+  }
+]
+
 /**
  * Generate smart defaults based on year group and topic
  */
 export const getSmartDefaults = (yearGroup: string, topic?: string, layout?: LayoutType): SmartDefaults => {
-  // Age-based visual theme defaults
-  const getDefaultVisualTheme = (yearGroup: string): VisualTheme => {
-    if (yearGroup === 'Reception' || yearGroup === 'Year 1') return 'animals'
-    if (yearGroup === 'Year 2' || yearGroup === 'Year 3') return 'food'
-    if (yearGroup === 'Year 4') return 'sports'
-    if (yearGroup === 'Year 5' || yearGroup === 'Year 6') return 'space'
-    return 'standard'
-  }
-
-  // Age-based engagement style defaults
-  const getDefaultEngagementStyle = (yearGroup: string): EngagementStyle => {
-    if (yearGroup === 'Reception' || yearGroup === 'Year 1' || yearGroup === 'Year 2') return 'storytelling'
-    if (yearGroup === 'Year 3' || yearGroup === 'Year 4') return 'gamified'
-    return 'structured'
-  }
-
-  // Topic-based problem type defaults
-  const getDefaultProblemTypes = (topic?: string, layout?: LayoutType): ProblemType[] => {
-    if (!topic) return ['standard-calculations']
-    
-    const topicLower = topic.toLowerCase()
-    
-    if (topicLower.includes('multiplication') || topicLower.includes('division')) {
-      return layout === 'grid' ? ['visual-arrays'] : ['word-problems', 'standard-calculations']
-    }
-    if (topicLower.includes('problem-solving') || topicLower.includes('reasoning')) {
-      return ['word-problems', 'mixed-formats']
-    }
-    if (topicLower.includes('fractions')) {
-      return ['visual-arrays', 'word-problems']
-    }
-    if (topicLower.includes('mental') || topicLower.includes('fluency')) {
-      return ['standard-calculations']
-    }
-    
-    return ['word-problems', 'standard-calculations']
-  }
-
-  // Simplified prompt template (single optimal approach)
-  const getDefaultPromptTemplate = (): PromptTemplate => {
-    return 'optimal' // Always use the single optimal template
-  }
-
   return {
     visualTheme: getDefaultVisualTheme(yearGroup),
     problemTypes: getDefaultProblemTypes(topic, layout),
     engagementStyle: getDefaultEngagementStyle(yearGroup),
-    promptTemplate: getDefaultPromptTemplate()
+    promptTemplate: 'optimal' // Always use the single optimal template
   }
+}
+
+/**
+ * Get default visual theme based on year group
+ */
+function getDefaultVisualTheme(yearGroup: string): VisualTheme {
+  return VISUAL_THEME_BY_YEAR[yearGroup] || 'standard'
+}
+
+/**
+ * Get default engagement style based on year group  
+ */
+function getDefaultEngagementStyle(yearGroup: string): EngagementStyle {
+  return ENGAGEMENT_STYLE_BY_YEAR[yearGroup] || 'structured'
+}
+
+/**
+ * Get default problem types based on topic and layout
+ */
+function getDefaultProblemTypes(topic?: string, layout?: LayoutType): ProblemType[] {
+  if (!topic) {
+    return ['standard-calculations']
+  }
+  
+  const topicLower = topic.toLowerCase()
+  
+  // Find matching strategy based on topic keywords
+  const strategy = PROBLEM_TYPE_STRATEGIES.find(s => 
+    s.keywords.some(keyword => topicLower.includes(keyword))
+  )
+  
+  return strategy 
+    ? strategy.getTypes(layout)
+    : ['word-problems', 'standard-calculations'] // Default fallback
 }
 
 /**

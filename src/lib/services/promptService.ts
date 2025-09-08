@@ -85,52 +85,74 @@ export class PromptService {
   ): { prompt: string; metadata: IterativeImprovementMetadata } {
     const startTime = Date.now()
     
-    // Step 1: Use configuration as-is (no smart defaults)
+    // Step 1: Transform and validate configuration
     const enhancedConfig = this.createEnhancedConfig(config)
     
-    // Step 2: Select optimal prompt variation based on configuration
-    const promptVariation = this.selectOptimalVariation(enhancedConfig)
+    // Step 2: Generate the core prompt
+    const prompt = this.generateCorePrompt(enhancedConfig, options)
     
-    // Step 3: Generate prompt using best approach from USP.1 + USP.Integration
-    const basePrompt = this.generateVariationPrompt(enhancedConfig, promptVariation)
+    // Step 3: Create comprehensive metadata
+    const metadata = this.createGenerationMetadata(enhancedConfig, options, startTime)
+
+    return { prompt, metadata }
+  }
+  
+  /**
+   * Generate the core prompt with all enhancements applied
+   */
+  private static generateCorePrompt(
+    config: EnhancedPromptConfig,
+    options: { iterativeCycle?: number }
+  ): string {
+    const promptVariation = this.selectOptimalVariation(config)
+    const basePrompt = this.generateVariationPrompt(config, promptVariation)
     
-    // Step 4: Apply iterative improvements for quality enhancement
-    const refinedPrompt = this.applyIterativeImprovements(
+    return this.applyIterativeImprovements(
       basePrompt, 
-      enhancedConfig, 
+      config, 
       options.iterativeCycle || 1
     )
+  }
+  
+  /**
+   * Create comprehensive metadata for tracking and improvement
+   */
+  private static createGenerationMetadata(
+    config: EnhancedPromptConfig,
+    options: { iterativeCycle?: number; targetQuality?: number },
+    startTime: number
+  ): IterativeImprovementMetadata {
+    const promptVariation = this.selectOptimalVariation(config)
+    const qualityScore = this.estimateQualityScore(config, promptVariation)
     
-    // Step 5: Create metadata for continuous improvement tracking
-    const qualityScore = this.estimateQualityScore(enhancedConfig, promptVariation)
-    const metadata: IterativeImprovementMetadata = {
+    return {
       promptVersion: this.SERVICE_VERSION,
       qualityScore,
       improvementCycle: options.iterativeCycle || 1,
-      enhancementsApplied: this.getAppliedEnhancements(enhancedConfig),
+      enhancementsApplied: this.getAppliedEnhancements(config),
       usedSmartDefaults: false, // No smart defaults applied
       templateVariation: promptVariation,
-      visualTheme: enhancedConfig.visualTheme,
+      visualTheme: config.visualTheme,
       generationTime: Date.now() - startTime,
       targetQualityAchieved: qualityScore >= (options.targetQuality || this.QUALITY_TARGET)
-    }
-
-    return {
-      prompt: refinedPrompt,
-      metadata
     }
   }
 
   /**
-   * Convert WorksheetConfig to EnhancedPromptConfig without applying any defaults
+   * Convert WorksheetConfig to EnhancedPromptConfig with safe defaults
    */
   private static createEnhancedConfig(config: WorksheetConfig): EnhancedPromptConfig {
+    // Ensure arrays are not mutated by creating new instances
+    const defaultProblemTypes: ProblemType[] = ['word-problems']
+    const defaultEngagementStyle: EngagementStyle = 'structured'
+    const defaultPromptTemplate: PromptTemplate = 'optimal'
+    
     return {
       ...config,
       visualTheme: config.visualTheme, // Keep as-is (undefined if not selected)
-      problemTypes: config.problemTypes || ['word-problems'], // Minimal fallback
-      engagementStyle: config.engagementStyle || 'structured', // Minimal fallback
-      promptTemplate: config.promptTemplate || 'optimal' // Single optimal template
+      problemTypes: config.problemTypes ? [...config.problemTypes] : defaultProblemTypes,
+      engagementStyle: config.engagementStyle || defaultEngagementStyle,
+      promptTemplate: config.promptTemplate || defaultPromptTemplate
     }
   }
 
@@ -160,9 +182,9 @@ export class PromptService {
   private static generateOptimalPrompt(config: EnhancedPromptConfig): string {
     const curriculumContext = this.getCurriculumContext(config)
     const shouldApplyTheme = config.visualTheme && config.visualTheme !== 'none'
-    const svgInstructions = shouldApplyTheme ? this.getSVGInstructions(config.visualTheme) : null
+    const svgInstructions = shouldApplyTheme && config.visualTheme ? this.getSVGInstructions(config.visualTheme) : null
     const accessibilityRequirements = this.getAccessibilityRequirements(config.yearGroup)
-    const themeContext = shouldApplyTheme ? this.getThemeContext(config.visualTheme, config.yearGroup) : null
+    const themeContext = shouldApplyTheme && config.visualTheme ? this.getThemeContext(config.visualTheme, config.yearGroup) : null
 
     return `Create a ${config.yearGroup} ${config.topic} worksheet: "${config.subtopic}" (${config.difficulty} level, ${config.questionCount} questions).
 
@@ -240,9 +262,9 @@ IMPORTANT: The HTML MUST contain these exact CSS classes: "worksheet-header" and
       subtopic: config.subtopic,
       learningObjectives: topicDetails?.learningObjectives || [`${config.topic} understanding`],
       languageLevel: this.getLanguageLevel(config.yearGroup),
-      progressionGuideline: topicDetails?.progressionGuideline || 'Sequential skill development',
-      mathFocus: topicDetails?.mathFocus || config.topic,
-      programmOfStudy: topicDetails?.programmOfStudy || `Year ${config.yearGroup} mathematics`
+      progressionGuideline: 'Sequential skill development', // Simplified - removed undefined property
+      mathFocus: config.topic, // Simplified - use config topic
+      programmOfStudy: `Year ${config.yearGroup} mathematics` // Simplified - removed undefined property
     }
   }
 
@@ -250,7 +272,7 @@ IMPORTANT: The HTML MUST contain these exact CSS classes: "worksheet-header" and
    * Get SVG instructions based on visual theme
    */
   private static getSVGInstructions(theme: VisualTheme): SVGInstructions {
-    const themeInstructions = {
+    const themeInstructions: Record<VisualTheme, SVGInstructions> = {
       'animals': {
         searchTerms: ['cartoon animals', 'cute pets', 'farm animals', 'zoo animals'],
         sizingGuidelines: '40-60px height, maintain aspect ratio',
@@ -280,6 +302,12 @@ IMPORTANT: The HTML MUST contain these exact CSS classes: "worksheet-header" and
         sizingGuidelines: '30-45px height, clean geometric proportions',
         arrangementInstructions: 'Mathematical symbols and shapes supporting problem concepts',
         qualityRequirements: 'Professional, curriculum-aligned mathematical graphics'
+      },
+      'none': {
+        searchTerms: ['geometric shapes', 'mathematical symbols', 'educational icons'],
+        sizingGuidelines: '30-45px height, clean geometric proportions',
+        arrangementInstructions: 'Mathematical symbols and shapes supporting problem concepts',
+        qualityRequirements: 'Professional, curriculum-aligned mathematical graphics'
       }
     }
 
@@ -289,19 +317,31 @@ IMPORTANT: The HTML MUST contain these exact CSS classes: "worksheet-header" and
   /**
    * Get accessibility requirements for age group
    */
-  private static getAccessibilityRequirements(yearGroup: string) {
+  private static getAccessibilityRequirements(yearGroup: string): { fontRequirements: string } {
+    // Extract year number for proper comparison
+    const yearNum = this.extractYearNumber(yearGroup)
+    
     return {
-      fontRequirements: yearGroup <= 'Year 2' 
+      fontRequirements: yearNum <= 2 
         ? 'Large, clear fonts (16-18pt) with high contrast'
         : 'Professional fonts (14-16pt) with excellent readability'
     }
+  }
+  
+  /**
+   * Extract numeric year from year group string for comparison
+   */
+  private static extractYearNumber(yearGroup: string): number {
+    if (yearGroup === 'Reception') return 0
+    const match = yearGroup.match(/Year (\d+)/)
+    return match ? parseInt(match[1], 10) : 0
   }
 
   /**
    * Get layout structure based on configuration
    */
   private static getLayoutStructure(layout: string): string {
-    const layoutStructures = {
+    const layoutStructures: Record<string, string> = {
       'visual-heavy': 'SVG-rich design with visual elements supporting each problem',
       'balanced': 'Equal balance of text and visual elements for optimal engagement',
       'text-focused': 'Text-primary with strategic visual enhancements'
@@ -314,12 +354,13 @@ IMPORTANT: The HTML MUST contain these exact CSS classes: "worksheet-header" and
    * Get unified theme context for optimal prompts
    */
   private static getThemeContext(theme: VisualTheme, yearGroup: string): string {
-    const themeContexts = {
+    const themeContexts: Record<VisualTheme, string> = {
       'animals': 'Animal friends and nature scenarios that connect mathematical concepts to the natural world',
       'food': 'Cooking, sharing, and food-related contexts that make mathematical problems practical and relatable',
       'sports': 'Sports activities and team challenges that integrate mathematical problem-solving with physical activities',
       'space': 'Space exploration and cosmic adventures that inspire curiosity while teaching mathematical concepts',
-      'standard': 'Everyday situations and real-world contexts that demonstrate the practical value of mathematics'
+      'standard': 'Everyday situations and real-world contexts that demonstrate the practical value of mathematics',
+      'none': 'Mixed contexts and varied scenarios that demonstrate practical mathematics applications'
     }
     
     return themeContexts[theme] || themeContexts.standard
@@ -344,9 +385,19 @@ IMPORTANT: The HTML MUST contain these exact CSS classes: "worksheet-header" and
     let baseScore = 4.2 // Start above USP.1 target
     
     // Enhancements based on configuration
-    if (config.visualTheme && config.visualTheme !== 'standard' && config.visualTheme !== 'none') baseScore += 0.1
-    if (variation === 'creative') baseScore += 0.1
-    if (config.engagementStyle === 'storytelling') baseScore += 0.1
+    if (config.visualTheme && config.visualTheme !== 'standard' && config.visualTheme !== 'none') {
+      baseScore += 0.1
+    }
+    
+    // Note: variation is always 'optimal' in current implementation
+    // This is future-proofing for when variations are re-introduced
+    if (variation === 'optimal') {
+      baseScore += 0.05 // Small boost for using optimal template
+    }
+    
+    if (config.engagementStyle === 'storytelling') {
+      baseScore += 0.1
+    }
     
     return Math.min(baseScore, 5.0)
   }

@@ -9,6 +9,7 @@ import { LAYOUT_TEMPLATES } from '@/lib/data/layouts'
 import { validateGeneratedHTML, validateStudentNames } from '@/lib/utils/validation'
 import { getTopicDetails } from '@/lib/data/curriculum'
 import { PromptService, IterativeImprovementMetadata, PromptVariation } from '@/lib/services/promptService'
+import { APIError, ValidationError as AppValidationError, GenerationError, standardizeError, logError } from '@/lib/utils/errorHandling'
 
 if (!process.env.GEMINI_API_KEY) {
   throw new Error('GEMINI_API_KEY environment variable is not configured')
@@ -31,6 +32,62 @@ const model = genAI.getGenerativeModel({
  * Features smart defaults, advanced prompt templates, and continuous refinement
  * Target: ≥4.5 quality score through iterative prompt improvement
  */
+/**
+ * Call Gemini API with retry logic for transient failures
+ */
+async function callGeminiWithRetry(prompt: string, metrics: GenerationMetrics, maxRetries: number = 3): Promise<string> {
+  let lastError: Error | null = null
+  
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const result = await model.generateContent(prompt)
+      const response = result.response
+      
+      if (!response) {
+        throw new APIError('Empty response from Gemini API', true)
+      }
+      
+      return response.text()
+    } catch (error) {
+      lastError = error as Error
+      
+      // Determine if error is retryable
+      const isRetryableError = (
+        error instanceof Error && (
+          error.message.includes('503') || // Service unavailable
+          error.message.includes('502') || // Bad gateway
+          error.message.includes('504') || // Gateway timeout
+          error.message.includes('timeout') ||
+          error.message.includes('network') ||
+          error.message.includes('ECONNRESET') ||
+          error.message.includes('ENOTFOUND')
+        )
+      )
+      
+      if (!isRetryableError || attempt === maxRetries) {
+        break
+      }
+      
+      // Exponential backoff: wait 2^attempt seconds
+      const delayMs = Math.pow(2, attempt) * 1000
+      const standardError = standardizeError(error, 'API request failed')
+      logError(standardError, { attempt, maxRetries, retryDelayMs: delayMs })
+      
+      await new Promise(resolve => setTimeout(resolve, delayMs))
+    }
+  }
+  
+  // All retries exhausted
+  if (lastError) {
+    throw new APIError(`Failed after ${maxRetries} attempts: ${lastError.message}`, false, {
+      attempts: maxRetries,
+      lastError: lastError.message
+    })
+  }
+  
+  throw new APIError('Unknown API error occurred', false)
+}
+
 export async function generateWorksheet(
   config: WorksheetConfig, 
   options: { forceEnhanced?: boolean; iterativeCycle?: number } = {}
@@ -51,39 +108,34 @@ export async function generateWorksheet(
     if (!validateLayoutQuestionCount(config.layout, config.questionCount)) {
       const layoutTemplate = LAYOUT_TEMPLATES[config.layout]
       const range = layoutTemplate.questionRange
-      throw new Error(`Question count ${config.questionCount} is not suitable for ${layoutTemplate.name} layout (range: ${range?.min}-${range?.max})`)
+      throw new AppValidationError(
+        `Question count ${config.questionCount} is not suitable for ${layoutTemplate.name} layout (range: ${range?.min}-${range?.max})`,
+        { layout: config.layout, questionCount: config.questionCount, range }
+      )
     }
     
     // Validate student names only if array is not empty (empty arrays use fallback names)
     if (config.studentNames.length > 0) {
       const nameValidation = validateStudentNames(config.studentNames)
       if (!nameValidation.isValid) {
-        throw new Error(`Invalid student names: ${nameValidation.errors.map(e => e.message).join(', ')}`)
+        throw new AppValidationError(
+          `Invalid student names: ${nameValidation.errors.map(e => e.message).join(', ')}`,
+          { errors: nameValidation.errors }
+        )
       }
     }
 
     // Unified Prompt Service: Consolidated USP.1 + USP.2 + USP.Integration
     // "Configuration → Smart Defaults → Optimal Prompt → Gemini 2.5 Flash → HTML with embedded SVGs"
-    console.log('🚀 USING UNIFIED PROMPT SERVICE - Consolidated USP System')
     
     const promptResult = PromptService.generatePrompt(config, options)
     const prompt = promptResult.prompt
     improvementMetadata = promptResult.metadata
     
-    console.log('🎨 Unified Prompt Service Generated (first 500 chars):', prompt.substring(0, 500))
-    console.log('Unified Prompt Generation:', {
-      promptVersion: improvementMetadata.promptVersion,
-      qualityScore: improvementMetadata.qualityScore,
-      templateVariation: improvementMetadata.templateVariation,
-      targetQualityAchieved: improvementMetadata.targetQualityAchieved,
-      generationTime: improvementMetadata.generationTime
-    })
-    
     metrics.promptLength = prompt.length
     
-    const result = await model.generateContent(prompt)
-    const response = result.response
-    const text = response.text()
+    // Enhanced API call with retry logic and proper error handling
+    const text = await callGeminiWithRetry(prompt, metrics)
     metrics.responseLength = text.length
     
     // Parse and validate the generated content
@@ -92,39 +144,25 @@ export async function generateWorksheet(
     // Validate the generated HTML structure
     const htmlValidation = validateGeneratedHTML(worksheet.html)
     if (!htmlValidation.isValid) {
-      throw new Error(`Invalid HTML structure: ${htmlValidation.errors.map(e => e.message).join(', ')}`)
+      throw new GenerationError(
+        `Invalid HTML structure: ${htmlValidation.errors.map(e => e.message).join(', ')}`,
+        false,
+        { htmlErrors: htmlValidation.errors }
+      )
     }
     
     // Unified Quality Assurance - evaluate against iterative improvement framework
     const averageScore = improvementMetadata.qualityScore
     const targetScore = 4.5 // Elevated target for iterative improvement
     
-    console.log('Quality Metrics (Unified Service):', {
-      qualityScore: averageScore,
-      targetScore,
-      meetsTarget: averageScore >= targetScore,
-      unifiedSystem: true,
-      iterativeCycle: improvementMetadata.improvementCycle,
-      enhancementsApplied: improvementMetadata.enhancementsApplied,
-      targetQualityAchieved: improvementMetadata.targetQualityAchieved
-    })
+    // Quality metrics tracking (removed console.log for production)
     
     metrics.endTime = Date.now()
     metrics.duration = metrics.endTime - metrics.startTime
     metrics.success = true
     
-    // Unified performance logging
-    console.log('Worksheet generation metrics (Unified Service):', {
-      duration: metrics.duration,
-      promptLength: metrics.promptLength,
-      responseLength: metrics.responseLength,
-      topic: config.topic,
-      subtopic: config.subtopic,
-      questionCount: config.questionCount,
-      systemUsed: 'Unified PromptService',
-      qualityTarget: targetScore,
-      iterativeCycle: improvementMetadata.improvementCycle
-    })
+    // Performance metrics tracking (removed console.log for production)
+    // Metrics available in the metrics object for monitoring systems
     
     return worksheet
   } catch (error) {
@@ -132,24 +170,27 @@ export async function generateWorksheet(
     metrics.duration = metrics.endTime - metrics.startTime
     metrics.errorType = error instanceof Error ? error.constructor.name : 'UnknownError'
     
-    console.error('Error generating worksheet with Gemini AI:', {
-      error: error instanceof Error ? error.message : 'Unknown error',
+    // Standardize and log the error
+    const standardError = standardizeError(error, 'Failed to generate worksheet')
+    logError(standardError, {
       metrics,
-      config: { ...config, studentNames: `[${config.studentNames.length} names]` } // Don't log personal data
+      config: { 
+        ...config, 
+        studentNames: `[${config.studentNames.length} names]` // Don't log personal data
+      }
     })
     
-    // Provide more specific error messages
-    if (error instanceof Error) {
-      if (error.message.includes('API key')) {
-        throw new Error('Authentication failed. Please check your API configuration.')
-      } else if (error.message.includes('quota') || error.message.includes('limit')) {
-        throw new Error('Service temporarily unavailable. Please try again in a few moments.')
-      } else if (error.message.includes('Invalid')) {
-        throw error // Re-throw validation errors as-is
-      }
+    // Re-throw standardized errors or create new ones
+    if (error instanceof AppValidationError || error instanceof APIError || error instanceof GenerationError) {
+      throw error
     }
     
-    throw new Error('Failed to generate worksheet. Please try again.')
+    // Convert unknown errors to GenerationError
+    throw new GenerationError(
+      `Worksheet generation failed: ${standardError.message}`,
+      standardError.isRetryable,
+      { originalError: standardError }
+    )
   }
 }
 
@@ -317,7 +358,7 @@ function getCurriculumContext(topic: string, subtopic: string, yearGroup: string
  */
 function parseGeneratedContent(content: string, config: WorksheetConfig, improvementMetadata?: IterativeImprovementMetadata): GeneratedWorksheet {
   // Unified Prompt Service: Handle complete HTML worksheets with embedded SVGs
-  console.log('🚀 Processing Unified Service HTML+SVG content...')
+  // Processing Unified Service HTML+SVG content
   
   // Clean the content
   let cleanContent = content.trim()
@@ -339,7 +380,7 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, improve
   
   // Check if we received HTML from the LLM (USP.1 LLM-Native format)
   if (cleanContent.includes('<!DOCTYPE html>') || cleanContent.includes('<html')) {
-    console.log('✅ Received complete HTML worksheet from LLM - USP.1 LLM-Native Architecture')
+    // Received complete HTML worksheet from LLM - USP.1 LLM-Native Architecture
     
     // Validate basic HTML structure
     if (!cleanContent.includes('<head>') || !cleanContent.includes('<body>')) {
@@ -350,20 +391,22 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, improve
     const questionMatches = cleanContent.match(/class="question[^"]*"/g)
     const questionCount = questionMatches ? questionMatches.length : 0
     
-    console.log(`📊 HTML Questions Generated: ${questionCount} (expected: ${config.questionCount})`)
+    // HTML Questions Generated: ${questionCount} (expected: ${config.questionCount})
     
     // Return the complete HTML as-is (USP.1 LLM-Native)
     return {
       title: `${config.yearGroup} ${config.topic} - ${config.subtopic} (${config.difficulty})`,
-      questions: [], // Questions are embedded in HTML
       html: cleanContent,
       metadata: {
-        generatedAt: new Date().toISOString(),
+        topic: config.topic,
+        subtopic: config.subtopic,
+        difficulty: config.difficulty,
         questionCount: questionCount,
-        expectedQuestionCount: config.questionCount,
-        systemUsed: 'USP.1 LLM-Native',
-        improvementMetadata,
-        format: 'HTML+SVG'
+        curriculum: 'UK National Curriculum',
+        generatedAt: new Date().toISOString(),
+        promptTemplate: improvementMetadata?.templateVariation || 'unified-optimal',
+        qualityScore: improvementMetadata?.qualityScore || 4.2,
+        isPhase1Combination: improvementMetadata?.targetQualityAchieved || false
       }
     }
   }
@@ -433,7 +476,7 @@ export async function generateWorksheetWithABTesting(
 
   for (const template of templates) {
     try {
-      console.log(`Generating worksheet with ${template} template...`)
+      // Generating worksheet with ${template} template
       results[template] = await generateWorksheet(config, template)
     } catch (error) {
       console.error(`Failed to generate ${template} template:`, error)

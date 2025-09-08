@@ -129,7 +129,7 @@ export default function DashboardPage() {
       if (data.success && data.worksheet) {
         setGeneratedWorksheet(data.worksheet)
         setGenerationState('completed')
-        console.log(`Worksheet generated successfully in ${data.generationTime}ms`)
+        // Worksheet generated successfully
       } else {
         throw new Error('Invalid response format')
       }
@@ -190,7 +190,7 @@ export default function DashboardPage() {
       window.URL.revokeObjectURL(url)
       document.body.removeChild(a)
 
-      console.log(`PDF downloaded successfully: ${filename}`)
+      // PDF downloaded successfully
       
     } catch (error) {
       console.error('PDF download error:', error)
@@ -275,7 +275,7 @@ export default function DashboardPage() {
     // Simulate refreshing page data
     await new Promise(resolve => setTimeout(resolve, 1000))
     // Reset state if needed
-    console.log('Page refreshed')
+    // Page refreshed
   }
   
   return (

@@ -16,11 +16,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
   try {
     // Parse and sanitize request body
     const rawBody = await request.json()
-    console.log('🔍 RAW API REQUEST BODY:', JSON.stringify(rawBody, null, 2))
-    console.log('🎨 Visual Theme in Raw Body:', rawBody.visualTheme)
     const sanitizedBody = sanitizeWorksheetRequest(rawBody)
-    console.log('🧹 SANITIZED BODY:', JSON.stringify(sanitizedBody, null, 2))
-    console.log('🎨 Visual Theme in Sanitized Body:', sanitizedBody.visualTheme)
 
     // Comprehensive validation
     const validation = validateWorksheetRequest(sanitizedBody)
@@ -102,7 +98,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       }, { status: 400 })
     }
 
-    // Create worksheet configuration
+    // Create worksheet configuration with explicit undefined handling
     const config: WorksheetConfig = {
       layout: layout as LayoutType,
       topic,
@@ -113,10 +109,10 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       studentNames,
       // Enhanced configuration options (USP.2) 
       // Unified Service: These drive the consolidated prompt generation system
-      ...(visualTheme && { visualTheme }),
-      ...(problemTypes && { problemTypes }),
-      ...(engagementStyle && { engagementStyle }),
-      ...(promptTemplate && { promptTemplate })
+      visualTheme: visualTheme || undefined,
+      problemTypes: problemTypes?.length ? problemTypes : undefined,
+      engagementStyle: engagementStyle || undefined,
+      promptTemplate: promptTemplate || undefined
     }
 
     // Generate worksheet using Gemini AI
@@ -124,17 +120,17 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
     const generationTime = Date.now() - startTime
 
     // Log performance for monitoring (Unified Service)
-    const hasEnhanced = !!(visualTheme || problemTypes || engagementStyle || promptTemplate)
+    const hasEnhanced = !!(visualTheme || problemTypes?.length || engagementStyle || promptTemplate)
     console.log(`Unified PromptService worksheet generated in ${generationTime}ms`, {
       topic,
       subtopic,
       yearGroup,
       enhancedSystem: hasEnhanced,
       ...(hasEnhanced && {
-        visualTheme,
-        problemTypes: problemTypes?.join(', '),
-        engagementStyle,
-        promptTemplate
+        visualTheme: visualTheme || 'none',
+        problemTypes: problemTypes?.join(', ') || 'default',
+        engagementStyle: engagementStyle || 'default',
+        promptTemplate: promptTemplate || 'default'
       })
     })
 
