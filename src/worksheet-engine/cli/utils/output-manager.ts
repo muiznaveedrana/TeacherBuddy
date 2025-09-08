@@ -7,6 +7,8 @@ import { promises as fs } from 'fs'
 import { join, resolve } from 'path'
 import { EngineConfig, GenerationResult, EngineMetadata, OutputStructure, CliError } from '../../types/engine-types'
 import { GeneratedWorksheet } from '@/lib/types/worksheet'
+import { EnginePdfService } from '../../integration/pdf-service'
+import { mapEngineConfigToWorksheetConfig } from '../../integration/config-mapper'
 
 export class OutputManager {
   private outputDir: string
@@ -85,6 +87,23 @@ export class OutputManager {
         'utf-8'
       )
 
+      // Generate PDF using the real PDF service
+      try {
+        const worksheetConfig = mapEngineConfigToWorksheetConfig(config)
+        const title = `${worksheetConfig.topic} - ${worksheetConfig.subtopic}`
+        
+        await EnginePdfService.generatePdf(
+          worksheet.html, 
+          outputPaths.worksheetHtml, 
+          worksheetConfig,
+          title
+        )
+      } catch (pdfError) {
+        console.warn('[OutputManager] PDF generation failed, HTML saved successfully')
+        console.warn('[OutputManager] PDF Error:', pdfError instanceof Error ? pdfError.message : 'Unknown error')
+        // Don't fail the entire operation if PDF generation fails
+      }
+
       return {
         worksheet,
         config,
@@ -99,23 +118,25 @@ export class OutputManager {
     }
   }
 
-  async generatePdf(_htmlContent: string): Promise<string> {
-    // Note: PDF generation would require integration with the existing PDF service
-    // For now, we'll create a placeholder that can be implemented later
+  async generatePdf(
+    htmlContent: string, 
+    config: EngineConfig, 
+    title: string
+  ): Promise<string> {
     const pdfPath = join(this.outputDir, 'worksheet.pdf')
+    const htmlPath = join(this.outputDir, 'worksheet.html')
     
     try {
-      // Create a placeholder PDF file
-      const placeholder = `PDF generation not yet implemented for CLI engine.
-HTML content saved to worksheet.html can be manually converted to PDF.
-
-Configuration: ${this.outputDir}
-Generated: ${new Date().toISOString()}
-`
-      await fs.writeFile(pdfPath, placeholder, 'utf-8')
-      return pdfPath
+      const worksheetConfig = mapEngineConfigToWorksheetConfig(config)
+      
+      return await EnginePdfService.generatePdf(
+        htmlContent,
+        htmlPath,
+        worksheetConfig,
+        title
+      )
     } catch (error) {
-      const cliError: CliError = new Error('Failed to create PDF placeholder') as CliError
+      const cliError: CliError = new Error(`Failed to generate PDF: ${error instanceof Error ? error.message : 'Unknown error'}`) as CliError
       cliError.code = 'OUTPUT_ERROR'
       cliError.details = { pdfPath, originalError: error }
       throw cliError

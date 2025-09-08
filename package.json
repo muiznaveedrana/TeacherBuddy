@@ -9,7 +9,10 @@
     "lint": "next lint",
     "test": "vitest",
     "test:e2e": "playwright test",
-    "worksheet-engine": "npx tsx src/worksheet-engine/cli/index.ts"
+    "worksheet-engine": "npx tsx src/worksheet-engine/cli/index.ts",
+    "prompt-automation": "node scripts/prompt-engineering-automation.js",
+    "prompt-automation:bash": "bash scripts/prompt-engineering-automation.sh",
+    "prompt-automation:powershell": "powershell -ExecutionPolicy Bypass -File scripts/prompt-engineering-automation.ps1"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

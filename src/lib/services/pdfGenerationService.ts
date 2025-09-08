@@ -1,4 +1,3 @@
-import puppeteer from 'puppeteer-core'
 import { LayoutType, WorksheetConfig } from '@/lib/types/worksheet'
 
 export interface PdfGenerationRequest {
@@ -211,7 +210,9 @@ export async function generateWorksheetPdf(
       }
     }
     
-    const browser = await puppeteer.launch(browserConfig)
+    // Use puppeteer-core for the fallback case
+    const puppeteerCore = await import('puppeteer-core')
+    const browser = await puppeteerCore.default.launch(browserConfig)
     
     const page = await browser.newPage()
     

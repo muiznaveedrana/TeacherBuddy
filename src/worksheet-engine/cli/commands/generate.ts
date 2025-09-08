@@ -112,7 +112,7 @@ export async function generateWorksheetCommand(
     Logger.info('Output files:')
     Logger.info('  - config.json              # Input configuration')
     Logger.info('  - worksheet.html           # Generated HTML worksheet')
-    Logger.info('  - worksheet.pdf            # Generated PDF (placeholder)')
+    Logger.info('  - worksheet.pdf            # Generated PDF')
     Logger.info('  - generation-log.json      # Generation metadata')
     Logger.info('  - engine-metadata.json     # Engine-specific metadata')
     if (enableAssessment) {

@@ -1,0 +1,36 @@
+{
+  "configId": "year3-addition-standard-average-5q",
+  "variant": "baseline",
+  "history": [
+    {
+      "timestamp": "2025-09-08T22:57:09.492Z",
+      "qualityScores": {
+        "visualSimilarity": {
+          "score": 8.2,
+          "details": {
+            "structuralSimilarity": 8.1,
+            "layoutConsistency": 8.3,
+            "visualAlignment": 8.2
+          }
+        },
+        "contentAnalysis": {
+          "score": 8.7,
+          "details": {
+            "curriculumAlignment": 8.9,
+            "languageAppropriate": 8.5,
+            "mathematicalAccuracy": 8.7
+          }
+        },
+        "ruleBasedLayout": {
+          "score": 7.9,
+          "details": {
+            "fontConsistency": 7.8,
+            "spacingQuality": 8,
+            "elementPositioning": 7.9
+          }
+        },
+        "composite": 8.3
+      }
+    }
+  ]
+}
