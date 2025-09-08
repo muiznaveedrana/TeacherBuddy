@@ -3,16 +3,16 @@
  * Story Engine.1.1: Core Engine Infrastructure and Service Integration
  */
 
-import { WorksheetConfig } from '@/lib/types/worksheet'
+import { WorksheetConfig, LayoutType, DifficultyLevel } from '@/lib/types/worksheet'
 import { EngineConfig } from '../types/engine-types'
 
 export function mapEngineConfigToWorksheetConfig(engineConfig: EngineConfig): WorksheetConfig {
   return {
-    layout: engineConfig.layout,
+    layout: engineConfig.layout as LayoutType,
     yearGroup: engineConfig.yearGroup,
     topic: engineConfig.topic,
     subtopic: engineConfig.subtopic,
-    difficulty: engineConfig.difficulty,
+    difficulty: engineConfig.difficulty as DifficultyLevel,
     questionCount: engineConfig.questionCount,
     studentNames: [], // CLI engine uses default names from prompt service
     visualTheme: undefined // Let LLM decide when undefined

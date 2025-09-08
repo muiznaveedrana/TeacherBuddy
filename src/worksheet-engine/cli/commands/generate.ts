@@ -6,10 +6,10 @@
 import { generateWorksheet } from '@/lib/services/gemini'
 import { parseConfigId, validateConfig } from '../utils/config-parser'
 import { OutputManager } from '../utils/output-manager'
-import { mapEngineConfigToWorksheetConfig, validateServiceCompatibility } from '../integration/config-mapper'
+import { mapEngineConfigToWorksheetConfig, validateServiceCompatibility } from '../../integration/config-mapper'
 import { CliError, GenerationResult, AssessmentContext } from '../types/engine-types'
 import { Logger } from '../../utils/logger'
-import { AssessmentRunner } from '../../assessment'
+// import { AssessmentRunner } from '../../assessment' // Temporarily disabled due to missing deps
 
 export async function generateWorksheetCommand(
   configId: string,
@@ -58,6 +58,8 @@ export async function generateWorksheetCommand(
       Logger.separator()
       Logger.step(5, 5, 'Running quality assessment...')
       
+      // Assessment temporarily disabled due to missing dependencies
+      /*
       try {
         const assessmentContext: AssessmentContext = {
           worksheetPdfPath: result.outputPath.replace('.html', '.pdf'),
@@ -98,6 +100,8 @@ export async function generateWorksheetCommand(
         Logger.warn('Assessment failed, but generation was successful')
         console.error('Assessment error:', assessmentError)
       }
+      */
+      Logger.info('⚠️  Assessment system temporarily disabled - install missing dependencies to enable')
     }
     
     Logger.separator()
