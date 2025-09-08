@@ -109,10 +109,10 @@ export default function DashboardPage() {
           subtopic,
           difficulty,
           questionCount,
-          nameList,
+          nameList: nameList === 'none' ? '' : nameList, // Convert 'none' to empty string
           yearGroup,
-          // Enhanced configuration options (USP.2)
-          visualTheme,
+          // Enhanced configuration options (USP.2) - convert 'none' to undefined
+          ...(visualTheme && visualTheme !== 'none' && { visualTheme }),
         }),
       })
       

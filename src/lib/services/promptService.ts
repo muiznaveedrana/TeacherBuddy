@@ -25,7 +25,7 @@ export type PromptVariation = 'optimal'
 // Enhanced configuration type for unified service
 export interface EnhancedPromptConfig extends WorksheetConfig {
   // USP.2 Enhanced options with smart defaults applied
-  visualTheme: VisualTheme
+  visualTheme?: VisualTheme // Optional - let LLM decide when undefined
   problemTypes: ProblemType[]
   engagementStyle: EngagementStyle
   promptTemplate: PromptTemplate
@@ -50,7 +50,7 @@ export interface IterativeImprovementMetadata {
   enhancementsApplied: string[]
   usedSmartDefaults: boolean
   templateVariation: PromptVariation
-  visualTheme: VisualTheme
+  visualTheme?: VisualTheme // Optional - undefined when not selected
   generationTime: number
   targetQualityAchieved: boolean // ≥4.5 target
 }
@@ -85,8 +85,8 @@ export class PromptService {
   ): { prompt: string; metadata: IterativeImprovementMetadata } {
     const startTime = Date.now()
     
-    // Step 1: Apply USP.2 smart defaults for optimal configuration
-    const enhancedConfig = this.applySmartDefaults(config, options.forceEnhanced)
+    // Step 1: Use configuration as-is (no smart defaults)
+    const enhancedConfig = this.createEnhancedConfig(config)
     
     // Step 2: Select optimal prompt variation based on configuration
     const promptVariation = this.selectOptimalVariation(enhancedConfig)
@@ -108,7 +108,7 @@ export class PromptService {
       qualityScore,
       improvementCycle: options.iterativeCycle || 1,
       enhancementsApplied: this.getAppliedEnhancements(enhancedConfig),
-      usedSmartDefaults: this.wasSmartDefaultsApplied(config, enhancedConfig),
+      usedSmartDefaults: false, // No smart defaults applied
       templateVariation: promptVariation,
       visualTheme: enhancedConfig.visualTheme,
       generationTime: Date.now() - startTime,
@@ -122,19 +122,14 @@ export class PromptService {
   }
 
   /**
-   * Apply USP.2 smart defaults for optimal worksheet configuration
+   * Convert WorksheetConfig to EnhancedPromptConfig without applying any defaults
    */
-  private static applySmartDefaults(
-    config: WorksheetConfig, 
-    forceEnhanced: boolean = false
-  ): EnhancedPromptConfig {
-    const smartDefaults = getSmartDefaults(config.yearGroup, config.topic, config.layout)
-    
+  private static createEnhancedConfig(config: WorksheetConfig): EnhancedPromptConfig {
     return {
       ...config,
-      visualTheme: config.visualTheme || smartDefaults.visualTheme,
-      problemTypes: config.problemTypes || ['word-problems'],
-      engagementStyle: config.engagementStyle || 'structured',
+      visualTheme: config.visualTheme, // Keep as-is (undefined if not selected)
+      problemTypes: config.problemTypes || ['word-problems'], // Minimal fallback
+      engagementStyle: config.engagementStyle || 'structured', // Minimal fallback
       promptTemplate: config.promptTemplate || 'optimal' // Single optimal template
     }
   }
@@ -164,19 +159,19 @@ export class PromptService {
    */
   private static generateOptimalPrompt(config: EnhancedPromptConfig): string {
     const curriculumContext = this.getCurriculumContext(config)
-    const svgInstructions = this.getSVGInstructions(config.visualTheme)
+    const shouldApplyTheme = config.visualTheme && config.visualTheme !== 'none'
+    const svgInstructions = shouldApplyTheme ? this.getSVGInstructions(config.visualTheme) : null
     const accessibilityRequirements = this.getAccessibilityRequirements(config.yearGroup)
-    const themeContext = this.getThemeContext(config.visualTheme, config.yearGroup)
+    const themeContext = shouldApplyTheme ? this.getThemeContext(config.visualTheme, config.yearGroup) : null
 
     return `Create a ${config.yearGroup} ${config.topic} worksheet: "${config.subtopic}" (${config.difficulty} level, ${config.questionCount} questions).
 
 **Requirements:**
 - UK National Curriculum aligned
 - Age-appropriate vocabulary with mathematical precision
-- Use names: Emma, Oliver, Sophie, James, Lily, Thomas, Grace, Harry
-- Theme: ${themeContext}
+- Use names: Emma, Oliver, Sophie, James, Lily, Thomas, Grace, Harry${themeContext ? `\n- Theme: ${themeContext}` : ''}
 
-**Format:** Complete HTML with embedded SVG icons (small, simple shapes from OpenClipart.org: ${svgInstructions.searchTerms.join(', ')}).
+**Format:** Complete HTML${svgInstructions ? ` with embedded SVG icons (small, simple shapes from OpenClipart.org: ${svgInstructions.searchTerms.join(', ')})` : ''}.
 
 **CRITICAL - HTML STRUCTURE MUST BE:**
 <!DOCTYPE html>
@@ -349,7 +344,7 @@ IMPORTANT: The HTML MUST contain these exact CSS classes: "worksheet-header" and
     let baseScore = 4.2 // Start above USP.1 target
     
     // Enhancements based on configuration
-    if (config.visualTheme !== 'standard') baseScore += 0.1
+    if (config.visualTheme && config.visualTheme !== 'standard' && config.visualTheme !== 'none') baseScore += 0.1
     if (variation === 'creative') baseScore += 0.1
     if (config.engagementStyle === 'storytelling') baseScore += 0.1
     
@@ -362,17 +357,11 @@ IMPORTANT: The HTML MUST contain these exact CSS classes: "worksheet-header" and
   private static getAppliedEnhancements(config: EnhancedPromptConfig): string[] {
     const enhancements: string[] = []
     
-    if (config.visualTheme !== 'standard') enhancements.push(`Visual theme: ${config.visualTheme}`)
+    if (config.visualTheme && config.visualTheme !== 'standard' && config.visualTheme !== 'none') enhancements.push(`Visual theme: ${config.visualTheme}`)
     if (config.engagementStyle !== 'structured') enhancements.push(`Engagement: ${config.engagementStyle}`)
     if (config.problemTypes?.length > 0) enhancements.push(`Problem types: ${config.problemTypes.join(', ')}`)
     
     return enhancements
   }
 
-  /**
-   * Check if smart defaults were applied
-   */
-  private static wasSmartDefaultsApplied(original: WorksheetConfig, enhanced: EnhancedPromptConfig): boolean {
-    return !original.visualTheme || !original.engagementStyle || !original.problemTypes
-  }
 }

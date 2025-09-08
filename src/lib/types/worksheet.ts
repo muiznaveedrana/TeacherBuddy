@@ -10,7 +10,7 @@ export type QuestionType = 'word-problem' | 'calculation' | 'visual-problem'
 export type LayoutType = 'standard' | 'fluency' | 'grid' | 'differentiated' | 'reasoning'
 
 // Enhanced configuration types for USP.2
-export type VisualTheme = 'animals' | 'food' | 'sports' | 'space' | 'standard'
+export type VisualTheme = 'animals' | 'food' | 'sports' | 'space' | 'standard' | 'none'
 
 export type ProblemType = 'word-problems' | 'visual-arrays' | 'mixed-formats' | 'standard-calculations'
 

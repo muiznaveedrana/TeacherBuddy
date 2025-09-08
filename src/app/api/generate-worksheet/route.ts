@@ -73,17 +73,22 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       }, { status: 400 })
     }
 
-    // Get student names from selected name list or use default
-    const effectiveNameList = nameList || 'year3-class-a' // Use default if empty
-    const studentNames = mockNameLists[effectiveNameList] || []
-    if (studentNames.length === 0) {
-      return NextResponse.json({
-        success: false,
-        error: 'Invalid name list',
-        message: 'The specified name list was not found or is empty',
-        generationTime: Date.now() - startTime,
-        timestamp: new Date().toISOString()
-      }, { status: 400 })
+    // Get student names from selected name list or use generic names when not specified
+    let studentNames: string[] = []
+    if (nameList && nameList.trim() !== '') {
+      studentNames = mockNameLists[nameList] || []
+      if (studentNames.length === 0) {
+        return NextResponse.json({
+          success: false,
+          error: 'Invalid name list',
+          message: 'The specified name list was not found or is empty',
+          generationTime: Date.now() - startTime,
+          timestamp: new Date().toISOString()
+        }, { status: 400 })
+      }
+    } else {
+      // No specific name list selected - use generic names for LLM to use
+      studentNames = ['Emma', 'Oliver', 'Sophie', 'James', 'Lily', 'Thomas', 'Grace', 'Harry']
     }
 
     // Validate layout parameter

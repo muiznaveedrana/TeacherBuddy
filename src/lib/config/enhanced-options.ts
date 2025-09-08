@@ -23,6 +23,14 @@ export interface VisualThemeOption {
 
 export const VISUAL_THEME_OPTIONS: VisualThemeOption[] = [
   {
+    value: 'none',
+    label: 'No particular theme',
+    description: 'Mixed contexts and varied question types',
+    icon: '🎯',
+    ageGroups: ['Reception', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6'],
+    examples: ['Mixed contexts', 'Varied scenarios', 'LLM decides']
+  },
+  {
     value: 'animals',
     label: 'Animals',
     description: 'Animal-themed problems and contexts',

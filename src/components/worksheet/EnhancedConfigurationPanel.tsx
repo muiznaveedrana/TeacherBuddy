@@ -122,30 +122,6 @@ export function EnhancedConfigurationPanel({
               })()}
             </SelectContent>
           </Select>
-          {visualTheme && (
-            <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg">
-              <div className="flex items-start gap-2">
-                <span className="text-lg">
-                  {VISUAL_THEME_OPTIONS.find(opt => opt.value === visualTheme)?.icon}
-                </span>
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-purple-800">
-                    {VISUAL_THEME_OPTIONS.find(opt => opt.value === visualTheme)?.label}
-                  </p>
-                  <p className="text-xs text-purple-700 mt-1">
-                    {VISUAL_THEME_OPTIONS.find(opt => opt.value === visualTheme)?.description}
-                  </p>
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    {VISUAL_THEME_OPTIONS.find(opt => opt.value === visualTheme)?.examples.slice(0, 2).map(example => (
-                      <span key={example} className="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded">
-                        {example}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
 
 
@@ -170,6 +146,7 @@ export function EnhancedConfigurationPanel({
                 <SelectValue placeholder="Select a name list (optional)" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="none">No particular name list</SelectItem>
                 <SelectItem value="year3-class-a">Year 3 Class A (25 students)</SelectItem>
                 <SelectItem value="year4-maths-group">Year 4 Maths Group (18 students)</SelectItem>
                 <SelectItem value="reception-class">Reception Class (20 students)</SelectItem>
