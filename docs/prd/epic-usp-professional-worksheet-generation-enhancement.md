@@ -4,7 +4,7 @@
 
 **Strategic Innovation:** Consolidated USP.1 + USP.2 + USP.Integration into unified PromptService enabling iterative quality improvement - the true competitive moat. Focus shifted from basic implementation to continuous prompt refinement for sustained market leadership.
 
-**Implementation Status:** USP.1, USP.2, USP.Integration COMPLETED and consolidated. Focus now on iterative quality improvement (USP.3) and production-scale excellence (USP.4) for competitive dominance.
+**Implementation Status:** USP.1, USP.2, USP.Integration COMPLETED and consolidated. Epic scope refined to focus on current delivery excellence.
 
 **Unified Architecture:** Configuration → Smart Defaults → Optimal Prompt Selection → Iterative Refinement → Gemini 2.5 Flash → Quality-Controlled HTML+SVG → PDF
 
@@ -24,13 +24,7 @@
 - ✅ USP.Integration Enhanced Prompt Generation
 - ✅ Service consolidation into unified PromptService
 
-**Phase 2 (Weeks 1-3):** Iterative Quality Improvement
-- USP.3 Iterative Prompt Improvement & Quality Control Framework
-- Focus on continuous refinement achieving ≥4.5 quality consistently
-
-**Phase 3 (Weeks 4-6):** Production Excellence
-- USP.4 Production-Scale Quality Control & Iterative Launch
-- Real-time quality monitoring and continuous improvement
+**Future Phases:** Quality improvement initiatives will be addressed in separate worksheet-quality epic focused on testing frameworks and production excellence.
 
 ## Story Breakdown
 
@@ -58,41 +52,14 @@
 - ✅ Seamless integration with existing dropdown hierarchy
 - ✅ Clean, focused codebase without legacy complexity
 
-### Story USP.3: Iterative Prompt Improvement & Quality Control Framework
-**Focus:** Iterative prompt refinement for continuous quality improvement  
-**Effort:** 2-3 weeks  
-**Dependencies:** Unified PromptService (consolidated USP.1+USP.2+Integration)  
-
-**Story:** As a development team focused on exceptional worksheet quality, I want comprehensive testing framework enabling iterative prompt refinement through automated quality feedback loops so that we achieve consistently superior worksheet generation (≥4.5/5.0).
-
-**Key Components:**
-- Iterative quality testing pipeline with prompt improvement feedback
-- A/B/C testing framework for systematic prompt optimization
-- Teacher feedback integration for real-world validation
-- Quality regression prevention during iterative cycles
-- Performance-optimized feedback loops for rapid iteration
-
-### Story USP.4: Production-Scale Quality Control & Iterative Launch
-**Focus:** Production excellence with continuous quality improvement  
-**Effort:** 2-3 weeks  
-**Dependencies:** USP.3 (Iterative Improvement Framework)  
-
-**Story:** As a product team launching the competitive advantage system, I want production-scale quality control with continuous prompt refinement capabilities so that we launch with exceptional quality (≥4.5/5.0) and maintain competitive superiority.
-
-**Key Components:**
-- Real-time quality monitoring with automatic prompt adjustment
-- Teacher feedback integration loop for continuous improvement
-- Competitive benchmarking system with ongoing advantage validation
-- Quality-driven rollout strategy with automatic quality gates
-- Long-term iterative improvement infrastructure for sustained excellence
+### Future Quality Initiatives
+Quality improvement and production excellence initiatives (formerly USP.3 and USP.4) have been moved to a separate worksheet-quality epic for focused development and testing.
 
 ## Story Documentation Links
 
 **Individual Story Files (Detailed Implementation):**
 - [`docs/stories/usp.1.llm-prompt-engineering-foundation.md`](../stories/usp.1.llm-prompt-engineering-foundation.md) - Core LLM system implementation
 - [`docs/stories/usp.2.enhanced-configuration-system.md`](../stories/usp.2.enhanced-configuration-system.md) - Configuration flow enhancement
-- [`docs/stories/usp.3.quality-assurance-testing-framework.md`](../stories/usp.3.quality-assurance-testing-framework.md) - Quality validation systems
-- [`docs/stories/usp.4.production-integration-launch.md`](../stories/usp.4.production-integration-launch.md) - Production deployment
 
 **Supporting Documentation:**
 - [`docs/methodology/llm-driven-worksheet-generation.md`](../methodology/llm-driven-worksheet-generation.md) - Comprehensive methodology
@@ -113,15 +80,7 @@
 - ✅ USP.Integration: Enhanced Prompt Generation
 - ✅ Service consolidation into unified PromptService
 
-**Weeks 1-3: Phase 2 Iterative Excellence**
-- Story USP.3: Iterative Prompt Improvement & Quality Control Framework
-- Focus on continuous refinement achieving ≥4.5 quality consistently
-- Teacher feedback integration and improvement cycles
-
-**Weeks 4-6: Phase 3 Production Excellence**
-- Story USP.4: Production-Scale Quality Control & Iterative Launch
-- Real-time quality monitoring and continuous improvement
-- Competitive advantage validation and sustained excellence
+**Future Development:** Quality improvement and production excellence will be addressed in separate worksheet-quality epic with dedicated testing framework and production monitoring systems.
 
 ### 🧪 **LLM-Driven Quality Assurance Strategy**
 **Multi-Layered Validation Approach:**

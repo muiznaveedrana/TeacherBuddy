@@ -12,12 +12,6 @@ export type LayoutType = 'standard' | 'fluency' | 'grid' | 'differentiated' | 'r
 // Enhanced configuration types for USP.2
 export type VisualTheme = 'animals' | 'food' | 'sports' | 'space' | 'standard' | 'none'
 
-export type ProblemType = 'word-problems' | 'visual-arrays' | 'mixed-formats' | 'standard-calculations'
-
-export type EngagementStyle = 'structured' | 'storytelling' | 'gamified'
-
-export type PromptTemplate = 'optimal'
-
 export interface LayoutTemplate {
   id: LayoutType
   name: string
@@ -40,17 +34,11 @@ export interface WorksheetConfig {
 
   // Enhanced configuration options (USP.2)
   visualTheme?: VisualTheme
-  problemTypes?: ProblemType[]
-  engagementStyle?: EngagementStyle
-  promptTemplate?: PromptTemplate
 }
 
 // Enhanced WorksheetConfig with required USP.2 fields
 export interface EnhancedWorksheetConfig extends WorksheetConfig {
   visualTheme: VisualTheme
-  problemTypes: ProblemType[]
-  engagementStyle: EngagementStyle
-  promptTemplate: PromptTemplate
 }
 
 export interface GeneratedWorksheet {

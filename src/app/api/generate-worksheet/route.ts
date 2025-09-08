@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateWorksheet } from '@/lib/services/gemini'
-import { WorksheetConfig, WorksheetGenerationResult, LayoutType, VisualTheme, ProblemType, EngagementStyle, PromptTemplate } from '@/lib/types/worksheet'
+import { WorksheetConfig, WorksheetGenerationResult, LayoutType, VisualTheme } from '@/lib/types/worksheet'
 import { validateWorksheetRequest, sanitizeWorksheetRequest } from '@/lib/utils/validation'
 
 // Mock name lists data (will eventually come from database)
@@ -39,10 +39,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       nameList, 
       yearGroup,
       // Enhanced configuration options (USP.2)
-      visualTheme,
-      problemTypes,
-      engagementStyle,
-      promptTemplate
+      visualTheme
     } = sanitizedBody as {
       layout: string
       topic: string
@@ -53,9 +50,6 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       yearGroup: string
       // Enhanced options (optional)
       visualTheme?: VisualTheme
-      problemTypes?: ProblemType[]
-      engagementStyle?: EngagementStyle
-      promptTemplate?: PromptTemplate
     }
     
     // Validate yearGroup is provided
@@ -109,10 +103,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       studentNames,
       // Enhanced configuration options (USP.2) 
       // Unified Service: These drive the consolidated prompt generation system
-      visualTheme: visualTheme || undefined,
-      problemTypes: problemTypes?.length ? problemTypes : undefined,
-      engagementStyle: engagementStyle || undefined,
-      promptTemplate: promptTemplate || undefined
+      visualTheme: visualTheme || undefined
     }
 
     // Generate worksheet using Gemini AI
@@ -120,17 +111,14 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
     const generationTime = Date.now() - startTime
 
     // Log performance for monitoring (Unified Service)
-    const hasEnhanced = !!(visualTheme || problemTypes?.length || engagementStyle || promptTemplate)
+    const hasEnhanced = !!(visualTheme)
     console.log(`Unified PromptService worksheet generated in ${generationTime}ms`, {
       topic,
       subtopic,
       yearGroup,
       enhancedSystem: hasEnhanced,
       ...(hasEnhanced && {
-        visualTheme: visualTheme || 'none',
-        problemTypes: problemTypes?.join(', ') || 'default',
-        engagementStyle: engagementStyle || 'default',
-        promptTemplate: promptTemplate || 'default'
+        visualTheme: visualTheme || 'none'
       })
     })
 

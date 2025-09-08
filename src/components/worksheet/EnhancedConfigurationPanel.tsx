@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -41,10 +41,10 @@ export function EnhancedConfigurationPanel({
   // Update suggestions when dependencies change
   useEffect(() => {
     if (yearGroup) {
-      const newSuggestions = getContextualSuggestions(yearGroup, topic, layout)
+      const newSuggestions = getContextualSuggestions(yearGroup)
       setSuggestions(newSuggestions)
     }
-  }, [yearGroup, topic, layout])
+  }, [yearGroup])
   
   // Get visual theme options (direct access for simplicity)
   const visualThemeOptions = suggestions?.visualTheme || VISUAL_THEME_OPTIONS

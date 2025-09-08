@@ -468,21 +468,3 @@ function calculateAverageQualityScore(metrics: QualityMetrics): number {
  * Enhanced worksheet generation function with A/B testing support
  * Supports USP.1 Template A, B, C variations for systematic optimization
  */
-export async function generateWorksheetWithABTesting(
-  config: WorksheetConfig
-): Promise<Record<PromptTemplate, GeneratedWorksheet>> {
-  const templates: PromptTemplate[] = ['structured', 'creative', 'gamified']
-  const results: Record<string, GeneratedWorksheet> = {}
-
-  for (const template of templates) {
-    try {
-      // Generating worksheet with ${template} template
-      results[template] = await generateWorksheet(config, template)
-    } catch (error) {
-      console.error(`Failed to generate ${template} template:`, error)
-      // Continue with other templates even if one fails
-    }
-  }
-
-  return results as Record<PromptTemplate, GeneratedWorksheet>
-}

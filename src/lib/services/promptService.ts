@@ -11,12 +11,8 @@
 
 import { 
   WorksheetConfig,
-  VisualTheme,
-  ProblemType,
-  EngagementStyle,
-  PromptTemplate
+  VisualTheme
 } from '@/lib/types/worksheet'
-import { getSmartDefaults } from '@/lib/config/enhanced-options'
 import { getTopicDetails } from '@/lib/data/curriculum'
 
 // Unified prompt approach for optimal results
@@ -26,9 +22,6 @@ export type PromptVariation = 'optimal'
 export interface EnhancedPromptConfig extends WorksheetConfig {
   // USP.2 Enhanced options with smart defaults applied
   visualTheme?: VisualTheme // Optional - let LLM decide when undefined
-  problemTypes: ProblemType[]
-  engagementStyle: EngagementStyle
-  promptTemplate: PromptTemplate
 }
 
 // Quality metrics for iterative improvement (USP.3 focus)
@@ -48,7 +41,6 @@ export interface IterativeImprovementMetadata {
   qualityScore: number
   improvementCycle: number
   enhancementsApplied: string[]
-  usedSmartDefaults: boolean
   templateVariation: PromptVariation
   visualTheme?: VisualTheme // Optional - undefined when not selected
   generationTime: number
@@ -130,7 +122,6 @@ export class PromptService {
       qualityScore,
       improvementCycle: options.iterativeCycle || 1,
       enhancementsApplied: this.getAppliedEnhancements(config),
-      usedSmartDefaults: false, // No smart defaults applied
       templateVariation: promptVariation,
       visualTheme: config.visualTheme,
       generationTime: Date.now() - startTime,
@@ -142,17 +133,9 @@ export class PromptService {
    * Convert WorksheetConfig to EnhancedPromptConfig with safe defaults
    */
   private static createEnhancedConfig(config: WorksheetConfig): EnhancedPromptConfig {
-    // Ensure arrays are not mutated by creating new instances
-    const defaultProblemTypes: ProblemType[] = ['word-problems']
-    const defaultEngagementStyle: EngagementStyle = 'structured'
-    const defaultPromptTemplate: PromptTemplate = 'optimal'
-    
     return {
       ...config,
-      visualTheme: config.visualTheme, // Keep as-is (undefined if not selected)
-      problemTypes: config.problemTypes ? [...config.problemTypes] : defaultProblemTypes,
-      engagementStyle: config.engagementStyle || defaultEngagementStyle,
-      promptTemplate: config.promptTemplate || defaultPromptTemplate
+      visualTheme: config.visualTheme // Keep as-is (undefined if not selected)
     }
   }
 
@@ -182,7 +165,7 @@ export class PromptService {
   private static generateOptimalPrompt(config: EnhancedPromptConfig): string {
     const curriculumContext = this.getCurriculumContext(config)
     const shouldApplyTheme = config.visualTheme && config.visualTheme !== 'none'
-    const svgInstructions = shouldApplyTheme && config.visualTheme ? this.getSVGInstructions(config.visualTheme) : null
+    const svgInstructions = shouldApplyTheme && config.visualTheme ? this.getSVGInstructions(config.visualTheme) : this.getContextualSVGInstructions()
     const accessibilityRequirements = this.getAccessibilityRequirements(config.yearGroup)
     const themeContext = shouldApplyTheme && config.visualTheme ? this.getThemeContext(config.visualTheme, config.yearGroup) : null
 
@@ -193,7 +176,12 @@ export class PromptService {
 - Age-appropriate vocabulary with mathematical precision
 - Use names: Emma, Oliver, Sophie, James, Lily, Thomas, Grace, Harry${themeContext ? `\n- Theme: ${themeContext}` : ''}
 
-**Format:** Complete HTML${svgInstructions ? ` with embedded SVG icons (small, simple shapes from OpenClipart.org: ${svgInstructions.searchTerms.join(', ')})` : ''}.
+**Format:** Complete HTML with embedded SVG icons (small, simple shapes from OpenClipart.org: ${svgInstructions.searchTerms.join(', ')}).
+
+**SVG Instructions:**
+- ${svgInstructions.arrangementInstructions}
+- ${svgInstructions.sizingGuidelines}
+- ${svgInstructions.qualityRequirements}
 
 **CRITICAL - HTML STRUCTURE MUST BE:**
 <!DOCTYPE html>
@@ -315,6 +303,19 @@ IMPORTANT: The HTML MUST contain these exact CSS classes: "worksheet-header" and
   }
 
   /**
+   * Get contextual SVG instructions when no theme is selected
+   * LLM should choose appropriate SVGs based on question content
+   */
+  private static getContextualSVGInstructions(): SVGInstructions {
+    return {
+      searchTerms: ['mathematical objects', 'educational icons', 'contextual illustrations', 'relevant objects'],
+      sizingGuidelines: '30-50px height, maintain aspect ratio and visual consistency',
+      arrangementInstructions: 'Choose SVG elements that directly relate to each question context (e.g., coins for money problems, shapes for geometry, objects for counting). Each question should have contextually relevant visual support.',
+      qualityRequirements: 'Select clear, educational illustrations that enhance mathematical understanding and match the specific context of each problem'
+    }
+  }
+
+  /**
    * Get accessibility requirements for age group
    */
   private static getAccessibilityRequirements(yearGroup: string): { fontRequirements: string } {
@@ -395,10 +396,6 @@ IMPORTANT: The HTML MUST contain these exact CSS classes: "worksheet-header" and
       baseScore += 0.05 // Small boost for using optimal template
     }
     
-    if (config.engagementStyle === 'storytelling') {
-      baseScore += 0.1
-    }
-    
     return Math.min(baseScore, 5.0)
   }
 
@@ -408,9 +405,9 @@ IMPORTANT: The HTML MUST contain these exact CSS classes: "worksheet-header" and
   private static getAppliedEnhancements(config: EnhancedPromptConfig): string[] {
     const enhancements: string[] = []
     
-    if (config.visualTheme && config.visualTheme !== 'standard' && config.visualTheme !== 'none') enhancements.push(`Visual theme: ${config.visualTheme}`)
-    if (config.engagementStyle !== 'structured') enhancements.push(`Engagement: ${config.engagementStyle}`)
-    if (config.problemTypes?.length > 0) enhancements.push(`Problem types: ${config.problemTypes.join(', ')}`)
+    if (config.visualTheme && config.visualTheme !== 'standard' && config.visualTheme !== 'none') {
+      enhancements.push(`Visual theme: ${config.visualTheme}`)
+    }
     
     return enhancements
   }
