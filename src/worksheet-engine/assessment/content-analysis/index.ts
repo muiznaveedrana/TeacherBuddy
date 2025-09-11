@@ -339,5 +339,4 @@ export class ContentAnalysisAssessment {
   }
 }
 
-// Export the main assessment interface for external use
-export { ContentAnalysisAssessment } from './content-analysis-assessment'
+// ContentAnalysisAssessment is already exported above as a class

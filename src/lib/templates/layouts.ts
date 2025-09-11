@@ -543,6 +543,95 @@ export const LAYOUT_CONTENT_TEMPLATES = {
         </div>
       `).join('')}
     </div>
+  `,
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  'visual-heavy': (questions: WorksheetQuestion[], _context: LayoutRenderContext) => `
+    <style>
+      .visual-container {
+        margin: 15px 0;
+        text-align: center;
+      }
+      
+      .visual-question {
+        margin: 20px 0;
+        padding: 15px;
+        border: 2px solid #4CAF50;
+        border-radius: 12px;
+        background: #f9fff9;
+        page-break-inside: avoid;
+      }
+      
+      .visual-number {
+        display: inline-block;
+        background: #4CAF50;
+        color: white;
+        font-weight: bold;
+        font-size: 14pt;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        line-height: 30px;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      
+      .visual-text {
+        font-size: 13pt;
+        line-height: 1.6;
+        margin: 10px 0;
+        text-align: left;
+      }
+      
+      .visual-workspace {
+        background: white;
+        border: 2px dashed #4CAF50;
+        min-height: 60px;
+        margin: 15px 0;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11pt;
+        color: #666;
+      }
+      
+      .visual-answer-area {
+        margin-top: 15px;
+        text-align: center;
+      }
+      
+      .visual-answer-box {
+        border: 2px solid #4CAF50;
+        background: white;
+        width: 100px;
+        height: 35px;
+        display: inline-block;
+        margin-left: 10px;
+        border-radius: 6px;
+        vertical-align: middle;
+      }
+      
+      .answer-label {
+        font-weight: bold;
+        color: #4CAF50;
+        font-size: 12pt;
+      }
+    </style>
+    
+    <div class="visual-container">
+      ${questions.map((q, i) => `
+        <div class="visual-question">
+          <div class="visual-number">${i + 1}</div>
+          <div class="visual-text">${escapeHtml(q.text)}</div>
+          <div class="visual-workspace">Draw or work out your answer here</div>
+          <div class="visual-answer-area">
+            <span class="answer-label">Answer:</span>
+            <span class="visual-answer-box"></span>
+          </div>
+        </div>
+      `).join('')}
+    </div>
   `
 }
 
@@ -572,7 +661,8 @@ export const validateLayoutQuestionCount = (layoutType: LayoutType, questionCoun
     fluency: { min: 10, max: 50 },
     grid: { min: 8, max: 20 },
     differentiated: { min: 6, max: 18 },
-    reasoning: { min: 3, max: 12 }
+    reasoning: { min: 3, max: 12 },
+    'visual-heavy': { min: 2, max: 10 }
   }
   
   const range = ranges[layoutType]

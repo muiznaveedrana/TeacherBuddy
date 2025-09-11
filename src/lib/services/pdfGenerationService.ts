@@ -85,7 +85,7 @@ export async function generateWorksheetPdf(
     }
     
     // Validate layout type
-    const validLayouts: LayoutType[] = ['standard', 'fluency', 'grid', 'differentiated', 'reasoning']
+    const validLayouts: LayoutType[] = ['standard', 'fluency', 'grid', 'differentiated', 'reasoning', 'visual-heavy']
     if (!validLayouts.includes(request.config.layout)) {
       return {
         success: false,
@@ -121,61 +121,21 @@ export async function generateWorksheetPdf(
         headless: true,
       }
     } else if (isDevelopment) {
-      // Development environment - use full puppeteer with bundled Chromium
+      // Development environment - use bundled Chromium from puppeteer
       try {
-        // Try using puppeteer (full package) which includes Chromium
         const puppeteerFull = await import('puppeteer')
-        console.log('Using bundled Chromium from puppeteer package')
+        const executablePath = puppeteerFull.default.executablePath()
+        console.log('Using Puppeteer bundled Chrome:', executablePath)
         
-        // Use the full puppeteer's launch method which includes Chromium
-        const browser = await puppeteerFull.default.launch({
+        browserConfig = {
+          executablePath,
           headless: true,
           args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-        })
-        
-        const page = await browser.newPage()
-        
-        // Set content with timeout protection
-        await page.setContent(html, {
-          waitUntil: 'networkidle0',
-          timeout: 30000 // 30 second timeout
-        })
-        
-        // Generate PDF with A4 formatting
-        const pdfBuffer = await page.pdf({
-          format: 'A4',
-          printBackground: true,
-          margin: {
-            top: '20mm',
-            bottom: '20mm',
-            left: '20mm', 
-            right: '20mm'
-          },
-          preferCSSPageSize: true
-        })
-        
-        // Convert to Buffer for proper typing
-        const buffer = Buffer.from(pdfBuffer)
-        
-        await browser.close()
-        
-        const filename = generateFilename(request.config)
-        const generationTime = Date.now() - startTime
-        
-        // Log successful generation (no personal data)
-        console.log(`PDF generated successfully: ${filename}, Layout: ${request.config.layout}, Time: ${generationTime}ms`)
-        
-        return {
-          success: true,
-          buffer,
-          filename,
-          generationTime
         }
-        
       } catch (puppeteerError) {
-        console.warn('Full puppeteer not available, falling back to system Chrome:', puppeteerError)
+        console.warn('Puppeteer bundled Chrome not available, trying system Chrome:', puppeteerError)
         
-        // Simplified fallback for development - use system Chrome
+        // Fallback to system Chrome paths
         const systemChromePaths = [
           'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', // Windows
           'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe', // Windows x86

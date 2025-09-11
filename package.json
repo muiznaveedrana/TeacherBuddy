@@ -45,6 +45,7 @@
     "puppeteer-core": "^24.19.0",
     "react": "^18",
     "react-dom": "^18",
+    "resemblejs": "^5.0.0",
     "ssim.js": "^3.5.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "^3.3.0",
