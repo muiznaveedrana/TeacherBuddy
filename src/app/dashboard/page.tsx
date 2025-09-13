@@ -147,6 +147,15 @@ export default function DashboardPage() {
 
     setPdfGenerating(true)
     try {
+      // Validate the generated content before sending
+      if (!generatedWorksheet.html || generatedWorksheet.html.length < 10) {
+        throw new Error('Generated worksheet content is too short or missing')
+      }
+      
+      if (generatedWorksheet.html.length > 50000) {
+        throw new Error('Generated worksheet content is too long for PDF generation')
+      }
+
       const config = {
         layout,
         topic,
@@ -339,7 +348,14 @@ export default function DashboardPage() {
                       </Tooltip>
                     </TooltipProvider>
                   </div>
-                  <Select value={layout} onValueChange={(value) => { setLayout(value as LayoutType); handleConfigurationChange(); }}>
+                  <Select value={layout} onValueChange={(value) => { 
+                    setLayout(value as LayoutType); 
+                    // Ensure question count is appropriate for standard layout
+                    if (questionCount > 10) {
+                      setQuestionCount(5); // Default safe count for standard layout
+                    }
+                    handleConfigurationChange(); 
+                  }}>
                     <SelectTrigger className="h-12 md:h-10 text-base md:text-sm border-2 border-purple-200 bg-purple-50">
                       <SelectValue placeholder="Select worksheet layout">
                         {layout && (

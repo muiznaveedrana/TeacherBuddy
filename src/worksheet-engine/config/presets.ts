@@ -12,7 +12,7 @@ import { ConfigMapping } from '../types/engine-types'
  */
 export const WORKSHEET_CONFIG_PRESETS: ConfigMapping = {
   'year3-addition-standard-average-5q': {
-    layout: 'standard',
+    layout: 'word-problem-enhanced',
     yearGroup: 'Year 3',
     topic: 'addition-subtraction',
     subtopic: 'problem-solving',
@@ -50,6 +50,14 @@ export const WORKSHEET_CONFIG_PRESETS: ConfigMapping = {
     subtopic: 'times-tables',
     difficulty: 'average',
     questionCount: 10
+  },
+  'year3-addition-grid-average-20q': {
+    layout: 'grid',
+    yearGroup: 'Year 3',
+    topic: 'addition-subtraction',
+    subtopic: 'three-digit-calculation',
+    difficulty: 'average',
+    questionCount: 20
   }
 } as const
 

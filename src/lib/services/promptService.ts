@@ -179,8 +179,12 @@ export class PromptService {
 **Format:** Complete HTML with embedded SVG icons (small, simple shapes from OpenClipart.org: ${svgInstructions.searchTerms.join(', ')}).
 
 **SVG Instructions:**
+- Create VERY LARGE, colorful, contextual SVG icons (100x100px) that relate to each word problem
+- Icons should be placed in the .question-icon div on the right side of each question
+- Use bright, engaging colors and clear, simple shapes (cupcakes, buses, money, books, etc.)
+- Each SVG should be self-contained and relevant to the problem context
+- NO background circles or containers - just the pure SVG icon for maximum visual impact
 - ${svgInstructions.arrangementInstructions}
-- ${svgInstructions.sizingGuidelines}
 - ${svgInstructions.qualityRequirements}
 
 **CRITICAL - HTML STRUCTURE MUST BE:**
@@ -189,20 +193,140 @@ export class PromptService {
 <head>
     <title>${config.topic} - ${config.subtopic}</title>
     <style>
-        body { font-family: Arial, sans-serif; font-size: ${accessibilityRequirements.fontRequirements.includes('16-18pt') ? '16pt' : '14pt'}; line-height: 1.6; margin: 20px; }
-        .worksheet-header { text-align: center; margin-bottom: 20px; }
-        .worksheet-content { margin: 20px 0; }
-        .question { margin: 15px 0; }
-        svg { width: 40px; height: 40px; vertical-align: middle; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-size: ${accessibilityRequirements.fontRequirements.includes('16-18pt') ? '16pt' : '14pt'}; 
+            line-height: 1.6; 
+            margin: 20px; 
+            color: #333; 
+        }
+        .worksheet-header { 
+            text-align: center; 
+            margin-bottom: 25px; 
+            padding-bottom: 15px; 
+            border-bottom: 3px solid #333; 
+        }
+        .worksheet-title { 
+            font-size: 18pt; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            color: #333; 
+            margin-bottom: 10px; 
+        }
+        .worksheet-instructions { 
+            font-size: 11pt; 
+            color: #666; 
+            font-style: italic; 
+            margin-bottom: 15px; 
+        }
+        .worksheet-content { 
+            margin: 20px 0; 
+        }
+        .question { 
+            display: flex; 
+            align-items: flex-start; 
+            margin: 25px 0; 
+            padding: 20px; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 12px; 
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%); 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+        }
+        .question-number { 
+            font-size: 14pt; 
+            font-weight: bold; 
+            color: #2c3e50; 
+            margin-right: 15px; 
+            min-width: 25px; 
+        }
+        .question-content { 
+            flex: 1; 
+            margin-right: 20px; 
+        }
+        .question-text { 
+            font-size: 12pt; 
+            line-height: 1.6; 
+            color: #333; 
+            margin-bottom: 15px; 
+        }
+        .working-space { 
+            background: white; 
+            border: 2px dashed #ccc; 
+            border-radius: 8px; 
+            min-height: 60px; 
+            padding: 10px; 
+            margin: 10px 0; 
+            position: relative; 
+        }
+        .working-space::before { 
+            content: "Show your work:"; 
+            position: absolute; 
+            top: -8px; 
+            left: 10px; 
+            background: white; 
+            padding: 0 5px; 
+            font-size: 9pt; 
+            color: #666; 
+        }
+        .answer-section { 
+            margin-top: 15px; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
+        .answer-label { 
+            font-weight: bold; 
+            color: #27ae60; 
+            font-size: 12pt; 
+        }
+        .answer-box { 
+            border: 2px solid #27ae60; 
+            background: white; 
+            width: 100px; 
+            height: 30px; 
+            border-radius: 6px; 
+            display: inline-block; 
+        }
+        .question-icon { 
+            width: 100px; 
+            height: 100px; 
+            margin-left: 15px; 
+            flex-shrink: 0; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        .question-icon svg { 
+            width: 100px; 
+            height: 100px; 
+        }
     </style>
 </head>
 <body>
     <div class="worksheet-header">
-        <h1>${config.topic}: ${config.subtopic}</h1>
+        <h1 class="worksheet-title">Word Problems: ${config.topic.replace('-', ' ')}</h1>
+        <div class="worksheet-instructions">
+            Carefully read each question. Identify the key information, show all of your work, and circle your final answer!
+        </div>
         <div class="student-info">Name: _____________ Date: _____________</div>
     </div>
     <div class="worksheet-content">
-        [Generate exactly ${config.questionCount} questions here with embedded SVG elements]
+        [Generate exactly ${config.questionCount} questions using this format:
+        <div class="question">
+            <div class="question-number">1.)</div>
+            <div class="question-content">
+                <div class="question-text">[Question text here]</div>
+                <div class="working-space"></div>
+                <div class="answer-section">
+                    <span class="answer-label">Final Answer:</span>
+                    <span class="answer-box"></span>
+                </div>
+            </div>
+            <div class="question-icon">
+                [VERY LARGE contextual SVG icon here - 100x100px - NO background circle]
+            </div>
+        </div>]
     </div>
 </body>
 </html>

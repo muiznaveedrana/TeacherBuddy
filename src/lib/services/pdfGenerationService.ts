@@ -85,7 +85,7 @@ export async function generateWorksheetPdf(
     }
     
     // Validate layout type
-    const validLayouts: LayoutType[] = ['standard', 'fluency', 'grid', 'differentiated', 'reasoning', 'visual-heavy']
+    const validLayouts: LayoutType[] = ['standard', 'fluency', 'grid', 'differentiated', 'reasoning', 'visual-heavy', 'word-problem-enhanced']
     if (!validLayouts.includes(request.config.layout)) {
       return {
         success: false,

@@ -14,7 +14,7 @@ const PdfGenerationSchema = z.object({
     yearGroup: z.string().min(1).max(20),
     studentNames: z.array(z.string()).optional()
   }),
-  generatedContent: z.string().min(10).max(10000),
+  generatedContent: z.string().min(10).max(50000),
   title: z.string().min(1).max(200)
 })
 
@@ -100,6 +100,12 @@ export async function POST(request: NextRequest) {
     // Validate input schema
     const validation = PdfGenerationSchema.safeParse(body)
     if (!validation.success) {
+      // Debug logging for validation errors
+      console.error('PDF API Validation Error:', {
+        receivedBody: typeof body === 'object' ? JSON.stringify(body, null, 2) : body,
+        validationErrors: validation.error.issues
+      })
+      
       return NextResponse.json(
         { 
           error: 'Invalid request format',

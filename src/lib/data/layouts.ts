@@ -73,7 +73,8 @@ export const LAYOUT_RECOMMENDATIONS: Record<string, LayoutType[]> = {
  * Get layout templates as array for dropdown/selection components
  */
 export const getLayoutOptions = (): LayoutTemplate[] => {
-  return Object.values(LAYOUT_TEMPLATES)
+  // Only return standard layout for now
+  return [LAYOUT_TEMPLATES.standard]
 }
 
 /**

@@ -7,7 +7,7 @@ export type DifficultyLevel = 'easy' | 'average' | 'hard'
 
 export type QuestionType = 'word-problem' | 'calculation' | 'visual-problem'
 
-export type LayoutType = 'standard' | 'fluency' | 'grid' | 'differentiated' | 'reasoning' | 'visual-heavy'
+export type LayoutType = 'standard' | 'fluency' | 'grid' | 'differentiated' | 'reasoning' | 'visual-heavy' | 'word-problem-enhanced'
 
 // Enhanced configuration types for USP.2
 export type VisualTheme = 'animals' | 'food' | 'sports' | 'space' | 'standard' | 'none'

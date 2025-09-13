@@ -105,7 +105,7 @@ export async function generateWorksheet(
 
   try {
     // Validate layout and question count compatibility
-    if (!validateLayoutQuestionCount(config.layout, config.questionCount)) {
+    if (!validateLayoutQuestionCount(config.layout, config.questionCount, { topic: config.topic, subtopic: config.subtopic })) {
       const layoutTemplate = LAYOUT_TEMPLATES[config.layout]
       const range = layoutTemplate.questionRange
       throw new AppValidationError(
@@ -125,6 +125,56 @@ export async function generateWorksheet(
       }
     }
 
+    // Special case: Grid layout with three-digit calculations uses direct template
+    if (config.layout === 'grid' && 
+        config.topic === 'addition-subtraction' && 
+        config.subtopic === 'three-digit-numbers') {
+      
+      // Generate dummy questions for template rendering
+      const questions: WorksheetQuestion[] = Array.from({length: config.questionCount}, (_, i) => ({
+        text: `Question ${i + 1}` // Template will generate actual problems
+      }))
+      
+      const renderContext = {
+        title: `Year 3 Maths: Three-Digit Addition`,
+        content: '',
+        difficulty: config.difficulty,
+        yearGroup: config.yearGroup,
+        topic: config.topic,
+        subtopic: config.subtopic,
+        questionCount: config.questionCount,
+        generatedAt: new Date().toISOString()
+      }
+      
+      // Use direct template rendering instead of LLM
+      const html = renderLayout(config.layout, questions, renderContext)
+      
+      metrics.promptLength = 0 // No LLM prompt needed
+      metrics.responseLength = html.length
+      
+      const worksheet: GeneratedWorksheet = {
+        title: renderContext.title,
+        html,
+        metadata: {
+          topic: config.topic,
+          subtopic: config.subtopic,
+          difficulty: config.difficulty,
+          questionCount: config.questionCount,
+          curriculum: 'UK National Curriculum',
+          generatedAt: renderContext.generatedAt,
+          promptTemplate: 'direct-template',
+          qualityScore: 5.0,
+          isPhase1Combination: false
+        }
+      }
+      
+      metrics.endTime = Date.now()
+      metrics.duration = metrics.endTime - metrics.startTime
+      metrics.success = true
+      
+      return worksheet
+    }
+    
     // Unified Prompt Service: Consolidated USP.1 + USP.2 + USP.Integration
     // "Configuration → Smart Defaults → Optimal Prompt → Gemini 2.5 Flash → HTML with embedded SVGs"
     
