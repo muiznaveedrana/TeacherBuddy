@@ -32,3 +32,4 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Cross-platform scripts**: Node.js (.js), PowerShell (.ps1), Bash (.sh)
 - **Documentation**: scripts/AUTOMATION-QUICKSTART.md and docs/prompt-engineering-guide.md
   
+- ./scripts/sequential-baseline-generation.sh to run sequential baseline generation
