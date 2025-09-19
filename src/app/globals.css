@@ -257,15 +257,7 @@
   position: relative;
 }
 
-.worksheet-preview .working-space::after {
-  content: "Working space";
-  position: absolute;
-  right: 8px;
-  bottom: 4px;
-  font-size: 11px;
-  color: #999;
-  font-style: italic;
-}
+/* Removed "Working space" label for clean UX */
 
 /* Print-friendly styles */
 @media print {

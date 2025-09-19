@@ -68,7 +68,7 @@ const baseLayoutTemplate = (content: string, context: LayoutRenderContext) => `
       font-size: 12pt;
       line-height: 1.4;
       margin: 0;
-      padding: 20mm;
+      padding: 10mm 12mm;
       background: white;
       color: #000;
     }
@@ -95,11 +95,13 @@ const baseLayoutTemplate = (content: string, context: LayoutRenderContext) => `
     .student-info {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       margin: 15px 0;
       padding: 10px 0;
       border-top: 1px solid #ccc;
       border-bottom: 1px solid #ccc;
       font-size: 11pt;
+      gap: 20px; /* Add space between Name and Date */
     }
     
     .student-name {
@@ -118,8 +120,8 @@ const baseLayoutTemplate = (content: string, context: LayoutRenderContext) => `
     
     /* Print optimization */
     @media print {
-      body { 
-        padding: 15mm; 
+      body {
+        padding: 10mm 12mm;
       }
       .worksheet-header {
         page-break-inside: avoid;
@@ -246,48 +248,43 @@ export const LAYOUT_CONTENT_TEMPLATES = {
   standard: (questions: WorksheetQuestion[], _context: LayoutRenderContext) => `
     <style>
       .standard-question {
-        margin: 12px 0;
-        padding: 5px 0;
+        margin: 10px 0 0 0; /* Minimal top margin, no bottom margin */
+        padding: 0;
         page-break-inside: avoid;
       }
-      
+
+      .standard-question:first-child {
+        margin-top: 0; /* No top margin for first question */
+      }
+
       .question-number {
         font-weight: bold;
-        margin-bottom: 5px;
+        margin-bottom: 6px;
         font-size: 12pt;
+        display: inline;
+        margin-right: 8px;
       }
-      
+
       .question-text {
-        margin-bottom: 8px;
-        line-height: 1.4;
+        display: inline;
+        line-height: 1.5;
       }
-      
-      .working-lines {
-        background-image: linear-gradient(transparent 14px, #ddd 14px, #ddd 15px, transparent 15px);
-        background-size: 100% 15px;
-        min-height: 15px;
-        padding: 2px 5px;
-        margin: 5px 0;
-      }
-      
-      .answer-box {
-        border: 1px solid #333;
-        width: 80px;
-        height: 25px;
-        display: inline-block;
-        margin-left: 10px;
-        vertical-align: middle;
+
+      /* Clean empty space for student work with subtle grey line */
+      .answer-space {
+        margin: 15px 0 0 0; /* Space above answer area, NO space below */
+        min-height: 60px; /* Space for student writing */
+        background: white;
+        border-bottom: 1px solid #999; /* Thin grey answer line */
+        position: relative;
       }
     </style>
-    
+
     ${questions.map((q, i) => `
       <div class="standard-question">
-        <div class="question-number">${i + 1}.</div>
-        <div class="question-text">${escapeHtml(q.text)}</div>
-        <div class="working-lines"></div>
-        <div style="margin-top: 8px;">
-          Answer: <span class="answer-box"></span>
-        </div>
+        <span class="question-number">${i + 1}.</span>
+        <span class="question-text">${escapeHtml(q.text)}</span>
+        <div class="answer-space"></div>
       </div>
     `).join('')}
   `,

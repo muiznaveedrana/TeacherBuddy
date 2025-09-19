@@ -187,151 +187,133 @@ export class PromptService {
 - ${svgInstructions.arrangementInstructions}
 - ${svgInstructions.qualityRequirements}
 
-**CRITICAL - HTML STRUCTURE MUST BE:**
+**CRITICAL - SIMPLIFIED UX HTML STRUCTURE:**
 <!DOCTYPE html>
 <html>
 <head>
     <title>${config.topic} - ${config.subtopic}</title>
     <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            font-size: ${accessibilityRequirements.fontRequirements.includes('16-18pt') ? '16pt' : '14pt'}; 
-            line-height: 1.6; 
-            margin: 20px; 
-            color: #333; 
+        body {
+            font-family: 'Times New Roman', serif;
+            font-size: 12pt;
+            line-height: 1.4;
+            margin: 0;
+            padding: 10mm 12mm; /* Minimal margins for space efficiency */
+            background: white;
+            color: #000;
         }
-        .worksheet-header { 
-            text-align: center; 
-            margin-bottom: 25px; 
-            padding-bottom: 15px; 
-            border-bottom: 3px solid #333; 
+
+        /* Simplified header - reduced to 10% of page height */
+        .worksheet-header {
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 6px;
+            border-bottom: 3px solid #000;
         }
-        .worksheet-title { 
-            font-size: 18pt; 
-            font-weight: bold; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-            color: #333; 
-            margin-bottom: 10px; 
+
+        .worksheet-title {
+            font-size: 16pt;
+            font-weight: bold;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .worksheet-instructions { 
-            font-size: 11pt; 
-            color: #666; 
-            font-style: italic; 
-            margin-bottom: 15px; 
+
+        /* Simplified student info */
+        .student-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 8px 0 15px 0;
+            font-size: 11pt;
+            font-weight: bold;
+            gap: 20px; /* Add space between Name and Date */
         }
-        .worksheet-content { 
-            margin: 20px 0; 
+
+        .worksheet-content {
+            margin-top: 10px;
         }
-        .question { 
-            display: flex; 
-            align-items: flex-start; 
-            margin: 25px 0; 
-            padding: 20px; 
-            border: 2px solid #e0e0e0; 
-            border-radius: 12px; 
-            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%); 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+
+        /* Clean, simplified question layout */
+        .question {
+            margin: 10px 0 0 0; /* Minimal top margin, no bottom margin */
+            padding: 0;
         }
-        .question-number { 
-            font-size: 14pt; 
-            font-weight: bold; 
-            color: #2c3e50; 
-            margin-right: 15px; 
-            min-width: 25px; 
+
+        .question:first-child {
+            margin-top: 0; /* No top margin for first question */
         }
-        .question-content { 
-            flex: 1; 
-            margin-right: 20px; 
+
+        .question-number {
+            font-size: 12pt;
+            font-weight: bold;
+            margin-right: 10px;
+            display: inline;
         }
-        .question-text { 
-            font-size: 12pt; 
-            line-height: 1.6; 
-            color: #333; 
-            margin-bottom: 15px; 
+
+        .question-text {
+            font-size: 12pt;
+            line-height: 1.5;
+            display: inline;
         }
-        .working-space { 
-            background: white; 
-            border: 2px dashed #ccc; 
-            border-radius: 8px; 
-            min-height: 60px; 
-            padding: 10px; 
-            margin: 10px 0; 
-            position: relative; 
+
+        /* Clean empty space for student work with subtle grey line */
+        .answer-space {
+            margin: 15px 0 0 0; /* Space above answer area, NO space below */
+            min-height: 60px; /* Space for student writing */
+            background: white;
+            border-bottom: 1px solid #999; /* Thin grey answer line */
         }
-        .working-space::before { 
-            content: "Show your work:"; 
-            position: absolute; 
-            top: -8px; 
-            left: 10px; 
-            background: white; 
-            padding: 0 5px; 
-            font-size: 9pt; 
-            color: #666; 
+
+        .question-icon {
+            width: 80px;
+            height: 80px;
+            margin-left: 15px;
+            float: right;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .answer-section { 
-            margin-top: 15px; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-        }
-        .answer-label { 
-            font-weight: bold; 
-            color: #27ae60; 
-            font-size: 12pt; 
-        }
-        .answer-box { 
-            border: 2px solid #27ae60; 
-            background: white; 
-            width: 100px; 
-            height: 30px; 
-            border-radius: 6px; 
-            display: inline-block; 
-        }
-        .question-icon { 
-            width: 100px; 
-            height: 100px; 
-            margin-left: 15px; 
-            flex-shrink: 0; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-        }
-        .question-icon svg { 
-            width: 100px; 
-            height: 100px; 
+
+        .question-icon svg {
+            width: 80px;
+            height: 80px;
         }
     </style>
 </head>
 <body>
-    <div class="worksheet-header">
-        <h1 class="worksheet-title">Word Problems: ${config.topic.replace('-', ' ')}</h1>
-        <div class="worksheet-instructions">
-            Carefully read each question. Identify the key information, show all of your work, and circle your final answer!
-        </div>
-        <div class="student-info">Name: _____________ Date: _____________</div>
+    <!-- Simplified student info positioned above header -->
+    <div class="student-info">
+        <div>Name: _____________</div>
+        <div>Date: _____________</div>
     </div>
+
+    <!-- Simplified header with title only -->
+    <div class="worksheet-header">
+        <h1 class="worksheet-title">${config.topic.replace('-', ' ')}</h1>
+    </div>
+
     <div class="worksheet-content">
-        [Generate exactly ${config.questionCount} questions using this format:
+        [Generate exactly ${config.questionCount} questions using this CLEAN format - NO complex boxes, NO "Show your work" labels, NO "Final Answer" labels:
         <div class="question">
-            <div class="question-number">1.)</div>
-            <div class="question-content">
-                <div class="question-text">[Question text here]</div>
-                <div class="working-space"></div>
-                <div class="answer-section">
-                    <span class="answer-label">Final Answer:</span>
-                    <span class="answer-box"></span>
-                </div>
-            </div>
+            <span class="question-number">1.</span>
+            <span class="question-text">[Question text here]</span>
             <div class="question-icon">
-                [VERY LARGE contextual SVG icon here - 100x100px - NO background circle]
+                [Large contextual SVG icon here - 80x80px]
             </div>
+            <div class="answer-space"></div>
         </div>]
     </div>
 </body>
 </html>
 
-IMPORTANT: The HTML MUST contain these exact CSS classes: "worksheet-header" and "worksheet-content" or it will be rejected.`
+CRITICAL REQUIREMENTS:
+- NO instructional text in header
+- NO "Show your work" labels or dashed containers
+- NO "Final Answer:" labels or answer boxes
+- Clean empty space naturally guides student writing
+- Minimal margins for maximum space utilization
+- The HTML MUST contain "worksheet-header" and "worksheet-content" classes`
   }
 
   /**
