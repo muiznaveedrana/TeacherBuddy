@@ -39,3 +39,4 @@ Thumbs.db
 
 # Baseline PDF folders
 baseline-pdfs*/
+.vercel

@@ -101,24 +101,42 @@ export async function generateWorksheetPdf(
     // Configure Puppeteer for both development and serverless environments
     const isProduction = process.env.NODE_ENV === 'production'
     const isDevelopment = process.env.NODE_ENV === 'development'
-    
+    const isVercel = process.env.VERCEL === '1'
+
     interface BrowserConfig {
       headless: boolean;
       args?: string[];
       executablePath?: string;
     }
-    
+
     let browserConfig: BrowserConfig = {
       headless: true,
     }
-    
-    if (isProduction) {
-      // Production serverless environment with @sparticuz/chromium
-      const chromium = (await import('@sparticuz/chromium')).default
-      browserConfig = {
-        args: chromium.args,
-        executablePath: await chromium.executablePath(),
-        headless: true,
+
+    if (isProduction || isVercel) {
+      // Production/Vercel serverless environment with @sparticuz/chromium
+      try {
+        const chromium = (await import('@sparticuz/chromium')).default
+
+        // Optimize for Vercel's serverless environment
+        browserConfig = {
+          args: [
+            ...chromium.args,
+            '--disable-gpu',
+            '--disable-dev-shm-usage',
+            '--disable-setuid-sandbox',
+            '--no-first-run',
+            '--no-sandbox',
+            '--no-zygote',
+            '--single-process'
+          ],
+          executablePath: await chromium.executablePath(),
+          headless: true,
+        }
+        console.log('Using @sparticuz/chromium for serverless environment')
+      } catch (chromiumError) {
+        console.error('Failed to load @sparticuz/chromium:', chromiumError)
+        throw new Error('Serverless Chrome setup failed. Please check @sparticuz/chromium installation.')
       }
     } else if (isDevelopment) {
       // Development environment - use bundled Chromium from puppeteer

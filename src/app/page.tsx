@@ -4,6 +4,7 @@ import { Check, Clock, Zap, BookOpen, Star, ArrowRight, Menu } from "lucide-reac
 import Link from "next/link";
 
 export default function LandingPage() {
+  // Fresh deployment trigger
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-50">
       {/* Sticky Navigation */}

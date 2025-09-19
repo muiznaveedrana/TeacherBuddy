@@ -42,7 +42,12 @@ function checkAuthentication(request: NextRequest): string | null {
   if (process.env.NODE_ENV === 'development' && token.includes('mock-session-token')) {
     return `dev-user-${Date.now()}`
   }
-  
+
+  // MVP: Accept mock token in production for demo purposes
+  if (token.includes('mock-session-token')) {
+    return `mvp-user-${Date.now()}`
+  }
+
   // TODO: Integrate with Supabase Auth
   // Example production code:
   // try {
@@ -52,12 +57,12 @@ function checkAuthentication(request: NextRequest): string | null {
   // } catch {
   //   return null
   // }
-  
+
   // For now, reject unknown tokens in non-development environments
   if (process.env.NODE_ENV !== 'development') {
     return null
   }
-  
+
   return `user-${token.slice(0, 8)}`
 }
 
