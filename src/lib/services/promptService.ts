@@ -140,6 +140,15 @@ export class PromptService {
   }
 
   /**
+   * Convert string to proper case (first letter of each word capitalized)
+   */
+  private static toProperCase(str: string): string {
+    return str.split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+  }
+
+  /**
    * Always use optimal prompt approach (no variations needed)
    */
   private static selectOptimalVariation(config: EnhancedPromptConfig): PromptVariation {
@@ -169,11 +178,12 @@ export class PromptService {
     const accessibilityRequirements = this.getAccessibilityRequirements(config.yearGroup)
     const themeContext = shouldApplyTheme && config.visualTheme ? this.getThemeContext(config.visualTheme, config.yearGroup) : null
 
-    return `Create a ${config.yearGroup} ${config.topic} worksheet: "${config.subtopic}" (${config.difficulty} level, ${config.questionCount} questions).
+    return `Create a ${config.yearGroup} ${config.topic} worksheet focusing specifically on "${config.subtopic}" (${config.difficulty} level, ${config.questionCount} questions).
 
 **Requirements:**
-- UK National Curriculum aligned
+- UK National Curriculum aligned for ${config.subtopic} specifically
 - Age-appropriate vocabulary with mathematical precision
+- Content must directly address the subtopic "${config.subtopic}" learning objectives
 - Use names: Emma, Oliver, Sophie, James, Lily, Thomas, Grace, Harry${themeContext ? `\n- Theme: ${themeContext}` : ''}
 
 **Format:** Complete HTML with embedded SVG icons (small, simple shapes from OpenClipart.org: ${svgInstructions.searchTerms.join(', ')}).
@@ -186,6 +196,14 @@ export class PromptService {
 - NO background circles or containers - just the pure SVG icon for maximum visual impact
 - ${svgInstructions.arrangementInstructions}
 - ${svgInstructions.qualityRequirements}
+
+**VISUAL-TEXT ALIGNMENT REQUIREMENTS:**
+- All SVG images MUST directly relate to and support the question text
+- For fractions: Visual representations must show the exact fractions mentioned (e.g., if question asks about 3/4, show 3 out of 4 parts shaded)
+- For measurements: Scales, rulers, containers must display the actual values referenced in the question
+- For comparisons: Charts and graphs must accurately represent the specific data mentioned
+- For word problems: Images should depict the exact scenario described, not generic representations
+- Ensure visual elements enhance understanding rather than confuse or contradict the mathematical content
 
 **CRITICAL - SIMPLIFIED UX HTML STRUCTURE:**
 <!DOCTYPE html>
@@ -215,8 +233,13 @@ export class PromptService {
             font-size: 16pt;
             font-weight: bold;
             margin: 0;
-            text-transform: uppercase;
             letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+            font-size: 12pt;
+            font-weight: normal;
+            color: #666;
         }
 
         /* Simplified student info */
@@ -238,23 +261,34 @@ export class PromptService {
         .question {
             margin: 10px 0 0 0; /* Minimal top margin, no bottom margin */
             padding: 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0; /* No gap between number and text */
         }
 
         .question:first-child {
             margin-top: 0; /* No top margin for first question */
         }
 
+        .question-content {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            gap: 0; /* No gap between number and text */
+        }
+
         .question-number {
             font-size: 12pt;
             font-weight: bold;
-            margin-right: 10px;
-            display: inline;
+            margin-right: 8px; /* Small consistent gap */
+            flex-shrink: 0; /* Prevent shrinking */
         }
 
         .question-text {
             font-size: 12pt;
             line-height: 1.5;
-            display: inline;
+            flex: 1;
+            margin: 0; /* Remove any default margins */
         }
 
         /* Clean empty space for student work with subtle grey line */
@@ -269,7 +303,7 @@ export class PromptService {
             width: 80px;
             height: 80px;
             margin-left: 15px;
-            float: right;
+            flex-shrink: 0; /* Prevent shrinking */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -290,19 +324,24 @@ export class PromptService {
 
     <!-- Simplified header with title only -->
     <div class="worksheet-header">
-        <h1 class="worksheet-title">${config.topic.replace('-', ' ')}</h1>
+        <h1 class="worksheet-title">${this.toProperCase(config.topic.replace('-', ' '))}${config.subtopic ? ` - <span class="subtitle">${this.toProperCase(config.subtopic.replace('-', ' '))}</span>` : ''}</h1>
     </div>
 
     <div class="worksheet-content">
-        [Generate exactly ${config.questionCount} questions using this CLEAN format - NO complex boxes, NO "Show your work" labels, NO "Final Answer" labels:
+        [Generate exactly ${config.questionCount} questions using this EXACT format - follow structure precisely:
+
         <div class="question">
-            <span class="question-number">1.</span>
-            <span class="question-text">[Question text here]</span>
-            <div class="question-icon">
-                [Large contextual SVG icon here - 80x80px]
+            <div class="question-content">
+                <span class="question-number">1.</span>
+                <span class="question-text">[Complete question text in one line]</span>
             </div>
-            <div class="answer-space"></div>
-        </div>]
+            <div class="question-icon">
+                [Large contextual SVG icon - 80x80px - must relate to question context]
+            </div>
+        </div>
+        <div class="answer-space"></div>
+
+        CRITICAL: Use only this structure, no additional elements, no floating text, no orphaned elements.]
     </div>
 </body>
 </html>
@@ -313,7 +352,8 @@ CRITICAL REQUIREMENTS:
 - NO "Final Answer:" labels or answer boxes
 - Clean empty space naturally guides student writing
 - Minimal margins for maximum space utilization
-- The HTML MUST contain "worksheet-header" and "worksheet-content" classes`
+- The HTML MUST contain "worksheet-header" and "worksheet-content" classes
+- CRITICAL: Question text MUST start immediately next to the question number (1., 2., etc.) with consistent 8px spacing - NO large gaps or line breaks between number and text`
   }
 
   /**
@@ -376,14 +416,14 @@ CRITICAL REQUIREMENTS:
       'food': {
         searchTerms: ['fruits', 'vegetables', 'healthy food', 'kitchen items'],
         sizingGuidelines: '35-50px height, consistent sizing across food items',
-        arrangementInstructions: 'Food items used for counting, fractions, or measurement problems',
-        qualityRequirements: 'Colorful, recognizable food illustrations'
+        arrangementInstructions: 'Food items used for counting, fractions, or measurement problems. For fractions, show exactly the fractional parts mentioned (e.g., pizza with correct slices). For measurements, show accurate portions or weights.',
+        qualityRequirements: 'Colorful, recognizable food illustrations that accurately represent the mathematical content'
       },
       'sports': {
         searchTerms: ['sports equipment', 'balls', 'athletic gear', 'playground'],
         sizingGuidelines: '40-55px height, proportional to real-world sizes',
-        arrangementInstructions: 'Sports items for counting, scoring, or measurement exercises',
-        qualityRequirements: 'Dynamic, engaging sports-themed illustrations'
+        arrangementInstructions: 'Sports items for counting, scoring, or measurement exercises. For comparisons, show accurate score differences or measurement scales. For fractions, represent exact team/player portions.',
+        qualityRequirements: 'Dynamic, engaging sports-themed illustrations that accurately reflect the mathematical data'
       },
       'space': {
         searchTerms: ['planets', 'rockets', 'stars', 'astronauts'],
@@ -394,14 +434,14 @@ CRITICAL REQUIREMENTS:
       'standard': {
         searchTerms: ['geometric shapes', 'mathematical symbols', 'educational icons'],
         sizingGuidelines: '30-45px height, clean geometric proportions',
-        arrangementInstructions: 'Mathematical symbols and shapes supporting problem concepts',
-        qualityRequirements: 'Professional, curriculum-aligned mathematical graphics'
+        arrangementInstructions: 'Mathematical symbols and shapes supporting problem concepts. For fractions, show exact fractional divisions. For measurements, display accurate scales and units. For comparisons, represent precise numerical relationships.',
+        qualityRequirements: 'Professional, curriculum-aligned mathematical graphics that accurately represent the mathematical content'
       },
       'none': {
         searchTerms: ['geometric shapes', 'mathematical symbols', 'educational icons'],
         sizingGuidelines: '30-45px height, clean geometric proportions',
-        arrangementInstructions: 'Mathematical symbols and shapes supporting problem concepts',
-        qualityRequirements: 'Professional, curriculum-aligned mathematical graphics'
+        arrangementInstructions: 'Mathematical symbols and shapes supporting problem concepts. For fractions, show exact fractional divisions. For measurements, display accurate scales and units. For comparisons, represent precise numerical relationships.',
+        qualityRequirements: 'Professional, curriculum-aligned mathematical graphics that accurately represent the mathematical content'
       }
     }
 
@@ -416,8 +456,8 @@ CRITICAL REQUIREMENTS:
     return {
       searchTerms: ['mathematical objects', 'educational icons', 'contextual illustrations', 'relevant objects'],
       sizingGuidelines: '30-50px height, maintain aspect ratio and visual consistency',
-      arrangementInstructions: 'Choose SVG elements that directly relate to each question context (e.g., coins for money problems, shapes for geometry, objects for counting). Each question should have contextually relevant visual support.',
-      qualityRequirements: 'Select clear, educational illustrations that enhance mathematical understanding and match the specific context of each problem'
+      arrangementInstructions: 'Choose SVG elements that directly relate to each question context (e.g., coins for money problems, shapes for geometry, objects for counting). Each question should have contextually relevant visual support. For fractions, show exact fractional parts; for measurements, display accurate scales/values; for comparisons, represent precise data.',
+      qualityRequirements: 'Select clear, educational illustrations that enhance mathematical understanding and match the specific context of each problem. Visual elements must directly support the mathematical content, not contradict or confuse it.'
     }
   }
 

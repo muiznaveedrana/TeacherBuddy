@@ -131,9 +131,9 @@ const baseLayoutTemplate = (content: string, context: LayoutRenderContext) => `
 </head>
 <body>
   <div class="worksheet-header">
-    <h1 class="worksheet-title">${escapeHtml(context.title)}</h1>
+    <h1 class="worksheet-title">${escapeHtml(context.topic.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()))} ${escapeHtml(context.subtopic.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()))}</h1>
     <div class="worksheet-details">
-      ${escapeHtml(context.yearGroup)} • ${escapeHtml(context.topic)} • ${escapeHtml(context.subtopic)} • ${escapeHtml(context.difficulty.charAt(0).toUpperCase() + context.difficulty.slice(1))}
+      ${escapeHtml(context.yearGroup)} • ${escapeHtml(context.difficulty.charAt(0).toUpperCase() + context.difficulty.slice(1))}
     </div>
   </div>
   
