@@ -44,7 +44,7 @@ function createSeededRandom(seed: string) {
     hash = ((hash << 5) - hash) + char;
     hash = hash & hash; // Convert to 32-bit integer
   }
-  
+
   return function() {
     hash = ((hash * 1103515245) + 12345) & 0x7fffffff;
     return hash / 0x7fffffff;
@@ -52,9 +52,65 @@ function createSeededRandom(seed: string) {
 }
 
 /**
+ * Extract year number from year group string
+ */
+function extractYearNumber(yearGroup: string): number {
+  const match = yearGroup.match(/year\s*(\d+)/i)
+  return match ? parseInt(match[1], 10) : 0
+}
+
+/**
+ * Get age-appropriate font settings based on year group
+ */
+function getFontSettings(yearGroup: string) {
+  const yearNum = extractYearNumber(yearGroup)
+
+  if (yearGroup.toLowerCase().includes('reception')) {
+    return {
+      fontFamily: 'Comic Sans MS, Arial, sans-serif',
+      fontSize: '18pt',
+      lineHeight: '1.9',
+      questionFontSize: '20pt',
+      instructionFontSize: '16pt',
+      padding: '8mm 10mm'
+    }
+  } else if (yearNum === 1) {
+    return {
+      fontFamily: 'Comic Sans MS, Arial, sans-serif',
+      fontSize: '16pt',
+      lineHeight: '1.7',
+      questionFontSize: '18pt',
+      instructionFontSize: '14pt',
+      padding: '9mm 11mm'
+    }
+  } else if (yearNum === 2) {
+    return {
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '14pt',
+      lineHeight: '1.6',
+      questionFontSize: '16pt',
+      instructionFontSize: '12pt',
+      padding: '10mm 12mm'
+    }
+  } else {
+    return {
+      fontFamily: 'Arial, Times New Roman, serif',
+      fontSize: '12pt',
+      lineHeight: '1.5',
+      questionFontSize: '14pt',
+      instructionFontSize: '11pt',
+      padding: '10mm 12mm'
+    }
+  }
+}
+
+/**
  * Base layout template with common wrapper structure
  */
-const baseLayoutTemplate = (content: string, context: LayoutRenderContext) => `
+const baseLayoutTemplate = (content: string, context: LayoutRenderContext) => {
+  const fontSettings = getFontSettings(context.yearGroup)
+
+  return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,13 +118,13 @@ const baseLayoutTemplate = (content: string, context: LayoutRenderContext) => `
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${escapeHtml(context.title)}</title>
   <style>
-    /* Base worksheet styling for all layouts */
+    /* Base worksheet styling with age-appropriate fonts */
     body {
-      font-family: 'Times New Roman', serif;
-      font-size: 12pt;
-      line-height: 1.4;
+      font-family: ${fontSettings.fontFamily};
+      font-size: ${fontSettings.fontSize};
+      line-height: ${fontSettings.lineHeight};
       margin: 0;
-      padding: 10mm 12mm;
+      padding: ${fontSettings.padding};
       background: white;
       color: #000;
     }
@@ -81,13 +137,13 @@ const baseLayoutTemplate = (content: string, context: LayoutRenderContext) => `
     }
     
     .worksheet-title {
-      font-size: 16pt;
+      font-size: ${fontSettings.questionFontSize};
       font-weight: bold;
       margin: 0 0 5px 0;
     }
-    
+
     .worksheet-details {
-      font-size: 10pt;
+      font-size: ${fontSettings.instructionFontSize};
       color: #666;
       margin: 5px 0;
     }
@@ -96,12 +152,12 @@ const baseLayoutTemplate = (content: string, context: LayoutRenderContext) => `
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 15px 0;
-      padding: 10px 0;
+      margin: 12px 0;
+      padding: 8px 0;
       border-top: 1px solid #ccc;
       border-bottom: 1px solid #ccc;
-      font-size: 11pt;
-      gap: 20px; /* Add space between Name and Date */
+      font-size: ${fontSettings.instructionFontSize};
+      gap: 20px;
     }
     
     .student-name {
@@ -115,7 +171,7 @@ const baseLayoutTemplate = (content: string, context: LayoutRenderContext) => `
     }
     
     .worksheet-content {
-      margin-top: 20px;
+      margin-top: 15px;
     }
     
     /* Print optimization */
@@ -153,6 +209,7 @@ const baseLayoutTemplate = (content: string, context: LayoutRenderContext) => `
 </body>
 </html>
 `
+}
 
 /**
  * Generate contextual SVG icons for word problems
@@ -245,38 +302,57 @@ function generateContextualIcon(questionText: string, index: number): string {
  */
 export const LAYOUT_CONTENT_TEMPLATES = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  standard: (questions: WorksheetQuestion[], _context: LayoutRenderContext) => `
+  standard: (questions: WorksheetQuestion[], context: LayoutRenderContext) => {
+    const fontSettings = getFontSettings(context.yearGroup)
+    const isYoungLearner = context.yearGroup.toLowerCase().includes('reception') || extractYearNumber(context.yearGroup) <= 2
+
+    return `
     <style>
       .standard-question {
-        margin: 10px 0 0 0; /* Minimal top margin, no bottom margin */
-        padding: 0;
+        margin: ${isYoungLearner ? '12px' : '8px'} 0 0 0;
+        padding: ${isYoungLearner ? '12px' : '10px'};
         page-break-inside: avoid;
+        border-radius: 6px;
+        background: ${isYoungLearner ? '#fafafa' : 'white'};
       }
 
       .standard-question:first-child {
-        margin-top: 0; /* No top margin for first question */
+        margin-top: 0;
       }
 
       .question-number {
         font-weight: bold;
         margin-bottom: 6px;
-        font-size: 12pt;
+        font-size: ${fontSettings.questionFontSize};
         display: inline;
-        margin-right: 8px;
+        margin-right: 10px;
+        color: #2c3e50;
       }
 
       .question-text {
         display: inline;
-        line-height: 1.5;
+        line-height: ${fontSettings.lineHeight};
+        font-size: ${fontSettings.fontSize};
       }
 
-      /* Clean empty space for student work with subtle grey line */
+      /* Optimized answer space for 5 questions per page */
       .answer-space {
-        margin: 15px 0 0 0; /* Space above answer area, NO space below */
-        min-height: 60px; /* Space for student writing */
+        margin: ${isYoungLearner ? '15px' : '10px'} 0 0 0;
+        min-height: ${isYoungLearner ? '55px' : '40px'};
         background: white;
-        border-bottom: 1px solid #999; /* Thin grey answer line */
+        border-bottom: 2px solid #ddd;
         position: relative;
+        border-radius: 3px;
+      }
+
+      .answer-space::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: #999;
       }
     </style>
 
@@ -287,7 +363,8 @@ export const LAYOUT_CONTENT_TEMPLATES = {
         <div class="answer-space"></div>
       </div>
     `).join('')}
-  `,
+  `
+  },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fluency: (questions: WorksheetQuestion[], _context: LayoutRenderContext) => `
@@ -925,21 +1002,21 @@ export const LAYOUT_CONTENT_TEMPLATES = {
       }
       
       .question-icon {
-        width: 80px;
-        height: 80px;
-        margin-left: 15px;
+        width: 140px;
+        height: 140px;
+        margin-left: 20px;
         flex-shrink: 0;
         display: flex;
         align-items: center;
         justify-content: center;
         background: white;
-        border-radius: 50%;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.2);
       }
-      
+
       .question-icon svg {
-        width: 60px;
-        height: 60px;
+        width: 120px;
+        height: 120px;
       }
       
       /* Icon color themes */

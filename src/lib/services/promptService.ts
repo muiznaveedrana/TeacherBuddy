@@ -185,17 +185,146 @@ export class PromptService {
 - Age-appropriate vocabulary with mathematical precision
 - Content must directly address the subtopic "${config.subtopic}" learning objectives
 - Use names: Emma, Oliver, Sophie, James, Lily, Thomas, Grace, Harry${themeContext ? `\n- Theme: ${themeContext}` : ''}
+- NO markdown formatting (*bold*, _italic_) in question text - use plain text only
+- For emphasis, use CAPITAL LETTERS or simple quotation marks
 
-**Format:** Complete HTML with embedded SVG icons (small, simple shapes from OpenClipart.org: ${svgInstructions.searchTerms.join(', ')}).
+**Format:** Complete HTML document ONLY (no markdown, no code blocks, no triple-backtick html tags). Start directly with <!DOCTYPE html> and embedded SVG icons (high-quality, detailed shapes inspired by OpenClipart.org: ${svgInstructions.searchTerms.join(', ')}).
 
-**SVG Instructions:**
-- Create VERY LARGE, colorful, contextual SVG icons (100x100px) that relate to each word problem
-- Icons should be placed in the .question-icon div on the right side of each question
-- Use bright, engaging colors and clear, simple shapes (cupcakes, buses, money, books, etc.)
-- Each SVG should be self-contained and relevant to the problem context
-- NO background circles or containers - just the pure SVG icon for maximum visual impact
-- ${svgInstructions.arrangementInstructions}
-- ${svgInstructions.qualityRequirements}
+**ADVANCED SVG LAYOUT INSTRUCTIONS (Target: 4.7/5 Quality):**
+
+**HORIZONTAL-FIRST SVG STRATEGY (Clean & Spacious):**
+- **PREFER horizontal wide SVGs** - they look cleaner and less congested
+- **DEFAULT PLACEMENT: BELOW text** (full width × 80-120px height)
+- USE side placement ONLY for simple objects (single items, icons)
+- SVGs are NOT mandatory for every question
+- SKIP SVGs for abstract concepts (e.g., "think of a number", pure calculation)
+
+**HORIZONTAL SVG ADVANTAGES:**
+- More space for multiple objects without crowding
+- Can use two rows for large counts (e.g., 10 items per row)
+- Number lines and timelines fit naturally
+- Visual comparisons side-by-side
+- Reduces cutoff issues with maximum width available
+
+**ENHANCED SVG SIZING (Cutoff Prevention):**
+- **Horizontal SVGs**: 100% container width × 120px height with 10px internal margins
+- **Side SVGs**: 150×150px usable area with 10px internal margins
+- **Safe content area**: Use 95% of SVG dimensions for actual content
+- **Multiple objects**: Maximum 6 objects per row, use 2 rows with 20px spacing if needed
+- **Text in SVGs**: Maximum 12pt font size for readability
+
+**PREVENT CONGESTION & CUTOFF:**
+- Use MAXIMUM available width for horizontal SVGs with minimal margins
+- **Large counts strategy**: 6 objects per row maximum, then start new row
+- 15px minimum spacing between all objects horizontally
+- **CRITICAL: ROW SPACING**: 25px minimum spacing between rows vertically
+- 10px minimum margin from all SVG edges
+- **No cramming**: If objects don't fit cleanly, use fewer per row
+- Text within SVGs: 12pt maximum for readability
+
+**INTELLIGENT CONTENT MATCHING & SPACING:**
+- **QUANTITY-BASED LAYOUT SELECTION (STRICTLY ENFORCED)**:
+  - 1-4 objects: Side container (160×160px) with single arrangement
+  - 5-8 objects: Horizontal container (single row)
+  - 9+ objects: **MANDATORY** horizontal container (multi-row layout)
+  - **CRITICAL**: Questions with 9, 10, 11, 12, 13, 14, 15, 16, 17, 18+ objects MUST use horizontal layout
+  - **NEVER** use side containers for quantities of 9 or more objects
+  - Examples requiring horizontal layout: 18 sweets, 13 balloons, 16 pencils, 11 stickers
+- For HORIZONTAL objects (buses, trains, timelines, number lines): ALWAYS place BELOW text
+- For VERTICAL objects (people, trees, tall containers): Place on SIDES only if ≤8 objects
+- For COUNTING objects: Arrange in CLEAR GRIDS with 15px minimum spacing between items
+- **MULTI-ROW HORIZONTAL LAYOUTS**: First row at y=30, second row at y=70 (25px+ spacing)
+- For FRACTIONS: Show clear divisions with contrasting colors
+- For MEASUREMENTS: Include accurate scales with readable numbers
+- For GROUPED OBJECTS: Use distinct color coding (red group, blue group, etc.)
+- For MATHEMATICAL OPERATIONS: Show clear before/after states with visual separation
+
+**MATHEMATICAL OPERATION VISUALIZATION:**
+- MULTIPLICATION: Show grouped arrays (3×4 = 3 rows of 4 objects each)
+- DIVISION: Show total amount split into equal groups with separators
+- COMPARISON: Show both quantities side by side with clear labels
+- ADDITION: Show distinct groups coming together (red apples + green apples)
+- For LARGE NUMBERS: Use base-10 groupings (tens grouped separately from ones)
+- MONEY PROBLEMS: Show actual coins/notes with correct UK denominations
+
+**VISUAL APPEAL ENHANCEMENTS:**
+- Add subtle drop shadows: filter="drop-shadow(2px 2px 4px rgba(0,0,0,0.2))"
+- Use gradient fills for depth: linear-gradient for engaging visuals
+- Ensure 15px minimum spacing between SVG and text elements
+- Create visual hierarchy with different sizes for emphasis
+
+${svgInstructions.arrangementInstructions}
+${svgInstructions.qualityRequirements}
+
+**CRITICAL: 4.7/5 QUALITY STANDARDS:**
+- Every SVG must be CONTEXTUALLY PERFECT (not generic circles/squares)
+- Alternating layout prevents monotony and boredom
+- Professional presentation with consistent spacing
+- Educational value enhanced through visual storytelling
+
+**ENHANCED CONTEXTUAL ACCURACY (4.7/5 Target):**
+- COUNTING problems: Show EXACT COUNT mentioned (14 cars = 14 visible car shapes)
+- ADDITION: Visual groups that clearly show the mathematical operation
+- PLACE VALUE: Use base-10 blocks, ten-frames, or number lines with exact values
+- MULTIPLICATION: Show arrays, groups, or repeated patterns that match the problem
+- SHAPES: Use real-world objects (houses, windows, wheels) not abstract shapes
+- MONEY: Show actual UK coins and notes with correct colors and features
+- NO generic geometric shapes unless specifically teaching geometry
+
+**WHEN TO INCLUDE SVGs (Educational Value):**
+- COUNTING problems with specific objects (cars, apples, stickers)
+- GROUPING/ARRAYS for multiplication (visual groups help understanding)
+- COMPARISON problems (side-by-side visual comparison)
+- MONEY problems (show actual coins/notes)
+- SHAPES and geometry (visual identification needed)
+- FRACTIONS (visual parts of wholes)
+
+**WHEN TO SKIP SVGs (Clean Layout Better):**
+- "Think of a number" problems (abstract mental math)
+- Pure calculation questions (847 + 293 = ?)
+- Word problems about time, distance, or abstract concepts
+- Division with large numbers where grouping isn't practical
+- Questions asking for written explanations or methods
+
+**SVG CREATION & CUTOFF PREVENTION REQUIREMENTS:**
+- MANDATORY: Set viewBox="0 0 WIDTH HEIGHT" on every SVG to utilize full space
+- MANDATORY: Use minimal 10px margins from all edges for safety
+- For side SVGs: viewBox="0 0 150 150" with content in 130×130 usable area
+- For horizontal SVGs: viewBox="0 0 500 120" with content in 480×100 usable area
+- Position content with 10px minimum margin from viewBox edges
+- If complex SVG fails, use simple circles/squares as counting objects
+- Example side SVG: <svg viewBox="0 0 150 150"><circle cx="75" cy="75" r="65" fill="red"/></svg>
+- Example horizontal multi-row: <svg viewBox="0 0 500 120"><rect x="20" y="20" width="30" height="20" fill="blue"/><rect x="70" y="20" width="30" height="20" fill="blue"/><rect x="20" y="70" width="30" height="20" fill="orange"/></svg>
+- Utilize MAXIMUM available space while maintaining 10px safety margins
+
+**CRITICAL: NO ANSWER REVEALS IN SVGs:**
+- NEVER show calculations, totals, or final answers in visuals
+- NEVER label quantities that give away solutions
+- For multiplication/division: Show context WITHOUT revealing math
+- Example: "6 shelves × 10 cars" → Show shelves with cars but no quantity labels
+- Use appropriate objects and visual representations without revealing answers
+
+**ENHANCED SVG CUTOFF PREVENTION:**
+- CRITICAL: 10px minimum margins from ALL SVG edges
+- For horizontal SVGs: Use 95% of container width with 10px margins
+- For vertical SVGs: Use 95% of container height with 10px margins
+- Test fit: If objects don't fit cleanly, reduce count per row
+- Use optimized container dimensions: 150×150px for side, 120px height for horizontal
+- NEVER exceed viewBox boundaries - ensure all content fits within safe area
+
+**AGE-APPROPRIATE SVG STRATEGY:**
+- RECEPTION/YEAR 1: Show exact counts for learning (apples to count)
+- YEAR 2: Show mathematical relationships (groupings, comparisons)
+- YEAR 3+: Show appropriate visual contexts with proper SVG objects, NOT person avatars or name characters
+
+**RECEPTION-SPECIFIC REQUIREMENTS (Age 4-5):**
+- NO asterisk formatting (*word*) - use simple text only
+- Shapes must be CLEARLY SEPARATED with 30px minimum spacing
+- NO overlapping or clustered elements
+- Large, simple shapes with bold outlines (4px stroke minimum)
+- Maximum 4-5 shapes per SVG to avoid confusion
+- Use primary colors only: red, blue, green, yellow, orange
+- Questions must use simple vocabulary: "first", "last", "big", "small"
 
 **VISUAL-TEXT ALIGNMENT REQUIREMENTS:**
 - All SVG images MUST directly relate to and support the question text
@@ -205,18 +334,18 @@ export class PromptService {
 - For word problems: Images should depict the exact scenario described, not generic representations
 - Ensure visual elements enhance understanding rather than confuse or contradict the mathematical content
 
-**CRITICAL - SIMPLIFIED UX HTML STRUCTURE:**
+**CRITICAL - ENHANCED HTML STRUCTURE FOR 4.7/5 QUALITY:**
 <!DOCTYPE html>
 <html>
 <head>
     <title>${config.topic} - ${config.subtopic}</title>
     <style>
         body {
-            font-family: 'Times New Roman', serif;
-            font-size: 12pt;
-            line-height: 1.4;
+            font-family: ${this.getFontFamily(config.yearGroup)};
+            font-size: ${this.getFontSize(config.yearGroup)};
+            line-height: ${this.getLineHeight(config.yearGroup)};
             margin: 0;
-            padding: 10mm 12mm; /* Minimal margins for space efficiency */
+            padding: ${this.getPadding(config.yearGroup)};
             background: white;
             color: #000;
         }
@@ -257,61 +386,117 @@ export class PromptService {
             margin-top: 10px;
         }
 
-        /* Clean, simplified question layout */
+        /* ENHANCED ALTERNATING LAYOUT FOR 4.7/5 QUALITY */
         .question {
-            margin: 10px 0 0 0; /* Minimal top margin, no bottom margin */
-            padding: 0;
-            display: flex;
-            align-items: flex-start;
-            gap: 0; /* No gap between number and text */
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            page-break-inside: avoid;
         }
 
         .question:first-child {
-            margin-top: 0; /* No top margin for first question */
+            margin-top: 0;
+        }
+
+        /* ALTERNATING LAYOUTS */
+        .question-right {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .question-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            flex-direction: row-reverse;
+        }
+
+        .question-below {
+            display: block;
         }
 
         .question-content {
             flex: 1;
-            display: flex;
-            align-items: flex-start;
-            gap: 0; /* No gap between number and text */
+            min-width: 0;
         }
 
         .question-number {
-            font-size: 12pt;
+            font-size: ${this.getQuestionFontSize(config.yearGroup)};
             font-weight: bold;
-            margin-right: 8px; /* Small consistent gap */
-            flex-shrink: 0; /* Prevent shrinking */
+            color: #2c3e50;
+            margin-right: 10px;
+            display: inline-block;
         }
 
         .question-text {
-            font-size: 12pt;
-            line-height: 1.5;
-            flex: 1;
-            margin: 0; /* Remove any default margins */
+            font-size: ${this.getFontSize(config.yearGroup)};
+            line-height: ${this.getLineHeight(config.yearGroup)};
+            margin: 0;
+            display: inline;
         }
 
-        /* Clean empty space for student work with subtle grey line */
-        .answer-space {
-            margin: 15px 0 0 0; /* Space above answer area, NO space below */
-            min-height: 60px; /* Space for student writing */
-            background: white;
-            border-bottom: 1px solid #999; /* Thin grey answer line */
-        }
-
-        .question-icon {
-            width: 80px;
-            height: 80px;
-            margin-left: 15px;
-            flex-shrink: 0; /* Prevent shrinking */
+        /* SIDE ICONS (160x160px) */
+        .question-icon-side {
+            width: 160px;
+            height: 160px;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+            padding: 5px;
         }
 
-        .question-icon svg {
-            width: 80px;
-            height: 80px;
+        .question-icon-side svg {
+            width: 150px;
+            height: 150px;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+        }
+
+        /* BELOW ICONS (Full width × 130px) */
+        .question-icon-below {
+            width: 100%;
+            height: 130px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 5px;
+        }
+
+        .question-icon-below svg {
+            width: auto;
+            height: 120px;
+            max-width: 95%;
+            filter: drop-shadow(1px 1px 3px rgba(0,0,0,0.2));
+        }
+
+        /* ANSWER SPACE */
+        .answer-space {
+            margin: 20px 0;
+            min-height: ${this.getAnswerHeight(config.yearGroup)};
+            background: white;
+            border: 2px dashed #e0e0e0;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .answer-space::before {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 20px;
+            right: 20px;
+            height: 1px;
+            background: #ccc;
         }
     </style>
 </head>
@@ -328,20 +513,39 @@ export class PromptService {
     </div>
 
     <div class="worksheet-content">
-        [Generate exactly ${config.questionCount} questions using this EXACT format - follow structure precisely:
+        [Generate exactly ${config.questionCount} questions using HORIZONTAL-FIRST SVG STRATEGY:
 
-        <div class="question">
+        <!-- PREFER: Question with horizontal SVG below text (clean & spacious) -->
+        <div class="question question-below">
             <div class="question-content">
                 <span class="question-number">1.</span>
-                <span class="question-text">[Complete question text in one line]</span>
+                <span class="question-text">[Question with countable objects/comparisons]</span>
             </div>
-            <div class="question-icon">
-                [Large contextual SVG icon - 80x80px - must relate to question context]
+            <div class="question-icon-below">
+                [Wide horizontal SVG - full width × 80-120px - Clean layout with proper spacing]
             </div>
         </div>
         <div class="answer-space"></div>
 
-        CRITICAL: Use only this structure, no additional elements, no floating text, no orphaned elements.]
+        <!-- ALTERNATIVE: Question without SVG (abstract thinking) -->
+        <div class="question">
+            <div class="question-content">
+                <span class="question-number">2.</span>
+                <span class="question-text">[Abstract math question]</span>
+            </div>
+            <!-- NO SVG - clean text-only layout -->
+        </div>
+        <div class="answer-space"></div>
+
+        <!-- Use horizontal SVGs for multiple objects, number lines, comparisons -->
+        <!-- Use side SVGs ONLY for simple single objects -->]
+
+        CRITICAL 4.7/5 REQUIREMENTS:
+        - PERFECT alternating pattern eliminates monotony
+        - VIBRANT colors: #E74C3C, #3498DB, #2ECC71, #F39C12, #9B59B6
+        - Sharp 2-3px stroke weights, NO pixelation
+        - Contextually PERFECT SVGs (no generic shapes)
+        - Professional shadows and gradients for depth]
     </div>
 </body>
 </html>
@@ -353,7 +557,22 @@ CRITICAL REQUIREMENTS:
 - Clean empty space naturally guides student writing
 - Minimal margins for maximum space utilization
 - The HTML MUST contain "worksheet-header" and "worksheet-content" classes
-- CRITICAL: Question text MUST start immediately next to the question number (1., 2., etc.) with consistent 8px spacing - NO large gaps or line breaks between number and text`
+- CRITICAL: Question text MUST start immediately next to the question number (1., 2., etc.) with consistent 8px spacing - NO large gaps or line breaks between number and text
+
+**CRITICAL: MANDATORY QUALITY REQUIREMENTS:**
+- ALWAYS generate EXACTLY ${config.questionCount} complete questions
+- EVERY counting/grouping question MUST include visual SVG representation
+- If you cannot create a proper SVG, use simple geometric shapes as fallback
+- NO INCOMPLETE WORKSHEETS - better simple than broken
+- Return ONLY the complete HTML document
+- Start directly with <!DOCTYPE html> and end with </html>
+
+**QUALITY VALIDATION CHECKLIST:**
+- ✓ ${config.questionCount} questions present?
+- ✓ Every question has educational value?
+- ✓ SVGs support the mathematical concept?
+- ✓ Layout is clean and uncluttered?
+- ✓ Age-appropriate language used?`
   }
 
   /**
@@ -409,37 +628,37 @@ CRITICAL REQUIREMENTS:
     const themeInstructions: Record<VisualTheme, SVGInstructions> = {
       'animals': {
         searchTerms: ['cartoon animals', 'cute pets', 'farm animals', 'zoo animals'],
-        sizingGuidelines: '40-60px height, maintain aspect ratio',
+        sizingGuidelines: '120-140px height, maintain aspect ratio with detailed features',
         arrangementInstructions: 'Animals integrated with mathematical problems as counting objects or story elements',
         qualityRequirements: 'Clear, simple designs suitable for educational use'
       },
       'food': {
         searchTerms: ['fruits', 'vegetables', 'healthy food', 'kitchen items'],
-        sizingGuidelines: '35-50px height, consistent sizing across food items',
+        sizingGuidelines: '120-140px height, appetizing proportions with detailed textures',
         arrangementInstructions: 'Food items used for counting, fractions, or measurement problems. For fractions, show exactly the fractional parts mentioned (e.g., pizza with correct slices). For measurements, show accurate portions or weights.',
         qualityRequirements: 'Colorful, recognizable food illustrations that accurately represent the mathematical content'
       },
       'sports': {
         searchTerms: ['sports equipment', 'balls', 'athletic gear', 'playground'],
-        sizingGuidelines: '40-55px height, proportional to real-world sizes',
+        sizingGuidelines: '120-140px height, dynamic proportions with action details',
         arrangementInstructions: 'Sports items for counting, scoring, or measurement exercises. For comparisons, show accurate score differences or measurement scales. For fractions, represent exact team/player portions.',
         qualityRequirements: 'Dynamic, engaging sports-themed illustrations that accurately reflect the mathematical data'
       },
       'space': {
         searchTerms: ['planets', 'rockets', 'stars', 'astronauts'],
-        sizingGuidelines: '45-65px height, varying sizes for celestial objects',
+        sizingGuidelines: '120-140px height, cosmic proportions with detailed elements',
         arrangementInstructions: 'Space elements for counting, patterns, or mathematical exploration',
         qualityRequirements: 'Inspiring, scientifically appropriate space imagery'
       },
       'standard': {
         searchTerms: ['geometric shapes', 'mathematical symbols', 'educational icons'],
-        sizingGuidelines: '30-45px height, clean geometric proportions',
+        sizingGuidelines: '120-140px height, clean geometric proportions with precise details',
         arrangementInstructions: 'Mathematical symbols and shapes supporting problem concepts. For fractions, show exact fractional divisions. For measurements, display accurate scales and units. For comparisons, represent precise numerical relationships.',
         qualityRequirements: 'Professional, curriculum-aligned mathematical graphics that accurately represent the mathematical content'
       },
       'none': {
         searchTerms: ['geometric shapes', 'mathematical symbols', 'educational icons'],
-        sizingGuidelines: '30-45px height, clean geometric proportions',
+        sizingGuidelines: '120-140px height, clean geometric proportions with precise details',
         arrangementInstructions: 'Mathematical symbols and shapes supporting problem concepts. For fractions, show exact fractional divisions. For measurements, display accurate scales and units. For comparisons, represent precise numerical relationships.',
         qualityRequirements: 'Professional, curriculum-aligned mathematical graphics that accurately represent the mathematical content'
       }
@@ -455,10 +674,80 @@ CRITICAL REQUIREMENTS:
   private static getContextualSVGInstructions(): SVGInstructions {
     return {
       searchTerms: ['mathematical objects', 'educational icons', 'contextual illustrations', 'relevant objects'],
-      sizingGuidelines: '30-50px height, maintain aspect ratio and visual consistency',
-      arrangementInstructions: 'Choose SVG elements that directly relate to each question context (e.g., coins for money problems, shapes for geometry, objects for counting). Each question should have contextually relevant visual support. For fractions, show exact fractional parts; for measurements, display accurate scales/values; for comparisons, represent precise data.',
-      qualityRequirements: 'Select clear, educational illustrations that enhance mathematical understanding and match the specific context of each problem. Visual elements must directly support the mathematical content, not contradict or confuse it.'
+      sizingGuidelines: '120-140px for side placement, full-width × 60px for below placement, maintain crisp quality',
+      arrangementInstructions: 'ALTERNATING LAYOUT MASTERY: Side SVGs (140×140px) for questions 1,3,5. Below SVGs (full-width × 60px) for questions 2,4. Choose contextually PERFECT elements: detailed coins for money, geometric shapes for geometry, countable objects for numbers. Each must be visually engaging and mathematically precise. For fractions: exact divisions with contrasting colors. For measurements: accurate scales with readable numbers. For comparisons: clear visual data representation.',
+      qualityRequirements: 'TARGET 4.7/5 QUALITY: Professional illustrations with VIBRANT colors (#E74C3C, #3498DB, #2ECC71, #F39C12, #9B59B6), sharp 2-3px strokes, subtle drop shadows. NO pixelation, NO generic shapes. Each SVG must be contextually perfect, educationally valuable, and visually stunning. Side SVGs: detailed and engaging. Below SVGs: wide and informative.'
     }
+  }
+
+  /**
+   * Get font family based on year group
+   */
+  private static getFontFamily(yearGroup: string): string {
+    const yearNum = this.extractYearNumber(yearGroup)
+    if (yearGroup.toLowerCase().includes('reception') || yearNum <= 2) {
+      return "'Comic Sans MS', Arial, sans-serif"
+    }
+    return "'Arial', 'Times New Roman', serif"
+  }
+
+  /**
+   * Get font size based on year group
+   */
+  private static getFontSize(yearGroup: string): string {
+    const yearNum = this.extractYearNumber(yearGroup)
+    if (yearGroup.toLowerCase().includes('reception')) return '18pt'
+    if (yearNum === 1) return '16pt'
+    if (yearNum === 2) return '14pt'
+    return '12pt'
+  }
+
+  /**
+   * Get question font size based on year group
+   */
+  private static getQuestionFontSize(yearGroup: string): string {
+    const yearNum = this.extractYearNumber(yearGroup)
+    if (yearGroup.toLowerCase().includes('reception')) return '20pt'
+    if (yearNum === 1) return '18pt'
+    if (yearNum === 2) return '16pt'
+    return '14pt'
+  }
+
+  /**
+   * Get line height based on year group
+   */
+  private static getLineHeight(yearGroup: string): string {
+    const yearNum = this.extractYearNumber(yearGroup)
+    if (yearGroup.toLowerCase().includes('reception')) return '1.9'
+    if (yearNum === 1) return '1.7'
+    if (yearNum === 2) return '1.6'
+    return '1.5'
+  }
+
+  /**
+   * Get padding based on year group
+   */
+  private static getPadding(yearGroup: string): string {
+    const yearNum = this.extractYearNumber(yearGroup)
+    if (yearGroup.toLowerCase().includes('reception')) return '8mm 10mm'
+    if (yearNum === 1) return '9mm 11mm'
+    return '10mm 12mm'
+  }
+
+  /**
+   * Get answer space height based on year group
+   */
+  private static getAnswerHeight(yearGroup: string): string {
+    const yearNum = this.extractYearNumber(yearGroup)
+    if (yearGroup.toLowerCase().includes('reception') || yearNum === 1) return '55px'
+    return '40px'
+  }
+
+  /**
+   * Convert to proper case
+   */
+  private static toProperCase(str: string): string {
+    return str.replace(/\b\w/g, l => l.toUpperCase())
   }
 
   /**
