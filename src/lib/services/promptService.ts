@@ -319,16 +319,13 @@ Before creating any SVG, verify:
 ✓ Will teachers find this pedagogically valuable?
 ✓ Is this space-efficient for printing?
 
-**SVG CREATION & CUTOFF PREVENTION REQUIREMENTS:**
-- MANDATORY: Set viewBox="0 0 WIDTH HEIGHT" on every SVG to utilize full space
-- MANDATORY: Use minimal 10px margins from all edges for safety
-- For side SVGs: viewBox="0 0 150 150" with content in 130×130 usable area
-- For horizontal SVGs: viewBox="0 0 500 120" with content in 480×100 usable area
-- Position content with 10px minimum margin from viewBox edges
-- If complex SVG fails, use simple circles/squares as counting objects
-- Example side SVG: <svg viewBox="0 0 150 150"><circle cx="75" cy="75" r="65" fill="red"/></svg>
-- Example horizontal multi-row: <svg viewBox="0 0 500 120"><rect x="20" y="20" width="30" height="20" fill="blue"/><rect x="70" y="20" width="30" height="20" fill="blue"/><rect x="20" y="70" width="30" height="20" fill="orange"/></svg>
-- Utilize MAXIMUM available space while maintaining 10px safety margins
+**SIMPLIFIED SVG CREATION (NO CONTAINERS):**
+- **DIRECT INTEGRATION**: Use class="question-svg-below" or class="question-svg-side"
+- **CLEAN VIEWBOX**: Set viewBox="0 0 WIDTH HEIGHT" to exact content needs
+- **SIDE SVG FORMAT**: Use viewBox="0 0 150 150" for simple comparisons
+- **BELOW SVG FORMAT**: Use viewBox="0 0 500 120" for horizontal arrangements
+- **NO CONTAINERS**: No background, shadows, borders, or decorative elements
+- **SPACE EFFICIENT**: 10px margins built into CSS, not containers
 
 **CONTENT-SVG ALIGNMENT & VERIFICATION:**
 
@@ -353,13 +350,13 @@ Before creating any SVG, verify:
 - Example: "6 shelves × 10 cars" → Show shelves with cars but no quantity labels
 - Use appropriate objects and visual representations without revealing answers
 
-**ENHANCED SVG CUTOFF PREVENTION:**
-- CRITICAL: 10px minimum margins from ALL SVG edges
-- For horizontal SVGs: Use 95% of container width with 10px margins
-- For vertical SVGs: Use 95% of container height with 10px margins
-- Test fit: If objects don't fit cleanly, reduce count per row
-- Use optimized container dimensions: 150×150px for side, 120px height for horizontal
-- NEVER exceed viewBox boundaries - ensure all content fits within safe area
+**SIMPLIFIED SVG PLACEMENT (NO CONTAINERS):**
+- **DIRECT SVG INTEGRATION**: No background boxes, shadows, or decorative containers
+- **CLEAN VIEWBOX USAGE**: Set viewBox to exact content needs + 10px margins
+- **SIDE SVGs**: viewBox="0 0 150 150" for simple comparisons/single objects
+- **BELOW SVGs**: viewBox="0 0 500 120" for horizontal arrangements/arrays
+- **SPACE OPTIMIZATION**: SVGs integrate naturally with worksheet text
+- **PRINT EFFICIENCY**: No container backgrounds to waste ink/toner
 
 **AGE-APPROPRIATE SVG STRATEGY:**
 - RECEPTION/YEAR 1: Show exact counts for learning (apples to count)
@@ -505,45 +502,19 @@ Before creating any SVG, verify:
             display: inline;
         }
 
-        /* SIDE ICONS (160x160px) */
-        .question-icon-side {
-            width: 160px;
-            height: 160px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-            padding: 5px;
-        }
-
-        .question-icon-side svg {
+        /* SIMPLIFIED SVG PLACEMENT - NO CONTAINERS */
+        .question-svg-side {
             width: 150px;
             height: 150px;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+            margin: 10px;
+            flex-shrink: 0;
         }
 
-        /* BELOW ICONS (Full width × 130px) */
-        .question-icon-below {
+        .question-svg-below {
             width: 100%;
-            height: 130px;
-            margin: 15px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            padding: 5px;
-        }
-
-        .question-icon-below svg {
-            width: auto;
             height: 120px;
-            max-width: 95%;
-            filter: drop-shadow(1px 1px 3px rgba(0,0,0,0.2));
+            margin: 10px 0;
+            display: block;
         }
 
         /* ANSWER SPACE - SINGLE LINE ONLY */
@@ -584,30 +555,38 @@ Before creating any SVG, verify:
 
         [Generate exactly ${config.questionCount} questions using HORIZONTAL-FIRST SVG STRATEGY:
 
-        <!-- PREFER: Question with horizontal SVG below text (clean & spacious) -->
-        <div class="question question-below">
+        <!-- SIMPLIFIED: Question with SVG below text (no containers) -->
+        <div class="question">
             <div class="question-content">
                 <span class="question-number">1.</span>
                 <span class="question-text">[Question with countable objects/comparisons]</span>
             </div>
-            <div class="question-icon-below">
-                [Wide horizontal SVG - full width × 80-120px - Clean layout with proper spacing]
-            </div>
+            <svg class="question-svg-below" viewBox="0 0 500 120">
+                [Direct SVG - no background containers, shadows, or decorative elements]
+            </svg>
         </div>
         <div class="answer-space"></div>
 
-        <!-- ALTERNATIVE: Question without SVG (abstract thinking) -->
-        <div class="question">
+        <!-- SIMPLIFIED: Question with side SVG (no containers) -->
+        <div class="question question-right">
             <div class="question-content">
                 <span class="question-number">2.</span>
-                <span class="question-text">[Abstract math question]</span>
+                <span class="question-text">[Question with simple comparison]</span>
             </div>
-            <!-- NO SVG - clean text-only layout -->
+            <svg class="question-svg-side" viewBox="0 0 150 150">
+                [Direct SVG - clean, professional appearance]
+            </svg>
         </div>
         <div class="answer-space"></div>
 
-        <!-- Use horizontal SVGs for multiple objects, number lines, comparisons -->
-        <!-- Use side SVGs ONLY for simple single objects -->]
+        <!-- NO SVG option remains the same -->
+        <div class="question">
+            <div class="question-content">
+                <span class="question-number">3.</span>
+                <span class="question-text">[Abstract math question]</span>
+            </div>
+        </div>
+        <div class="answer-space"></div>]
 
         **QUALITY CHECKPOINT - DURING GENERATION:**
         For each question as you create it, pause and verify:
@@ -644,15 +623,16 @@ CRITICAL REQUIREMENTS:
 - Return ONLY the complete HTML document
 - Start directly with <!DOCTYPE html> and end with </html>
 
-**STRICT QUALITY FAILURES TO PREVENT:**
-❌ **NEVER DO THESE** (Common failures that reduce quality scores):
+**CRITICAL FAILURE PREVENTION - THESE ISSUES CAUSE REJECTION:**
+❌ **NEVER DO THESE** (Automatic quality failure):
+- Using old container classes (.question-icon-below, .question-icon-side) - USE ONLY .question-svg-below, .question-svg-side
+- Background containers, gray boxes, shadows, or decorative elements around SVGs
+- Multiple answer lines per question - EXACTLY ONE LINE ONLY with class="answer-space"
+- SVG elements smaller than minimum requirements - SKIP SVG ENTIRELY if too small
 - Writing "SMALLER" or "BIGGER" in all caps (use "smaller", "bigger")
-- Multiple answer lines per question (use EXACTLY one line per question)
-- Tiny SVG elements under minimum size requirements (skip SVG instead)
-- Answer space with dashed boxes or multiple lines (single solid line only)
 - Generic circles for non-geometry questions (use contextual objects)
 - SVGs that reveal answers or show calculations
-- Inconsistent text formatting or improper capitalization
+- Fraction SVGs that don't clearly show the exact fractional parts mentioned
 
 **QUALITY VALIDATION CHECKLIST:**
 - ✓ ${config.questionCount} questions present?
@@ -764,8 +744,8 @@ CRITICAL REQUIREMENTS:
     return {
       searchTerms: ['mathematical objects', 'educational icons', 'contextual illustrations', 'relevant objects'],
       sizingGuidelines: '120-140px for side placement, full-width × 60px for below placement, maintain crisp quality',
-      arrangementInstructions: 'ALTERNATING LAYOUT MASTERY: Side SVGs (140×140px) for questions 1,3,5. Below SVGs (full-width × 60px) for questions 2,4. Choose contextually PERFECT elements: detailed coins for money, geometric shapes for geometry, countable objects for numbers. Each must be visually engaging and mathematically precise. For fractions: exact divisions with contrasting colors. For measurements: accurate scales with readable numbers. For comparisons: clear visual data representation.',
-      qualityRequirements: 'TARGET 4.7/5 QUALITY: Professional illustrations with VIBRANT colors (#E74C3C, #3498DB, #2ECC71, #F39C12, #9B59B6), sharp 2-3px strokes, subtle drop shadows. NO pixelation, NO generic shapes. Each SVG must be contextually perfect, educationally valuable, and visually stunning. Side SVGs: detailed and engaging. Below SVGs: wide and informative.'
+      arrangementInstructions: 'CONTAINER-FREE SVG INTEGRATION: Use class="question-svg-side" (150×150px) for simple comparisons. Use class="question-svg-below" (500×120px) for horizontal arrangements. NO background containers, shadows, or decorative elements. Choose contextually PERFECT elements: detailed coins for money, geometric shapes for geometry, countable objects for numbers. Each must be visually engaging and mathematically precise. For fractions: exact divisions with contrasting colors. For measurements: accurate scales with readable numbers.',
+      qualityRequirements: 'TARGET 4.0+ QUALITY: Professional container-free illustrations with VIBRANT colors (#E74C3C, #3498DB, #2ECC71, #F39C12, #9B59B6), sharp 2-3px strokes. NO backgrounds, shadows, containers, or decorative elements. NO pixelation, NO generic shapes unless teaching geometry. Each SVG must be contextually perfect, educationally valuable, and minimum size requirements met. CRITICAL: Elements smaller than age-appropriate minimums must be SKIPPED entirely.'
     }
   }
 
