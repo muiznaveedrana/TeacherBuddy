@@ -615,12 +615,14 @@ CRITICAL REQUIREMENTS:
 - The HTML MUST contain "worksheet-header" and "worksheet-content" classes
 - CRITICAL: Question text MUST start immediately next to the question number (1., 2., etc.) with consistent 8px spacing - NO large gaps or line breaks between number and text
 
-**CRITICAL: MANDATORY QUALITY REQUIREMENTS:**
-- ALWAYS generate EXACTLY ${config.questionCount} complete questions
-- EVERY counting/grouping question MUST include visual SVG representation
-- If you cannot create a proper SVG, use simple geometric shapes as fallback
-- NO INCOMPLETE WORKSHEETS - better simple than broken
-- Return ONLY the complete HTML document
+**CRITICAL: MANDATORY COMPLETION REQUIREMENTS:**
+- **ABSOLUTE REQUIREMENT**: Generate EXACTLY ${config.questionCount} complete questions - NOT 1, NOT 2, EXACTLY ${config.questionCount}
+- **COUNT ENFORCEMENT**: If you cannot fit all ${config.questionCount} questions, simplify SVGs but NEVER reduce question count
+- **NO PARTIAL WORKSHEETS**: Missing questions = automatic failure and teacher disappointment
+- **COMPLETION VERIFICATION**: Before finishing, count questions 1, 2, 3... up to ${config.questionCount} exactly
+- EVERY counting/grouping question MUST include visual SVG representation OR skip SVG to save space
+- If SVGs cause space issues, REMOVE SVGS but keep all ${config.questionCount} questions
+- Return ONLY the complete HTML document with ALL ${config.questionCount} questions
 - Start directly with <!DOCTYPE html> and end with </html>
 
 **CRITICAL FAILURE PREVENTION - THESE ISSUES CAUSE REJECTION:**
@@ -634,14 +636,23 @@ CRITICAL REQUIREMENTS:
 - SVGs that reveal answers or show calculations
 - Fraction SVGs that don't clearly show the exact fractional parts mentioned
 
-**QUALITY VALIDATION CHECKLIST:**
-- ✓ ${config.questionCount} questions present?
+**MANDATORY FINAL VERIFICATION (COUNT QUESTIONS):**
+Before submitting, manually count each question:
+1. Question 1 present? ✓
+2. Question 2 present? ✓
+3. Question 3 present? ✓
+4. Question 4 present? ✓
+5. Question 5 present? ✓
+[Continue counting up to question ${config.questionCount}]
+
+**ADDITIONAL QUALITY CHECKS:**
+- ✓ ALL ${config.questionCount} questions present and complete?
 - ✓ Every question has educational value?
-- ✓ SVGs meet minimum size requirements for ${config.yearGroup}?
+- ✓ SVGs meet minimum size requirements OR were skipped to save space?
 - ✓ Single answer line per question (not multiple lines)?
 - ✓ Proper capitalization ("smaller" not "SMALLER")?
-- ✓ Layout is clean and uncluttered?
-- ✓ Age-appropriate language used?`
+- ✓ No old container classes used?
+- ✓ Age-appropriate language used throughout?`
   }
 
   /**

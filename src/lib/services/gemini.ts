@@ -428,8 +428,11 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, improve
     cleanContent = cleanContent.slice(5).trim()
   }
   
+  // Debug: Log content start to understand what we're receiving
+  console.log('Generated content start:', cleanContent.substring(0, 200))
+
   // Check if we received HTML from the LLM (USP.1 LLM-Native format)
-  if (cleanContent.includes('<!DOCTYPE html>') || cleanContent.includes('<html')) {
+  if (cleanContent.includes('<!DOCTYPE html>') || cleanContent.includes('<html') || cleanContent.includes('<HTML')) {
     // Received complete HTML worksheet from LLM - USP.1 LLM-Native Architecture
     
     // Validate basic HTML structure
@@ -437,11 +440,23 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, improve
       throw new Error('Generated HTML is missing required structure (head/body)')
     }
     
-    // Extract questions count for validation (count number of .question divs)
-    const questionMatches = cleanContent.match(/class="question[^"]*"/g)
-    const questionCount = questionMatches ? questionMatches.length : 0
-    
-    // HTML Questions Generated: ${questionCount} (expected: ${config.questionCount})
+    // Extract questions count for validation (count actual question containers)
+    // Look for question numbers like "1.", "2.", etc. which are more reliable
+    const questionNumberMatches = cleanContent.match(/<span class="question-number">\d+\.<\/span>/g)
+    const questionCount = questionNumberMatches ? questionNumberMatches.length : 0
+
+    // Validate question count matches configuration
+    if (questionCount !== config.questionCount) {
+      throw new GenerationError(
+        `Generated worksheet has ${questionCount} questions but ${config.questionCount} were requested. This is unacceptable for teachers who expect complete worksheets.`,
+        true, // Retryable
+        {
+          generatedCount: questionCount,
+          expectedCount: config.questionCount,
+          configuredSubject: `${config.yearGroup} ${config.topic} - ${config.subtopic}`
+        }
+      )
+    }
     
     // Return the complete HTML as-is (USP.1 LLM-Native)
     return {
@@ -462,7 +477,18 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, improve
   }
   
   // If we reach here, the content is not in the expected HTML+SVG format
-  throw new Error('Generated content must be in HTML format with embedded SVGs. Please try again.')
+  console.error('Unexpected content format. Content preview:', cleanContent.substring(0, 500))
+
+  // Check if it looks like JSON or other formats
+  if (cleanContent.startsWith('{') || cleanContent.startsWith('[')) {
+    throw new Error('LLM generated JSON instead of HTML. The prompt may need adjustment for HTML worksheet generation.')
+  }
+
+  if (cleanContent.includes('I cannot') || cleanContent.includes('I apologize')) {
+    throw new Error('LLM refused to generate worksheet content. Please try again with different configuration.')
+  }
+
+  throw new Error(`Generated content is not in HTML format. Content starts with: "${cleanContent.substring(0, 100)}..."`)
 }
 
 /**
