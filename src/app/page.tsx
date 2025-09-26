@@ -23,9 +23,6 @@ export default function LandingPage() {
                   <a href="#how-it-works" className="text-gray-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">
                     How it Works
                   </a>
-                  <a href="#pricing" className="text-gray-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">
-                    Pricing
-                  </a>
                   <a href="#testimonials" className="text-gray-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">
                     Reviews
                   </a>
@@ -33,7 +30,7 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="hidden md:block">
-              <Link href="/login">
+              <Link href="/dashboard">
                 <Button size="sm" className="bg-blue-700 hover:bg-blue-800">
                   Start Creating
                 </Button>
@@ -60,7 +57,7 @@ export default function LandingPage() {
             Create curriculum-aligned worksheets with personalized student names in seconds.
           </p>
           <div className="flex justify-center mt-8 md:mt-10 px-4">
-            <Link href="/login">
+            <Link href="/dashboard">
               <Button size="touch" className="w-full max-w-sm md:w-auto text-lg px-8 py-6 bg-blue-700 hover:bg-blue-800 touch-manipulation">
                 Start Creating Now
                 <ArrowRight className="ml-2 w-5 h-5" />
@@ -292,8 +289,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="py-20 bg-gray-50">
+      {/* Pricing Section - Hidden for now */}
+      <section id="pricing" className="py-20 bg-gray-50" style={{ display: 'none' }}>
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
@@ -332,7 +329,9 @@ export default function LandingPage() {
                   <span className="w-5 h-5">•</span>
                   <span>Includes advertisements</span>
                 </div>
-                <Button className="w-full mt-8" variant="outline">Get Started Free</Button>
+                <Link href="/dashboard">
+                  <Button className="w-full mt-8" variant="outline">Get Started Free</Button>
+                </Link>
               </CardContent>
             </Card>
 
@@ -372,7 +371,9 @@ export default function LandingPage() {
                   <Check className="w-5 h-5 text-green-500" />
                   <span>Priority support</span>
                 </div>
-                <Button className="w-full mt-8 bg-blue-700 hover:bg-blue-800">Start Pro Trial</Button>
+                <Link href="/dashboard">
+                  <Button className="w-full mt-8 bg-blue-700 hover:bg-blue-800">Start Pro Trial</Button>
+                </Link>
               </CardContent>
             </Card>
 
@@ -411,7 +412,9 @@ export default function LandingPage() {
                   <Check className="w-5 h-5 text-green-500" />
                   <span>Bulk worksheet generation</span>
                 </div>
-                <Button className="w-full mt-8" variant="outline">Upgrade to Pro Plus</Button>
+                <Link href="/dashboard">
+                  <Button className="w-full mt-8" variant="outline">Upgrade to Pro Plus</Button>
+                </Link>
               </CardContent>
             </Card>
           </div>
