@@ -124,8 +124,8 @@ export function EnhancedConfigurationPanel({
         </div>
 
 
-        {/* Student Name List Selection */}
-        <div className="space-y-3">
+        {/* Student Name List Selection - Hidden from UI */}
+        <div className="space-y-3" style={{ display: 'none' }}>
           <div className="flex items-center gap-2">
             <Label className="text-sm font-semibold">Student Name List (Optional)</Label>
             <TooltipProvider>

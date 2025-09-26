@@ -427,17 +427,79 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, improve
     // Handle case where LLM prefixes with "html"
     cleanContent = cleanContent.slice(5).trim()
   }
+
+  // Handle common prefixes that LLMs sometimes add
+  const commonPrefixes = [
+    'Here is the worksheet:',
+    'Here is your worksheet:',
+    'Here\'s the worksheet:',
+    'Here\'s your worksheet:',
+    'Below is the worksheet:',
+    'The worksheet is:',
+    'I\'ve created a worksheet:',
+    'I\'ve generated a worksheet:'
+  ]
+
+  for (const prefix of commonPrefixes) {
+    if (cleanContent.startsWith(prefix)) {
+      cleanContent = cleanContent.slice(prefix.length).trim()
+      break
+    }
+  }
+
+  // Handle common suffixes that LLMs sometimes add
+  const commonSuffixes = [
+    'I hope this helps!',
+    'Hope this helps!',
+    'Let me know if you need any adjustments.',
+    'Feel free to modify as needed.',
+    'This worksheet should meet your requirements.'
+  ]
+
+  for (const suffix of commonSuffixes) {
+    if (cleanContent.endsWith(suffix)) {
+      cleanContent = cleanContent.slice(0, -suffix.length).trim()
+      break
+    }
+  }
   
   // Debug: Log content start to understand what we're receiving
   console.log('Generated content start:', cleanContent.substring(0, 200))
 
   // Check if we received HTML from the LLM (USP.1 LLM-Native format)
-  if (cleanContent.includes('<!DOCTYPE html>') || cleanContent.includes('<html') || cleanContent.includes('<HTML')) {
+  // More flexible HTML detection to handle various LLM output formats
+  const isLikelyHTML = (
+    cleanContent.includes('<!DOCTYPE html>') ||
+    cleanContent.includes('<!doctype html>') ||
+    cleanContent.includes('<html') ||
+    cleanContent.includes('<HTML') ||
+    (cleanContent.includes('<head>') && cleanContent.includes('<body>')) ||
+    (cleanContent.includes('<title>') && cleanContent.includes('<div')) ||
+    (cleanContent.includes('<style>') && cleanContent.includes('<div')) ||
+    (cleanContent.match(/<html[^>]*>/i)) || // Match <html> with attributes
+    (cleanContent.includes('</html>')) ||
+    // Check for common HTML worksheet patterns
+    (cleanContent.includes('<div class="worksheet') && cleanContent.includes('<span class="question-number">'))
+  )
+
+  if (isLikelyHTML) {
     // Received complete HTML worksheet from LLM - USP.1 LLM-Native Architecture
     
-    // Validate basic HTML structure
-    if (!cleanContent.includes('<head>') || !cleanContent.includes('<body>')) {
-      throw new Error('Generated HTML is missing required structure (head/body)')
+    // Validate basic HTML structure - more lenient validation
+    const hasMinimalStructure = (
+      cleanContent.includes('<head>') ||
+      cleanContent.includes('<title>') ||
+      cleanContent.includes('<style>') ||
+      cleanContent.includes('<div class="worksheet')
+    ) && (
+      cleanContent.includes('<body>') ||
+      cleanContent.includes('<div') || // Might be fragment HTML
+      cleanContent.includes('<span class="question-number">')
+    )
+
+    if (!hasMinimalStructure) {
+      console.warn('Generated HTML may be missing standard structure, but attempting to proceed')
+      // Don't throw error - let it continue and see if questions can be found
     }
     
     // Extract questions count for validation (count actual question containers)
@@ -445,17 +507,53 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, improve
     const questionNumberMatches = cleanContent.match(/<span class="question-number">\d+\.<\/span>/g)
     const questionCount = questionNumberMatches ? questionNumberMatches.length : 0
 
-    // Validate question count matches configuration
+    // Flexible question count validation with retry logic
     if (questionCount !== config.questionCount) {
-      throw new GenerationError(
-        `Generated worksheet has ${questionCount} questions but ${config.questionCount} were requested. This is unacceptable for teachers who expect complete worksheets.`,
-        true, // Retryable
-        {
-          generatedCount: questionCount,
-          expectedCount: config.questionCount,
-          configuredSubject: `${config.yearGroup} ${config.topic} - ${config.subtopic}`
+      // If we have 3+ questions, accept the worksheet
+      if (questionCount >= 3) {
+        console.warn(`Generated worksheet has ${questionCount} questions but ${config.questionCount} were requested. Accepting partial worksheet with ${questionCount} questions.`)
+      } else if (questionCount > 0) {
+        // If we have some questions but less than 3, make it retryable but include partial worksheet data
+        const partialWorksheetData = {
+          title: `${config.yearGroup} ${config.topic} - ${config.subtopic} (${config.difficulty})`,
+          html: cleanContent,
+          metadata: {
+            topic: config.topic,
+            subtopic: config.subtopic,
+            difficulty: config.difficulty,
+            questionCount: questionCount,
+            curriculum: 'UK National Curriculum',
+            generatedAt: new Date().toISOString(),
+            promptTemplate: improvementMetadata?.templateVariation || 'unified-optimal',
+            qualityScore: improvementMetadata?.qualityScore || 4.2,
+            isPhase1Combination: improvementMetadata?.targetQualityAchieved || false,
+            isPartialWorksheet: true
+          }
         }
-      )
+
+        throw new GenerationError(
+          `Generated worksheet has ${questionCount} questions but ${config.questionCount} were requested. Need at least 3 questions for a useful worksheet.`,
+          true, // Retryable - will attempt one more time
+          {
+            generatedCount: questionCount,
+            expectedCount: config.questionCount,
+            configuredSubject: `${config.yearGroup} ${config.topic} - ${config.subtopic}`,
+            minAcceptableQuestions: 3,
+            partialWorksheet: partialWorksheetData
+          }
+        )
+      } else {
+        // No questions found at all
+        throw new GenerationError(
+          `Generated worksheet has no questions. Unable to create worksheet.`,
+          true, // Retryable
+          {
+            generatedCount: 0,
+            expectedCount: config.questionCount,
+            configuredSubject: `${config.yearGroup} ${config.topic} - ${config.subtopic}`
+          }
+        )
+      }
     }
     
     // Return the complete HTML as-is (USP.1 LLM-Native)
@@ -488,7 +586,29 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, improve
     throw new Error('LLM refused to generate worksheet content. Please try again with different configuration.')
   }
 
-  throw new Error(`Generated content is not in HTML format. Content starts with: "${cleanContent.substring(0, 100)}..."`)
+  // Provide detailed error message for debugging
+  const contentPreview = cleanContent.substring(0, 200)
+  const errorDetails = {
+    contentLength: cleanContent.length,
+    startsWithHtml: cleanContent.toLowerCase().includes('<!doctype') || cleanContent.toLowerCase().includes('<html'),
+    containsHtmlTags: cleanContent.includes('<') && cleanContent.includes('>'),
+    firstLine: cleanContent.split('\n')[0],
+    contentPreview
+  }
+
+  console.error('HTML parsing failed. Details:', errorDetails)
+
+  throw new GenerationError(
+    `Generated content is not in HTML format. Content starts with: "${contentPreview}..."`,
+    true, // Make this retryable since LLM output can be inconsistent
+    {
+      contentType: 'non-html',
+      contentLength: cleanContent.length,
+      startsWithHtml: errorDetails.startsWithHtml,
+      containsHtmlTags: errorDetails.containsHtmlTags,
+      firstLine: errorDetails.firstLine
+    }
+  )
 }
 
 /**

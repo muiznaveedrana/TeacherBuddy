@@ -168,237 +168,131 @@ export class PromptService {
 
 
   /**
-   * Generate optimal prompt combining the best elements from all approaches
-   * Combines professional structure, creative engagement, and motivational elements
+   * Generate optimal prompt - streamlined version with consolidated instructions
    */
   private static generateOptimalPrompt(config: EnhancedPromptConfig): string {
-    const curriculumContext = this.getCurriculumContext(config)
     const shouldApplyTheme = config.visualTheme && config.visualTheme !== 'none'
     const svgInstructions = shouldApplyTheme && config.visualTheme ? this.getSVGInstructions(config.visualTheme) : this.getContextualSVGInstructions()
-    const accessibilityRequirements = this.getAccessibilityRequirements(config.yearGroup)
     const themeContext = shouldApplyTheme && config.visualTheme ? this.getThemeContext(config.visualTheme, config.yearGroup) : null
 
-    return `Create a ${config.yearGroup} ${config.topic} worksheet focusing specifically on "${config.subtopic}" (${config.difficulty} level, ${config.questionCount} questions).
+    return `Create a ${config.yearGroup} ${config.topic} worksheet: "${config.subtopic}" (${config.difficulty}, ${config.questionCount} questions).
 
-**QUALITY TARGET & AWARENESS:**
-You are creating a worksheet that will be evaluated on 5 critical quality criteria (each scored 1-5):
-1. **Accuracy (30%)**: Perfect SVG-content alignment, exact mathematical correctness, no discrepancies
-2. **Visual Clarity (25%)**: Space-efficient layouts, readable elements, professional appearance
-3. **Logical Connection (20%)**: Every SVG directly enhances mathematical understanding
-4. **Age Appropriateness (15%)**: Vocabulary and complexity perfectly matched to ${config.yearGroup} students
-5. **Answer Protection (10%)**: Zero solution reveals in any visual elements
+**QUALITY TARGET: 4.5/5.0** - Evaluated on: Accuracy (30%), Visual Clarity (25%), Educational Value (20%), Age Appropriateness (15%), Answer Protection (10%)
 
-**TARGET SCORE: 4.0+ out of 5.0** (Minimum acceptable quality for teachers)
-**SPACE EFFICIENCY**: Optimize for cost-effective printing - teachers value paper savings
+**CORE REQUIREMENTS:**
+- UK National Curriculum aligned for ${config.subtopic}
+- Age-appropriate vocabulary for ${config.yearGroup}
+- Names: Emma, Oliver, Sophie, James, Lily, Thomas, Grace, Harry${themeContext ? `\n- Theme: ${themeContext}` : ''}
+- NO markdown formatting - plain text only
+- Normal capitalization ("smaller", "bigger") - NEVER "SMALLER"
+- Complete HTML document starting with <!DOCTYPE html>
 
-**PRE-GENERATION QUALITY CHECK:**
-Before creating each question, evaluate:
-- Does this question benefit from visual representation or is text alone more effective?
-- Can I create an accurate visual without revealing the answer?
-- Will this visual enhance understanding for ${config.yearGroup} students specifically?
-- Is this the most space-efficient approach for printing?
+**SVG STRATEGY - CONTEXTUAL ACCURACY FIRST:**
+**MANDATORY SVG CONTEXTUAL MATCHING:**
+- SVG objects MUST exactly match question context (flowers for flower problems, books for book problems)
+- SVG quantities MUST exactly match question numbers (if problem mentions 12 objects, show exactly 12 objects)
+- SVG arrangements MUST reflect mathematical concepts (3 rows × 4 objects = show 3 rows with 4 objects each)
+- NO generic shapes when specific objects are mentioned in questions
 
-**Requirements:**
-- UK National Curriculum aligned for ${config.subtopic} specifically
-- Age-appropriate vocabulary with mathematical precision
-- Content must directly address the subtopic "${config.subtopic}" learning objectives
-- Use names: Emma, Oliver, Sophie, James, Lily, Thomas, Grace, Harry${themeContext ? `\n- Theme: ${themeContext}` : ''}
-- NO markdown formatting (*bold*, _italic_) in question text - use plain text only
-- **CRITICAL TEXT FORMATTING**: Use normal capitalization ("smaller", "bigger", "most", "least")
-- ONLY use ALL CAPS for mathematical emphasis like "MOST" or "LEAST" when absolutely necessary
-- NEVER write "SMALLER" - write "smaller" in lowercase
+**WHEN TO USE SVGs:**
+- Counting/grouping problems (show exact objects mentioned: cars, apples, stickers, books, flowers, THIN pencils with proper proportions)
+- Multiplication arrays (show rows × columns arrangements that match problem)
+- Division/sharing (show objects grouped as described in problem)
+- Fractions (show exact parts shaded of the specific object mentioned)
+- Measurements (rulers with accurate scales matching problem units)
+- Money (UK coins/notes matching amounts in problem)
+- Place value (show exact blocks/objects for the specific numbers mentioned)
 
-**Format:** Complete HTML document ONLY (no markdown, no code blocks, no triple-backtick html tags). Start directly with <!DOCTYPE html> and embedded SVG icons (high-quality, detailed shapes inspired by OpenClipart.org: ${svgInstructions.searchTerms.join(', ')}).
+**SKIP SVGs:**
+- Abstract math ("think of a number", pure calculations)
+- Questions where visuals would reveal answers directly
+- Multi-step word problems where visualization is complex
 
-**ADVANCED SVG LAYOUT INSTRUCTIONS (Target: 4.7/5 Quality):**
+**SVG PLACEMENT RULES:**
+- **1-4 objects:** Side placement (150×150px)
+- **5+ objects:** Below text (500×120px full width)
+- **No containers/backgrounds** - direct SVG integration only
 
-**HORIZONTAL-FIRST SVG STRATEGY (Clean & Spacious):**
-- **PREFER horizontal wide SVGs** - they look cleaner and less congested
-- **DEFAULT PLACEMENT: BELOW text** (full width × 80-120px height)
-- USE side placement ONLY for simple objects (single items, icons)
-- SVGs are NOT mandatory for every question
-- SKIP SVGs for abstract concepts (e.g., "think of a number", pure calculation)
+**CRITICAL SPACING REQUIREMENTS:**
+- **Horizontal spacing:** Minimum 8-12px gaps between adjacent objects
+- **Vertical spacing:** Minimum 6-10px gaps between rows when stacked
+- **Edge margins:** 10-15px padding from SVG container edges
+- **Multi-row layouts:** Ensure all objects fit within viewBox, no cutoffs
+- **Object arrangement:** Use proper grid layout with consistent spacing
 
-**HORIZONTAL SVG ADVANTAGES:**
-- More space for multiple objects without crowding
-- Can use two rows for large counts (e.g., 10 items per row)
-- Number lines and timelines fit naturally
-- Visual comparisons side-by-side
-- Reduces cutoff issues with maximum width available
+**PROFESSIONAL SVG QUALITY STANDARDS (Freepik-Level):**
+- **Clean Modern Design:** Flat design style with subtle gradients, minimal shadows, attractive visual details
+- **Sharp Vector Lines:** 2-3px stroke weights, perfectly aligned paths, crisp edges
+- **Professional Color Palette:** Vibrant but harmonious colors (#E74C3C red, #3498DB blue, #2ECC71 green, #F39C12 orange, #9B59B6 purple, #FF6B6B coral, #4ECDC4 teal)
+- **High Contrast:** Strong contrast ratios for educational clarity (minimum 4.5:1)
+- **Consistent Style:** Unified design language across all elements, matching stroke weights
+- **Scalable Precision:** Vector-perfect at all sizes, no pixelation or blurriness
+- **Educational Clarity:** Clear, recognizable shapes with distinct visual hierarchy
+- **Modern Aesthetics:** Contemporary icon style, rounded corners (2-4px radius), balanced proportions
+- **Visual Appeal Requirements:** NO solid black fills, NO overly simple shapes. Use colorful, detailed, attractive designs that children will find engaging
 
-**ENHANCED SVG SIZING (Cutoff Prevention):**
-- **Horizontal SVGs**: 100% container width × 120px height with 10px internal margins
-- **Side SVGs**: 150×150px usable area with 10px internal margins
-- **Safe content area**: Use 95% of SVG dimensions for actual content
-- **Multiple objects**: Maximum 6 objects per row, use 2 rows with 20px spacing if needed
-- **Text in SVGs**: Maximum 12pt font size for readability
+**SPECIFIC OBJECT DESIGN GUIDELINES:**
+- **Flowers:** Realistic flower appearance with 5-8 rounded/oval petals arranged around a circular center, green stems with small leaves, varied petal shapes (daisy-like, rose-like). Should clearly look like actual flowers, not abstract geometric shapes
+- **Books:** Colorful covers with different hues, visible spines, slight 3D perspective, maybe simple patterns or text lines
+- **Animals:** Friendly faces, proper proportions, natural colors, expressive eyes
+- **Food Items:** Realistic colors, appetizing appearance, proper textures and details
+- **Sports Items:** Dynamic appearance, proper colors (orange basketballs, yellow tennis balls), brand-appropriate designs
+- **Geometric Shapes:** When needed, use colorful fills with subtle gradients, not just outlines
 
-**PREVENT CONGESTION & CUTOFF:**
-- Use MAXIMUM available width for horizontal SVGs with minimal margins
-- **Large counts strategy**: 8-10 objects per row maximum (space-efficient), then start new row
-- **SPACE-EFFICIENT SPACING**: 6-8px between objects (optimized for printing)
-- **CRITICAL: COMPACT ROWS**: 12px spacing between rows (paper-friendly)
-- **MINIMAL MARGINS**: 5px from SVG edges (maximize space usage)
-- **SMART PACKING**: 8-10 objects per row maximum for efficiency
-- **READABLE TEXT**: 12pt maximum for readability
+**SVG TECHNICAL REQUIREMENTS:**
+- **Optimized Code:** Clean SVG markup, minimal file size, no unnecessary elements
+- **Proper Scaling:** viewBox="0 0 width height" for perfect scaling
+- **Accessibility:** Descriptive titles and semantic structure
+- **Color Management:** Consistent hex codes, no transparency issues
+- **Path Optimization:** Smooth curves, minimal anchor points, professional bezier handles
 
-**INTELLIGENT CONTENT MATCHING & SPACING:**
-- **QUANTITY-BASED LAYOUT SELECTION (STRICTLY ENFORCED)**:
-  - 1-4 objects: Side container (160×160px) with single arrangement
-  - 5-8 objects: Horizontal container (single row)
-  - 9+ objects: **MANDATORY** horizontal container (multi-row layout)
-  - **CRITICAL**: Questions with 9, 10, 11, 12, 13, 14, 15, 16, 17, 18+ objects MUST use horizontal layout
-  - **NEVER** use side containers for quantities of 9 or more objects
-  - Examples requiring horizontal layout: 18 sweets, 13 balloons, 16 pencils, 11 stickers
-- For HORIZONTAL objects (buses, trains, timelines, number lines): ALWAYS place BELOW text
-- For VERTICAL objects (people, trees, tall containers): Place on SIDES only if ≤8 objects
-- For COUNTING objects: Arrange in CLEAR GRIDS with 15px minimum spacing between items
-- **MULTI-ROW HORIZONTAL LAYOUTS**: First row at y=30, second row at y=70 (25px+ spacing)
-- For FRACTIONS: Show clear divisions with contrasting colors
-- For MEASUREMENTS: Include accurate scales with readable numbers
-- For GROUPED OBJECTS: Use distinct color coding (red group, blue group, etc.)
-- For MATHEMATICAL OPERATIONS: Show clear before/after states with visual separation
+**AGE ADAPTATIONS:**
+- **Reception/Year 1:** 50px min object size, 12px horizontal + 10px vertical spacing, max 5 objects, extra bold strokes (3px)
+- **Year 2-3:** 40px min object size, 10px horizontal + 8px vertical spacing, max 12 objects, medium strokes (2.5px)
+- **Year 4-6:** 35px min object size, 8px horizontal + 6px vertical spacing, max 20 objects, standard strokes (2px)
 
-**MATHEMATICAL OPERATION VISUALIZATION:**
-- MULTIPLICATION: Show grouped arrays (3×4 = 3 rows of 4 objects each)
-- DIVISION: Show total amount split into equal groups with separators
-- COMPARISON: Show both quantities side by side with clear labels
-- ADDITION: Show distinct groups coming together (red apples + green apples)
-- For LARGE NUMBERS: Use base-10 groupings (tens grouped separately from ones)
-- MONEY PROBLEMS: Show actual coins/notes with correct UK denominations
+**LAYOUT CALCULATIONS:**
+- **For 5-15 objects:** Use 2-3 rows maximum, calculate proper spacing to fit within viewBox
+- **Grid arrangement:** Objects arranged in neat rows/columns with consistent gaps
+- **Prevent cutoffs:** Always ensure bottom row is fully visible with proper margins
 
-**VISUAL APPEAL ENHANCEMENTS:**
-- Add subtle drop shadows: filter="drop-shadow(2px 2px 4px rgba(0,0,0,0.2))"
-- Use gradient fills for depth: linear-gradient for engaging visuals
-- Ensure 15px minimum spacing between SVG and text elements
-- Create visual hierarchy with different sizes for emphasis
+**CRITICAL ACCURACY:**
+- Visual quantities MUST match question text exactly
+- No calculations/answers visible in SVGs
+- Fractions show correct shaded portions with clear boundaries
+- Measurements display accurate values with readable labels
 
-${svgInstructions.arrangementInstructions}
-${svgInstructions.qualityRequirements}
+**SVG CONTEXTUAL ACCURACY AND QUALITY ENFORCEMENT:**
+**CONTEXTUAL MATCHING (HIGHEST PRIORITY):**
+- ❌ NEVER use generic shapes when specific objects are mentioned (NO rectangles for books, NO circles for flowers)
+- ❌ NEVER mismatch quantities (if problem says 12 items, show exactly 12 items)
+- ❌ NEVER ignore mathematical arrangements (3 rows × 4 = show 3 clear rows with 4 items each)
+- ✅ ALWAYS match SVG objects to exact question context (books for book problems, flowers for flower problems)
+- ✅ ALWAYS show correct quantities and arrangements that support the mathematics
 
-**CRITICAL: 4.7/5 QUALITY STANDARDS:**
-- Every SVG must be CONTEXTUALLY PERFECT (not generic circles/squares)
-- Alternating layout prevents monotony and boredom
-- Professional presentation with consistent spacing
-- Educational value enhanced through visual storytelling
+**SPECIFIC CONTEXTUAL REQUIREMENTS:**
+- ✅ MULTIPLICATION ARRAYS: "3 rows of 4 flowers" = show exactly 3 rows with exactly 4 flowers in each row
+- ✅ DIVISION PROBLEMS: "share 24 sweets among 8 friends" = show 24 sweet objects arranged in 8 groups
+- ✅ PLACE VALUE: "hundreds, tens, ones" = show proper place value blocks in correct proportions
+- ✅ COUNTING: "Emma has 12 stickers" = show exactly 12 sticker objects, not random shapes
 
-**ENHANCED CONTEXTUAL ACCURACY (4.7/5 Target):**
-- COUNTING problems: Show EXACT COUNT mentioned (14 cars = 14 visible car shapes)
-- ADDITION: Visual groups that clearly show the mathematical operation
-- PLACE VALUE: Use base-10 blocks, ten-frames, or number lines with exact values
-- MULTIPLICATION: Show arrays, groups, or repeated patterns that match the problem
-- SHAPES: Use real-world objects (houses, windows, wheels) not abstract shapes
-- MONEY: Show actual UK coins and notes with correct colors and features
-- NO generic geometric shapes unless specifically teaching geometry
+**VISUAL QUALITY (SECONDARY TO CONTEXT):**
+- ❌ NEVER use solid black fills for real objects (flowers, books, animals, food)
+- ❌ NEVER create geometric diamond shapes for flowers - flowers must have rounded oval petals in a circle
+- ❌ NEVER create plain rectangles for books - books must have spine details, covers, 3D effect
+- ❌ NEVER create short/thick pencils - pencils must be long and thin (6:1 ratio minimum)
+- ❌ NEVER let objects touch each other - always maintain minimum 8-12px gaps between all objects
+- ❌ NEVER create overlapping objects - each item must have clear separation and breathing space
+- ❌ NEVER cut off objects at container edges - ensure full visibility with adequate margins (minimum 10px from any edge)
+- ❌ NEVER let objects overflow their containers - all SVG elements must fit completely within their designated space
+- ✅ POSITIONING: Leave sufficient margin space around all visual elements to prevent truncation or overlap
+- ✅ FLOWERS: CRITICAL - Must look like real flowers with individual petals visible. Create 5-8 distinct oval-shaped petals radiating from a central yellow circle. Each petal should be separate and clearly defined, not merged together. Add thin green stem extending downward. Use bright colors (pink, red, purple, yellow, white) for petals. Each flower must look like a child's drawing of a flower - simple but realistic with visible individual petals around center
+- ✅ BOOKS: CRITICAL - Must look like real books, NOT plain rectangles. Include: visible spine with title lines, cover details, slight 3D perspective showing thickness, binding edge, varied heights. Use book-specific proportions (taller than wide). Add visual details like author lines on spine, cover graphics, realistic shadows. NEVER just solid colored rectangles
+- ✅ STICKERS: Circular or star-shaped colorful stickers, not generic rectangles
+- ✅ PENCILS: CRITICAL - Must be thin and elongated (6:1 length-to-width ratio minimum). Yellow wooden body with silver ferrule band and pink eraser, sharp pointed graphite tip. Each pencil must have 8-12px spacing from others - NEVER touching or overlapping. NOT thick markers or crayons. Use hexagonal or round cross-section, never rectangular. Typical proportions: 100px long × 12px wide maximum with proper gaps between each pencil
+- ✅ SWEETS: CRITICAL - Must be recognizable candy shapes, NOT simple circles. Create gummy bears with visible limbs, lollipops with stick handles, wrapped candies with crinkle textures, or chocolate pieces with surface details. Each sweet must have 8-12px spacing from others. Use bright candy colors (red, green, purple, orange, yellow) with gradients and highlights. NEVER plain circles - add identifying candy features
 
-**INTELLIGENT SVG DECISION-MAKING:**
-
-**INCLUDE SVGs WHEN (High Educational Value):**
-- COUNTING problems with specific objects (cars, apples, stickers) - enhances concrete understanding
-- GROUPING/ARRAYS for multiplication (visual groups essential for comprehension)
-- COMPARISON problems (side-by-side visual comparison clarifies relationships)
-- MONEY problems (actual coins/notes support practical application)
-- SHAPES and geometry (visual identification is core requirement)
-- FRACTIONS (visual parts of wholes are fundamental to understanding)
-- MEASUREMENTS (scales, rulers with exact values shown)
-
-**SKIP SVGs WHEN (Text-Only More Effective):**
-- "Think of a number" problems (promotes abstract mental math skills)
-- Pure calculation questions (847 + 293 = ?) - focus on computational fluency
-- Time problems (clock concepts better as text descriptions)
-- Distance/speed problems (abstract concepts don't benefit from simple visuals)
-- Multi-step word problems requiring logical reasoning
-- Questions asking for written explanations or mathematical methods
-- Problems where visual would reveal or hint at the answer
-
-**SVG QUALITY DECISION MATRIX:**
-Before creating any SVG, verify:
-✓ Does this enhance mathematical understanding?
-✓ Is it appropriate for ${config.yearGroup} cognitive level?
-✓ Can I represent this accurately without revealing answers?
-✓ Will teachers find this pedagogically valuable?
-✓ Is this space-efficient for printing?
-
-**SIMPLIFIED SVG CREATION (NO CONTAINERS):**
-- **DIRECT INTEGRATION**: Use class="question-svg-below" or class="question-svg-side"
-- **CLEAN VIEWBOX**: Set viewBox="0 0 WIDTH HEIGHT" to exact content needs
-- **SIDE SVG FORMAT**: Use viewBox="0 0 150 150" for simple comparisons
-- **BELOW SVG FORMAT**: Use viewBox="0 0 500 120" for horizontal arrangements
-- **NO CONTAINERS**: No background, shadows, borders, or decorative elements
-- **SPACE EFFICIENT**: 10px margins built into CSS, not containers
-
-**CONTENT-SVG ALIGNMENT & VERIFICATION:**
-
-**MATHEMATICAL ACCURACY REQUIREMENTS:**
-- **EXACT QUANTITY MATCHING**: 18 sweets mentioned = exactly 18 visual objects
-- **PRECISE FRACTIONS**: 3/4 problem = 3 shaded parts out of 4 total parts shown
-- **ACCURATE MEASUREMENTS**: Ruler shows exact values mentioned in question text
-- **CORRECT MONEY**: UK coins/notes display actual denominations referenced
-- **PERFECT ARRAYS**: 4×6 multiplication = 4 rows of exactly 6 objects each
-
-**VERIFICATION CHECKLIST (Apply to Every SVG):**
-✓ Count visual elements - do they match the numbers in the question text?
-✓ Check fractions - are the correct parts shaded/highlighted?
-✓ Verify measurements - do scales show the exact values mentioned?
-✓ Confirm money amounts - are denominations and totals accurate?
-✓ Validate arrays/groups - do visual arrangements match mathematical operations?
-
-**CRITICAL: NO ANSWER REVEALS IN SVGs:**
-- NEVER show calculations, totals, or final answers in visuals
-- NEVER label quantities that give away solutions
-- For multiplication/division: Show context WITHOUT revealing math
-- Example: "6 shelves × 10 cars" → Show shelves with cars but no quantity labels
-- Use appropriate objects and visual representations without revealing answers
-
-**SIMPLIFIED SVG PLACEMENT (NO CONTAINERS):**
-- **DIRECT SVG INTEGRATION**: No background boxes, shadows, or decorative containers
-- **CLEAN VIEWBOX USAGE**: Set viewBox to exact content needs + 10px margins
-- **SIDE SVGs**: viewBox="0 0 150 150" for simple comparisons/single objects
-- **BELOW SVGs**: viewBox="0 0 500 120" for horizontal arrangements/arrays
-- **SPACE OPTIMIZATION**: SVGs integrate naturally with worksheet text
-- **PRINT EFFICIENCY**: No container backgrounds to waste ink/toner
-
-**AGE-APPROPRIATE SVG STRATEGY:**
-- RECEPTION/YEAR 1: Show exact counts for learning (apples to count)
-- YEAR 2: Show mathematical relationships (groupings, comparisons)
-- YEAR 3+: Show appropriate visual contexts with proper SVG objects, NOT person avatars or name characters
-
-**AGE-APPROPRIATE QUALITY ADAPTATIONS:**
-
-**RECEPTION/YEAR 1 (Ages 4-6) - SPACIOUS LAYOUTS:**
-- **LARGER SPACING**: 12px between objects (still space-efficient but readable)
-- **MANDATORY MINIMUM**: 50px object size (STRICTLY ENFORCED - if smaller, skip SVG entirely)
-- **PRIMARY COLORS**: Red, blue, yellow, green, orange only
-- **SIMPLE SHAPES**: Bold 4px outlines, no complex details
-- **LIMITED QUANTITY**: Maximum 5 objects per SVG to prevent confusion
-- **CLEAR SEPARATION**: No overlapping or clustered elements
-- **SIMPLE VOCABULARY**: "first", "last", "big", "small", "more", "less"
-
-**YEAR 2-3 (Ages 6-8) - BALANCED EFFICIENCY:**
-- **MODERATE SPACING**: 8px between objects (good balance)
-- **MANDATORY MINIMUM**: 40px object size (STRICTLY ENFORCED - if smaller, skip SVG entirely)
-- **VARIED COLORS**: Include secondary colors and patterns
-- **CLEAR DETAILS**: 2px outlines with moderate complexity
-- **MANAGEABLE QUANTITY**: Up to 12 objects per SVG
-- **EDUCATIONAL GROUPINGS**: Show mathematical relationships clearly
-
-**YEAR 4-6 (Ages 8-11) - MAXIMUM EFFICIENCY:**
-- **COMPACT SPACING**: 6px between objects (paper-saving)
-- **MANDATORY MINIMUM**: 35px object size (STRICTLY ENFORCED - if smaller, skip SVG entirely)
-- **FULL COLOR RANGE**: Use all colors appropriately
-- **DETAILED GRAPHICS**: Fine details acceptable for mature viewers
-- **HIGH DENSITY**: Up to 20 objects efficiently arranged
-- **COMPLEX RELATIONSHIPS**: Advanced mathematical concepts visualized
-
-**VISUAL-TEXT ALIGNMENT REQUIREMENTS:**
-- All SVG images MUST directly relate to and support the question text
-- For fractions: Visual representations must show the exact fractions mentioned (e.g., if question asks about 3/4, show 3 out of 4 parts shaded)
-- For measurements: Scales, rulers, containers must display the actual values referenced in the question
-- For comparisons: Charts and graphs must accurately represent the specific data mentioned
-- For word problems: Images should depict the exact scenario described, not generic representations
-- Ensure visual elements enhance understanding rather than confuse or contradict the mathematical content
-
-**CRITICAL - ENHANCED HTML STRUCTURE FOR 4.7/5 QUALITY:**
+**HTML STRUCTURE:**
 <!DOCTYPE html>
 <html>
 <head>
@@ -413,29 +307,23 @@ Before creating any SVG, verify:
             background: white;
             color: #000;
         }
-
-        /* Simplified header - reduced to 10% of page height */
         .worksheet-header {
             text-align: center;
             margin-bottom: 15px;
             padding-bottom: 6px;
             border-bottom: 3px solid #000;
         }
-
         .worksheet-title {
             font-size: 16pt;
             font-weight: bold;
             margin: 0;
             letter-spacing: 0.5px;
         }
-
         .subtitle {
             font-size: 12pt;
             font-weight: normal;
             color: #666;
         }
-
-        /* Simplified student info */
         .student-info {
             display: flex;
             justify-content: space-between;
@@ -443,14 +331,11 @@ Before creating any SVG, verify:
             margin: 8px 0 15px 0;
             font-size: 11pt;
             font-weight: bold;
-            gap: 20px; /* Add space between Name and Date */
+            gap: 20px;
         }
-
         .worksheet-content {
             margin-top: 10px;
         }
-
-        /* ENHANCED ALTERNATING LAYOUT FOR 4.7/5 QUALITY */
         .question {
             margin: 15px 0;
             padding: 15px;
@@ -459,34 +344,15 @@ Before creating any SVG, verify:
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             page-break-inside: avoid;
         }
-
-        .question:first-child {
-            margin-top: 0;
-        }
-
-        /* ALTERNATING LAYOUTS */
         .question-right {
             display: flex;
             align-items: flex-start;
             gap: 20px;
         }
-
-        .question-left {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            flex-direction: row-reverse;
-        }
-
-        .question-below {
-            display: block;
-        }
-
         .question-content {
             flex: 1;
             min-width: 0;
         }
-
         .question-number {
             font-size: ${this.getQuestionFontSize(config.yearGroup)};
             font-weight: bold;
@@ -494,30 +360,24 @@ Before creating any SVG, verify:
             margin-right: 10px;
             display: inline-block;
         }
-
         .question-text {
             font-size: ${this.getFontSize(config.yearGroup)};
             line-height: ${this.getLineHeight(config.yearGroup)};
             margin: 0;
             display: inline;
         }
-
-        /* SIMPLIFIED SVG PLACEMENT - NO CONTAINERS */
         .question-svg-side {
             width: 150px;
             height: 150px;
             margin: 10px;
             flex-shrink: 0;
         }
-
         .question-svg-below {
             width: 100%;
             height: 120px;
             margin: 10px 0;
             display: block;
         }
-
-        /* ANSWER SPACE - SINGLE LINE ONLY */
         .answer-space {
             margin: 15px 0 10px 0;
             height: 35px;
@@ -525,134 +385,63 @@ Before creating any SVG, verify:
             border-bottom: 2px solid #333;
             position: relative;
         }
-
-        /* NO additional lines or dashed containers */
     </style>
 </head>
 <body>
-    <!-- Simplified student info positioned above header -->
     <div class="student-info">
         <div>Name: _____________</div>
         <div>Date: _____________</div>
     </div>
-
-    <!-- Simplified header with title only -->
     <div class="worksheet-header">
         <h1 class="worksheet-title">${this.toProperCase(config.topic.replace('-', ' '))}${config.subtopic ? ` - <span class="subtitle">${this.toProperCase(config.subtopic.replace('-', ' '))}</span>` : ''}</h1>
     </div>
-
     <div class="worksheet-content">
-
-        **FINAL QUALITY REVIEW BEFORE COMPLETION:**
-        Before submitting the worksheet, verify:
-        ✓ All ${config.questionCount} questions are educationally appropriate for ${config.yearGroup}
-        ✓ Every SVG enhances mathematical understanding (no decorative-only visuals)
-        ✓ Visual elements match question text exactly (quantities, measurements, fractions)
-        ✓ No answers or solution hints visible in any SVG
-        ✓ Space-efficient layout maximizes content per page
-        ✓ Age-appropriate complexity and vocabulary throughout
-        ✓ Professional appearance with consistent formatting
-
-        [Generate exactly ${config.questionCount} questions using HORIZONTAL-FIRST SVG STRATEGY:
-
-        <!-- SIMPLIFIED: Question with SVG below text (no containers) -->
-        <div class="question">
-            <div class="question-content">
-                <span class="question-number">1.</span>
-                <span class="question-text">[Question with countable objects/comparisons]</span>
-            </div>
-            <svg class="question-svg-below" viewBox="0 0 500 120">
-                [Direct SVG - no background containers, shadows, or decorative elements]
-            </svg>
-        </div>
-        <div class="answer-space"></div>
-
-        <!-- SIMPLIFIED: Question with side SVG (no containers) -->
-        <div class="question question-right">
-            <div class="question-content">
-                <span class="question-number">2.</span>
-                <span class="question-text">[Question with simple comparison]</span>
-            </div>
-            <svg class="question-svg-side" viewBox="0 0 150 150">
-                [Direct SVG - clean, professional appearance]
-            </svg>
-        </div>
-        <div class="answer-space"></div>
-
-        <!-- NO SVG option remains the same -->
-        <div class="question">
-            <div class="question-content">
-                <span class="question-number">3.</span>
-                <span class="question-text">[Abstract math question]</span>
-            </div>
-        </div>
-        <div class="answer-space"></div>]
-
-        **QUALITY CHECKPOINT - DURING GENERATION:**
-        For each question as you create it, pause and verify:
-        ✓ Does this question need an SVG? (Use decision matrix above)
-        ✓ If adding SVG: Does it show exact quantities from question text?
-        ✓ Are elements spaced appropriately for ${config.yearGroup} age group?
-        ✓ Will this be clear when printed in black & white?
-        ✓ Does this contribute to 4.0+ quality score target?
-
-        CRITICAL 4.0+ QUALITY STANDARDS:
-        - PERFECT alternating pattern eliminates monotony
-        - VIBRANT colors: #E74C3C, #3498DB, #2ECC71, #F39C12, #9B59B6
-        - Sharp 2-3px stroke weights, NO pixelation
-        - Contextually PERFECT SVGs (no generic shapes unless teaching shapes)
-        - Professional appearance with space-efficient layouts]
+        <!-- Generate exactly ${config.questionCount} questions here -->
     </div>
 </body>
 </html>
 
-CRITICAL REQUIREMENTS:
-- NO instructional text in header
-- NO "Show your work" labels or dashed containers
-- NO "Final Answer:" labels or answer boxes
-- Clean empty space naturally guides student writing
-- Minimal margins for maximum space utilization
-- The HTML MUST contain "worksheet-header" and "worksheet-content" classes
-- CRITICAL: Question text MUST start immediately next to the question number (1., 2., etc.) with consistent 8px spacing - NO large gaps or line breaks between number and text
+**INSTRUCTIONS FOR LLM:**
+Generate EXACTLY ${config.questionCount} questions following alternating pattern:
+1. Question with SVG below text
+2. Question with SVG on side
+3. Question text-only
+4. Repeat pattern
 
-**CRITICAL: MANDATORY COMPLETION REQUIREMENTS:**
-- **ABSOLUTE REQUIREMENT**: Generate EXACTLY ${config.questionCount} complete questions - NOT 1, NOT 2, EXACTLY ${config.questionCount}
-- **COUNT ENFORCEMENT**: If you cannot fit all ${config.questionCount} questions, simplify SVGs but NEVER reduce question count
-- **NO PARTIAL WORKSHEETS**: Missing questions = automatic failure and teacher disappointment
-- **COMPLETION VERIFICATION**: Before finishing, count questions 1, 2, 3... up to ${config.questionCount} exactly
-- EVERY counting/grouping question MUST include visual SVG representation OR skip SVG to save space
-- If SVGs cause space issues, REMOVE SVGS but keep all ${config.questionCount} questions
-- Return ONLY the complete HTML document with ALL ${config.questionCount} questions
-- Start directly with <!DOCTYPE html> and end with </html>
+Each question should be wrapped in proper HTML structure using the classes defined above.
 
-**CRITICAL FAILURE PREVENTION - THESE ISSUES CAUSE REJECTION:**
-❌ **NEVER DO THESE** (Automatic quality failure):
-- Using old container classes (.question-icon-below, .question-icon-side) - USE ONLY .question-svg-below, .question-svg-side
-- Background containers, gray boxes, shadows, or decorative elements around SVGs
-- Multiple answer lines per question - EXACTLY ONE LINE ONLY with class="answer-space"
-- SVG elements smaller than minimum requirements - SKIP SVG ENTIRELY if too small
-- Writing "SMALLER" or "BIGGER" in all caps (use "smaller", "bigger")
-- Generic circles for non-geometry questions (use contextual objects)
-- SVGs that reveal answers or show calculations
-- Fraction SVGs that don't clearly show the exact fractional parts mentioned
+**CRITICAL SVG-QUESTION MATCHING REQUIREMENTS:**
+Before creating any SVG, read the question text carefully and ensure:
+1. SVG objects match exactly what's mentioned (flowers=flowers, books=books, pencils=THIN realistic pencils NOT thick markers)
+2. SVG quantities match exactly what's stated (12 items=show 12 items, not 2 or 8)
+3. SVG arrangements reflect the mathematics (3×4 array=show 3 rows with 4 items each)
+4. NO generic shapes when specific objects are mentioned
+5. Each SVG must educationally support the question, not confuse it
 
-**MANDATORY FINAL VERIFICATION (COUNT QUESTIONS):**
-Before submitting, manually count each question:
-1. Question 1 present? ✓
-2. Question 2 present? ✓
-3. Question 3 present? ✓
-4. Question 4 present? ✓
-5. Question 5 present? ✓
-[Continue counting up to question ${config.questionCount}]
+**CRITICAL OUTPUT REQUIREMENTS:**
+- Return ONLY the complete HTML document
+- Must start with <!DOCTYPE html>
+- Must end with </html>
+- NO explanatory text before or after the HTML
+- NO markdown formatting around the HTML
+- NO code blocks or backticks
+- NO "Here is the worksheet..." or similar prefixes
+- NO "I hope this helps..." or similar suffixes
+- JUST the raw HTML document - nothing else
 
-**ADDITIONAL QUALITY CHECKS:**
-- ✓ ALL ${config.questionCount} questions present and complete?
-- ✓ Every question has educational value?
-- ✓ SVGs meet minimum size requirements OR were skipped to save space?
-- ✓ Single answer line per question (not multiple lines)?
-- ✓ Proper capitalization ("smaller" not "SMALLER")?
-- ✓ No old container classes used?
-- ✓ Age-appropriate language used throughout?`
+**EXAMPLE OF CORRECT FORMAT:**
+<!DOCTYPE html>
+<html>
+<head>
+    <title>...</title>
+    <style>...</style>
+</head>
+<body>
+    ...
+</body>
+</html>
+
+**FINAL REMINDER: Your response should be PURE HTML starting with <!DOCTYPE html> and ending with </html>. Any other content will cause system errors.**`
   }
 
   /**
@@ -708,39 +497,39 @@ Before submitting, manually count each question:
     const themeInstructions: Record<VisualTheme, SVGInstructions> = {
       'animals': {
         searchTerms: ['cartoon animals', 'cute pets', 'farm animals', 'zoo animals'],
-        sizingGuidelines: '120-140px height, maintain aspect ratio with detailed features',
-        arrangementInstructions: 'Animals integrated with mathematical problems as counting objects or story elements',
-        qualityRequirements: 'Clear, simple designs suitable for educational use'
+        sizingGuidelines: '120-140px height, maintain aspect ratio with detailed features and professional vector quality',
+        arrangementInstructions: 'Animals integrated with mathematical problems as counting objects or story elements, following modern flat design principles',
+        qualityRequirements: 'Freepik-level quality: Clean modern animal designs with vibrant colors (#E74C3C, #3498DB, #2ECC71, #F39C12, #9B59B6), 2-3px stroke weights, rounded corners (2-4px), high contrast ratios. Educational clarity with recognizable features, scalable vector precision, no backgrounds or containers. FLOWERS: Must have realistic petal shapes (5-8 petals around center), not geometric diamonds or abstract shapes.'
       },
       'food': {
         searchTerms: ['fruits', 'vegetables', 'healthy food', 'kitchen items'],
-        sizingGuidelines: '120-140px height, appetizing proportions with detailed textures',
-        arrangementInstructions: 'Food items used for counting, fractions, or measurement problems. For fractions, show exactly the fractional parts mentioned (e.g., pizza with correct slices). For measurements, show accurate portions or weights.',
-        qualityRequirements: 'Colorful, recognizable food illustrations that accurately represent the mathematical content'
+        sizingGuidelines: '120-140px height, appetizing proportions with detailed textures and professional vector clarity',
+        arrangementInstructions: 'Food items used for counting, fractions, or measurement problems. For fractions, show exactly the fractional parts with clear boundaries and contrasting colors. For measurements, show accurate portions or weights with readable labels.',
+        qualityRequirements: 'Professional food illustrations: Contemporary flat design style, harmonious color palette, sharp vector lines, proper scaling. APPLES: Red/green with leaf and slight highlight, never cut off. SWEETS: Detailed candy shapes (gummy bears, lollipops, wrapped sweets) with gradients and textures - NOT simple circles. All items must fit completely within containers with 10px margins. Accurate mathematical representation with clear visual hierarchy, optimized SVG markup, and educational appropriateness.'
       },
       'sports': {
         searchTerms: ['sports equipment', 'balls', 'athletic gear', 'playground'],
-        sizingGuidelines: '120-140px height, dynamic proportions with action details',
-        arrangementInstructions: 'Sports items for counting, scoring, or measurement exercises. For comparisons, show accurate score differences or measurement scales. For fractions, represent exact team/player portions.',
-        qualityRequirements: 'Dynamic, engaging sports-themed illustrations that accurately reflect the mathematical data'
+        sizingGuidelines: '120-140px height, dynamic proportions with action details and crisp vector quality',
+        arrangementInstructions: 'Sports items for counting, scoring, or measurement exercises. For comparisons, show accurate score differences with clear visual indicators. For fractions, represent exact team/player portions with distinct colors.',
+        qualityRequirements: 'Dynamic sports graphics: Modern flat design with subtle gradients, consistent stroke weights (2-3px), vibrant but balanced colors. High contrast for educational clarity, scalable precision, clean bezier curves, and mathematically accurate representations.'
       },
       'space': {
         searchTerms: ['planets', 'rockets', 'stars', 'astronauts'],
-        sizingGuidelines: '120-140px height, cosmic proportions with detailed elements',
-        arrangementInstructions: 'Space elements for counting, patterns, or mathematical exploration',
-        qualityRequirements: 'Inspiring, scientifically appropriate space imagery'
+        sizingGuidelines: '120-140px height, cosmic proportions with detailed elements and vector precision',
+        arrangementInstructions: 'Space elements for counting, patterns, or mathematical exploration with scientific accuracy and visual appeal',
+        qualityRequirements: 'Inspiring space imagery: Professional vector quality with clean modern design, appropriate color schemes, sharp edges, rounded corners where suitable. Scientifically accurate with educational value, optimized for scaling, and high visual contrast.'
       },
       'standard': {
         searchTerms: ['geometric shapes', 'mathematical symbols', 'educational icons'],
-        sizingGuidelines: '120-140px height, clean geometric proportions with precise details',
-        arrangementInstructions: 'Mathematical symbols and shapes supporting problem concepts. For fractions, show exact fractional divisions. For measurements, display accurate scales and units. For comparisons, represent precise numerical relationships.',
-        qualityRequirements: 'Professional, curriculum-aligned mathematical graphics that accurately represent the mathematical content'
+        sizingGuidelines: '120-140px height, clean geometric proportions with precise details and perfect vector alignment',
+        arrangementInstructions: 'Mathematical symbols and shapes supporting problem concepts. For fractions, show exact fractional divisions with clear boundaries. For measurements, display accurate scales and units with readable typography. For comparisons, represent precise numerical relationships.',
+        qualityRequirements: 'Professional mathematical graphics: Curriculum-aligned designs with Freepik-level quality standards. Perfect geometric precision, consistent stroke weights, high contrast ratios (4.5:1+), optimized SVG paths, and educational clarity. Modern flat design aesthetic with technical excellence.'
       },
       'none': {
         searchTerms: ['geometric shapes', 'mathematical symbols', 'educational icons'],
-        sizingGuidelines: '120-140px height, clean geometric proportions with precise details',
-        arrangementInstructions: 'Mathematical symbols and shapes supporting problem concepts. For fractions, show exact fractional divisions. For measurements, display accurate scales and units. For comparisons, represent precise numerical relationships.',
-        qualityRequirements: 'Professional, curriculum-aligned mathematical graphics that accurately represent the mathematical content'
+        sizingGuidelines: '120-140px height, clean geometric proportions with precise details and professional vector quality',
+        arrangementInstructions: 'Mathematical symbols and shapes supporting problem concepts. For fractions, show exact fractional divisions with clear boundaries. For measurements, display accurate scales and units with proper labeling. For comparisons, represent precise numerical relationships.',
+        qualityRequirements: 'Professional curriculum-aligned graphics: Modern flat design principles, sharp vector lines (2-3px), harmonious colors, high educational value. Technical excellence with optimized markup, proper scaling, and mathematical accuracy. Clean contemporary aesthetic without backgrounds or decorative elements.'
       }
     }
 
@@ -754,9 +543,9 @@ Before submitting, manually count each question:
   private static getContextualSVGInstructions(): SVGInstructions {
     return {
       searchTerms: ['mathematical objects', 'educational icons', 'contextual illustrations', 'relevant objects'],
-      sizingGuidelines: '120-140px for side placement, full-width × 60px for below placement, maintain crisp quality',
-      arrangementInstructions: 'CONTAINER-FREE SVG INTEGRATION: Use class="question-svg-side" (150×150px) for simple comparisons. Use class="question-svg-below" (500×120px) for horizontal arrangements. NO background containers, shadows, or decorative elements. Choose contextually PERFECT elements: detailed coins for money, geometric shapes for geometry, countable objects for numbers. Each must be visually engaging and mathematically precise. For fractions: exact divisions with contrasting colors. For measurements: accurate scales with readable numbers.',
-      qualityRequirements: 'TARGET 4.0+ QUALITY: Professional container-free illustrations with VIBRANT colors (#E74C3C, #3498DB, #2ECC71, #F39C12, #9B59B6), sharp 2-3px strokes. NO backgrounds, shadows, containers, or decorative elements. NO pixelation, NO generic shapes unless teaching geometry. Each SVG must be contextually perfect, educationally valuable, and minimum size requirements met. CRITICAL: Elements smaller than age-appropriate minimums must be SKIPPED entirely.'
+      sizingGuidelines: '120-140px for side placement, full-width × 60px for below placement, maintain crisp quality with professional vector precision',
+      arrangementInstructions: 'CRITICAL: SVG MUST MATCH QUESTION CONTEXT EXACTLY. If question mentions "flowers", show flowers. If "books", show books. If "3 rows of 4", show exactly 3 rows with exactly 4 objects each. CONTAINER-FREE SVG INTEGRATION: Use class="question-svg-side" (150×150px) for 1-4 objects. Use class="question-svg-below" (500×120px) for 5+ objects in arrays/groups. MANDATORY SPACING: 8-12px horizontal gaps, 6-10px vertical gaps between ALL objects - objects must NEVER touch or overlap. MATHEMATICAL ACCURACY: Arrays must show correct rows×columns, division must show correct groupings, counting must show exact quantities mentioned. NO generic shapes - use contextually appropriate objects that match the problem story.',
+      qualityRequirements: 'TARGET 4.5+ FREEPIK-LEVEL QUALITY: Professional container-free illustrations with VIBRANT harmonious colors (#E74C3C red, #3498DB blue, #2ECC71 green, #F39C12 orange, #9B59B6 purple, #FF6B6B coral, #4ECDC4 teal), sharp 2-3px stroke weights, perfectly aligned vector paths. MODERN FLAT DESIGN: Clean contemporary style with subtle gradients, rounded corners (2-4px radius), high contrast ratios (minimum 4.5:1). CRITICAL QUALITY RULES: NO solid black fills, NO basic geometric shapes for real objects, NO overly simplified designs. SPECIFIC EXAMPLES: FLOWERS must look like real flowers with 5-8 distinct oval petals around yellow center, green stem - each petal separate and visible, NEVER geometric ovals or merged shapes. BOOKS must look like real books with spine details, cover graphics, 3D thickness, binding edge, title lines - NEVER plain colored rectangles. PENCILS must be THIN and elongated (6:1 ratio minimum, 100px long × 12px wide max) with 8-12px gaps between each - yellow wooden body, silver ferrule, pink eraser, sharp tip. Never thick/fat like markers or touching each other. SWEETS must be detailed candy shapes (gummy bears with limb details, lollipops with sticks, wrapped candies with crinkles) with 8-12px spacing - NEVER simple circles or touching objects. APPLES must be red/green with leaf and highlight, NEVER cut off - ensure 10px margins. POSITIONING: All objects must fit completely within their containers with minimum 10px margins from all edges. Make every SVG visually appealing and child-friendly. NO backgrounds, shadows, containers, or decorative elements. TECHNICAL EXCELLENCE: Optimized SVG markup, proper viewBox scaling, clean bezier curves, minimal anchor points. Each SVG must be contextually perfect, educationally valuable, scalable at all sizes, and meet minimum age-appropriate size requirements. CRITICAL: Elements smaller than age-appropriate minimums must be SKIPPED entirely.'
     }
   }
 

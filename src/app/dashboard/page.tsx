@@ -50,7 +50,7 @@ export default function DashboardPage() {
   const [availableSubtopics, setAvailableSubtopics] = useState<{value: string, label: string}[]>([])
   const [topic, setTopic] = useState<string>('')
   const [subtopic, setSubtopic] = useState<string>('')
-  const [difficulty, setDifficulty] = useState<DifficultyLevel>('average')
+  const [difficulty, setDifficulty] = useState<DifficultyLevel>('easy')
   const [questionCount, setQuestionCount] = useState<number>(5)
   const [nameList, setNameList] = useState<string>('')
   
@@ -534,8 +534,8 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                {/* Question Count */}
-                <div className="space-y-3">
+                {/* Question Count - Hidden from UI */}
+                <div className="space-y-3" style={{ display: 'none' }}>
                   <Label htmlFor="question-count" className="text-base md:text-sm">Number of Questions: {questionCount}</Label>
                   <div className="relative">
                     <input
@@ -597,20 +597,6 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                {/* Curriculum Alignment Notice */}
-                {yearGroup && topic && (
-                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-                    <div className="flex items-start gap-2">
-                      <BookOpen className="h-4 w-4 text-green-600 mt-0.5" />
-                      <div>
-                        <p className="text-sm font-medium text-green-800">Curriculum Aligned</p>
-                        <p className="text-xs text-green-700 mt-1">
-                          Content will be appropriate for {yearGroup} students studying {availableTopics.find(t => t.value === topic)?.label}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
 
 
                 {/* Generation Progress */}
@@ -739,7 +725,7 @@ export default function DashboardPage() {
           {!hasConfiguration && (
             <div className="text-center">
               <p className="text-sm text-slate-600 mt-2">
-                Follow the flow: Layout → Year Group → Topic → Subtopic → Name List
+                Follow the flow: Layout → Year Group → Topic → Subtopic
               </p>
             </div>
           )}
