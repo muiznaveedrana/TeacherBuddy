@@ -16,8 +16,27 @@ if (!process.env.GEMINI_API_KEY) {
 }
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
-const model = genAI.getGenerativeModel({ 
+const model = genAI.getGenerativeModel({
   model: 'gemini-2.5-flash',
+  systemInstruction: {
+    role: "system",
+    parts: [{
+      text: `You are a UK National Curriculum worksheet generator. Your ONLY task is to generate complete HTML worksheets.
+
+CRITICAL FORMAT REQUIREMENTS:
+- Your response MUST start with: <!DOCTYPE html>
+- Your response MUST end with: </html>
+- NO explanatory text before or after HTML
+- NO markdown code blocks or backticks
+- NO conversational responses
+- NO "Here is..." or "I've created..." prefixes
+- NO "Hope this helps!" or similar suffixes
+
+FORBIDDEN: Any response that doesn't start with <!DOCTYPE html> will cause system failure.
+
+You generate only pure HTML content - nothing else.`
+    }]
+  },
   generationConfig: {
     temperature: 0.7, // Balanced creativity vs consistency
     maxOutputTokens: 16383 , // Reasonable limit for worksheet content
@@ -413,7 +432,7 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, improve
   // Clean the content
   let cleanContent = content.trim()
   
-  // Clean various formats that LLM might return
+  // Enhanced cleaning for various LLM output formats
   if (cleanContent.startsWith('```html') && cleanContent.endsWith('```')) {
     cleanContent = cleanContent.slice(7, -3).trim()
   } else if (cleanContent.startsWith('```json') && cleanContent.endsWith('```')) {
@@ -428,7 +447,31 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, improve
     cleanContent = cleanContent.slice(5).trim()
   }
 
-  // Handle common prefixes that LLMs sometimes add
+  // Handle additional edge cases
+  const codeBlockPatterns = [
+    /^```[\w]*\n([\s\S]*?)```$/,  // Any code block
+    /^\s*html\s*\n([\s\S]*)$/i,   // HTML prefix
+    /^\s*<!DOCTYPE[\s\S]*$/i      // Standalone DOCTYPE detection
+  ]
+
+  for (const pattern of codeBlockPatterns) {
+    const match = cleanContent.match(pattern)
+    if (match) {
+      cleanContent = match[1] ? match[1].trim() : cleanContent
+      break
+    }
+  }
+
+  // Remove language identifiers that LLMs sometimes add
+  const languageIdentifiers = ['html', 'HTML', 'xml', 'XML']
+  for (const identifier of languageIdentifiers) {
+    if (cleanContent.startsWith(identifier + '\n')) {
+      cleanContent = cleanContent.slice(identifier.length + 1).trim()
+      break
+    }
+  }
+
+  // Handle common prefixes that LLMs sometimes add (expanded list)
   const commonPrefixes = [
     'Here is the worksheet:',
     'Here is your worksheet:',
@@ -437,49 +480,86 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, improve
     'Below is the worksheet:',
     'The worksheet is:',
     'I\'ve created a worksheet:',
-    'I\'ve generated a worksheet:'
+    'I\'ve generated a worksheet:',
+    'Here\'s the HTML worksheet:',
+    'Here is the HTML:',
+    'Here\'s the complete worksheet:',
+    'The complete worksheet is:',
+    'Here is the complete HTML:',
+    'I\'ll create a worksheet for you:',
+    'Based on your requirements:',
+    'Here\'s what I created:',
+    'The worksheet you requested:',
+    'Your worksheet is ready:',
+    'I\'ve prepared the following:'
   ]
 
   for (const prefix of commonPrefixes) {
-    if (cleanContent.startsWith(prefix)) {
+    if (cleanContent.toLowerCase().startsWith(prefix.toLowerCase())) {
       cleanContent = cleanContent.slice(prefix.length).trim()
       break
     }
   }
 
-  // Handle common suffixes that LLMs sometimes add
+  // Handle common suffixes that LLMs sometimes add (expanded list)
   const commonSuffixes = [
     'I hope this helps!',
     'Hope this helps!',
     'Let me know if you need any adjustments.',
     'Feel free to modify as needed.',
-    'This worksheet should meet your requirements.'
+    'This worksheet should meet your requirements.',
+    'Let me know if you need any changes.',
+    'I hope this meets your needs!',
+    'Please let me know if you need modifications.',
+    'This should work well for your students.',
+    'Feel free to adjust as needed.',
+    'Hope this works for your class!',
+    'Let me know if you want any changes.',
+    'This worksheet is now ready for use.',
+    'The worksheet is complete.',
+    'I\'ve completed your worksheet.',
+    'Your worksheet is ready!'
   ]
 
   for (const suffix of commonSuffixes) {
-    if (cleanContent.endsWith(suffix)) {
+    if (cleanContent.toLowerCase().endsWith(suffix.toLowerCase())) {
       cleanContent = cleanContent.slice(0, -suffix.length).trim()
       break
     }
   }
   
-  // Debug: Log content start to understand what we're receiving
-  console.log('Generated content start:', cleanContent.substring(0, 200))
+  // Enhanced debugging: Log more content details
+  console.log('Content cleaning completed. Length:', cleanContent.length)
+  console.log('Content start (300 chars):', cleanContent.substring(0, 300))
+  console.log('Content end (200 chars):', cleanContent.substring(Math.max(0, cleanContent.length - 200)))
 
-  // Check if we received HTML from the LLM (USP.1 LLM-Native format)
-  // More flexible HTML detection to handle various LLM output formats
+  // Additional cleaning: Remove extra whitespace and normalize line endings
+  cleanContent = cleanContent.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
+  cleanContent = cleanContent.replace(/^\n+/, '').replace(/\n+$/, '')
+
+  // Enhanced HTML detection with better pattern matching
+  const htmlIndicators = {
+    doctype: /<!doctype\s+html[^>]*>/i.test(cleanContent),
+    htmlTag: /<html[^>]*>/i.test(cleanContent),
+    htmlClose: /<\/html>/i.test(cleanContent),
+    headAndBody: cleanContent.includes('<head>') && cleanContent.includes('<body>'),
+    titleAndDiv: cleanContent.includes('<title>') && cleanContent.includes('<div'),
+    styleAndDiv: cleanContent.includes('<style>') && cleanContent.includes('<div'),
+    worksheetPattern: cleanContent.includes('<div class="worksheet') && cleanContent.includes('<span class="question-number">'),
+    basicStructure: cleanContent.includes('<div') && cleanContent.includes('</')
+  }
+
+  console.log('HTML detection indicators:', htmlIndicators)
+
   const isLikelyHTML = (
-    cleanContent.includes('<!DOCTYPE html>') ||
-    cleanContent.includes('<!doctype html>') ||
-    cleanContent.includes('<html') ||
-    cleanContent.includes('<HTML') ||
-    (cleanContent.includes('<head>') && cleanContent.includes('<body>')) ||
-    (cleanContent.includes('<title>') && cleanContent.includes('<div')) ||
-    (cleanContent.includes('<style>') && cleanContent.includes('<div')) ||
-    (cleanContent.match(/<html[^>]*>/i)) || // Match <html> with attributes
-    (cleanContent.includes('</html>')) ||
-    // Check for common HTML worksheet patterns
-    (cleanContent.includes('<div class="worksheet') && cleanContent.includes('<span class="question-number">'))
+    htmlIndicators.doctype ||
+    htmlIndicators.htmlTag ||
+    htmlIndicators.htmlClose ||
+    htmlIndicators.headAndBody ||
+    htmlIndicators.titleAndDiv ||
+    htmlIndicators.styleAndDiv ||
+    htmlIndicators.worksheetPattern ||
+    htmlIndicators.basicStructure
   )
 
   if (isLikelyHTML) {
@@ -586,17 +666,37 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, improve
     throw new Error('LLM refused to generate worksheet content. Please try again with different configuration.')
   }
 
-  // Provide detailed error message for debugging
-  const contentPreview = cleanContent.substring(0, 200)
+  // Enhanced error logging with comprehensive content analysis
+  const contentPreview = cleanContent.substring(0, 500) // Increased from 200 to 500 chars
+  const lines = cleanContent.split('\n')
   const errorDetails = {
     contentLength: cleanContent.length,
+    lineCount: lines.length,
     startsWithHtml: cleanContent.toLowerCase().includes('<!doctype') || cleanContent.toLowerCase().includes('<html'),
     containsHtmlTags: cleanContent.includes('<') && cleanContent.includes('>'),
-    firstLine: cleanContent.split('\n')[0],
-    contentPreview
+    firstLine: lines[0],
+    firstFiveLines: lines.slice(0, 5),
+    lastThreeLines: lines.slice(-3),
+    contentPreview,
+    htmlIndicators: htmlIndicators,
+    possibleIssues: {
+      startsWithJson: cleanContent.startsWith('{') || cleanContent.startsWith('['),
+      startsWithMarkdown: cleanContent.startsWith('#') || cleanContent.startsWith('**'),
+      containsRefusal: cleanContent.includes('I cannot') || cleanContent.includes('I apologize'),
+      hasCodeBlocks: cleanContent.includes('```'),
+      hasExplanations: cleanContent.includes('Here is') || cleanContent.includes('I\'ve created')
+    }
   }
 
-  console.error('HTML parsing failed. Details:', errorDetails)
+  console.error('HTML parsing failed. Comprehensive analysis:', JSON.stringify(errorDetails, null, 2))
+
+  // Log full content if reasonably sized for debugging
+  if (cleanContent.length < 2000) {
+    console.error('Full content for debugging:', cleanContent)
+  } else {
+    console.error('Content too large for full logging. First 1000 chars:', cleanContent.substring(0, 1000))
+    console.error('Last 500 chars:', cleanContent.substring(cleanContent.length - 500))
+  }
 
   throw new GenerationError(
     `Generated content is not in HTML format. Content starts with: "${contentPreview}..."`,

@@ -420,7 +420,7 @@ Before creating any SVG, read the question text carefully and ensure:
 4. NO generic shapes when specific objects are mentioned
 5. Each SVG must educationally support the question, not confuse it
 
-**CRITICAL OUTPUT REQUIREMENTS:**
+**CRITICAL OUTPUT REQUIREMENTS - SYSTEM WILL FAIL IF NOT FOLLOWED:**
 - Return ONLY the complete HTML document
 - Must start with <!DOCTYPE html>
 - Must end with </html>
@@ -429,7 +429,23 @@ Before creating any SVG, read the question text carefully and ensure:
 - NO code blocks or backticks
 - NO "Here is the worksheet..." or similar prefixes
 - NO "I hope this helps..." or similar suffixes
+- NO language identifiers (html, HTML, xml, XML)
+- NO conversational responses or explanations
+- NO JSON format responses
 - JUST the raw HTML document - nothing else
+
+**FORBIDDEN PATTERNS - DO NOT USE:**
+❌ Code blocks with backticks
+❌ Here is the worksheet:
+❌ I've created a worksheet for you:
+❌ html
+❌ HTML
+❌ Based on your requirements:
+❌ I hope this helps!
+❌ Let me know if you need changes.
+
+**REQUIRED START PATTERN:**
+✅ <!DOCTYPE html>
 
 **EXAMPLE OF CORRECT FORMAT:**
 <!DOCTYPE html>
@@ -443,7 +459,10 @@ Before creating any SVG, read the question text carefully and ensure:
 </body>
 </html>
 
-**FINAL REMINDER: Your response should be PURE HTML starting with <!DOCTYPE html> and ending with </html>. Any other content will cause system errors.**`
+**SYSTEM ERROR PREVENTION:**
+Your response must be parseable as HTML. Start immediately with <!DOCTYPE html> and end with </html>. Any deviation will cause generation failure and user disappointment.
+
+**FINAL REMINDER: Your first character must be "<" and your response must be PURE HTML. The system expects HTML only - no explanations, no code blocks, no prefixes.**`
   }
 
   /**
