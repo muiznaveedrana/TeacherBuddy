@@ -18,6 +18,39 @@ if (!process.env.GEMINI_API_KEY) {
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
 const model = genAI.getGenerativeModel({
   model: 'gemini-2.5-flash',
+  // Temporarily disable function calling to test basic HTML generation
+  // tools: [{
+  //   functionDeclarations: [{
+  //     name: "searchPixabayImages",
+  //     description: "Search for professional educational images on Pixabay API to enhance worksheet visual quality",
+  //     parameters: {
+  //       type: "object",
+  //       properties: {
+  //         query: {
+  //           type: "string",
+  //           description: "Search terms for images (e.g., 'red flowers', 'children books', 'cute animals', 'healthy food')"
+  //         },
+  //         category: {
+  //           type: "string",
+  //           description: "Image category: education, animals, food, nature, sports, science, business",
+  //           enum: ["education", "animals", "food", "nature", "sports", "science", "business", "backgrounds"]
+  //         },
+  //         imageType: {
+  //           type: "string",
+  //           description: "Type of image needed",
+  //           enum: ["photo", "illustration", "vector"]
+  //         },
+  //         count: {
+  //           type: "number",
+  //           description: "Number of images needed (1-5)",
+  //           minimum: 1,
+  //           maximum: 5
+  //         }
+  //       },
+  //       required: ["query", "count"]
+  //     }
+  //   }]
+  // }],
   systemInstruction: {
     role: "system",
     parts: [{
@@ -52,24 +85,62 @@ You generate only pure HTML content - nothing else.`
  * Target: ≥4.5 quality score through iterative prompt improvement
  */
 /**
- * Call Gemini API with retry logic for transient failures
+ * Handle Pixabay API search function calls
+ */
+async function handlePixabaySearch(args: any): Promise<any> {
+  const { query, category = 'education', imageType = 'illustration', count = 1 } = args
+
+  try {
+    const response = await fetch(
+      `https://pixabay.com/api/?key=${process.env.PIXABAY_API_KEY}&q=${encodeURIComponent(query)}&category=${category}&image_type=${imageType}&per_page=${count}&safesearch=true&min_width=400`
+    )
+
+    if (!response.ok) {
+      throw new Error(`Pixabay API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+
+    return {
+      images: data.hits.map((hit: any) => ({
+        id: hit.id,
+        webURL: hit.webformatURL,      // 640px width - perfect for worksheets
+        largeURL: hit.largeImageURL,   // 1280px width - high quality
+        previewURL: hit.previewURL,    // 150px - thumbnails
+        tags: hit.tags,
+        width: hit.webformatWidth,
+        height: hit.webformatHeight,
+        alt: `${query} - ${hit.tags.split(',').slice(0, 3).join(', ')}`
+      }))
+    }
+  } catch (error) {
+    console.error('Pixabay search error:', error)
+    return {
+      images: [],
+      error: `Failed to search for "${query}": ${error instanceof Error ? error.message : 'Unknown error'}`
+    }
+  }
+}
+
+/**
+ * Call Gemini API with function calling support and retry logic
  */
 async function callGeminiWithRetry(prompt: string, metrics: GenerationMetrics, maxRetries: number = 3): Promise<string> {
   let lastError: Error | null = null
-  
+
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       const result = await model.generateContent(prompt)
       const response = result.response
-      
+
       if (!response) {
         throw new APIError('Empty response from Gemini API', true)
       }
-      
+
       return response.text()
     } catch (error) {
       lastError = error as Error
-      
+
       // Determine if error is retryable
       const isRetryableError = (
         error instanceof Error && (
@@ -82,20 +153,20 @@ async function callGeminiWithRetry(prompt: string, metrics: GenerationMetrics, m
           error.message.includes('ENOTFOUND')
         )
       )
-      
+
       if (!isRetryableError || attempt === maxRetries) {
         break
       }
-      
+
       // Exponential backoff: wait 2^attempt seconds
       const delayMs = Math.pow(2, attempt) * 1000
       const standardError = standardizeError(error, 'API request failed')
       logError(standardError, { attempt, maxRetries, retryDelayMs: delayMs })
-      
+
       await new Promise(resolve => setTimeout(resolve, delayMs))
     }
   }
-  
+
   // All retries exhausted
   if (lastError) {
     throw new APIError(`Failed after ${maxRetries} attempts: ${lastError.message}`, false, {
@@ -103,7 +174,7 @@ async function callGeminiWithRetry(prompt: string, metrics: GenerationMetrics, m
       lastError: lastError.message
     })
   }
-  
+
   throw new APIError('Unknown API error occurred', false)
 }
 
@@ -197,7 +268,7 @@ export async function generateWorksheet(
     // Unified Prompt Service: Consolidated USP.1 + USP.2 + USP.Integration
     // "Configuration → Smart Defaults → Optimal Prompt → Gemini 2.5 Flash → HTML with embedded SVGs"
     
-    const promptResult = PromptService.generatePrompt(config, options)
+    const promptResult = await PromptService.generatePrompt(config, options)
     const prompt = promptResult.prompt
     improvementMetadata = promptResult.metadata
     

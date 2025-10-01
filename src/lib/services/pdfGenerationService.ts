@@ -1,4 +1,5 @@
 import { LayoutType, WorksheetConfig } from '@/lib/types/worksheet'
+import svgInliningService from './svgInliningService'
 
 export interface PdfGenerationRequest {
   config: WorksheetConfig
@@ -12,6 +13,10 @@ export interface PdfGenerationResult {
   filename: string
   error?: string
   generationTime: number
+  svgInlining?: {
+    processedImages: number
+    errors: string[]
+  }
 }
 
 /**
@@ -95,8 +100,20 @@ export async function generateWorksheetPdf(
       }
     }
     
-    // Use the generated HTML directly (same as dashboard preview)
-    const html = request.generatedContent
+    // Process HTML to inline static SVGs for PDF compatibility
+    console.log('Processing HTML for PDF generation - inlining static SVGs...')
+    const inliningStartTime = Date.now()
+    const inliningResult = await svgInliningService.inlineCountingObjectSVGs(request.generatedContent)
+    const inliningTime = Date.now() - inliningStartTime
+
+    if (!inliningResult.success) {
+      console.warn(`⚠️ SVG inlining completed with errors (${inliningTime}ms):`, inliningResult.errors)
+      // Continue with PDF generation even if some SVGs failed to inline
+    } else {
+      console.log(`✅ Successfully inlined ${inliningResult.processedImages} static SVG images for PDF (${inliningTime}ms)`)
+    }
+
+    const html = inliningResult.inlinedHtml
     
     // Configure Puppeteer for both development and serverless environments
     const isProduction = process.env.NODE_ENV === 'production'
@@ -194,24 +211,37 @@ export async function generateWorksheetPdf(
     
     const page = await browser.newPage()
     
-    // Set content with timeout protection
+    // Set content with optimized loading and timeout protection
     await page.setContent(html, {
-      waitUntil: 'networkidle0',
-      timeout: 30000 // 30 second timeout
+      waitUntil: 'domcontentloaded', // Faster than networkidle0 for self-contained HTML
+      timeout: 45000 // Extended timeout for complex worksheets
     })
+
+    // Wait for any CSS animations or transitions to complete
+    await new Promise(resolve => setTimeout(resolve, 500))
+
+    // Ensure all fonts are loaded (important for math symbols)
+    await page.evaluateHandle(() => document.fonts.ready)
     
-    // Generate PDF with A4 formatting - minimal margins to maximize content area (story requirement)
+    // Generate PDF with optimized A4 formatting and enhanced quality settings
+    const pdfStartTime = Date.now()
     const pdfBuffer = await page.pdf({
       format: 'A4',
       printBackground: true,
       margin: {
-        top: '10mm',    // Reduced by 50% from 20mm
-        bottom: '10mm', // Reduced by 50% from 20mm
-        left: '12mm',   // Reduced by 40% from 20mm
-        right: '12mm'   // Reduced by 40% from 20mm
+        top: '10mm',    // Minimal margins to maximize content area
+        bottom: '10mm',
+        left: '12mm',
+        right: '12mm'
       },
-      preferCSSPageSize: true
+      preferCSSPageSize: true,
+      displayHeaderFooter: false,
+      scale: 1.0,
+      // Optimize for print quality
+      omitBackground: false
     })
+    const pdfTime = Date.now() - pdfStartTime
+    console.log(`📄 PDF generation completed in ${pdfTime}ms`)
     
     // Convert to Buffer for proper typing
     const buffer = Buffer.from(pdfBuffer)
@@ -228,7 +258,11 @@ export async function generateWorksheetPdf(
       success: true,
       buffer,
       filename,
-      generationTime
+      generationTime,
+      svgInlining: {
+        processedImages: inliningResult.processedImages,
+        errors: inliningResult.errors
+      }
     }
     
   } catch (error) {
