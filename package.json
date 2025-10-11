@@ -12,7 +12,9 @@
     "worksheet-engine": "npx tsx src/worksheet-engine/cli/index.ts",
     "prompt-automation": "node scripts/prompt-engineering-automation.js",
     "prompt-automation:bash": "bash scripts/prompt-engineering-automation.sh",
-    "prompt-automation:powershell": "powershell -ExecutionPolicy Bypass -File scripts/prompt-engineering-automation.ps1"
+    "prompt-automation:powershell": "powershell -ExecutionPolicy Bypass -File scripts/prompt-engineering-automation.ps1",
+    "catalog:vision": "node scripts/vision-catalog-generator.js",
+    "catalog:vision:update": "node scripts/vision-catalog-generator.js --update"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

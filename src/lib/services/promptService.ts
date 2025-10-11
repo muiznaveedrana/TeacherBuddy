@@ -197,7 +197,12 @@ export class PromptService {
     // Get SCRAPPING DOODLE guidance (NEW!)
     const scrappingDoodleGuidance = await this.getScrappingDoodleGuidance(config)
 
+    // Get subtopic-specific guidance
+    const subtopicGuidance = this.getSubtopicGuidance(config)
+
     return `Create a ${config.yearGroup} ${config.topic} worksheet: "${config.subtopic}" (${config.difficulty}, ${config.questionCount} questions).
+
+${subtopicGuidance}
 
 **🔥🔥🔥 YEAR 1 ABSOLUTE RULE - READ THIS FIRST! 🔥🔥🔥**
 **THIS IS ${config.yearGroup} - FOR ALL QUANTITIES ≤20:**
@@ -256,12 +261,19 @@ ${this.getAgeBasedImageRules(config.yearGroup)}
 **🎲 MANDATORY QUESTION VARIETY & CREATIVITY:**
 - **RANDOMIZE scenarios**: Use different activities (picking, buying, finding, collecting, giving away, sharing, eating, etc.)
 - **RANDOMIZE names**: Don't always use Emma first - vary the order (Thomas first, then Lily, then Oliver, etc.)
-- **RANDOMIZE objects**: Use variety from fruits, vegetables, school items, sports (apples, carrots, books, footballs, etc.)
+- **🔥 CRITICAL: DIFFERENT OBJECT CATEGORIES FOR EACH QUESTION 🔥**
+  - **Question 1**: Use ONE category (e.g., flowers, bees, butterflies from Spring Garden)
+  - **Question 2**: Use DIFFERENT category (e.g., books, pencils from School Supplies)
+  - **Question 3**: Use ANOTHER DIFFERENT category (e.g., apples, bananas from Fruits)
+  - **Question 4**: Use YET ANOTHER category (e.g., chickens, cows from Farm Animals)
+  - **Question 5**: Use FINAL DIFFERENT category (e.g., carrots, corn from Vegetables)
+  - **FORBIDDEN**: Do NOT use animals for all questions (boring, repetitive!)
+  - **FORBIDDEN**: Do NOT repeat the same category (e.g., flowers in Q1 AND Q3)
 - **RANDOMIZE numbers**: Vary the starting quantities and operations (use 3, 7, 11, 15, 19 - not always 9-14)
 - **MIX contexts**: School, home, park, shop, garden, playground
 - **CREATIVE scenarios**: "found in the garden", "bought at the shop", "collected from the beach", "received as gifts"
 
-**🎨 SCRAPPING DOODLE PREMIUM COLLECTIONS:**
+**🎨 SCRAPPING DOODLE PREMIUM COLLECTIONS (CHECK AVAILABLE DIVERSE COLLECTIONS BELOW):**
 ${scrappingDoodleGuidance}
 
 **PROFESSIONAL IMAGE INTEGRATION STRATEGY:**
@@ -334,10 +346,18 @@ Question: "Sophie has 5 apples. Thomas gives her 3 more apples. How many apples 
 
 **🎯 MANDATORY OBJECT VARIETY STRATEGY:**
 **CRITICAL REQUIREMENT - DIVERSE QUESTION OBJECTS:**
-- **MAXIMUM 1 question per object type** - Never repeat object types (pencils, books, flowers, etc.)
-- **MANDATORY MIX:** Use both static library objects AND AI-generated objects across the worksheet
-- **Pattern to follow:** Question 1 = Library object (pencil/book/flower), Question 2 = AI-generated (crayons/toys/animals), Question 3 = Different library object, Question 4 = Different AI-generated, etc.
-- **NO REPETITION:** If you use pencils in Q1, use completely different objects for all other questions
+- **MAXIMUM 1 question per object CATEGORY** - Never repeat categories (animals, plants, school supplies, etc.)
+- **MANDATORY MIX:** Alternate between different collections:
+  - ✅ GOOD: Q1=Flowers (plants), Q2=Books (school), Q3=Apples (fruits), Q4=Chickens (animals), Q5=Pencils (school)
+  - ❌ BAD: Q1=Chickens (animals), Q2=Cows (animals), Q3=Pigs (animals) - ALL ANIMALS!
+- **Pattern to follow:** Each question uses a DIFFERENT collection from the available diverse collections shown above
+- **NO CATEGORY REPETITION:** If Q1 uses Farm Animals collection, do NOT use Farm Animals again in any other question
+
+**BEFORE GENERATING - SELF-CHECK:**
+1. List out the object for each question
+2. Verify NO two questions use the same category (animals/plants/school/food)
+3. Verify you're using at least 3-4 different collections across all questions
+4. If you see repetition, STOP and redesign the questions with different objects
 
 **FALLBACK STATIC OBJECTS (ONLY if no SCRAPPING DOODLE available):**
 - FLOWERS → Use fallback static template below ONLY if no SCRAPPING DOODLE flowers found
@@ -1447,6 +1467,102 @@ ${enhancements.map(enhancement => `- ${enhancement}`).join('\n')}
   }
 
   /**
+   * Get subtopic-specific question guidance
+   */
+  private static getSubtopicGuidance(config: EnhancedPromptConfig): string {
+    const subtopic = config.subtopic.toLowerCase()
+    
+    //  Comparison subtopics (more-or-less, size-comparison)
+    if (subtopic.includes('more') || subtopic.includes('less') || subtopic.includes('comparison')) {
+      return `**📊 SUBTOPIC: ${config.subtopic.toUpperCase()} - COMPARISON QUESTIONS**
+
+**CRITICAL: These are COMPARISON questions, NOT basic counting!**
+
+**✅ CORRECT Question Types:**
+- "Which group has MORE {objects}?"
+- "Are there MORE {object1} or MORE {object2}?"
+- "Circle the group with FEWER {objects}."
+- "Which has LESS: the {objects1} or the {objects2}?"
+- "Compare the groups. Which is BIGGER/SMALLER?"
+
+**✅ CORRECT Visual Format:**
+Show TWO groups side by side for comparison:
+\`\`\`html
+<p>Which group has more flowers?</p>
+<div class="counting-objects-grid">
+  <div style="display:inline-block; margin-right: 20px;">
+    <p>Group A:</p>
+    <img src="..." /> <img src="..." /> <img src="..." />
+  </div>
+  <div style="display:inline-block;">
+    <p>Group B:</p>
+    <img src="..." /> <img src="..." /> <img src="..." /> <img src="..." />
+  </div>
+</div>
+\`\`\`
+
+**❌ WRONG - DON'T DO THIS:**
+- "Count the flowers. How many?" ← This is COUNTING, not COMPARISON!
+- "Emma has 5 flowers" ← This is ADDITION/SUBTRACTION!
+- Single group shown ← Need TWO groups to compare!
+
+**EXAMPLES:**
+1. "There are 3 red apples and 5 green apples. Which color has more?"
+2. "Look at the two groups of pencils. Circle the group with fewer pencils."
+3. "Compare the butterflies and bees. Which group is bigger?"`
+    }
+    
+    // Addition subtopics
+    if (subtopic.includes('addition') || subtopic.includes('adding') || subtopic.includes('combining')) {
+      return `**➕ SUBTOPIC: ${config.subtopic.toUpperCase()} - ADDITION QUESTIONS**
+
+**✅ CORRECT Question Types:**
+- "Emma has {n} {objects}. Oliver gives her {n} more. How many {objects} does Emma have now?"
+- "There are {n} {objects} and {n} more {objects}. How many {objects} in total?"
+- "{n} + {n} = ?"
+- "What is {n} add {n}?"
+
+**❌ WRONG:**
+- "Count the flowers" ← This is COUNTING!
+- "Which has more?" ← This is COMPARISON!
+- "Emma had 5 and gave away 2" ← This is SUBTRACTION!`
+    }
+    
+    // Subtraction subtopics
+    if (subtopic.includes('subtraction') || subtopic.includes('taking') || subtopic.includes('subtracting')) {
+      return `**➖ SUBTOPIC: ${config.subtopic.toUpperCase()} - SUBTRACTION QUESTIONS**
+
+**✅ CORRECT Question Types:**
+- "Emma had {n} {objects}. She gave away {n}. How many {objects} does she have left?"
+- "There were {n} {objects}. {n} flew away. How many {objects} are left?"
+- "{n} - {n} = ?"
+- "What is {n} take away {n}?"
+
+**❌ WRONG:**
+- "Count the flowers" ← This is COUNTING!
+- "Emma has 3 and gets 2 more" ← This is ADDITION!`
+    }
+    
+    // Counting/number recognition - basic
+    if (subtopic.includes('counting') || subtopic.includes('number') || subtopic.includes('recognition')) {
+      return `**🔢 SUBTOPIC: ${config.subtopic.toUpperCase()} - COUNTING QUESTIONS**
+
+**✅ CORRECT Question Types:**
+- "Count the {objects}. How many are there?"
+- "How many {objects} can you see?"
+- "Circle {n} {objects}."
+- "Write the number of {objects}."
+
+**❌ WRONG:**
+- "Which has more?" ← This is COMPARISON!
+- "Emma has 3 and gets 2 more" ← This is ADDITION!`
+    }
+    
+    // Default: No specific guidance
+    return `**📝 SUBTOPIC: ${config.subtopic}**\nCreate questions appropriate for this specific subtopic.`
+  }
+
+  /**
    * Get SCRAPPING DOODLE specific guidance and collection suggestions
    */
   private static async getScrappingDoodleGuidance(config: EnhancedPromptConfig): Promise<string> {
@@ -1456,40 +1572,144 @@ ${enhancements.map(enhancement => `- ${enhancement}`).join('\n')}
 - Fall back to static templates below`
     }
 
-    // Get the best collection for this topic
-    const collection = scrappingDoodleService.getCollectionForTopic(
+    // Get MULTIPLE diverse collections for variety across questions
+    const diverseCollections = scrappingDoodleService.getTopDiverseCollectionsForTopic(
       config.topic,
       config.subtopic,
-      config.yearGroup
+      config.yearGroup,
+      6  // Get 6 diverse collections
     )
 
-    if (!collection) {
-      return `**NO MATCHING SCRAPPING DOODLE COLLECTION FOUND**
-- No suitable collection for topic: ${config.topic} ${config.subtopic}
+    if (diverseCollections.length === 0) {
+      return `**NO MATCHING SCRAPPING DOODLE COLLECTIONS FOUND**
+- No suitable collections for topic: ${config.topic} ${config.subtopic}
 - Use generic static templates below`
     }
 
-    // Get some sample images from the collection
-    const sampleImage1 = await scrappingDoodleService.getImageFromCollection(collection, 'color', 0)
-    const sampleImage2 = await scrappingDoodleService.getImageFromCollection(collection, 'color', 1)
+    // Build a comprehensive guide showing ALL available collections
+    let collectionsGuide = '**🎨 AVAILABLE DIVERSE SCRAPPING DOODLE COLLECTIONS:**\n\n'
+    collectionsGuide += '**🔥 CRITICAL: USE DIFFERENT COLLECTIONS FOR EACH QUESTION! 🔥**\n'
+    collectionsGuide += '**MANDATORY: Question 1 = Collection A, Question 2 = Collection B, Question 3 = Collection C, etc.**\n'
+    collectionsGuide += '**FORBIDDEN: DO NOT use the same collection category (animals/plants/school) for multiple questions!**\n\n'
+    
+    for (let i = 0; i < diverseCollections.length; i++) {
+      const collection = diverseCollections[i]
+      const sampleImage1 = await scrappingDoodleService.getImageFromCollection(collection, 'color', 0)
+      const sampleImage2 = await scrappingDoodleService.getImageFromCollection(collection, 'color', 1)
 
-    return `**🎨 MATCHED SCRAPPING DOODLE COLLECTION: ${collection.name}**
-- **PRIORITY 1**: Use images from this collection for educational content
-- **Collection path**: ${collection.path}
-- **Topics covered**: ${collection.topics.join(', ')}
-- **Age groups**: ${collection.ageGroups.join(', ')}
-- **Available images**: ${collection.imageCount} high-quality images
+      // Build keyword-to-filename mapping for this collection
+      let keywordMappingSection = ''
+      if (collection.imageFiles && collection.imageFiles.length > 0) {
+        // Get color files only (exclude BW_ prefix files)
+        const colorFiles = collection.imageFiles.filter(f => !f.startsWith('BW_'))
+        
+        // Show keyword mappings for collections with reasonable size (increased limit to 20)
+        if (colorFiles.length > 0 && colorFiles.length <= 20) {
+          keywordMappingSection = `\n**Available images:**\n${colorFiles.slice(0, 15).map(filename => {
+            // Extract keyword from filename
+            const keyword = filename
+              .replace(/^(vegetable_|fruit_|animal_|flower)/i, '')
+              .replace(/\d+\.png$/, '')
+              .replace(/\.png$/, '')
+              .toLowerCase()
+            
+            return `  - ${keyword} → ${collection.path}/${filename}`
+          }).join('\n')}`
+        } else if (colorFiles.length > 20) {
+          // For large collections, show a sampling of key vegetables/fruits/items
+          keywordMappingSection = `\n**Sample images (${colorFiles.length} total available):**\n${colorFiles.slice(0, 10).map(filename => {
+            const keyword = filename
+              .replace(/^(vegetable_|fruit_|animal_|flower)/i, '')
+              .replace(/\d+\.png$/, '')
+              .replace(/\.png$/, '')
+              .toLowerCase()
+            
+            return `  - ${keyword} → ${collection.path}/${filename}`
+          }).join('\n')}\n  - (+ ${colorFiles.length - 10} more images available)`
+        }
+      }
 
-**RECOMMENDED SCRAPPING DOODLE IMAGES FOR THIS WORKSHEET:**
-\`\`\`html
-<!-- Primary recommended image -->
-<img src="${sampleImage1}" class="question-svg-side" width="180" height="180" alt="${collection.name} Image" />
+      // Determine collection category for diversity guidance
+      const name = collection.name.toLowerCase()
+      let categoryLabel = 'General'
+      if (name.includes('farm') || name.includes('animal')) categoryLabel = '🐔 ANIMALS'
+      else if (name.includes('garden') || name.includes('flower') || name.includes('spring')) categoryLabel = '� PLANTS/GARDEN'
+      else if (name.includes('school') || name.includes('supplies')) categoryLabel = '📚 SCHOOL SUPPLIES'
+      else if (name.includes('fruit')) categoryLabel = '🍎 FRUITS'
+      else if (name.includes('vegetable') || name.includes('food')) categoryLabel = '🥕 VEGETABLES/FOOD'
+      else if (name.includes('sport') || name.includes('ball')) categoryLabel = '⚽ SPORTS'
 
-<!-- Secondary option -->
-<img src="${sampleImage2}" class="question-svg-side" width="180" height="180" alt="${collection.name} Image" />
-\`\`\`
+      collectionsGuide += `**${i + 1}. ${categoryLabel}: ${collection.name}**
+- Path: ${collection.path}
+- Topics: ${collection.topics.slice(0, 4).join(', ')}
+- Images: ${collection.imageCount} available${keywordMappingSection}
+- Example 1: ${sampleImage1}
+- Example 2: ${sampleImage2}
 
-**CRITICAL: Use these SCRAPPING DOODLE images instead of any static fallback templates!**`
+`
+    }
+
+    collectionsGuide += `\n**📋 USAGE STRATEGY FOR MAXIMUM VARIETY:**
+1. **Question 1** → Use Collection 1 (${diverseCollections[0].name.split('_')[0]} theme)
+2. **Question 2** → Use Collection 2 (${diverseCollections[1].name.split('_')[0]} theme)
+3. **Question 3** → Use Collection 3 (${diverseCollections[2].name.split('_')[0]} theme)
+4. **Question 4** → Use Collection 4 (${diverseCollections[3] ? diverseCollections[3].name.split('_')[0] : diverseCollections[0].name.split('_')[0]} theme)
+5. **Question 5** → Use Collection 5 (${diverseCollections[4] ? diverseCollections[4].name.split('_')[0] : diverseCollections[1].name.split('_')[0]} theme)
+
+**EXAMPLES OF GOOD VARIETY:**
+✅ Q1: Flowers (Spring Garden) → Q2: Books (School Supplies) → Q3: Chickens (Farm Animals) → Q4: Apples (Fruits) → Q5: Pencils (School Supplies)
+✅ Q1: Butterflies (Garden) → Q2: Carrots (Vegetables) → Q3: School bus (School) → Q4: Cow (Farm) → Q5: Balls (Sports)
+
+**EXAMPLES OF BAD VARIETY (DO NOT DO THIS):**
+❌ Q1: Chickens → Q2: Cows → Q3: Pigs → Q4: Sheep → Q5: Horses (ALL ANIMALS - BORING!)
+❌ Q1: Flowers → Q2: Flowers → Q3: Flowers (REPETITIVE!)
+❌ Q1: Football Frogs → Q2: Garden Frogs (SAME SUBJECT - frogs!)
+
+**🚨 CRITICAL RULES - READ CAREFULLY! 🚨**
+
+**1. NEVER USE DECORATIVE COLLECTIONS FOR COUNTING:**
+- ❌ FORBIDDEN: FlowerBorders, FlowerDividers, DecorativeFrames, etc.
+- ❌ DO NOT ask children to count "borders" or "dividers" - these terms don't make sense to kids!
+- ✅ INSTEAD: Use individual objects (flowers, bees, butterflies, etc.)
+- **Why**: Borders/dividers are long repeating patterns for decoration, not countable objects
+
+**2. USE CONSISTENT IMAGES FOR EACH QUESTION:**
+- ❌ WRONG: Show 6 frogs + 1 different image (visual confusion!)
+- ✅ RIGHT: Show 7 identical or similar frog images (visual consistency!)
+- **Rule**: If asking to count 7 frogs, show 7 FROG images (not 6 frogs + 1 random thing!)
+
+**3. AVOID DUPLICATE SUBJECTS ACROSS QUESTIONS:**
+- ❌ WRONG: Q3 about "Football Frogs" + Q5 about "Garden Frogs" (both are frogs!)
+- ✅ RIGHT: Q3 about "Frogs" + Q5 about "Chickens" (different animals!)
+
+**🚨 CRITICAL FILENAME RULES - READ THIS! 🚨**
+**Many collections use PREFIXED filenames - you MUST include the prefix!**
+
+**COMMON FILENAME PATTERNS:**
+- **Vegetables**: vegetable_carrot.png, vegetable_corn.png, vegetable_tomato.png (NOT carrot.png!)
+- **Fruits**: fruit_apple.png, fruit_banana.png, fruit_orange.png (NOT apple.png!)
+- **Animals**: Use exact names from "Available images" list above
+
+**WRONG vs RIGHT:**
+❌ WRONG: <img src="/images/.../carrot.png" /> (File doesn't exist!)
+✅ RIGHT: <img src="/images/.../vegetable_carrot.png" /> (Correct filename!)
+
+❌ WRONG: <img src="/images/.../apple.png" /> (File doesn't exist!)
+✅ RIGHT: <img src="/images/.../fruit_apple.png" /> (Correct filename!)
+
+**HOW TO GET IT RIGHT:**
+1. Look at the "Available images" list for your collection above
+2. Copy the EXACT filename shown (including prefixes like vegetable_, fruit_, etc.)
+3. DO NOT guess or simplify filenames!
+
+**CRITICAL: Match question keywords to appropriate collections!**
+- Question about "flowers" → Use Spring Garden collection
+- Question about "books" → Use School Supplies collection  
+- Question about "apples" → Use Fruits collection with fruit_apple.png
+- Question about "carrots" → Use Vegetables collection with vegetable_carrot.png
+- Question about "chickens" → Use Farm Animals collection`
+
+    return collectionsGuide
   }
 
 }

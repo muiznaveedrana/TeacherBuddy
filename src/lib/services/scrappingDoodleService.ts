@@ -19,6 +19,9 @@ export interface CollectionMetadata {
   seasonal?: string;
   characters?: string[];
   keywords?: string[]; // NEW: Object-specific keywords for matching
+  imageFiles?: string[]; // All PNG files in the collection
+  colorFiles?: string[]; // Color variant files
+  bwFiles?: string[]; // Black & white variant files
 }
 
 export interface ScrappingDoodleResult {
@@ -186,16 +189,84 @@ class ScrappingDoodleService {
     if (this.initialized) return;
 
     try {
-      // Validate that SCRAPPING DOODLE directory exists
-      const scrappingDoodlePath = path.join(process.cwd(), 'public', 'images', 'SCRAPPING DOODLE');
-      await fs.access(scrappingDoodlePath);
+      // Load master vision catalog
+      const catalogPath = path.join(process.cwd(), 'scripts', 'catalogs', 'master-vision-catalog.json');
+      const catalogData = JSON.parse(await fs.readFile(catalogPath, 'utf-8'));
+
+      // Convert master catalog to COLLECTIONS format
+      this.COLLECTIONS = this.convertMasterCatalogToCollections(catalogData);
 
       this.initialized = true;
-      console.log(`✅ SCRAPPING DOODLE service initialized: ${Object.keys(this.COLLECTIONS).length} collections available`);
+      console.log(`✅ SCRAPPING DOODLE service initialized: ${Object.keys(this.COLLECTIONS).length} collections from master catalog`);
     } catch (error) {
       console.warn('⚠️ SCRAPPING DOODLE library not found:', error instanceof Error ? error.message : 'Unknown error');
       this.initialized = true; // Mark as initialized to prevent retries
     }
+  }
+
+  /**
+   * Convert master vision catalog format to CollectionMetadata format
+   */
+  private convertMasterCatalogToCollections(masterCatalog: any): Record<string, CollectionMetadata> {
+    const collections: Record<string, CollectionMetadata> = {};
+
+    for (const [key, data] of Object.entries(masterCatalog)) {
+      const catalogEntry = data as any;
+
+      // Generate a kebab-case key from the name
+      const collectionKey = catalogEntry.name.toLowerCase().replace(/_by.*/, '').replace(/_/g, '-');
+
+      collections[collectionKey] = {
+        name: catalogEntry.name,
+        path: catalogEntry.path,
+        topics: catalogEntry.curriculumTopics || [],
+        ageGroups: catalogEntry.ageGroups || [],
+        hasColorVariations: (catalogEntry.colorImages || 0) > 0,
+        imageCount: catalogEntry.totalImages || 0,
+        priority: this.calculatePriority(catalogEntry),
+        seasonal: this.detectSeasonal(catalogEntry.name),
+        characters: catalogEntry.primaryObjects || [],
+        keywords: catalogEntry.educationalKeywords || [],
+        imageFiles: catalogEntry.imageFiles || [],
+        colorFiles: catalogEntry.colorFiles || [],
+        bwFiles: catalogEntry.bwFiles || []
+      };
+    }
+
+    return collections;
+  }
+
+  /**
+   * Calculate priority based on catalog metadata
+   */
+  private calculatePriority(catalogEntry: any): number {
+    const topics = catalogEntry.curriculumTopics || [];
+
+    // Math topics get highest priority
+    if (topics.some((t: string) => ['counting', 'addition', 'subtraction', 'multiplication', 'division'].includes(t))) {
+      return 10;
+    }
+
+    // Literacy topics get high priority
+    if (topics.some((t: string) => ['reading', 'writing', 'literacy', 'alphabet'].includes(t))) {
+      return 9;
+    }
+
+    // Default priority
+    return 7;
+  }
+
+  /**
+   * Detect seasonal content from collection name
+   */
+  private detectSeasonal(name: string): string | undefined {
+    const nameLower = name.toLowerCase();
+    if (nameLower.includes('christmas') || nameLower.includes('santa')) return 'christmas';
+    if (nameLower.includes('halloween')) return 'halloween';
+    if (nameLower.includes('easter')) return 'easter';
+    if (nameLower.includes('spring')) return 'spring';
+    if (nameLower.includes('fall') || nameLower.includes('autumn')) return 'fall';
+    return undefined;
   }
 
   /**
@@ -268,7 +339,146 @@ class ScrappingDoodleService {
   }
 
   /**
+   * NEW: Get top N diverse collections for a topic to provide variety
+   * Returns collections across different categories (animals, plants, school, food, etc.)
+   */
+  getTopDiverseCollectionsForTopic(
+    topic: string, 
+    subtopic?: string, 
+    yearGroup?: string,
+    count: number = 6
+  ): CollectionMetadata[] {
+    if (!this.isAvailable()) return [];
+
+    const searchText = `${topic} ${subtopic || ''}`.toLowerCase();
+    const scoredCollections: Array<{ 
+      collection: CollectionMetadata; 
+      score: number;
+      category: string;
+    }> = [];
+
+    // Current month for seasonal preferences
+    const currentMonth = new Date().getMonth() + 1;
+    const isChristmasTime = currentMonth === 12 || currentMonth === 1;
+
+    // Categorize collections for diversity
+    const categorizeCollection = (collection: CollectionMetadata): string => {
+      const name = collection.name.toLowerCase();
+      const topics = collection.topics.join(' ').toLowerCase();
+      
+      // EXCLUDE decorative-only collections (borders, dividers, frames)
+      // These are for worksheet decoration, NOT for counting questions
+      if (name.includes('border') || name.includes('divider') || name.includes('frame') || name.includes('background')) {
+        return 'DECORATIVE-EXCLUDE';
+      }
+      if (topics.includes('decorative') || topics.includes('decoration') || topics.includes('border') || topics.includes('frame')) {
+        return 'DECORATIVE-EXCLUDE';
+      }
+      
+      // Detect specific animal subjects to prevent duplication
+      if (name.includes('frog')) return 'animals-frogs';
+      if (name.includes('farm') || name.includes('animal')) return 'animals';
+      if (name.includes('garden') || name.includes('flower') || name.includes('spring')) return 'plants';
+      if (name.includes('school') || name.includes('supplies')) return 'school';
+      if (name.includes('fruit')) return 'food-fruits';
+      if (name.includes('vegetable')) return 'food-vegetables';
+      if (name.includes('food')) return 'food';
+      if (name.includes('sport') || name.includes('ball')) return 'sports';
+      if (name.includes('book') || name.includes('reading')) return 'literacy';
+      if (topics.includes('math') || topics.includes('counting')) return 'math-themed';
+      
+      return 'other';
+    };
+
+    // Score all collections
+    for (const collection of Object.values(this.COLLECTIONS)) {
+      const category = categorizeCollection(collection);
+      
+      // SKIP decorative collections entirely
+      if (category === 'DECORATIVE-EXCLUDE') {
+        continue;
+      }
+      
+      let score = 0;
+
+      // Topic matching (high weight)
+      for (const collectionTopic of collection.topics) {
+        if (searchText.includes(collectionTopic)) {
+          score += 10;
+        }
+      }
+
+      // Exact topic matches get bonus
+      if (collection.topics.includes(topic.toLowerCase())) {
+        score += 15;
+      }
+
+      // Age group matching
+      if (yearGroup && collection.ageGroups.includes(yearGroup)) {
+        score += 5;
+      }
+
+      // Priority weighting
+      score += collection.priority;
+
+      // Seasonal bonus
+      if (collection.seasonal === 'christmas' && isChristmasTime) {
+        score += 8;
+      }
+
+      // Penalize off-season seasonal content
+      if (collection.seasonal && collection.seasonal !== 'christmas' && !isChristmasTime) {
+        score -= 3;
+      }
+
+      if (score > 0) {
+        scoredCollections.push({ 
+          collection, 
+          score,
+          category  // Use already-calculated category
+        });
+      }
+    }
+
+    if (scoredCollections.length === 0) return [];
+
+    // Sort by score
+    scoredCollections.sort((a, b) => b.score - a.score);
+
+    // Select diverse collections: prefer different categories
+    const selectedCollections: CollectionMetadata[] = [];
+    const usedCategories = new Set<string>();
+
+    // First pass: select one from each category (maximize diversity)
+    for (const item of scoredCollections) {
+      if (selectedCollections.length >= count) break;
+      
+      if (!usedCategories.has(item.category)) {
+        selectedCollections.push(item.collection);
+        usedCategories.add(item.category);
+      }
+    }
+
+    // Second pass: if we still need more, add highest scoring remaining
+    if (selectedCollections.length < count) {
+      for (const item of scoredCollections) {
+        if (selectedCollections.length >= count) break;
+        
+        if (!selectedCollections.includes(item.collection)) {
+          selectedCollections.push(item.collection);
+        }
+      }
+    }
+
+    console.log(`🎨 SCRAPPING DOODLE diverse collections for ${topic}:`, 
+      selectedCollections.map(c => `${c.name} (${categorizeCollection(c)})`).join(', '));
+
+    return selectedCollections;
+  }
+
+  /**
    * Get a specific image from a collection with color preference
+   * NOW: Uses catalog data instead of filesystem reads
    */
   async getImageFromCollection(
     collection: CollectionMetadata,
@@ -276,6 +486,24 @@ class ScrappingDoodleService {
     index: number = 0
   ): Promise<string | null> {
     try {
+      // Use catalog data if available
+      if (collection.imageFiles && collection.imageFiles.length > 0) {
+        let selectedFiles: string[];
+
+        if (colorPreference === 'bw' && collection.bwFiles && collection.bwFiles.length > 0) {
+          selectedFiles = collection.bwFiles;
+        } else if (collection.colorFiles && collection.colorFiles.length > 0) {
+          selectedFiles = collection.colorFiles;
+        } else {
+          selectedFiles = collection.imageFiles;
+        }
+
+        // Select file by index (with wrapping)
+        const selectedFile = selectedFiles[index % selectedFiles.length];
+        return `${collection.path}/${selectedFile}`;
+      }
+
+      // Fallback: Read from filesystem (backward compatibility)
       const collectionPath = path.join(process.cwd(), 'public', 'images', 'SCRAPPING DOODLE', collection.name);
       const files = await fs.readdir(collectionPath);
 

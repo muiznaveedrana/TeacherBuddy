@@ -1,0 +1,5102 @@
+{
+  "totalCollections": 365,
+  "totalBatches": 37,
+  "batches": [
+    {
+      "batchNumber": 1,
+      "collections": [
+        {
+          "name": "Fall_BookFair_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fall_BookFair_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "Fall_BookFair1.png",
+            "Fall_BookFair2.png",
+            "Fall_BookFair3.png",
+            "Fall_BookFair4.png",
+            "Fall_BookFair5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Farm_Babies_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Farm_Babies_by_ScrappinDoodles",
+          "colorImages": 11,
+          "totalImages": 22,
+          "sampleImages": [
+            "barn.png",
+            "bg1.png",
+            "chicken.png",
+            "cow.png",
+            "fence.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Farm_Bowling_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Farm_Bowling_by_ScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "farm_bowling1.png",
+            "farm_bowling10.png",
+            "farm_bowling11.png",
+            "farm_bowling12.png",
+            "farm_bowling2.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Farm_Frames_1_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Farm_Frames_1_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "farm_frame1.png",
+            "farm_frame2.png",
+            "farm_frame3.png",
+            "farm_frame4.png",
+            "farm_frame5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Farm_Kids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Farm_Kids_by_ScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 24,
+          "sampleImages": [
+            "barn.png",
+            "cloud.png",
+            "cow.png",
+            "farmer_boy.png",
+            "farmer_girl.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "FarmAnimalsAndBabies_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FarmAnimalsAndBabies_byScrappinDoodles",
+          "colorImages": 24,
+          "totalImages": 48,
+          "sampleImages": [
+            "Bull.png",
+            "Calf.png",
+            "Cat.png",
+            "Chick.png",
+            "Cow.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Fast_Food_Backgrounds_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fast_Food_Backgrounds_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": true
+        },
+        {
+          "name": "Fast_Food_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fast_Food_byScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 20,
+          "sampleImages": [
+            "fastfood_chicken.png",
+            "fastfood_chicken_bucket.png",
+            "fastfood_corndog.png",
+            "fastfood_drink.png",
+            "fastfood_frenchfries.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "FlowerBordersDividers_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FlowerBordersDividers_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 18,
+          "sampleImages": [
+            "FlowerBorder1.png",
+            "FlowerBorder10.png",
+            "FlowerBorder11.png",
+            "FlowerBorder12.png",
+            "FlowerBorder2.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "FlowerPot_Mouse_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FlowerPot_Mouse_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "FlowerPot_Mouse1.png",
+            "FlowerPot_Mouse2.png",
+            "FlowerPot_Mouse3.png",
+            "FlowerPot_Mouse4.png",
+            "FlowerPot_Mouse5.png"
+          ],
+          "isPriority": true
+        }
+      ]
+    },
+    {
+      "batchNumber": 2,
+      "collections": [
+        {
+          "name": "Flowers_4U_Big_Eyes_Frog",
+          "path": "public\\images\\SCRAPPING DOODLE\\Flowers_4U_Big_Eyes_Frog",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "f4uf1.png",
+            "f4uf2.png",
+            "f4uf3.png",
+            "f4uf4.png",
+            "f4uf5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "FoodGroup_Vegetables_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FoodGroup_Vegetables_byScrappinDoodles",
+          "colorImages": 17,
+          "totalImages": 34,
+          "sampleImages": [
+            "vegetable_asparagus.png",
+            "vegetable_bean.png",
+            "vegetable_broccoli.png",
+            "vegetable_cabbage.png",
+            "vegetable_carrot.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Football_Frogs_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Football_Frogs_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 10,
+          "sampleImages": [
+            "football_frog1.png",
+            "football_frog10.png",
+            "football_frog2.png",
+            "football_frog3.png",
+            "football_frog4.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Football_Kids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Football_Kids_by_ScrappinDoodles",
+          "colorImages": 13,
+          "totalImages": 26,
+          "sampleImages": [
+            "bg1.png",
+            "bg2.png",
+            "football.png",
+            "football1.png",
+            "football2.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Freddy_Freida_Love_FastFood_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Freddy_Freida_Love_FastFood_byScrappinDoodles",
+          "colorImages": 7,
+          "totalImages": 14,
+          "sampleImages": [
+            "FastFood_Freddy1.png",
+            "FastFood_Freddy2.png",
+            "FastFood_Freddy3.png",
+            "FastFood_Freida1.png",
+            "FastFood_Freida2.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Froggy_Alpha_And_Numbers_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Froggy_Alpha_And_Numbers_by_ScrappinDoodles",
+          "colorImages": 26,
+          "totalImages": 26,
+          "sampleImages": [
+            "alpha_frog_a.png",
+            "alpha_frog_b.png",
+            "alpha_frog_c.png",
+            "alpha_frog_d.png",
+            "alpha_frog_e.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Froggy_Colors_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Froggy_Colors_by_ScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 24,
+          "sampleImages": [
+            "color_Frog1.png",
+            "Color_Frog10_White.png",
+            "Color_Frog11_Brown.png",
+            "Color_Frog12_SkyBlue.png",
+            "color_Frog2.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Froggy_Colors2_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Froggy_Colors2_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "Color_Frog10_White.png",
+            "Color_Frog11_Brown.png",
+            "Color_Frog12_SkyBlue.png",
+            "Color_Frog7_Pink.png",
+            "Color_Frog8_Grey.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Froggy_Goes_To_School_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Froggy_Goes_To_School_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 10,
+          "sampleImages": [
+            "frog_1.png",
+            "frog_2.png",
+            "frog_3.png",
+            "frog_4.png",
+            "frog_5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "FroggyFun_BackToSchool_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_BackToSchool_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "FroggyFun_BackToSchool1.png",
+            "FroggyFun_BackToSchool2.png",
+            "FroggyFun_BackToSchool3.png",
+            "FroggyFun_BackToSchool4.png",
+            "FroggyFun_BackToSchool5.png"
+          ],
+          "isPriority": true
+        }
+      ]
+    },
+    {
+      "batchNumber": 3,
+      "collections": [
+        {
+          "name": "FroggyFun_SchoolDays_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_SchoolDays_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "FroggyFun_SchoolDays1.png",
+            "FroggyFun_SchoolDays2.png",
+            "FroggyFun_SchoolDays3.png",
+            "FroggyFun_SchoolDays4.png",
+            "FroggyFun_SchoolDays5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "FrogLifeColoringPages_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FrogLifeColoringPages_byScrappinDoodles",
+          "colorImages": 1,
+          "totalImages": 1,
+          "sampleImages": [
+            "SD_CircleFrog.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "FrogNumbers_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FrogNumbers_byScrappinDoodles",
+          "colorImages": 41,
+          "totalImages": 41,
+          "sampleImages": [
+            "frog5.png",
+            "FrogNumber0_BW.png",
+            "FrogNumber1.png",
+            "FrogNumber1_BW.png",
+            "FrogNumber2.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Fruit_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fruit_by_ScrappinDoodles",
+          "colorImages": 15,
+          "totalImages": 30,
+          "sampleImages": [
+            "apple.png",
+            "banana.png",
+            "blackberry.png",
+            "blueberry.png",
+            "cherries.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Sailor_Kids_School_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sailor_Kids_School_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "Sailor_Kids_School_1.png",
+            "Sailor_Kids_School_2.png",
+            "Sailor_Kids_School_3.png",
+            "Sailor_Kids_School_4.png",
+            "Sailor_Kids_School_5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "SammyScarecrow_LovesBooks_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SammyScarecrow_LovesBooks_byScrappinDoodles",
+          "colorImages": 7,
+          "totalImages": 14,
+          "sampleImages": [
+            "SammyScarecrow_LovesBooks1.png",
+            "SammyScarecrow_LovesBooks2.png",
+            "SammyScarecrow_LovesBooks3.png",
+            "SammyScarecrow_LovesBooks4.png",
+            "SammyScarecrow_LovesBooks5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Santa_Numbers_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Santa_Numbers_byScrappinDoodles",
+          "colorImages": 20,
+          "totalImages": 40,
+          "sampleImages": [
+            "SantaNumbers0.png",
+            "SantaNumbers1.png",
+            "SantaNumbers2.png",
+            "SantaNumbers3.png",
+            "SantaNumbers4.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Scarecrow_Sunflower_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Scarecrow_Sunflower_byScrappinDoodles",
+          "colorImages": 2,
+          "totalImages": 2,
+          "sampleImages": [
+            "scarecrow_sunflower.png",
+            "scarecrow_sunflower_colored.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "School_Backgrounds_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\School_Backgrounds_by_ScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": true
+        },
+        {
+          "name": "School_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\School_by_ScrappinDoodles",
+          "colorImages": 30,
+          "totalImages": 55,
+          "sampleImages": [
+            "apple.png",
+            "backpack.png",
+            "bell.png",
+            "books.png",
+            "book_open.png"
+          ],
+          "isPriority": true
+        }
+      ]
+    },
+    {
+      "batchNumber": 4,
+      "collections": [
+        {
+          "name": "School_Cows_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\School_Cows_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "school_cow1.png",
+            "school_cow2.png",
+            "school_cow3.png",
+            "school_cow4.png",
+            "school_cow5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "School_Days_8x8_Frames_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\School_Days_8x8_Frames_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "8x8_Frame_1.png",
+            "8x8_Frame_2.png",
+            "8x8_Frame_3.png",
+            "8x8_Frame_4.png",
+            "8x8_Frame_5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "School_Frogs_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\School_Frogs_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 10,
+          "sampleImages": [
+            "school_frog1.png",
+            "school_frog10.png",
+            "school_frog2.png",
+            "school_frog3.png",
+            "school_frog4.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "School_Giraffes_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\School_Giraffes_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 20,
+          "sampleImages": [
+            "school_giraffe1.png",
+            "school_giraffe10.png",
+            "school_giraffe2.png",
+            "school_giraffe3.png",
+            "school_giraffe4.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "School_House_Mouse_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\School_House_Mouse_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "SchoolHouseMouse1.png",
+            "SchoolHouseMouse2.png",
+            "SchoolHouseMouse3.png",
+            "SchoolHouseMouse4.png",
+            "SchoolHouseMouse5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "School_Koala_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\School_Koala_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "School_Koala1.png",
+            "School_Koala2.png",
+            "School_Koala3.png",
+            "School_Koala4.png",
+            "School_Koala5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "School_Messages_Susie_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\School_Messages_Susie_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "SchoolMessage_Susie1.png",
+            "SchoolMessage_Susie2.png",
+            "SchoolMessage_Susie3.png",
+            "SchoolMessage_Susie4.png",
+            "SchoolMessage_Susie5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "School_Monkeys_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\School_Monkeys_by_ScrappinDoodles",
+          "colorImages": 11,
+          "totalImages": 11,
+          "sampleImages": [
+            "schoolmonkey1.png",
+            "schoolmonkey10.png",
+            "schoolmonkey2.png",
+            "schoolmonkey3.png",
+            "schoolmonkey4.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "School_Stick_Kids_2_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\School_Stick_Kids_2_by_ScrappinDoodles",
+          "colorImages": 11,
+          "totalImages": 11,
+          "sampleImages": [
+            "boy_apple.png",
+            "boy_backpack.png",
+            "boy_chalk_board.png",
+            "boy_computer.png",
+            "boy_ruler.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "School_Supplies_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\School_Supplies_by_ScrappinDoodles",
+          "colorImages": 61,
+          "totalImages": 88,
+          "sampleImages": [
+            "aplus.png",
+            "apple.png",
+            "apple2.png",
+            "backpack.png",
+            "board.png"
+          ],
+          "isPriority": true
+        }
+      ]
+    },
+    {
+      "batchNumber": 5,
+      "collections": [
+        {
+          "name": "SchoolKids_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SchoolKids_byScrappinDoodles",
+          "colorImages": 22,
+          "totalImages": 22,
+          "sampleImages": [
+            "schoolkids1.png",
+            "schoolkids10.png",
+            "schoolkids10_color.png",
+            "schoolkids11.png",
+            "schoolkids11_color.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "SchoolStick_Kids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SchoolStick_Kids_by_ScrappinDoodles",
+          "colorImages": 25,
+          "totalImages": 25,
+          "sampleImages": [
+            "SchoolStickKids1.png",
+            "SchoolStickKids10.png",
+            "SchoolStickKids10_BW.png",
+            "SchoolStickKids11.png",
+            "SchoolStickKids11_BW.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "SchoolSupplies_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SchoolSupplies_byScrappinDoodles",
+          "colorImages": 29,
+          "totalImages": 52,
+          "sampleImages": [
+            "book1.png",
+            "book2.png",
+            "book3.png",
+            "book4.png",
+            "book5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "ScrabbleTile_Titles_School_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\ScrabbleTile_Titles_School_byScrappinDoodles",
+          "colorImages": 8,
+          "totalImages": 16,
+          "sampleImages": [
+            "ST_I_Heart_Math.png",
+            "ST_I_Heart_Music.png",
+            "ST_I_Heart_Reading.png",
+            "ST_I_Heart_Science.png",
+            "ST_I_Heart_SocialStudies.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "SmartCookie_SchoolDaysbyScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SmartCookie_SchoolDaysbyScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "SmartCookie_SchoolDays1.png",
+            "SmartCookie_SchoolDays2.png",
+            "SmartCookie_SchoolDays3.png",
+            "SmartCookie_SchoolDays4.png",
+            "SmartCookie_SchoolDays5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Spaghetti_With_Meatballs_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Spaghetti_With_Meatballs_byScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 20,
+          "sampleImages": [
+            "Spaghetti1.png",
+            "Spaghetti10.png",
+            "Spaghetti2.png",
+            "Spaghetti3.png",
+            "Spaghetti4.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Sports_Big_Eyes_Monkey",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sports_Big_Eyes_Monkey",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "sbm1.png",
+            "sbm2.png",
+            "sbm3.png",
+            "sbm4.png",
+            "sbm5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Sports_Boys_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sports_Boys_by_ScrappinDoodles",
+          "colorImages": 11,
+          "totalImages": 22,
+          "sampleImages": [
+            "boy_1.png",
+            "boy_2.png",
+            "boy_3.png",
+            "boy_4.png",
+            "boy_5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Sports_Girls_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sports_Girls_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 20,
+          "sampleImages": [
+            "girl_1.png",
+            "girl_2.png",
+            "girl_3.png",
+            "girl_4.png",
+            "girl_5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "SportsBalls_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SportsBalls_byScrappinDoodles",
+          "colorImages": 7,
+          "totalImages": 14,
+          "sampleImages": [
+            "BaseBall.png",
+            "Basketball.png",
+            "BowlingBall.png",
+            "FootBall.png",
+            "SoccerBall.png"
+          ],
+          "isPriority": true
+        }
+      ]
+    },
+    {
+      "batchNumber": 6,
+      "collections": [
+        {
+          "name": "SpringColoringPages",
+          "path": "public\\images\\SCRAPPING DOODLE\\SpringColoringPages",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": true
+        },
+        {
+          "name": "Stick_School_Kids_by_Scrappin_Doodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stick_School_Kids_by_Scrappin_Doodles",
+          "colorImages": 24,
+          "totalImages": 24,
+          "sampleImages": [
+            "boy_desk.png",
+            "boy_desk_BW.png",
+            "boy_lunch.png",
+            "boy_lunch_BW.png",
+            "boy_monkey_bars.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "StickKids_School_5x7_Frames_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StickKids_School_5x7_Frames_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "stick_kids_school_frame1.png",
+            "stick_kids_school_frame2.png",
+            "stick_kids_school_frame3.png",
+            "stick_kids_school_frame4.png",
+            "stick_kids_school_frame5.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Stocking_Colors_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stocking_Colors_byScrappinDoodles",
+          "colorImages": 22,
+          "totalImages": 22,
+          "sampleImages": [
+            "Happy_Stocking_Black.png",
+            "Happy_Stocking_BlackAndWhite.png",
+            "Happy_Stocking_Blue.png",
+            "Happy_Stocking_Brown.png",
+            "Happy_Stocking_Green.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Summer_Olympics_Sports_Kids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Summer_Olympics_Sports_Kids_by_ScrappinDoodles",
+          "colorImages": 27,
+          "totalImages": 48,
+          "sampleImages": [
+            "bw_summer_torch.png",
+            "summer_boy_archery.png",
+            "summer_boy_bike.png",
+            "summer_boy_boxing.png",
+            "summer_boy_canoe.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "SummerFunKidsColoringPages_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SummerFunKidsColoringPages_byScrappinDoodles",
+          "colorImages": 1,
+          "totalImages": 1,
+          "sampleImages": [
+            "SD_CircleFrog.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Sunflower_Alphabet_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sunflower_Alphabet_by_ScrappinDoodles",
+          "colorImages": 88,
+          "totalImages": 88,
+          "sampleImages": [
+            "Alpha_A.png",
+            "Alpha_B.png",
+            "Alpha_C.png",
+            "Alpha_D.png",
+            "Alpha_E.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Sunflower_Friends_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sunflower_Friends_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 10,
+          "sampleImages": [
+            "bg1.png",
+            "bird.png",
+            "cat.png",
+            "flower.png",
+            "girl_1.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "Sunflower_Frogs_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sunflower_Frogs_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 10,
+          "sampleImages": [
+            "sunflower_frog1.png",
+            "sunflower_frog10.png",
+            "sunflower_frog2.png",
+            "sunflower_frog3.png",
+            "sunflower_frog4.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "SunflowerFaces_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SunflowerFaces_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "SunFlower_Face1.png",
+            "SunFlower_Face1BW.png",
+            "SunFlower_Face2.png",
+            "SunFlower_Face2BW.png",
+            "SunFlower_Face3.png"
+          ],
+          "isPriority": true
+        }
+      ]
+    },
+    {
+      "batchNumber": 7,
+      "collections": [
+        {
+          "name": "Sunflowers_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sunflowers_by_ScrappinDoodles",
+          "colorImages": 14,
+          "totalImages": 14,
+          "sampleImages": [
+            "8x8block1.png",
+            "8x8block2.png",
+            "border1.png",
+            "border2.png",
+            "border3.png"
+          ],
+          "isPriority": true
+        },
+        {
+          "name": "SweetValentine_ColoringPages_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SweetValentine_ColoringPages_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": true
+        },
+        {
+          "name": "Christmas_Cookies_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Christmas_Cookies_by_ScrappinDoodles",
+          "colorImages": 20,
+          "totalImages": 40,
+          "sampleImages": [
+            "cookie1.png",
+            "cookie10.png",
+            "cookie11.png",
+            "cookie12.png",
+            "cookie13.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Fabulous_Fall_12x12_Papers_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fabulous_Fall_12x12_Papers_by_ScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "FabulousFall_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FabulousFall_by_ScrappinDoodles",
+          "colorImages": 19,
+          "totalImages": 34,
+          "sampleImages": [
+            "acorn.png",
+            "apple.png",
+            "bg1.png",
+            "bg2.png",
+            "bg3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FairyTaleDreams_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FairyTaleDreams_byScrappinDoodles",
+          "colorImages": 58,
+          "totalImages": 58,
+          "sampleImages": [
+            "blue_flower.png",
+            "blue_heart.png",
+            "carriage.png",
+            "castle.png",
+            "castle_clouds.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Fall_Border_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fall_Border_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 1,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "Fall_Borders_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fall_Borders_byScrappinDoodles",
+          "colorImages": 13,
+          "totalImages": 13,
+          "sampleImages": [
+            "Fall_Border1.png",
+            "Fall_Border1_BW.png",
+            "Fall_Border2.png",
+            "Fall_Border2_BW.png",
+            "Fall_Border3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Fall_byScappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fall_byScappinDoodles",
+          "colorImages": 57,
+          "totalImages": 57,
+          "sampleImages": [
+            "Fall1.png",
+            "Fall10.png",
+            "Fall10_BW.png",
+            "Fall11.png",
+            "Fall11_BW.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Fall_Frames_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fall_Frames_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "fall_frame1.png",
+            "fall_frame2.png",
+            "fall_frame3.png",
+            "fall_frame4.png",
+            "fall_frame5.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 8,
+      "collections": [
+        {
+          "name": "Fall_Frogs_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fall_Frogs_by_ScrappinDoodles",
+          "colorImages": 20,
+          "totalImages": 20,
+          "sampleImages": [
+            "Autumn_Frog1.png",
+            "Autumn_Frog10.png",
+            "Autumn_Frog10_BW.png",
+            "Autumn_Frog1_BW.png",
+            "Autumn_Frog2.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Fall_FullPageBorders_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fall_FullPageBorders_byScrappinDoodles",
+          "colorImages": 13,
+          "totalImages": 13,
+          "sampleImages": [
+            "FullPageBorder1.png",
+            "FullPageBorder1_BW.png",
+            "FullPageBorder2.png",
+            "FullPageBorder2_BW.png",
+            "FullPageBorder3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Fall_Mouse_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fall_Mouse_by_ScrappinDoodles",
+          "colorImages": 15,
+          "totalImages": 15,
+          "sampleImages": [
+            "Fall_Mouse_1.png",
+            "Fall_Mouse_10.png",
+            "Fall_Mouse_11.png",
+            "Fall_Mouse_12.png",
+            "Fall_Mouse_13.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FallKids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FallKids_by_ScrappinDoodles",
+          "colorImages": 13,
+          "totalImages": 26,
+          "sampleImages": [
+            "border.png",
+            "boy_1.png",
+            "boy_2.png",
+            "boy_3.png",
+            "boy_4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Fancy_Chalkboard_Frames_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fancy_Chalkboard_Frames_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Fancy_Chalkboard_Frame1.png",
+            "Fancy_Chalkboard_Frame2.png",
+            "Fancy_Chalkboard_Frame3.png",
+            "Fancy_Chalkboard_Frame4.png",
+            "Fancy_Chalkboard_Frame5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FathersDay_Boys_And_Girls_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FathersDay_Boys_And_Girls_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 24,
+          "sampleImages": [
+            "Fathers_Day_Boy_1.png",
+            "Fathers_Day_Boy_2.png",
+            "Fathers_Day_Boy_3.png",
+            "Fathers_Day_Boy_4.png",
+            "Fathers_Day_Boy_5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FathersDay_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FathersDay_byScrappinDoodles",
+          "colorImages": 17,
+          "totalImages": 34,
+          "sampleImages": [
+            "FathersDay1.png",
+            "FathersDay10.png",
+            "FathersDay11.png",
+            "FathersDay12.png",
+            "FathersDay13.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "February_Calendar_Graphics_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\February_Calendar_Graphics_byScrappinDoodles",
+          "colorImages": 8,
+          "totalImages": 16,
+          "sampleImages": [
+            "February_BG1.png",
+            "February_BG2.png",
+            "February_Groundhog.png",
+            "February_MardiGras.png",
+            "February_PresidentsDay.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "February_CreativePack_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\February_CreativePack_byScrappinDoodles",
+          "colorImages": 31,
+          "totalImages": 62,
+          "sampleImages": [
+            "February_Border_GroundhogDay.png",
+            "February_Border_PresidentsDay.png",
+            "February_Border_ValentinesDay.png",
+            "February_ClipArt_GroundhogDay.png",
+            "February_ClipArt_GroundhogDay2.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Feeling_Germy_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Feeling_Germy_by_ScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "fever_wa.png",
+            "germ_1.png",
+            "germ_2.png",
+            "germ_3.png",
+            "germ_4.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 9,
+      "collections": [
+        {
+          "name": "Ff_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Ff_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 24,
+          "sampleImages": [
+            "Ff_Fan.png",
+            "Ff_Fence.png",
+            "Ff_Finger.png",
+            "Ff_Fire.png",
+            "Ff_Fish.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FieldTrip_Susie_Tommy_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FieldTrip_Susie_Tommy_by_ScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "FieldTrip_Susie1.png",
+            "FieldTrip_Susie2.png",
+            "FieldTrip_Susie3.png",
+            "FieldTrip_Susie4.png",
+            "FieldTrip_Susie5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Fiesta_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fiesta_byScrappinDoodles",
+          "colorImages": 22,
+          "totalImages": 40,
+          "sampleImages": [
+            "Fiesta_avocado.png",
+            "Fiesta_bowl.png",
+            "Fiesta_boy.png",
+            "Fiesta_burrito.png",
+            "Fiesta_chili.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Fifties_Fun_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fifties_Fun_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 20,
+          "sampleImages": [
+            "boy_greaser1.png",
+            "boy_greaser2.png",
+            "cruisin_kids.png",
+            "diner_sign.png",
+            "girl_poodleskirt_1.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Fire_And_Rescue_Occupation_Sticks_By_scrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fire_And_Rescue_Occupation_Sticks_By_scrappinDoodles",
+          "colorImages": 16,
+          "totalImages": 32,
+          "sampleImages": [
+            "ambulance.png",
+            "ambulance_2.png",
+            "doctor_man.png",
+            "doctor_woman.png",
+            "fire_man.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Fire_House_Doodles_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fire_House_Doodles_by_ScrappinDoodles",
+          "colorImages": 30,
+          "totalImages": 30,
+          "sampleImages": [
+            "axe.png",
+            "bg1.png",
+            "bg2.png",
+            "extinguisher.png",
+            "firedog.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Fire_Prevention_Monkeys_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fire_Prevention_Monkeys_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 10,
+          "sampleImages": [
+            "fire_monkey1.png",
+            "fire_monkey10.png",
+            "fire_monkey2.png",
+            "fire_monkey3.png",
+            "fire_monkey4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Fire_Safety_Backgrounds_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fire_Safety_Backgrounds_by_ScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "Fire_Safety_Frogs_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fire_Safety_Frogs_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 10,
+          "sampleImages": [
+            "fire_frog1.png",
+            "fire_frog10.png",
+            "fire_frog2.png",
+            "fire_frog3.png",
+            "fire_frog4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FireHouse_Mouse_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FireHouse_Mouse_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "firehouse_mouse1.png",
+            "firehouse_mouse2.png",
+            "firehouse_mouse3.png",
+            "firehouse_mouse4.png",
+            "firehouse_mouse5.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 10,
+      "collections": [
+        {
+          "name": "FireSafety_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FireSafety_byScrappinDoodles",
+          "colorImages": 18,
+          "totalImages": 36,
+          "sampleImages": [
+            "extinguisher.png",
+            "fire drill.png",
+            "fireman_hat.png",
+            "fireman_with_mask.png",
+            "firestation.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FishExpressions_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FishExpressions_byScrappinDoodles",
+          "colorImages": 17,
+          "totalImages": 17,
+          "sampleImages": [
+            "FishExpresions1.png",
+            "FishExpresions1_BW.png",
+            "FishExpresions2.png",
+            "FishExpresions2_BW.png",
+            "FishExpresions3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Fishing_Friends_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fishing_Friends_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 20,
+          "sampleImages": [
+            "bear_fishing.png",
+            "bear_fishing2.png",
+            "boy_2.png",
+            "boy_3.png",
+            "boy_hat1.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Fishy_Aquarium_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fishy_Aquarium_by_ScrappinDoodles",
+          "colorImages": 16,
+          "totalImages": 32,
+          "sampleImages": [
+            "aquarium1.png",
+            "aquarium10.png",
+            "aquarium11.png",
+            "aquarium12.png",
+            "aquarium13.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Fitness_Girls_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fitness_Girls_by_ScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "fitness1.png",
+            "fitness10.png",
+            "fitness11.png",
+            "fitness12.png",
+            "fitness2.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Flying_Tommy_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Flying_Tommy_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Flying_Tommy_1.png",
+            "Flying_Tommy_2.png",
+            "Flying_Tommy_3.png",
+            "Flying_Tommy_4.png",
+            "Flying_Tommy_5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Forest_Babies_2_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Forest_Babies_2_by_ScrappinDoodles",
+          "colorImages": 14,
+          "totalImages": 28,
+          "sampleImages": [
+            "4x4_frame.png",
+            "bear2.png",
+            "bear3.png",
+            "fox2.png",
+            "log.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Forest_Babies_Frames_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Forest_Babies_Frames_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "5x7_frame_1.png",
+            "5x7_frame_2.png",
+            "5x7_frame_3.png",
+            "5x7_frame_4.png",
+            "5x7_frame_5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Forest_Backgrounds_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Forest_Backgrounds_by_ScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "FractionCircles_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FractionCircles_byScrappinDoodles",
+          "colorImages": 41,
+          "totalImages": 41,
+          "sampleImages": [
+            "1.png",
+            "10.png",
+            "10blank.png",
+            "10blank_BW.png",
+            "10_BW.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 11,
+      "collections": [
+        {
+          "name": "FrameBoys_AndGirls_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FrameBoys_AndGirls_byScrappinDoodles",
+          "colorImages": 24,
+          "totalImages": 24,
+          "sampleImages": [
+            "Frame1.png",
+            "Frame1_colored.png",
+            "Frame2.png",
+            "Frame2_colored.png",
+            "Frame3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FrameBoys_AndGirls_ReadyPages_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FrameBoys_AndGirls_ReadyPages_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "FrankSpinners_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FrankSpinners_byScrappinDoodles",
+          "colorImages": 20,
+          "totalImages": 20,
+          "sampleImages": [
+            "Frank_Spinner1.png",
+            "Frank_Spinner10.png",
+            "Frank_Spinner10BW.png",
+            "Frank_Spinner1BW.png",
+            "Frank_Spinner2.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Franky_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Franky_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "Franky1.png",
+            "Franky1BW.png",
+            "Franky2.png",
+            "Franky2BW.png",
+            "Franky3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Franky_TenFrames_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Franky_TenFrames_byScrappinDoodles",
+          "colorImages": 44,
+          "totalImages": 44,
+          "sampleImages": [
+            "Blank_Franky_TenFrame0.png",
+            "Blank_Franky_TenFrame0BW.png",
+            "Blank_Franky_TenFrame1.png",
+            "Blank_Franky_TenFrame10.png",
+            "Blank_Franky_TenFrame10BW.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FrankyFrog_byScrappindoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FrankyFrog_byScrappindoodles",
+          "colorImages": 26,
+          "totalImages": 26,
+          "sampleImages": [
+            "frog1.png",
+            "frog10.png",
+            "frog10_BW.png",
+            "frog11.png",
+            "frog11_BW.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Freddy_Freida_ClassroomHelpers_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Freddy_Freida_ClassroomHelpers_byScrappinDoodles",
+          "colorImages": 24,
+          "totalImages": 48,
+          "sampleImages": [
+            "ClassroomHelper_Caboose.png",
+            "ClassroomHelper_CalendarHelper.png",
+            "ClassroomHelper_ChairStacker.png",
+            "ClassroomHelper_CleaningCrew.png",
+            "ClassroomHelper_DoorHolder.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Freddy_Freida_Graduation_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Freddy_Freida_Graduation_byScrappinDoodles",
+          "colorImages": 8,
+          "totalImages": 14,
+          "sampleImages": [
+            "Graduation_Freddy1.png",
+            "Graduation_Freddy2.png",
+            "Graduation_Freddy3.png",
+            "Graduation_Freida1.png",
+            "Graduation_Freida2.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Freddy_Freida_ReadingKids_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Freddy_Freida_ReadingKids_byScrappinDoodles",
+          "colorImages": 16,
+          "totalImages": 32,
+          "sampleImages": [
+            "ReadingFreddyFreida1.png",
+            "ReadingFreddyFreida10.png",
+            "ReadingFreddyFreida11.png",
+            "ReadingFreddyFreida12.png",
+            "ReadingFreddyFreida13.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Freddy_Freida_TheAdventurer_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Freddy_Freida_TheAdventurer_byScrappinDoodles",
+          "colorImages": 25,
+          "totalImages": 50,
+          "sampleImages": [
+            "Freddy_TheAdventurer1.png",
+            "Freddy_TheAdventurer10.png",
+            "Freddy_TheAdventurer11.png",
+            "Freddy_TheAdventurer12.png",
+            "Freddy_TheAdventurer13.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 12,
+      "collections": [
+        {
+          "name": "Freddy_Freida_TheWizards_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Freddy_Freida_TheWizards_byScrappinDoodles",
+          "colorImages": 24,
+          "totalImages": 48,
+          "sampleImages": [
+            "Wizard1.png",
+            "Wizard10.png",
+            "Wizard11.png",
+            "Wizard12.png",
+            "Wizard13.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Freddy_Freida_WritingKids_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Freddy_Freida_WritingKids_byScrappinDoodles",
+          "colorImages": 17,
+          "totalImages": 34,
+          "sampleImages": [
+            "WritingFreddyFreida1.png",
+            "WritingFreddyFreida10.png",
+            "WritingFreddyFreida11.png",
+            "WritingFreddyFreida12.png",
+            "WritingFreddyFreida13.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Freddy_TheKnight_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Freddy_TheKnight_byScrappinDoodles",
+          "colorImages": 17,
+          "totalImages": 33,
+          "sampleImages": [
+            "Freddy_TheKnight_1.png",
+            "Freddy_TheKnight_10.png",
+            "Freddy_TheKnight_11.png",
+            "Freddy_TheKnight_12.png",
+            "Freddy_TheKnight_13.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "French_LC_Monthly_Toppers_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\French_LC_Monthly_Toppers_by_ScrappinDoodles",
+          "colorImages": 30,
+          "totalImages": 30,
+          "sampleImages": [
+            "FRENCH_Topper_April_lc.png",
+            "FRENCH_Topper_April_lc_alternate.png",
+            "French_Topper_April_lc_BW.png",
+            "French_Topper_April_lc_BW_alternate.png",
+            "FRENCH_Topper_August_lc.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "French_Weekday_Toppers_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\French_Weekday_Toppers_by_ScrappinDoodles",
+          "colorImages": 14,
+          "totalImages": 14,
+          "sampleImages": [
+            "FRENCH_Topper_Friday.png",
+            "FRENCH_Topper_Monday.png",
+            "FRENCH_Topper_Saturday.png",
+            "FRENCH_Topper_Sunday.png",
+            "FRENCH_Topper_Thursday.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Frog_Christmas_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Frog_Christmas_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "Frog_Christmas1.png",
+            "Frog_Christmas2.png",
+            "Frog_Christmas3.png",
+            "Frog_Christmas4.png",
+            "Frog_Christmas5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Frog_LifeCycle_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Frog_LifeCycle_byScrappinDoodles",
+          "colorImages": 14,
+          "totalImages": 28,
+          "sampleImages": [
+            "arrow.png",
+            "bullrush.png",
+            "eggs.png",
+            "flower.png",
+            "fly.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Frog_Love_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Frog_Love_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 10,
+          "sampleImages": [
+            "frog_love1.png",
+            "frog_love10.png",
+            "frog_love2.png",
+            "frog_love3.png",
+            "frog_love4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Frog_NewYear_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Frog_NewYear_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "Frog_NewYear1.png",
+            "Frog_NewYear2.png",
+            "Frog_NewYear3.png",
+            "Frog_NewYear4.png",
+            "Frog_NewYear5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Frog_Racers_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Frog_Racers_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "racing_frog1.png",
+            "racing_frog2.png",
+            "racing_frog3.png",
+            "racing_frog4.png",
+            "racing_frog5.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 13,
+      "collections": [
+        {
+          "name": "Frog_StPatricksDay_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Frog_StPatricksDay_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "Frog_StPatricksDay1.png",
+            "Frog_StPatricksDay2.png",
+            "Frog_StPatricksDay3.png",
+            "Frog_StPatricksDay4.png",
+            "Frog_StPatricksDay5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Frog_Valentine_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Frog_Valentine_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "Frog_Valentine1.png",
+            "Frog_Valentine2.png",
+            "Frog_Valentine3.png",
+            "Frog_Valentine4.png",
+            "Frog_Valentine5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Frog_Winter_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Frog_Winter_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "Frog_Winter.png",
+            "Frog_Winter2.png",
+            "Frog_Winter3.png",
+            "Frog_Winter4.png",
+            "Frog_Winter5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FrogExpressions_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FrogExpressions_byScrappinDoodles",
+          "colorImages": 17,
+          "totalImages": 17,
+          "sampleImages": [
+            "FrogExpressions1.png",
+            "FrogExpressions1_BW.png",
+            "FrogExpressions2.png",
+            "FrogExpressions2_BW.png",
+            "FrogExpressions3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Froggy_Friends_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Froggy_Friends_by_ScrappinDoodles",
+          "colorImages": 11,
+          "totalImages": 11,
+          "sampleImages": [
+            "frame.png",
+            "frog_1.png",
+            "frog_2.png",
+            "frog_3.png",
+            "frog_4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Froggy_Fun_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Froggy_Fun_by_ScrappinDoodles",
+          "colorImages": 7,
+          "totalImages": 14,
+          "sampleImages": [
+            "frog1.png",
+            "frog2.png",
+            "frog3.png",
+            "frog4.png",
+            "frog5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Froggy_Messages_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Froggy_Messages_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "computer_frog1.png",
+            "computer_frog2.png",
+            "computer_frog3.png",
+            "computer_frog4.png",
+            "computer_frog5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Froggy_Western_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Froggy_Western_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 10,
+          "sampleImages": [
+            "cowboy_frog1.png",
+            "cowboy_frog10.png",
+            "cowboy_frog2.png",
+            "cowboy_frog3.png",
+            "cowboy_frog4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_Birthday_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_Birthday_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "FroggyFun_Birthday1.png",
+            "FroggyFun_Birthday2.png",
+            "FroggyFun_Birthday3.png",
+            "FroggyFun_Birthday4.png",
+            "FroggyFun_Birthday5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_Chefs_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_Chefs_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "FroggyFun_Chef1.png",
+            "FroggyFun_Chef2.png",
+            "FroggyFun_Chef3.png",
+            "FroggyFun_Chef4.png",
+            "FroggyFun_Chef5.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 14,
+      "collections": [
+        {
+          "name": "FroggyFun_Christmas_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_Christmas_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "FroggyFun_Christmas1.png",
+            "FroggyFun_Christmas2.png",
+            "FroggyFun_Christmas3.png",
+            "FroggyFun_Christmas4.png",
+            "FroggyFun_Christmas5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_CincoDeMayo_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_CincoDeMayo_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "FroggyFun_CincoDeMayo1.png",
+            "FroggyFun_CincoDeMayo2.png",
+            "FroggyFun_CincoDeMayo3.png",
+            "FroggyFun_CincoDeMayo4.png",
+            "FroggyFun_CincoDeMayo5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_EarthDay_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_EarthDay_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "FroggyFun_EarthDay1.png",
+            "FroggyFun_EarthDay2.png",
+            "FroggyFun_EarthDay3.png",
+            "FroggyFun_EarthDay4.png",
+            "FroggyFun_EarthDay5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_EasterTreatBaskets_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_EasterTreatBaskets_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "FroggyFun_EasterTreatBaskets1.png",
+            "FroggyFun_EasterTreatBaskets2.png",
+            "FroggyFun_EasterTreatBaskets3.png",
+            "FroggyFun_EasterTreatBaskets4.png",
+            "FroggyFun_EasterTreatBaskets5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_EasterTreatJars_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_EasterTreatJars_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "FroggyFun_EasterTreatJars1.png",
+            "FroggyFun_EasterTreatJars2.png",
+            "FroggyFun_EasterTreatJars3.png",
+            "FroggyFun_EasterTreatJars4.png",
+            "FroggyFun_EasterTreatJars5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_EasterTreats_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_EasterTreats_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "FroggyFun_EasterTreats1.png",
+            "FroggyFun_EasterTreats2.png",
+            "FroggyFun_EasterTreats3.png",
+            "FroggyFun_EasterTreats4.png",
+            "FroggyFun_EasterTreats5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_FallDays_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_FallDays_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "FroggyFun_Fall1.png",
+            "FroggyFun_Fall2.png",
+            "FroggyFun_Fall3.png",
+            "FroggyFun_Fall4.png",
+            "FroggyFun_Fall5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_Frames_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_Frames_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "FroggyFun_Frame1.png",
+            "FroggyFun_Frame2.png",
+            "FroggyFun_Frame3.png",
+            "FroggyFun_Frame4.png",
+            "FroggyFun_Frame5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_Halloween_Treat_Bowls_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_Halloween_Treat_Bowls_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "FroggyFun_HalloweenTreatBowl1.png",
+            "FroggyFun_HalloweenTreatBowl2.png",
+            "FroggyFun_HalloweenTreatBowl3.png",
+            "FroggyFun_HalloweenTreatBowl4.png",
+            "FroggyFun_HalloweenTreatBowl5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_Halloween_Treat_Jars_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_Halloween_Treat_Jars_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "FroggyFun_HalloweenTreatJars1.png",
+            "FroggyFun_HalloweenTreatJars2.png",
+            "FroggyFun_HalloweenTreatJars3.png",
+            "FroggyFun_HalloweenTreatJars4.png",
+            "FroggyFun_HalloweenTreatJars5.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 15,
+      "collections": [
+        {
+          "name": "FroggyFun_Halloween_Treats_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_Halloween_Treats_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "FroggyFun_HalloweenTreats1.png",
+            "FroggyFun_HalloweenTreats2.png",
+            "FroggyFun_HalloweenTreats3.png",
+            "FroggyFun_HalloweenTreats4.png",
+            "FroggyFun_HalloweenTreats5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_IceCreamTreats_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_IceCreamTreats_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "FroggyFun_IceCreamTreats1.png",
+            "FroggyFun_IceCreamTreats2.png",
+            "FroggyFun_IceCreamTreats3.png",
+            "FroggyFun_IceCreamTreats4.png",
+            "FroggyFun_IceCreamTreats5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_LuckyLeprechauns_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_LuckyLeprechauns_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "FroggyFun_LuckyLeprechauns_1.png",
+            "FroggyFun_LuckyLeprechauns_2.png",
+            "FroggyFun_LuckyLeprechauns_3.png",
+            "FroggyFun_LuckyLeprechauns_4.png",
+            "FroggyFun_LuckyLeprechauns_5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_Math_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_Math_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "FroggyFun_Math1.png",
+            "FroggyFun_Math2.png",
+            "FroggyFun_Math3.png",
+            "FroggyFun_Math4.png",
+            "FroggyFun_Math5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_RainyDays_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_RainyDays_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "FroggyFun_RainyDays_1.png",
+            "FroggyFun_RainyDays_2.png",
+            "FroggyFun_RainyDays_3.png",
+            "FroggyFun_RainyDays_4.png",
+            "FroggyFun_RainyDays_5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_Reading_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_Reading_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "FroggyFun_Reading1.png",
+            "FroggyFun_Reading2.png",
+            "FroggyFun_Reading3.png",
+            "FroggyFun_Reading4.png",
+            "FroggyFun_Reading5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_Science_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_Science_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "FroggyFun_Science1.png",
+            "FroggyFun_Science2.png",
+            "FroggyFun_Science3.png",
+            "FroggyFun_Science4.png",
+            "FroggyFun_Science5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_ShoppingDivas_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_ShoppingDivas_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "FroggyFun_Shopping.png",
+            "FroggyFun_Shopping2.png",
+            "FroggyFun_Shopping3.png",
+            "FroggyFun_Shopping4.png",
+            "FroggyFun_Shopping5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_SpringDays_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_SpringDays_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "FroggyFun_SpringDays1.png",
+            "FroggyFun_SpringDays2.png",
+            "FroggyFun_SpringDays3.png",
+            "FroggyFun_SpringDays4.png",
+            "FroggyFun_SpringDays5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_SummerDays_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_SummerDays_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "FroggyFun_SummerDays.png",
+            "FroggyFun_SummerDays2.png",
+            "FroggyFun_SummerDays3.png",
+            "FroggyFun_SummerDays4.png",
+            "FroggyFun_SummerDays5.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 16,
+      "collections": [
+        {
+          "name": "FroggyFun_SuperFrog_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_SuperFrog_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "FroggyFun_SuperHero1.png",
+            "FroggyFun_SuperHero2.png",
+            "FroggyFun_SuperHero3.png",
+            "FroggyFun_SuperHero4.png",
+            "FroggyFun_SuperHero5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_Vacation_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_Vacation_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "FroggyFun_Vacation1.png",
+            "FroggyFun_Vacation2.png",
+            "FroggyFun_Vacation3.png",
+            "FroggyFun_Vacation4.png",
+            "FroggyFun_Vacation5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_ValentinesDay_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_ValentinesDay_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "FroggyFun_valentine1.png",
+            "FroggyFun_valentine2.png",
+            "FroggyFun_valentine3.png",
+            "FroggyFun_valentine4.png",
+            "FroggyFun_valentine5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_WhatsTheWeather_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_WhatsTheWeather_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 24,
+          "sampleImages": [
+            "WhatsTheWeather_Frog1.png",
+            "WhatsTheWeather_Frog2.png",
+            "WhatsTheWeather_Frog3.png",
+            "WhatsTheWeather_Frog4.png",
+            "WhatsTheWeather_Frog5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_WinterDays_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_WinterDays_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "FroggyFun_WinterDays1.png",
+            "FroggyFun_WinterDays2.png",
+            "FroggyFun_WinterDays3.png",
+            "FroggyFun_WinterDays4.png",
+            "FroggyFun_WinterDays5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FroggyFun_Writing_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FroggyFun_Writing_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "FroggyFun_Writing.png",
+            "FroggyFun_Writing2.png",
+            "FroggyFun_Writing3.png",
+            "FroggyFun_Writing4.png",
+            "FroggyFun_Writing5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FrogMathSigns_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FrogMathSigns_byScrappinDoodles",
+          "colorImages": 29,
+          "totalImages": 29,
+          "sampleImages": [
+            "FrogMathSigns1.png",
+            "FrogMathSigns1_.png",
+            "FrogMathSigns2.png",
+            "FrogMathSigns2_.png",
+            "FrogMathSigns3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Frogs_In_My_Kitchen_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Frogs_In_My_Kitchen_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 10,
+          "sampleImages": [
+            "frog1.png",
+            "frog10.png",
+            "frog2.png",
+            "frog3.png",
+            "frog4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FrogSpinners_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FrogSpinners_byScrappinDoodles",
+          "colorImages": 21,
+          "totalImages": 21,
+          "sampleImages": [
+            "FrogSpinner1.png",
+            "FrogSpinner10.png",
+            "FrogSpinner10_BW.png",
+            "FrogSpinner1_BW.png",
+            "FrogSpinner2.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Frogtastic_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Frogtastic_byScrappinDoodles",
+          "colorImages": 7,
+          "totalImages": 14,
+          "sampleImages": [
+            "Frogtastic1.png",
+            "Frogtastic2.png",
+            "Frogtastic3.png",
+            "Frogtastic4.png",
+            "Frogtastic5.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 17,
+      "collections": [
+        {
+          "name": "FrogTenFrames_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FrogTenFrames_byScrappinDoodles",
+          "colorImages": 47,
+          "totalImages": 47,
+          "sampleImages": [
+            "FrogTenFrame0.png",
+            "FrogTenFrame0_BW.png",
+            "FrogTenFrame1.png",
+            "FrogTenFrame10.png",
+            "FrogTenFrame10_BW.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Frosty_Freddy_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Frosty_Freddy_by_ScrappinDoodles",
+          "colorImages": 8,
+          "totalImages": 14,
+          "sampleImages": [
+            "bw_Frosty_Freddy5.png",
+            "Frosty_Freddy1.png",
+            "Frosty_Freddy2.png",
+            "Frosty_Freddy3.png",
+            "Frosty_Freddy4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FullPageLuckyClover_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FullPageLuckyClover_byScrappinDoodles",
+          "colorImages": 2,
+          "totalImages": 2,
+          "sampleImages": [
+            "FullPageLuckyClover.png",
+            "FullPageLuckyClover_BW.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Fun_In_The_Sun_Stick_Kids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Fun_In_The_Sun_Stick_Kids_by_ScrappinDoodles",
+          "colorImages": 8,
+          "totalImages": 8,
+          "sampleImages": [
+            "beach_kid1.png",
+            "beach_kid2.png",
+            "beach_kid3.png",
+            "beach_kid4.png",
+            "beach_kid5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "FunkyStripe_Backgrounds_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\FunkyStripe_Backgrounds_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "Safari_Piggy_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Safari_Piggy_by_ScrappinDoodles",
+          "colorImages": 7,
+          "totalImages": 7,
+          "sampleImages": [
+            "safari_piggy1.png",
+            "safari_piggy2.png",
+            "safari_piggy3.png",
+            "safari_piggy4.png",
+            "safari_piggy5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Safari_Stick_Kids_by_Scrappin_Doodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Safari_Stick_Kids_by_Scrappin_Doodles",
+          "colorImages": 13,
+          "totalImages": 26,
+          "sampleImages": [
+            "boy.png",
+            "boy_jeep.png",
+            "giraffe.png",
+            "girl.png",
+            "hippo.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Sailor_Kids_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sailor_Kids_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "Sailor_Kids_1.png",
+            "Sailor_Kids_2.png",
+            "Sailor_Kids_3.png",
+            "Sailor_Kids_4.png",
+            "Sailor_Kids_5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Sammy_Sheep_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sammy_Sheep_by_ScrappinDoodles",
+          "colorImages": 7,
+          "totalImages": 7,
+          "sampleImages": [
+            "Sammy_Sheep1.png",
+            "Sammy_Sheep2.png",
+            "Sammy_Sheep3.png",
+            "Sammy_Sheep4.png",
+            "Sammy_Sheep5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SammyScarecrow_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SammyScarecrow_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "SammyScarecrow1.png",
+            "SammyScarecrow2.png",
+            "SammyScarecrow3.png",
+            "SammyScarecrow4.png",
+            "SammyScarecrow5.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 18,
+      "collections": [
+        {
+          "name": "Santa_DressUp_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Santa_DressUp_byScrappinDoodles",
+          "colorImages": 18,
+          "totalImages": 36,
+          "sampleImages": [
+            "santa_dressup1.png",
+            "santa_dressup10.png",
+            "santa_dressup11.png",
+            "santa_dressup12.png",
+            "santa_dressup2.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Santa_Express_Train_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Santa_Express_Train_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "SantaExpress_ChristmasTrain1.png",
+            "SantaExpress_ChristmasTrain2.png",
+            "SantaExpress_ChristmasTrain3.png",
+            "SantaExpress_ChristmasTrain4.png",
+            "SantaExpress_ChristmasTrain5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Santa_Frames_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Santa_Frames_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Santa_frame1.png",
+            "Santa_frame2.png",
+            "Santa_frame3.png",
+            "Santa_frame4.png",
+            "Santa_frame5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Santa_Frogs_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Santa_Frogs_by_ScrappinDoodles",
+          "colorImages": 11,
+          "totalImages": 11,
+          "sampleImages": [
+            "Frog_Christmas11.png",
+            "Santa_Frog1.png",
+            "Santa_Frog10.png",
+            "Santa_Frog2.png",
+            "Santa_Frog3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Santa_Gingers_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Santa_Gingers_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "ginger_santa1.png",
+            "ginger_santa2.png",
+            "ginger_santa3.png",
+            "ginger_santa4.png",
+            "ginger_santa5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Santa_MathSigns_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Santa_MathSigns_by_ScrappinDoodles",
+          "colorImages": 14,
+          "totalImages": 14,
+          "sampleImages": [
+            "santa_mathsigns1.png",
+            "santa_mathsigns10.png",
+            "santa_mathsigns11.png",
+            "santa_mathsigns12.png",
+            "santa_mathsigns13.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Santa_Racers_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Santa_Racers_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "santa_racers1.png",
+            "santa_racers2.png",
+            "santa_racers3.png",
+            "santa_racers4.png",
+            "santa_racers5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SantaClaus_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SantaClaus_byScrappinDoodles",
+          "colorImages": 14,
+          "totalImages": 14,
+          "sampleImages": [
+            "SantaClaus1.png",
+            "SantaClaus1_BW.png",
+            "SantaClaus2.png",
+            "SantaClaus2_BW.png",
+            "SantaClaus3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SantaFaces_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SantaFaces_byScrappinDoodles",
+          "colorImages": 16,
+          "totalImages": 16,
+          "sampleImages": [
+            "SantaFace1.png",
+            "SantaFace1_BW.png",
+            "SantaFace2.png",
+            "SantaFace2BW.png",
+            "SantaFace3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Santas_Elf_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Santas_Elf_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "elf_1.png",
+            "elf_2.png",
+            "elf_3.png",
+            "elf_4.png",
+            "elf_5.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 19,
+      "collections": [
+        {
+          "name": "Santas_Helpers_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Santas_Helpers_by_ScrappinDoodles",
+          "colorImages": 11,
+          "totalImages": 22,
+          "sampleImages": [
+            "santas_helper_1.png",
+            "santas_helper_10.png",
+            "santas_helper_11.png",
+            "santas_helper_2.png",
+            "santas_helper_3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SassySheep_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SassySheep_byScrappinDoodles",
+          "colorImages": 14,
+          "totalImages": 14,
+          "sampleImages": [
+            "SassySheep1.png",
+            "SassySheep1_BW.png",
+            "SassySheep2.png",
+            "SassySheep2_BW.png",
+            "SassySheep3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "ScarecrowFaces_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\ScarecrowFaces_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "Scarecrow_Face1.png",
+            "Scarecrow_Face1BW.png",
+            "Scarecrow_Face2.png",
+            "Scarecrow_Face2BW.png",
+            "Scarecrow_Face3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "ScarecrowFrames_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\ScarecrowFrames_byScrappinDoodles",
+          "colorImages": 24,
+          "totalImages": 24,
+          "sampleImages": [
+            "ScarecrowFrame1.png",
+            "ScarecrowFrame1BW.png",
+            "ScarecrowFrame1BW_WhiteFill.png",
+            "ScarecrowFrame1_WhiteFill.png",
+            "ScarecrowFrame2.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "ScarecrowSpinners_byScrappindoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\ScarecrowSpinners_byScrappindoodles",
+          "colorImages": 20,
+          "totalImages": 20,
+          "sampleImages": [
+            "Scarecrow_Spinner1.png",
+            "Scarecrow_Spinner10.png",
+            "Scarecrow_Spinner10BW.png",
+            "Scarecrow_Spinner1BW.png",
+            "Scarecrow_Spinner2.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Science_Fun_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Science_Fun_by_ScrappinDoodles",
+          "colorImages": 25,
+          "totalImages": 50,
+          "sampleImages": [
+            "beaker1.png",
+            "beaker2.png",
+            "beaker3.png",
+            "beaker4.png",
+            "bubbles.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Scrabble_Tiles_Alpha_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Scrabble_Tiles_Alpha_by_ScrappinDoodles",
+          "colorImages": 87,
+          "totalImages": 174,
+          "sampleImages": [
+            "Alpha_0.png",
+            "Alpha_1.png",
+            "Alpha_2.png",
+            "Alpha_3.png",
+            "Alpha_4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Scruffy_Monkey_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Scruffy_Monkey_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 24,
+          "sampleImages": [
+            "scruffy_monkey1.png",
+            "scruffy_monkey2.png",
+            "scruffy_monkey3.png",
+            "scruffy_monkey4.png",
+            "scruffy_monkey5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Scruffy_Monkey_Elements_with_LineArt_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Scruffy_Monkey_Elements_with_LineArt_byScrappinDoodles",
+          "colorImages": 5,
+          "totalImages": 10,
+          "sampleImages": [
+            "Scruffy_Monkey_element4.png",
+            "Scruffy_Monkey_element5.png",
+            "Scruffy_Monkey_element6.png",
+            "Scruffy_Monkey_element7.png",
+            "Scruffy_Monkey_element8.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Scuba_Kids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Scuba_Kids_by_ScrappinDoodles",
+          "colorImages": 17,
+          "totalImages": 33,
+          "sampleImages": [
+            "bg1.png",
+            "boy_scuba.png",
+            "bubbles.png",
+            "crab.png",
+            "dolphin.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 20,
+      "collections": [
+        {
+          "name": "Seasonal_Toppers_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Seasonal_Toppers_byScrappinDoodles",
+          "colorImages": 8,
+          "totalImages": 16,
+          "sampleImages": [
+            "Topper_Fall.png",
+            "Topper_Spring.png",
+            "Topper_Summer.png",
+            "Topper_Winter.png",
+            "WA_Fall.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Secret_Santa_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Secret_Santa_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "secret_santa_1.png",
+            "secret_santa_2.png",
+            "secret_santa_3.png",
+            "secret_santa_4.png",
+            "secret_santa_5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "September_Calendar_GraphicsbyScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\September_Calendar_GraphicsbyScrappinDoodles",
+          "colorImages": 9,
+          "totalImages": 18,
+          "sampleImages": [
+            "September_Autumn1.png",
+            "September_Autumn2.png",
+            "September_BackToSchool.png",
+            "September_BG1.png",
+            "September_BG2.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Seven_Habits_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Seven_Habits_by_ScrappinDoodles",
+          "colorImages": 9,
+          "totalImages": 18,
+          "sampleImages": [
+            "Habit1_BeProactive_colored.png",
+            "Habit2_BeginWithTheEndInMind_colored.png",
+            "Habit3_PutThingsFirst_ThenPlay_colored.png",
+            "Habit3_PutThingsFirst_WorkFirst_colored.png",
+            "Habit4_ThinkWinWin_colored.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Shopping_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Shopping_by_ScrappinDoodles",
+          "colorImages": 14,
+          "totalImages": 28,
+          "sampleImages": [
+            "10_cents.png",
+            "1_cent.png",
+            "1_dollar.png",
+            "25_cents.png",
+            "2_dollar.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Shorty_Bear_BeMyValentine_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Shorty_Bear_BeMyValentine_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "shorty_bear_valentines1.png",
+            "shorty_bear_valentines2.png",
+            "shorty_bear_valentines3.png",
+            "shorty_bear_valentines4.png",
+            "shorty_bear_valentines5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Shorty_Bear_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Shorty_Bear_byScrappinDoodles",
+          "colorImages": 7,
+          "totalImages": 14,
+          "sampleImages": [
+            "shorty_bear1.png",
+            "shorty_bear2.png",
+            "shorty_bear3.png",
+            "shorty_bear4.png",
+            "shorty_bear5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Silly_HalloweenHeads_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Silly_HalloweenHeads_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 24,
+          "sampleImages": [
+            "silly_halloween_head1.png",
+            "silly_halloween_head10.png",
+            "silly_halloween_head11.png",
+            "silly_halloween_head12.png",
+            "silly_halloween_head2.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Silly_Jacks_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Silly_Jacks_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "silly_jack1.png",
+            "silly_jack2.png",
+            "silly_jack3.png",
+            "silly_jack4.png",
+            "silly_jack5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SillyLeaves_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SillyLeaves_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "silly_leaf1.png",
+            "silly_leaf2.png",
+            "silly_leaf3.png",
+            "silly_leaf4.png",
+            "silly_leaf5.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 21,
+      "collections": [
+        {
+          "name": "Ski_Trip_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Ski_Trip_by_ScrappinDoodles",
+          "colorImages": 14,
+          "totalImages": 14,
+          "sampleImages": [
+            "bg1.png",
+            "bg2.png",
+            "bg3.png",
+            "boy_1.png",
+            "boy_2.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Skullyton_Backgrounds_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Skullyton_Backgrounds_by_ScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "Skullyton_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Skullyton_by_ScrappinDoodles",
+          "colorImages": 8,
+          "totalImages": 16,
+          "sampleImages": [
+            "skullyton1.png",
+            "skullyton2.png",
+            "skullyton3.png",
+            "skullyton4.png",
+            "skullyton5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Skullyton_Chalkboard_Messages_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Skullyton_Chalkboard_Messages_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "skullyton_chalkboard_message1.png",
+            "skullyton_chalkboard_message2.png",
+            "skullyton_chalkboard_message3.png",
+            "skullyton_chalkboard_message4.png",
+            "skullyton_chalkboard_message5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Skullyton_Frames_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Skullyton_Frames_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "skullyton_frame1.png",
+            "skullyton_frame2.png",
+            "skullyton_frame3.png",
+            "skullyton_frame4.png",
+            "skullyton_frame5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Skullyton_Halloween_Cupcakes_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Skullyton_Halloween_Cupcakes_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "skullyton_halloween_cupcake1.png",
+            "skullyton_halloween_cupcake2.png",
+            "skullyton_halloween_cupcake3.png",
+            "skullyton_halloween_cupcake4.png",
+            "skullyton_halloween_cupcake5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Skullyton_HalloweenTreats_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Skullyton_HalloweenTreats_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "skullyton_halloween_treats1.png",
+            "skullyton_halloween_treats2.png",
+            "skullyton_halloween_treats3.png",
+            "skullyton_halloween_treats4.png",
+            "skullyton_halloween_treats5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Skullyton_Trick_or_Treat_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Skullyton_Trick_or_Treat_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "skullyton_halloween_treats_1.png",
+            "skullyton_halloween_treats_2.png",
+            "skullyton_halloween_treats_3.png",
+            "skullyton_halloween_treats_4.png",
+            "skullyton_halloween_treats_5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Sled_Dog_Kids_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sled_Dog_Kids_byScrappinDoodles",
+          "colorImages": 13,
+          "totalImages": 26,
+          "sampleImages": [
+            "SledDogKids1.png",
+            "SledDogKids10.png",
+            "SledDogKids11.png",
+            "SledDogKids12.png",
+            "SledDogKids13.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Sleep_Over_Kids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sleep_Over_Kids_by_ScrappinDoodles",
+          "colorImages": 13,
+          "totalImages": 26,
+          "sampleImages": [
+            "bg1.png",
+            "bg2.png",
+            "girls_bed.png",
+            "girls_icecream.png",
+            "girl_1.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 22,
+      "collections": [
+        {
+          "name": "SmartCookie_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SmartCookie_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "SmartCookie1.png",
+            "SmartCookie2.png",
+            "SmartCookie3.png",
+            "SmartCookie4.png",
+            "SmartCookie5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Smarty_Pants_Bee_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Smarty_Pants_Bee_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Smarty_Pants_Bee1.png",
+            "Smarty_Pants_Bee2.png",
+            "Smarty_Pants_Bee3.png",
+            "Smarty_Pants_Bee4.png",
+            "Smarty_Pants_Bee5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Smarty_Pants_Frogs_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Smarty_Pants_Frogs_by_ScrappinDoodles",
+          "colorImages": 13,
+          "totalImages": 13,
+          "sampleImages": [
+            "Smarty_Pants_Frog1.png",
+            "Smarty_Pants_Frog10.png",
+            "Smarty_Pants_Frog11.png",
+            "Smarty_Pants_Frog12.png",
+            "Smarty_Pants_Frog13.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Smarty_Pants_Kiddos_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Smarty_Pants_Kiddos_by_ScrappinDoodles",
+          "colorImages": 14,
+          "totalImages": 14,
+          "sampleImages": [
+            "big_eyes_smartypants1.png",
+            "big_eyes_smartypants10.png",
+            "big_eyes_smartypants11.png",
+            "big_eyes_smartypants12.png",
+            "big_eyes_smartypants13.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Smarty_Pants_Piggy_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Smarty_Pants_Piggy_by_ScrappinDoodles",
+          "colorImages": 7,
+          "totalImages": 7,
+          "sampleImages": [
+            "smartypants_piggy1.png",
+            "smartypants_piggy2.png",
+            "smartypants_piggy3.png",
+            "smartypants_piggy4.png",
+            "smartypants_piggy5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SmileForTheCamera_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SmileForTheCamera_byScrappinDoodles",
+          "colorImages": 15,
+          "totalImages": 30,
+          "sampleImages": [
+            "SmileForTheCamera1.png",
+            "SmileForTheCamera10.png",
+            "SmileForTheCamera11.png",
+            "SmileForTheCamera12.png",
+            "SmileForTheCamera13.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Smores_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Smores_by_ScrappinDoodles",
+          "colorImages": 15,
+          "totalImages": 30,
+          "sampleImages": [
+            "bg1.png",
+            "bg2.png",
+            "smore1.png",
+            "smore10.png",
+            "smore11.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Snow_Time_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Snow_Time_by_ScrappinDoodles",
+          "colorImages": 15,
+          "totalImages": 15,
+          "sampleImages": [
+            "snow1.png",
+            "snow10.png",
+            "snow11.png",
+            "snow12.png",
+            "snow13.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Snowflake_Backgrounds_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Snowflake_Backgrounds_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "Snowflake_Frames_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Snowflake_Frames_byScrappinDoodles",
+          "colorImages": 20,
+          "totalImages": 20,
+          "sampleImages": [
+            "snowflake1.png",
+            "snowflake10.png",
+            "snowflake10_TransparentCenter.png",
+            "snowflake1_TransparentCenter.png",
+            "snowflake2.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 23,
+      "collections": [
+        {
+          "name": "Snowflake_FramesbyScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Snowflake_FramesbyScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "snowflake_frame1.png",
+            "snowflake_frame2.png",
+            "snowflake_frame3.png",
+            "snowflake_frame4.png",
+            "snowflake_frame5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Snowflake_Kitty_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Snowflake_Kitty_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Snowflake_Kitty1.png",
+            "Snowflake_Kitty2.png",
+            "Snowflake_Kitty3.png",
+            "Snowflake_Kitty4.png",
+            "Snowflake_Kitty5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Snowflake_ReadyPages_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Snowflake_ReadyPages_byScrappinDoodles",
+          "colorImages": 7,
+          "totalImages": 7,
+          "sampleImages": [
+            "Frame1.png",
+            "Frame2.png",
+            "Frame3.png",
+            "Frame4.png",
+            "Frame5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SnowflakeBorders_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SnowflakeBorders_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "SnowflakeBorder1.png",
+            "SnowflakeBorder1_BW.png",
+            "SnowflakeBorder2.png",
+            "SnowflakeBorder2_BW.png",
+            "SnowflakeBorder3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SnowflakeFullPageBorders_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SnowflakeFullPageBorders_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "Border_FullPage1.png",
+            "Border_FullPage1_BW.png",
+            "Border_FullPage2.png",
+            "Border_FullPage2_BW.png",
+            "Border_FullPage3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Snowman_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Snowman_byScrappinDoodles",
+          "colorImages": 14,
+          "totalImages": 14,
+          "sampleImages": [
+            "Snowman1.png",
+            "Snowman1_BW.png",
+            "Snowman2.png",
+            "Snowman2_BW.png",
+            "Snowman3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Snowman_Cocoa_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Snowman_Cocoa_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Snowman_Cocoa1.png",
+            "Snowman_Cocoa2.png",
+            "Snowman_Cocoa3.png",
+            "Snowman_Cocoa4.png",
+            "Snowman_Cocoa5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Snowman_Fun_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Snowman_Fun_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 10,
+          "sampleImages": [
+            "snowmanfun1.png",
+            "snowmanfun10.png",
+            "snowmanfun2.png",
+            "snowmanfun3.png",
+            "snowmanfun4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Snowman_Jack_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Snowman_Jack_byScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 20,
+          "sampleImages": [
+            "Snowman_Jack1.png",
+            "Snowman_Jack10.png",
+            "Snowman_Jack2.png",
+            "Snowman_Jack3.png",
+            "Snowman_Jack4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Snowman_Soup_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Snowman_Soup_byScrappinDoodles",
+          "colorImages": 21,
+          "totalImages": 42,
+          "sampleImages": [
+            "snowman_soup1.png",
+            "snowman_soup10.png",
+            "snowman_soup11.png",
+            "snowman_soup12.png",
+            "snowman_soup13.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 24,
+      "collections": [
+        {
+          "name": "SnowmanFaces_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SnowmanFaces_byScrappinDoodles",
+          "colorImages": 16,
+          "totalImages": 16,
+          "sampleImages": [
+            "SnowmanFace1.png",
+            "SnowmanFace1BW.png",
+            "SnowmanFace2.png",
+            "SnowmanFace2BW.png",
+            "SnowmanFace3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SnowmanSpinners_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SnowmanSpinners_byScrappinDoodles",
+          "colorImages": 20,
+          "totalImages": 20,
+          "sampleImages": [
+            "Snowman_Spinner1.png",
+            "Snowman_Spinner10.png",
+            "Snowman_Spinner10_BW.png",
+            "Snowman_Spinner1_BW.png",
+            "Snowman_Spinner2.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Snowmobile_Kids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Snowmobile_Kids_by_ScrappinDoodles",
+          "colorImages": 22,
+          "totalImages": 22,
+          "sampleImages": [
+            "snowmobilekids1.png",
+            "snowmobilekids10.png",
+            "snowmobilekids10_BW.png",
+            "snowmobilekids11.png",
+            "snowmobilekids11_BW.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Snowy_Irish_Cocoa_by_ScrappinDoodles_022812",
+          "path": "public\\images\\SCRAPPING DOODLE\\Snowy_Irish_Cocoa_by_ScrappinDoodles_022812",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Snowy_Irish_Cocoa1.png",
+            "Snowy_Irish_Cocoa2.png",
+            "Snowy_Irish_Cocoa3.png",
+            "Snowy_Irish_Cocoa4.png",
+            "Snowy_Irish_Cocoa5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Snowy_StPatricksDay_Baskets_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Snowy_StPatricksDay_Baskets_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Snowy_StPat_Treat_Basket1.png",
+            "Snowy_StPat_Treat_Basket2.png",
+            "Snowy_StPat_Treat_Basket3.png",
+            "Snowy_StPat_Treat_Basket4.png",
+            "Snowy_StPat_Treat_Basket5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Snowy_StPatricksDay_Treats_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Snowy_StPatricksDay_Treats_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Snowy_StPat_Treats1.png",
+            "Snowy_StPat_Treats2.png",
+            "Snowy_StPat_Treats3.png",
+            "Snowy_StPat_Treats4.png",
+            "Snowy_StPat_Treats5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Snowy_Valentine_Baskets_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Snowy_Valentine_Baskets_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Snowy_Valentine_Baskets1.png",
+            "Snowy_Valentine_Baskets2.png",
+            "Snowy_Valentine_Baskets3.png",
+            "Snowy_Valentine_Baskets4.png",
+            "Snowy_Valentine_Baskets5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Snowy_Valentine_Cocoa_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Snowy_Valentine_Cocoa_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Snowy_Valentine_Cocoa1.png",
+            "Snowy_Valentine_Cocoa2.png",
+            "Snowy_Valentine_Cocoa3.png",
+            "Snowy_Valentine_Cocoa4.png",
+            "Snowy_Valentine_Cocoa5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SnowyValentine_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SnowyValentine_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Valentine_Snowman_1.png",
+            "Valentine_Snowman_2.png",
+            "Valentine_Snowman_3.png",
+            "Valentine_Snowman_4.png",
+            "Valentine_Snowman_5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SoapBoxRacer_Susie_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SoapBoxRacer_Susie_by_ScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "RaceTrack_Susie1.png",
+            "RaceTrack_Susie2.png",
+            "RaceTrack_Susie3.png",
+            "RaceTrack_Susie4.png",
+            "RaceTrack_Susie5.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 25,
+      "collections": [
+        {
+          "name": "Soccer_Kids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Soccer_Kids_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 20,
+          "sampleImages": [
+            "soccer_kid1.png",
+            "soccer_kid10.png",
+            "soccer_kid2.png",
+            "soccer_kid3.png",
+            "soccer_kid4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Soldier_Poppy_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Soldier_Poppy_byScrappinDoodles",
+          "colorImages": 4,
+          "totalImages": 4,
+          "sampleImages": [
+            "girlsoldier_poppy.png",
+            "girlsoldier_poppy_colored.png",
+            "soldier_poppy.png",
+            "soldier_poppy_colored.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Spa_Kids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Spa_Kids_by_ScrappinDoodles",
+          "colorImages": 11,
+          "totalImages": 11,
+          "sampleImages": [
+            "spa_1.png",
+            "spa_10.png",
+            "spa_2.png",
+            "spa_3.png",
+            "spa_4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Space_Alien_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Space_Alien_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 20,
+          "sampleImages": [
+            "alien1.png",
+            "alien10.png",
+            "alien2.png",
+            "alien3.png",
+            "alien4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Space_Kids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Space_Kids_by_ScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 25,
+          "sampleImages": [
+            "alien.png",
+            "moon.png",
+            "planet_1.png",
+            "planet_2.png",
+            "rocket.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Space_Piggy_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Space_Piggy_by_ScrappinDoodles",
+          "colorImages": 7,
+          "totalImages": 7,
+          "sampleImages": [
+            "space_piggy.png",
+            "space_piggy2.png",
+            "space_piggy3.png",
+            "space_piggy4.png",
+            "space_piggy5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SpaceFrame_BGs_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SpaceFrame_BGs_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "Spanish_Monthly_Toppers_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Spanish_Monthly_Toppers_by_ScrappinDoodles",
+          "colorImages": 30,
+          "totalImages": 30,
+          "sampleImages": [
+            "SPANISH_Topper_April.png",
+            "Spanish_Topper_April_BW.png",
+            "SPANISH_Topper_August.png",
+            "SPANISH_Topper_August_alternate.png",
+            "Spanish_Topper_August_BW.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Spanish_SeasonalToppers_bySCrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Spanish_SeasonalToppers_bySCrappinDoodles",
+          "colorImages": 16,
+          "totalImages": 16,
+          "sampleImages": [
+            "Spanish_BW_Topper_Fall.png",
+            "Spanish_BW_Topper_Spring.png",
+            "Spanish_BW_Topper_Summer.png",
+            "Spanish_BW_Topper_Winter.png",
+            "Spanish_Topper_Fall.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SpeechBubbles_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SpeechBubbles_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "SpeechBubble1.png",
+            "SpeechBubble2.png",
+            "SpeechBubble3.png",
+            "SpeechBubble4.png",
+            "SpeechBubble5.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 26,
+      "collections": [
+        {
+          "name": "Spoiled_Kitty_Lives_Here",
+          "path": "public\\images\\SCRAPPING DOODLE\\Spoiled_Kitty_Lives_Here",
+          "colorImages": 7,
+          "totalImages": 7,
+          "sampleImages": [
+            "spoiled_kitty1.png",
+            "spoiled_kitty2.png",
+            "spoiled_kitty3.png",
+            "spoiled_kitty4.png",
+            "spoiled_kitty5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Spooky_Crew_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Spooky_Crew_by_ScrappinDoodles",
+          "colorImages": 16,
+          "totalImages": 30,
+          "sampleImages": [
+            "spookcrew1.png",
+            "spookcrew10.png",
+            "spookcrew11.png",
+            "spookcrew12.png",
+            "spookcrew13.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Spooky_Crew_Labels_Potions_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Spooky_Crew_Labels_Potions_by_ScrappinDoodles",
+          "colorImages": 45,
+          "totalImages": 81,
+          "sampleImages": [
+            "bats_blood.png",
+            "bat_wings.png",
+            "candy.png",
+            "eyeballs.png",
+            "frog_spit.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SpookyCrew_Alpha_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SpookyCrew_Alpha_by_ScrappinDoodles",
+          "colorImages": 26,
+          "totalImages": 26,
+          "sampleImages": [
+            "alpha_spooky_A.png",
+            "alpha_spooky_B.png",
+            "alpha_spooky_C.png",
+            "alpha_spooky_D.png",
+            "alpha_spooky_E.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Spring_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Spring_byScrappinDoodles",
+          "colorImages": 42,
+          "totalImages": 42,
+          "sampleImages": [
+            "spring1.png",
+            "spring10.png",
+            "spring10_BW.png",
+            "spring11.png",
+            "spring11_BW.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Spring_Garden_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Spring_Garden_by_ScrappinDoodles",
+          "colorImages": 25,
+          "totalImages": 47,
+          "sampleImages": [
+            "bee.png",
+            "branch.png",
+            "butterfly.png",
+            "butterfly2.png",
+            "flower.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Spring_TeaCup_Mouse_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Spring_TeaCup_Mouse_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Spring_TeaCup_Mouse1.png",
+            "Spring_TeaCup_Mouse2.png",
+            "Spring_TeaCup_Mouse3.png",
+            "Spring_TeaCup_Mouse4.png",
+            "Spring_TeaCup_Mouse5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Spring_Word_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Spring_Word_byScrappinDoodles",
+          "colorImages": 2,
+          "totalImages": 2,
+          "sampleImages": [
+            "Spring_Word.png",
+            "Spring_Word_color.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SpringBorders_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SpringBorders_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "SpringBorder1.png",
+            "SpringBorder1_BW.png",
+            "SpringBorder2.png",
+            "SpringBorder2_BW.png",
+            "SpringBorder3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SpringFullPageBorders_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SpringFullPageBorders_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "FullPageBorder1.png",
+            "FullPageBorder1_BW.png",
+            "FullPageBorder2.png",
+            "FullPageBorder2_BW.png",
+            "FullPageBorder3.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 27,
+      "collections": [
+        {
+          "name": "SpringKiddos_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SpringKiddos_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "SpringKiddo1.png",
+            "SpringKiddo1_BW.png",
+            "SpringKiddo2.png",
+            "SpringKiddo2_BW.png",
+            "SpringKiddo3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Squares_ReadyPages_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Squares_ReadyPages_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "SquirrelFaces_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SquirrelFaces_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "Squirrel_Face1.png",
+            "Squirrel_Face1BW.png",
+            "Squirrel_Face2.png",
+            "Squirrel_Face2BW.png",
+            "Squirrel_Face3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Squirrels_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Squirrels_by_ScrappinDoodles",
+          "colorImages": 7,
+          "totalImages": 7,
+          "sampleImages": [
+            "squirrel1.png",
+            "squirrel2.png",
+            "squirrel3.png",
+            "squirrel4.png",
+            "squirrel5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Ss_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Ss_byScrappinDoodles",
+          "colorImages": 9,
+          "totalImages": 18,
+          "sampleImages": [
+            "Ss_Letters.png",
+            "Ss_Santa.png",
+            "Ss_Scarecrow.png",
+            "Ss_School.png",
+            "Ss_Seal.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "St. PatricksDay_Treats_CookieBacks_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\St. PatricksDay_Treats_CookieBacks_by_ScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "Star_Alpha_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Star_Alpha_by_ScrappinDoodles",
+          "colorImages": 88,
+          "totalImages": 88,
+          "sampleImages": [
+            "Alpha_A.png",
+            "Alpha_alc.png",
+            "Alpha_B.png",
+            "Alpha_blc.png",
+            "Alpha_C.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StarFishExpressions_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StarFishExpressions_byScrappinDoodles",
+          "colorImages": 17,
+          "totalImages": 17,
+          "sampleImages": [
+            "SD_CircleFrog.png",
+            "StarFishExpression1.png",
+            "StarFishExpression1_BW.png",
+            "StarFishExpression2.png",
+            "StarFishExpression2_BW.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StarKiddos_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StarKiddos_byScrappinDoodles",
+          "colorImages": 17,
+          "totalImages": 17,
+          "sampleImages": [
+            "SD_CircleFrog.png",
+            "StarKiddo1.png",
+            "StarKiddo1BW.png",
+            "StarKiddo2.png",
+            "StarKiddo2BW.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Stars_Dividers_Borders_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stars_Dividers_Borders_byScrappinDoodles",
+          "colorImages": 18,
+          "totalImages": 18,
+          "sampleImages": [
+            "stars_black.png",
+            "stars_blue1.png",
+            "stars_blue2.png",
+            "stars_blue3.png",
+            "stars_brown1.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 28,
+      "collections": [
+        {
+          "name": "Stars_ReadyPages_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stars_ReadyPages_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "StartYourEngines_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StartYourEngines_byScrappinDoodles",
+          "colorImages": 15,
+          "totalImages": 30,
+          "sampleImages": [
+            "race1.png",
+            "race10.png",
+            "race11.png",
+            "race12.png",
+            "race13.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Stick Kids Cards",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stick Kids Cards",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "Stick_Family_2_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stick_Family_2_by_ScrappinDoodles",
+          "colorImages": 26,
+          "totalImages": 26,
+          "sampleImages": [
+            "baby_brother.png",
+            "baby_brotherBW.png",
+            "baby_sister.png",
+            "baby_sisterBW.png",
+            "big_brother.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Stick_Family_AfricanAmerican_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stick_Family_AfricanAmerican_by_ScrappinDoodles",
+          "colorImages": 13,
+          "totalImages": 13,
+          "sampleImages": [
+            "AA_BabyBrother.png",
+            "AA_BabySister.png",
+            "AA_BigBrother.png",
+            "AA_BigSister.png",
+            "AA_Cat.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Stick_Fathers_Dad_DadsandKids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stick_Fathers_Dad_DadsandKids_by_ScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 24,
+          "sampleImages": [
+            "dad1.png",
+            "dad2.png",
+            "dad3.png",
+            "daughter1.png",
+            "daughter2.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Stick_Gymnastic_Kids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stick_Gymnastic_Kids_by_ScrappinDoodles",
+          "colorImages": 11,
+          "totalImages": 11,
+          "sampleImages": [
+            "gymnastics1.png",
+            "gymnastics10.png",
+            "gymnastics11.png",
+            "gymnastics2.png",
+            "gymnastics3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Stick_Halloween_Candy_Jar_Kids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stick_Halloween_Candy_Jar_Kids_by_ScrappinDoodles",
+          "colorImages": 8,
+          "totalImages": 8,
+          "sampleImages": [
+            "cat.png",
+            "devil.png",
+            "dracula.png",
+            "frank.png",
+            "frog.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Stick_Hunting_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stick_Hunting_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 10,
+          "sampleImages": [
+            "bg1.png",
+            "hunter1.png",
+            "hunter2.png",
+            "hunter3.png",
+            "hunter4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Stick_Jungle_Critters_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stick_Jungle_Critters_by_ScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "bird.png",
+            "cloud.png",
+            "elephant.png",
+            "giraffe.png",
+            "hippo.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 29,
+      "collections": [
+        {
+          "name": "Stick_Kids_Alpha_Boys_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stick_Kids_Alpha_Boys_by_ScrappinDoodles",
+          "colorImages": 36,
+          "totalImages": 36,
+          "sampleImages": [
+            "StickKids_Alpha_A.png",
+            "StickKids_Alpha_B.png",
+            "StickKids_Alpha_C.png",
+            "StickKids_Alpha_D.png",
+            "StickKids_Alpha_E.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Stick_Mothers_Day_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stick_Mothers_Day_by_ScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 22,
+          "sampleImages": [
+            "mothers_day1.png",
+            "mothers_day10.png",
+            "mothers_day11.png",
+            "mothers_day12.png",
+            "mothers_day2.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Stick_People_Family_by_Scrappin_Doodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stick_People_Family_by_Scrappin_Doodles",
+          "colorImages": 14,
+          "totalImages": 28,
+          "sampleImages": [
+            "baby_brother.png",
+            "baby_sister.png",
+            "big_brother.png",
+            "big_sister.png",
+            "bush.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Stick_Princess_And_Her_Prince_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stick_Princess_And_Her_Prince_by_ScrappinDoodles",
+          "colorImages": 15,
+          "totalImages": 29,
+          "sampleImages": [
+            "carriage.png",
+            "castle.png",
+            "castle_window.png",
+            "castle_window_princess.png",
+            "cloud.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Stick_Wedding_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stick_Wedding_by_ScrappinDoodles",
+          "colorImages": 11,
+          "totalImages": 11,
+          "sampleImages": [
+            "wedding_1.png",
+            "wedding_10.png",
+            "wedding_11.png",
+            "wedding_12.png",
+            "wedding_2.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Stick_Woodland_Critters_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stick_Woodland_Critters_by_ScrappinDoodles",
+          "colorImages": 11,
+          "totalImages": 11,
+          "sampleImages": [
+            "bear1.png",
+            "bear2.png",
+            "cloud.png",
+            "fox.png",
+            "moose.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StickKids_5x5_Frames_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StickKids_5x5_Frames_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "stick_kids_school_frame_square1.png",
+            "stick_kids_school_frame_square2.png",
+            "stick_kids_school_frame_square3.png",
+            "stick_kids_school_frame_square4.png",
+            "stick_kids_school_frame_square5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StickKids_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StickKids_byScrappinDoodles",
+          "colorImages": 25,
+          "totalImages": 25,
+          "sampleImages": [
+            "KidBoy1.png",
+            "KidBoy1_BW.png",
+            "KidBoy2.png",
+            "KidBoy2_BW.png",
+            "KidBoy3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StickKids_EarthDay_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StickKids_EarthDay_byScrappinDoodles",
+          "colorImages": 15,
+          "totalImages": 15,
+          "sampleImages": [
+            "EarthKid1.png",
+            "EarthKid1_BW.png",
+            "EarthKid2.png",
+            "EarthKid2_BW.png",
+            "EarthKid3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StickKidsCanada_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StickKidsCanada_byScrappinDoodles",
+          "colorImages": 24,
+          "totalImages": 24,
+          "sampleImages": [
+            "Canada_Sticks1.png",
+            "Canada_Sticks10.png",
+            "Canada_Sticks10_colored.png",
+            "Canada_Sticks11.png",
+            "Canada_Sticks11_colored.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 30,
+      "collections": [
+        {
+          "name": "StickKidsUSA_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StickKidsUSA_byScrappinDoodles",
+          "colorImages": 24,
+          "totalImages": 24,
+          "sampleImages": [
+            "USA_Sticks1.png",
+            "USA_Sticks10.png",
+            "USA_Sticks10_colored.png",
+            "USA_Sticks11.png",
+            "USA_Sticks11_colored.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StickKidsUSA_QuickPages_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StickKidsUSA_QuickPages_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "StickKidsUSA_ReadyPages_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StickKidsUSA_ReadyPages_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "Stocking_Gingers_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stocking_Gingers_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Stocking_Gingers_1.png",
+            "Stocking_Gingers_2.png",
+            "Stocking_Gingers_3.png",
+            "Stocking_Gingers_4.png",
+            "Stocking_Gingers_5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Stockings_and_Ornaments_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stockings_and_Ornaments_by_ScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "Ornament1.png",
+            "Ornament2.png",
+            "Ornament3.png",
+            "Ornament4.png",
+            "Ornament5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StopDropRoll_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StopDropRoll_byScrappinDoodles",
+          "colorImages": 9,
+          "totalImages": 18,
+          "sampleImages": [
+            "StopDropRoll1.png",
+            "StopDropRoll2.png",
+            "StopDropRoll3.png",
+            "StopDropRoll4.png",
+            "StopDropRoll5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StPaddy_Cows_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StPaddy_Cows_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "stpaddy_cow1.png",
+            "stpaddy_cow2.png",
+            "stpaddy_cow3.png",
+            "stpaddy_cow4.png",
+            "stpaddy_cow5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StPatricks_Day_Treat_Jars_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StPatricks_Day_Treat_Jars_by_ScrappinDoodles",
+          "colorImages": 7,
+          "totalImages": 7,
+          "sampleImages": [
+            "StPatTreats_Jar1.png",
+            "StPatTreats_Jar2.png",
+            "StPatTreats_Jar3.png",
+            "StPatTreats_Jar4.png",
+            "StPatTreats_Jar5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StPatricks_Day_Treats_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StPatricks_Day_Treats_by_ScrappinDoodles",
+          "colorImages": 39,
+          "totalImages": 56,
+          "sampleImages": [
+            "candy_ball_green.png",
+            "candy_ball_orange.png",
+            "candy_ball_white.png",
+            "candy_ball_yellow.png",
+            "candy_circle_green.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StPatricks_Kids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StPatricks_Kids_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 18,
+          "sampleImages": [
+            "four_leaf_clover_colored.png",
+            "stp_kid1.png",
+            "stp_kid2.png",
+            "stp_kid3.png",
+            "stp_kid4.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 31,
+      "collections": [
+        {
+          "name": "StPatricksDay_12x12_BackgroundsbyScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StPatricksDay_12x12_BackgroundsbyScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "StPatricksDay_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StPatricksDay_byScrappinDoodles",
+          "colorImages": 15,
+          "totalImages": 30,
+          "sampleImages": [
+            "stP2013_3Leaf.png",
+            "stP2013_4LeafLarge.png",
+            "stP2013_4LeafSmall.png",
+            "stP2013_BG1.png",
+            "stP2013_BG2.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StPatricksDay_Ginger_Train_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StPatricksDay_Ginger_Train_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "StPat_Ginger_Train1.png",
+            "StPat_Ginger_Train2.png",
+            "StPat_Ginger_Train3.png",
+            "StPat_Ginger_Train4.png",
+            "StPat_Ginger_Train5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StPatricksDay_Treats_Cups_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StPatricksDay_Treats_Cups_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "StPTreats_Coffee1.png",
+            "StPTreats_Coffee2.png",
+            "StPTreats_Coffee3.png",
+            "StPTreats_Coffee4.png",
+            "StPTreats_Coffee5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StPatricksDay_Treats_Gingers_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StPatricksDay_Treats_Gingers_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "StP_Treats_Ginger1.png",
+            "StP_Treats_Ginger2.png",
+            "StP_Treats_Ginger3.png",
+            "StP_Treats_Ginger4.png",
+            "StP_Treats_Ginger5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StPattys_Koala_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StPattys_Koala_byScrappinDoodles",
+          "colorImages": 7,
+          "totalImages": 7,
+          "sampleImages": [
+            "StPattys_Koala1.png",
+            "StPattys_Koala2.png",
+            "StPattys_Koala3.png",
+            "StPattys_Koala4.png",
+            "StPattys_Koala5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Strawberry_Patch_Girls_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Strawberry_Patch_Girls_by_ScrappinDoodles",
+          "colorImages": 11,
+          "totalImages": 11,
+          "sampleImages": [
+            "strawberry_girl1.png",
+            "strawberry_girl10.png",
+            "strawberry_girl11.png",
+            "strawberry_girl2.png",
+            "strawberry_girl3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StrawberryExpressions_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StrawberryExpressions_byScrappinDoodles",
+          "colorImages": 17,
+          "totalImages": 17,
+          "sampleImages": [
+            "SD_CircleFrog.png",
+            "StrawberryExpression1.png",
+            "StrawberryExpression1_BW.png",
+            "StrawberryExpression2.png",
+            "StrawberryExpression2_BW.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "StripedHearts_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\StripedHearts_by_ScrappinDoodles",
+          "colorImages": 11,
+          "totalImages": 11,
+          "sampleImages": [
+            "black.png",
+            "blue.png",
+            "brown.png",
+            "green.png",
+            "grey.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Stripes_BGs_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stripes_BGs_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 32,
+      "collections": [
+        {
+          "name": "Stripes_ReadyPages_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Stripes_ReadyPages_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "Summer_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Summer_byScrappinDoodles",
+          "colorImages": 41,
+          "totalImages": 41,
+          "sampleImages": [
+            "SD_CircleFrog.png",
+            "summer1.png",
+            "summer10.png",
+            "summer10_BW.png",
+            "summer11.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Summer_Camp_Kids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Summer_Camp_Kids_by_ScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 24,
+          "sampleImages": [
+            "bear_tree.png",
+            "boy_fishing.png",
+            "boy_sleepingbag.png",
+            "boy_tent.png",
+            "branch.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Summer_Camp_Tommy_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Summer_Camp_Tommy_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Summer_Camp_Tommy1.png",
+            "Summer_Camp_Tommy2.png",
+            "Summer_Camp_Tommy3.png",
+            "Summer_Camp_Tommy4.png",
+            "Summer_Camp_Tommy5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Summer_Camping_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Summer_Camping_by_ScrappinDoodles",
+          "colorImages": 9,
+          "totalImages": 9,
+          "sampleImages": [
+            "camping_1.png",
+            "camping_2.png",
+            "camping_3.png",
+            "camping_4.png",
+            "camping_5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Summer_Fun_Stick_Kids_2_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Summer_Fun_Stick_Kids_2_by_ScrappinDoodles",
+          "colorImages": 11,
+          "totalImages": 11,
+          "sampleImages": [
+            "summer_kid_1.png",
+            "summer_kid_10.png",
+            "summer_kid_11.png",
+            "summer_kid_2.png",
+            "summer_kid_3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Summer_Stick_Kids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Summer_Stick_Kids_by_ScrappinDoodles",
+          "colorImages": 14,
+          "totalImages": 14,
+          "sampleImages": [
+            "boy_baseball.png",
+            "boy_cap.png",
+            "boy_flying_kite.png",
+            "boy_skateboarding.png",
+            "boy_soccer.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SummerAfternoon_Papers_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SummerAfternoon_Papers_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "SummerBerries_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SummerBerries_byScrappinDoodles",
+          "colorImages": 13,
+          "totalImages": 13,
+          "sampleImages": [
+            "SD_CircleFrog.png",
+            "SummerBerry1.png",
+            "SummerBerry1_BW.png",
+            "SummerBerry2.png",
+            "SummerBerry2_BW.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SummerBright_Papers_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SummerBright_Papers_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 33,
+      "collections": [
+        {
+          "name": "SummerFun_Boys_And_Girls_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SummerFun_Boys_And_Girls_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 24,
+          "sampleImages": [
+            "SummerFun_Boy1.png",
+            "SummerFun_Boy2.png",
+            "SummerFun_Boy3.png",
+            "SummerFun_Boy4.png",
+            "SummerFun_Boy5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SummerFun_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SummerFun_byScrappinDoodles",
+          "colorImages": 23,
+          "totalImages": 46,
+          "sampleImages": [
+            "airmatress.png",
+            "ball.png",
+            "flipflops.png",
+            "flippers.png",
+            "goggles.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SummerFunKids_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SummerFunKids_byScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 20,
+          "sampleImages": [
+            "Summer1.png",
+            "Summer10.png",
+            "Summer2.png",
+            "Summer3.png",
+            "Summer4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SummerFunKids_QuickPages_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SummerFunKids_QuickPages_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "SummerFunKids_ReadyPages_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SummerFunKids_ReadyPages_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "Sunburst_BGs_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sunburst_BGs_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "Sunburst_Ready_Pages_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sunburst_Ready_Pages_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "SunglassBoys_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SunglassBoys_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "Sunglass_Boy1.png",
+            "Sunglass_Boy2.png",
+            "Sunglass_Boy3.png",
+            "Sunglass_Boy4.png",
+            "Sunglass_Boy5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SunglassGirls_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SunglassGirls_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "Sunglass_Girl1.png",
+            "Sunglass_Girl2.png",
+            "Sunglass_Girl3.png",
+            "Sunglass_Girl4.png",
+            "Sunglass_Girl5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Sunnies_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sunnies_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "Sunnies1.png",
+            "Sunnies2.png",
+            "Sunnies3.png",
+            "Sunnies4.png",
+            "Sunnies5.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 34,
+      "collections": [
+        {
+          "name": "SunshineKiddos_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SunshineKiddos_byScrappinDoodles",
+          "colorImages": 17,
+          "totalImages": 17,
+          "sampleImages": [
+            "SD_CircleFrog.png",
+            "SunshineKiddo1.png",
+            "SunshineKiddo1BW.png",
+            "SunshineKiddo2.png",
+            "SunshineKiddo2BW.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Super_Elfkins_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Super_Elfkins_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "super_elfkin1.png",
+            "super_elfkin2.png",
+            "super_elfkin3.png",
+            "super_elfkin4.png",
+            "super_elfkin5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Super_Leprechaun_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Super_Leprechaun_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "super_leprechaun1.png",
+            "super_leprechaun2.png",
+            "super_leprechaun3.png",
+            "super_leprechaun4.png",
+            "super_leprechaun5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Super_Mouse_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Super_Mouse_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Super_Mouse1.png",
+            "Super_Mouse2.png",
+            "Super_Mouse3.png",
+            "Super_Mouse4.png",
+            "Super_Mouse5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Super_Rudy_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Super_Rudy_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "super_rudy1.png",
+            "super_rudy2.png",
+            "super_rudy3.png",
+            "super_rudy4.png",
+            "super_rudy5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Super_Santa_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Super_Santa_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "supersanta1.png",
+            "supersanta2.png",
+            "supersanta3.png",
+            "supersanta4.png",
+            "supersanta5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Super_Susie_Tommy_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Super_Susie_Tommy_by_ScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 24,
+          "sampleImages": [
+            "SuperHero_Susie.png",
+            "SuperHero_Susie2.png",
+            "SuperHero_Susie3.png",
+            "SuperHero_Susie4.png",
+            "SuperHero_Susie5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Super_Ted_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Super_Ted_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Super_Ted1.png",
+            "Super_Ted2.png",
+            "Super_Ted3.png",
+            "Super_Ted4.png",
+            "Super_Ted5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SuperBunny_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SuperBunny_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "Super_Bunny1.png",
+            "Super_Bunny2.png",
+            "Super_Bunny3.png",
+            "Super_Bunny4.png",
+            "Super_Bunny5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SuperClaus_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SuperClaus_byScrappinDoodles",
+          "colorImages": 18,
+          "totalImages": 36,
+          "sampleImages": [
+            "SuperClaus1.png",
+            "SuperClaus10.png",
+            "SuperClaus11.png",
+            "SuperClaus12.png",
+            "SuperClaus13.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 35,
+      "collections": [
+        {
+          "name": "SuperDad_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SuperDad_byScrappinDoodles",
+          "colorImages": 11,
+          "totalImages": 22,
+          "sampleImages": [
+            "superdad1.png",
+            "superdad10.png",
+            "superdad11.png",
+            "superdad2.png",
+            "superdad3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SuperEarthHero_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SuperEarthHero_byScrappinDoodles",
+          "colorImages": 4,
+          "totalImages": 8,
+          "sampleImages": [
+            "SuperheroEarthDay1.png",
+            "SuperheroEarthDay2.png",
+            "SuperheroEarthDay3.png",
+            "SuperheroEarthDay4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Superhero_Backgrounds_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Superhero_Backgrounds_by_ScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "SuperHero_Habits_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SuperHero_Habits_byScrappinDoodles",
+          "colorImages": 18,
+          "totalImages": 18,
+          "sampleImages": [
+            "SHC_Habit_BeginWithEndInMind.png",
+            "SHC_Habit_BeProactive.png",
+            "SHC_Habit_PutThingsFirst_ThenPlay.png",
+            "SHC_Habit_PutThingsFirst_WorkFirst.png",
+            "SHC_Habit_SeekFirstToUnderstand.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Superhero_Star_BGs_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Superhero_Star_BGs_byScrappinDoodles",
+          "colorImages": 0,
+          "totalImages": 0,
+          "sampleImages": [],
+          "isPriority": false
+        },
+        {
+          "name": "SuperHeroKids_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SuperHeroKids_byScrappinDoodles",
+          "colorImages": 20,
+          "totalImages": 40,
+          "sampleImages": [
+            "SuperHero_Bang.png",
+            "SuperHero_Boom.png",
+            "SuperHero_Boy1.png",
+            "SuperHero_Boy2.png",
+            "SuperHero_Boy3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Superheros_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Superheros_byScrappinDoodles",
+          "colorImages": 24,
+          "totalImages": 44,
+          "sampleImages": [
+            "superhero1.png",
+            "superhero10.png",
+            "superhero11.png",
+            "superhero12.png",
+            "superhero13.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SuperKitty_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SuperKitty_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "SuperKitty1.png",
+            "SuperKitty2.png",
+            "SuperKitty3.png",
+            "SuperKitty4.png",
+            "SuperKitty5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SuperMom_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SuperMom_byScrappinDoodles",
+          "colorImages": 11,
+          "totalImages": 22,
+          "sampleImages": [
+            "SuperMom1.png",
+            "SuperMom10.png",
+            "SuperMom11.png",
+            "SuperMom2.png",
+            "SuperMom3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Surfing_Kids_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Surfing_Kids_by_ScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 20,
+          "sampleImages": [
+            "surfing_kid_1.png",
+            "surfing_kid_10.png",
+            "surfing_kid_2.png",
+            "surfing_kid_3.png",
+            "surfing_kid_4.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 36,
+      "collections": [
+        {
+          "name": "Sweater_Penguins_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sweater_Penguins_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Sweater_Penguin1.png",
+            "Sweater_Penguin2.png",
+            "Sweater_Penguin3.png",
+            "Sweater_Penguin4.png",
+            "Sweater_Penguin5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Sweater_Squirrels_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sweater_Squirrels_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Sweater_Squirrel1.png",
+            "Sweater_Squirrel2.png",
+            "Sweater_Squirrel3.png",
+            "Sweater_Squirrel4.png",
+            "Sweater_Squirrel5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Sweet_IceCream_Goodies_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sweet_IceCream_Goodies_byScrappinDoodles",
+          "colorImages": 10,
+          "totalImages": 20,
+          "sampleImages": [
+            "SICG1.png",
+            "SICG10.png",
+            "SICG2.png",
+            "SICG3.png",
+            "SICG4.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Sweet_Treat_Cups_for_Mom_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sweet_Treat_Cups_for_Mom_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "MothersDayCup1.png",
+            "MothersDayCup2.png",
+            "MothersDayCup3.png",
+            "MothersDayCup4.png",
+            "MothersDayCup5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Sweet_Treats_Squirrels_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sweet_Treats_Squirrels_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "SweetTreats_Squirrel1.png",
+            "SweetTreats_Squirrel2.png",
+            "SweetTreats_Squirrel3.png",
+            "SweetTreats_Squirrel4.png",
+            "SweetTreats_Squirrel5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "Sweet_Treats_Ted_by_ScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\Sweet_Treats_Ted_by_ScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 6,
+          "sampleImages": [
+            "Sweet_Treats_Ted1.png",
+            "Sweet_Treats_Ted2.png",
+            "Sweet_Treats_Ted3.png",
+            "Sweet_Treats_Ted4.png",
+            "Sweet_Treats_Ted5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SweetValentine_Borders_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SweetValentine_Borders_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "border1.png",
+            "border1_BW.png",
+            "border2.png",
+            "border2_BW.png",
+            "border3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SweetValentine_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SweetValentine_byScrappinDoodles",
+          "colorImages": 58,
+          "totalImages": 58,
+          "sampleImages": [
+            "DoodledValentine1.png",
+            "DoodledValentine10.png",
+            "DoodledValentine10_BW.png",
+            "DoodledValentine11.png",
+            "DoodledValentine11_BW.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SweetValentine_FullPageBorders_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SweetValentine_FullPageBorders_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "FullPageBorder1.png",
+            "FullPageBorder1_BW.png",
+            "FullPageBorder2.png",
+            "FullPageBorder2_BW.png",
+            "FullPageBorder3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SweetValentineCandyBorders_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SweetValentineCandyBorders_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "CandyBorder1.png",
+            "CandyBorder1_BW.png",
+            "CandyBorder2.png",
+            "CandyBorder2_BW.png",
+            "CandyBorder3.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    },
+    {
+      "batchNumber": 37,
+      "collections": [
+        {
+          "name": "SweetValentineKiddos_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SweetValentineKiddos_byScrappinDoodles",
+          "colorImages": 16,
+          "totalImages": 16,
+          "sampleImages": [
+            "SweetValentineKiddo1.png",
+            "SweetValentineKiddo1_BW.png",
+            "SweetValentineKiddo2.png",
+            "SweetValentineKiddo2_BG.png",
+            "SweetValentineKiddo3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SweetValentineMonsters_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SweetValentineMonsters_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "ValentineMonster1.png",
+            "ValentineMonster1_BW.png",
+            "ValentineMonster2.png",
+            "ValentineMonster2_BW.png",
+            "ValentineMonster3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SweetValentineOreo_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SweetValentineOreo_byScrappinDoodles",
+          "colorImages": 12,
+          "totalImages": 12,
+          "sampleImages": [
+            "Oreo_Valentines1.png",
+            "Oreo_Valentines1_BW.png",
+            "Oreo_Valentines2.png",
+            "Oreo_Valentines2_BW.png",
+            "Oreo_Valentines3.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SwimsuitBoys_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SwimsuitBoys_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "SwimsuitBoys1.png",
+            "SwimsuitBoys2.png",
+            "SwimsuitBoys3.png",
+            "SwimsuitBoys4.png",
+            "SwimsuitBoys5.png"
+          ],
+          "isPriority": false
+        },
+        {
+          "name": "SwimsuitGirls_byScrappinDoodles",
+          "path": "public\\images\\SCRAPPING DOODLE\\SwimsuitGirls_byScrappinDoodles",
+          "colorImages": 6,
+          "totalImages": 12,
+          "sampleImages": [
+            "SwimsuitGirls1.png",
+            "SwimsuitGirls2.png",
+            "SwimsuitGirls3.png",
+            "SwimsuitGirls4.png",
+            "SwimsuitGirls5.png"
+          ],
+          "isPriority": false
+        }
+      ]
+    }
+  ]
+}

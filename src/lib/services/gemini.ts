@@ -654,9 +654,42 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, improve
     }
     
     // Extract questions count for validation (count actual question containers)
-    // Look for question numbers like "1.", "2.", etc. which are more reliable
+    // Look for multiple possible question indicators (more flexible matching)
+    let questionCount = 0
+    
+    // Try multiple patterns to detect questions
     const questionNumberMatches = cleanContent.match(/<span class="question-number">\d+\.<\/span>/g)
-    const questionCount = questionNumberMatches ? questionNumberMatches.length : 0
+    console.log('🔍 Question detection - question-number spans:', questionNumberMatches ? questionNumberMatches.length : 0)
+    
+    if (questionNumberMatches) {
+      questionCount = questionNumberMatches.length
+    } else {
+      // Fallback: Look for answer lines/spaces which indicate questions
+      const answerMatches = cleanContent.match(/<div class="answer-(line|space)">/g)
+      console.log('🔍 Question detection - answer divs:', answerMatches ? answerMatches.length : 0)
+      
+      if (answerMatches) {
+        questionCount = answerMatches.length
+      } else {
+        // Fallback: Look for question-container divs
+        const containerMatches = cleanContent.match(/<div class="question(-container)?"/g)
+        console.log('🔍 Question detection - question containers:', containerMatches ? containerMatches.length : 0)
+        
+        if (containerMatches) {
+          questionCount = containerMatches.length
+        } else {
+          // Last resort: Look for paragraph tags that likely contain questions
+          const paragraphMatches = cleanContent.match(/<p[^>]*class="question/g)
+          console.log('🔍 Question detection - question paragraphs:', paragraphMatches ? paragraphMatches.length : 0)
+          
+          if (paragraphMatches) {
+            questionCount = paragraphMatches.length
+          }
+        }
+      }
+    }
+
+    console.log(`✅ Question detection: Found ${questionCount} questions using flexible matching`)
 
     // Flexible question count validation with retry logic
     if (questionCount !== config.questionCount) {
@@ -812,24 +845,26 @@ function isPhase1Combination(config: WorksheetConfig): boolean {
  * Calculates weighted average quality score for USP.1 metrics
  * Visual Appeal (25%), Educational Appropriateness (25%), SVG Integration (20%), 
  * Curriculum Alignment (15%), Accessibility (15%)
+ * 
+ * NOTE: Currently unused - commented out to fix TypeScript compilation
  */
-function calculateAverageQualityScore(metrics: QualityMetrics): number {
-  const weights = {
-    visualAppeal: 0.25,
-    educationalAppropriateness: 0.25,
-    svgIntegration: 0.20,
-    curriculumAlignment: 0.15,
-    accessibility: 0.15
-  }
+// function calculateAverageQualityScore(metrics: QualityMetrics): number {
+//   const weights = {
+//     visualAppeal: 0.25,
+//     educationalAppropriateness: 0.25,
+//     svgIntegration: 0.20,
+//     curriculumAlignment: 0.15,
+//     accessibility: 0.15
+//   }
 
-  return (
-    metrics.visualAppeal * weights.visualAppeal +
-    metrics.educationalAppropriateness * weights.educationalAppropriateness +
-    metrics.svgIntegration * weights.svgIntegration +
-    metrics.curriculumAlignment * weights.curriculumAlignment +
-    metrics.accessibility * weights.accessibility
-  )
-}
+//   return (
+//     metrics.visualAppeal * weights.visualAppeal +
+//     metrics.educationalAppropriateness * weights.educationalAppropriateness +
+//     metrics.svgIntegration * weights.svgIntegration +
+//     metrics.curriculumAlignment * weights.curriculumAlignment +
+//     metrics.accessibility * weights.accessibility
+//   )
+// }
 
 /**
  * Enhanced worksheet generation function with A/B testing support
