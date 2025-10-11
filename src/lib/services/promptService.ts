@@ -77,6 +77,7 @@ export class PromptService {
       forceEnhanced?: boolean
       iterativeCycle?: number
       targetQuality?: number
+      previousWorksheets?: Array<{ questions: string[]; images: string[] }>
     } = {}
   ): Promise<{ prompt: string; metadata: IterativeImprovementMetadata }> {
     const startTime = Date.now()
@@ -104,10 +105,10 @@ export class PromptService {
    */
   private static async generateCorePrompt(
     config: EnhancedPromptConfig,
-    options: { iterativeCycle?: number }
+    options: { iterativeCycle?: number; previousWorksheets?: Array<{ questions: string[]; images: string[] }> }
   ): Promise<string> {
     const promptVariation = this.selectOptimalVariation(config)
-    const basePrompt = await this.generateVariationPrompt(config, promptVariation)
+    const basePrompt = await this.generateVariationPrompt(config, promptVariation, options.previousWorksheets)
 
     return this.applyIterativeImprovements(
       basePrompt,
@@ -170,9 +171,10 @@ export class PromptService {
    */
   private static async generateVariationPrompt(
     config: EnhancedPromptConfig,
-    variation: PromptVariation
+    variation: PromptVariation,
+    previousWorksheets?: Array<{ questions: string[]; images: string[] }>
   ): Promise<string> {
-    return await this.generateOptimalPrompt(config)
+    return await this.generateOptimalPrompt(config, previousWorksheets)
   }
 
 
@@ -180,7 +182,10 @@ export class PromptService {
   /**
    * Generate optimal prompt - streamlined version with consolidated instructions
    */
-  private static async generateOptimalPrompt(config: EnhancedPromptConfig): Promise<string> {
+  private static async generateOptimalPrompt(
+    config: EnhancedPromptConfig,
+    previousWorksheets?: Array<{ questions: string[]; images: string[] }>
+  ): Promise<string> {
     const shouldApplyTheme = config.visualTheme && config.visualTheme !== 'none'
     const svgInstructions = shouldApplyTheme && config.visualTheme ? this.getSVGInstructions(config.visualTheme) : this.getContextualSVGInstructions()
     const themeContext = shouldApplyTheme && config.visualTheme ? this.getThemeContext(config.visualTheme, config.yearGroup) : null
@@ -194,13 +199,25 @@ export class PromptService {
     // Get hybrid SVG guidance
     const hybridSVGGuidance = await this.getHybridSVGGuidance(config)
 
-    // Get SCRAPPING DOODLE guidance (NEW!)
-    const scrappingDoodleGuidance = await this.getScrappingDoodleGuidance(config)
+    // Get SCRAPPING DOODLE guidance (NEW!) - pass previousWorksheets for exclusion
+    const scrappingDoodleGuidance = await this.getScrappingDoodleGuidance(config, { previousWorksheets })
 
     // Get subtopic-specific guidance
     const subtopicGuidance = this.getSubtopicGuidance(config)
 
+    // Build content freshness instructions if we have previous worksheets
+    const freshnessInstructions = this.buildFreshnessInstructions(previousWorksheets)
+
     return `Create a ${config.yearGroup} ${config.topic} worksheet: "${config.subtopic}" (${config.difficulty}, ${config.questionCount} questions).
+
+${freshnessInstructions}
+
+**🚨 CRITICAL: QUESTION COUNT REQUIREMENT 🚨**
+**YOU MUST GENERATE EXACTLY ${config.questionCount} QUESTIONS - NO MORE, NO LESS**
+**THIS IS NOT ${config.questionCount + 1} QUESTIONS**
+**THIS IS NOT ${config.questionCount + 2} QUESTIONS**
+**THIS IS NOT ${config.questionCount - 1} QUESTIONS**
+**GENERATE PRECISELY ${config.questionCount} QUESTIONS**
 
 ${subtopicGuidance}
 
@@ -261,17 +278,53 @@ ${this.getAgeBasedImageRules(config.yearGroup)}
 **🎲 MANDATORY QUESTION VARIETY & CREATIVITY:**
 - **RANDOMIZE scenarios**: Use different activities (picking, buying, finding, collecting, giving away, sharing, eating, etc.)
 - **RANDOMIZE names**: Don't always use Emma first - vary the order (Thomas first, then Lily, then Oliver, etc.)
-- **🔥 CRITICAL: DIFFERENT OBJECT CATEGORIES FOR EACH QUESTION 🔥**
-  - **Question 1**: Use ONE category (e.g., flowers, bees, butterflies from Spring Garden)
-  - **Question 2**: Use DIFFERENT category (e.g., books, pencils from School Supplies)
-  - **Question 3**: Use ANOTHER DIFFERENT category (e.g., apples, bananas from Fruits)
-  - **Question 4**: Use YET ANOTHER category (e.g., chickens, cows from Farm Animals)
-  - **Question 5**: Use FINAL DIFFERENT category (e.g., carrots, corn from Vegetables)
-  - **FORBIDDEN**: Do NOT use animals for all questions (boring, repetitive!)
-  - **FORBIDDEN**: Do NOT repeat the same category (e.g., flowers in Q1 AND Q3)
+
+**🚨 ABSOLUTE RULE: MAXIMUM 1 QUESTION PER OBJECT TYPE 🚨**
+**FORBIDDEN REPETITION EXAMPLES (DO NOT DO THIS):**
+- ❌ Q1: hamburgers, Q2: hamburgers, Q3: hamburgers (SAME OBJECT!)
+- ❌ Q1: carrots, Q2: carrots, Q3: carrots (SAME OBJECT!)
+- ❌ Q1: flowers, Q3: flowers (SAME OBJECT!)
+- ❌ Q1: mice, Q2: mice (SAME OBJECT!)
+
+**REQUIRED PATTERN - EVERY QUESTION MUST USE DIFFERENT OBJECT:**
+- ✅ Q1: apples (Fruits) → Q2: pencils (School) → Q3: chickens (Farm) → Q4: balls (Sports) → Q5: flowers (Garden)
+- ✅ Q1: bananas (Fruits) → Q2: books (School) → Q3: cows (Farm) → Q4: cars (Vehicles) → Q5: stars (Shapes)
+- ✅ Q1: strawberries (Fruits) → Q2: erasers (School) → Q3: sheep (Farm) → Q4: bicycles (Vehicles) → Q5: trees (Nature)
+
+**🔥 CRITICAL: DIFFERENT OBJECT CATEGORIES FOR EACH QUESTION 🔥**
+  - **Question 1**: Use ONE category (e.g., strawberries from Fruits - NOT apples if you're being repetitive!)
+  - **Question 2**: Use DIFFERENT category (e.g., rulers from School Supplies - NOT books, NOT pencils!)
+  - **Question 3**: Use ANOTHER DIFFERENT category (e.g., grapes from Fruits - different fruit than Q1!)
+  - **Question 4**: Use YET ANOTHER category (e.g., buses from Vehicles - completely new category!)
+  - **Question 5**: Use FINAL DIFFERENT category (e.g., butterflies from Garden - avoid flowers if overused!)
+  - **FORBIDDEN**: Do NOT use farm animals for all questions (boring, repetitive!)
+  - **FORBIDDEN**: Do NOT repeat the same object type (e.g., apples in Q1 AND Q3)
+  - **FORBIDDEN**: Do NOT use common defaults (apples, pencils, flowers) - be creative!
 - **RANDOMIZE numbers**: Vary the starting quantities and operations (use 3, 7, 11, 15, 19 - not always 9-14)
 - **MIX contexts**: School, home, park, shop, garden, playground
 - **CREATIVE scenarios**: "found in the garden", "bought at the shop", "collected from the beach", "received as gifts"
+
+**🎨 IMAGE DIVERSITY ENFORCEMENT (CRITICAL FOR ENGAGEMENT):**
+- **ROTATE through different image files within collections** - Don't use the same .png file repeatedly
+- **Example**: If using Spring_Garden, rotate between flower.png, flower2.png, flower3.png, bee.png, butterfly.png
+- **Within a single question showing 7 objects**: Show variety by mixing files (3x flower.png, 2x flower2.png, 2x flower3.png)
+- **Across questions**: NEVER use the same exact .png file in multiple questions
+- **FORBIDDEN**: Using chicken.png 7 times in Q1, then chicken.png 7 times again in Q3 (BORING!)
+- **REQUIRED**: Q1 uses chicken.png + chicken2.png mix, Q3 uses completely different collection
+
+**💡 EXPANDED OBJECT VOCABULARY - USE THESE FOR VARIETY:**
+**Fruits:** apples, bananas, oranges, strawberries, grapes, pears, cherries, watermelons, lemons, peaches
+**Vegetables:** carrots, tomatoes, corn, peas, broccoli, cucumbers, peppers, lettuce, potatoes, onions
+**School Items:** books, pencils, erasers, rulers, crayons, markers, scissors, glue sticks, notebooks, backpacks
+**Farm Animals:** chickens, cows, pigs, sheep, horses, ducks, goats, rabbits, geese, turkeys
+**Garden:** flowers, butterflies, bees, ladybugs, snails, caterpillars, worms, birds, trees, grass
+**Vehicles:** cars, buses, bikes, trains, boats, planes, trucks, scooters, helicopters, tractors
+**Toys:** teddy bears, dolls, blocks, balls, toy cars, puzzles, kites, yo-yos, drums, robots
+**Sports:** footballs, basketballs, tennis balls, bats, rackets, goals, hoops, nets, cones, medals
+**Food:** cookies, sandwiches, pizzas, cupcakes, donuts, ice cream, bread, cheese, milk, eggs
+**Shapes/Objects:** stars, hearts, circles, squares, triangles, diamonds, moons, suns, clouds, rainbows
+
+**STRATEGY:** Pick from DIFFERENT categories above. If Q1 uses fruits, Q2 should use school items, Q3 vehicles, etc.
 
 **🎨 SCRAPPING DOODLE PREMIUM COLLECTIONS (CHECK AVAILABLE DIVERSE COLLECTIONS BELOW):**
 ${scrappingDoodleGuidance}
@@ -819,12 +872,43 @@ When a question mentions specific objects (stickers, crayons, flowers, books, bi
         <h1 class="worksheet-title">${this.toProperCase(config.topic.replace('-', ' '))}${config.subtopic ? ` - <span class="subtitle">${this.toProperCase(config.subtopic.replace('-', ' '))}</span>` : ''}</h1>
     </div>
     <div class="worksheet-content">
-        <!-- Generate exactly ${config.questionCount} questions here -->
+        <!-- 🚨 CRITICAL: Generate exactly ${config.questionCount} questions here - NOT ${config.questionCount + 1}, NOT ${config.questionCount - 1}, EXACTLY ${config.questionCount} 🚨 -->
     </div>
 </body>
 </html>
 
-**INSTRUCTIONS FOR LLM:**
+**🔥 FINAL INSTRUCTION FOR LLM - READ CAREFULLY 🔥**
+**QUESTION COUNT: ${config.questionCount}**
+**YOU MUST GENERATE EXACTLY ${config.questionCount} QUESTIONS**
+**COUNT: 1, 2, 3, 4, 5 = ${config.questionCount} questions total**
+**DO NOT GENERATE ${config.questionCount + 1} QUESTIONS**
+**DO NOT GENERATE ${config.questionCount - 1} QUESTIONS**
+**STOP AFTER QUESTION NUMBER ${config.questionCount}**
+
+**⚠️ MANDATORY PRE-GENERATION PLANNING - DO THIS BEFORE WRITING ANY QUESTIONS ⚠️**
+
+**STEP 1: PLAN YOUR ${config.questionCount} DIFFERENT OBJECTS (CHOOSE NOW!):**
+Before generating any HTML, mentally select ${config.questionCount} COMPLETELY DIFFERENT objects:
+
+Example valid plan for 5 questions:
+- Q1 object: strawberries (Fruits category)
+- Q2 object: rulers (School category)
+- Q3 object: buses (Vehicles category)
+- Q4 object: butterflies (Garden category)
+- Q5 object: teddy bears (Toys category)
+
+Example INVALID plan (DO NOT DO THIS):
+- Q1 object: apples ❌
+- Q2 object: apples ❌ (SAME AS Q1!)
+- Q3 object: apples ❌ (SAME AS Q1 AND Q2!)
+
+**STEP 2: VERIFY YOUR PLAN:**
+- [ ] All ${config.questionCount} objects are DIFFERENT ✓
+- [ ] No object appears twice ✓
+- [ ] Using varied categories (not all animals, not all fruits) ✓
+
+**STEP 3: ONLY THEN generate the HTML with your planned objects**
+
 Generate EXACTLY ${config.questionCount} questions with embedded SVG images when questions mention specific objects:
 
 FOR EVERY question that mentions specific objects (stickers, crayons, flowers, books, biscuits, toys, etc.):
@@ -1565,20 +1649,58 @@ Show TWO groups side by side for comparison:
   /**
    * Get SCRAPPING DOODLE specific guidance and collection suggestions
    */
-  private static async getScrappingDoodleGuidance(config: EnhancedPromptConfig): Promise<string> {
+  private static async getScrappingDoodleGuidance(
+    config: EnhancedPromptConfig,
+    options?: { previousWorksheets?: Array<{ questions: string[]; images: string[] }> }
+  ): Promise<string> {
     if (!scrappingDoodleService.isAvailable()) {
       return `**SCRAPPING DOODLE SERVICE NOT AVAILABLE**
 - Premium SCRAPPING DOODLE collections not initialized
 - Fall back to static templates below`
     }
 
+    // Extract recently used collections from previous worksheets
+    const recentlyUsedCollections = new Set<string>();
+    if (options.previousWorksheets && options.previousWorksheets.length > 0) {
+      // Get collections from last 2 iterations to avoid
+      const recentWorksheets = options.previousWorksheets.slice(-2);
+      recentWorksheets.forEach(ws => {
+        ws.images.forEach(imgPath => {
+          const match = imgPath.match(/SCRAPPING DOODLE\/([^\/]+)/i);
+          if (match) {
+            recentlyUsedCollections.add(match[1]);
+          }
+        });
+      });
+
+      if (recentlyUsedCollections.size > 0) {
+        console.log(`🚫 Excluding ${recentlyUsedCollections.size} recently used collections:`, Array.from(recentlyUsedCollections));
+      }
+    }
+
     // Get MULTIPLE diverse collections for variety across questions
-    const diverseCollections = scrappingDoodleService.getTopDiverseCollectionsForTopic(
+    // INCREASED from 6 to 30 to provide much more variety and prevent repetition
+    let diverseCollections = scrappingDoodleService.getTopDiverseCollectionsForTopic(
       config.topic,
       config.subtopic,
       config.yearGroup,
-      6  // Get 6 diverse collections
+      50  // Get 50 collections (increased to account for filtering)
     )
+
+    // FILTER OUT recently used collections
+    if (recentlyUsedCollections.size > 0) {
+      const beforeCount = diverseCollections.length;
+      diverseCollections = diverseCollections.filter(collection =>
+        !recentlyUsedCollections.has(collection.name)
+      );
+      console.log(`✂️ Filtered collections: ${beforeCount} → ${diverseCollections.length} (removed ${beforeCount - diverseCollections.length} recent)`);
+
+      // Take top 30 after filtering
+      diverseCollections = diverseCollections.slice(0, 30);
+    } else {
+      // No previous worksheets, just take top 30
+      diverseCollections = diverseCollections.slice(0, 30);
+    }
 
     if (diverseCollections.length === 0) {
       return `**NO MATCHING SCRAPPING DOODLE COLLECTIONS FOUND**
@@ -1586,11 +1708,20 @@ Show TWO groups side by side for comparison:
 - Use generic static templates below`
     }
 
+    // RANDOMIZE collection order to prevent same patterns across iterations
+    // Fisher-Yates shuffle algorithm for true randomization
+    for (let i = diverseCollections.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [diverseCollections[i], diverseCollections[j]] = [diverseCollections[j], diverseCollections[i]];
+    }
+
     // Build a comprehensive guide showing ALL available collections
     let collectionsGuide = '**🎨 AVAILABLE DIVERSE SCRAPPING DOODLE COLLECTIONS:**\n\n'
     collectionsGuide += '**🔥 CRITICAL: USE DIFFERENT COLLECTIONS FOR EACH QUESTION! 🔥**\n'
+    collectionsGuide += '**⚡ FRESHNESS RULE: Pick collections from DIFFERENT positions in the list below for variety! ⚡**\n'
     collectionsGuide += '**MANDATORY: Question 1 = Collection A, Question 2 = Collection B, Question 3 = Collection C, etc.**\n'
-    collectionsGuide += '**FORBIDDEN: DO NOT use the same collection category (animals/plants/school) for multiple questions!**\n\n'
+    collectionsGuide += '**FORBIDDEN: DO NOT use the same collection category (animals/plants/school) for multiple questions!**\n'
+    collectionsGuide += `**💡 TIP: We have ${diverseCollections.length} collections below - explore beyond the first few!**\n\n`
     
     for (let i = 0; i < diverseCollections.length; i++) {
       const collection = diverseCollections[i]
@@ -1710,6 +1841,95 @@ Show TWO groups side by side for comparison:
 - Question about "chickens" → Use Farm Animals collection`
 
     return collectionsGuide
+  }
+
+  /**
+   * Build content freshness instructions to prevent repetitive content
+   */
+  private static buildFreshnessInstructions(
+    previousWorksheets?: Array<{ questions: string[]; images: string[] }>
+  ): string {
+    if (!previousWorksheets || previousWorksheets.length === 0) {
+      return ''
+    }
+
+    // Extract previously used question patterns and images
+    const allPreviousQuestions = previousWorksheets.flatMap(w => w.questions)
+    const allPreviousImages = previousWorksheets.flatMap(w => w.images)
+
+    // Extract object types from previous questions
+    const usedObjects = new Set<string>()
+    const questionPatterns: string[] = []
+
+    allPreviousQuestions.forEach(q => {
+      // Extract common object names from questions
+      const objectMatches = q.match(/\b(flowers?|pencils?|books?|apples?|chickens?|cows?|frogs?|vegetables?|fruits?|animals?|bees?|butterfl(?:y|ies)|carrots?|bananas?|balls?)\b/gi)
+      if (objectMatches) {
+        objectMatches.forEach(obj => usedObjects.add(obj.toLowerCase()))
+      }
+
+      // Extract question pattern (first 50 chars)
+      questionPatterns.push(q.substring(0, 50))
+    })
+
+    // Extract collection names from image paths
+    const usedCollections = new Set<string>()
+    allPreviousImages.forEach(imgPath => {
+      const collectionMatch = imgPath.match(/SCRAPPING DOODLE\/([^\/]+)/i)
+      if (collectionMatch) {
+        usedCollections.add(collectionMatch[1])
+      }
+    })
+
+    return `**🔄 CONTENT FRESHNESS REQUIREMENTS - AVOID REPETITION! 🔄**
+
+**CRITICAL: ${previousWorksheets.length} worksheet(s) already generated. You MUST create FRESH, DIFFERENT content!**
+
+**❌ FORBIDDEN - DO NOT USE THESE OBJECTS AGAIN:**
+${Array.from(usedObjects).length > 0 ? Array.from(usedObjects).map(obj => `- ${obj}`).join('\n') : '- (none yet)'}
+
+**❌ FORBIDDEN - DO NOT USE THESE COLLECTIONS AGAIN:**
+${Array.from(usedCollections).length > 0 ? Array.from(usedCollections).slice(0, 10).map(coll => `- ${coll}`).join('\n') : '- (none yet)'}
+
+**✅ REQUIRED - CREATE COMPLETELY NEW QUESTIONS:**
+- Use DIFFERENT objects than listed above
+- Use DIFFERENT scenarios and contexts
+- Use DIFFERENT number combinations
+- Use DIFFERENT student names in different orders
+- Create questions that feel FRESH and UNIQUE
+
+**DIVERSITY STRATEGY:**
+- Previously used objects: ${Array.from(usedObjects).join(', ') || 'none'}
+- YOU MUST use objects NOT in this list
+- Explore NEW categories: ${this.suggestFreshCategories(Array.from(usedObjects))}
+
+**IMPORTANT: Variety keeps students engaged. Make this worksheet feel COMPLETELY different from previous ones!**
+`
+  }
+
+  /**
+   * Suggest fresh object categories based on what's been used
+   */
+  private static suggestFreshCategories(usedObjects: string[]): string {
+    const allCategories = [
+      'fruits (apples, bananas, oranges)',
+      'vegetables (carrots, tomatoes, corn)',
+      'school items (books, pencils, erasers, rulers)',
+      'farm animals (chickens, cows, pigs, sheep)',
+      'garden items (flowers, butterflies, bees)',
+      'sports equipment (balls, bats, goals)',
+      'vehicles (cars, buses, bikes)',
+      'toys (teddy bears, dolls, blocks)',
+      'stationery (crayons, markers, stickers)',
+      'food items (cookies, sweets, sandwiches)'
+    ]
+
+    // Filter out categories that match used objects
+    const freshCategories = allCategories.filter(category => {
+      return !usedObjects.some(obj => category.toLowerCase().includes(obj))
+    })
+
+    return freshCategories.slice(0, 5).join(', ')
   }
 
 }
