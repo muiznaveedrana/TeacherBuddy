@@ -40,3 +40,20 @@ Thumbs.db
 # Baseline PDF folders
 baseline-pdfs*/
 .vercel
+
+# Images in public folder
+public/images/**
+
+# Image library folder
+IM/
+
+# Vision catalog batch files
+scripts/catalogs/batch-prompts/*.md
+scripts/catalogs/batch-results/*.json
+
+# Quality assessment reports and iterations
+worksheet-quality-reports/
+*VERIFICATION*.md
+*ASSESSMENT*.md
+*REPORT*.md
+prompt-suggestions/

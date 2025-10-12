@@ -1224,7 +1224,7 @@
     "styleNotes": "American football themed images with backgrounds, suitable for sports math activities",
     "visionAnalyzed": true,
     "analyzedBy": "claude",
-    "priority": 9,
+    "priority": 8,
     "imageFiles": [
       "bg1.png",
       "bg2.png",
@@ -2243,6 +2243,7 @@
       "Year 3"
     ],
     "curriculumTopics": [
+      "counting-to-10",
       "addition",
       "school-topics"
     ],
@@ -2266,7 +2267,7 @@
     "styleNotes": "Cute children in sailor-style school uniforms with school supplies",
     "visionAnalyzed": true,
     "analyzedBy": "claude",
-    "priority": 5,
+    "priority": 9,
     "imageFiles": [
       "BW_Sailor_Kids_School_1.png",
       "BW_Sailor_Kids_School_2.png",
@@ -24655,7 +24656,7 @@
     "styleNotes": "Repeating spring flower borders in various colors, perfect for decorating worksheets and pattern recognition",
     "visionAnalyzed": true,
     "analyzedBy": "claude",
-    "priority": 9,
+    "priority": 8,
     "imageFiles": [
       "SpringBorder1.png",
       "SpringBorder1_BW.png",
@@ -32672,7 +32673,7 @@
     "styleNotes": "Decorative mugs filled with colorful cookies, lollipops, and treats with floral patterns, perfect for Mother's Day themed activities",
     "visionAnalyzed": true,
     "analyzedBy": "claude",
-    "priority": 9,
+    "priority": 8,
     "imageFiles": [
       "BW_MothersDayCup1.png",
       "BW_MothersDayCup2.png",

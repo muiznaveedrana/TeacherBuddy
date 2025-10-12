@@ -18,6 +18,7 @@ import imageLibraryService from './imageLibraryService'
 import countingObjectsService from './countingObjectsService'
 import hybridSVGService from './hybridSVGService'
 import scrappingDoodleService from './scrappingDoodleService'
+import { loadConfigSpecificPrompt, generateConfigId } from './configSpecificPromptLoader'
 
 // Unified prompt approach for optimal results
 export type PromptVariation = 'optimal'
@@ -101,12 +102,86 @@ export class PromptService {
   }
   
   /**
+   * Load configuration-specific prompt if available
+   * Returns the complete prompt as a replacement for generic prompt
+   */
+  private static async loadConfigSpecificPrompt(
+    config: EnhancedPromptConfig,
+    previousWorksheets?: Array<{ questions: string[]; images: string[] }>
+  ): Promise<string | null> {
+    const fs = require('fs')
+    const path = require('path')
+
+    try {
+      // Normalize year group (e.g., "Reception" → "reception", "Year 1" → "year1")
+      const normalizedYear = config.yearGroup.toLowerCase().replace(/\s+/g, '')
+
+      // Normalize topic (e.g., "Number and Counting" → "number-counting")
+      const normalizedTopic = config.topic.toLowerCase().replace(/\s+/g, '-')
+
+      // Normalize subtopic (e.g., "Counting to 10" → "counting-to-10")
+      const normalizedSubtopic = config.subtopic.toLowerCase().replace(/\s+/g, '-')
+
+      // Construct path to config-specific prompt
+      const promptPath = path.join(
+        process.cwd(),
+        'src',
+        'lib',
+        'prompts',
+        'configurations',
+        normalizedYear,
+        normalizedTopic,
+        `${normalizedSubtopic}.md`
+      )
+
+      // Check if file exists
+      if (fs.existsSync(promptPath)) {
+        let configPrompt = fs.readFileSync(promptPath, 'utf-8')
+
+        // Build freshness instructions from previous worksheets (reuse existing function)
+        const freshnessInstructions = this.buildFreshnessInstructions(previousWorksheets)
+
+        // Inject freshness instructions at the top if available
+        if (freshnessInstructions) {
+          configPrompt = `${freshnessInstructions}\n\n---\n\n${configPrompt}`
+          console.log(`🔄 Freshness tracking enabled: ${previousWorksheets?.length || 0} previous worksheet(s) excluded`)
+        }
+
+        // Replace placeholders with actual config values
+        configPrompt = configPrompt
+          .replace(/\{\{questionCount\}\}/g, config.questionCount.toString())
+          .replace(/\{\{difficulty\}\}/g, config.difficulty)
+          .replace(/\{\{topic\}\}/g, config.topic)
+          .replace(/\{\{subtopic\}\}/g, config.subtopic)
+          .replace(/\{\{yearGroup\}\}/g, config.yearGroup)
+
+        console.log(`📄 Loaded config-specific prompt: ${promptPath}`)
+        return configPrompt
+      }
+
+      return null // No config-specific prompt available
+    } catch (error) {
+      console.warn(`⚠️ Error loading config-specific prompt:`, error)
+      return null
+    }
+  }
+
+  /**
    * Generate the core prompt with all enhancements applied
    */
   private static async generateCorePrompt(
     config: EnhancedPromptConfig,
     options: { iterativeCycle?: number; previousWorksheets?: Array<{ questions: string[]; images: string[] }> }
   ): Promise<string> {
+    // Check for config-specific prompt first (complete replacement with freshness tracking)
+    const configSpecificPrompt = await this.loadConfigSpecificPrompt(config, options.previousWorksheets)
+    if (configSpecificPrompt) {
+      console.log(`✅ Using config-specific prompt for ${config.yearGroup}-${config.topic}-${config.subtopic}`)
+      return configSpecificPrompt // Return config-specific prompt as-is (no generic prompt)
+    }
+
+    // Fall back to generic prompt if no config-specific prompt exists
+    console.log(`⚠️ No config-specific prompt found, using generic prompt for ${config.yearGroup}-${config.topic}-${config.subtopic}`)
     const promptVariation = this.selectOptimalVariation(config)
     const basePrompt = await this.generateVariationPrompt(config, promptVariation, options.previousWorksheets)
 
@@ -207,6 +282,12 @@ export class PromptService {
 
     // Build content freshness instructions if we have previous worksheets
     const freshnessInstructions = this.buildFreshnessInstructions(previousWorksheets)
+
+    // 🔍 FRESHNESS DEBUG: Log freshness instructions generation
+    console.log('🔍 Freshness instructions generated:', freshnessInstructions ? 'YES' : 'NO')
+    if (freshnessInstructions) {
+      console.log('🔍 Freshness instructions preview (first 300 chars):', freshnessInstructions.substring(0, 300))
+    }
 
     return `Create a ${config.yearGroup} ${config.topic} worksheet: "${config.subtopic}" (${config.difficulty}, ${config.questionCount} questions).
 
@@ -1844,7 +1925,105 @@ Show TWO groups side by side for comparison:
   }
 
   /**
-   * Build content freshness instructions to prevent repetitive content
+   * Category pools for vocabulary rotation
+   */
+  private static readonly CATEGORY_POOLS = {
+    Fruits: ['apple', 'banana', 'orange', 'strawberry', 'grape', 'pear', 'cherry', 'watermelon', 'lemon', 'peach', 'plum'],
+    Vegetables: ['carrot', 'tomato', 'corn', 'pea', 'broccoli', 'cucumber', 'pepper', 'lettuce', 'potato', 'onion'],
+    SchoolItems: ['book', 'pencil', 'eraser', 'ruler', 'crayon', 'marker', 'scissor', 'glue', 'notebook', 'backpack'],
+    FarmAnimals: ['chicken', 'cow', 'pig', 'sheep', 'horse', 'duck', 'goat', 'rabbit', 'goose', 'turkey'],
+    Garden: ['flower', 'butterfly', 'bee', 'ladybug', 'snail', 'caterpillar', 'worm', 'bird', 'tree', 'grass'],
+    Vehicles: ['car', 'bus', 'bike', 'train', 'boat', 'plane', 'truck', 'scooter', 'helicopter', 'tractor'],
+    Toys: ['teddy bear', 'doll', 'block', 'ball', 'toy car', 'puzzle', 'kite', 'yo-yo', 'drum', 'robot'],
+    Sports: ['football', 'basketball', 'tennis ball', 'bat', 'racket', 'goal', 'hoop', 'net', 'cone', 'medal'],
+    Food: ['cookie', 'sandwich', 'pizza', 'cupcake', 'donut', 'ice cream', 'bread', 'cheese', 'milk', 'egg'],
+    Shapes: ['star', 'heart', 'circle', 'square', 'triangle', 'diamond', 'moon', 'sun', 'cloud', 'rainbow']
+  }
+
+  /**
+   * Get category for a given object
+   */
+  private static getObjectCategory(object: string): string | null {
+    for (const [category, objects] of Object.entries(this.CATEGORY_POOLS)) {
+      if (objects.includes(object)) {
+        return category
+      }
+    }
+    return null
+  }
+
+  /**
+   * Track category usage history from previous worksheets
+   */
+  private static trackCategoryHistory(
+    previousWorksheets: Array<{ questions: string[]; images: string[] }>
+  ): Record<string, number> {
+    const categoryCount: Record<string, number> = {}
+
+    // Initialize all categories to 0
+    Object.keys(this.CATEGORY_POOLS).forEach(cat => {
+      categoryCount[cat] = 0
+    })
+
+    // Count usage from previous worksheets
+    previousWorksheets.forEach(worksheet => {
+      worksheet.questions.forEach(q => {
+        const objectMatches = q.match(/\b(apples?|pears?|oranges?|bananas?|grapes?|strawberr(?:y|ies)|cherr(?:y|ies)|watermelons?|lemons?|peaches?|plums?|flowers?|roses?|tulips?|daisies?|sunflowers?|butterfl(?:y|ies)|bees?|ladybugs?|ants?|spiders?|birds?|chickens?|cows?|pigs?|sheep|horses?|dogs?|cats?|frogs?|fish|ducks?|rabbits?|bears?|elephants?|lions?|tigers?|monkeys?|giraffes?|cars?|trucks?|buses?|trains?|planes?|boats?|bicycles?|pencils?|pens?|crayons?|markers?|books?|scissors?|rulers?|erasers?|balls?|blocks?|toys?|dolls?|teddy bears?|stars?|hearts?|circles?|squares?|triangles?|diamonds?|cookies?|cupcakes?|candies?|lollipops?|carrots?|tomatoes?|potatoes?|corn|broccoli|peas?|balloons?|presents?|candles?|hats?|shoes?|socks?|shirts?|buttons?|leaves?|trees?|acorns?|shells?|rocks?|feathers?|goats?)\b/gi)
+
+        if (objectMatches) {
+          objectMatches.forEach(obj => {
+            const normalized = obj.toLowerCase().replace(/ies$/, 'y').replace(/s$/, '')
+            const category = this.getObjectCategory(normalized)
+            if (category) {
+              categoryCount[category]++
+            }
+          })
+        }
+      })
+    })
+
+    return categoryCount
+  }
+
+  /**
+   * Select fresh categories with lowest usage
+   */
+  private static selectFreshCategories(
+    categoryHistory: Record<string, number>,
+    count: number
+  ): Array<{ category: string; usageCount: number }> {
+    // Sort categories by usage (least used first)
+    const sorted = Object.entries(categoryHistory)
+      .map(([category, usageCount]) => ({ category, usageCount }))
+      .sort((a, b) => a.usageCount - b.usageCount)
+
+    // Return top N least used categories
+    return sorted.slice(0, count)
+  }
+
+  /**
+   * Build rotation pool from selected fresh categories
+   */
+  private static buildRotationPool(
+    freshCategories: Array<{ category: string; usageCount: number }>,
+    usedObjects: Set<string>
+  ): Array<{ category: string; objects: string[] }> {
+    return freshCategories.map(({ category }) => {
+      // Get all objects in this category
+      const allObjects = this.CATEGORY_POOLS[category as keyof typeof this.CATEGORY_POOLS] || []
+
+      // Filter out already used objects
+      const availableObjects = allObjects.filter(obj => !usedObjects.has(obj))
+
+      return {
+        category,
+        objects: availableObjects
+      }
+    })
+  }
+
+  /**
+   * Build content freshness instructions with active vocabulary rotation
    */
   private static buildFreshnessInstructions(
     previousWorksheets?: Array<{ questions: string[]; images: string[] }>
@@ -1853,59 +2032,105 @@ Show TWO groups side by side for comparison:
       return ''
     }
 
-    // Extract previously used question patterns and images
-    const allPreviousQuestions = previousWorksheets.flatMap(w => w.questions)
-    const allPreviousImages = previousWorksheets.flatMap(w => w.images)
+    // 🔍 FRESHNESS DEBUG: Log received data
+    console.log('🔍 buildFreshnessInstructions: Received', previousWorksheets?.length || 0, 'previous worksheets')
 
-    // Extract object types from previous questions
+    // Extract previously used objects (forbidden list)
+    const allPreviousQuestions = previousWorksheets.flatMap(w => w.questions)
     const usedObjects = new Set<string>()
-    const questionPatterns: string[] = []
 
     allPreviousQuestions.forEach(q => {
-      // Extract common object names from questions
-      const objectMatches = q.match(/\b(flowers?|pencils?|books?|apples?|chickens?|cows?|frogs?|vegetables?|fruits?|animals?|bees?|butterfl(?:y|ies)|carrots?|bananas?|balls?)\b/gi)
+      const objectMatches = q.match(/\b(apples?|pears?|oranges?|bananas?|grapes?|strawberr(?:y|ies)|cherr(?:y|ies)|watermelons?|lemons?|peaches?|plums?|flowers?|roses?|tulips?|daisies?|sunflowers?|butterfl(?:y|ies)|bees?|ladybugs?|ants?|spiders?|birds?|chickens?|cows?|pigs?|sheep|horses?|dogs?|cats?|frogs?|fish|ducks?|rabbits?|bears?|elephants?|lions?|tigers?|monkeys?|giraffes?|cars?|trucks?|buses?|trains?|planes?|boats?|bicycles?|pencils?|pens?|crayons?|markers?|books?|scissors?|rulers?|erasers?|balls?|blocks?|toys?|dolls?|teddy bears?|stars?|hearts?|circles?|squares?|triangles?|diamonds?|cookies?|cupcakes?|candies?|lollipops?|carrots?|tomatoes?|potatoes?|corn|broccoli|peas?|balloons?|presents?|candles?|hats?|shoes?|socks?|shirts?|buttons?|leaves?|trees?|acorns?|shells?|rocks?|feathers?|goats?)\b/gi)
       if (objectMatches) {
-        objectMatches.forEach(obj => usedObjects.add(obj.toLowerCase()))
-      }
-
-      // Extract question pattern (first 50 chars)
-      questionPatterns.push(q.substring(0, 50))
-    })
-
-    // Extract collection names from image paths
-    const usedCollections = new Set<string>()
-    allPreviousImages.forEach(imgPath => {
-      const collectionMatch = imgPath.match(/SCRAPPING DOODLE\/([^\/]+)/i)
-      if (collectionMatch) {
-        usedCollections.add(collectionMatch[1])
+        objectMatches.forEach(obj => {
+          const normalized = obj.toLowerCase().replace(/ies$/, 'y').replace(/s$/, '')
+          usedObjects.add(normalized)
+        })
       }
     })
 
-    return `**🔄 CONTENT FRESHNESS REQUIREMENTS - AVOID REPETITION! 🔄**
+    console.log('🔍 Total previous questions:', allPreviousQuestions.length)
+    console.log('🔍 Forbidden objects:', Array.from(usedObjects))
 
-**CRITICAL: ${previousWorksheets.length} worksheet(s) already generated. You MUST create FRESH, DIFFERENT content!**
+    // Track category usage history
+    const categoryHistory = this.trackCategoryHistory(previousWorksheets)
+    console.log('🔍 Category history:', categoryHistory)
 
-**❌ FORBIDDEN - DO NOT USE THESE OBJECTS AGAIN:**
-${Array.from(usedObjects).length > 0 ? Array.from(usedObjects).map(obj => `- ${obj}`).join('\n') : '- (none yet)'}
+    // Select 5 fresh categories with lowest usage
+    const freshCategories = this.selectFreshCategories(categoryHistory, 5)
+    console.log('🔍 Fresh categories:', freshCategories.map(c => c.category))
 
-**❌ FORBIDDEN - DO NOT USE THESE COLLECTIONS AGAIN:**
-${Array.from(usedCollections).length > 0 ? Array.from(usedCollections).slice(0, 10).map(coll => `- ${coll}`).join('\n') : '- (none yet)'}
+    // Build rotation pool
+    const rotationPool = this.buildRotationPool(freshCategories, usedObjects)
 
-**✅ REQUIRED - CREATE COMPLETELY NEW QUESTIONS:**
-- Use DIFFERENT objects than listed above
-- Use DIFFERENT scenarios and contexts
-- Use DIFFERENT number combinations
-- Use DIFFERENT student names in different orders
-- Create questions that feel FRESH and UNIQUE
+    // Format forbidden list
+    const forbiddenArray = Array.from(usedObjects)
+    const forbiddenList = forbiddenArray.join(', ')
 
-**DIVERSITY STRATEGY:**
-- Previously used objects: ${Array.from(usedObjects).join(', ') || 'none'}
-- YOU MUST use objects NOT in this list
-- Explore NEW categories: ${this.suggestFreshCategories(Array.from(usedObjects))}
+    // Format priority pool (limit to 8 objects per category for readability)
+    const priorityPoolLines = rotationPool
+      .map(pool => {
+        const objectsPreview = pool.objects.slice(0, 8).join(', ')
+        const hasMore = pool.objects.length > 8 ? ', ...' : ''
+        return `  ${pool.category}: ${objectsPreview}${hasMore}`
+      })
+      .join('\n')
 
-**IMPORTANT: Variety keeps students engaged. Make this worksheet feel COMPLETELY different from previous ones!**
+    // Format per-question guidance
+    const questionGuidanceLines = rotationPool
+      .slice(0, 5)
+      .map((pool, idx) => `  Q${idx + 1}: Select from ${pool.category} category`)
+      .join('\n')
+
+    // Format category usage history
+    const historyLines = Object.entries(categoryHistory)
+      .map(([cat, count]) => `- ${cat}: ${count} uses`)
+      .join('\n')
+
+    // Split forbidden list into multiple lines if too long
+    const forbiddenLine1 = forbiddenArray.slice(0, 8).join(', ')
+    const forbiddenLine2 = forbiddenArray.length > 8 ? forbiddenArray.slice(8, 16).join(', ') : ''
+    const forbiddenLine3 = forbiddenArray.length > 16 ? forbiddenArray.slice(16, 24).join(', ') : ''
+
+    return `
+╔═══════════════════════════════════════════════════════════════════╗
+║  🔄 VOCABULARY ROTATION - ITERATION #${previousWorksheets.length}                           ║
+║                                                                     ║
+║  ❌ FORBIDDEN (Already Used):                                     ║
+║     ${forbiddenLine1.padEnd(61)}║
+${forbiddenLine2 ? `║     ${forbiddenLine2.padEnd(61)}║` : ''}
+${forbiddenLine3 ? `║     ${forbiddenLine3.padEnd(61)}║` : ''}
+║                                                                     ║
+║  ✅ PRIORITY POOL (Use These First - Least Used Categories):      ║
+${priorityPoolLines}
+║                                                                     ║
+║  🎲 RANDOMIZATION REQUIRED (Select Different Object Each Q):       ║
+${questionGuidanceLines}
+║                                                                     ║
+║  📊 FRESHNESS TARGET: 70%+ new vocabulary                          ║
+║  🎯 GOAL: True randomization - explore full vocabulary pool       ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+**🔄 ACTIVE VOCABULARY ROTATION SYSTEM:**
+- **FORBIDDEN objects** (${usedObjects.size} total): ${forbiddenList}
+- **PRIORITY categories**: ${freshCategories.map(c => c.category).join(', ')}
+- **STRATEGY**: Select from priority pool first, then explore other categories
+- **ENFORCEMENT**: Each question MUST use different object from different category
+- **PENALTY**: Using forbidden object = INSTANT FAILURE
+
+**CATEGORY USAGE HISTORY:**
+${historyLines}
+
+**EXPLICIT INSTRUCTIONS FOR THIS WORKSHEET:**
+1. Review the PRIORITY POOL above - these categories have lowest usage
+2. For each question, select an object from a DIFFERENT category
+3. Within each category, choose objects you haven't used yet
+4. FORBIDDEN to reuse any object from the forbidden list above
+5. Goal: Maximum vocabulary diversity - use ALL 10 categories across iterations
+
 `
   }
+
 
   /**
    * Suggest fresh object categories based on what's been used

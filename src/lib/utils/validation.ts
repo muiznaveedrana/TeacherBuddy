@@ -254,6 +254,8 @@ export function sanitizeWorksheetRequest(body: unknown): unknown {
     nameList: typeof bodyData.nameList === 'string' ? bodyData.nameList.trim() : bodyData.nameList,
     yearGroup: typeof bodyData.yearGroup === 'string' ? bodyData.yearGroup.trim() : bodyData.yearGroup,
     // Enhanced configuration options (USP.2)
-    visualTheme: typeof bodyData.visualTheme === 'string' ? bodyData.visualTheme.trim() : bodyData.visualTheme
+    visualTheme: typeof bodyData.visualTheme === 'string' ? bodyData.visualTheme.trim() : bodyData.visualTheme,
+    // Cross-iteration freshness tracking
+    previousWorksheets: Array.isArray(bodyData.previousWorksheets) ? bodyData.previousWorksheets : undefined
   }
 }

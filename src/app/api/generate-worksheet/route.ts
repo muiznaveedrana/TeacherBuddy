@@ -30,16 +30,18 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       }, { status: 400 })
     }
 
-    const { 
-      layout, 
-      topic, 
-      subtopic, 
-      difficulty, 
-      questionCount, 
-      nameList, 
+    const {
+      layout,
+      topic,
+      subtopic,
+      difficulty,
+      questionCount,
+      nameList,
       yearGroup,
       // Enhanced configuration options (USP.2)
-      visualTheme
+      visualTheme,
+      // Freshness tracking (cross-iteration)
+      previousWorksheets
     } = sanitizedBody as {
       layout: string
       topic: string
@@ -50,6 +52,16 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       yearGroup: string
       // Enhanced options (optional)
       visualTheme?: VisualTheme
+      // Freshness tracking (optional)
+      previousWorksheets?: Array<{ questions: string[]; images: string[] }>
+    }
+
+    // 🔍 FRESHNESS DEBUG: Log received previousWorksheets data
+    console.log('🔍 API Route: Received previousWorksheets:', previousWorksheets?.length || 0, 'worksheets')
+    if (previousWorksheets && previousWorksheets.length > 0) {
+      console.log('🔍 First previous worksheet sample:')
+      console.log('  - Questions:', previousWorksheets[0].questions.slice(0, 2))
+      console.log('  - Images:', previousWorksheets[0].images.slice(0, 3))
     }
     
     // Validate yearGroup is provided
@@ -111,7 +123,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
     let generationTime
 
     try {
-      worksheet = await generateWorksheet(config)
+      worksheet = await generateWorksheet(config, { previousWorksheets })
       generationTime = Date.now() - startTime
     } catch (error) {
       // Check if this is a retryable error (insufficient questions or non-HTML format)
@@ -126,7 +138,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
 
         try {
           // One retry attempt
-          worksheet = await generateWorksheet(config)
+          worksheet = await generateWorksheet(config, { previousWorksheets })
           generationTime = Date.now() - startTime
           console.log('Retry successful')
         } catch (retryError: any) {

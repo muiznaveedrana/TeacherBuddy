@@ -65,7 +65,16 @@ export default function DashboardPage() {
   const [loadingTopics, setLoadingTopics] = useState<boolean>(false)
   const [loadingSubtopics, setLoadingSubtopics] = useState<boolean>(false)
   const [pdfGenerating, setPdfGenerating] = useState<boolean>(false)
-  
+
+  // Cross-iteration freshness tracking
+  const [previousWorksheets, setPreviousWorksheets] = useState<Array<{ questions: string[]; images: string[] }>>([])
+
+  // 🔍 DEBUG: Log worksheet history state changes
+  useEffect(() => {
+    console.log('🔍 DASHBOARD: previousWorksheets state updated:', previousWorksheets.length, 'worksheets')
+    console.log('🔍 DASHBOARD: Current history:', previousWorksheets)
+  }, [previousWorksheets])
+
   const hasConfiguration = layout && yearGroup && topic && subtopic
   
   const canGenerate = hasConfiguration && generationState !== 'generating'
@@ -77,7 +86,46 @@ export default function DashboardPage() {
   const isTopicDisabled = !yearGroup || loadingTopics
   const isSubtopicDisabled = !yearGroup || !topic || loadingSubtopics
 
-  
+  // Extract objects and images from generated worksheet HTML for freshness tracking
+  const extractWorksheetData = (html: string): { questions: string[]; images: string[] } => {
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(html, 'text/html')
+
+    // Extract question text from worksheet body only (avoid navigation/header noise)
+    const questions: string[] = []
+    const worksheetBody = doc.querySelector('.worksheet-preview') || doc.body
+    const textContent = worksheetBody.textContent || ''
+
+    // Use regex to extract only real counting objects (nouns that appear in counting contexts)
+    // This matches patterns like "5 apples", "count the pears", "how many butterflies"
+    const objectPattern = /\b(apples?|pears?|oranges?|bananas?|grapes?|strawberr(?:y|ies)|cherr(?:y|ies)|watermelons?|lemons?|peaches?|plums?|flowers?|roses?|tulips?|daisies?|sunflowers?|butterfl(?:y|ies)|bees?|ladybugs?|ants?|spiders?|birds?|chickens?|cows?|pigs?|sheep|horses?|dogs?|cats?|frogs?|fish|ducks?|rabbits?|bears?|elephants?|lions?|tigers?|monkeys?|giraffes?|cars?|trucks?|buses?|trains?|planes?|boats?|bicycles?|pencils?|pens?|crayons?|markers?|books?|scissors?|rulers?|erasers?|balls?|blocks?|toys?|dolls?|teddy bears?|stars?|hearts?|circles?|squares?|triangles?|diamonds?|cookies?|cupcakes?|candies?|lollipops?|carrots?|tomatoes?|potatoes?|corn|broccoli|peas?|balloons?|presents?|candles?|hats?|shoes?|socks?|shirts?|buttons?|leaves?|trees?|acorns?|shells?|rocks?|feathers?)\b/gi
+
+    let match
+    const foundObjects = new Set<string>()
+    while ((match = objectPattern.exec(textContent)) !== null) {
+      // Normalize to singular lowercase form
+      const obj = match[1].toLowerCase().replace(/ies$/, 'y').replace(/s$/, '')
+      foundObjects.add(obj)
+    }
+
+    // Store found objects as the "questions" array for compatibility
+    questions.push(...Array.from(foundObjects))
+
+    // Extract image paths from SCRAPPING DOODLE collections
+    const images: string[] = []
+    const imageElements = doc.querySelectorAll('img')
+    imageElements.forEach(img => {
+      const src = img.getAttribute('src')
+      // Only track images from our collections (exclude UI icons, etc.)
+      if (src && src.includes('SCRAPPING')) {
+        images.push(src)
+      }
+    })
+
+    console.log(`🔍 DEBUG: Extracted ${questions.length} objects: ${questions.join(', ')}`)
+    return { questions, images }
+  }
+
   const handleGenerate = async () => {
     if (!hasConfiguration) return
     
@@ -96,7 +144,13 @@ export default function DashboardPage() {
           return prev
         })
       }, 300)
-      
+
+      // 🔍 DEBUG: Log API request payload
+      console.log('🔍 DASHBOARD: Sending API request with previousWorksheets:', previousWorksheets.length, 'worksheets')
+      if (previousWorksheets.length > 0) {
+        console.log('🔍 DASHBOARD: First previous worksheet:', previousWorksheets[0])
+      }
+
       // Call the worksheet generation API
       const response = await fetch('/api/generate-worksheet', {
         method: 'POST',
@@ -113,6 +167,8 @@ export default function DashboardPage() {
           yearGroup,
           // Enhanced configuration options (USP.2) - convert 'none' to undefined
           ...(visualTheme && visualTheme !== 'none' && { visualTheme }),
+          // Cross-iteration freshness tracking
+          previousWorksheets
         }),
       })
       
@@ -129,6 +185,19 @@ export default function DashboardPage() {
       if (data.success && data.worksheet) {
         setGeneratedWorksheet(data.worksheet)
         setGenerationState('completed')
+
+        // Extract and store worksheet data for freshness tracking
+        console.log('🔍 DASHBOARD: Extracting worksheet data from generated HTML')
+        const worksheetData = extractWorksheetData(data.worksheet.html)
+        console.log('🔍 DASHBOARD: Extracted data:', worksheetData)
+
+        setPreviousWorksheets(prev => {
+          const updated = [...prev, worksheetData]
+          console.log('🔍 DASHBOARD: Updated previousWorksheets array, new length:', updated.length)
+          return updated
+        })
+        console.log(`🔄 Freshness tracking: Stored worksheet data (${worksheetData.questions.length} questions, ${worksheetData.images.length} images)`)
+
         // Worksheet generated successfully
       } else {
         throw new Error('Invalid response format')
@@ -397,21 +466,21 @@ export default function DashboardPage() {
                       </Tooltip>
                     </TooltipProvider>
                   </div>
-                  <Select value={yearGroup} onValueChange={(value) => { 
-                    setYearGroup(value); 
+                  <Select value={yearGroup} onValueChange={(value) => {
+                    setYearGroup(value);
                     // Clear topic/subtopic when year group actually changes
                     setTopic('');
                     setSubtopic('');
-                    handleConfigurationChange(); 
+                    handleConfigurationChange();
                   }}>
-                    <SelectTrigger className="h-12 md:h-10 text-base md:text-sm border-2 border-blue-200 bg-blue-50">
+                    <SelectTrigger data-testid="year-group-select" className="h-12 md:h-10 text-base md:text-sm border-2 border-blue-200 bg-blue-50">
                       <SelectValue placeholder="Select year group">
                         {yearGroup && YEAR_GROUPS.find(y => y.value === yearGroup)?.label}
                       </SelectValue>
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent data-testid="year-group-dropdown">
                       {YEAR_GROUPS.map(year => (
-                        <SelectItem key={year.value} value={year.value}>
+                        <SelectItem key={year.value} value={year.value} data-testid={`year-group-option-${year.value.toLowerCase().replace(/\s+/g, '-')}`}>
                           {year.label}
                         </SelectItem>
                       ))}
@@ -440,25 +509,25 @@ export default function DashboardPage() {
                       </Tooltip>
                     </TooltipProvider>
                   </div>
-                  <Select 
-                    value={topic} 
-                    onValueChange={(value) => { 
-                      setTopic(value); 
-                      setSubtopic(''); 
-                      handleConfigurationChange(); 
+                  <Select
+                    value={topic}
+                    onValueChange={(value) => {
+                      setTopic(value);
+                      setSubtopic('');
+                      handleConfigurationChange();
                     }}
                     disabled={isTopicDisabled}
                   >
-                    <SelectTrigger className={`h-12 md:h-10 text-base md:text-sm ${isTopicDisabled ? 'bg-slate-100' : ''}`}>
+                    <SelectTrigger data-testid="topic-select" className={`h-12 md:h-10 text-base md:text-sm ${isTopicDisabled ? 'bg-slate-100' : ''}`}>
                       <SelectValue placeholder={
                         loadingTopics ? "Loading topics..." :
                         !yearGroup ? "Select year group first" :
                         "Select a curriculum topic"
                       } />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent data-testid="topic-dropdown">
                       {availableTopics.map(topic => (
-                        <SelectItem key={topic.value} value={topic.value}>
+                        <SelectItem key={topic.value} value={topic.value} data-testid={`topic-option-${topic.value.toLowerCase().replace(/\s+/g, '-')}`}>
                           {topic.label}
                         </SelectItem>
                       ))}
@@ -481,12 +550,12 @@ export default function DashboardPage() {
                       </Tooltip>
                     </TooltipProvider>
                   </div>
-                  <Select 
-                    value={subtopic} 
+                  <Select
+                    value={subtopic}
                     onValueChange={(value) => { setSubtopic(value); handleConfigurationChange(); }}
                     disabled={isSubtopicDisabled}
                   >
-                    <SelectTrigger className={`h-12 md:h-10 text-base md:text-sm ${isSubtopicDisabled ? 'bg-slate-100' : ''}`}>
+                    <SelectTrigger data-testid="subtopic-select" className={`h-12 md:h-10 text-base md:text-sm ${isSubtopicDisabled ? 'bg-slate-100' : ''}`}>
                       <SelectValue placeholder={
                         loadingSubtopics ? "Loading subtopics..." :
                         !yearGroup ? "Select year group first" :
@@ -494,9 +563,9 @@ export default function DashboardPage() {
                         "Select a subtopic"
                       } />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent data-testid="subtopic-dropdown">
                       {availableSubtopics.map(sub => (
-                        <SelectItem key={sub.value} value={sub.value}>
+                        <SelectItem key={sub.value} value={sub.value} data-testid={`subtopic-option-${sub.value.toLowerCase().replace(/\s+/g, '-')}`}>
                           {sub.label}
                         </SelectItem>
                       ))}

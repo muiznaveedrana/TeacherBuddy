@@ -179,8 +179,12 @@ async function callGeminiWithRetry(prompt: string, metrics: GenerationMetrics, m
 }
 
 export async function generateWorksheet(
-  config: WorksheetConfig, 
-  options: { forceEnhanced?: boolean; iterativeCycle?: number } = {}
+  config: WorksheetConfig,
+  options: {
+    forceEnhanced?: boolean;
+    iterativeCycle?: number;
+    previousWorksheets?: Array<{ questions: string[]; images: string[] }>
+  } = {}
 ): Promise<GeneratedWorksheet> {
   const metrics: GenerationMetrics = {
     startTime: Date.now(),

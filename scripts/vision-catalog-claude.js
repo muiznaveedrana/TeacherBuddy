@@ -95,10 +95,13 @@ function getCollectionFiles(collectionName) {
   const files = fs.readdirSync(collectionPath);
 
   const pngFiles = files.filter(f => f.toLowerCase().endsWith('.png'));
-  const colorFiles = pngFiles.filter(f => !f.startsWith('BW'));
+  const colorFiles = pngFiles.filter(f => !f.startsWith('BW_'));
+  const bwFiles = pngFiles.filter(f => f.startsWith('BW_'));
 
   return {
     colorFiles,
+    bwFiles,
+    allFiles: pngFiles,
     totalImages: pngFiles.length
   };
 }
@@ -132,6 +135,9 @@ function createAnalysisInstructions() {
           path: path.join(SCRAPPING_DOODLE_BASE, collectionName),
           colorImages: files.colorFiles.length,
           totalImages: files.totalImages,
+          imageFiles: files.allFiles, // NEW: Include all actual filenames
+          colorFiles: files.colorFiles,
+          bwFiles: files.bwFiles,
           sampleImages: files.colorFiles.slice(0, 5),
           isPriority: isPriorityCollection(collectionName)
         };
@@ -189,6 +195,9 @@ ${collections}
     "path": "/images/SCRAPPING DOODLE/CollectionName",
     "totalImages": 30,
     "colorImages": 15,
+    "imageFiles": ["apple.png", "BW_apple.png", "banana.png", "BW_banana.png"],
+    "colorFiles": ["apple.png", "banana.png"],
+    "bwFiles": ["BW_apple.png", "BW_banana.png"],
     "primaryObjects": ["apples", "fruits", "food"],
     "educationalKeywords": ["apple", "fruit", "counting", "red", "green"],
     "ageGroups": ["Reception", "Year 1", "Year 2"],
