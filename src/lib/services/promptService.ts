@@ -104,6 +104,10 @@ export class PromptService {
   /**
    * Load configuration-specific prompt if available
    * Returns the complete prompt as a replacement for generic prompt
+   *
+   * NEW: Supports TypeScript config files in prompts/config-specific/ directory
+   * Format: {year}-{topic}-{subtopic}-v{version}.ts
+   * Example: reception-number-counting-counting-to-10-v1.0.ts
    */
   private static async loadConfigSpecificPrompt(
     config: EnhancedPromptConfig,
@@ -122,8 +126,61 @@ export class PromptService {
       // Normalize subtopic (e.g., "Counting to 10" → "counting-to-10")
       const normalizedSubtopic = config.subtopic.toLowerCase().replace(/\s+/g, '-')
 
-      // Construct path to config-specific prompt
-      const promptPath = path.join(
+      // Construct config ID
+      const configId = `${normalizedYear}-${normalizedTopic}-${normalizedSubtopic}`
+
+      // NEW: Check for TypeScript config files in prompts/config-specific/
+      const configDir = path.join(process.cwd(), 'prompts', 'config-specific')
+
+      if (fs.existsSync(configDir)) {
+        const files = fs.readdirSync(configDir)
+
+        // Look for versioned config files (e.g., reception-number-counting-counting-to-10-v1.0.ts)
+        const configFiles = files.filter((file: string) =>
+          file.startsWith(configId) && file.endsWith('.ts')
+        )
+
+        if (configFiles.length > 0) {
+          // Sort by version (latest first) - use the highest version
+          configFiles.sort().reverse()
+          const configFile = configFiles[0]
+          const configPath = path.join(configDir, configFile)
+
+          try {
+            // Dynamically import the TypeScript config file
+            const configModule = require(configPath)
+
+            if (configModule.configSpecificPrompt) {
+              let configPrompt = configModule.configSpecificPrompt
+
+              // Build freshness instructions from previous worksheets
+              const freshnessInstructions = this.buildFreshnessInstructions(previousWorksheets)
+
+              // Inject freshness instructions at the top if available
+              if (freshnessInstructions) {
+                configPrompt = `${freshnessInstructions}\n\n---\n\n${configPrompt}`
+                console.log(`🔄 Freshness tracking enabled: ${previousWorksheets?.length || 0} previous worksheet(s) excluded`)
+              }
+
+              // Replace placeholders with actual config values
+              configPrompt = configPrompt
+                .replace(/\{\{questionCount\}\}/g, config.questionCount.toString())
+                .replace(/\{\{difficulty\}\}/g, config.difficulty)
+                .replace(/\{\{topic\}\}/g, config.topic)
+                .replace(/\{\{subtopic\}\}/g, config.subtopic)
+                .replace(/\{\{yearGroup\}\}/g, config.yearGroup)
+
+              console.log(`📄 Loaded config-specific prompt from TypeScript: ${configFile}`)
+              return configPrompt
+            }
+          } catch (importError) {
+            console.warn(`⚠️ Error importing TypeScript config file ${configFile}:`, importError)
+          }
+        }
+      }
+
+      // FALLBACK: Try old .md file location for backward compatibility
+      const oldPromptPath = path.join(
         process.cwd(),
         'src',
         'lib',
@@ -134,20 +191,16 @@ export class PromptService {
         `${normalizedSubtopic}.md`
       )
 
-      // Check if file exists
-      if (fs.existsSync(promptPath)) {
-        let configPrompt = fs.readFileSync(promptPath, 'utf-8')
+      if (fs.existsSync(oldPromptPath)) {
+        let configPrompt = fs.readFileSync(oldPromptPath, 'utf-8')
 
-        // Build freshness instructions from previous worksheets (reuse existing function)
         const freshnessInstructions = this.buildFreshnessInstructions(previousWorksheets)
 
-        // Inject freshness instructions at the top if available
         if (freshnessInstructions) {
           configPrompt = `${freshnessInstructions}\n\n---\n\n${configPrompt}`
           console.log(`🔄 Freshness tracking enabled: ${previousWorksheets?.length || 0} previous worksheet(s) excluded`)
         }
 
-        // Replace placeholders with actual config values
         configPrompt = configPrompt
           .replace(/\{\{questionCount\}\}/g, config.questionCount.toString())
           .replace(/\{\{difficulty\}\}/g, config.difficulty)
@@ -155,7 +208,7 @@ export class PromptService {
           .replace(/\{\{subtopic\}\}/g, config.subtopic)
           .replace(/\{\{yearGroup\}\}/g, config.yearGroup)
 
-        console.log(`📄 Loaded config-specific prompt: ${promptPath}`)
+        console.log(`📄 Loaded config-specific prompt from Markdown (legacy): ${oldPromptPath}`)
         return configPrompt
       }
 
@@ -2107,8 +2160,9 @@ ${priorityPoolLines}
 ║  🎲 RANDOMIZATION REQUIRED (Select Different Object Each Q):       ║
 ${questionGuidanceLines}
 ║                                                                     ║
-║  📊 FRESHNESS TARGET: 70%+ new vocabulary                          ║
+║  📊 FRESHNESS TARGET: 80%+ new vocabulary (MANDATORY)              ║
 ║  🎯 GOAL: True randomization - explore full vocabulary pool       ║
+║  ⚠️  LAST TIME: 66% reuse - UNACCEPTABLE                          ║
 ╚═══════════════════════════════════════════════════════════════════╝
 
 **🔄 ACTIVE VOCABULARY ROTATION SYSTEM:**
@@ -2116,7 +2170,8 @@ ${questionGuidanceLines}
 - **PRIORITY categories**: ${freshCategories.map(c => c.category).join(', ')}
 - **STRATEGY**: Select from priority pool first, then explore other categories
 - **ENFORCEMENT**: Each question MUST use different object from different category
-- **PENALTY**: Using forbidden object = INSTANT FAILURE
+- **PENALTY**: Using forbidden object = INSTANT FAILURE AND 0/10 FRESHNESS SCORE
+- **MINIMUM REQUIREMENT**: At least 80% (4 out of 5 questions) must use NEW objects
 
 **CATEGORY USAGE HISTORY:**
 ${historyLines}

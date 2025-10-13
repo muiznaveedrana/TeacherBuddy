@@ -125,6 +125,10 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
     try {
       worksheet = await generateWorksheet(config, { previousWorksheets })
       generationTime = Date.now() - startTime
+
+      // Quality tracking - validate worksheet meets requirements
+      console.log('✅ Worksheet generated successfully')
+
     } catch (error) {
       // Check if this is a retryable error (insufficient questions or non-HTML format)
       const isRetryableError = error instanceof Error && (

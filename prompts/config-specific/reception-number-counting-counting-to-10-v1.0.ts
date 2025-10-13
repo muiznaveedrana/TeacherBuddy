@@ -20,18 +20,32 @@
 export const configSpecificPrompt = `
 **🚨🚨🚨 RECEPTION COUNTING TO 10 - CRITICAL CONSTRAINTS 🚨🚨🚨**
 
-**ABSOLUTE REQUIREMENT #1: EXACTLY 5 QUESTIONS**
+**⛔⛔⛔ ABSOLUTE REQUIREMENT #1: EXACTLY 5 QUESTIONS ⛔⛔⛔**
+**YOU GENERATED 8 QUESTIONS LAST TIME - THAT WAS WRONG!**
 - YOU MUST GENERATE EXACTLY 5 QUESTIONS
-- NOT 6 QUESTIONS, NOT 7 QUESTIONS, NOT 12 QUESTIONS
-- COUNT YOUR QUESTIONS: 1, 2, 3, 4, 5 - THEN STOP!
+- NOT 6 QUESTIONS, NOT 7 QUESTIONS, NOT 8 QUESTIONS, NOT 12 QUESTIONS
+- COUNT YOUR QUESTIONS OUT LOUD AS YOU GENERATE: 1, 2, 3, 4, 5 - THEN STOP IMMEDIATELY!
+- AFTER QUESTION #5, DO NOT GENERATE QUESTION #6
+- IF YOU SEE A 6TH QUESTION, DELETE IT
 - FAILURE TO GENERATE EXACTLY 5 QUESTIONS = AUTOMATIC FAIL
+- REMINDER: FIVE = 5 = 1+1+1+1+1 QUESTIONS
 
-**ABSOLUTE REQUIREMENT #2: NUMBERS 1-10 ONLY**
+**⛔⛔⛔ ABSOLUTE REQUIREMENT #2: NUMBERS 1-10 ONLY ⛔⛔⛔**
+**YOU USED NUMBER 100 LAST TIME - THAT WAS WRONG!**
 - RECEPTION children are learning to count from 1 to 10
-- FORBIDDEN NUMBERS: Any number greater than 10 (11, 12, 20, 100, 333, 666, etc.)
 - ALLOWED NUMBERS: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ONLY
 - Every question MUST use numbers within 1-10 range
-- If you see "100 apples" or "666 items" - YOU ARE DOING IT WRONG!
+
+**🚨 FORBIDDEN NUMBERS (DO NOT USE THESE) 🚨**
+**IF YOU WRITE ANY OF THESE NUMBERS, THE WORKSHEET FAILS AUTOMATICALLY:**
+❌ 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+❌ 25, 30, 40, 50, 60, 70, 80, 90, 100, 200
+❌ 333, 500, 666, 999, 1000
+
+**VALIDATION CHECK:**
+- Before submitting, scan your worksheet for ANY number greater than 10
+- If you find 11 or higher - STOP and FIX IT
+- Replace with numbers 1-10 only
 
 **ABSOLUTE REQUIREMENT #3: ONE OBJECT TYPE PER QUESTION**
 - Each question uses ONE single object type only
@@ -115,7 +129,7 @@ export const configSpecificPrompt = `
 \`\`\`
 
 **QUALITY CHECKLIST - VERIFY BEFORE GENERATING:**
-☐ Exactly 5 questions (not 6, not 12, exactly 5!)
+☐ Exactly 5 questions (not 6, not 8, not 12, exactly 5!)
 ☐ All numbers are between 1-10 (no 11, 12, 20, 100, etc.)
 ☐ Each question uses ONE object type only
 ☐ Language is Reception-appropriate (simple, short sentences)
@@ -125,6 +139,22 @@ export const configSpecificPrompt = `
 ☐ Scrapping Doodle image paths used (not old deleted paths)
 ☐ Images positioned BELOW question text (counting-objects-grid)
 ☐ Question types appropriate for "Counting to 10" subtopic
+
+**🔥 FINAL VERIFICATION BEFORE SUBMITTING 🔥**
+Before you return your worksheet, STOP and count:
+
+1. **Question Count**: Count your <div class="question"> elements
+   - Do you see 5? ✅ GOOD
+   - Do you see 6 or more? ❌ DELETE THE EXTRA ONES
+   - Do you see less than 5? ❌ ADD MORE QUESTIONS
+
+2. **Number Range**: Scan ALL numbers in your questions
+   - Are ALL numbers between 1-10? ✅ GOOD
+   - Do you see 11, 12, 20, 100, or higher? ❌ REPLACE WITH 1-10
+
+3. **Object Types**: Check each question
+   - Does each question mention only ONE type of object? ✅ GOOD
+   - Do you see "apples and oranges" or similar? ❌ REMOVE ONE OBJECT TYPE
 
 **FINAL REMINDER:**
 This is RECEPTION - the youngest learners (ages 4-5).
