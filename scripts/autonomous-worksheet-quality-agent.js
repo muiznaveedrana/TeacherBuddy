@@ -131,10 +131,10 @@ function parseArgs() {
   const configId = args[0];
   const options = {
     maxCycles: 3,
-    iterations: 4,
+    iterations: 5,
     autoFix: true,
     headless: false,
-    enableVision: false
+    enableVision: true  // Vision enabled by default for self-healing
   };
 
   for (let i = 1; i < args.length; i++) {
@@ -213,6 +213,7 @@ console.log(`🔄 Max Cycles: ${AGENT_CONFIG.MAX_CYCLES}`);
 console.log(`📊 Iterations Per Cycle: ${AGENT_CONFIG.ITERATIONS_PER_CYCLE}`);
 console.log(`🎯 Production Ready Threshold: ${(AGENT_CONFIG.PRODUCTION_THRESHOLD * 100).toFixed(0)}%`);
 console.log(`🔧 Auto-Fix: ${AGENT_CONFIG.AUTO_FIX_ENABLED ? 'ENABLED' : 'DISABLED'}`);
+console.log(`👁️  Vision Assessment: ${AGENT_CONFIG.ENABLE_VISION ? 'ENABLED (Claude Code)' : 'DISABLED'}`);
 console.log(`📁 Session Directory: ${SESSION_DIR}`);
 console.log('');
 
@@ -286,6 +287,82 @@ function calculateSimilarity(text1, text2) {
   const union = new Set([...words1, ...words2]);
 
   return union.size > 0 ? intersection.size / union.size : 0;
+}
+
+// ============================================================================
+// HTML-BASED ASSESSMENT HELPERS (Migrated from quality-assessment-cycle.js)
+// ============================================================================
+
+function extractObjectsFromHTML(html) {
+  const objects = [];
+
+  // Look for common object patterns in questions
+  const objectPatterns = [
+    /(\d+)\s+(\w+)(?:\s+are there|\s+does|\s+has)/gi,
+    /count the (\w+)/gi,
+    /how many (\w+)/gi
+  ];
+
+  objectPatterns.forEach(pattern => {
+    let match;
+    while ((match = pattern.exec(html)) !== null) {
+      const object = match[match.length - 1].toLowerCase();
+      if (object && object.length > 2) {
+        objects.push(object);
+      }
+    }
+  });
+
+  return objects;
+}
+
+function extractImagePathsFromHTML(html) {
+  const paths = [];
+  const imgRegex = /src="([^"]+)"/g;
+  let match;
+
+  while ((match = imgRegex.exec(html)) !== null) {
+    paths.push(match[1]);
+  }
+
+  return paths;
+}
+
+function extractImageCollections(imagePaths) {
+  return imagePaths.map(path => {
+    const match = path.match(/\/counting\/([^/]+)\//);
+    return match ? match[1] : 'unknown';
+  });
+}
+
+function checkNumberRangeViolations(html, config) {
+  const violations = [];
+  const forbiddenNumbers = ['0', '11', '12', '15', '20', '100', '666', '333', '000'];
+
+  forbiddenNumbers.forEach(num => {
+    if (html.includes(`>${num}<`) || html.includes(` ${num} `)) {
+      violations.push(num);
+    }
+  });
+
+  return violations;
+}
+
+function checkRealWorldContexts(html) {
+  const nonsensicalPatterns = ['666', '100 mice', 'school cows'];
+  return !nonsensicalPatterns.some(pattern => html.includes(pattern));
+}
+
+function checkDifficultyLevel(html, config) {
+  // For Reception "Average", numbers should be distributed across 1-10
+  const numbers = html.match(/\b([1-9]|10)\b/g);
+  if (!numbers || numbers.length === 0) return false;
+
+  const nums = numbers.map(n => parseInt(n));
+  const avg = nums.reduce((a, b) => a + b, 0) / nums.length;
+
+  // Average difficulty should be around 5-6 for Reception
+  return avg >= 4 && avg <= 7;
 }
 
 // ============================================================================
@@ -747,7 +824,87 @@ function assessWorksheet(result, iterationNum, previousResults) {
     .filter(r => r.success && r.content)
     .map(r => r.content);
 
+  // ===================================================================
+  // CRITICAL CHECKS (HTML-Based) - Migrated from quality-assessment-cycle.js
+  // ===================================================================
+
+  // CRITICAL CHECK 1: Question Count Validation (HTML-based)
+  const questionCountValidation = (() => {
+    const questionMatches = content.html.match(/<div class="question">/g);
+    const actualQuestionCount = questionMatches ? questionMatches.length : 0;
+    const expectedCount = config.numQuestions;
+
+    if (actualQuestionCount === expectedCount) {
+      return {
+        score: 10,
+        justification: `Correct: ${actualQuestionCount} questions generated (expected ${expectedCount})`
+      };
+    } else {
+      return {
+        score: 0,
+        justification: `BLOCKER: ${actualQuestionCount} questions generated (expected ${expectedCount})`
+      };
+    }
+  })();
+
+  // CRITICAL CHECK 2: Object Repetition Detection (HTML-based)
+  const objectRepetition = (() => {
+    const objects = extractObjectsFromHTML(content.html);
+    const uniqueObjects = new Set(objects);
+    const repetitionCount = objects.length - uniqueObjects.size;
+    const expectedCount = config.numQuestions;
+
+    if (repetitionCount === 0 && uniqueObjects.size === expectedCount) {
+      return {
+        score: 10,
+        justification: `Perfect: All ${uniqueObjects.size} questions use different objects (${Array.from(uniqueObjects).join(', ')})`
+      };
+    } else if (repetitionCount === 0) {
+      return {
+        score: 8,
+        justification: `Good: No object repetition, but found ${uniqueObjects.size} unique objects`
+      };
+    } else {
+      const maxRepetition = Math.max(...[...uniqueObjects].map(obj =>
+        objects.filter(o => o === obj).length
+      ));
+      return {
+        score: Math.max(0, 10 - (maxRepetition * 3)),
+        justification: `Object repetition detected: ${Array.from(uniqueObjects).join(', ')} (max repetition: ${maxRepetition} times)`
+      };
+    }
+  })();
+
+  // CRITICAL CHECK 3: Image Collection Diversity (HTML-based)
+  const imageCollectionDiversity = (() => {
+    const imagePaths = extractImagePathsFromHTML(content.html);
+    const collections = extractImageCollections(imagePaths);
+    const uniqueCollections = new Set(collections);
+    const expectedCount = config.numQuestions;
+
+    if (uniqueCollections.size === expectedCount) {
+      return {
+        score: 10,
+        justification: `Perfect: All questions use different image collections (${Array.from(uniqueCollections).join(', ')})`
+      };
+    } else if (uniqueCollections.size >= expectedCount * 0.8) {
+      return {
+        score: 7,
+        justification: `Good: ${uniqueCollections.size} different collections used (${Array.from(uniqueCollections).join(', ')})`
+      };
+    } else {
+      const reusePercentage = ((1 - uniqueCollections.size / expectedCount) * 100).toFixed(0);
+      return {
+        score: Math.max(0, 10 - (reusePercentage / 10)),
+        justification: `Limited diversity: Only ${uniqueCollections.size} collections (${reusePercentage}% reuse)`
+      };
+    }
+  })();
+
   const assessments = {
+    questionCountValidation,
+    objectRepetition,
+    imageCollectionDiversity,
     curriculumAlignment: assessCurriculumAlignment(content, config),
     presentationQuality: assessPresentationQuality(content, config),
     contentConfigMatch: assessContentConfigMatch(content, config),
@@ -770,22 +927,28 @@ function assessWorksheet(result, iterationNum, previousResults) {
 }
 
 function calculateOverallScore(assessments, iterationNum) {
-  // Iteration 1: 5 dimensions
-  // Iteration 2+: 7 dimensions
+  // Iteration 1: 8 dimensions (including 3 HTML-based critical checks)
+  // Iteration 2+: 10 dimensions (adds contentFreshness and imageDiversity)
   const weights = iterationNum === 1 ? {
-    curriculumAlignment: 0.25,
-    presentationQuality: 0.20,
-    contentConfigMatch: 0.25,
-    imageQuestionAlignment: 0.20,
-    configSpecificQuality: 0.10
-  } : {
+    questionCountValidation: 0.15,
+    objectRepetition: 0.15,
+    imageCollectionDiversity: 0.10,
     curriculumAlignment: 0.20,
     presentationQuality: 0.15,
-    contentConfigMatch: 0.20,
-    imageQuestionAlignment: 0.15,
-    configSpecificQuality: 0.10,
-    contentFreshness: 0.12,
-    imageDiversity: 0.08
+    contentConfigMatch: 0.15,
+    imageQuestionAlignment: 0.05,
+    configSpecificQuality: 0.05
+  } : {
+    questionCountValidation: 0.10,
+    objectRepetition: 0.15,
+    imageCollectionDiversity: 0.10,
+    curriculumAlignment: 0.15,
+    presentationQuality: 0.10,
+    contentConfigMatch: 0.15,
+    imageQuestionAlignment: 0.05,
+    configSpecificQuality: 0.05,
+    contentFreshness: 0.10,
+    imageDiversity: 0.05
   };
 
   let total = 0;
@@ -978,6 +1141,147 @@ async function runAutonomousLoop() {
     // Save cycle report
     saveCycleReport(currentCycle, analysis);
 
+    // ========================================================================
+    // PHASE 1.5: VISION-BASED ASSESSMENT (Claude Code Task-Based)
+    // ========================================================================
+    if (AGENT_CONFIG.ENABLE_VISION) {
+      console.log('\n🔍 VISION ASSESSMENT: Creating vision tasks for Claude Code...\n');
+
+      const ClaudeCodeVisionAssessor = require('./services/claude-code-vision-assessor.js');
+      const visionAssessor = new ClaudeCodeVisionAssessor(SESSION_DIR);
+
+      await visionAssessor.initialize();
+
+      // Create vision tasks for all successful worksheet screenshots in this cycle
+      const visionTasks = [];
+      for (const result of results.filter(r => r.success)) {
+        const screenshotPath = path.join(
+          SESSION_DIR,
+          `cycle-${currentCycle}-screenshots`,
+          result.screenshots.worksheet
+        );
+
+        const task = await visionAssessor.createVisionTask(
+          screenshotPath,
+          config,
+          result.assessment.iterationNum,
+          currentCycle
+        );
+
+        visionTasks.push(task);
+      }
+
+      console.log(`📋 Created ${visionTasks.length} vision assessment tasks\n`);
+      console.log('⏸️  PAUSING FOR VISION ASSESSMENT...\n');
+      console.log('========================================');
+      console.log('🔍 ACTION REQUIRED: CLAUDE CODE VISION');
+      console.log('========================================\n');
+      console.log('Please assess the worksheet screenshots with your vision:\n');
+
+      visionTasks.forEach((task, i) => {
+        console.log(`${i + 1}. Task: ${task.taskId}`);
+        console.log(`   Screenshot: ${task.task.screenshotFullPath}`);
+        console.log(`   Instructions: ${task.taskPath}\n`);
+      });
+
+      console.log('After completing all vision assessments, the agent will continue automatically.\n');
+      console.log('Waiting for vision results...\n');
+
+      // Wait for all vision assessments to complete
+      const visionResults = [];
+      for (const task of visionTasks) {
+        const result = await visionAssessor.waitForAssessment(task.taskId, 600); // 10 min timeout
+        visionResults.push(result);
+      }
+
+      const completedCount = visionResults.filter(r => r.success).length;
+      console.log(`\n✅ Vision assessment complete: ${completedCount}/${visionTasks.length} successful\n`);
+
+      // Compare vision vs text assessments and generate discrepancy report
+      const discrepancyReports = [];
+      for (let i = 0; i < visionResults.length; i++) {
+        const visionResult = visionResults[i];
+        const textResult = results.filter(r => r.success)[i];
+
+        if (visionResult.success && textResult.content) {
+          const comparison = visionAssessor.compareAssessments(
+            visionResult,
+            {
+              questionCount: textResult.content.questions.length,
+              images: textResult.content.images,
+              numbers: textResult.content.numbers,
+              config
+            }
+          );
+
+          discrepancyReports.push(comparison);
+        }
+      }
+
+      // Log discrepancy summary
+      const totalDiscrepancies = discrepancyReports.filter(r => r.hasDiscrepancies).length;
+      if (totalDiscrepancies > 0) {
+        console.log(`\n⚠️  DISCREPANCIES DETECTED: ${totalDiscrepancies} worksheets have vision/text mismatches\n`);
+
+        discrepancyReports.forEach((report, i) => {
+          if (report.hasDiscrepancies) {
+            console.log(`   Iteration ${i + 1}:`);
+            report.discrepancies.forEach(disc => {
+              console.log(`     • [${disc.severity}] ${disc.type}`);
+              console.log(`       Vision: ${disc.visionSees} | Text: ${disc.textParserSays}`);
+              console.log(`       Root Cause: ${disc.rootCause}\n`);
+            });
+          }
+        });
+
+        // Generate self-healing plan from vision feedback
+        const allDiscrepancies = discrepancyReports.flatMap(r => r.discrepancies);
+        const healingPlan = visionAssessor.generateSelfHealingPlan(allDiscrepancies, visionResults);
+
+        console.log(`\n🔧 SELF-HEALING PLAN GENERATED:\n`);
+        console.log(`   Total Fixes: ${healingPlan.totalFixes}`);
+        console.log(`   Automated: ${healingPlan.automatedFixes}`);
+        console.log(`   Manual Review: ${healingPlan.manualFixes}\n`);
+
+        // Save self-healing plan for review
+        const healingPlanPath = path.join(SESSION_DIR, `self-healing-plan-cycle-${currentCycle}.json`);
+        fs.writeFileSync(healingPlanPath, JSON.stringify(healingPlan, null, 2));
+        console.log(`📝 Self-healing plan saved: ${healingPlanPath}\n`);
+
+        // VISION PRECEDENCE: Filter out "false positive" discrepancies where vision confirms worksheet is correct
+        // Only keep discrepancies where vision detects actual problems (broken images, wrong counts, etc.)
+        const realIssues = allDiscrepancies.filter(disc => {
+          // If vision says images are working and text says broken → trust vision (no fix needed)
+          if (disc.type === 'IMAGE_STATUS' && disc.visionSees.includes('working')) {
+            console.log(`   ✅ Vision confirms: ${disc.visionSees} - Ignoring text parser error\n`);
+            return false;
+          }
+          // If vision sees correct count but text parser sees different count → trust vision (no fix needed)
+          if (disc.type === 'QUESTION_COUNT' && disc.visionSees.includes('Correct')) {
+            console.log(`   ✅ Vision confirms: ${disc.visionSees} - Ignoring text parser mismatch\n`);
+            return false;
+          }
+          // Keep all other issues (broken images, mismatches where vision detects problems)
+          return true;
+        });
+
+        console.log(`\n🔍 VISION FILTERING: ${allDiscrepancies.length} total discrepancies → ${realIssues.length} real issues requiring fixes\n`);
+
+        // Track ONLY real vision-detected issues for Fix Registry integration
+        analysis.visionIssues = realIssues;
+        analysis.visionResults = visionResults;
+        analysis.systemHealthScore = discrepancyReports.reduce((sum, r) =>
+          sum + (r.systemHealthScore || 100), 0) / discrepancyReports.length;
+
+        console.log(`   System Health: ${analysis.systemHealthScore.toFixed(1)}%\n`);
+      } else {
+        console.log(`\n✅ NO DISCREPANCIES: Vision and text assessments agree - system is accurate!\n`);
+        analysis.visionIssues = [];
+        analysis.visionResults = visionResults;
+        analysis.systemHealthScore = 100;
+      }
+    }
+
     // Check production readiness
     if (analysis.productionReady) {
       console.log(`\n${'🎉'.repeat(40)}`);
@@ -990,7 +1294,7 @@ async function runAutonomousLoop() {
     // PHASE 2: AUTO-FIX ENGINE
     if (AGENT_CONFIG.AUTO_FIX_ENABLED && currentCycle < AGENT_CONFIG.MAX_CYCLES) {
       try {
-        const catalogPath = path.join(process.cwd(), 'scripts', 'catalogs', 'master-vision-catalog.json');
+        const catalogPath = path.join(process.cwd(), 'scripts', 'catalogs', 'worksheet-object-catalog.json');
 
         // Backup catalog before applying fixes
         const backupPath = path.join(SESSION_DIR, `catalog-backup-cycle-${currentCycle}.json`);
@@ -1002,13 +1306,20 @@ async function runAutonomousLoop() {
         // Load Fix Registry
         const fixRegistry = require('./fixes/fix-registry.js');
 
+        // VISION TAKES PRECEDENCE: Use vision assessment data for fix detection
+        // Text assessment is ignored when vision data is available
+        const visionIssues = analysis.visionIssues || [];
+
+        console.log(`\n🔍 AUTO-FIX ENGINE: Processing ${visionIssues.length} vision-detected issues...\n`);
+
         // Prepare assessment result for Fix Registry
+        // Vision assessment takes precedence - text assessment only used as fallback
         const assessmentResult = {
-          rawText: JSON.stringify(analysis),
-          visionIssues: [] // Phase 3: Claude vision integration
+          rawText: visionIssues.length > 0 ? '' : JSON.stringify(analysis), // Ignore text if vision available
+          visionIssues: visionIssues // Vision results from compareAssessments()
         };
 
-        // Detect and apply fixes
+        // Detect and apply fixes based on VISION ASSESSMENT ONLY
         const fixes = await fixRegistry.detectAndApply(assessmentResult, catalogPath, configId);
 
         // Log applied fixes

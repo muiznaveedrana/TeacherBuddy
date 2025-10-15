@@ -33,3 +33,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Documentation**: scripts/AUTOMATION-QUICKSTART.md and docs/prompt-engineering-guide.md
   
 - ./scripts/sequential-baseline-generation.sh to run sequential baseline generation
+- when I say run agent then run claude claude agent worksheet-quality-assessor.md under claude\agents
+- whenever you are going to create a new js file for worksheet-quality-assessor agent then first ask get confirmation and tell why it can not be done via  autonomous-worksheet-quality-agent.js to help keeping the path straight and unambigous.
+- Always use the worksheet-quality-assessor  agent for test. do not fallback to simpler testing.

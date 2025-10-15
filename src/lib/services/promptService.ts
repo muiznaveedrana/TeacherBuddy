@@ -2085,11 +2085,18 @@ Show TWO groups side by side for comparison:
       return ''
     }
 
+    // 🔄 SLIDING WINDOW: Keep only last N worksheets to prevent vocabulary exhaustion
+    const WINDOW_SIZE = 5;
+    const recentWorksheets = previousWorksheets.length > WINDOW_SIZE
+      ? previousWorksheets.slice(-WINDOW_SIZE)
+      : previousWorksheets;
+
     // 🔍 FRESHNESS DEBUG: Log received data
     console.log('🔍 buildFreshnessInstructions: Received', previousWorksheets?.length || 0, 'previous worksheets')
+    console.log(`🔄 Using ${WINDOW_SIZE}-worksheet sliding window: tracking last ${recentWorksheets.length} worksheets`)
 
-    // Extract previously used objects (forbidden list)
-    const allPreviousQuestions = previousWorksheets.flatMap(w => w.questions)
+    // Extract previously used objects (forbidden list) from recent worksheets only
+    const allPreviousQuestions = recentWorksheets.flatMap(w => w.questions)
     const usedObjects = new Set<string>()
 
     allPreviousQuestions.forEach(q => {
@@ -2105,8 +2112,8 @@ Show TWO groups side by side for comparison:
     console.log('🔍 Total previous questions:', allPreviousQuestions.length)
     console.log('🔍 Forbidden objects:', Array.from(usedObjects))
 
-    // Track category usage history
-    const categoryHistory = this.trackCategoryHistory(previousWorksheets)
+    // Track category usage history from recent worksheets only
+    const categoryHistory = this.trackCategoryHistory(recentWorksheets)
     console.log('🔍 Category history:', categoryHistory)
 
     // Select 5 fresh categories with lowest usage
@@ -2147,7 +2154,7 @@ Show TWO groups side by side for comparison:
 
     return `
 ╔═══════════════════════════════════════════════════════════════════╗
-║  🔄 VOCABULARY ROTATION - ITERATION #${previousWorksheets.length}                           ║
+║  🔄 VOCABULARY ROTATION - ITERATION #${previousWorksheets.length} (Window: ${recentWorksheets.length})          ║
 ║                                                                     ║
 ║  ❌ FORBIDDEN (Already Used):                                     ║
 ║     ${forbiddenLine1.padEnd(61)}║

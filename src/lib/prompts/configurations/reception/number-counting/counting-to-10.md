@@ -50,8 +50,8 @@ Create a Reception counting worksheet with EXACTLY {{questionCount}} questions.
 **🍎 Fruits (10 objects):**
 - apples, bananas, oranges, strawberries, grapes, pears, lemons, watermelons, peaches, pineapples
 
-**🌸 Garden & Nature (8 objects):**
-- flowers, butterflies, bees, birds, trees, leaves, mushrooms, worms
+**🌸 Garden & Nature (9 objects):**
+- flowers, butterflies, bees, birds, trees, leaves, mushrooms, worms, acorns
 
 **📚 School Supplies (9 objects):**
 - books, pencils, erasers, crayons, markers, scissors, rulers, glue, backpacks
@@ -62,8 +62,8 @@ Create a Reception counting worksheet with EXACTLY {{questionCount}} questions.
 **🧸 Toys (5 objects):**
 - balls, cars, dolls, kites, blocks
 
-**🥕 Vegetables (7 objects):**
-- carrots, tomatoes, corn, broccoli, cucumbers, peppers, potatoes
+**🥕 Vegetables (6 objects):**
+- carrots, tomatoes, broccoli, cucumbers, peppers, potatoes
 
 **⚽ Sports Equipment (5 objects):**
 - footballs, basketballs, tennis balls, bats, medals
@@ -78,11 +78,12 @@ Create a Reception counting worksheet with EXACTLY {{questionCount}} questions.
 - cars, buses, bikes, trains, planes
 
 **CRITICAL FRESHNESS STRATEGY:**
-- If previous worksheets used common objects (apples, flowers, pencils, cows), choose from LESS COMMON categories
-- Rotate through different categories: Q1=Fruits, Q2=Garden, Q3=Toys, Q4=Vegetables, Q5=Shapes
-- Within each category, avoid using the FIRST item in the list (apples, flowers, etc.) - choose alternatives
-- Example FRESH combination: pears, butterflies, markers, corn, stars
-- Example STALE combination: apples, flowers, pencils, cows, balls (AVOID THIS!)
+- **MANDATORY**: Vocabulary rotation system extracts objects from previous worksheets and creates FORBIDDEN list
+- **TARGET**: 80%+ new vocabulary (system will provide forbidden list and priority categories)
+- **NO OBJECT PRIORITIZATION**: All 68 objects have equal priority - system tracks usage automatically
+- **ENFORCEMENT**: NEVER use objects from the FORBIDDEN list (system will inject this at generation time)
+- The system automatically tracks which categories are least-used and suggests fresh options
+- Your job: Select from the fresh categories provided, avoid forbidden objects completely
 
 **Never repeat the same object type across questions!**
 
@@ -139,21 +140,117 @@ Vehicles:   /images/WORKSHEET_OBJECTS/counting/vehicles/bus.png
 </div>
 ```
 
+## ✅ ANSWER KEY REQUIREMENT (CRITICAL - BLOCKER)
+
+**🚨 MANDATORY: Every worksheet MUST include an answer key section at the bottom! 🚨**
+
+Add this section AFTER all questions, BEFORE closing </body>:
+
+```html
+<div class="answer-key">
+    <h2 class="answer-key-title">Answer Key</h2>
+    <div class="answer-key-content">
+        <p><strong>1.</strong> [answer]</p>
+        <p><strong>2.</strong> [answer]</p>
+        <p><strong>3.</strong> [answer]</p>
+        <p><strong>4.</strong> [answer]</p>
+        <p><strong>5.</strong> [answer]</p>
+    </div>
+</div>
+```
+
+**Example:**
+```html
+<div class="answer-key">
+    <h2 class="answer-key-title">Answer Key</h2>
+    <div class="answer-key-content">
+        <p><strong>1.</strong> 7 pears</p>
+        <p><strong>2.</strong> 5 butterflies</p>
+        <p><strong>3.</strong> 9 markers</p>
+        <p><strong>4.</strong> 6 corn</p>
+        <p><strong>5.</strong> 8 stars</p>
+    </div>
+</div>
+```
+
+**Required CSS (add to <style> section):**
+```css
+.answer-key {
+    margin-top: 40px;
+    padding: 20px;
+    background: #f0f8ff;
+    border: 2px solid #4169E1;
+    border-radius: 12px;
+    page-break-before: always;
+}
+.answer-key-title {
+    font-size: 16pt;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 0 0 15px 0;
+    text-align: center;
+}
+.answer-key-content p {
+    font-size: 14pt;
+    margin: 8px 0;
+    line-height: 1.6;
+}
+```
+
+**⚠️ FAILURE TO INCLUDE ANSWER KEY = AUTOMATIC WORKSHEET REJECTION**
+
 ## ✅ SELF-VALIDATION CHECKLIST
 
 Before returning the HTML, verify:
 
 1. ☑️ **Question Count (BLOCKER)**: Counted EXACTLY {{questionCount}} questions? Count them: Q1, Q2, Q3, Q4, Q5 = {{questionCount}}? (Not {{questionCount}}+1 or {{questionCount}}-1?)
 2. ☑️ **Number Range (BLOCKER)**: All numbers between 1-10? (No 0, 11, 12, 15, 20, 100, 000, 666, etc.?)
-3. ☑️ **Single Object Rule**: Each question has ONE object type only? (No "apples and oranges"?)
-4. ☑️ **Object Diversity**: Every question uses a DIFFERENT object? (No repeated apples/flowers/etc.?)
-5. ☑️ **Real-World Scenarios**: All contexts are realistic? (No "666 school cows" or "100 apples"?)
-6. ☑️ **Images Match Questions**: Images show the exact objects mentioned? (flowers for "flowers", not random frogs?)
-7. ☑️ **Scrapping Doodle Paths**: All image paths start with `/images/SCRAPPING DOODLE/`?
+3. ☑️ **Answer Key Present (BLOCKER)**: Does the worksheet have an answer key section at the bottom? (See requirements above!)
+4. ☑️ **Single Object Rule**: Each question has ONE object type only? (No "apples and oranges"?)
+5. ☑️ **Object Diversity**: Every question uses a DIFFERENT object? (No repeated apples/flowers/etc.?)
+6. ☑️ **Real-World Scenarios**: All contexts are realistic? (No "666 school cows" or "100 apples"?)
+7. ☑️ **Images Match Questions**: Images show the exact objects mentioned? (flowers for "flowers", not random frogs?)
+8. ☑️ **WORKSHEET_OBJECTS Paths**: All image paths start with `/images/WORKSHEET_OBJECTS/counting/`?
 
 If ANY checkbox fails, STOP and regenerate the worksheet.
 
-⚠️ **FINAL CHECK: Count your questions one more time before returning HTML. You MUST have EXACTLY {{questionCount}} questions.**
+## 🔥 FINAL VERIFICATION BEFORE SUBMITTING 🔥
+
+Before you return your worksheet, STOP and perform these checks:
+
+### 1. **Question Count Verification**
+Count your `<div class="question">` elements:
+- ✅ **Do you see exactly {{questionCount}} questions?** → PROCEED
+- ❌ **Do you see MORE than {{questionCount}}?** → DELETE the extra ones
+- ❌ **Do you see LESS than {{questionCount}}?** → ADD more questions
+
+### 2. **Number Range Verification**
+Scan ALL numbers in your questions:
+- ✅ **Are ALL numbers between 1-10?** → PROCEED
+- ❌ **Do you see 11, 12, 20, 100, or higher?** → REPLACE with numbers 1-10
+
+### 3. **Object Type Verification**
+Check each question:
+- ✅ **Does each question mention only ONE type of object?** → PROCEED
+- ❌ **Do you see "apples and oranges" or similar?** → REMOVE one object type
+
+### 4. **Answer Key Verification**
+Check the bottom of your worksheet:
+- ✅ **Is there an `<div class="answer-key">` section?** → PROCEED
+- ❌ **No answer key section?** → ADD IT NOW (see requirements above)
+
+### 5. **Object Diversity Verification**
+List the objects used in all {{questionCount}} questions:
+- ✅ **Are they ALL DIFFERENT?** (e.g., pears, butterflies, markers, corn, stars) → PROCEED
+- ❌ **Do you see the SAME object twice?** (e.g., apples in Q1 AND Q3) → CHANGE one
+
+**CRITICAL REMINDER:**
+This is RECEPTION - the youngest learners (ages 4-5).
+They are just learning what numbers ARE.
+Keep it simple, visual, concrete, and FUN!
+
+**Final count: 1, 2, 3, 4, 5 questions = {{questionCount}} questions ✓**
+**Plus 1 answer key section ✓**
 
 ## 📄 OUTPUT FORMAT
 

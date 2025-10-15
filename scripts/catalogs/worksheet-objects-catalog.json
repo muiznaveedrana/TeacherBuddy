@@ -1,0 +1,2009 @@
+{
+  "version": "2.0.0",
+  "lastUpdated": "2025-10-14",
+  "basePath": "/images/WORKSHEET_OBJECTS",
+  "totalObjects": 68,
+  "categories": {
+    "addition": {
+      "number_blocks": {},
+      "ten_frames": {}
+    },
+    "counting": {
+      "farm_animals": {
+        "chicken": {
+          "filename": "chicken.png",
+          "pluralName": "chickens",
+          "path": "/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "cow": {
+          "filename": "cow.png",
+          "pluralName": "cows",
+          "path": "/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "duck": {
+          "filename": "duck.png",
+          "pluralName": "ducks",
+          "path": "/images/WORKSHEET_OBJECTS/counting/farm_animals/duck.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "goat": {
+          "filename": "goat.png",
+          "pluralName": "goats",
+          "path": "/images/WORKSHEET_OBJECTS/counting/farm_animals/goat.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "goose": {
+          "filename": "goose.png",
+          "pluralName": "geese",
+          "path": "/images/WORKSHEET_OBJECTS/counting/farm_animals/goose.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "horse": {
+          "filename": "horse.png",
+          "pluralName": "horses",
+          "path": "/images/WORKSHEET_OBJECTS/counting/farm_animals/horse.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "pig": {
+          "filename": "pig.png",
+          "pluralName": "pigs",
+          "path": "/images/WORKSHEET_OBJECTS/counting/farm_animals/pig.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "sheep": {
+          "filename": "sheep.png",
+          "pluralName": "sheep",
+          "path": "/images/WORKSHEET_OBJECTS/counting/farm_animals/sheep.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "turkey": {
+          "filename": "turkey.png",
+          "pluralName": "turkeys",
+          "path": "/images/WORKSHEET_OBJECTS/counting/farm_animals/turkey.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        }
+      },
+      "food_treats": {
+        "cookie": {
+          "filename": "cookie.png",
+          "pluralName": "cookies",
+          "path": "/images/WORKSHEET_OBJECTS/counting/food_treats/cookie.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "cupcake": {
+          "filename": "cupcake.png",
+          "pluralName": "cupcakes",
+          "path": "/images/WORKSHEET_OBJECTS/counting/food_treats/cupcake.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        }
+      },
+      "fruits": {
+        "apple": {
+          "filename": "apple.png",
+          "pluralName": "apples",
+          "path": "/images/WORKSHEET_OBJECTS/counting/fruits/apple.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "banana": {
+          "filename": "banana.png",
+          "pluralName": "bananas",
+          "path": "/images/WORKSHEET_OBJECTS/counting/fruits/banana.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "grape": {
+          "filename": "grape.png",
+          "pluralName": "grapes",
+          "path": "/images/WORKSHEET_OBJECTS/counting/fruits/grape.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "lemon": {
+          "filename": "lemon.png",
+          "pluralName": "lemons",
+          "path": "/images/WORKSHEET_OBJECTS/counting/fruits/lemon.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "orange": {
+          "filename": "orange.png",
+          "pluralName": "oranges",
+          "path": "/images/WORKSHEET_OBJECTS/counting/fruits/orange.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "peach": {
+          "filename": "peach.png",
+          "pluralName": "peaches",
+          "path": "/images/WORKSHEET_OBJECTS/counting/fruits/peach.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "pear": {
+          "filename": "pear.png",
+          "pluralName": "pears",
+          "path": "/images/WORKSHEET_OBJECTS/counting/fruits/pear.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "pineapple": {
+          "filename": "pineapple.png",
+          "pluralName": "pineapples",
+          "path": "/images/WORKSHEET_OBJECTS/counting/fruits/pineapple.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "strawberry": {
+          "filename": "strawberry.png",
+          "pluralName": "strawberries",
+          "path": "/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "watermelon": {
+          "filename": "watermelon.png",
+          "pluralName": "watermelons",
+          "path": "/images/WORKSHEET_OBJECTS/counting/fruits/watermelon.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        }
+      },
+      "garden": {
+        "acorn": {
+          "filename": "acorn.png",
+          "pluralName": "acorns",
+          "path": "/images/WORKSHEET_OBJECTS/counting/garden/acorn.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "ant": {
+          "filename": "ant.png",
+          "pluralName": "ants",
+          "path": "/images/WORKSHEET_OBJECTS/counting/garden/ant.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "bee": {
+          "filename": "bee.png",
+          "pluralName": "bees",
+          "path": "/images/WORKSHEET_OBJECTS/counting/garden/bee.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "bird": {
+          "filename": "bird.png",
+          "pluralName": "birds",
+          "path": "/images/WORKSHEET_OBJECTS/counting/garden/bird.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "butterfly": {
+          "filename": "butterfly.png",
+          "pluralName": "butterflies",
+          "path": "/images/WORKSHEET_OBJECTS/counting/garden/butterfly.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "flower": {
+          "filename": "flower.png",
+          "pluralName": "flowers",
+          "path": "/images/WORKSHEET_OBJECTS/counting/garden/flower.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "leaf": {
+          "filename": "leaf.png",
+          "pluralName": "leaves",
+          "path": "/images/WORKSHEET_OBJECTS/counting/garden/leaf.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "mushroom": {
+          "filename": "mushroom.png",
+          "pluralName": "mushrooms",
+          "path": "/images/WORKSHEET_OBJECTS/counting/garden/mushroom.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "tree": {
+          "filename": "tree.png",
+          "pluralName": "trees",
+          "path": "/images/WORKSHEET_OBJECTS/counting/garden/tree.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "worm": {
+          "filename": "worm.png",
+          "pluralName": "worms",
+          "path": "/images/WORKSHEET_OBJECTS/counting/garden/worm.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        }
+      },
+      "school_supplies": {
+        "backpack": {
+          "filename": "backpack.png",
+          "pluralName": "backpacks",
+          "path": "/images/WORKSHEET_OBJECTS/counting/school_supplies/backpack.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "book": {
+          "filename": "book.png",
+          "pluralName": "books",
+          "path": "/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "crayon": {
+          "filename": "crayon.png",
+          "pluralName": "crayons",
+          "path": "/images/WORKSHEET_OBJECTS/counting/school_supplies/crayon.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "eraser": {
+          "filename": "eraser.png",
+          "pluralName": "erasers",
+          "path": "/images/WORKSHEET_OBJECTS/counting/school_supplies/eraser.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "glue": {
+          "filename": "glue.png",
+          "pluralName": "glues",
+          "path": "/images/WORKSHEET_OBJECTS/counting/school_supplies/glue.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "marker": {
+          "filename": "marker.png",
+          "pluralName": "markers",
+          "path": "/images/WORKSHEET_OBJECTS/counting/school_supplies/marker.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "pencil": {
+          "filename": "pencil.png",
+          "pluralName": "pencils",
+          "path": "/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "ruler": {
+          "filename": "ruler.png",
+          "pluralName": "rulers",
+          "path": "/images/WORKSHEET_OBJECTS/counting/school_supplies/ruler.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "scissors": {
+          "filename": "scissors.png",
+          "pluralName": "scissors",
+          "path": "/images/WORKSHEET_OBJECTS/counting/school_supplies/scissors.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        }
+      },
+      "shapes": {
+        "circle": {
+          "filename": "circle.png",
+          "pluralName": "circles",
+          "path": "/images/WORKSHEET_OBJECTS/counting/shapes/circle.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "diamond": {
+          "filename": "diamond.png",
+          "pluralName": "diamonds",
+          "path": "/images/WORKSHEET_OBJECTS/counting/shapes/diamond.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "heart": {
+          "filename": "heart.png",
+          "pluralName": "hearts",
+          "path": "/images/WORKSHEET_OBJECTS/counting/shapes/heart.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "moon": {
+          "filename": "moon.png",
+          "pluralName": "moons",
+          "path": "/images/WORKSHEET_OBJECTS/counting/shapes/moon.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "square": {
+          "filename": "square.png",
+          "pluralName": "squares",
+          "path": "/images/WORKSHEET_OBJECTS/counting/shapes/square.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "star": {
+          "filename": "star.png",
+          "pluralName": "stars",
+          "path": "/images/WORKSHEET_OBJECTS/counting/shapes/star.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "sun": {
+          "filename": "sun.png",
+          "pluralName": "suns",
+          "path": "/images/WORKSHEET_OBJECTS/counting/shapes/sun.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        }
+      },
+      "sports": {
+        "basketball": {
+          "filename": "basketball.png",
+          "pluralName": "basketballs",
+          "path": "/images/WORKSHEET_OBJECTS/counting/sports/basketball.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "bat": {
+          "filename": "bat.png",
+          "pluralName": "bats",
+          "path": "/images/WORKSHEET_OBJECTS/counting/sports/bat.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "football": {
+          "filename": "football.png",
+          "pluralName": "footballs",
+          "path": "/images/WORKSHEET_OBJECTS/counting/sports/football.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "medal": {
+          "filename": "medal.png",
+          "pluralName": "medals",
+          "path": "/images/WORKSHEET_OBJECTS/counting/sports/medal.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "tennis ball": {
+          "filename": "tennis_ball.png",
+          "pluralName": "tennis balls",
+          "path": "/images/WORKSHEET_OBJECTS/counting/sports/tennis_ball.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        }
+      },
+      "toys": {
+        "ball": {
+          "filename": "ball.png",
+          "pluralName": "balls",
+          "path": "/images/WORKSHEET_OBJECTS/counting/toys/ball.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "block": {
+          "filename": "block.png",
+          "pluralName": "blocks",
+          "path": "/images/WORKSHEET_OBJECTS/counting/toys/block.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "car": {
+          "filename": "car.png",
+          "pluralName": "cars",
+          "path": "/images/WORKSHEET_OBJECTS/counting/toys/car.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "doll": {
+          "filename": "doll.png",
+          "pluralName": "dolls",
+          "path": "/images/WORKSHEET_OBJECTS/counting/toys/doll.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "kite": {
+          "filename": "kite.png",
+          "pluralName": "kites",
+          "path": "/images/WORKSHEET_OBJECTS/counting/toys/kite.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        }
+      },
+      "vegetables": {
+        "broccoli": {
+          "filename": "broccoli.png",
+          "pluralName": "broccolis",
+          "path": "/images/WORKSHEET_OBJECTS/counting/vegetables/broccoli.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "carrot": {
+          "filename": "carrot.png",
+          "pluralName": "carrots",
+          "path": "/images/WORKSHEET_OBJECTS/counting/vegetables/carrot.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "cucumber": {
+          "filename": "cucumber.png",
+          "pluralName": "cucumbers",
+          "path": "/images/WORKSHEET_OBJECTS/counting/vegetables/cucumber.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "pepper": {
+          "filename": "pepper.png",
+          "pluralName": "peppers",
+          "path": "/images/WORKSHEET_OBJECTS/counting/vegetables/pepper.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "potato": {
+          "filename": "potato.png",
+          "pluralName": "potatoes",
+          "path": "/images/WORKSHEET_OBJECTS/counting/vegetables/potato.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "tomato": {
+          "filename": "tomato.png",
+          "pluralName": "tomatoes",
+          "path": "/images/WORKSHEET_OBJECTS/counting/vegetables/tomato.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        }
+      },
+      "vehicles": {
+        "bike": {
+          "filename": "bike.png",
+          "pluralName": "bikes",
+          "path": "/images/WORKSHEET_OBJECTS/counting/vehicles/bike.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "bus": {
+          "filename": "bus.png",
+          "pluralName": "buses",
+          "path": "/images/WORKSHEET_OBJECTS/counting/vehicles/bus.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "car": {
+          "filename": "car.png",
+          "pluralName": "cars",
+          "path": "/images/WORKSHEET_OBJECTS/counting/vehicles/car.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "plane": {
+          "filename": "plane.png",
+          "pluralName": "planes",
+          "path": "/images/WORKSHEET_OBJECTS/counting/vehicles/plane.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        },
+        "train": {
+          "filename": "train.png",
+          "pluralName": "trains",
+          "path": "/images/WORKSHEET_OBJECTS/counting/vehicles/train.png",
+          "verified": true,
+          "verifiedDate": "2025-10-14",
+          "ageGroups": [
+            "Reception",
+            "Year 1",
+            "Year 2"
+          ],
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "usageCount": 0,
+          "lastUsed": null,
+          "popularity": "medium",
+          "notes": null
+        }
+      }
+    },
+    "measurement": {
+      "length_tools": {}
+    },
+    "shapes_geometry": {
+      "2d_shapes": {},
+      "3d_shapes": {}
+    },
+    "shared": {
+      "backgrounds": {},
+      "characters": {}
+    },
+    "subtraction": {
+      "number_lines": {}
+    }
+  },
+  "metadata": {
+    "generatedBy": "generate-worksheet-objects-catalog.js",
+    "generatedAt": "2025-10-14T19:37:30.369Z",
+    "topicCategories": [
+      "addition",
+      "counting",
+      "measurement",
+      "shapes_geometry",
+      "shared",
+      "subtraction"
+    ],
+    "ageGroupMappings": {
+      "counting": [
+        "Reception",
+        "Year 1",
+        "Year 2"
+      ],
+      "addition": [
+        "Year 1",
+        "Year 2",
+        "Year 3"
+      ],
+      "subtraction": [
+        "Year 1",
+        "Year 2",
+        "Year 3"
+      ],
+      "multiplication": [
+        "Year 2",
+        "Year 3",
+        "Year 4"
+      ],
+      "division": [
+        "Year 3",
+        "Year 4",
+        "Year 5"
+      ],
+      "fractions": [
+        "Year 3",
+        "Year 4",
+        "Year 5",
+        "Year 6"
+      ],
+      "shapes_geometry": [
+        "Reception",
+        "Year 1",
+        "Year 2",
+        "Year 3"
+      ],
+      "measurement": [
+        "Year 1",
+        "Year 2",
+        "Year 3",
+        "Year 4"
+      ]
+    }
+  }
+}
