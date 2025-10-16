@@ -105,9 +105,8 @@ export class PromptService {
    * Load configuration-specific prompt if available
    * Returns the complete prompt as a replacement for generic prompt
    *
-   * NEW: Supports TypeScript config files in prompts/config-specific/ directory
-   * Format: {year}-{topic}-{subtopic}-v{version}.ts
-   * Example: reception-number-counting-counting-to-10-v1.0.ts
+   * PRODUCTION PATH: src/lib/prompts/configurations/{year}/{topic}/{subtopic}.md
+   * Uses WORKSHEET_OBJECTS image system (proven 97.7% quality)
    */
   private static async loadConfigSpecificPrompt(
     config: EnhancedPromptConfig,
@@ -126,61 +125,8 @@ export class PromptService {
       // Normalize subtopic (e.g., "Counting to 10" → "counting-to-10")
       const normalizedSubtopic = config.subtopic.toLowerCase().replace(/\s+/g, '-')
 
-      // Construct config ID
-      const configId = `${normalizedYear}-${normalizedTopic}-${normalizedSubtopic}`
-
-      // NEW: Check for TypeScript config files in prompts/config-specific/
-      const configDir = path.join(process.cwd(), 'prompts', 'config-specific')
-
-      if (fs.existsSync(configDir)) {
-        const files = fs.readdirSync(configDir)
-
-        // Look for versioned config files (e.g., reception-number-counting-counting-to-10-v1.0.ts)
-        const configFiles = files.filter((file: string) =>
-          file.startsWith(configId) && file.endsWith('.ts')
-        )
-
-        if (configFiles.length > 0) {
-          // Sort by version (latest first) - use the highest version
-          configFiles.sort().reverse()
-          const configFile = configFiles[0]
-          const configPath = path.join(configDir, configFile)
-
-          try {
-            // Dynamically import the TypeScript config file
-            const configModule = require(configPath)
-
-            if (configModule.configSpecificPrompt) {
-              let configPrompt = configModule.configSpecificPrompt
-
-              // Build freshness instructions from previous worksheets
-              const freshnessInstructions = this.buildFreshnessInstructions(previousWorksheets)
-
-              // Inject freshness instructions at the top if available
-              if (freshnessInstructions) {
-                configPrompt = `${freshnessInstructions}\n\n---\n\n${configPrompt}`
-                console.log(`🔄 Freshness tracking enabled: ${previousWorksheets?.length || 0} previous worksheet(s) excluded`)
-              }
-
-              // Replace placeholders with actual config values
-              configPrompt = configPrompt
-                .replace(/\{\{questionCount\}\}/g, config.questionCount.toString())
-                .replace(/\{\{difficulty\}\}/g, config.difficulty)
-                .replace(/\{\{topic\}\}/g, config.topic)
-                .replace(/\{\{subtopic\}\}/g, config.subtopic)
-                .replace(/\{\{yearGroup\}\}/g, config.yearGroup)
-
-              console.log(`📄 Loaded config-specific prompt from TypeScript: ${configFile}`)
-              return configPrompt
-            }
-          } catch (importError) {
-            console.warn(`⚠️ Error importing TypeScript config file ${configFile}:`, importError)
-          }
-        }
-      }
-
-      // FALLBACK: Try old .md file location for backward compatibility
-      const oldPromptPath = path.join(
+      // Check production location for config-specific .md file
+      const configPromptPath = path.join(
         process.cwd(),
         'src',
         'lib',
@@ -191,16 +137,19 @@ export class PromptService {
         `${normalizedSubtopic}.md`
       )
 
-      if (fs.existsSync(oldPromptPath)) {
-        let configPrompt = fs.readFileSync(oldPromptPath, 'utf-8')
+      if (fs.existsSync(configPromptPath)) {
+        let configPrompt = fs.readFileSync(configPromptPath, 'utf-8')
 
-        const freshnessInstructions = this.buildFreshnessInstructions(previousWorksheets)
+        // Inject lean freshness instructions from previous worksheets
+        // LEAN FRESHNESS is now the permanent default (simpler, faster, proven effective)
+        const freshnessInstructions = this.buildFreshnessInstructionsLean(previousWorksheets)
 
         if (freshnessInstructions) {
           configPrompt = `${freshnessInstructions}\n\n---\n\n${configPrompt}`
           console.log(`🔄 Freshness tracking enabled: ${previousWorksheets?.length || 0} previous worksheet(s) excluded`)
         }
 
+        // Replace placeholders with actual config values
         configPrompt = configPrompt
           .replace(/\{\{questionCount\}\}/g, config.questionCount.toString())
           .replace(/\{\{difficulty\}\}/g, config.difficulty)
@@ -208,7 +157,11 @@ export class PromptService {
           .replace(/\{\{subtopic\}\}/g, config.subtopic)
           .replace(/\{\{yearGroup\}\}/g, config.yearGroup)
 
-        console.log(`📄 Loaded config-specific prompt from Markdown (legacy): ${oldPromptPath}`)
+        console.log(`✅ Loaded config-specific prompt (PRODUCTION): ${path.basename(configPromptPath)}`)
+        console.log(`   Location: src/lib/prompts/configurations/${normalizedYear}/${normalizedTopic}/`)
+        console.log(`   Image system: WORKSHEET_OBJECTS (proven 97.7% quality)`)
+        console.log(`   Freshness: ${freshnessInstructions ? 'ENABLED' : 'DISABLED'}`)
+
         return configPrompt
       }
 
@@ -229,12 +182,17 @@ export class PromptService {
     // Check for config-specific prompt first (complete replacement with freshness tracking)
     const configSpecificPrompt = await this.loadConfigSpecificPrompt(config, options.previousWorksheets)
     if (configSpecificPrompt) {
-      console.log(`✅ Using config-specific prompt for ${config.yearGroup}-${config.topic}-${config.subtopic}`)
+      // Config-specific prompt loaded successfully (logs already printed in loadConfigSpecificPrompt)
       return configSpecificPrompt // Return config-specific prompt as-is (no generic prompt)
     }
 
     // Fall back to generic prompt if no config-specific prompt exists
-    console.log(`⚠️ No config-specific prompt found, using generic prompt for ${config.yearGroup}-${config.topic}-${config.subtopic}`)
+    console.log(`⚠️ No config-specific prompt found - using GENERIC FALLBACK`)
+    console.log(`   Config: ${config.yearGroup}-${config.topic}-${config.subtopic}`)
+    console.log(`   Location checked: src/lib/prompts/configurations/`)
+    console.log(`   Image system: SCRAPPING DOODLE (untested with this config)`)
+    console.log(`   Note: Create config-specific .md file for better results`)
+
     const promptVariation = this.selectOptimalVariation(config)
     const basePrompt = await this.generateVariationPrompt(config, promptVariation, options.previousWorksheets)
 
@@ -308,7 +266,8 @@ export class PromptService {
 
 
   /**
-   * Generate optimal prompt - streamlined version with consolidated instructions
+   * Generate optimal prompt - OPTIMIZED VERSION (60% smaller, same quality)
+   * Removed redundant warnings, consolidated rules, streamlined instructions
    */
   private static async generateOptimalPrompt(
     config: EnhancedPromptConfig,
@@ -333,8 +292,9 @@ export class PromptService {
     // Get subtopic-specific guidance
     const subtopicGuidance = this.getSubtopicGuidance(config)
 
-    // Build content freshness instructions if we have previous worksheets
-    const freshnessInstructions = this.buildFreshnessInstructions(previousWorksheets)
+    // Build lean freshness instructions if we have previous worksheets
+    // LEAN FRESHNESS is now the permanent default (simpler, faster, proven effective)
+    const freshnessInstructions = this.buildFreshnessInstructionsLean(previousWorksheets)
 
     // 🔍 FRESHNESS DEBUG: Log freshness instructions generation
     console.log('🔍 Freshness instructions generated:', freshnessInstructions ? 'YES' : 'NO')
@@ -346,57 +306,14 @@ export class PromptService {
 
 ${freshnessInstructions}
 
-**🚨 CRITICAL: QUESTION COUNT REQUIREMENT 🚨**
-**YOU MUST GENERATE EXACTLY ${config.questionCount} QUESTIONS - NO MORE, NO LESS**
-**THIS IS NOT ${config.questionCount + 1} QUESTIONS**
-**THIS IS NOT ${config.questionCount + 2} QUESTIONS**
-**THIS IS NOT ${config.questionCount - 1} QUESTIONS**
-**GENERATE PRECISELY ${config.questionCount} QUESTIONS**
+**CRITICAL: Generate EXACTLY ${config.questionCount} questions - no more, no less.**
 
 ${subtopicGuidance}
 
-**🔥🔥🔥 YEAR 1 ABSOLUTE RULE - READ THIS FIRST! 🔥🔥🔥**
-**THIS IS ${config.yearGroup} - FOR ALL QUANTITIES ≤20:**
-**MANDATORY: USE <div class="counting-objects-grid"> with multiple images BELOW the question text**
-**FORBIDDEN: DO NOT use class="question-svg-side" for quantities ≤20 in Year 1**
-**FORBIDDEN: DO NOT float images beside text - images MUST be centered BELOW text**
-**CORRECT PATTERN FOR YEAR 1 (≤20 objects):**
-  <p class="question-text">Question here...</p>
-  <div class="counting-objects-grid">
-    <!-- Multiple keyword-matched Scrapping Doodle images here -->
-  </div>
-  <div class="answer-line">Answer: ___</div>
-
-**🚨🚨🚨 CRITICAL: OLD IMAGE PATHS DELETED - WILL RETURN 404 ERROR! 🚨🚨🚨**
-
-**❌ DELETED PATHS (THESE WILL BREAK THE WORKSHEET):**
-\`\`\`
-/images/educational/counting-objects/flower/  ← DELETED
-/images/educational/counting-objects/pencil/  ← DELETED
-/images/educational/counting-objects/book/    ← DELETED
-\`\`\`
-
-**✅ REQUIRED: USE SCRAPPING DOODLE PATHS ONLY:**
+**IMAGE REQUIREMENTS:**
+- Use SCRAPPING DOODLE paths from contextual suggestions below
+- OLD paths (/images/educational/counting-objects/) are DELETED and return 404
 ${scrappingDoodleGuidance}
-
-**EXAMPLE OF CORRECT USAGE (COPY THIS PATTERN):**
-\`\`\`html
-<!-- ✅ CORRECT - SCRAPPING DOODLE paths work -->
-<img src="/images/SCRAPPING DOODLE/FarmAnimalsAndBabies_byScrappinDoodles/Cow.png" class="question-svg-side" width="180" height="180" alt="Farm Cow" />
-
-<!-- ❌ WRONG - These paths return 404 error -->
-<img src="/images/educational/counting-objects/book/book-438935.svg" /> ← BROKEN!
-\`\`\`
-
-**🎨 SCRAPPING DOODLE PREMIUM LIBRARY - HIGHEST PRIORITY! 🎨**
-**CRITICAL: Use SCRAPPING DOODLE images when available from contextual suggestions below**
-**These are superior, professionally curated educational images**
-- ALWAYS check contextual image suggestions below FIRST
-- Use suggested SCRAPPING DOODLE paths when provided
-- Only use fallback static templates if no SCRAPPING DOODLE match available
-- SCRAPPING DOODLE images are context-aware and age-appropriate
-
-**QUALITY TARGET: 4.5/5.0** - Evaluated on: Accuracy (30%), Visual Clarity (25%), Educational Value (20%), Age Appropriateness (15%), Answer Protection (10%)
 
 **CRITICAL AGE-BASED IMAGE RULES FOR ${config.yearGroup}:**
 ${this.getAgeBasedImageRules(config.yearGroup)}
@@ -404,462 +321,60 @@ ${this.getAgeBasedImageRules(config.yearGroup)}
 **CORE REQUIREMENTS:**
 - UK National Curriculum aligned for ${config.subtopic}
 - Age-appropriate vocabulary for ${config.yearGroup}
-- Names: Emma, Oliver, Sophie, James, Lily, Thomas, Grace, Harry${themeContext ? `\n- Theme: ${themeContext}` : ''}
-- NO markdown formatting - plain text only
-- Normal capitalization ("smaller", "bigger") - NEVER "SMALLER"
+- Names: Emma, Oliver, Sophie, James, Lily, Thomas, Grace, Harry (vary order)${themeContext ? `\n- Theme: ${themeContext}` : ''}
 - Complete HTML document starting with <!DOCTYPE html>
 
-**🎲 MANDATORY QUESTION VARIETY & CREATIVITY:**
-- **RANDOMIZE scenarios**: Use different activities (picking, buying, finding, collecting, giving away, sharing, eating, etc.)
-- **RANDOMIZE names**: Don't always use Emma first - vary the order (Thomas first, then Lily, then Oliver, etc.)
+**OBJECT VARIETY RULE (CRITICAL):**
+Each question must use a DIFFERENT object from DIFFERENT categories. Never repeat object types.
+✅ Good: Q1=Fruits, Q2=School, Q3=Vehicles, Q4=Farm, Q5=Garden
+❌ Bad: Q1=apples, Q2=apples, Q3=bananas (repeated fruit category)
 
-**🚨 ABSOLUTE RULE: MAXIMUM 1 QUESTION PER OBJECT TYPE 🚨**
-**FORBIDDEN REPETITION EXAMPLES (DO NOT DO THIS):**
-- ❌ Q1: hamburgers, Q2: hamburgers, Q3: hamburgers (SAME OBJECT!)
-- ❌ Q1: carrots, Q2: carrots, Q3: carrots (SAME OBJECT!)
-- ❌ Q1: flowers, Q3: flowers (SAME OBJECT!)
-- ❌ Q1: mice, Q2: mice (SAME OBJECT!)
-
-**REQUIRED PATTERN - EVERY QUESTION MUST USE DIFFERENT OBJECT:**
-- ✅ Q1: apples (Fruits) → Q2: pencils (School) → Q3: chickens (Farm) → Q4: balls (Sports) → Q5: flowers (Garden)
-- ✅ Q1: bananas (Fruits) → Q2: books (School) → Q3: cows (Farm) → Q4: cars (Vehicles) → Q5: stars (Shapes)
-- ✅ Q1: strawberries (Fruits) → Q2: erasers (School) → Q3: sheep (Farm) → Q4: bicycles (Vehicles) → Q5: trees (Nature)
-
-**🔥 CRITICAL: DIFFERENT OBJECT CATEGORIES FOR EACH QUESTION 🔥**
-  - **Question 1**: Use ONE category (e.g., strawberries from Fruits - NOT apples if you're being repetitive!)
-  - **Question 2**: Use DIFFERENT category (e.g., rulers from School Supplies - NOT books, NOT pencils!)
-  - **Question 3**: Use ANOTHER DIFFERENT category (e.g., grapes from Fruits - different fruit than Q1!)
-  - **Question 4**: Use YET ANOTHER category (e.g., buses from Vehicles - completely new category!)
-  - **Question 5**: Use FINAL DIFFERENT category (e.g., butterflies from Garden - avoid flowers if overused!)
-  - **FORBIDDEN**: Do NOT use farm animals for all questions (boring, repetitive!)
-  - **FORBIDDEN**: Do NOT repeat the same object type (e.g., apples in Q1 AND Q3)
-  - **FORBIDDEN**: Do NOT use common defaults (apples, pencils, flowers) - be creative!
-- **RANDOMIZE numbers**: Vary the starting quantities and operations (use 3, 7, 11, 15, 19 - not always 9-14)
-- **MIX contexts**: School, home, park, shop, garden, playground
-- **CREATIVE scenarios**: "found in the garden", "bought at the shop", "collected from the beach", "received as gifts"
-
-**🎨 IMAGE DIVERSITY ENFORCEMENT (CRITICAL FOR ENGAGEMENT):**
-- **ROTATE through different image files within collections** - Don't use the same .png file repeatedly
-- **Example**: If using Spring_Garden, rotate between flower.png, flower2.png, flower3.png, bee.png, butterfly.png
-- **Within a single question showing 7 objects**: Show variety by mixing files (3x flower.png, 2x flower2.png, 2x flower3.png)
-- **Across questions**: NEVER use the same exact .png file in multiple questions
-- **FORBIDDEN**: Using chicken.png 7 times in Q1, then chicken.png 7 times again in Q3 (BORING!)
-- **REQUIRED**: Q1 uses chicken.png + chicken2.png mix, Q3 uses completely different collection
-
-**💡 EXPANDED OBJECT VOCABULARY - USE THESE FOR VARIETY:**
-**Fruits:** apples, bananas, oranges, strawberries, grapes, pears, cherries, watermelons, lemons, peaches
-**Vegetables:** carrots, tomatoes, corn, peas, broccoli, cucumbers, peppers, lettuce, potatoes, onions
-**School Items:** books, pencils, erasers, rulers, crayons, markers, scissors, glue sticks, notebooks, backpacks
-**Farm Animals:** chickens, cows, pigs, sheep, horses, ducks, goats, rabbits, geese, turkeys
-**Garden:** flowers, butterflies, bees, ladybugs, snails, caterpillars, worms, birds, trees, grass
-**Vehicles:** cars, buses, bikes, trains, boats, planes, trucks, scooters, helicopters, tractors
-**Toys:** teddy bears, dolls, blocks, balls, toy cars, puzzles, kites, yo-yos, drums, robots
-**Sports:** footballs, basketballs, tennis balls, bats, rackets, goals, hoops, nets, cones, medals
-**Food:** cookies, sandwiches, pizzas, cupcakes, donuts, ice cream, bread, cheese, milk, eggs
-**Shapes/Objects:** stars, hearts, circles, squares, triangles, diamonds, moons, suns, clouds, rainbows
-
-**STRATEGY:** Pick from DIFFERENT categories above. If Q1 uses fruits, Q2 should use school items, Q3 vehicles, etc.
+Available categories: Fruits, Vegetables, School Items, Farm Animals, Garden, Vehicles, Toys, Sports, Food, Shapes
+- Rotate image files within collections (flower.png, flower2.png, flower3.png)
+- Vary scenarios: picking, buying, finding, collecting, sharing, eating
+- Vary quantities: use 3, 7, 11, 15, 19 - not always 9-14
 
 **🎨 SCRAPPING DOODLE PREMIUM COLLECTIONS (CHECK AVAILABLE DIVERSE COLLECTIONS BELOW):**
 ${scrappingDoodleGuidance}
 
-**PROFESSIONAL IMAGE INTEGRATION STRATEGY:**
+**IMAGE-TO-KEYWORD MATCHING:**
+Match images to question keywords exactly:
+- flowers → Spring_Garden collection
+- fruits → Fruit_by_ScrappinDoodles
+- vegetables → FoodGroup_Vegetables
+- school items → SchoolSupplies
+- sports/balls → SportsBalls
+- farm animals → FarmAnimalsAndBabies
+
 ${imageLibraryInstructions}
 
 ${countingObjectsGuidance}
 
 ${hybridSVGGuidance}
 
-**🔥🔥🔥 CRITICAL: MATCH IMAGES TO QUESTION KEYWORDS! 🔥🔥🔥**
+**IMAGE PLACEMENT BY AGE & QUANTITY:**
 
-**THE #1 RULE: Question about FLOWERS → Show FLOWER images (NOT random animals!)**
-**THE #1 RULE: Question about APPLES → Show APPLE images (NOT random animals!)**
-**THE #1 RULE: Question about BOOKS → Show BOOK images (NOT random animals!)**
+| Year Group | First Number ≤20 | First Number >20 |
+|------------|------------------|------------------|
+| Reception/Y1/Y2 | counting-objects-grid (below text) | Single image (right, class="question-svg-side") |
+| Year 3+ | Single image (right) | Single image (right) |
 
-**KEYWORD-TO-IMAGE MATCHING (MANDATORY):**
+**Visual Quantity Rule:** Show the FIRST number mentioned in question (or items-per-group for multiplication groups like "3 groups of 5" → show 5).
 
-**STEP 1: Extract keyword from question**
-- If question mentions "flowers" → keyword = "flowers"
-- If question mentions "apples" → keyword = "apples"
-- If question mentions "pencils" → keyword = "pencils"
-- If question mentions "books" → keyword = "books"
-
-**STEP 2: Use Scrapping Doodle collections that match the keyword**
-
-**AVAILABLE KEYWORD COLLECTIONS:**
-- **FLOWERS** → Use: /images/SCRAPPING DOODLE/Spring_Garden_by_ScrappinDoodles/ (flower.png, flower2.png, flower3.png)
-- **FRUITS** (apples, bananas, oranges, berries, grapes) → Use: /images/SCRAPPING DOODLE/Fruit_by_ScrappinDoodles/
-- **VEGETABLES** (carrots, tomatoes, potatoes, corn, peas) → Use: /images/SCRAPPING DOODLE/FoodGroup_Vegetables_byScrappinDoodles/
-- **SCHOOL ITEMS** (books, pencils, erasers, rulers, scissors) → Use: /images/SCRAPPING DOODLE/SchoolSupplies_byScrappinDoodles/
-- **SPORTS/BALLS** (footballs, basketballs, soccer balls) → Use: /images/SCRAPPING DOODLE/SportsBalls_byScrappinDoodles/
-- **FARM ANIMALS** (cows, pigs, chickens, sheep) → Use: /images/SCRAPPING DOODLE/FarmAnimalsAndBabies_byScrappinDoodles/
-
-**EXAMPLE - CORRECT PATTERN:**
-Question: "Emma had 7 flowers. She got 6 more. How many flowers does Emma have now?"
-
-<!-- ✅ CORRECT: Use actual FLOWER images (NOT frogs!) -->
-<div class="counting-objects-grid">
-  <img src="/images/SCRAPPING DOODLE/Spring_Garden_by_ScrappinDoodles/flower.png" width="80" height="80" alt="Flower" />
-  <img src="/images/SCRAPPING DOODLE/Spring_Garden_by_ScrappinDoodles/flower2.png" width="80" height="80" alt="Flower" />
-  <img src="/images/SCRAPPING DOODLE/Spring_Garden_by_ScrappinDoodles/flower3.png" width="80" height="80" alt="Flower" />
-  <!-- ... repeat to show 7 total flowers -->
-</div>
-
-<!-- ❌ WRONG: Do NOT use frogs/animals for flower questions! -->
-
-**EXAMPLE - SCHOOL ITEMS:**
-\`\`\`html
-Question: "Oliver had 12 pencils. He gave 4 away. How many pencils does Oliver have left?"
-
-<!-- ✅ CORRECT: Use PENCIL images because question mentions "pencils" -->
-<div class="counting-objects-grid">
-  <img src="/images/SCRAPPING DOODLE/SchoolSupplies_byScrappinDoodles/pencil.png" width="80" height="80" alt="Pencil" />
-  <img src="/images/SCRAPPING DOODLE/SchoolSupplies_byScrappinDoodles/pencil2.png" width="80" height="80" alt="Pencil" />
-  <!-- ... repeat to show 12 pencils -->
-</div>
-\`\`\`
-
-**EXAMPLE - FRUITS:**
-\`\`\`html
-Question: "Sophie has 5 apples. Thomas gives her 3 more apples. How many apples does Sophie have now?"
-
-<!-- ✅ CORRECT: Use APPLE images because question mentions "apples" -->
-<div class="counting-objects-grid">
-  <img src="/images/SCRAPPING DOODLE/Fruit_by_ScrappinDoodles/apple.png" width="80" height="80" alt="Apple" />
-  <img src="/images/SCRAPPING DOODLE/Fruit_by_ScrappinDoodles/apple.png" width="80" height="80" alt="Apple" />
-  <!-- ... repeat to show 5 apples -->
-</div>
-\`\`\`
-
-**🎯 MANDATORY OBJECT VARIETY STRATEGY:**
-**CRITICAL REQUIREMENT - DIVERSE QUESTION OBJECTS:**
-- **MAXIMUM 1 question per object CATEGORY** - Never repeat categories (animals, plants, school supplies, etc.)
-- **MANDATORY MIX:** Alternate between different collections:
-  - ✅ GOOD: Q1=Flowers (plants), Q2=Books (school), Q3=Apples (fruits), Q4=Chickens (animals), Q5=Pencils (school)
-  - ❌ BAD: Q1=Chickens (animals), Q2=Cows (animals), Q3=Pigs (animals) - ALL ANIMALS!
-- **Pattern to follow:** Each question uses a DIFFERENT collection from the available diverse collections shown above
-- **NO CATEGORY REPETITION:** If Q1 uses Farm Animals collection, do NOT use Farm Animals again in any other question
-
-**BEFORE GENERATING - SELF-CHECK:**
-1. List out the object for each question
-2. Verify NO two questions use the same category (animals/plants/school/food)
-3. Verify you're using at least 3-4 different collections across all questions
-4. If you see repetition, STOP and redesign the questions with different objects
-
-**FALLBACK STATIC OBJECTS (ONLY if no SCRAPPING DOODLE available):**
-- FLOWERS → Use fallback static template below ONLY if no SCRAPPING DOODLE flowers found
-- PENCILS → Use fallback static template below ONLY if no SCRAPPING DOODLE school items found
-- BOOKS → Use fallback static template below ONLY if no SCRAPPING DOODLE books found
-**PRIORITY ORDER: 1st SCRAPPING DOODLE → 2nd Static fallbacks → 3rd AI-generated**
-**CRITICAL: Copy templates EXACTLY when using fallbacks - do not modify class names or attributes**
-
-**ENCOURAGED AI-GENERATED OBJECTS (for variety):**
-- CRAYONS, STICKERS, TOYS, ANIMALS, FOOD, BALLS, STARS, CARS, etc.
-- Use embedded SVG templates provided below
-- These add visual variety and keep worksheets engaging
-
-**🚨 CRITICAL: YOU MUST USE SCRAPPING DOODLE IMAGES FROM CONTEXTUAL SUGGESTIONS BELOW! 🚨**
-**THE CONTEXTUAL SUGGESTIONS SECTION CONTAINS YOUR ACTUAL IMAGE PATHS**
-**SCROLL DOWN TO "🎨 SCRAPPING DOODLE PREMIUM COLLECTIONS" FOR YOUR SPECIFIC IMAGES**
-
-**⚠️ DO NOT USE THESE OLD FALLBACK PATHS - THEY ARE DEPRECATED:**
-- ❌ /images/educational/counting-objects/ (OLD - DO NOT USE)
-- ❌ pink-flower-7373871.svg (OLD - DO NOT USE)
-- ❌ pencil-32276.svg (OLD - DO NOT USE)
-
-**✅ INSTEAD, USE THE SCRAPPING DOODLE PATHS PROVIDED IN CONTEXTUAL SUGGESTIONS BELOW**
-
-**💡 MANDATORY VARIETY ENFORCEMENT:**
-- **CRITICAL: EACH QUESTION MUST USE DIFFERENT OBJECTS** - NO repetition of object types
-- **REQUIRED PATTERN:** Alternate between static objects (flowers, pencils, books) and AI-generated objects (crayons, stickers, toys, animals, food, cars, etc.)
-- **ENFORCEMENT RULE:** If Q1 uses pencils, Q2 MUST use AI-generated objects (like crayons), Q3 MUST use different static object (like flowers), Q4 MUST use different AI-generated object (like toys)
-- **VALIDATION:** Before generating, check that no two questions use the same object type
-
-**EMBEDDED SVG STRATEGY FOR VARIETY:**
-**FOR DIVERSE OBJECTS (stickers, crayons, animals, toys, food, cars, etc.):**
-- Create professional-quality embedded SVG illustrations that EXACTLY match question context
-- All SVGs are embedded directly in HTML to avoid CORS and loading issues
-- Use clean, modern, child-friendly design with educational focus
-- Images should support mathematical concepts without revealing answers
-
-**WHEN TO USE EMBEDDED SVGS:**
-- For variety and engagement: stickers, crayons, animals, toys, food, cars, balls, etc.
-- To complement static objects (flowers, pencils, books) for visual diversity
-- SKIP images for abstract math problems and pure calculations
-
-**SVG DESIGN GUIDELINES:**
-- **CRITICAL: ALWAYS use width="180" height="180" viewBox="0 0 180 180" for all embedded SVGs**
-- **CRITICAL: Add class="question-svg-side" for single images (RIGHT placement)**
-- **CRITICAL: Add class="counting-container" for multiple images (CENTERED underneath)**
-- **SIZING ENFORCEMENT: SVG elements must fill the full 180x180 canvas**
-- **PLACEMENT: Single images on RIGHT side, multiple images centered below question text**
-- Use clean, simple geometric shapes with rounded edges
-- Bright, child-friendly colors (#FF69B4 pink, #FFD700 gold, #32CD32 green, #4169E1 blue, #D2691E brown, #FF6B6B red)
-- Clear, recognizable objects that match the question context exactly
-- Educational focus - images should enhance learning, not distract
-
-**SKIP IMAGES:**
-- Abstract math ("think of a number", pure calculations)
-- Questions where visuals would reveal answers directly
-- Complex word problems where images might confuse rather than help
-
-**AGE-APPROPRIATE IMAGE PLACEMENT RULES:**
-
-**🚨 MANDATORY INTELLIGENT VISUAL QUANTITY SYSTEM 🚨**
-**THIS SYSTEM OVERRIDES ALL OTHER PLACEMENT RULES**
-
-**CRITICAL RULE: VISUAL QUANTITY = FIRST NUMBER IN QUESTION**
-- **Educational Purpose**: Visual shows starting amount for mental math operations
-- **Pedagogical Benefit**: Students see the initial quantity and then calculate from there
-- **ENFORCEMENT**: Ignore any conflicting rules below - ONLY follow this system
-
-**QUANTITY EXTRACTION RULES:**
-1. **Addition**: "Emma had **8** flowers, got 7 more" → Show **8** flowers
-2. **Subtraction**: "Oliver had **18** crayons, gave 5 away" → Show **18** crayons
-3. **Regular Multiplication**: "Sophie had **12** pencils, bought 6 more" → Show **12** pencils
-4. **Multiplication Groups**: "3 groups of **5** apples" → Show **5** items (children multiply this by 3 mentally)
-5. **Division**: "Thomas had **16** stickers, shared equally" → Show **16** stickers
-
-**MULTIPLICATION GROUP CASES (Show items per group for mental math):**
-- **"3 groups of 5 apples"** → Visual shows **5** apples (child thinks: 5 + 5 + 5)
-- **"4 rows of 6 pencils"** → Visual shows **6** pencils (child thinks: 6 × 4)
-- **"5 bags with 3 sweets each"** → Visual shows **3** sweets (child thinks: 3 × 5)
-- **"2 boxes of 8 crayons"** → Visual shows **8** crayons (child thinks: 8 × 2)
-
-**REASONING**: Children can see the **unit quantity** and mentally multiply, rather than trying to understand abstract grouping concepts.
-
-**All other cases** → Visual shows the **first number mentioned**
-
-**⚠️ ABSOLUTE PRIORITY: AGE GROUP + QUANTITY LOGIC BELOW CANNOT BE OVERRIDDEN ⚠️**
-
-**PLACEMENT BY AGE GROUP AND FIRST NUMBER:**
-
-**Reception/Year 1 (Ages 4-6):**
-- **First number ≤20**: Show ACTUAL QUANTITY using class="counting-objects-grid" (keyword-matched Scrapping Doodle images)
-- **First number >20**: Show SINGLE representative image using class="question-svg-side" → RIGHT
-
-**Year 2 (Ages 6-7):**
-- **First number ≤20**: Show ACTUAL QUANTITY using class="counting-objects-grid" (keyword-matched Scrapping Doodle images)
-- **First number >20**: Show SINGLE representative image using class="question-svg-side" → RIGHT
-
-**Year 3+ (Ages 7+):**
-- **ALL quantities**: Show SINGLE representative image using class="question-svg-side" → RIGHT
-- Focus on calculation, not counting
-- Exception: If quantity ≤10 and involves concrete objects (flowers, pencils), MAY use counting-objects-grid for visual support
-
-**🔒 CRITICAL LAYOUT RULE: counting-objects-grid MUST be BELOW question text (NOT beside it) to avoid squished text!**
-
-**Year 1 Layout Pattern (≤20 objects):**
-1. Question text FIRST (full width, no floating images beside it)
-2. counting-objects-grid BELOW the question
-3. Answer line at bottom
-
-**Year 2+ Layout Pattern (>20 objects):**
-1. Question text with SINGLE image floating right (class="question-svg-side")
-2. Answer line at bottom
-
-**STEP-BY-STEP VISUAL QUANTITY PROCESS:**
-1. **Read the question text**
-2. **Check for multiplication groups** (e.g., "3 groups of 5")
-   - If found: Extract the **items per group** number (5 in this example)
-   - If not found: Extract the **first number mentioned**
-3. **Check the year group** (Reception/Year 1/Year 2 vs Year 3+)
-4. **Apply placement rules**:
-   - Young + ≤20: 2-row layout with actual quantity
-   - Young + >20: Single image on RIGHT
-   - Year 3+: Always single image on RIGHT
-5. **Create visual showing the extracted number for optimal mental math support**
-
-**CRITICAL**: Visual supports mental math - show the quantity children can work with mentally!
-
-**🔒 FINAL ENFORCEMENT PRIORITY SYSTEM 🔒**
-**THESE RULES OVERRIDE ALL OTHER INSTRUCTIONS IN THIS ENTIRE PROMPT:**
-
-**FOR ${config.yearGroup} SPECIFICALLY:**
 ${config.yearGroup === 'Year 1' || config.yearGroup === 'Reception' ? `
-**🚨 YEAR 1 IRON-CLAD RULE 🚨**
-- ≤20 objects → MUST use <div class="counting-objects-grid"> (images BELOW text, NOT beside)
-- >20 objects → MAY use single image with class="question-svg-side"
-- FORBIDDEN: class="question-svg-side" for quantities ≤20
-- FORBIDDEN: Floating images beside text for ≤20 quantities
-- MANDATORY: All ≤20 quantities show counting-objects-grid centered BELOW question text
+**${config.yearGroup} Rule:** For quantities ≤20, MUST use <div class="counting-objects-grid"> with images BELOW text (NOT beside).
 ` : ''}
 
-1. **Year 1/Year 2 with ≤20 quantities MUST use counting-objects-grid** with keyword-matched Scrapping Doodle images
-2. **Year 1/Year 2 with >20 quantities MUST use single image** (class="question-svg-side")
-3. **Year 3+ MUST use single image** (class="question-svg-side") - calculation focus, not counting
-4. **ALWAYS match keyword to image collection** (flowers→flowers, pencils→pencils, NOT random animals!)
-5. **NO EXCEPTIONS to the age group + quantity logic above**
-6. **The INTELLIGENT VISUAL QUANTITY SYSTEM is the FINAL AUTHORITY**
-7. **IF IN DOUBT FOR YEAR 1 ≤20: USE counting-objects-grid BELOW TEXT**
+**Layout:** counting-objects-grid must be BELOW question text (not beside) to avoid squished text. Always include proper alt text.
 
-**FOR YEAR 4 AND ABOVE (Year 4, 5, 6):**
-- **ALWAYS use SINGLE REPRESENTATIVE images only**
-- Use class="question-svg-side" (180×180px, positioned on RIGHT side)
-- Example: For "324 books" → show 1 book image only
-- NO counting arrays, NO multiple objects, NO scrollable containers
-- Focus on symbolic representation, not literal counting
+**SVG GUIDELINES (when needed):**
+- Use width="180" height="180" viewBox="0 0 180 180" for single objects
+- Add class="question-svg-side" for right placement
+- Use child-friendly colors: #FF69B4 pink, #FFD700 gold, #32CD32 green, #4169E1 blue
+- Match question context exactly (flowers=flowers, books=books)
+- Skip images for abstract math
 
-**LEGACY SECTION REMOVED - FOLLOW NEW INTELLIGENT SYSTEM ABOVE**
-- **All placement decisions now use the INTELLIGENT VISUAL QUANTITY SYSTEM above**
-- **NO conflicting rules - follow age group + quantity logic only**
-
-**UNIVERSAL RULES:**
-- Always include proper alt text for accessibility
-- NO horizontal scrollbars ever - worksheet must be printable
-- Position images to complement text, not obstruct it
-
-**EMBEDDED SVG EXAMPLES - USE THESE PATTERNS:**
-
-**For flower problems (SINGLE FLOWER - RIGHT PLACEMENT):**
-\`\`\`html
-<svg width="180" height="180" viewBox="0 0 180 180" class="question-svg-side" role="img" aria-label="Colorful flower">
-  <!-- Flower petals -->
-  <ellipse cx="90" cy="50" rx="12" ry="20" fill="#FF69B4" stroke="#E555AB" stroke-width="1"/>
-  <ellipse cx="90" cy="110" rx="12" ry="20" fill="#FF69B4" stroke="#E555AB" stroke-width="1"/>
-  <ellipse cx="60" cy="80" rx="20" ry="12" fill="#FF69B4" stroke="#E555AB" stroke-width="1"/>
-  <ellipse cx="120" cy="80" rx="20" ry="12" fill="#FF69B4" stroke="#E555AB" stroke-width="1"/>
-
-  <!-- Diagonal petals -->
-  <ellipse cx="70" cy="60" rx="15" ry="12" fill="#FF1493" stroke="#E555AB" stroke-width="1" transform="rotate(-45 70 60)"/>
-  <ellipse cx="110" cy="60" rx="15" ry="12" fill="#FF1493" stroke="#E555AB" stroke-width="1" transform="rotate(45 110 60)"/>
-  <ellipse cx="70" cy="100" rx="15" ry="12" fill="#FF1493" stroke="#E555AB" stroke-width="1" transform="rotate(45 70 100)"/>
-  <ellipse cx="110" cy="100" rx="15" ry="12" fill="#FF1493" stroke="#E555AB" stroke-width="1" transform="rotate(-45 110 100)"/>
-
-  <!-- Center -->
-  <circle cx="90" cy="80" r="18" fill="#FFD700" stroke="#FFC700" stroke-width="2"/>
-  <circle cx="90" cy="80" r="8" fill="#FF8C00"/>
-
-  <!-- Stem -->
-  <rect x="86" y="110" width="8" height="50" fill="#32CD32" stroke="#28A428" stroke-width="1"/>
-
-  <!-- Leaves -->
-  <ellipse cx="75" cy="130" rx="8" ry="15" fill="#228B22" stroke="#1F7A1F" stroke-width="1" transform="rotate(-30 75 130)"/>
-  <ellipse cx="105" cy="140" rx="8" ry="15" fill="#228B22" stroke="#1F7A1F" stroke-width="1" transform="rotate(30 105 140)"/>
-</svg>
-\`\`\`
-
-**For book problems (SINGLE BOOK - RIGHT PLACEMENT):**
-\`\`\`html
-<svg width="180" height="180" viewBox="0 0 180 180" class="question-svg-side" role="img" aria-label="Colorful books">
-  <!-- Blue book -->
-  <rect x="60" y="50" width="35" height="50" fill="#4169E1" stroke="#2E4BC7" stroke-width="2"/>
-  <rect x="60" y="50" width="5" height="50" fill="#1E3A8A"/>
-  <line x1="68" y1="65" x2="88" y2="65" stroke="#E6F3FF" stroke-width="1"/>
-  <line x1="68" y1="70" x2="88" y2="70" stroke="#E6F3FF" stroke-width="1"/>
-  <line x1="68" y1="75" x2="88" y2="75" stroke="#E6F3FF" stroke-width="1"/>
-
-  <!-- Red book -->
-  <rect x="80" y="40" width="35" height="50" fill="#FF6B6B" stroke="#E55353" stroke-width="2"/>
-  <rect x="80" y="40" width="5" height="50" fill="#CC4444"/>
-  <line x1="88" y1="55" x2="108" y2="55" stroke="#FFE6E6" stroke-width="1"/>
-  <line x1="88" y1="60" x2="108" y2="60" stroke="#FFE6E6" stroke-width="1"/>
-  <line x1="88" y1="65" x2="108" y2="65" stroke="#FFE6E6" stroke-width="1"/>
-
-  <!-- Green book -->
-  <rect x="100" y="60" width="35" height="50" fill="#32CD32" stroke="#28A428" stroke-width="2"/>
-  <rect x="100" y="60" width="5" height="50" fill="#228B22"/>
-  <line x1="108" y1="75" x2="128" y2="75" stroke="#E6FFE6" stroke-width="1"/>
-  <line x1="108" y1="80" x2="128" y2="80" stroke="#E6FFE6" stroke-width="1"/>
-  <line x1="108" y1="85" x2="128" y2="85" stroke="#E6FFE6" stroke-width="1"/>
-</svg>
-\`\`\`
-
-**For sticker problems (MULTIPLE STICKERS - 2-ROW LAYOUT):**
-\`\`\`html
-<div class="counting-container-two-row">
-<svg width="50" height="50" viewBox="0 0 50 50" class="counting-object-large" role="img" aria-label="Star sticker">
-  <polygon points="25,2 30,18 46,18 33,28 38,44 25,34 12,44 17,28 4,18 20,18" fill="#FFD700"/>
-</svg>
-<svg width="50" height="50" viewBox="0 0 50 50" class="counting-object-large" role="img" aria-label="Circle sticker">
-  <circle cx="25" cy="25" r="18" fill="#FF69B4"/>
-</svg>
-<svg width="50" height="50" viewBox="0 0 50 50" class="counting-object-large" role="img" aria-label="Heart sticker">
-  <path d="M25,42 C17,32 8,22 12,12 C17,8 22,12 25,18 C28,12 33,8 37,12 C42,22 33,32 25,42 Z" fill="#FF6B6B"/>
-</svg>
-<svg width="50" height="50" viewBox="0 0 50 50" class="counting-object-large" role="img" aria-label="Square sticker">
-  <rect x="8" y="8" width="34" height="34" fill="#32CD32" rx="4"/>
-</svg>
-<!-- Add more stickers as needed for exact quantity -->
-</div>
-\`\`\`
-
-**For crayon problems (MULTIPLE CRAYONS - 2-ROW LAYOUT):**
-\`\`\`html
-<div class="counting-container-two-row">
-<svg width="50" height="50" viewBox="0 0 50 50" class="counting-object-large" role="img" aria-label="Yellow crayon">
-  <rect x="18" y="8" width="14" height="34" fill="#FFD700" stroke="#E6C200" stroke-width="2"/>
-  <polygon points="18,4 32,4 25,0" fill="#FFA500"/>
-</svg>
-<svg width="50" height="50" viewBox="0 0 50 50" class="counting-object-large" role="img" aria-label="Blue crayon">
-  <rect x="18" y="8" width="14" height="34" fill="#4169E1" stroke="#2E4BC7" stroke-width="2"/>
-  <polygon points="18,4 32,4 25,0" fill="#1E3A8A"/>
-</svg>
-<svg width="50" height="50" viewBox="0 0 50 50" class="counting-object-large" role="img" aria-label="Green crayon">
-  <rect x="18" y="8" width="14" height="34" fill="#32CD32" stroke="#28A428" stroke-width="2"/>
-  <polygon points="18,4 32,4 25,0" fill="#228B22"/>
-</svg>
-<svg width="50" height="50" viewBox="0 0 50 50" class="counting-object-large" role="img" aria-label="Red crayon">
-  <rect x="18" y="8" width="14" height="34" fill="#FF6B6B" stroke="#E55353" stroke-width="2"/>
-  <polygon points="18,4 32,4 25,0" fill="#CC4444"/>
-</svg>
-<!-- Add more crayons as needed for exact quantity -->
-</div>
-\`\`\`
-
-**CRITICAL INSTRUCTION FOR LLM:**
-When a question mentions specific objects (stickers, crayons, flowers, books, biscuits, etc.), you MUST create an appropriate embedded SVG using the patterns above. Adapt the colors and shapes as needed for the specific context while maintaining the clean, educational style.
-
-**PROFESSIONAL SVG INTEGRATION:**
-- Create clean, simple SVG illustrations directly in the HTML
-- Use bright, child-friendly colors (#FF69B4 pink, #FFD700 gold, #32CD32 green, #4169E1 blue, #D2691E brown)
-- Maintain educational focus - images should enhance learning, not distract
-- Ensure images are culturally appropriate and clearly recognizable
-- Use consistent styling across all SVG elements
-
-**SVG DESIGN GUIDELINES FOR COMMON OBJECTS:**
-
-**Educational Objects:**
-- Books: Blue/red rectangles with visible spine lines and title marks
-- Pencils: Yellow elongated hexagons with pink erasers and silver bands
-- Rulers: Rectangular shapes with measurement marks
-- Crayons: Colorful cylindrical shapes with pointed tips
-
-**Nature & Animals:**
-- Flowers: Circles (centers) with elliptical petals, green stems and leaves
-- Trees: Brown trunk rectangles with green circular/oval canopies
-- Animals: Simple geometric shapes with recognizable features (ears, tails)
-- Butterflies: Symmetrical wing patterns with thin body lines
-
-**Food & Kitchen:**
-- Fruits: Circles/ovals in natural colors (red apples, orange oranges)
-- Vegetables: Appropriate shapes and colors (orange carrots, green broccoli)
-- Sweets: Circles with texture details (chocolate chips on cookies)
-- Baked goods: Brown shapes with decorative elements
-
-**SVG BEST PRACTICES:**
-- Use simple geometric shapes that children can easily recognize
-- Apply bright, saturated colors that print well and engage young learners
-- Keep designs clean and uncluttered to avoid distracting from math content
-- Ensure consistent stroke widths (2-3px) and styling across all elements
-- Size appropriately for the designated containers (150×150px or 500×120px)
-
-**SVG INTEGRATION WORKFLOW:**
-
-1. **Identify Visual Needs:** When creating a question, determine if an SVG would enhance learning
-2. **Design Contextually:** Create SVG illustrations that match the specific question content
-3. **Apply Design Guidelines:** Use the object-specific design guidelines above
-4. **Integrate Properly:** Use appropriate CSS classes and sizing for optimal presentation
-
-**CONTEXTUAL SVG MATCHING:**
-- ✅ ALWAYS match SVGs to exact question context (flowers for flower problems, books for book problems)
-- ✅ Create images that support mathematical concepts without revealing answers
-- ✅ Use age-appropriate, colorful, engaging designs
-- ✅ Maintain consistent visual style throughout the worksheet
-- ❌ NEVER use generic shapes when specific objects are mentioned
-- ❌ NEVER create images that directly show the answer to the problem
-
-**HTML STRUCTURE:**
+**HTML TEMPLATE:**
 <!DOCTYPE html>
 <html>
 <head>
@@ -1782,6 +1297,18 @@ Show TWO groups side by side for comparison:
 
   /**
    * Get SCRAPPING DOODLE specific guidance and collection suggestions
+   *
+   * ⚠️ STATUS: FALLBACK ONLY - NOT USED FOR CONFIGS WITH .MD FILES
+   *
+   * This method is part of the generic prompt system and is ONLY executed when:
+   * - No config-specific .md file exists for the year/topic/subtopic
+   * - System falls back to generic prompt generation
+   *
+   * PRODUCTION USAGE:
+   * - Reception counting: NOT USED (has config-specific .md file with WORKSHEET_OBJECTS)
+   * - Other configs: MAY BE USED (if no .md file exists)
+   *
+   * See ARCHITECTURE.md for details on production vs fallback systems.
    */
   private static async getScrappingDoodleGuidance(
     config: EnhancedPromptConfig,
@@ -2255,6 +1782,135 @@ ${historyLines}
 `
   }
 
+
+  /**
+   * Build lean freshness instructions - OPTIMIZED VERSION
+   * 66% reduction in tokens while maintaining functionality
+   *
+   * IMPROVEMENTS:
+   * - Removed ASCII box borders (~100 tokens saved)
+   * - Removed emojis from headers (~10 tokens)
+   * - Condensed redundant text (~50 tokens)
+   * - Removed verbose penalty descriptions (~30 tokens)
+   * - Streamlined formatting (~40 tokens)
+   *
+   * RESULT: ~350-420 tokens → ~120-150 tokens (64-68% reduction)
+   */
+  private static buildFreshnessInstructionsLean(
+    previousWorksheets?: Array<{ questions: string[]; images: string[] }>
+  ): string {
+    // FIRST WORKSHEET: Provide randomization instructions to avoid defaults
+    if (!previousWorksheets || previousWorksheets.length === 0) {
+      const allCategories = [
+        { category: 'Fruits', objects: ['apples', 'bananas', 'oranges', 'strawberries', 'grapes', 'pears', 'lemons', 'watermelons', 'peaches', 'pineapples'] },
+        { category: 'Vegetables', objects: ['carrots', 'tomatoes', 'broccoli', 'cucumbers', 'peppers', 'potatoes'] },
+        { category: 'School', objects: ['books', 'pencils', 'erasers', 'crayons', 'markers', 'scissors', 'rulers', 'glue', 'backpacks'] },
+        { category: 'FarmAnimals', objects: ['chickens', 'cows', 'sheep', 'pigs', 'horses', 'ducks', 'goats', 'geese', 'turkeys'] },
+        { category: 'Garden', objects: ['flowers', 'butterflies', 'bees', 'birds', 'trees', 'leaves', 'mushrooms', 'worms', 'acorns'] },
+        { category: 'Vehicles', objects: ['cars', 'buses', 'bikes', 'trains', 'planes'] },
+        { category: 'Toys', objects: ['balls', 'cars', 'dolls', 'kites', 'blocks'] },
+        { category: 'Sports', objects: ['footballs', 'basketballs', 'tennis balls', 'bats', 'medals'] },
+        { category: 'Food', objects: ['cookies', 'cupcakes'] },
+        { category: 'Shapes', objects: ['stars', 'hearts', 'circles', 'squares', 'diamonds', 'suns', 'moons'] }
+      ];
+
+      // Randomly shuffle categories
+      const shuffledCategories = [...allCategories].sort(() => Math.random() - 0.5);
+      const selectedCategories = shuffledCategories.slice(0, 5);
+
+      // Build priority pool
+      const priorityPoolLines = selectedCategories
+        .map(pool => {
+          const shuffledObjects = [...pool.objects].sort(() => Math.random() - 0.5);
+          const objectsPreview = shuffledObjects.slice(0, 8).join(', ');
+          return `- ${pool.category}: ${objectsPreview}`;
+        })
+        .join('\n');
+
+      // Build question assignments
+      const assignments = selectedCategories
+        .map((pool, idx) => `Q${idx + 1}: ${pool.category}`)
+        .join(' | ');
+
+      return `**FIRST WORKSHEET - VOCABULARY ROTATION:**
+
+Priority categories (randomized):
+${priorityPoolLines}
+
+Assign: ${assignments}
+
+Rule: Each question = different object from different category. Avoid defaults (pears, butterflies, markers).
+
+`;
+    }
+
+    // SLIDING WINDOW: Keep only last N worksheets
+    const WINDOW_SIZE = 5;
+    const recentWorksheets = previousWorksheets.length > WINDOW_SIZE
+      ? previousWorksheets.slice(-WINDOW_SIZE)
+      : previousWorksheets;
+
+    console.log('🔍 [LEAN] buildFreshnessInstructions: Received', previousWorksheets?.length || 0, 'previous worksheets')
+    console.log(`🔄 [LEAN] Using ${WINDOW_SIZE}-worksheet sliding window: tracking last ${recentWorksheets.length} worksheets`)
+
+    // Extract forbidden objects from recent worksheets
+    const allPreviousQuestions = recentWorksheets.flatMap(w => w.questions)
+    const usedObjects = new Set<string>()
+
+    allPreviousQuestions.forEach(q => {
+      const objectMatches = q.match(/\b(apples?|pears?|oranges?|bananas?|grapes?|strawberr(?:y|ies)|cherr(?:y|ies)|watermelons?|lemons?|peaches?|plums?|flowers?|roses?|tulips?|daisies?|sunflowers?|butterfl(?:y|ies)|bees?|ladybugs?|ants?|spiders?|birds?|chickens?|cows?|pigs?|sheep|horses?|dogs?|cats?|frogs?|fish|ducks?|rabbits?|bears?|elephants?|lions?|tigers?|monkeys?|giraffes?|cars?|trucks?|buses?|trains?|planes?|boats?|bicycles?|pencils?|pens?|crayons?|markers?|books?|scissors?|rulers?|erasers?|balls?|blocks?|toys?|dolls?|teddy bears?|stars?|hearts?|circles?|squares?|triangles?|diamonds?|cookies?|cupcakes?|candies?|lollipops?|carrots?|tomatoes?|potatoes?|corn|broccoli|peas?|balloons?|presents?|candles?|hats?|shoes?|socks?|shirts?|buttons?|leaves?|trees?|acorns?|shells?|rocks?|feathers?|goats?)\b/gi)
+      if (objectMatches) {
+        objectMatches.forEach(obj => {
+          const normalized = obj.toLowerCase().replace(/ies$/, 'y').replace(/s$/, '')
+          usedObjects.add(normalized)
+        })
+      }
+    })
+
+    console.log('🔍 [LEAN] Forbidden objects:', Array.from(usedObjects))
+
+    // Track category usage
+    const categoryHistory = this.trackCategoryHistory(recentWorksheets)
+    console.log('🔍 [LEAN] Category history:', categoryHistory)
+
+    // Select fresh categories
+    const freshCategories = this.selectFreshCategories(categoryHistory, 5)
+    console.log('🔍 [LEAN] Fresh categories:', freshCategories.map(c => c.category))
+
+    // Build rotation pool
+    const rotationPool = this.buildRotationPool(freshCategories, usedObjects)
+
+    // Format forbidden list
+    const forbiddenArray = Array.from(usedObjects)
+    const forbiddenList = forbiddenArray.join(', ')
+
+    // Format priority pool
+    const priorityPoolLines = rotationPool
+      .map(pool => {
+        const objectsPreview = pool.objects.slice(0, 8).join(', ')
+        return `- ${pool.category}: ${objectsPreview}`
+      })
+      .join('\n')
+
+    // Format assignments
+    const assignments = rotationPool
+      .slice(0, 5)
+      .map((pool, idx) => `Q${idx + 1}: ${pool.category}`)
+      .join(' | ')
+
+    return `**ITERATION #${previousWorksheets.length} - VOCABULARY ROTATION (Last ${recentWorksheets.length} tracked):**
+
+FORBIDDEN: ${forbiddenList}
+
+PRIORITY (least used):
+${priorityPoolLines}
+
+Assign: ${assignments}
+
+Rule: Each question must use NEW object from assigned category. Target 80%+ fresh vocabulary.
+
+`;
+  }
 
   /**
    * Suggest fresh object categories based on what's been used

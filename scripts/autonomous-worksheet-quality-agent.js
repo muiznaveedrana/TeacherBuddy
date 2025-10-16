@@ -1231,7 +1231,7 @@ async function runAutonomousLoop() {
     // Don't close page between cycles (preserves React state for freshness tracking)
 
     // Analyze cycle
-    const analysis = analyzeCycleResults(results, config);
+    let analysis = analyzeCycleResults(results, config);
 
     console.log('\n🔍 Analyzing results...\n');
     console.log(`  📊 Pass Rate: ${(analysis.passRate * 100).toFixed(1)}% (target: ${(AGENT_CONFIG.PRODUCTION_THRESHOLD * 100).toFixed(1)}%)`);

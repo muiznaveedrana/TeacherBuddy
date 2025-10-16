@@ -1,42 +1,36 @@
 # Reception: Counting to 10 - Worksheet Generation Prompt
 
-⚠️ **CRITICAL CONSTRAINT: Generate EXACTLY {{questionCount}} questions. NOT {{questionCount}}+1, NOT {{questionCount}}-1. EXACTLY {{questionCount}}.**
+**CRITICAL CONSTRAINT: Generate EXACTLY {{questionCount}} questions. NOT {{questionCount}}+1, NOT {{questionCount}}-1. EXACTLY {{questionCount}}.**
 
 Create a Reception counting worksheet with EXACTLY {{questionCount}} questions.
 
-## 🎓 RECEPTION PEDAGOGY (Ages 4-5) - NON-NEGOTIABLE RULES
+## RECEPTION PEDAGOGY (Ages 4-5) - NON-NEGOTIABLE RULES
 
 ### Rule 1: Number Range (CRITICAL)
 - **ONLY use numbers 1-10** (NO exceptions - this is Reception ages 4-5)
-- ❌ FORBIDDEN: 0, 11, 12, 15, 20, 100, 666, 333, 000, or ANY number <1 or >10
-- ✅ ALLOWED: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ONLY
-- ❌ NEVER use: "000", "100", "0" - these are NOT Reception-appropriate
+- FORBIDDEN: 0, 11, 12, 15, 20, 100, 666, or ANY number <1 or >10
+- ALLOWED: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ONLY
 
 ### Rule 2: Question Count (CRITICAL)
 - **Generate EXACTLY {{questionCount}} questions - NO MORE, NO LESS**
-- ❌ NOT {{questionCount}} + 1 = {{questionCount}} is the MAXIMUM
-- ❌ NOT {{questionCount}} - 1 = {{questionCount}} is the MINIMUM
-- ✅ PRECISELY {{questionCount}} questions
 - Count your questions before returning: 1, 2, 3, 4, 5 = {{questionCount}} questions
 
 ### Rule 3: One Object Type Per Question
 - **Each question uses ONE object type ONLY**
-- ❌ FORBIDDEN: "Count the apples AND oranges" (multiple objects)
-- ❌ FORBIDDEN: "Emma has chickens and cows" (multiple animals)
-- ✅ CORRECT: "Count the apples" (one object type)
-- ✅ CORRECT: "How many flowers?" (one object type)
+- FORBIDDEN: "Count the apples AND oranges" (multiple objects)
+- CORRECT: "Count the apples" (one object type)
 
 ### Rule 4: Real-World Contexts
-- **Use realistic, familiar scenarios**
-- ✅ GOOD: "apples in a basket", "flowers in the garden", "books on the shelf"
-- ❌ BAD: "666 school cows", "100 mice in flowerpots" (nonsensical)
+- Use realistic, familiar scenarios
+- GOOD: "apples in a basket", "flowers in the garden"
+- BAD: "666 school cows", "100 mice in flowerpots"
 
 ### Rule 5: Visual Support Required
 - **EVERY question MUST have images showing the objects**
 - Use `.counting-objects-grid` for multiple objects
 - Show the EXACT object mentioned in the question
 
-## 📝 QUESTION GENERATION
+## QUESTION GENERATION
 
 ### Question Templates:
 1. **Simple Counting**: "How many [objects] are there?"
@@ -45,59 +39,39 @@ Create a Reception counting worksheet with EXACTLY {{questionCount}} questions.
 
 ### Object Variety (Use DIFFERENT objects for each question):
 
-**✅ VERIFIED VOCABULARY - 67 objects with confirmed working images:**
+**VERIFIED VOCABULARY - 67 objects with confirmed working images:**
 
-**🍎 Fruits (10 objects):**
-- apples, bananas, oranges, strawberries, grapes, pears, lemons, watermelons, peaches, pineapples
+**Fruits (10):** apples, bananas, oranges, strawberries, grapes, pears, lemons, watermelons, peaches, pineapples
 
-**🌸 Garden & Nature (9 objects):**
-- flowers, butterflies, bees, birds, trees, leaves, mushrooms, worms, acorns
+**Garden & Nature (9):** flowers, butterflies, bees, birds, trees, leaves, mushrooms, worms, acorns
 
-**📚 School Supplies (9 objects):**
-- books, pencils, erasers, crayons, markers, scissors, rulers, glue, backpacks
+**School Supplies (9):** books, pencils, erasers, crayons, markers, scissors, rulers, glue, backpacks
 
-**🐄 Farm Animals (9 objects):**
-- chickens, cows, sheep, pigs, horses, ducks, goats, geese, turkeys
+**Farm Animals (9):** chickens, cows, sheep, pigs, horses, ducks, goats, geese, turkeys
 
-**🧸 Toys (5 objects):**
-- balls, cars, dolls, kites, blocks
+**Toys (5):** balls, cars, dolls, kites, blocks
 
-**🥕 Vegetables (6 objects):**
-- carrots, tomatoes, broccoli, cucumbers, peppers, potatoes
+**Vegetables (6):** carrots, tomatoes, broccoli, cucumbers, peppers, potatoes
 
-**⚽ Sports Equipment (5 objects):**
-- footballs, basketballs, tennis balls, bats, medals
+**Sports Equipment (5):** footballs, basketballs, tennis balls, bats, medals
 
-**🍪 Food & Treats (2 objects):**
-- cookies, cupcakes
+**Food & Treats (2):** cookies, cupcakes
 
-**⭐ Shapes & Objects (7 objects):**
-- stars, hearts, circles, squares, diamonds, suns, moons
+**Shapes & Objects (7):** stars, hearts, circles, squares, diamonds, suns, moons
 
-**🚗 Vehicles (5 objects):**
-- cars, buses, bikes, trains, planes
+**Vehicles (5):** cars, buses, bikes, trains, planes
 
-**CRITICAL FRESHNESS STRATEGY:**
-- **MANDATORY**: Vocabulary rotation system extracts objects from previous worksheets and creates FORBIDDEN list
-- **TARGET**: 80%+ new vocabulary (system will provide forbidden list and priority categories)
-- **NO OBJECT PRIORITIZATION**: All 68 objects have equal priority - system tracks usage automatically
-- **ENFORCEMENT**: NEVER use objects from the FORBIDDEN list (system will inject this at generation time)
-- The system automatically tracks which categories are least-used and suggests fresh options
-- Your job: Select from the fresh categories provided, avoid forbidden objects completely
+**FRESHNESS STRATEGY:** System provides forbidden list and priority categories. Select from fresh categories, avoid forbidden objects, target 80%+ new vocabulary.
 
 **Never repeat the same object type across questions!**
 
-**NOTE:** All objects above have verified images in the WORKSHEET_OBJECTS directory. Using objects NOT in this list will result in broken images showing ALT tags instead of pictures.
+**NOTE:** All objects above have verified images in WORKSHEET_OBJECTS directory. Using objects NOT in this list will result in broken images.
 
-## 🖼️ IMAGE GUIDANCE (CRITICAL - UPDATED STRUCTURE)
+## IMAGE GUIDANCE (CRITICAL)
 
-### ✅ WORKSHEET_OBJECTS Directory (Use ONLY these paths):
+### WORKSHEET_OBJECTS Directory (Use ONLY these paths):
 
-All images are now in the standardized WORKSHEET_OBJECTS directory with simple, intuitive naming:
-
-```
-/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png
-```
+All images are in: `/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png`
 
 **Path Examples:**
 ```
@@ -113,13 +87,10 @@ Shapes:     /images/WORKSHEET_OBJECTS/counting/shapes/star.png
 Vehicles:   /images/WORKSHEET_OBJECTS/counting/vehicles/bus.png
 ```
 
-### Image-Question Matching Rules:
+### Image-Question Matching:
 - Question mentions "apples" → Use `/images/WORKSHEET_OBJECTS/counting/fruits/apple.png`
 - Question mentions "flowers" → Use `/images/WORKSHEET_OBJECTS/counting/garden/flower.png`
-- Question mentions "pencils" → Use `/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png`
 - Question mentions "tennis balls" → Use `/images/WORKSHEET_OBJECTS/counting/sports/tennis_ball.png` (underscores for multi-word)
-- **NEVER use old SCRAPPING DOODLE paths** - they are deprecated
-- **NEVER use random/unrelated images**
 
 ### HTML Structure for Images:
 ```html
@@ -140,9 +111,9 @@ Vehicles:   /images/WORKSHEET_OBJECTS/counting/vehicles/bus.png
 </div>
 ```
 
-## ✅ ANSWER KEY REQUIREMENT (CRITICAL - BLOCKER)
+## ANSWER KEY REQUIREMENT (CRITICAL - BLOCKER)
 
-**🚨 MANDATORY: Every worksheet MUST include an answer key section at the bottom! 🚨**
+**MANDATORY: Every worksheet MUST include an answer key section at the bottom!**
 
 Add this section AFTER all questions, BEFORE closing </body>:
 
@@ -173,7 +144,7 @@ Add this section AFTER all questions, BEFORE closing </body>:
 </div>
 ```
 
-**Required CSS (add to <style> section):**
+**Required CSS:**
 ```css
 .answer-key {
     margin-top: 40px;
@@ -197,62 +168,22 @@ Add this section AFTER all questions, BEFORE closing </body>:
 }
 ```
 
-**⚠️ FAILURE TO INCLUDE ANSWER KEY = AUTOMATIC WORKSHEET REJECTION**
-
-## ✅ SELF-VALIDATION CHECKLIST
+## SELF-VALIDATION CHECKLIST
 
 Before returning the HTML, verify:
 
-1. ☑️ **Question Count (BLOCKER)**: Counted EXACTLY {{questionCount}} questions? Count them: Q1, Q2, Q3, Q4, Q5 = {{questionCount}}? (Not {{questionCount}}+1 or {{questionCount}}-1?)
-2. ☑️ **Number Range (BLOCKER)**: All numbers between 1-10? (No 0, 11, 12, 15, 20, 100, 000, 666, etc.?)
-3. ☑️ **Answer Key Present (BLOCKER)**: Does the worksheet have an answer key section at the bottom? (See requirements above!)
-4. ☑️ **Single Object Rule**: Each question has ONE object type only? (No "apples and oranges"?)
-5. ☑️ **Object Diversity**: Every question uses a DIFFERENT object? (No repeated apples/flowers/etc.?)
-6. ☑️ **Real-World Scenarios**: All contexts are realistic? (No "666 school cows" or "100 apples"?)
-7. ☑️ **Images Match Questions**: Images show the exact objects mentioned? (flowers for "flowers", not random frogs?)
-8. ☑️ **WORKSHEET_OBJECTS Paths**: All image paths start with `/images/WORKSHEET_OBJECTS/counting/`?
+1. **Question Count (BLOCKER)**: Counted EXACTLY {{questionCount}} questions?
+2. **Number Range (BLOCKER)**: All numbers between 1-10? (No 0, 11, 12, 15, 20, 100, 666)
+3. **Answer Key Present (BLOCKER)**: Worksheet has answer key section at bottom?
+4. **Single Object Rule**: Each question has ONE object type only?
+5. **Object Diversity**: Every question uses a DIFFERENT object?
+6. **Real-World Scenarios**: All contexts are realistic?
+7. **Images Match Questions**: Images show the exact objects mentioned?
+8. **WORKSHEET_OBJECTS Paths**: All image paths start with `/images/WORKSHEET_OBJECTS/counting/`?
 
 If ANY checkbox fails, STOP and regenerate the worksheet.
 
-## 🔥 FINAL VERIFICATION BEFORE SUBMITTING 🔥
-
-Before you return your worksheet, STOP and perform these checks:
-
-### 1. **Question Count Verification**
-Count your `<div class="question">` elements:
-- ✅ **Do you see exactly {{questionCount}} questions?** → PROCEED
-- ❌ **Do you see MORE than {{questionCount}}?** → DELETE the extra ones
-- ❌ **Do you see LESS than {{questionCount}}?** → ADD more questions
-
-### 2. **Number Range Verification**
-Scan ALL numbers in your questions:
-- ✅ **Are ALL numbers between 1-10?** → PROCEED
-- ❌ **Do you see 11, 12, 20, 100, or higher?** → REPLACE with numbers 1-10
-
-### 3. **Object Type Verification**
-Check each question:
-- ✅ **Does each question mention only ONE type of object?** → PROCEED
-- ❌ **Do you see "apples and oranges" or similar?** → REMOVE one object type
-
-### 4. **Answer Key Verification**
-Check the bottom of your worksheet:
-- ✅ **Is there an `<div class="answer-key">` section?** → PROCEED
-- ❌ **No answer key section?** → ADD IT NOW (see requirements above)
-
-### 5. **Object Diversity Verification**
-List the objects used in all {{questionCount}} questions:
-- ✅ **Are they ALL DIFFERENT?** (e.g., pears, butterflies, markers, corn, stars) → PROCEED
-- ❌ **Do you see the SAME object twice?** (e.g., apples in Q1 AND Q3) → CHANGE one
-
-**CRITICAL REMINDER:**
-This is RECEPTION - the youngest learners (ages 4-5).
-They are just learning what numbers ARE.
-Keep it simple, visual, concrete, and FUN!
-
-**Final count: 1, 2, 3, 4, 5 questions = {{questionCount}} questions ✓**
-**Plus 1 answer key section ✓**
-
-## 📄 OUTPUT FORMAT
+## OUTPUT FORMAT
 
 Return a complete HTML document:
 
