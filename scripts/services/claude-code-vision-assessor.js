@@ -84,19 +84,39 @@ You are reviewing a worksheet screenshot for ${config.yearGroup} students.
 ## INSTRUCTIONS:
 
 1. **READ THE IMAGE**: Open and view the screenshot using your vision capabilities
+
 2. **COUNT QUESTIONS**: Count ONLY the numbered questions (1, 2, 3, etc.)
    - Expected: ${config.numQuestions} questions
    - DO NOT count: Answer keys, headers, instructions
+
 3. **VERIFY IMAGES**: For each question, check:
    - Is there an image present?
    - Does it show actual content (not broken/alt text)?
-   - Does it match the question?
+   - Does it match the question text?
+   - Count how many images per question
+
 4. **CHECK NUMBERS**: List any numbers OUTSIDE the range ${config.specificChecks?.minNumber || 1}-${config.specificChecks?.maxNumber || 10}
-   - Only count numbers in questions, not page numbers or CSS
-5. **ASSESS QUALITY**:
+   - Only count numbers IN QUESTIONS, not page numbers or CSS
+   - Check answer key numbers too
+
+5. **CURRICULUM ALIGNMENT** (${config.yearGroup} - ${config.topic}):
+   - Are numbers appropriate for ${config.yearGroup}? (Range: ${config.specificChecks?.minNumber || 1}-${config.specificChecks?.maxNumber || 10})
+   - Is language simple enough for ${config.yearGroup}?
+   - Are contexts real-world and age-appropriate?
+   - Does it match "${config.subtopic}" topic?
+   - Visual support adequate for age group?
+
+6. **CONTENT QUALITY**:
+   - Questions clear and unambiguous?
+   - Each question uses ONE object type (no mixing)?
+   - Images diverse across questions?
+   - Answer key correct?
+
+7. **PRESENTATION QUALITY**:
    - Font readable for ${config.yearGroup}?
    - Layout clear and organized?
    - Images high quality?
+   - Spacing appropriate?
 
 ## OUTPUT (Save as vision-results/[taskId].json):
 
@@ -113,27 +133,51 @@ You are reviewing a worksheet screenshot for ${config.yearGroup} students.
       "imagePresent": <true/false>,
       "imageWorking": <true/false>,
       "imageMatches": <true/false>,
+      "imageCount": <number>,
       "issue": "<any problem>",
-      "objectSeen": "<what you see>"
+      "objectSeen": "<what you see in images>",
+      "questionText": "<actual question text>"
     }
   ],
   "brokenImagesCount": <number>,
+  "imageMismatchCount": <number>,
 
   "numberViolations": [
     {"number": <num>, "questionNum": <q>, "context": "<where>"}
   ],
 
-  "visualQuality": {
+  "curriculumAlignment": {
+    "score": <0-10>,
+    "numbersAppropriate": <true/false>,
+    "languageAppropriate": <true/false>,
+    "contextsRealWorld": <true/false>,
+    "topicMatch": <true/false>,
+    "visualSupportAdequate": <true/false>,
+    "issues": ["<list any issues>"]
+  },
+
+  "contentQuality": {
+    "score": <0-10>,
+    "questionsClean": <true/false>,
+    "singleObjectPerQuestion": <true/false>,
+    "imageDiversity": <true/false>,
+    "answerKeyCorrect": <true/false>,
+    "issues": ["<list any issues>"]
+  },
+
+  "presentationQuality": {
+    "score": <0-10>,
     "fontReadable": <true/false>,
     "layoutClear": <true/false>,
     "imagesHighQuality": <true/false>,
-    "ageAppropriate": <true/false>
+    "spacingAppropriate": <true/false>,
+    "issues": ["<list any issues>"]
   },
 
   "overallScore": <0-100>,
   "productionReady": <true/false>,
-  "criticalIssues": ["<list>"],
-  "recommendations": ["<list>"],
+  "criticalIssues": ["<P0 blockers>"],
+  "recommendations": ["<improvements>"],
 
   "rootCauseAnalysis": "<if something looks wrong, explain why>",
 
@@ -141,6 +185,14 @@ You are reviewing a worksheet screenshot for ${config.yearGroup} students.
   "assessedBy": "claude-code-vision"
 }
 \`\`\`
+
+## SCORING GUIDE:
+- **Production Ready = true** if:
+  - Question count matches expected
+  - 0 broken images
+  - 0 number violations
+  - All scores ≥7/10
+  - 0 critical issues
 `;
   }
 

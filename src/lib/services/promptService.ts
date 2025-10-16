@@ -2081,8 +2081,70 @@ Show TWO groups side by side for comparison:
   private static buildFreshnessInstructions(
     previousWorksheets?: Array<{ questions: string[]; images: string[] }>
   ): string {
+    // FIRST WORKSHEET: Provide randomization instructions to avoid defaults
     if (!previousWorksheets || previousWorksheets.length === 0) {
-      return ''
+      const allCategories = [
+        { category: 'Fruits', objects: ['apples', 'bananas', 'oranges', 'strawberries', 'grapes', 'pears', 'lemons', 'watermelons', 'peaches', 'pineapples'] },
+        { category: 'Vegetables', objects: ['carrots', 'tomatoes', 'broccoli', 'cucumbers', 'peppers', 'potatoes'] },
+        { category: 'School', objects: ['books', 'pencils', 'erasers', 'crayons', 'markers', 'scissors', 'rulers', 'glue', 'backpacks'] },
+        { category: 'FarmAnimals', objects: ['chickens', 'cows', 'sheep', 'pigs', 'horses', 'ducks', 'goats', 'geese', 'turkeys'] },
+        { category: 'Garden', objects: ['flowers', 'butterflies', 'bees', 'birds', 'trees', 'leaves', 'mushrooms', 'worms', 'acorns'] },
+        { category: 'Vehicles', objects: ['cars', 'buses', 'bikes', 'trains', 'planes'] },
+        { category: 'Toys', objects: ['balls', 'cars', 'dolls', 'kites', 'blocks'] },
+        { category: 'Sports', objects: ['footballs', 'basketballs', 'tennis balls', 'bats', 'medals'] },
+        { category: 'Food', objects: ['cookies', 'cupcakes'] },
+        { category: 'Shapes', objects: ['stars', 'hearts', 'circles', 'squares', 'diamonds', 'suns', 'moons'] }
+      ];
+
+      // Randomly shuffle categories to provide different starting suggestions each time
+      const shuffledCategories = [...allCategories].sort(() => Math.random() - 0.5);
+      const selectedCategories = shuffledCategories.slice(0, 5);
+
+      // Create randomized priority pool
+      const priorityPoolLines = selectedCategories
+        .map(pool => {
+          const shuffledObjects = [...pool.objects].sort(() => Math.random() - 0.5);
+          const objectsPreview = shuffledObjects.slice(0, 8).join(', ');
+          const hasMore = shuffledObjects.length > 8 ? ', ...' : '';
+          return `  ${pool.category}: ${objectsPreview}${hasMore}`;
+        })
+        .join('\n');
+
+      // Format per-question guidance with randomized categories
+      const questionGuidanceLines = selectedCategories
+        .map((pool, idx) => `  Q${idx + 1}: Select from ${pool.category} category (randomly choose an object)`)
+        .join('\n');
+
+      return `
+╔═══════════════════════════════════════════════════════════════════╗
+║  🎲 FIRST WORKSHEET - RANDOMIZATION REQUIRED                      ║
+║                                                                     ║
+║  ✅ PRIORITY CATEGORIES (Randomly Selected for You):              ║
+${priorityPoolLines}
+║                                                                     ║
+║  🎯 RANDOMIZATION STRATEGY FOR THIS WORKSHEET:                    ║
+${questionGuidanceLines}
+║                                                                     ║
+║  📋 CRITICAL RULES:                                                ║
+║     1. Each question MUST use a DIFFERENT object                   ║
+║     2. Each question should use a DIFFERENT category               ║
+║     3. Randomly select objects within each category                ║
+║     4. DO NOT default to: pears, butterflies, markers              ║
+║     5. Explore the full vocabulary pool creatively                 ║
+║                                                                     ║
+║  🎲 EXAMPLE OF GOOD RANDOMIZATION:                                ║
+║     Q1: watermelons (Fruits) → Q2: rulers (School) →              ║
+║     Q3: ducks (FarmAnimals) → Q4: trains (Vehicles) →             ║
+║     Q5: hearts (Shapes)                                            ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+**🎲 RANDOMIZATION IS MANDATORY - DO NOT USE DEFAULT PATTERNS:**
+- **FORBIDDEN**: Always starting with pears, butterflies, markers
+- **REQUIRED**: Randomly select from the priority categories above
+- **STRATEGY**: Each question uses different category + different object
+- **GOAL**: Maximize variety and engagement across all categories
+
+`;
     }
 
     // 🔄 SLIDING WINDOW: Keep only last N worksheets to prevent vocabulary exhaustion

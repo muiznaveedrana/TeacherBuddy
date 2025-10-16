@@ -188,6 +188,7 @@ const AGENT_CONFIG = {
   AUTO_FIX_ENABLED: options.autoFix,
   HEADLESS: options.headless,
   ENABLE_VISION: options.enableVision,
+  USE_TEXT_PARSING: false, // Disabled by default - vision is ground truth
   TIMEOUT: 120000,
   PRODUCTION_THRESHOLD: 0.90
 };
@@ -482,6 +483,15 @@ async function generateWorksheet(page, cycleNum, iterationNum, config, isFirstIt
 
     // 10. Wait for completion with proper timeout
     await page.waitForSelector('text=Download', { timeout: AGENT_CONFIG.TIMEOUT });
+
+    // 10a. Wait for all images to load before screenshot (prevents false positive "broken image" detections)
+    await page.waitForFunction(() => {
+      const images = document.querySelectorAll('.worksheet-preview img, .worksheet img');
+      return Array.from(images).every(img => img.complete && img.naturalHeight !== 0);
+    }, { timeout: 10000 }).catch(() => {
+      console.log('    ⚠️  Image loading timeout - some images may not be fully loaded');
+    });
+
     await page.waitForTimeout(3000);
 
     // 11. Screenshot: Generated worksheet
@@ -814,7 +824,7 @@ function assessImageDiversity(content, iterationNum, previousContents) {
   };
 }
 
-function assessWorksheet(result, iterationNum, previousResults) {
+function assessWorksheet(result, iterationNum, previousResults, visionResult = null) {
   if (!result.success) {
     return null;
   }
@@ -825,7 +835,7 @@ function assessWorksheet(result, iterationNum, previousResults) {
     .map(r => r.content);
 
   // ===================================================================
-  // CRITICAL CHECKS (HTML-Based) - Migrated from quality-assessment-cycle.js
+  // HTML-BASED CHECKS (Fast, Accurate, Always Run)
   // ===================================================================
 
   // CRITICAL CHECK 1: Question Count Validation (HTML-based)
@@ -901,52 +911,118 @@ function assessWorksheet(result, iterationNum, previousResults) {
     }
   })();
 
-  const assessments = {
-    questionCountValidation,
-    objectRepetition,
-    imageCollectionDiversity,
-    curriculumAlignment: assessCurriculumAlignment(content, config),
-    presentationQuality: assessPresentationQuality(content, config),
-    contentConfigMatch: assessContentConfigMatch(content, config),
-    imageQuestionAlignment: assessImageQuestionAlignment(content, config),
-    configSpecificQuality: assessConfigSpecificQuality(content, config),
-    contentFreshness: assessContentFreshness(content, iterationNum, previousContents),
-    imageDiversity: assessImageDiversity(content, iterationNum, previousContents)
-  };
+  // ===================================================================
+  // VISION-BASED ASSESSMENT (Ground Truth - Only if vision enabled)
+  // ===================================================================
 
-  const overallScore = calculateOverallScore(assessments, iterationNum);
-  const qualityGateResult = checkQualityGate(assessments, overallScore, config);
+  let assessments;
+
+  if (AGENT_CONFIG.ENABLE_VISION && visionResult && visionResult.success) {
+    const vision = visionResult.result;
+
+    // Use vision assessment for quality dimensions
+    assessments = {
+      // HTML checks (always accurate)
+      questionCountValidation,
+      objectRepetition,
+      imageCollectionDiversity,
+
+      // Vision-based checks (ground truth)
+      curriculumAlignment: {
+        score: vision.curriculumAlignment?.score || 0,
+        justification: vision.curriculumAlignment?.issues?.join('. ') ||
+          'Curriculum appropriate for age group and topic.'
+      },
+      presentationQuality: {
+        score: vision.presentationQuality?.score || 0,
+        justification: vision.presentationQuality?.issues?.join('. ') ||
+          'Presentation is clear and well-organized.'
+      },
+      contentQuality: {
+        score: vision.contentQuality?.score || 0,
+        justification: vision.contentQuality?.issues?.join('. ') ||
+          'Content is accurate and age-appropriate.'
+      },
+      imageQuestionAlignment: {
+        score: vision.brokenImagesCount === 0 && vision.imageMismatchCount === 0 ? 10 :
+               Math.max(0, 10 - (vision.brokenImagesCount * 3 + vision.imageMismatchCount * 2)),
+        justification: vision.brokenImagesCount === 0 && vision.imageMismatchCount === 0 ?
+          'All images working and aligned with questions.' :
+          `Issues: ${vision.brokenImagesCount} broken, ${vision.imageMismatchCount} mismatched images.`
+      },
+
+      // Freshness checks (text-based, but useful)
+      contentFreshness: assessContentFreshness(content, iterationNum, previousContents),
+      imageDiversity: assessImageDiversity(content, iterationNum, previousContents)
+    };
+  } else if (!AGENT_CONFIG.USE_TEXT_PARSING) {
+    // Vision disabled and text parsing disabled - use minimal HTML-only assessment
+    assessments = {
+      questionCountValidation,
+      objectRepetition,
+      imageCollectionDiversity,
+
+      // Placeholder scores - vision required for full assessment
+      curriculumAlignment: { score: 'PENDING_VISION', justification: 'Vision assessment required' },
+      presentationQuality: { score: 'PENDING_VISION', justification: 'Vision assessment required' },
+      contentQuality: { score: 'PENDING_VISION', justification: 'Vision assessment required' },
+      imageQuestionAlignment: { score: 'PENDING_VISION', justification: 'Vision assessment required' },
+      contentFreshness: assessContentFreshness(content, iterationNum, previousContents),
+      imageDiversity: assessImageDiversity(content, iterationNum, previousContents)
+    };
+  } else {
+    // Fallback: text-based assessment (buggy, but available)
+    assessments = {
+      questionCountValidation,
+      objectRepetition,
+      imageCollectionDiversity,
+      curriculumAlignment: assessCurriculumAlignment(content, config),
+      presentationQuality: assessPresentationQuality(content, config),
+      contentConfigMatch: assessContentConfigMatch(content, config),
+      imageQuestionAlignment: assessImageQuestionAlignment(content, config),
+      configSpecificQuality: assessConfigSpecificQuality(content, config),
+      contentFreshness: assessContentFreshness(content, iterationNum, previousContents),
+      imageDiversity: assessImageDiversity(content, iterationNum, previousContents)
+    };
+  }
+
+  const overallScore = calculateOverallScore(assessments, iterationNum, visionResult);
+  const qualityGateResult = checkQualityGate(assessments, overallScore, config, visionResult);
 
   return {
     iterationNum,
     assessments,
     overallScore,
     qualityGateResult,
-    passed: qualityGateResult.pass
+    passed: qualityGateResult.pass,
+    visionAssessed: !!(visionResult && visionResult.success)
   };
 }
 
-function calculateOverallScore(assessments, iterationNum) {
-  // Iteration 1: 8 dimensions (including 3 HTML-based critical checks)
-  // Iteration 2+: 10 dimensions (adds contentFreshness and imageDiversity)
+function calculateOverallScore(assessments, iterationNum, visionResult = null) {
+  // Vision-based scoring (when vision is available)
+  if (visionResult && visionResult.success && visionResult.result.overallScore) {
+    // Use vision's overall score as ground truth
+    return visionResult.result.overallScore;
+  }
+
+  // HTML + Vision dimensions scoring
   const weights = iterationNum === 1 ? {
     questionCountValidation: 0.15,
     objectRepetition: 0.15,
     imageCollectionDiversity: 0.10,
-    curriculumAlignment: 0.20,
+    curriculumAlignment: 0.25,
     presentationQuality: 0.15,
-    contentConfigMatch: 0.15,
-    imageQuestionAlignment: 0.05,
-    configSpecificQuality: 0.05
+    contentQuality: 0.15,
+    imageQuestionAlignment: 0.05
   } : {
     questionCountValidation: 0.10,
     objectRepetition: 0.15,
     imageCollectionDiversity: 0.10,
-    curriculumAlignment: 0.15,
+    curriculumAlignment: 0.20,
     presentationQuality: 0.10,
-    contentConfigMatch: 0.15,
+    contentQuality: 0.15,
     imageQuestionAlignment: 0.05,
-    configSpecificQuality: 0.05,
     contentFreshness: 0.10,
     imageDiversity: 0.05
   };
@@ -955,7 +1031,7 @@ function calculateOverallScore(assessments, iterationNum) {
   let totalWeight = 0;
 
   for (const [key, assessment] of Object.entries(assessments)) {
-    if (assessment.score !== 'N/A' && weights[key]) {
+    if (assessment.score !== 'N/A' && assessment.score !== 'PENDING_VISION' && weights[key]) {
       total += assessment.score * weights[key];
       totalWeight += weights[key];
     }
@@ -964,10 +1040,41 @@ function calculateOverallScore(assessments, iterationNum) {
   return totalWeight > 0 ? (total / totalWeight) * 10 : 0;
 }
 
-function checkQualityGate(assessments, overallScore, config) {
+function checkQualityGate(assessments, overallScore, config, visionResult = null) {
   const gate = config.qualityGate;
   const failures = [];
 
+  // If vision assessment is available, use its production-ready flag
+  if (visionResult && visionResult.success && typeof visionResult.result.productionReady === 'boolean') {
+    if (!visionResult.result.productionReady) {
+      // Add vision-detected critical issues as failures
+      const criticalIssues = visionResult.result.criticalIssues || [];
+      criticalIssues.forEach((issue, i) => {
+        failures.push({
+          severity: 'P0',
+          dimension: 'Vision',
+          message: `Critical Issue ${i + 1}: ${issue}`
+        });
+      });
+
+      // If no specific critical issues listed, use generic failure
+      if (criticalIssues.length === 0) {
+        failures.push({
+          severity: 'P0',
+          dimension: 'Vision',
+          message: `Vision assessment: Not production ready (score: ${visionResult.result.overallScore || 'N/A'})`
+        });
+      }
+    }
+
+    return {
+      pass: visionResult.result.productionReady,
+      failures,
+      visionBased: true
+    };
+  }
+
+  // Fallback: HTML + dimension-based quality gates
   // Overall score
   if (overallScore < gate.minOverallScore) {
     failures.push({
@@ -977,11 +1084,11 @@ function checkQualityGate(assessments, overallScore, config) {
     });
   }
 
-  // Dimension checks
+  // Dimension checks (adapted for vision-based dimensions)
   const dimensionChecks = {
     curriculumAlignment: gate.minCurriculumAlignment,
     presentationQuality: gate.minPresentationQuality,
-    contentConfigMatch: gate.minContentConfigMatch,
+    contentQuality: gate.minContentConfigMatch, // Map to contentQuality
     imageQuestionAlignment: gate.minImageQuestionAlignment,
     contentFreshness: gate.minContentFreshness,
     imageDiversity: gate.minImageDiversity
@@ -989,6 +1096,7 @@ function checkQualityGate(assessments, overallScore, config) {
 
   for (const [dim, threshold] of Object.entries(dimensionChecks)) {
     if (assessments[dim]?.score !== 'N/A' &&
+        assessments[dim]?.score !== 'PENDING_VISION' &&
         assessments[dim]?.score < threshold) {
       failures.push({
         severity: 'P1',
@@ -1000,7 +1108,8 @@ function checkQualityGate(assessments, overallScore, config) {
 
   return {
     pass: failures.filter(f => f.severity === 'P0').length === 0,
-    failures
+    failures,
+    visionBased: false
   };
 }
 
@@ -1197,6 +1306,39 @@ async function runAutonomousLoop() {
       const completedCount = visionResults.filter(r => r.success).length;
       console.log(`\n✅ Vision assessment complete: ${completedCount}/${visionTasks.length} successful\n`);
 
+      // RE-ASSESS WORKSHEETS WITH VISION RESULTS
+      console.log('🔄 Re-assessing worksheets with vision data...\n');
+      for (let i = 0; i < visionResults.length; i++) {
+        const visionResult = visionResults[i];
+        const resultIndex = results.findIndex(r => r.success && r.assessment?.iterationNum === i + 1);
+
+        if (visionResult.success && resultIndex !== -1) {
+          const result = results[resultIndex];
+          const previousResults = results.slice(0, resultIndex);
+
+          // Re-assess with vision result
+          const updatedAssessment = assessWorksheet(result, i + 1, previousResults, visionResult);
+          results[resultIndex].assessment = updatedAssessment;
+
+          console.log(`   ✅ Iteration ${i + 1}: Score updated from ${analysis.results[resultIndex].assessment.overallScore.toFixed(1)} → ${updatedAssessment.overallScore.toFixed(1)}`);
+        }
+      }
+
+      // Re-analyze cycle with updated vision-based assessments
+      analysis = analyzeCycleResults(results, config);
+      console.log('\n🔍 Re-analyzing with vision data...\n');
+      console.log(`  📊 Pass Rate: ${(analysis.passRate * 100).toFixed(1)}% (target: ${(AGENT_CONFIG.PRODUCTION_THRESHOLD * 100).toFixed(1)}%)`);
+      console.log(`  🚨 P0 Failures: ${analysis.p0Failures} (target: 0)`);
+      console.log(`  📈 Avg Score: ${analysis.avgScore.toFixed(1)}/100 (target: ${config.qualityGate.minOverallScore})`);
+      console.log(`  ✅ Production Ready: ${analysis.productionReady ? 'YES' : 'NO'}\n`);
+
+      // Update cycle history with vision-based analysis
+      cycleHistory[cycleHistory.length - 1].analysis = analysis;
+      cycleHistory[cycleHistory.length - 1].results = results;
+
+      // Save updated cycle report
+      saveCycleReport(currentCycle, analysis);
+
       // Compare vision vs text assessments and generate discrepancy report
       const discrepancyReports = [];
       for (let i = 0; i < visionResults.length; i++) {
@@ -1294,7 +1436,7 @@ async function runAutonomousLoop() {
     // PHASE 2: AUTO-FIX ENGINE
     if (AGENT_CONFIG.AUTO_FIX_ENABLED && currentCycle < AGENT_CONFIG.MAX_CYCLES) {
       try {
-        const catalogPath = path.join(process.cwd(), 'scripts', 'catalogs', 'worksheet-object-catalog.json');
+        const catalogPath = path.join(process.cwd(), 'scripts', 'catalogs', 'worksheet-objects-catalog.json');
 
         // Backup catalog before applying fixes
         const backupPath = path.join(SESSION_DIR, `catalog-backup-cycle-${currentCycle}.json`);
