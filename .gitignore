@@ -41,8 +41,10 @@ Thumbs.db
 baseline-pdfs*/
 .vercel
 
-# Images in public folder
+# Images in public folder (EXCEPT WORKSHEET_OBJECTS which are required for production)
 public/images/**
+!public/images/WORKSHEET_OBJECTS/
+!public/images/WORKSHEET_OBJECTS/**
 
 # Image library folder
 IM/
