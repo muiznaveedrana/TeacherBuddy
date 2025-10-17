@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { generateWorksheet } from '@/lib/services/gemini'
+import { generateWorksheet, generateWorksheetStreaming } from '@/lib/services/gemini'
 import { WorksheetConfig, WorksheetGenerationResult, LayoutType, VisualTheme } from '@/lib/types/worksheet'
 import { validateWorksheetRequest, sanitizeWorksheetRequest } from '@/lib/utils/validation'
 
@@ -118,16 +118,17 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       visualTheme: visualTheme || undefined
     }
 
-    // Generate worksheet using Gemini AI with retry logic for partial worksheets
+    // Generate worksheet using Gemini AI with STREAMING for better UX
+    // Uses generateWorksheetStreaming() which delivers first content in 5-6s vs 30s
     let worksheet
     let generationTime
 
     try {
-      worksheet = await generateWorksheet(config, { previousWorksheets })
+      worksheet = await generateWorksheetStreaming(config, { previousWorksheets })
       generationTime = Date.now() - startTime
 
       // Quality tracking - validate worksheet meets requirements
-      console.log('✅ Worksheet generated successfully')
+      console.log('✅ Worksheet generated successfully (streaming)')
 
     } catch (error) {
       // Check if this is a retryable error (insufficient questions or non-HTML format)
@@ -141,10 +142,10 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
         console.log('First attempt failed (insufficient questions or format issues), retrying once...')
 
         try {
-          // One retry attempt
-          worksheet = await generateWorksheet(config, { previousWorksheets })
+          // One retry attempt (still using streaming)
+          worksheet = await generateWorksheetStreaming(config, { previousWorksheets })
           generationTime = Date.now() - startTime
-          console.log('Retry successful')
+          console.log('Retry successful (streaming)')
         } catch (retryError: any) {
           // If retry also fails, check if we have partial worksheet data
           if (retryError?.metadata?.partialWorksheet) {

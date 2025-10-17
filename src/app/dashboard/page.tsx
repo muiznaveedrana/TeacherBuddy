@@ -104,7 +104,22 @@ export default function DashboardPage() {
     const foundObjects = new Set<string>()
     while ((match = objectPattern.exec(textContent)) !== null) {
       // Normalize to singular lowercase form
-      const obj = match[1].toLowerCase().replace(/ies$/, 'y').replace(/s$/, '')
+      let obj = match[1].toLowerCase()
+
+      // Handle special plural forms
+      if (obj.endsWith('ies') && !obj.endsWith('cookies')) { // berries → berry, but not cookies
+        obj = obj.replace(/ies$/, 'y')
+      } else if (obj.endsWith('sses') || obj.endsWith('xes') || obj.endsWith('zes') || obj.endsWith('ches') || obj.endsWith('shes')) {
+        // buses → bus, boxes → box, etc.
+        obj = obj.replace(/es$/, '')
+      } else if (obj.endsWith('ves')) {
+        // leaves → leaf, but only if not already singular
+        obj = obj.replace(/ves$/, 'f')
+      } else if (obj.endsWith('s') && !obj.endsWith('ss')) {
+        // Remove trailing s (cats → cat), but not ss (grass → grass)
+        obj = obj.replace(/s$/, '')
+      }
+
       foundObjects.add(obj)
     }
 
@@ -128,81 +143,161 @@ export default function DashboardPage() {
 
   const handleGenerate = async () => {
     if (!hasConfiguration) return
-    
+
     setGenerationState('generating')
     setProgress(0)
     setErrorMessage('')
     setGeneratedWorksheet(null)
-    
-    try {
-      // Start progress animation
-      const progressInterval = setInterval(() => {
-        setProgress(prev => {
-          if (prev < 90) {
-            return prev + Math.random() * 10
-          }
-          return prev
-        })
-      }, 300)
 
+    try {
       // 🔍 DEBUG: Log API request payload
-      console.log('🔍 DASHBOARD: Sending API request with previousWorksheets:', previousWorksheets.length, 'worksheets')
+      console.log('🔍 DASHBOARD: Sending streaming API request with previousWorksheets:', previousWorksheets.length, 'worksheets')
       if (previousWorksheets.length > 0) {
         console.log('🔍 DASHBOARD: First previous worksheet:', previousWorksheets[0])
       }
 
-      // Call the worksheet generation API
-      const response = await fetch('/api/generate-worksheet', {
+      // Call the streaming worksheet generation API using Server-Sent Events
+      const requestBody = JSON.stringify({
+        layout,
+        topic,
+        subtopic,
+        difficulty,
+        questionCount,
+        nameList: nameList === 'none' ? '' : nameList,
+        yearGroup,
+        ...(visualTheme && visualTheme !== 'none' && { visualTheme }),
+        previousWorksheets
+      })
+
+      const response = await fetch('/api/generate-stream', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          layout,
-          topic,
-          subtopic,
-          difficulty,
-          questionCount,
-          nameList: nameList === 'none' ? '' : nameList, // Convert 'none' to empty string
-          yearGroup,
-          // Enhanced configuration options (USP.2) - convert 'none' to undefined
-          ...(visualTheme && visualTheme !== 'none' && { visualTheme }),
-          // Cross-iteration freshness tracking
-          previousWorksheets
-        }),
+        body: requestBody,
       })
-      
-      clearInterval(progressInterval)
-      setProgress(100)
-      
+
       if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.message || 'Failed to generate worksheet')
+        throw new Error('Failed to start streaming generation')
       }
-      
-      const data = await response.json()
-      
-      if (data.success && data.worksheet) {
-        setGeneratedWorksheet(data.worksheet)
-        setGenerationState('completed')
 
-        // Extract and store worksheet data for freshness tracking
-        console.log('🔍 DASHBOARD: Extracting worksheet data from generated HTML')
-        const worksheetData = extractWorksheetData(data.worksheet.html)
-        console.log('🔍 DASHBOARD: Extracted data:', worksheetData)
+      // Read the Server-Sent Events stream
+      const reader = response.body?.getReader()
+      const decoder = new TextDecoder()
 
-        setPreviousWorksheets(prev => {
-          const updated = [...prev, worksheetData]
-          console.log('🔍 DASHBOARD: Updated previousWorksheets array, new length:', updated.length)
-          return updated
-        })
-        console.log(`🔄 Freshness tracking: Stored worksheet data (${worksheetData.questions.length} questions, ${worksheetData.images.length} images)`)
-
-        // Worksheet generated successfully
-      } else {
-        throw new Error('Invalid response format')
+      if (!reader) {
+        throw new Error('No response body available')
       }
-      
+
+      let buffer = ''
+      let firstChunkReceived = false
+      let tempWorksheet: GeneratedWorksheet | null = null
+
+      console.log('🌊 DASHBOARD: Starting to read SSE stream...')
+
+      while (true) {
+        const { done, value } = await reader.read()
+
+        if (done) {
+          console.log('🌊 DASHBOARD: Stream completed')
+          break
+        }
+
+        // Decode the chunk and add to buffer
+        buffer += decoder.decode(value, { stream: true })
+
+        // Process complete SSE messages (separated by \n\n)
+        const messages = buffer.split('\n\n')
+        buffer = messages.pop() || '' // Keep incomplete message in buffer
+
+        for (const message of messages) {
+          if (!message.trim() || !message.startsWith('data: ')) continue
+
+          try {
+            const jsonData = message.replace('data: ', '')
+            const event = JSON.parse(jsonData)
+
+            console.log('🌊 DASHBOARD: Received SSE event:', event.type)
+
+            if (event.type === 'start') {
+              console.log('🌊 DASHBOARD: Generation started')
+              setProgress(10)
+
+            } else if (event.type === 'progress') {
+              // Progressive HTML update - show partial content!
+              if (!firstChunkReceived) {
+                console.log('✨ DASHBOARD: First HTML chunk received!')
+                firstChunkReceived = true
+                setProgress(30)
+              }
+
+              // Create temporary worksheet with partial HTML
+              tempWorksheet = {
+                title: 'Generating...',
+                html: event.html,
+                metadata: {
+                  topic: topic,
+                  subtopic: subtopic,
+                  difficulty: difficulty,
+                  questionCount: questionCount,
+                  curriculum: `UK National Curriculum - ${yearGroup}`,
+                  generatedAt: new Date().toISOString()
+                }
+              }
+
+              // Only show preview when we have substantial content (header + at least first question)
+              // This prevents blank screen flash when ads disappear
+              const MIN_HTML_LENGTH = 3000 // ~header + styles + first question
+              if (event.html.length >= MIN_HTML_LENGTH) {
+                // Update preview with partial HTML ✨ THIS IS THE KEY!
+                setGeneratedWorksheet(tempWorksheet)
+                setGenerationState('completed') // Show preview when we have enough content
+                console.log(`✨ DASHBOARD: Showing preview with ${event.html.length} chars (substantial content)`)
+              } else {
+                console.log(`🌊 DASHBOARD: Buffering... ${event.html.length} chars (waiting for ${MIN_HTML_LENGTH})`)
+              }
+
+              // Update progress based on HTML length (rough estimate)
+              const progressEstimate = Math.min(90, 30 + (event.html.length / 100))
+              setProgress(progressEstimate)
+
+            } else if (event.type === 'complete') {
+              console.log('✅ DASHBOARD: Generation complete!')
+              setProgress(100)
+
+              // Set final worksheet
+              if (event.worksheet) {
+                setGeneratedWorksheet(event.worksheet)
+                setGenerationState('completed')
+
+                // Extract and store worksheet data for freshness tracking
+                console.log('🔍 DASHBOARD: Extracting worksheet data from generated HTML')
+                const worksheetData = extractWorksheetData(event.worksheet.html)
+                console.log('🔍 DASHBOARD: Extracted data:', worksheetData)
+
+                setPreviousWorksheets(prev => {
+                  const updated = [...prev, worksheetData]
+                  console.log('🔍 DASHBOARD: Updated previousWorksheets array, new length:', updated.length)
+                  return updated
+                })
+                console.log(`🔄 Freshness tracking: Stored worksheet data (${worksheetData.questions.length} questions, ${worksheetData.images.length} images)`)
+              }
+
+            } else if (event.type === 'error') {
+              throw new Error(event.message || 'Generation failed')
+            }
+
+          } catch (parseError) {
+            console.error('❌ DASHBOARD: Error parsing SSE message:', parseError)
+          }
+        }
+      }
+
+      // Ensure we have a final worksheet
+      if (!tempWorksheet) {
+        throw new Error('No worksheet data received')
+      }
+
     } catch (error) {
       console.error('Generation error:', error)
       setGenerationState('error')

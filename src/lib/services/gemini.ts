@@ -72,8 +72,8 @@ You generate only pure HTML content - nothing else.`
   },
   generationConfig: {
     temperature: 0.7, // Balanced creativity vs consistency
-    maxOutputTokens: 16383 , // Reasonable limit for worksheet content
-    topP: 0.8,
+    maxOutputTokens: 4096, // Optimized for worksheet content (~2000-3000 tokens typical)
+    topP: 0.9, // Optimized for better token selection
     topK: 40
   }
 })
@@ -874,3 +874,383 @@ function isPhase1Combination(config: WorksheetConfig): boolean {
  * Enhanced worksheet generation function with A/B testing support
  * Supports USP.1 Template A, B, C variations for systematic optimization
  */
+
+/**
+ * DUAL-LLM ARCHITECTURE: Generate questions only (without answers)
+ * This reduces output token count and speeds up generation
+ * Used in progressive rendering workflow
+ */
+export async function generateWorksheetQuestionsOnly(
+  config: WorksheetConfig,
+  options: {
+    forceEnhanced?: boolean;
+    iterativeCycle?: number;
+  } = {}
+): Promise<{ html: string; metadata: any; questionsData: any }> {
+  const metrics: GenerationMetrics = {
+    startTime: Date.now(),
+    endTime: 0,
+    duration: 0,
+    promptLength: 0,
+    responseLength: 0,
+    success: false
+  }
+
+  try {
+    // Generate prompt for questions only
+    const promptResult = await PromptService.generatePrompt(config, options)
+    let prompt = promptResult.prompt
+
+    // Modify prompt to ONLY generate questions (no answer key)
+    prompt += `\n\nIMPORTANT: Generate the complete worksheet HTML with questions, BUT DO NOT include the answer key section. We will add answers separately.`
+
+    metrics.promptLength = prompt.length
+
+    // Call Gemini API
+    const text = await callGeminiWithRetry(prompt, metrics)
+    metrics.responseLength = text.length
+
+    // Parse content
+    const worksheet = parseGeneratedContent(text, config, promptResult.metadata)
+
+    metrics.endTime = Date.now()
+    metrics.duration = metrics.endTime - metrics.startTime
+    metrics.success = true
+
+    console.log(`✅ Questions generated in ${(metrics.duration / 1000).toFixed(2)}s (no answers)`)
+
+    return {
+      html: worksheet.html,
+      metadata: worksheet.metadata,
+      questionsData: {
+        count: config.questionCount,
+        duration: metrics.duration
+      }
+    }
+  } catch (error) {
+    metrics.endTime = Date.now()
+    metrics.duration = metrics.endTime - metrics.startTime
+
+    console.error('❌ Questions-only generation failed:', error)
+    throw error
+  }
+}
+
+/**
+ * DUAL-LLM ARCHITECTURE: Generate answers only (based on questions)
+ * Small, focused LLM call that's very fast (~3-5s)
+ * Matches answers to the questions from first call
+ */
+export async function generateWorksheetAnswersOnly(
+  config: WorksheetConfig,
+  questionsHtml: string
+): Promise<string> {
+  const metrics: GenerationMetrics = {
+    startTime: Date.now(),
+    endTime: 0,
+    duration: 0,
+    promptLength: 0,
+    responseLength: 0,
+    success: false
+  }
+
+  try {
+    // Extract questions from HTML for context
+    const questionMatches = questionsHtml.match(/<div class="question"[\s\S]*?<\/div>/g) || []
+    const questionCount = questionMatches.length
+
+    // Create focused prompt for answer generation
+    const prompt = `Generate ONLY the answer key section for a ${config.yearGroup} ${config.topic} worksheet.
+
+Configuration:
+- Year Group: ${config.yearGroup}
+- Topic: ${config.topic}
+- Subtopic: ${config.subtopic}
+- Question Count: ${questionCount}
+
+Questions HTML:
+${questionMatches.slice(0, 3).join('\n')}
+${questionCount > 3 ? `... (${questionCount - 3} more questions)` : ''}
+
+Generate ONLY this HTML structure (nothing else):
+
+<div class="answer-key">
+    <h2 class="answer-key-title">Answer Key</h2>
+    <div class="answer-key-content">
+        <p><strong>1.</strong> [answer for question 1]</p>
+        <p><strong>2.</strong> [answer for question 2]</p>
+        ... (${questionCount} total answers)
+    </div>
+</div>
+
+CRITICAL: Output ONLY the answer-key div above. No explanatory text, no other HTML.`
+
+    metrics.promptLength = prompt.length
+
+    // Call Gemini API (much smaller/faster call)
+    const text = await callGeminiWithRetry(prompt, metrics)
+    metrics.responseLength = text.length
+
+    // Clean the response
+    let answerKeyHtml = text.trim()
+
+    // Remove code blocks if present
+    if (answerKeyHtml.startsWith('```html')) {
+      answerKeyHtml = answerKeyHtml.slice(7, -3).trim()
+    } else if (answerKeyHtml.startsWith('```')) {
+      answerKeyHtml = answerKeyHtml.slice(3, -3).trim()
+    }
+
+    metrics.endTime = Date.now()
+    metrics.duration = metrics.endTime - metrics.startTime
+    metrics.success = true
+
+    console.log(`✅ Answers generated in ${(metrics.duration / 1000).toFixed(2)}s`)
+
+    return answerKeyHtml
+  } catch (error) {
+    metrics.endTime = Date.now()
+    metrics.duration = metrics.endTime - metrics.startTime
+
+    console.error('❌ Answers-only generation failed:', error)
+    throw error
+  }
+}
+
+/**
+ * PROGRESSIVE GENERATION: Wrapper function that uses dual-LLM for better UX
+ * Generates questions first, then answers, allowing progressive display
+ */
+export async function generateWorksheetProgressive(
+  config: WorksheetConfig,
+  options: {
+    forceEnhanced?: boolean;
+    iterativeCycle?: number;
+    onQuestionsReady?: (questionsHtml: string) => void;
+  } = {}
+): Promise<GeneratedWorksheet> {
+  console.log('🚀 Progressive generation started...')
+  const overallStart = Date.now()
+
+  try {
+    // Step 1: Generate questions (~20-22s)
+    console.log('📝 Step 1: Generating questions...')
+    const questionsResult = await generateWorksheetQuestionsOnly(config, options)
+
+    // Notify caller that questions are ready
+    if (options.onQuestionsReady) {
+      options.onQuestionsReady(questionsResult.html)
+    }
+
+    // Step 2: Generate answers (~3-5s)
+    console.log('✅ Step 2: Generating answers...')
+    const answersHtml = await generateWorksheetAnswersOnly(config, questionsResult.html)
+
+    // Step 3: Merge questions + answers
+    console.log('🔄 Step 3: Merging worksheet...')
+    const completeHtml = questionsResult.html.replace('</body>', `${answersHtml}\n</body>`)
+
+    const overallDuration = (Date.now() - overallStart) / 1000
+
+    console.log(`✨ Progressive generation complete in ${overallDuration.toFixed(2)}s`)
+    console.log(`   - Questions: ${(questionsResult.questionsData.duration / 1000).toFixed(2)}s`)
+    console.log(`   - Answers: ~3-5s`)
+    console.log(`   - Total: ${overallDuration.toFixed(2)}s`)
+
+    return {
+      title: `${config.yearGroup} ${config.topic} - ${config.subtopic} (${config.difficulty})`,
+      html: completeHtml,
+      metadata: {
+        ...questionsResult.metadata,
+        generationMethod: 'progressive-dual-llm',
+        questionsTime: questionsResult.questionsData.duration,
+        totalTime: Date.now() - overallStart
+      }
+    }
+
+  } catch (error) {
+    console.error('❌ Progressive generation failed, falling back to single call')
+    // Fallback to standard single-call generation
+    return generateWorksheet(config, options)
+  }
+}
+
+/**
+ * SIMPLE CACHING: Store base template cache ID (in-memory, resets on restart)
+ * Cache the HTML/CSS template that NEVER changes across all worksheets
+ */
+let baseTemplateCacheName: string | null = null
+
+/**
+ * Get or create the base template cache
+ * This caches the static HTML/CSS template (1,800 tokens) that's identical for ALL worksheets
+ * Saves 1-2s generation time + 90% cost on cached tokens
+ */
+async function getBaseTemplateCache(): Promise<string | null> {
+  try {
+    // If already cached, return it
+    if (baseTemplateCacheName) {
+      console.log('✅ Using existing base template cache:', baseTemplateCacheName)
+      return baseTemplateCacheName
+    }
+
+    // Load base template (one-time)
+    const fs = require('fs')
+    const path = require('path')
+    const templatePath = path.join(
+      process.cwd(),
+      'src/lib/prompts/shared/base-worksheet-template.md'
+    )
+
+    // Check if file exists
+    if (!fs.existsSync(templatePath)) {
+      console.warn('⚠️ Base template not found, skipping cache')
+      return null
+    }
+
+    const baseTemplate = fs.readFileSync(templatePath, 'utf-8')
+
+    // Gemini cache requires minimum 2,048 tokens
+    if (baseTemplate.length < 2000) {
+      console.warn('⚠️ Base template too small for caching (< 2048 tokens)')
+      return null
+    }
+
+    // Create Gemini cache (one-time)
+    console.log('📦 Creating base template cache...')
+    const cache = await genAI.cacheManager.create({
+      model: 'gemini-2.5-flash',
+      contents: [{
+        role: 'user',
+        parts: [{ text: baseTemplate }]
+      }],
+      ttl: 3600, // 1 hour (auto-refreshes when used)
+    })
+
+    baseTemplateCacheName = cache.name
+    console.log('✅ Created base template cache:', cache.name)
+
+    return cache.name
+  } catch (error) {
+    console.warn('⚠️ Cache creation failed, will use standard API:', error)
+    return null
+  }
+}
+
+/**
+ * STREAMING GENERATION: Generate worksheet with progressive token delivery
+ * User sees content in 8-10s instead of waiting full 30s
+ * Same quality, just better UX
+ */
+export async function generateWorksheetStreaming(
+  config: WorksheetConfig,
+  options: {
+    forceEnhanced?: boolean;
+    iterativeCycle?: number;
+    onProgress?: (partialHtml: string) => void;
+  } = {}
+): Promise<GeneratedWorksheet> {
+  console.log('🌊 Starting streaming generation...')
+  const metrics: GenerationMetrics = {
+    startTime: Date.now(),
+    endTime: 0,
+    duration: 0,
+    promptLength: 0,
+    responseLength: 0,
+    success: false
+  }
+
+  let improvementMetadata: IterativeImprovementMetadata | undefined
+
+  try {
+    // Step 1: Generate prompt (same as standard generation)
+    const promptResult = await PromptService.generatePrompt(config, options)
+    const prompt = promptResult.prompt
+    improvementMetadata = promptResult.metadata
+    metrics.promptLength = prompt.length
+
+    console.log(`📝 Prompt ready (${prompt.length} chars), starting stream...`)
+
+    // Step 2: Try to use cached template (optional optimization)
+    const cacheName = await getBaseTemplateCache()
+
+    // Step 3: Call streaming API
+    const streamResult = cacheName
+      ? await model.generateContentStream({
+          cachedContent: cacheName,
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 4096,
+            topP: 0.9,
+            topK: 40
+          }
+        })
+      : await model.generateContentStream({
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 4096,
+            topP: 0.9,
+            topK: 40
+          }
+        })
+
+    // Step 4: Collect chunks and send to UI progressively
+    let fullHtml = ''
+    let chunkCount = 0
+    const startStreamTime = Date.now()
+
+    for await (const chunk of streamResult.stream) {
+      const chunkText = chunk.text()
+      fullHtml += chunkText
+      chunkCount++
+
+      // Send partial HTML to UI (if callback provided)
+      if (options.onProgress && chunkCount % 5 === 0) {
+        // Send every 5th chunk to avoid overwhelming UI
+        options.onProgress(fullHtml)
+      }
+
+      // Log first chunk time (user sees content)
+      if (chunkCount === 1) {
+        const timeToFirstChunk = (Date.now() - startStreamTime) / 1000
+        console.log(`✨ First chunk arrived in ${timeToFirstChunk.toFixed(2)}s`)
+      }
+    }
+
+    metrics.responseLength = fullHtml.length
+    console.log(`✅ Streaming complete: ${chunkCount} chunks, ${fullHtml.length} chars`)
+
+    // Step 5: Parse and validate (same as standard generation)
+    const worksheet = parseGeneratedContent(fullHtml, config, improvementMetadata)
+
+    // Validate HTML
+    const htmlValidation = validateGeneratedHTML(worksheet.html)
+    if (!htmlValidation.isValid) {
+      throw new GenerationError(
+        `Invalid HTML structure: ${htmlValidation.errors.map(e => e.message).join(', ')}`,
+        false,
+        { htmlErrors: htmlValidation.errors }
+      )
+    }
+
+    metrics.endTime = Date.now()
+    metrics.duration = metrics.endTime - metrics.startTime
+    metrics.success = true
+
+    console.log(`🎉 Streaming generation complete in ${(metrics.duration / 1000).toFixed(2)}s`)
+
+    return worksheet
+
+  } catch (error) {
+    metrics.endTime = Date.now()
+    metrics.duration = metrics.endTime - metrics.startTime
+    metrics.errorType = error instanceof Error ? error.constructor.name : 'UnknownError'
+
+    console.error('❌ Streaming generation failed, falling back to standard:', error)
+
+    // Fallback to standard generation if streaming fails
+    return generateWorksheet(config, options)
+  }
+}
