@@ -1,0 +1,519 @@
+# Reception: Simple Patterns - Worksheet Generation Prompt
+
+**CRITICAL CONSTRAINT: Generate EXACTLY {{questionCount}} questions. NOT {{questionCount}}+1, NOT {{questionCount}}-1. EXACTLY {{questionCount}}.**
+
+Create a Reception simple patterns worksheet with EXACTLY {{questionCount}} questions using the PROVEN 5-QUESTION FORMAT below.
+
+## RECEPTION PEDAGOGY (Ages 4-5) - NON-NEGOTIABLE RULES
+
+### Rule 1: Pattern Types (CRITICAL)
+- **Focus on simple repeating patterns appropriate for ages 4-5**
+- PRIMARY PATTERNS: AB (e.g., red-blue-red-blue)
+- INTERMEDIATE PATTERNS: ABB (e.g., red-blue-blue-red-blue-blue)
+- ADVANCED PATTERNS: ABC (e.g., red-blue-green-red-blue-green)
+- Use colors, shapes, and objects from verified library
+
+### Rule 2: Question Count (CRITICAL)
+- **Generate EXACTLY {{questionCount}} questions - NO MORE, NO LESS**
+- Count your questions before returning: 1, 2, 3, 4, 5 = {{questionCount}} questions
+
+### Rule 3: Use Proven Question Format
+- **Follow the 5-question pedagogical structure EXACTLY as specified below**
+- Each question type has been researched and proven effective for ages 4-5
+- Progress from simple to complex pattern recognition
+
+### Rule 4: Visual-First Approach (CRITICAL)
+- **ALL patterns must be visual - use colors, shapes, or objects**
+- Clear, distinct elements in each pattern
+- Bright, engaging colors
+- NO number patterns (ages 4-5 focus on visual patterns)
+
+### Rule 5: Age-Appropriate Language
+- **Use simple instructions**
+- Vocabulary: pattern, repeat, next, comes after, continues
+- "What comes next?", "Continue the pattern", "Copy the pattern"
+
+## PROVEN 5-QUESTION FORMAT (RESEARCH-BASED)
+
+### **Question 1: What Comes Next? (AB Pattern)** (Easiest - Building Confidence)
+**Format**: Show simple AB color pattern, ask what comes next
+**Pedagogical Purpose**: Basic pattern recognition
+**HTML Structure**:
+```html
+<div class="question" style="background: #FFF9C4;">
+    <span class="question-number">1.</span>
+    <p class="question-text">What comes NEXT in this pattern?</p>
+
+    <div class="pattern-sequence">
+        <div class="pattern-item circle red"></div>
+        <div class="pattern-item circle blue"></div>
+        <div class="pattern-item circle red"></div>
+        <div class="pattern-item circle blue"></div>
+        <div class="pattern-item circle red"></div>
+        <div class="pattern-item pattern-next">?</div>
+    </div>
+
+    <div class="pattern-choices">
+        <div class="choice-item circle red"></div>
+        <div class="choice-item circle blue"></div>
+    </div>
+
+    <p class="answer-prompt">Circle your answer</p>
+</div>
+```
+**Example**: Red-Blue-Red-Blue-Red-? (Answer: Blue)
+
+---
+
+### **Question 2: Continue the Pattern (ABB Pattern)** (Intermediate)
+**Format**: Show ABB shape pattern, ask child to complete
+**Pedagogical Purpose**: Recognizing more complex repeating units
+**HTML Structure**:
+```html
+<div class="question" style="background: #E3F2FD;">
+    <span class="question-number">2.</span>
+    <p class="question-text">Draw or color the missing shapes to continue the pattern</p>
+
+    <div class="pattern-sequence">
+        <div class="pattern-item square green"></div>
+        <div class="pattern-item circle yellow"></div>
+        <div class="pattern-item circle yellow"></div>
+        <div class="pattern-item square green"></div>
+        <div class="pattern-item circle yellow"></div>
+        <div class="pattern-item circle yellow"></div>
+        <div class="pattern-item pattern-blank"></div>
+        <div class="pattern-item pattern-blank"></div>
+    </div>
+
+    <p class="answer-prompt">What shapes come next?</p>
+</div>
+```
+**Example**: Square-Circle-Circle-Square-Circle-Circle-__-__ (Answer: Square-Circle)
+
+---
+
+### **Question 3: Copy the Pattern** (Hands-On Practice)
+**Format**: Show complete pattern, provide blank spaces to copy
+**Pedagogical Purpose**: Reproducing patterns, fine motor skills
+**HTML Structure**:
+```html
+<div class="question" style="background: #F1F8E9;">
+    <span class="question-number">3.</span>
+    <p class="question-text">Copy this pattern in the boxes below</p>
+
+    <div class="pattern-to-copy">
+        <div class="pattern-item star yellow"></div>
+        <div class="pattern-item heart pink"></div>
+        <div class="pattern-item star yellow"></div>
+        <div class="pattern-item heart pink"></div>
+    </div>
+
+    <div class="pattern-copy-area">
+        <div class="copy-box"></div>
+        <div class="copy-box"></div>
+        <div class="copy-box"></div>
+        <div class="copy-box"></div>
+    </div>
+
+    <p class="answer-prompt">Draw the pattern</p>
+</div>
+```
+**Example**: Show Star-Heart-Star-Heart, child copies into empty boxes
+
+---
+
+### **Question 4: Object Pattern (Real-World)** (Application)
+**Format**: Pattern using familiar objects from WORKSHEET_OBJECTS
+**Pedagogical Purpose**: Connecting patterns to real-world items
+**HTML Structure**:
+```html
+<div class="question" style="background: #FCE4EC;">
+    <span class="question-number">4.</span>
+    <p class="question-text">What comes next in Emma's toy pattern?</p>
+
+    <div class="pattern-sequence-objects">
+        <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="60" height="60" alt="Ball" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/toys/car.png" width="60" height="60" alt="Car" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="60" height="60" alt="Ball" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/toys/car.png" width="60" height="60" alt="Car" />
+        <div class="pattern-next">?</div>
+    </div>
+
+    <div class="object-choices">
+        <div class="choice-box">
+            <span class="choice-label">A</span>
+            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="50" height="50" alt="Ball" />
+        </div>
+        <div class="choice-box">
+            <span class="choice-label">B</span>
+            <img src="/images/WORKSHEET_OBJECTS/counting/toys/car.png" width="50" height="50" alt="Car" />
+        </div>
+    </div>
+
+    <p class="answer-prompt">Circle A or B</p>
+</div>
+```
+**Example**: Ball-Car-Ball-Car-? (Answer: Ball)
+
+**Verified Objects for Patterns:**
+- Fruits: apple, banana, orange, strawberry
+- Toys: ball, car, doll, kite
+- Shapes: star, heart, circle, square
+- Vegetables: carrot, tomato
+
+---
+
+### **Question 5: ABC Pattern Challenge** (Most Complex)
+**Format**: Three-element repeating pattern
+**Pedagogical Purpose**: Advanced pattern recognition for ready learners
+**HTML Structure**:
+```html
+<div class="question" style="background: #FFF3E0;">
+    <span class="question-number">5.</span>
+    <p class="question-text">What comes next? Circle the answer.</p>
+
+    <div class="pattern-sequence">
+        <div class="pattern-item triangle red"></div>
+        <div class="pattern-item square blue"></div>
+        <div class="pattern-item circle green"></div>
+        <div class="pattern-item triangle red"></div>
+        <div class="pattern-item square blue"></div>
+        <div class="pattern-item pattern-next">?</div>
+    </div>
+
+    <div class="pattern-choices-abc">
+        <div class="choice-box">
+            <span class="choice-label">A</span>
+            <div class="choice-shape triangle red"></div>
+        </div>
+        <div class="choice-box">
+            <span class="choice-label">B</span>
+            <div class="choice-shape circle green"></div>
+        </div>
+        <div class="choice-box">
+            <span class="choice-label">C</span>
+            <div class="choice-shape square blue"></div>
+        </div>
+    </div>
+
+    <p class="answer-prompt">Circle A, B, or C</p>
+</div>
+```
+**Example**: Red Triangle-Blue Square-Green Circle-Red Triangle-Blue Square-? (Answer: Green Circle)
+
+---
+
+## PATTERN GUIDELINES
+
+### Pattern Types Distribution:
+- **Q1**: AB pattern (simplest - 2 elements)
+- **Q2**: ABB pattern (3 elements, one repeats)
+- **Q3**: AB pattern for copying
+- **Q4**: AB pattern with real objects
+- **Q5**: ABC pattern (most complex - 3 different elements)
+
+### Color Palette (Use bright, distinct colors):
+- Red (#E74C3C)
+- Blue (#4A90E2)
+- Green (#27AE60)
+- Yellow (#F1C40F)
+- Pink (#E91E63)
+- Orange (#F39C12)
+- Purple (#9B59B6)
+
+### Shape Options:
+- Circle, Square, Triangle, Rectangle, Star, Heart
+
+### Pattern Length Guidelines:
+- Show 4-6 complete cycles for recognition
+- Ask for 1-2 next elements
+- Ensure pattern is obvious
+
+---
+
+## ULTRA-COMPACT CSS (OPTIMIZED FOR PATTERNS)
+
+```css
+body {
+    font-family: 'Sassoon Primary', 'Century Gothic', 'Comic Sans MS', sans-serif;
+    font-size: 16pt;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background: white;
+    color: #000;
+}
+
+.worksheet-header {
+    text-align: center;
+    margin-bottom: 15px;
+    padding-bottom: 6px;
+    border-bottom: 3px solid #000;
+}
+
+.worksheet-title {
+    font-size: 16pt;
+    font-weight: bold;
+    margin: 0;
+}
+
+.question {
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.question-number {
+    font-size: 18pt;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-right: 8px;
+}
+
+.question-text {
+    font-size: 16pt;
+    line-height: 1.4;
+    margin: 6px 0;
+    font-weight: 600;
+}
+
+/* Pattern Sequences */
+.pattern-sequence, .pattern-sequence-objects, .pattern-to-copy {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f8f9ff;
+    border: 3px dashed #4CAF50;
+    border-radius: 12px;
+    max-width: 600px;
+    flex-wrap: wrap;
+}
+
+.pattern-item {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #333;
+    border-radius: 8px;
+}
+
+/* Circles */
+.pattern-item.circle {
+    border-radius: 50%;
+}
+
+/* Squares */
+.pattern-item.square {
+    border-radius: 8px;
+}
+
+/* Triangles */
+.pattern-item.triangle {
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 52px solid;
+    border-top: none;
+    border-radius: 0;
+}
+
+/* Stars */
+.pattern-item.star {
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    border-radius: 0;
+}
+
+/* Hearts */
+.pattern-item.heart {
+    position: relative;
+    transform: rotate(-45deg);
+    border-radius: 0;
+}
+
+/* Colors */
+.red { background-color: #E74C3C; border-color: #C0392B; }
+.blue { background-color: #4A90E2; border-color: #2E5C8A; }
+.green { background-color: #27AE60; border-color: #1E8449; }
+.yellow { background-color: #F1C40F; border-color: #C29D0B; }
+.pink { background-color: #E91E63; border-color: #AD1457; }
+.orange { background-color: #F39C12; border-color: #CA6F1E; }
+.purple { background-color: #9B59B6; border-color: #7D3C98; }
+
+/* Triangle colors - special handling */
+.triangle.red { border-bottom-color: #E74C3C; }
+.triangle.blue { border-bottom-color: #4A90E2; }
+.triangle.green { border-bottom-color: #27AE60; }
+.triangle.yellow { border-bottom-color: #F1C40F; }
+.triangle.pink { border-bottom-color: #E91E63; }
+
+.pattern-next {
+    width: 60px;
+    height: 60px;
+    background: white;
+    border: 3px dashed #FF6347;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32pt;
+    font-weight: bold;
+    color: #FF6347;
+}
+
+.pattern-blank {
+    width: 60px;
+    height: 60px;
+    background: white;
+    border: 2px solid #999;
+    border-radius: 8px;
+}
+
+/* Pattern Choices */
+.pattern-choices, .pattern-choices-abc, .object-choices {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 15px auto;
+    flex-wrap: wrap;
+}
+
+.choice-item {
+    width: 70px;
+    height: 70px;
+    border: 3px solid #333;
+    cursor: pointer;
+}
+
+.choice-item:hover {
+    border-color: #4CAF50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.choice-box {
+    padding: 15px;
+    background: white;
+    border: 3px solid #ddd;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.choice-box:hover {
+    border-color: #4CAF50;
+    background: #f0f9ff;
+}
+
+.choice-label {
+    display: block;
+    font-size: 16pt;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.choice-shape {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+}
+
+/* Copy Area */
+.pattern-copy-area {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px auto;
+    padding: 15px;
+}
+
+.copy-box {
+    width: 70px;
+    height: 70px;
+    background: white;
+    border: 2px solid #999;
+    border-radius: 8px;
+}
+
+/* Answer Prompts */
+.answer-prompt {
+    font-size: 15pt;
+    margin: 10px 0;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Answer Key */
+.answer-key {
+    margin-top: 30px;
+    padding: 15px;
+    background: #f0f8ff;
+    border: 2px solid #4169E1;
+    border-radius: 10px;
+    page-break-before: always;
+}
+
+.answer-key-title {
+    font-size: 14pt;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 0 0 10px 0;
+    text-align: center;
+}
+
+.answer-key-content p {
+    font-size: 12pt;
+    margin: 6px 0;
+    line-height: 1.5;
+}
+```
+
+---
+
+## ANSWER KEY (MANDATORY)
+
+```html
+<div class="answer-key">
+    <h2 class="answer-key-title">Answer Key</h2>
+    <div class="answer-key-content">
+        <p><strong>1.</strong> Blue circle (AB pattern continues)</p>
+        <p><strong>2.</strong> Square-Circle (ABB pattern: Green Square, Yellow Circles)</p>
+        <p><strong>3.</strong> Copy: Star-Heart-Star-Heart</p>
+        <p><strong>4.</strong> A - Ball (AB pattern with toys)</p>
+        <p><strong>5.</strong> B - Green Circle (ABC pattern: Triangle-Square-Circle)</p>
+    </div>
+</div>
+```
+
+---
+
+## SELF-VALIDATION CHECKLIST
+
+Before returning HTML:
+1. ✓ **Exactly {{questionCount}} questions?**
+2. ✓ **Question 1 = AB pattern (what comes next)?**
+3. ✓ **Question 2 = ABB pattern (continue)?**
+4. ✓ **Question 3 = Copy pattern activity?**
+5. ✓ **Question 4 = Object pattern from WORKSHEET_OBJECTS?**
+6. ✓ **Question 5 = ABC pattern (most complex)?**
+7. ✓ **Answer key present at bottom?**
+8. ✓ **All patterns have clear, distinct colors/shapes?**
+9. ✓ **Pattern sequences are obvious and repeating?**
+10. ✓ **Age-appropriate for 4-5 year olds?**
+
+**If ANY fails, STOP and regenerate.**
+
+---
+
+## OUTPUT FORMAT
+
+Return complete HTML document with:
+- Ultra-compact CSS (copy exactly from above)
+- 5 questions following proven format EXACTLY
+- Answer key at bottom
+- Placeholders: {{topic}}, {{subtopic}}, {{yearGroup}}, {{difficulty}}
+
+**Generate NOW following ALL specifications above.**
