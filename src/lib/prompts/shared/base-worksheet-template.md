@@ -55,13 +55,6 @@ All images use path: `/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png
             font-weight: bold;
             margin: 0;
         }
-        .student-info {
-            display: flex;
-            justify-content: space-between;
-            margin: 8px 0 15px 0;
-            font-size: 11pt;
-            font-weight: bold;
-        }
         .question {
             margin: 15px 0;
             padding: 15px;
@@ -127,11 +120,6 @@ All images use path: `/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png
     <div class="worksheet-header">
         <h1 class="worksheet-title">{{topic}} - {{subtopic}}</h1>
         <p class="subtitle">{{yearGroup}} | {{difficulty}}</p>
-    </div>
-
-    <div class="student-info">
-        <span>Name: _______________</span>
-        <span>Date: _______________</span>
     </div>
 
     <div class="worksheet-content">

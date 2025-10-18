@@ -72,7 +72,7 @@ You generate only pure HTML content - nothing else.`
   },
   generationConfig: {
     temperature: 0.7, // Balanced creativity vs consistency
-    maxOutputTokens: 4096, // Optimized for worksheet content (~2000-3000 tokens typical)
+    maxOutputTokens: 8192, // Doubled from 4096 to ensure all 5 questions generate (number-recognition needs ~7000+ tokens)
     topP: 0.9, // Optimized for better token selection
     topK: 40
   }
@@ -1181,7 +1181,7 @@ export async function generateWorksheetStreaming(
           contents: [{ role: 'user', parts: [{ text: prompt }] }],
           generationConfig: {
             temperature: 0.7,
-            maxOutputTokens: 4096,
+            maxOutputTokens: 8192,
             topP: 0.9,
             topK: 40
           }
@@ -1190,7 +1190,7 @@ export async function generateWorksheetStreaming(
           contents: [{ role: 'user', parts: [{ text: prompt }] }],
           generationConfig: {
             temperature: 0.7,
-            maxOutputTokens: 4096,
+            maxOutputTokens: 8192,
             topP: 0.9,
             topK: 40
           }

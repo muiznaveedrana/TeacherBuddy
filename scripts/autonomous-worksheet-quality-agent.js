@@ -60,12 +60,6 @@ const CONFIG_REGISTRY = {
       realWorldContextRequired: true,
       maxWordLength: 10,
       forbiddenWords: []
-    },
-
-    // Prompt Configuration
-    promptConfig: {
-      version: 'v1.0',
-      filePath: 'prompts/config-specific/reception-number-counting-counting-to-10-v1.0.ts'
     }
   },
 
@@ -97,10 +91,6 @@ const CONFIG_REGISTRY = {
       realWorldContextRequired: true,
       maxWordLength: 10,
       forbiddenWords: []
-    },
-    promptConfig: {
-      version: 'v1.0',
-      filePath: 'prompts/config-specific/reception-number-counting-number-recognition-v1.0.ts'
     }
   }
 };
@@ -535,6 +525,11 @@ async function generateWorksheet(page, cycleNum, iterationNum, config, isFirstIt
     });
 
     // No additional wait needed - images already preloaded and verified!
+
+    // 10b. ADDITIONAL DELAY: Wait 10 seconds before taking screenshot for full rendering
+    console.log(`    ⏳ Waiting 10 seconds for complete rendering before screenshot...`);
+    await page.waitForTimeout(10000);
+    console.log(`    ✅ Wait complete, capturing screenshot...`);
 
     // 11. Screenshot: Generated worksheet
     await page.screenshot({

@@ -72,6 +72,44 @@ const CONFIG_REGISTRY = {
       version: 'v1.0',
       filePath: 'prompts/config-specific/reception-number-counting-counting-to-10-v1.0.ts'
     }
+  },
+  'reception-number-counting-number-recognition': {
+    yearGroup: 'Reception',
+    yearGroupSelect: 'Reception (Ages 4-5)',
+    topicValue: 'number-counting',
+    topic: 'Number and Counting',
+    subtopicValue: 'number-recognition',
+    subtopic: 'Number Recognition',
+    difficulty: 'average',
+    numQuestions: 5,
+    qualityGate: {
+      minOverallScore: 85,
+      minCurriculumAlignment: 8,
+      minPresentationQuality: 7,
+      minContentConfigMatch: 9,
+      minImageQuestionAlignment: 9,
+      minContentFreshness: 9,
+      minImageDiversity: 8
+    },
+    specificChecks: {
+      minNumber: 1,
+      maxNumber: 10,
+      requireVisualSupport: true,
+      minImagesPerQuestion: 1,
+      maxQuestionComplexity: 'medium',
+      proven5QuestionFormat: true,
+      requireGiantNumber: true,
+      requireMultipleChoice: true,
+      requireTenFrame: true,
+      requireContextualScenario: true,
+      requireMatching: true,
+      maxWordLength: 15,
+      forbiddenWords: []
+    },
+    promptConfig: {
+      version: 'v1.0',
+      filePath: 'src/lib/prompts/configurations/reception/number-counting/number-recognition.md'
+    }
   }
 };
 
@@ -277,10 +315,16 @@ async function generateWorksheetInContext(page, worksheetId, config, screenshotD
 
     // Select Subtopic
     const subtopicValue = config.subtopicValue || config.subtopic.toLowerCase().replace(/\s+/g, '-');
+    console.log(`      🔍 [WS-${worksheetId}] Selecting subtopic: ${subtopicValue}`);
     await page.getByTestId('subtopic-select').click();
-    await page.waitForTimeout(300); // Small delay for dropdown animation
+    await page.waitForTimeout(500); // Longer delay for dropdown animation and state update
     await page.waitForSelector(`[data-testid="subtopic-option-${subtopicValue}"]`, { timeout: 10000, state: 'visible' });
     await page.getByTestId(`subtopic-option-${subtopicValue}`).click();
+    await page.waitForTimeout(500); // Wait for state to update after click
+
+    // Verify subtopic was selected correctly
+    const selectedSubtopic = await page.getByTestId('subtopic-select').textContent();
+    console.log(`      ✅ [WS-${worksheetId}] Subtopic selected: ${selectedSubtopic}`);
 
     // Wait for form state update
     await page.waitForLoadState('domcontentloaded');
@@ -301,8 +345,28 @@ async function generateWorksheetInContext(page, worksheetId, config, screenshotD
 
     console.log(`      ⏳ [WS-${worksheetId}] Waiting for generation...`);
 
-    // Wait for completion
+    // Wait for completion - Download button appears
     await page.waitForSelector('text=Download', { timeout: AGENT_CONFIG.TIMEOUT });
+
+    // CRITICAL: Wait for worksheet content to actually render (not just config screen)
+    // The worksheet preview should contain actual HTML content, not ads
+    console.log(`      ⏳ [WS-${worksheetId}] Waiting for worksheet content to render...`);
+    await page.waitForSelector('.worksheet-preview, .worksheet', { timeout: 10000 });
+
+    // Wait for the preview to contain substantial content (not just the ad placeholder)
+    await page.waitForFunction(() => {
+      const preview = document.querySelector('.worksheet-preview, .worksheet');
+      if (!preview) return false;
+      const content = preview.textContent || '';
+      // Check if we have actual worksheet content (Name: ___, Date: ___, questions, etc.)
+      return content.length > 500 && (content.includes('Name:') || content.includes('Question') || content.match(/\d+\./));
+    }, { timeout: 15000 });
+
+    console.log(`      ✅ [WS-${worksheetId}] Worksheet content detected, waiting for images...`);
+
+    // Additional wait to ensure ALL 5 questions render completely (increased to 14s for number-recognition)
+    // This gives the AI model more time to complete generation before screenshot
+    await page.waitForTimeout(14000);
 
     // Parallel image preloading
     const imageSrcs = await page.evaluate(() => {

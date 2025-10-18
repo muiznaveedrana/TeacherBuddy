@@ -194,11 +194,11 @@ Return a complete HTML document:
     <title>{{topic}} - {{subtopic}}</title>
     <style>
         body {
-            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif;
-            font-size: 18pt;
-            line-height: 1.8;
+            font-family: 'Sassoon Primary', 'Century Gothic', 'Comic Sans MS', sans-serif;
+            font-size: 16pt;
+            line-height: 1.6;
             margin: 0;
-            padding: 30px;
+            padding: 20px;
             background: white;
             color: #000;
         }
@@ -212,13 +212,6 @@ Return a complete HTML document:
             font-size: 16pt;
             font-weight: bold;
             margin: 0;
-        }
-        .student-info {
-            display: flex;
-            justify-content: space-between;
-            margin: 8px 0 15px 0;
-            font-size: 11pt;
-            font-weight: bold;
         }
         .question {
             margin: 15px 0;
@@ -265,11 +258,6 @@ Return a complete HTML document:
     <div class="worksheet-header">
         <h1 class="worksheet-title">{{topic}} - {{subtopic}}</h1>
         <p class="subtitle">{{yearGroup}} | {{difficulty}}</p>
-    </div>
-
-    <div class="student-info">
-        <span>Name: _______________</span>
-        <span>Date: _______________</span>
     </div>
 
     <div class="worksheet-content">
