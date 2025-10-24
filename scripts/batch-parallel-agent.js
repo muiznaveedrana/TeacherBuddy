@@ -1,32 +1,60 @@
 #!/usr/bin/env node
 
 /**
- * BATCH PARALLEL WORKSHEET QUALITY AGENT v1.0
+ * BATCH PARALLEL WORKSHEET QUALITY AGENT v2.1 (MULTI-CONFIG + CLAUDE CODE VISION)
  *
- * Ultra-optimized agent that generates multiple worksheets in parallel
- * using multiple browser contexts for maximum throughput.
+ * Efficient agent that generates multiple worksheets across multiple configs in parallel,
+ * then hands off to Claude Code for vision assessment and report generation.
+ *
+ * COMPLETE WORKFLOW (CLAUDE CODE INTEGRATION):
+ * 1. Agent: Generate worksheets for all configs in parallel (no intermediate HTML reports)
+ * 2. Agent: Save screenshot metadata and exit cleanly
+ * 3. Claude Code: Assess all worksheets using Read tool (expert teacher criteria)
+ * 4. Claude Code: Generate comprehensive HTML report with vision results ONLY at the end
+ *
+ * NEW in v2.1:
+ * - NO intermediate HTML report generation (clean workflow)
+ * - NO API keys required (uses Claude Code's native vision capabilities)
+ * - Agent exits after generation, Claude Code completes the workflow
+ * - HTML report generated ONLY after all assessments complete
+ * - Streamlined for development and test pipelines
+ *
+ * Features from v2.0:
+ * - Multi-config support: Run multiple configs in parallel (e.g., all-reception)
+ * - Config-level parallelism: Process N configs at a time (default: 2)
+ * - Batch vision support: Prepare ALL worksheets for Claude Code assessment
+ * - Consolidated HTML report: Single report covering all configs and worksheets
  *
  * Performance improvements over sequential agent:
- * - Multi-browser context architecture (5+ parallel generations)
- * - Parallel vision assessments (batch processing)
+ * - Multi-browser context architecture (parallel generations per config)
+ * - Multi-config parallelism (2+ configs running simultaneously)
  * - Shared browser instance (reduced startup overhead)
- * - Optimized resource management
  *
  * Expected performance:
- * - Sequential: 5 worksheets × 216s = 1080s (18 minutes)
- * - Parallel: 5 worksheets in ~90s (5x speedup, 18s per worksheet amortized)
+ * - Generation: 6 configs × 2 worksheets in ~3-4 minutes (parallel mode)
+ * - Vision assessment: ~5-10s per worksheet via Claude Code
  *
  * Usage:
- *   node scripts/batch-parallel-agent.js <config-id> [options]
+ *   node scripts/batch-parallel-agent.js <config-id-or-group> [options]
+ *
+ * Config Groups:
+ *   all-reception               All 6 Reception configs
+ *   <specific-config-id>        Single config (legacy mode)
  *
  * Options:
- *   --batch-size=N          Number of worksheets to generate in parallel (default: 5)
- *   --max-concurrent=N      Maximum concurrent browser contexts (default: 5)
- *   --enable-vision=true    Enable vision assessment (default: true)
- *   --headless=true         Run in headless mode (default: false)
+ *   --batch-size=N              Worksheets per config (default: 2)
+ *   --max-concurrent=N          Max concurrent browser contexts per config (default: 2)
+ *   --configs-parallel=N        Max configs to run in parallel (default: 2)
+ *   --enable-vision=true        Prepare for vision assessment (default: true)
+ *   --headless=true             Run in headless mode (default: false)
  *
- * Example:
- *   node scripts/batch-parallel-agent.js reception-number-counting-counting-to-10 --batch-size=10 --max-concurrent=5
+ * Examples:
+ *   node scripts/batch-parallel-agent.js all-reception --batch-size=2 --configs-parallel=2
+ *   node scripts/batch-parallel-agent.js reception-number-counting-counting-to-10 --batch-size=5
+ *
+ * No API Keys Required:
+ *   - Uses Claude Code's native vision capabilities (Read tool)
+ *   - Perfect for development and testing workflows
  */
 
 const { chromium } = require('playwright');
@@ -35,7 +63,7 @@ const path = require('path');
 const { performance } = require('perf_hooks');
 
 // ============================================================================
-// CONFIG REGISTRY (Import from autonomous agent)
+// CONFIG REGISTRY (All 6 Reception Configs)
 // ============================================================================
 
 const CONFIG_REGISTRY = {
@@ -47,31 +75,7 @@ const CONFIG_REGISTRY = {
     subtopicValue: 'counting-to-10',
     subtopic: 'Counting to 10',
     difficulty: 'average',
-    numQuestions: 5,
-    qualityGate: {
-      minOverallScore: 85,
-      minCurriculumAlignment: 8,
-      minPresentationQuality: 7,
-      minContentConfigMatch: 9,
-      minImageQuestionAlignment: 9,
-      minContentFreshness: 9,
-      minImageDiversity: 8
-    },
-    specificChecks: {
-      minNumber: 1,
-      maxNumber: 10,
-      requireVisualSupport: true,
-      minImagesPerQuestion: 1,
-      maxQuestionComplexity: 'simple',
-      singleObjectTypeRequired: true,
-      realWorldContextRequired: true,
-      maxWordLength: 10,
-      forbiddenWords: []
-    },
-    promptConfig: {
-      version: 'v1.0',
-      filePath: 'prompts/config-specific/reception-number-counting-counting-to-10-v1.0.ts'
-    }
+    numQuestions: 5
   },
   'reception-number-counting-number-recognition': {
     yearGroup: 'Reception',
@@ -81,36 +85,60 @@ const CONFIG_REGISTRY = {
     subtopicValue: 'number-recognition',
     subtopic: 'Number Recognition',
     difficulty: 'average',
-    numQuestions: 5,
-    qualityGate: {
-      minOverallScore: 85,
-      minCurriculumAlignment: 8,
-      minPresentationQuality: 7,
-      minContentConfigMatch: 9,
-      minImageQuestionAlignment: 9,
-      minContentFreshness: 9,
-      minImageDiversity: 8
-    },
-    specificChecks: {
-      minNumber: 1,
-      maxNumber: 10,
-      requireVisualSupport: true,
-      minImagesPerQuestion: 1,
-      maxQuestionComplexity: 'medium',
-      proven5QuestionFormat: true,
-      requireGiantNumber: true,
-      requireMultipleChoice: true,
-      requireTenFrame: true,
-      requireContextualScenario: true,
-      requireMatching: true,
-      maxWordLength: 15,
-      forbiddenWords: []
-    },
-    promptConfig: {
-      version: 'v1.0',
-      filePath: 'src/lib/prompts/configurations/reception/number-counting/number-recognition.md'
-    }
+    numQuestions: 5
+  },
+  'reception-number-counting-more-or-less': {
+    yearGroup: 'Reception',
+    yearGroupSelect: 'Reception (Ages 4-5)',
+    topicValue: 'number-counting',
+    topic: 'Number and Counting',
+    subtopicValue: 'more-or-less',
+    subtopic: 'More or Less',
+    difficulty: 'average',
+    numQuestions: 5
+  },
+  'reception-shape-space-size-comparison': {
+    yearGroup: 'Reception',
+    yearGroupSelect: 'Reception (Ages 4-5)',
+    topicValue: 'shape-space',
+    topic: 'Shape and Space',
+    subtopicValue: 'size-comparison',
+    subtopic: 'Size Comparison',
+    difficulty: 'average',
+    numQuestions: 5
+  },
+  'reception-shape-space-basic-shapes': {
+    yearGroup: 'Reception',
+    yearGroupSelect: 'Reception (Ages 4-5)',
+    topicValue: 'shape-space',
+    topic: 'Shape and Space',
+    subtopicValue: 'basic-shapes',
+    subtopic: 'Basic Shapes',
+    difficulty: 'average',
+    numQuestions: 5
+  },
+  'reception-shape-space-patterns': {
+    yearGroup: 'Reception',
+    yearGroupSelect: 'Reception (Ages 4-5)',
+    topicValue: 'shape-space',
+    topic: 'Shape and Space',
+    subtopicValue: 'patterns',
+    subtopic: 'Patterns',
+    difficulty: 'average',
+    numQuestions: 5
   }
+};
+
+// Config groups for batch processing
+const CONFIG_GROUPS = {
+  'all-reception': [
+    'reception-number-counting-counting-to-10',
+    'reception-number-counting-number-recognition',
+    'reception-number-counting-more-or-less',
+    'reception-shape-space-size-comparison',
+    'reception-shape-space-basic-shapes',
+    'reception-shape-space-patterns'
+  ]
 };
 
 // ============================================================================
@@ -121,25 +149,31 @@ function parseArgs() {
   const args = process.argv.slice(2);
 
   if (args.length === 0 || args[0].startsWith('--')) {
-    console.error('\n❌ Error: Configuration ID is required\n');
-    console.log('Usage: node scripts/batch-parallel-agent.js <config-id> [options]\n');
-    console.log('Available configs:');
+    console.error('\n❌ Error: Configuration ID or group is required\n');
+    console.log('Usage: node scripts/batch-parallel-agent.js <config-id-or-group> [options]\n');
+    console.log('Config Groups:');
+    Object.keys(CONFIG_GROUPS).forEach(key => {
+      console.log(`  - ${key} (${CONFIG_GROUPS[key].length} configs)`);
+    });
+    console.log('\nIndividual Configs:');
     Object.keys(CONFIG_REGISTRY).forEach(key => {
       console.log(`  - ${key}`);
     });
     console.log('\nOptions:');
-    console.log('  --batch-size=N          Worksheets to generate in parallel (default: 5)');
-    console.log('  --max-concurrent=N      Max concurrent browser contexts (default: 5)');
+    console.log('  --batch-size=N          Worksheets per config (default: 2)');
+    console.log('  --max-concurrent=N      Max concurrent browser contexts per config (default: 2)');
+    console.log('  --configs-parallel=N    Max configs to run in parallel (default: 2)');
     console.log('  --enable-vision=true    Enable vision assessment (default: true)');
     console.log('  --headless=true         Run in headless mode (default: false)');
     console.log('');
     process.exit(1);
   }
 
-  const configId = args[0];
+  const configInput = args[0];
   const options = {
-    batchSize: 5,
-    maxConcurrent: 5,
+    batchSize: 2,
+    maxConcurrent: 2,
+    configsParallel: 2,
     enableVision: true,
     headless: false
   };
@@ -150,10 +184,13 @@ function parseArgs() {
       const [key, value] = arg.substring(2).split('=');
       switch (key) {
         case 'batch-size':
-          options.batchSize = parseInt(value) || 5;
+          options.batchSize = parseInt(value) || 2;
           break;
         case 'max-concurrent':
-          options.maxConcurrent = parseInt(value) || 5;
+          options.maxConcurrent = parseInt(value) || 2;
+          break;
+        case 'configs-parallel':
+          options.configsParallel = parseInt(value) || 2;
           break;
         case 'enable-vision':
           options.enableVision = value !== 'false';
@@ -165,15 +202,26 @@ function parseArgs() {
     }
   }
 
-  return { configId, options };
+  return { configInput, options };
 }
 
-const { configId, options } = parseArgs();
-const config = CONFIG_REGISTRY[configId];
+const { configInput, options } = parseArgs();
 
-if (!config) {
-  console.error(`\n❌ Error: Unknown configuration "${configId}"\n`);
-  console.log('Available configurations:');
+// Resolve config IDs (support both groups and individual configs)
+let configIds = [];
+if (CONFIG_GROUPS[configInput]) {
+  configIds = CONFIG_GROUPS[configInput];
+  console.log(`\n📦 Config Group: ${configInput} (${configIds.length} configs)\n`);
+} else if (CONFIG_REGISTRY[configInput]) {
+  configIds = [configInput];
+  console.log(`\n📦 Single Config: ${configInput}\n`);
+} else {
+  console.error(`\n❌ Error: Unknown configuration or group "${configInput}"\n`);
+  console.log('Available groups:');
+  Object.keys(CONFIG_GROUPS).forEach(key => {
+    console.log(`  - ${key}`);
+  });
+  console.log('\nAvailable configs:');
   Object.keys(CONFIG_REGISTRY).forEach(key => {
     console.log(`  - ${key}`);
   });
@@ -189,34 +237,45 @@ const AGENT_CONFIG = {
   BASE_URL: 'http://localhost:3000',
   BATCH_SIZE: options.batchSize,
   MAX_CONCURRENT: options.maxConcurrent,
+  CONFIGS_PARALLEL: options.configsParallel,
   ENABLE_VISION: options.enableVision,
   HEADLESS: options.headless,
   TIMEOUT: 120000
 };
 
 // Session setup
-const SESSION_ID = `batch-${configId}-${new Date().toISOString().replace(/[:.]/g, '-')}`;
-const SESSION_DIR = path.join(process.cwd(), 'worksheet-quality-reports', 'batch-sessions', SESSION_ID);
+const SESSION_ID = `multi-batch-${configInput}-${new Date().toISOString().replace(/[:.]/g, '-')}`;
+const SESSION_DIR = path.join(process.cwd(), 'worksheet-quality-reports', 'multi-batch-sessions', SESSION_ID);
 fs.mkdirSync(SESSION_DIR, { recursive: true });
 
 // Performance tracking
 const performanceData = {
   startTime: performance.now(),
-  batches: [],
-  worksheets: [],
+  configs: [],
+  totalWorksheets: 0,
   totalTime: 0
 };
 
 console.log('='.repeat(80));
-console.log('🚀 BATCH PARALLEL WORKSHEET QUALITY AGENT v1.0');
+console.log('🚀 BATCH PARALLEL WORKSHEET QUALITY AGENT v2.1 (CLAUDE CODE INTEGRATION)');
 console.log('='.repeat(80));
 console.log('');
-console.log(`📋 Configuration: ${configId}`);
-console.log(`📚 Year Group: ${config.yearGroup}`);
-console.log(`📖 Topic: ${config.topic} → ${config.subtopic}`);
-console.log(`📦 Batch Size: ${AGENT_CONFIG.BATCH_SIZE} worksheets`);
-console.log(`⚡ Max Concurrent: ${AGENT_CONFIG.MAX_CONCURRENT} contexts`);
-console.log(`👁️  Vision Assessment: ${AGENT_CONFIG.ENABLE_VISION ? 'ENABLED' : 'DISABLED'}`);
+console.log('📋 WORKFLOW:');
+console.log('   1. Agent: Generate worksheets for all configs (parallel)');
+console.log('   2. Agent: Save metadata and exit');
+console.log('   3. Claude Code: Assess worksheets (Read tool + expert criteria)');
+console.log('   4. Claude Code: Generate HTML report (only at the end)');
+console.log('');
+console.log(`📋 Configs: ${configIds.length} total`);
+configIds.forEach(id => {
+  const cfg = CONFIG_REGISTRY[id];
+  console.log(`   - ${cfg.subtopic} (${cfg.topic})`);
+});
+console.log('');
+console.log(`📦 Worksheets per Config: ${AGENT_CONFIG.BATCH_SIZE}`);
+console.log(`⚡ Max Concurrent per Config: ${AGENT_CONFIG.MAX_CONCURRENT} contexts`);
+console.log(`🔄 Configs in Parallel: ${AGENT_CONFIG.CONFIGS_PARALLEL}`);
+console.log(`👁️  Vision Assessment: ${AGENT_CONFIG.ENABLE_VISION ? 'ENABLED (via Claude Code)' : 'DISABLED'}`);
 console.log(`🎭 Browser Mode: ${AGENT_CONFIG.HEADLESS ? 'Headless' : 'Headed'}`);
 console.log(`📁 Session Directory: ${SESSION_DIR}`);
 console.log('');
@@ -276,10 +335,32 @@ class BrowserContextManager {
 }
 
 // ============================================================================
+// ASSESSMENT QUEUE MANAGEMENT
+// ============================================================================
+
+function addToAssessmentQueue(screenshotData, sessionDir) {
+  const queuePath = path.join(sessionDir, 'pending-queue.json');
+  let queue = [];
+  if (fs.existsSync(queuePath)) {
+    queue = JSON.parse(fs.readFileSync(queuePath));
+  }
+  queue.push({
+    screenshotPath: screenshotData.screenshotPath,
+    configId: screenshotData.configId,
+    config: screenshotData.config,
+    worksheetId: screenshotData.worksheetId,
+    status: 'pending',
+    queuedAt: Date.now()
+  });
+  fs.writeFileSync(queuePath, JSON.stringify(queue, null, 2));
+  console.log(`      📋 [WS-${screenshotData.worksheetId}] Added to assessment queue`);
+}
+
+// ============================================================================
 // PARALLEL WORKSHEET GENERATOR
 // ============================================================================
 
-async function generateWorksheetInContext(page, worksheetId, config, screenshotDir) {
+async function generateWorksheetInContext(page, worksheetId, config, screenshotDir, configId) {
   const startTime = performance.now();
 
   try {
@@ -349,52 +430,111 @@ async function generateWorksheetInContext(page, worksheetId, config, screenshotD
     await page.waitForSelector('text=Download', { timeout: AGENT_CONFIG.TIMEOUT });
 
     // CRITICAL: Wait for worksheet content to actually render (not just config screen)
-    // The worksheet preview should contain actual HTML content, not ads
-    console.log(`      ⏳ [WS-${worksheetId}] Waiting for worksheet content to render...`);
-    await page.waitForSelector('.worksheet-preview, .worksheet', { timeout: 10000 });
+    // With streaming enabled, we wait for the preview to be visible
+    console.log(`      ⏳ [WS-${worksheetId}] Waiting for worksheet preview...`);
 
-    // Wait for the preview to contain substantial content (not just the ad placeholder)
-    await page.waitForFunction(() => {
-      const preview = document.querySelector('.worksheet-preview, .worksheet');
-      if (!preview) return false;
-      const content = preview.textContent || '';
-      // Check if we have actual worksheet content (Name: ___, Date: ___, questions, etc.)
-      return content.length > 500 && (content.includes('Name:') || content.includes('Question') || content.match(/\d+\./));
-    }, { timeout: 15000 });
-
-    console.log(`      ✅ [WS-${worksheetId}] Worksheet content detected, waiting for images...`);
-
-    // Additional wait to ensure ALL 5 questions render completely (increased to 14s for number-recognition)
-    // This gives the AI model more time to complete generation before screenshot
-    await page.waitForTimeout(14000);
-
-    // Parallel image preloading
-    const imageSrcs = await page.evaluate(() => {
-      const images = document.querySelectorAll('.worksheet-preview img, .worksheet img');
-      return Array.from(images).map(img => img.src);
+    // Wait for preview to be visible (streaming will populate it)
+    await page.waitForSelector('.worksheet-preview, .worksheet', {
+      timeout: 10000,
+      state: 'visible'
     });
 
-    console.log(`      🖼️  [WS-${worksheetId}] Preloading ${imageSrcs.length} images...`);
+    console.log(`      ✅ [WS-${worksheetId}] Worksheet preview visible, waiting before screenshot...`);
 
-    await Promise.all(
-      imageSrcs.map(src =>
-        page.evaluate((url) => {
-          return new Promise((resolve) => {
-            const img = new Image();
-            img.onload = () => resolve({ success: true });
-            img.onerror = () => resolve({ success: false });
-            img.src = url;
-            setTimeout(() => resolve({ timeout: true }), 5000);
-          });
-        }, src)
-      )
-    );
+    // CRITICAL: Enhanced waiting strategy to fix broken images and truncated answer keys
+    // Problem 1: Large farm animal images (1.6MB cow.png, 1.2MB sheep.png) need time to load
+    // Problem 2: Answer keys can be cut off if page hasn't fully rendered
 
-    // Wait for images to be fully loaded
+    // Step 1: Wait for network to be idle (all images loaded)
+    console.log(`      ⏳ [WS-${worksheetId}] Waiting for all images to load (network idle)...`);
+    await page.waitForLoadState('networkidle', { timeout: 20000 }).catch(() => {
+      console.log(`      ⚠️  [WS-${worksheetId}] Network idle timeout - continuing anyway`);
+    });
+
+    // Step 2: Wait for images to be visible and loaded
     await page.waitForFunction(() => {
-      const images = document.querySelectorAll('.worksheet-preview img, .worksheet img');
-      return Array.from(images).every(img => img.complete && img.naturalHeight !== 0);
-    }, { timeout: 3000 }).catch(() => {});
+      const images = document.querySelectorAll('img');
+      return Array.from(images).every(img => img.complete && img.naturalHeight > 0);
+    }, { timeout: 15000 }).catch(() => {
+      console.log(`      ⚠️  [WS-${worksheetId}] Some images may not be loaded - continuing anyway`);
+    });
+
+    // Step 3: Scroll to bottom to ensure answer key is in viewport and rendered
+    console.log(`      ⏳ [WS-${worksheetId}] Scrolling to ensure answer key is visible...`);
+    await page.evaluate(() => {
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+    await page.waitForTimeout(2000); // Let answer key render
+
+    // Step 4: Scroll back to top for full screenshot
+    await page.evaluate(() => {
+      window.scrollTo(0, 0);
+    });
+
+    // Step 5: Streaming-aware wait for complete rendering
+    // Handles progressive rendering from streaming responses
+    console.log(`      ⏳ [WS-${worksheetId}] Waiting for streaming to complete...`);
+
+    const streamingComplete = await page.evaluate(async () => {
+      return new Promise((resolve) => {
+        let checkCount = 0;
+        const maxChecks = 15; // 15 seconds max
+        let lastContentLength = 0;
+        let stableChecks = 0;
+
+        const checkInterval = setInterval(() => {
+          checkCount++;
+
+          const worksheet = document.querySelector('.worksheet-preview') || document.querySelector('.worksheet');
+          if (!worksheet) {
+            if (checkCount >= maxChecks) {
+              clearInterval(checkInterval);
+              resolve(false);
+            }
+            return;
+          }
+
+          // Check 1: Content length stability (detects when streaming stops)
+          const currentLength = worksheet.textContent.length;
+          if (currentLength === lastContentLength && currentLength > 100) {
+            stableChecks++;
+          } else {
+            stableChecks = 0;
+          }
+          lastContentLength = currentLength;
+
+          // Check 2: Answer key has actual content (not just element exists)
+          const answerKey = worksheet.querySelector('.answer-key, [class*="answer"], [id*="answer"]');
+          const hasAnswerContent = answerKey && answerKey.textContent.trim().length > 20;
+
+          // Check 3: All images loaded and visible
+          const images = Array.from(worksheet.querySelectorAll('img'));
+          const allImagesLoaded = images.length > 0 && images.every(img => img.complete && img.naturalHeight > 0);
+
+          // Success: Content stable for 2 consecutive checks AND answer key has content AND images loaded
+          if (stableChecks >= 2 && hasAnswerContent && allImagesLoaded) {
+            clearInterval(checkInterval);
+            resolve(true);
+          }
+
+          // Timeout - return false to trigger fallback
+          if (checkCount >= maxChecks) {
+            clearInterval(checkInterval);
+            resolve(false);
+          }
+        }, 1000); // Check every second
+      });
+    });
+
+    if (streamingComplete) {
+      console.log(`      ✅ [WS-${worksheetId}] Streaming complete - worksheet fully rendered`);
+      await page.waitForTimeout(1000); // Small final buffer
+    } else {
+      console.log(`      ⚠️  [WS-${worksheetId}] Streaming check timeout - using fallback wait`);
+      await page.waitForTimeout(8000); // Conservative fallback for safety
+    }
+
+    console.log(`      📸 [WS-${worksheetId}] Capturing screenshot...`);
 
     // Take screenshot
     const screenshotPath = path.join(screenshotDir, `ws-${worksheetId}-worksheet.png`);
@@ -403,8 +543,18 @@ async function generateWorksheetInContext(page, worksheetId, config, screenshotD
       fullPage: true
     });
 
-    // Extract content
-    const text = await page.locator('.worksheet-preview, .worksheet').textContent();
+    // Add to assessment queue immediately (for parallel processing)
+    if (AGENT_CONFIG.ENABLE_VISION) {
+      addToAssessmentQueue({
+        screenshotPath,
+        configId,
+        config,
+        worksheetId
+      }, SESSION_DIR);
+    }
+
+    // Extract content (use .last() to handle cases where multiple worksheet elements exist)
+    const text = await page.locator('.worksheet-preview, .worksheet').last().textContent();
     const questions = (text.match(/\d+[\.\)]\s*.+/g) || []);
     const imageElements = await page.locator('.worksheet-preview img, .worksheet img').all();
     const images = await Promise.all(
@@ -414,7 +564,7 @@ async function generateWorksheetInContext(page, worksheetId, config, screenshotD
         visible: await img.isVisible()
       }))
     );
-    const html = await page.locator('.worksheet-preview, .worksheet').innerHTML();
+    const html = await page.locator('.worksheet-preview, .worksheet').last().innerHTML();
 
     const endTime = performance.now();
     const generationTime = (endTime - startTime) / 1000;
@@ -439,18 +589,94 @@ async function generateWorksheetInContext(page, worksheetId, config, screenshotD
     const generationTime = (endTime - startTime) / 1000;
 
     console.log(`      ❌ [WS-${worksheetId}] Failed in ${generationTime.toFixed(2)}s: ${error.message}`);
+    console.log(`      💬 User message: Sorry for the inconvenience, please regenerate. Thanks!`);
 
     return {
       success: false,
       worksheetId,
       error: error.message,
+      userMessage: 'Sorry for the inconvenience, please regenerate. Thanks!',
       generationTime
     };
   }
 }
 
 // ============================================================================
-// BATCH PROCESSOR
+// BATCH PROCESSOR (SEQUENTIAL - One worksheet at a time)
+// ============================================================================
+
+async function processBatchSequential(browser, batchNum, config) {
+  console.log('\n' + '━'.repeat(80));
+  console.log(`📦 BATCH ${batchNum} - Generating ${AGENT_CONFIG.BATCH_SIZE} worksheets sequentially`);
+  console.log('━'.repeat(80) + '\n');
+
+  const batchStartTime = performance.now();
+  const screenshotDir = path.join(SESSION_DIR, `batch-${batchNum}-screenshots`);
+  fs.mkdirSync(screenshotDir, { recursive: true });
+
+  // Create context manager
+  const contextManager = new BrowserContextManager(browser, 1); // Only 1 context at a time
+
+  // Generate worksheets one at a time
+  const results = [];
+  const worksheetIds = Array.from({ length: AGENT_CONFIG.BATCH_SIZE }, (_, i) => i + 1);
+
+  console.log(`   🚀 Starting sequential generation...\n`);
+
+  for (const worksheetId of worksheetIds) {
+    const contextId = `batch${batchNum}-ws${worksheetId}`;
+    const { page } = await contextManager.createContext(contextId);
+
+    try {
+      const result = await generateWorksheetInContext(page, worksheetId, config, screenshotDir, config.configId);
+      results.push(result);
+    } catch (error) {
+      results.push({
+        success: false,
+        worksheetId,
+        error: error.message,
+        userMessage: 'Sorry for the inconvenience, please regenerate. Thanks!',
+        generationTime: 0
+      });
+    } finally {
+      await contextManager.closeContext(contextId);
+    }
+  }
+
+  // Close all contexts
+  await contextManager.closeAll();
+
+  const batchEndTime = performance.now();
+  const batchTime = (batchEndTime - batchStartTime) / 1000;
+
+  const successful = results.filter(r => r.success).length;
+  const failed = results.filter(r => !r.success).length;
+  const avgTime = successful > 0
+    ? results.filter(r => r.success).reduce((sum, r) => sum + r.generationTime, 0) / successful
+    : 0;
+
+  console.log('\n' + '━'.repeat(80));
+  console.log(`📊 BATCH ${batchNum} COMPLETE`);
+  console.log('━'.repeat(80));
+  console.log(`   Total Time: ${batchTime.toFixed(2)}s`);
+  console.log(`   Successful: ${successful}/${AGENT_CONFIG.BATCH_SIZE}`);
+  console.log(`   Failed: ${failed}/${AGENT_CONFIG.BATCH_SIZE}`);
+  console.log(`   Avg Generation Time: ${avgTime.toFixed(2)}s`);
+  console.log('━'.repeat(80) + '\n');
+
+  return {
+    batchNum,
+    batchTime,
+    results,
+    successful,
+    failed,
+    avgTime,
+    timePerWorksheet: batchTime / AGENT_CONFIG.BATCH_SIZE
+  };
+}
+
+// ============================================================================
+// BATCH PROCESSOR (ORIGINAL - PARALLEL - NOT USED IN MULTI-CONFIG MODE)
 // ============================================================================
 
 async function processBatch(browser, batchNum, config) {
@@ -483,7 +709,7 @@ async function processBatch(browser, batchNum, config) {
       const { page } = await contextManager.createContext(contextId);
 
       try {
-        const result = await generateWorksheetInContext(page, worksheetId, config, screenshotDir);
+        const result = await generateWorksheetInContext(page, worksheetId, config, screenshotDir, config.configId);
         return result;
       } finally {
         await contextManager.closeContext(contextId);
@@ -531,55 +757,318 @@ async function processBatch(browser, batchNum, config) {
 }
 
 // ============================================================================
-// PARALLEL VISION ASSESSMENT
+// MULTI-CONFIG PROCESSOR
 // ============================================================================
 
-async function parallelVisionAssessment(batchResults, config) {
+async function processConfigBatch(browser, configId, configIndex, totalConfigs, delayBeforeStart = 0) {
+  const config = { ...CONFIG_REGISTRY[configId], configId };
+
+  // Delay before starting this config (for staggered browser launches)
+  if (delayBeforeStart > 0) {
+    console.log(`   ⏳ Waiting ${delayBeforeStart}s before starting ${config.subtopic}...`);
+    await new Promise(resolve => setTimeout(resolve, delayBeforeStart * 1000));
+  }
+
+  console.log('\n' + '='.repeat(80));
+  console.log(`📋 CONFIG ${configIndex + 1}/${totalConfigs}: ${config.subtopic} (${config.topic})`);
+  console.log('='.repeat(80));
+
+  const configStartTime = performance.now();
+  const configDir = path.join(SESSION_DIR, configId);
+  fs.mkdirSync(configDir, { recursive: true });
+
+  // Process the batch for this config (sequentially, one worksheet at a time)
+  const batchResult = await processBatchSequential(browser, configIndex + 1, config);
+
+  // Add config metadata
+  batchResult.configId = configId;
+  batchResult.config = config;
+  batchResult.configDir = configDir;
+
+  const configEndTime = performance.now();
+  batchResult.configTime = (configEndTime - configStartTime) / 1000;
+
+  console.log(`\n✅ Config ${configIndex + 1}/${totalConfigs} complete: ${config.subtopic}`);
+  console.log(`   Worksheets: ${batchResult.successful}/${AGENT_CONFIG.BATCH_SIZE}`);
+  console.log(`   Time: ${batchResult.configTime.toFixed(2)}s\n`);
+
+  return batchResult;
+}
+
+async function processAllConfigs(browser) {
+  console.log('\n' + '='.repeat(80));
+  console.log('📦 PROCESSING ALL CONFIGS');
+  console.log('='.repeat(80) + '\n');
+
+  const allConfigResults = [];
+
+  // Process configs in parallel (N at a time) with staggered launches
+  for (let i = 0; i < configIds.length; i += AGENT_CONFIG.CONFIGS_PARALLEL) {
+    const configChunk = configIds.slice(i, i + AGENT_CONFIG.CONFIGS_PARALLEL);
+    const chunkNum = Math.floor(i / AGENT_CONFIG.CONFIGS_PARALLEL) + 1;
+
+    console.log(`\n🔄 Processing Config Chunk ${chunkNum}: ${configChunk.length} configs in parallel\n`);
+    console.log(`   All configs will start immediately (no artificial delay)
+`);
+
+    // Launch configs in parallel (no stagger delay - browsers can handle it)
+    const chunkPromises = configChunk.map((configId, idx) =>
+      processConfigBatch(browser, configId, i + idx, configIds.length, 0)
+    );
+
+    const chunkResults = await Promise.all(chunkPromises);
+    allConfigResults.push(...chunkResults);
+
+    console.log(`\n✅ Config Chunk ${chunkNum} complete\n`);
+  }
+
+  return allConfigResults;
+}
+
+// ============================================================================
+// PREPARE FOR CLAUDE CODE VISION ASSESSMENT (No API, No Auto-Assessment)
+// ============================================================================
+
+async function prepareForVisionAssessment(allConfigResults) {
   if (!AGENT_CONFIG.ENABLE_VISION) {
     console.log('\n👁️  Vision assessment disabled (--enable-vision=false)\n');
     return [];
   }
 
-  console.log('\n' + '━'.repeat(80));
-  console.log('👁️  PARALLEL VISION ASSESSMENT');
-  console.log('━'.repeat(80) + '\n');
+  console.log('\n' + '='.repeat(80));
+  console.log('👁️  WORKSHEETS READY FOR CLAUDE CODE VISION ASSESSMENT');
+  console.log('='.repeat(80) + '\n');
 
-  const ClaudeCodeVisionAssessor = require('./services/claude-code-vision-assessor.js');
-  const visionAssessor = new ClaudeCodeVisionAssessor(SESSION_DIR);
-
-  await visionAssessor.initialize();
-
-  // Create vision tasks for all successful worksheets
-  const visionTasks = [];
-  for (const result of batchResults.filter(r => r.success)) {
-    const task = await visionAssessor.createVisionTask(
-      result.screenshotPath,
-      config,
-      result.worksheetId,
-      batchResults[0].batchNum
-    );
-    visionTasks.push(task);
+  // Collect all screenshots from all configs
+  const allScreenshots = [];
+  for (const configResult of allConfigResults) {
+    for (const worksheetResult of configResult.results.filter(r => r.success)) {
+      allScreenshots.push({
+        configId: configResult.configId,
+        config: configResult.config,
+        worksheetId: worksheetResult.worksheetId,
+        screenshotPath: worksheetResult.screenshotPath,
+        visionResult: null
+      });
+    }
   }
 
-  console.log(`📋 Created ${visionTasks.length} vision tasks\n`);
-  console.log('⏸️  PAUSING FOR VISION ASSESSMENT...\n');
-  console.log('Please assess all screenshots. Results will be processed in parallel.\n');
+  console.log(`📸 Total Screenshots: ${allScreenshots.length}`);
+  console.log(`📋 From ${allConfigResults.length} configs\n`);
 
-  // Wait for all vision assessments in parallel
-  const visionStartTime = performance.now();
-  const visionResults = await Promise.all(
-    visionTasks.map(task => visionAssessor.waitForAssessment(task.taskId, 600))
-  );
-  const visionEndTime = performance.now();
-  const visionTime = (visionEndTime - visionStartTime) / 1000;
+  // Display screenshot listing
+  console.log('📋 Screenshot Paths:\n');
+  allConfigResults.forEach((configResult, idx) => {
+    const worksheetCount = configResult.results.filter(r => r.success).length;
+    console.log(`   ${idx + 1}. ${configResult.config.subtopic}: ${worksheetCount} worksheets`);
 
-  const completedCount = visionResults.filter(r => r.success).length;
+    configResult.results.filter(r => r.success).forEach(ws => {
+      console.log(`      - Worksheet ${ws.worksheetId}: ${ws.screenshotPath}`);
+    });
+  });
+  console.log('');
 
-  console.log(`\n✅ Vision assessment complete: ${completedCount}/${visionTasks.length} successful`);
-  console.log(`   Total Vision Time: ${visionTime.toFixed(2)}s`);
-  console.log(`   Time per Assessment: ${(visionTime / visionTasks.length).toFixed(2)}s\n`);
+  // Save screenshot metadata
+  const assessmentTasksPath = path.join(SESSION_DIR, 'vision-assessment-tasks.json');
+  fs.writeFileSync(assessmentTasksPath, JSON.stringify(allScreenshots, null, 2));
+  console.log(`📁 Assessment Tasks Saved: ${assessmentTasksPath}\n`);
 
-  return visionResults;
+  // ========================================================================
+  // INSTRUCTIONS FOR CLAUDE CODE VISION ASSESSMENT
+  // ========================================================================
+  console.log('═'.repeat(80));
+  console.log('📝 NEXT STEP: CLAUDE CODE VISION ASSESSMENT');
+  console.log('═'.repeat(80));
+  console.log('');
+  console.log('The agent has completed worksheet generation. Now use Claude Code to assess:');
+  console.log('');
+  console.log('1. Tell Claude Code: "Assess all worksheets in the session directory"');
+  console.log(`   Session: ${SESSION_DIR}`);
+  console.log('');
+  console.log('2. Claude Code will:');
+  console.log('   - Use Read tool to view each screenshot');
+  console.log('   - Apply STRICT criteria (scripts/STRICT-VISION-ASSESSMENT-CRITERIA.md)');
+  console.log('   - Zero-tolerance: ANY broken images/identical comparisons = FAIL');
+  console.log('   - Save results to vision-assessment-results.json');
+  console.log('');
+  console.log('3. After assessments complete, Claude Code will:');
+  console.log('   - Automatically generate comprehensive HTML report');
+  console.log('   - Include all vision assessment results');
+  console.log('   - Open report in browser');
+  console.log('');
+  console.log('═'.repeat(80));
+  console.log('');
+  console.log('⏸️  Agent paused - waiting for Claude Code vision assessment');
+  console.log('💡 TIP: Copy the session directory path and tell Claude Code to assess\n');
+
+  return allScreenshots;
+}
+
+// ============================================================================
+// CONSOLIDATED HTML REPORT GENERATION
+// ============================================================================
+
+function generateConsolidatedHTMLReport(allConfigResults, allScreenshots) {
+  const totalWorksheets = allConfigResults.reduce((sum, r) => sum + r.successful, 0);
+  const totalFailed = allConfigResults.reduce((sum, r) => sum + r.failed, 0);
+  const totalTime = performanceData.totalTime;
+
+  // Calculate vision assessment stats
+  const visionAssessed = allScreenshots.filter(s => s.visionResult?.success).length;
+  const productionReady = allScreenshots.filter(s =>
+    s.visionResult?.success && s.visionResult.overallAssessment?.productionReady
+  ).length;
+  const avgVisionScore = visionAssessed > 0
+    ? allScreenshots
+        .filter(s => s.visionResult?.success)
+        .reduce((sum, s) => sum + (s.visionResult.overallAssessment?.score || 0), 0) / visionAssessed
+    : 0;
+
+  const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Multi-Config Batch Report - ${configInput}</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+    h1 { color: #333; }
+    .summary { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+    .config-section { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+    .config-header { font-size: 1.2em; font-weight: bold; color: #2563eb; margin-bottom: 10px; }
+    .vision-section { background: #f0fdf4; border-left: 4px solid #10b981; padding: 15px; margin: 15px 0; border-radius: 4px; }
+    .vision-warning { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 15px 0; border-radius: 4px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+    th { background: #f1f5f9; font-weight: bold; }
+    .screenshot { max-width: 400px; border: 1px solid #ddd; margin: 10px 0; }
+    .success { color: green; font-weight: bold; }
+    .failed { color: red; font-weight: bold; }
+    .warning { color: orange; font-weight: bold; }
+    .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.85em; font-weight: bold; }
+    .badge-success { background: #10b981; color: white; }
+    .badge-warning { background: #f59e0b; color: white; }
+    .badge-danger { background: #ef4444; color: white; }
+  </style>
+</head>
+<body>
+  <h1>📊 Multi-Config Batch Report: ${configInput}</h1>
+
+  <div class="summary">
+    <h2>Summary</h2>
+    <p><strong>Session ID:</strong> ${SESSION_ID}</p>
+    <p><strong>Configs Processed:</strong> ${allConfigResults.length}</p>
+    <p><strong>Total Worksheets:</strong> <span class="success">${totalWorksheets} successful</span>, <span class="failed">${totalFailed} failed</span></p>
+    <p><strong>Total Time:</strong> ${totalTime.toFixed(2)}s (${(totalTime / 60).toFixed(2)} minutes)</p>
+    <p><strong>Worksheets per Config:</strong> ${AGENT_CONFIG.BATCH_SIZE}</p>
+    <p><strong>Configs in Parallel:</strong> ${AGENT_CONFIG.CONFIGS_PARALLEL}</p>
+    <p><strong>Vision Assessment:</strong> ${AGENT_CONFIG.ENABLE_VISION ? 'Enabled (Expert Teacher Persona)' : 'Disabled'}</p>
+    ${AGENT_CONFIG.ENABLE_VISION ? `
+      <p><strong>Vision Assessed:</strong> ${visionAssessed}/${allScreenshots.length}</p>
+      <p><strong>Production Ready:</strong> <span class="${productionReady > 0 ? 'success' : 'warning'}">${productionReady}/${visionAssessed}</span> (${visionAssessed > 0 ? ((productionReady/visionAssessed)*100).toFixed(1) : 0}%)</p>
+      <p><strong>Average Vision Score:</strong> ${avgVisionScore.toFixed(1)}/100</p>
+    ` : ''}
+  </div>
+
+  ${AGENT_CONFIG.ENABLE_VISION && visionAssessed > 0 ? `
+    <div class="summary">
+      <h2>👁️ Vision Assessment Summary (Expert Primary School Teacher)</h2>
+      <table>
+        <tr>
+          <th>#</th>
+          <th>Config</th>
+          <th>Worksheet</th>
+          <th>Status</th>
+          <th>Score</th>
+          <th>Teacher Would Use?</th>
+          <th>Critical Issues</th>
+        </tr>
+        ${allScreenshots.filter(s => s.visionResult?.success).map((ss, idx) => {
+          const v = ss.visionResult.overallAssessment;
+          const status = v.productionReady ?
+            '<span class="badge badge-success">✅ READY</span>' :
+            '<span class="badge badge-warning">⚠️ NEEDS WORK</span>';
+          const teacherUse = v.teacherWouldUse ? '👍 Yes' : '👎 No';
+          const issues = v.criticalIssues && v.criticalIssues.length > 0
+            ? v.criticalIssues.join(', ')
+            : 'None';
+          return `
+            <tr>
+              <td>${idx + 1}</td>
+              <td>${ss.config.subtopic}</td>
+              <td>${ss.worksheetId}</td>
+              <td>${status}</td>
+              <td>${v.score || 0}/100</td>
+              <td>${teacherUse}</td>
+              <td>${issues}</td>
+            </tr>
+          `;
+        }).join('')}
+      </table>
+    </div>
+  ` : ''}
+
+  ${allConfigResults.map((configResult, idx) => `
+    <div class="config-section">
+      <div class="config-header">${idx + 1}. ${configResult.config.subtopic} (${configResult.config.topic})</div>
+      <p><strong>Config ID:</strong> ${configResult.configId}</p>
+      <p><strong>Worksheets:</strong> <span class="success">${configResult.successful}</span> / ${AGENT_CONFIG.BATCH_SIZE}</p>
+      <p><strong>Time:</strong> ${configResult.configTime.toFixed(2)}s</p>
+
+      <h3>Worksheets</h3>
+      ${configResult.results.filter(r => r.success).map(ws => {
+        const screenshot = allScreenshots.find(s =>
+          s.configId === configResult.configId && s.worksheetId === ws.worksheetId
+        );
+        const vision = screenshot?.visionResult?.success ? screenshot.visionResult : null;
+
+        return `
+          <div style="margin-bottom: 30px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
+            <p><strong>Worksheet ${ws.worksheetId}</strong> (Generated in ${ws.generationTime.toFixed(2)}s)</p>
+
+            ${vision ? `
+              <div class="${vision.overallAssessment.productionReady ? 'vision-section' : 'vision-warning'}">
+                <h4>👁️ Expert Teacher Assessment</h4>
+                <p><strong>Status:</strong> ${vision.overallAssessment.productionReady ? '✅ Production Ready' : '⚠️ Needs Improvement'}</p>
+                <p><strong>Overall Score:</strong> ${vision.overallAssessment.score}/100</p>
+                <p><strong>Teacher Would Use:</strong> ${vision.overallAssessment.teacherWouldUse ? '👍 Yes' : '👎 No'}</p>
+                ${vision.overallAssessment.criticalIssues?.length > 0 ? `
+                  <p><strong>Critical Issues:</strong></p>
+                  <ul>
+                    ${vision.overallAssessment.criticalIssues.map(issue => `<li>${issue}</li>`).join('')}
+                  </ul>
+                ` : ''}
+                ${vision.overallAssessment.recommendations?.length > 0 ? `
+                  <p><strong>Recommendations:</strong></p>
+                  <ul>
+                    ${vision.overallAssessment.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                  </ul>
+                ` : ''}
+                <details>
+                  <summary><strong>Detailed Assessment</strong></summary>
+                  <p><strong>Visual Question Count:</strong> ${vision.visualQuestionCount} (Expected: ${vision.expectedQuestionCount})</p>
+                  <p><strong>Images Working:</strong> ${vision.totalImagesWorking}/${vision.totalImagesExpected}</p>
+                  ${vision.numberRangeViolations?.length > 0 ? `
+                    <p><strong>Number Range Violations:</strong> ${vision.numberRangeViolations.map(v => v.number).join(', ')}</p>
+                  ` : ''}
+                </details>
+              </div>
+            ` : ''}
+
+            <img src="file:///${ws.screenshotPath.replace(/\\/g, '/')}" class="screenshot" alt="Worksheet ${ws.worksheetId}" />
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `).join('')}
+
+</body>
+</html>
+  `;
+
+  const htmlPath = path.join(SESSION_DIR, 'multi-config-report.html');
+  fs.writeFileSync(htmlPath, html);
+  return htmlPath;
 }
 
 // ============================================================================
@@ -610,50 +1099,66 @@ async function main() {
       args: ['--window-size=1920,1080']
     });
 
-    // Process batch
-    const batchResult = await processBatch(browser, 1, config);
-    performanceData.batches.push(batchResult);
-    performanceData.worksheets.push(...batchResult.results);
-
-    // Parallel vision assessment (if enabled)
-    if (AGENT_CONFIG.ENABLE_VISION) {
-      const visionResults = await parallelVisionAssessment(batchResult.results, config);
-      batchResult.visionResults = visionResults;
-    }
+    // Process all configs (with config-level parallelism)
+    const allConfigResults = await processAllConfigs(browser);
+    performanceData.configs = allConfigResults;
+    performanceData.totalWorksheets = allConfigResults.reduce((sum, r) => sum + r.successful, 0);
 
     // Close browser
     await browser.close();
+    console.log('🌐 Browser closed\n');
+
+    // Prepare for Claude Code vision assessment (no HTML report yet)
+    let allScreenshots = [];
+    if (AGENT_CONFIG.ENABLE_VISION) {
+      allScreenshots = await prepareForVisionAssessment(allConfigResults);
+    }
 
     // Calculate final metrics
     performanceData.endTime = performance.now();
     performanceData.totalTime = (performanceData.endTime - performanceData.startTime) / 1000;
 
-    // Generate report
-    console.log('\n' + '='.repeat(80));
-    console.log('📊 FINAL BATCH PROCESSING REPORT');
-    console.log('='.repeat(80) + '\n');
+    const totalSuccessful = allConfigResults.reduce((sum, r) => sum + r.successful, 0);
+    const totalFailed = allConfigResults.reduce((sum, r) => sum + r.failed, 0);
+    const totalTime = performanceData.totalTime;
 
-    const sequential_estimated = batchResult.avgTime * AGENT_CONFIG.BATCH_SIZE;
-    const parallel_actual = batchResult.batchTime;
-    const speedup = sequential_estimated / parallel_actual;
-
-    console.log(`📈 Performance Summary:`);
-    console.log(`   Worksheets Generated: ${batchResult.successful}/${AGENT_CONFIG.BATCH_SIZE}`);
-    console.log(`   Total Batch Time: ${batchResult.batchTime.toFixed(2)}s`);
-    console.log(`   Avg Generation Time: ${batchResult.avgTime.toFixed(2)}s`);
-    console.log(`   Time per Worksheet (amortized): ${batchResult.timePerWorksheet.toFixed(2)}s`);
-    console.log(`\n🚀 Speedup Analysis:`);
-    console.log(`   Sequential (estimated): ${sequential_estimated.toFixed(2)}s`);
-    console.log(`   Parallel (actual): ${parallel_actual.toFixed(2)}s`);
-    console.log(`   Speedup: ${speedup.toFixed(2)}x faster`);
-    console.log(`   Time Saved: ${(sequential_estimated - parallel_actual).toFixed(2)}s`);
+    console.log('📈 Worksheet Generation Summary:');
+    console.log(`   Configs Processed: ${allConfigResults.length}`);
+    console.log(`   Total Worksheets: ${totalSuccessful} successful, ${totalFailed} failed`);
+    console.log(`   Total Time: ${totalTime.toFixed(2)}s (${(totalTime / 60).toFixed(2)} minutes)`);
+    console.log(`   Avg Time per Config: ${(totalTime / allConfigResults.length).toFixed(2)}s`);
+    console.log(`   Avg Time per Worksheet: ${totalTime > 0 && totalSuccessful > 0 ? (totalTime / totalSuccessful).toFixed(2) : '0'}s`);
     console.log('');
 
-    // Save report
-    const reportPath = path.join(SESSION_DIR, 'batch-report.json');
-    fs.writeFileSync(reportPath, JSON.stringify(performanceData, null, 2));
-    console.log(`📁 Report saved: ${reportPath}\n`);
+    console.log(`📋 Config Breakdown:`);
+    allConfigResults.forEach((configResult, idx) => {
+      console.log(`   ${idx + 1}. ${configResult.config.subtopic}: ${configResult.successful}/${AGENT_CONFIG.BATCH_SIZE} (${configResult.configTime.toFixed(2)}s)`);
+    });
+    console.log('');
 
+    // Save JSON metadata (no HTML report yet)
+    const jsonReportPath = path.join(SESSION_DIR, 'generation-metadata.json');
+    fs.writeFileSync(jsonReportPath, JSON.stringify(performanceData, null, 2));
+    console.log(`📁 Generation Metadata Saved: ${jsonReportPath}\n`);
+
+    // Mark generation as complete (for live-vision-worker)
+    const completionMarkerPath = path.join(SESSION_DIR, 'generation-complete.json');
+    fs.writeFileSync(completionMarkerPath, JSON.stringify({
+      completed: true,
+      timestamp: Date.now(),
+      totalWorksheets: totalSuccessful,
+      totalConfigs: allConfigResults.length
+    }, null, 2));
+    console.log(`✅ Generation marked as complete for live workers\n`);
+
+    console.log('✅ WORKSHEET GENERATION COMPLETE!\n');
+    console.log('📋 Next Steps:');
+    console.log(`   1. ✅ Generated ${totalSuccessful} worksheets across ${allConfigResults.length} configs`);
+    console.log(`   2. ⏭️  Use Claude Code to assess worksheets (see instructions above)`);
+    console.log(`   3. ⏭️  Comprehensive HTML report will be generated after assessment\n`);
+
+    // Exit and wait for Claude Code assessment
+    console.log('🎯 Agent completed successfully. Waiting for Claude Code vision assessment...\n');
     process.exit(0);
 
   } catch (error) {
@@ -663,5 +1168,5 @@ async function main() {
   }
 }
 
-// Run batch processor
+// Run multi-config batch processor
 main();

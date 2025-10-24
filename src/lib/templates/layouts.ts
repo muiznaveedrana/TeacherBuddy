@@ -72,7 +72,7 @@ function getFontSettings(yearGroup: string) {
       lineHeight: '1.9',
       questionFontSize: '20pt',
       instructionFontSize: '16pt',
-      padding: '8mm 10mm'
+      padding: '6mm 10mm'  // ECO-FRIENDLY: Reduced from 8mm to 6mm (save ~8px top/bottom)
     }
   } else if (yearNum === 1) {
     return {
@@ -309,8 +309,8 @@ export const LAYOUT_CONTENT_TEMPLATES = {
     return `
     <style>
       .standard-question {
-        margin: ${isYoungLearner ? '12px' : '8px'} 0 0 0;
-        padding: ${isYoungLearner ? '12px' : '10px'};
+        margin: ${isYoungLearner ? '8px' : '8px'} 0 0 0;  /* ECO-FRIENDLY: Reduced from 12px to 8px for young learners (save ~20px total) */
+        padding: ${isYoungLearner ? '10px' : '10px'};  /* ECO-FRIENDLY: Reduced from 12px to 10px for young learners (save ~10px total) */
         page-break-inside: avoid;
         border-radius: 6px;
         background: ${isYoungLearner ? '#fafafa' : 'white'};
@@ -337,8 +337,8 @@ export const LAYOUT_CONTENT_TEMPLATES = {
 
       /* Optimized answer space for 5 questions per page */
       .answer-space {
-        margin: ${isYoungLearner ? '15px' : '10px'} 0 0 0;
-        min-height: ${isYoungLearner ? '55px' : '40px'};
+        margin: ${isYoungLearner ? '12px' : '10px'} 0 0 0;  /* ECO-FRIENDLY: Reduced from 15px to 12px for young learners (save ~15px total) */
+        min-height: ${isYoungLearner ? '50px' : '40px'};  /* ECO-FRIENDLY: Reduced from 55px to 50px for young learners (save ~25px total) */
         background: white;
         border-bottom: 2px solid #ddd;
         position: relative;

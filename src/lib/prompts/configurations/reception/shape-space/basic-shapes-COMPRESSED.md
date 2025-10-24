@@ -2,20 +2,122 @@
 
 Generate EXACTLY {{questionCount}} Reception basic shapes questions.
 
+## 🚨 ABSOLUTE RULE - IMG TAGS ONLY (NO EXCEPTIONS)
+
+**YOU MUST USE `<img>` TAGS FOR ALL OBJECTS - NEVER TEXT LABELS**
+
+### CRITICAL: Object Substitution Examples
+
+When you see examples with one object, use the EXACT SAME pattern for ANY object you choose:
+
+**Example 1: Fruits** (showing 3 apples):
+```html
+<img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="60" height="60" alt="Apple" />
+<img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="60" height="60" alt="Apple" />
+<img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="60" height="60" alt="Apple" />
+```
+
+**Example 2: Farm Animals** (showing 4 cows):
+```html
+<img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png" width="60" height="60" alt="Cow" />
+<img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png" width="60" height="60" alt="Cow" />
+<img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png" width="60" height="60" alt="Cow" />
+<img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png" width="60" height="60" alt="Cow" />
+```
+
+**Example 3: School Supplies** (showing 6 books):
+```html
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="60" height="60" alt="Book" />
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="60" height="60" alt="Book" />
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="60" height="60" alt="Book" />
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="60" height="60" alt="Book" />
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="60" height="60" alt="Book" />
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="60" height="60" alt="Book" />
+```
+
+**Example 4: Garden** (showing 7 flowers):
+```html
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="60" height="60" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="60" height="60" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="60" height="60" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="60" height="60" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="60" height="60" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="60" height="60" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="60" height="60" alt="Flower" />
+```
+
+**Example 5: Shapes** (showing 5 stars):
+```html
+<img src="/images/WORKSHEET_OBJECTS/counting/shapes/star.png" width="60" height="60" alt="Star" />
+<img src="/images/WORKSHEET_OBJECTS/counting/shapes/star.png" width="60" height="60" alt="Star" />
+<img src="/images/WORKSHEET_OBJECTS/counting/shapes/star.png" width="60" height="60" alt="Star" />
+<img src="/images/WORKSHEET_OBJECTS/counting/shapes/star.png" width="60" height="60" alt="Star" />
+<img src="/images/WORKSHEET_OBJECTS/counting/shapes/star.png" width="60" height="60" alt="Star" />
+```
+
+❌ **FORBIDDEN** - Text labels:
+```html
+Flower Flower Flower Flower Flower
+Star Star Star
+```
+
+❌ **FORBIDDEN** - Mixing img tags with text:
+```html
+<img src="...flower.png" /> Flower <img src="...flower.png" /> Flower
+```
+
+**PATTERN**: `/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png`
+
+**FOLDER NAME MAPPING** (USE THESE EXACT NAMES):
+- Fruits → `/counting/fruits/`
+- Farm Animals → `/counting/farm_animals/` (NOT `/counting/farm/`)
+- School Supplies → `/counting/school_supplies/` (NOT `/counting/school/`)
+- Food Treats → `/counting/food_treats/` (NOT `/counting/food/`)
+- Toys → `/counting/toys/`
+- Garden → `/counting/garden/`
+- Vegetables → `/counting/vegetables/`
+- Sports → `/counting/sports/`
+- Shapes → `/counting/shapes/`
+- Vehicles → `/counting/vehicles/`
+
+**THIS RULE APPLIES TO EVERY SINGLE OBJECT** - whether it's apples, cows, books, pencils, pigs, chickens, flowers, stars, or ANY other object in VERIFIED OBJECTS. ALWAYS use explicit img tags with correct folder names. NEVER use text labels.
+
+## VERIFIED VOCABULARY (WORKSHEET_OBJECTS ONLY)
+**Shapes (BASIC SHAPES ONLY - CURRICULUM REQUIREMENT):** circles, squares, triangles, rectangles | **🚨 FORBIDDEN IN BASIC SHAPES:** stars, hearts, diamonds, suns, moons | **School Supplies (counting):** books, pencils, erasers, crayons, markers, scissors, rulers, glue, backpacks | **Fruits:** apples, bananas, oranges, strawberries, grapes, pears | **Farm Animals:** chickens, cows, sheep, pigs, horses, ducks | **Toys:** balls, cars, dolls, kites, blocks | **Garden:** flowers, butterflies, bees, birds | **Vegetables:** carrots, tomatoes, cucumbers | **Food Treats:** cookies, cupcakes
+**Paths:** `/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png` | **FORBIDDEN:** Any object NOT listed = broken images
+**FRESHNESS:** System provides forbidden list, fresh categories, avoid forbidden objects, target 80%+ novelty.
+
 ## CRITICAL RULES
 
-**Shapes:** circle, square, triangle, rectangle, star, heart (PRIMARY: first 4)
+**Shapes:** circle, square, triangle, rectangle ONLY (UK EYFS curriculum requirement - NO stars, hearts, diamonds, or other decorative shapes)
 **Questions:** EXACTLY {{questionCount}} - count before returning
 **Language:** Simple, age-appropriate (ages 4-5) - 'sides', 'corners', 'round', 'straight', 'pointy'
 **Visual:** Large, clear, colorful shapes - CSS-based shapes
+**🚨 FRESHNESS**: Examples above (apples, cows, books, flowers, stars) show FORMAT ONLY - USE FRESHNESS to select VARIED objects from different categories. DO NOT copy the example objects - select fresh objects using system guidance.
 
 ## 5-QUESTION FORMAT
 
 **Q1:** What shape is this? (giant shape display)
 **Q2:** Find and circle all the [shapes] (shape collection grid)
-**Q3:** Count the [shapes] in the picture (scene with shape objects)
-**Q4:** Match shapes (left to right matching)
-**Q5:** Properties - which shape has [X sides/corners]? (multiple choice)
+**Q3:** Count the [shapes] in the picture - COMPLETE EXAMPLE:
+```html
+<div class="question" style="background: #F1F8E9;">
+    <p class="question-text"><span class="question-number">3.</span> Count the apples in the picture</p>
+
+    <div class="shape-scene">
+        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="60" height="60" alt="Apple" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="60" height="60" alt="Apple" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="60" height="60" alt="Apple" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="60" height="60" alt="Apple" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="60" height="60" alt="Apple" />
+    </div>
+
+    <p class="answer-prompt">How many apples? <span class="answer-line">___</span></p>
+</div>
+```
+**CRITICAL**: Show COMPLETE question wrapper with background, question-text, shape-scene with ALL img tags explicit (5 apples = 5 img tags), and answer prompt! NEVER write "Apple Apple Apple" - write out EVERY img tag!
+**Q4:** Match shapes (left to right matching) - **🚨 ONLY use circle, square, triangle, rectangle CSS - NO .heart, .star, .diamond**
+**Q5:** Properties - which shape has [X sides/corners]? (multiple choice) - **🚨 ALWAYS use `<div class="choice-shape triangle"></div>` CSS - NEVER text-only**
 
 ## SHAPE COLORS (Keep consistent)
 

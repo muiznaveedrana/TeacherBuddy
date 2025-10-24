@@ -2,13 +2,103 @@
 
 Generate EXACTLY {{questionCount}} Reception comparing quantities questions.
 
+## 🚨 ABSOLUTE RULE - IMG TAGS ONLY (NO EXCEPTIONS)
+
+**YOU MUST USE `<img>` TAGS FOR ALL OBJECTS - NEVER TEXT LABELS**
+
+### CRITICAL: Object Substitution Examples
+
+When you see examples with one object, use the EXACT SAME pattern for ANY object you choose:
+
+**Example 1: Fruits** (showing 3 apples):
+```html
+<img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="60" height="60" alt="Apple" />
+<img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="60" height="60" alt="Apple" />
+<img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="60" height="60" alt="Apple" />
+```
+
+**Example 2: Farm Animals** (showing 4 cows):
+```html
+<img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png" width="60" height="60" alt="Cow" />
+<img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png" width="60" height="60" alt="Cow" />
+<img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png" width="60" height="60" alt="Cow" />
+<img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png" width="60" height="60" alt="Cow" />
+```
+
+**Example 3: School Supplies** (showing 6 books):
+```html
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="60" height="60" alt="Book" />
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="60" height="60" alt="Book" />
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="60" height="60" alt="Book" />
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="60" height="60" alt="Book" />
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="60" height="60" alt="Book" />
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="60" height="60" alt="Book" />
+```
+
+**Example 4: Toys** (showing 2 balls):
+```html
+<img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="60" height="60" alt="Ball" />
+<img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="60" height="60" alt="Ball" />
+```
+
+**Example 5: Garden** (showing 7 flowers):
+```html
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="60" height="60" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="60" height="60" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="60" height="60" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="60" height="60" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="60" height="60" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="60" height="60" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="60" height="60" alt="Flower" />
+```
+
+**Example 6: Food** (showing 5 cupcakes):
+```html
+<img src="/images/WORKSHEET_OBJECTS/counting/food_treats/cupcake.png" width="60" height="60" alt="Cupcake" />
+<img src="/images/WORKSHEET_OBJECTS/counting/food_treats/cupcake.png" width="60" height="60" alt="Cupcake" />
+<img src="/images/WORKSHEET_OBJECTS/counting/food_treats/cupcake.png" width="60" height="60" alt="Cupcake" />
+<img src="/images/WORKSHEET_OBJECTS/counting/food_treats/cupcake.png" width="60" height="60" alt="Cupcake" />
+<img src="/images/WORKSHEET_OBJECTS/counting/food_treats/cupcake.png" width="60" height="60" alt="Cupcake" />
+```
+
+❌ **FORBIDDEN** - Text labels:
+```html
+Cow Cow Cow Cow
+Book Book Book Book Book Book
+Pencil Pencil Pencil
+```
+
+❌ **FORBIDDEN** - Mixing img tags with text:
+```html
+<img src="...cow.png" /> Cow <img src="...cow.png" /> Cow
+```
+
+**PATTERN**: `/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png`
+
+**FOLDER NAME MAPPING** (USE THESE EXACT NAMES):
+- Fruits → `/counting/fruits/`
+- Farm Animals → `/counting/farm_animals/` (NOT `/counting/farm/`)
+- School Supplies → `/counting/school_supplies/` (NOT `/counting/school/`)
+- Food Treats → `/counting/food_treats/` (NOT `/counting/food/`)
+- Toys → `/counting/toys/`
+- Garden → `/counting/garden/`
+- Vegetables → `/counting/vegetables/`
+- Sports → `/counting/sports/`
+- Shapes → `/counting/shapes/`
+- Vehicles → `/counting/vehicles/`
+
+**THIS RULE APPLIES TO EVERY SINGLE OBJECT** - whether it's apples, cows, books, pencils, pigs, chickens, cupcakes, or ANY other object in VERIFIED OBJECTS. ALWAYS use explicit img tags with correct folder names. NEVER use text labels.
+
+🚨 **CRITICAL - NO CSS OBJECTS**: NEVER use CSS-generated pencils, crayons, or rulers - they render disproportionately large! If you need pencils, use `/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png` at width="60" height="60" (same size as other objects). PREFERRED: Avoid pencils entirely - use sunflowers, chickens, balls, cupcakes instead.
+
 ## CRITICAL RULES
 
 **Numbers:** 1-10 ONLY (NO 0,11,12,15,20,100,666)
 **Questions:** EXACTLY {{questionCount}} - count before returning
 **Comparison:** Use "more", "fewer/less", "most", "fewest" - age-appropriate language
 **Visual Differences:** Minimum 2-3 objects difference for clear comparison
-**Images:** EVERY comparison needs visual groups
+**Images:** EVERY comparison needs visual groups (ALL at consistent size ~60x60px)
+**Object Sizing:** ALL objects should be width="60" height="60" for consistent visual scale
 
 ## 5-QUESTION FORMAT
 
@@ -22,12 +112,12 @@ Generate EXACTLY {{questionCount}} Reception comparing quantities questions.
 
 **Fruits (10):** apple, banana, orange, strawberry, grape, pear, lemon, watermelon, peach, pineapple
 **Garden (9):** flower, butterfly, bee, bird, tree, leaf, mushroom, worm, acorn
-**School (9):** book, pencil, eraser, crayon, marker, scissors, ruler, glue, backpack
-**Farm (9):** chicken, cow, sheep, pig, horse, duck, goat, goose, turkey
+**School Supplies (9):** book, pencil, eraser, crayon, marker, scissors, ruler, glue, backpack
+**Farm Animals (9):** chicken, cow, sheep, pig, horse, duck, goat, goose, turkey
 **Toys (5):** ball, car, doll, kite, block
 **Vegetables (6):** carrot, tomato, broccoli, cucumber, pepper, potato
 **Sports (5):** football, basketball, tennis ball, bat, medal
-**Food (2):** cookie, cupcake
+**Food Treats (2):** cookie, cupcake
 **Shapes (7):** star, heart, circle, square, diamond, sun, moon
 **Vehicles (5):** car, bus, bike, train, plane
 

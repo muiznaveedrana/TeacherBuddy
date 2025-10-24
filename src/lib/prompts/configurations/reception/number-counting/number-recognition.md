@@ -20,6 +20,42 @@ Create a Reception number recognition worksheet with EXACTLY {{questionCount}} q
 - Each question type has been researched and proven effective for ages 4-5
 - DO NOT deviate from the prescribed format for each question number
 
+## VERIFIED VOCABULARY - WORKSHEET_OBJECTS LIBRARY
+
+**CRITICAL: You MUST ONLY use objects from this approved list. Using unlisted objects WILL result in broken images.**
+
+**67 objects with confirmed working images:**
+
+**Fruits (10):** apples, bananas, oranges, strawberries, grapes, pears, lemons, watermelons, peaches, pineapples
+
+**Garden & Nature (9):** flowers, butterflies, bees, birds, trees, leaves, mushrooms, worms, acorns
+
+**School Supplies (9):** books, pencils, erasers, crayons, markers, scissors, rulers, glue, backpacks
+
+**Farm Animals (9):** chickens, cows, sheep, pigs, horses, ducks, goats, geese, turkeys
+
+**Toys (5):** balls, cars, dolls, kites, blocks
+
+**Vegetables (6):** carrots, tomatoes, broccoli, cucumbers, peppers, potatoes
+
+**Sports Equipment (5):** footballs, basketballs, tennis balls, bats, medals
+
+**Food & Treats (2):** cookies, cupcakes
+
+**Shapes & Objects (7):** stars, hearts, circles, squares, diamonds, suns, moons
+
+**Vehicles (5):** cars, buses, bikes, trains, planes
+
+**IMAGE PATHS**: All images are in `/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png`
+
+**Example Paths:**
+- Fruits: `/images/WORKSHEET_OBJECTS/counting/fruits/apple.png`
+- Farm Animals: `/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png`
+- Toys: `/images/WORKSHEET_OBJECTS/counting/toys/ball.png`
+- Food Treats: `/images/WORKSHEET_OBJECTS/counting/food_treats/cookie.png`
+
+**NOTE:** All objects above have verified images in WORKSHEET_OBJECTS directory. Using objects NOT in this list will result in broken images and worksheet failure.
+
 ## PROVEN 5-QUESTION FORMAT (RESEARCH-BASED)
 
 ### **Question 1: Simple Numeral Identification** (Easiest - Building Confidence)
@@ -59,32 +95,33 @@ Create a Reception number recognition worksheet with EXACTLY {{questionCount}} q
         <div class="choice-option">
             <span class="option-label">A.</span>
             <div class="objects-row">
-                <!-- Show WRONG quantity (e.g., 5 objects when target is 3) -->
-                <img src="/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png" width="45" height="45" alt="{Object}" />
-                <!-- Repeat for wrong quantity -->
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
             </div>
         </div>
 
         <div class="choice-option">
             <span class="option-label">B.</span>
             <div class="objects-row">
-                <!-- Show CORRECT quantity matching target number -->
-                <img src="/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png" width="45" height="45" alt="{Object}" />
-                <!-- Repeat for CORRECT quantity -->
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
             </div>
         </div>
 
         <div class="choice-option">
             <span class="option-label">C.</span>
             <div class="objects-row">
-                <!-- Show WRONG quantity (e.g., 1 object when target is 3) -->
-                <img src="/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png" width="45" height="45" alt="{Object}" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
             </div>
         </div>
     </div>
 </div>
 ```
-**Example**: Show "3", provide options: A) 5 apples, B) 3 apples ✓, C) 1 apple
+**Example**: Show "3", provide options: A) 5 apples (WRONG), B) 3 apples ✓ (CORRECT), C) 1 apple (WRONG). **CRITICAL**: Write out EVERY img tag explicitly - NO HTML comments!
 
 ---
 
@@ -131,16 +168,19 @@ Create a Reception number recognition worksheet with EXACTLY {{questionCount}} q
     <p class="question-text">[Name] has some [objects]. How many [objects] does [Name] have?</p>
 
     <div class="context-scene">
-        <!-- Show objects arranged in realistic grouping (2 rows of 3, or scattered naturally) -->
-        <img src="/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png" width="55" height="55" alt="{Object}" />
-        <!-- Repeat for quantity -->
+        <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="55" height="55" alt="Pencil" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="55" height="55" alt="Pencil" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="55" height="55" alt="Pencil" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="55" height="55" alt="Pencil" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="55" height="55" alt="Pencil" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="55" height="55" alt="Pencil" />
     </div>
 
     <p class="answer-prompt">[Name] has <span class="answer-line">___</span> [objects].</p>
     <p class="answer-prompt">Write the number: <span class="answer-line">___</span></p>
 </div>
 ```
-**Example**: "Emma has some pencils. How many pencils does Emma have?" [Show 6 pencils] "Emma has ___ pencils. Write the number: ___"
+**Example**: "Emma has some pencils. How many pencils does Emma have?" [Show 6 pencils = 6 explicit img tags] "Emma has ___ pencils. Write the number: ___". **CRITICAL**: Write out EVERY img tag explicitly - NO HTML comments!
 
 ---
 
@@ -161,30 +201,41 @@ Create a Reception number recognition worksheet with EXACTLY {{questionCount}} q
 
         <div class="match-right">
             <div class="picture-option">
-                <!-- Group with WRONG quantity for NUMBER 1 -->
-                <img src="/images/WORKSHEET_OBJECTS/counting/{category}/{object1}.png" width="40" height="40" />
-                <!-- Repeat for wrong quantity -->
+                <img src="/images/WORKSHEET_OBJECTS/counting/garden/butterfly.png" width="40" height="40" alt="Butterfly" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/garden/butterfly.png" width="40" height="40" alt="Butterfly" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/garden/butterfly.png" width="40" height="40" alt="Butterfly" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/garden/butterfly.png" width="40" height="40" alt="Butterfly" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/garden/butterfly.png" width="40" height="40" alt="Butterfly" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/garden/butterfly.png" width="40" height="40" alt="Butterfly" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/garden/butterfly.png" width="40" height="40" alt="Butterfly" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/garden/butterfly.png" width="40" height="40" alt="Butterfly" />
             </div>
             <div class="picture-option">
-                <!-- Group CORRECT for NUMBER 1 -->
-                <img src="/images/WORKSHEET_OBJECTS/counting/{category}/{object2}.png" width="40" height="40" />
-                <!-- Repeat for correct quantity -->
+                <img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="40" height="40" alt="Flower" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="40" height="40" alt="Flower" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="40" height="40" alt="Flower" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="40" height="40" alt="Flower" />
             </div>
             <div class="picture-option">
-                <!-- Group CORRECT for NUMBER 2 -->
-                <img src="/images/WORKSHEET_OBJECTS/counting/{category}/{object3}.png" width="40" height="40" />
-                <!-- Repeat for correct quantity -->
+                <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="40" height="40" alt="Ball" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="40" height="40" alt="Ball" />
             </div>
             <div class="picture-option">
-                <!-- Group with WRONG quantity for NUMBER 2 -->
-                <img src="/images/WORKSHEET_OBJECTS/counting/{category}/{object4}.png" width="40" height="40" />
-                <!-- Repeat for wrong quantity -->
+                <img src="/images/WORKSHEET_OBJECTS/counting/shapes/star.png" width="40" height="40" alt="Star" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/shapes/star.png" width="40" height="40" alt="Star" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/shapes/star.png" width="40" height="40" alt="Star" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/shapes/star.png" width="40" height="40" alt="Star" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/shapes/star.png" width="40" height="40" alt="Star" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/shapes/star.png" width="40" height="40" alt="Star" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/shapes/star.png" width="40" height="40" alt="Star" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/shapes/star.png" width="40" height="40" alt="Star" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/shapes/star.png" width="40" height="40" alt="Star" />
             </div>
         </div>
     </div>
 </div>
 ```
-**Example**: Show "4" and "8" on left. Show groups of: 8 butterflies, 4 flowers, 2 balls, 9 stars on right. Child draws lines to match.
+**Example**: Show "4" and "8" on left. Show groups of: 8 butterflies (matches 8), 4 flowers (matches 4), 2 balls (distractor), 9 stars (distractor) on right. Child draws lines to match. **CRITICAL**: Write out EVERY img tag explicitly (8 butterflies = 8 img tags) - NO HTML comments!
 
 ---
 

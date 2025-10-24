@@ -31,6 +31,44 @@ Create a Reception "More or Less" comparing quantities worksheet with EXACTLY {{
 - Use clear, distinct groups for comparison
 - Show the EXACT objects mentioned in the question
 
+## VERIFIED VOCABULARY - WORKSHEET_OBJECTS LIBRARY
+
+**CRITICAL: You MUST ONLY use objects from this approved list. Using unlisted objects WILL result in broken images.**
+
+**67 objects with confirmed working images:**
+
+**Fruits (10):** apples, bananas, oranges, strawberries, grapes, pears, lemons, watermelons, peaches, pineapples
+
+**Garden & Nature (9):** flowers, butterflies, bees, birds, trees, leaves, mushrooms, worms, acorns
+
+**School Supplies (9):** books, pencils, erasers, crayons, markers, scissors, rulers, glue, backpacks
+
+**Farm Animals (9):** chickens, cows, sheep, pigs, horses, ducks, goats, geese, turkeys
+
+**Toys (5):** balls, cars, dolls, kites, blocks
+
+**Vegetables (6):** carrots, tomatoes, broccoli, cucumbers, peppers, potatoes
+
+**Sports Equipment (5):** footballs, basketballs, tennis balls, bats, medals
+
+**Food & Treats (2):** cookies, cupcakes
+
+**Shapes & Objects (7):** stars, hearts, circles, squares, diamonds, suns, moons
+
+**Vehicles (5):** cars, buses, bikes, trains, planes
+
+**IMAGE PATHS**: All images are in `/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png`
+
+**Example Paths:**
+- Fruits: `/images/WORKSHEET_OBJECTS/counting/fruits/apple.png`
+- Farm Animals: `/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png`
+- Toys: `/images/WORKSHEET_OBJECTS/counting/toys/ball.png`
+- Food Treats: `/images/WORKSHEET_OBJECTS/counting/food_treats/cookie.png`
+
+**NOTE:** All objects above have verified images in WORKSHEET_OBJECTS directory. Using objects NOT in this list will result in broken images and worksheet failure.
+
+🚨 **CRITICAL - NO CSS OBJECTS**: NEVER use CSS-generated pencils, crayons, or rulers in More or Less worksheets - they render disproportionately large (150px+) compared to actual images (~60px)! If you absolutely need pencils, use `/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png` at width="60" height="60". PREFERRED: Avoid pencils entirely - use sunflowers, chickens, balls, cookies, cupcakes instead for consistent visual scale.
+
 ## PROVEN 5-QUESTION FORMAT (RESEARCH-BASED)
 
 ### **Question 1: Simple Visual Comparison - More** (Easiest - Building Confidence)

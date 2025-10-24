@@ -72,10 +72,6 @@ export class PromptService {
   // Eliminates disk I/O overhead on subsequent requests (2-5s savings per worksheet)
   private static promptCache = new Map<string, string>();
 
-  // PHASE 2 OPTIMIZATION: Base template cache for compression
-  // Shared template loaded once, cached for all requests (30-40% token reduction)
-  private static baseTemplateCache: string | null = null;
-
   /**
    * Main prompt generation method with iterative improvement focus
    * Generates superior prompts through integrated USP.1 + USP.2 + iterative refinement
@@ -167,24 +163,6 @@ export class PromptService {
         rawPrompt = fs.readFileSync(promptPathToUse, 'utf-8');
         this.promptCache.set(cacheKey, rawPrompt);
         console.log(`📁 Prompt cache MISS - loaded and cached: ${path.basename(promptPathToUse)}`);
-
-        // PHASE 2: If using compression, also load and cache base template
-        if (useCompression && promptPathToUse === compressedPromptPath) {
-          if (!this.baseTemplateCache) {
-            const baseTemplatePath = path.join(
-              process.cwd(),
-              'src',
-              'lib',
-              'prompts',
-              'shared',
-              'base-worksheet-template.md'
-            );
-            if (fs.existsSync(baseTemplatePath)) {
-              this.baseTemplateCache = fs.readFileSync(baseTemplatePath, 'utf-8');
-              console.log(`📦 Base template cached (compression enabled - 30-40% token reduction)`);
-            }
-          }
-        }
       } else {
         return null; // File doesn't exist
       }
@@ -196,30 +174,14 @@ export class PromptService {
       // LEAN FRESHNESS is now the permanent default (simpler, faster, proven effective)
       const freshnessInstructions = this.buildFreshnessInstructionsLean(previousWorksheets);
 
-      // PHASE 2 COMPRESSION: Compose base template + config if compression enabled
-      if (useCompression && this.baseTemplateCache && promptPathToUse === compressedPromptPath) {
-        // Compose: Freshness + Base Template + Config Specifics
-        const parts = [];
-
-        if (freshnessInstructions) {
-          parts.push(freshnessInstructions);
-          console.log(`🔄 Freshness tracking enabled: ${previousWorksheets?.length || 0} previous worksheet(s) excluded`);
-        }
-
-        parts.push(this.baseTemplateCache); // Shared HTML/CSS template
-        parts.push(configPrompt);             // Config-specific rules
-
-        configPrompt = parts.join('\n\n---\n\n');
-        console.log(`✅ Loaded COMPRESSED prompt: ${path.basename(promptPathToUse)}`);
-        console.log(`   Mode: COMPRESSION (base template + config)`);
-      } else {
-        // Standard mode: Freshness + Config
-        if (freshnessInstructions) {
-          configPrompt = `${freshnessInstructions}\n\n---\n\n${configPrompt}`;
-          console.log(`🔄 Freshness tracking enabled: ${previousWorksheets?.length || 0} previous worksheet(s) excluded`);
-        }
-        console.log(`✅ Loaded config-specific prompt (STANDARD): ${path.basename(promptPathToUse)}`);
+      // Add freshness instructions if available
+      if (freshnessInstructions) {
+        configPrompt = `${freshnessInstructions}\n\n---\n\n${configPrompt}`;
+        console.log(`🔄 Freshness tracking enabled: ${previousWorksheets?.length || 0} previous worksheet(s) excluded`);
       }
+
+      console.log(`✅ Loaded prompt: ${path.basename(promptPathToUse)}`);
+      console.log(`   Mode: ${useCompression && promptPathToUse === compressedPromptPath ? 'COMPRESSED' : 'FULL'} (self-contained)`)
 
       // Replace placeholders with actual config values
       configPrompt = configPrompt

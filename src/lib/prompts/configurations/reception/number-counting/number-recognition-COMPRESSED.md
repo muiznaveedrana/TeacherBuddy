@@ -2,31 +2,238 @@
 
 **CRITICAL: Generate EXACTLY {{questionCount}} questions using PROVEN FORMAT.**
 
+## 🚨 ABSOLUTE RULE - IMG TAGS ONLY (NO EXCEPTIONS)
+
+**YOU MUST USE `<img>` TAGS FOR ALL OBJECTS - NEVER TEXT LABELS**
+
+### CRITICAL: Object Substitution Examples
+
+When you see examples with one object, use the EXACT SAME pattern for ANY object you choose:
+
+**Example 1: Fruits** (showing 3 objects):
+```html
+<img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
+<img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
+<img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
+```
+
+**Example 2: Farm Animals** (showing 4 cows):
+```html
+<img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png" width="45" height="45" alt="Cow" />
+<img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png" width="45" height="45" alt="Cow" />
+<img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png" width="45" height="45" alt="Cow" />
+<img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png" width="45" height="45" alt="Cow" />
+```
+
+**Example 3: School Supplies** (showing 6 books):
+```html
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="55" height="55" alt="Book" />
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="55" height="55" alt="Book" />
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="55" height="55" alt="Book" />
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="55" height="55" alt="Book" />
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="55" height="55" alt="Book" />
+<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="55" height="55" alt="Book" />
+```
+
+**Example 4: Toys** (showing 2 balls):
+```html
+<img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="40" height="40" alt="Ball" />
+<img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="40" height="40" alt="Ball" />
+```
+
+**Example 5: Vehicles** (showing 5 cars):
+```html
+<img src="/images/WORKSHEET_OBJECTS/counting/vehicles/car.png" width="40" height="40" alt="Car" />
+<img src="/images/WORKSHEET_OBJECTS/counting/vehicles/car.png" width="40" height="40" alt="Car" />
+<img src="/images/WORKSHEET_OBJECTS/counting/vehicles/car.png" width="40" height="40" alt="Car" />
+<img src="/images/WORKSHEET_OBJECTS/counting/vehicles/car.png" width="40" height="40" alt="Car" />
+<img src="/images/WORKSHEET_OBJECTS/counting/vehicles/car.png" width="40" height="40" alt="Car" />
+```
+
+**Example 6: Garden** (showing 7 flowers):
+```html
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="40" height="40" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="40" height="40" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="40" height="40" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="40" height="40" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="40" height="40" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="40" height="40" alt="Flower" />
+<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="40" height="40" alt="Flower" />
+```
+
+❌ **FORBIDDEN** - Text labels:
+```html
+Cow Cow Cow Cow
+Book Book Book Book Book Book
+Ball Ball
+```
+
+❌ **FORBIDDEN** - Mixing img tags with text:
+```html
+<img src="...cow.png" /> Cow <img src="...cow.png" /> Cow
+```
+
+**PATTERN**: `/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png`
+
+**FOLDER NAME MAPPING** (USE THESE EXACT NAMES):
+- Fruits → `/counting/fruits/`
+- Farm Animals → `/counting/farm_animals/` (NOT `/counting/farm/`)
+- School Supplies → `/counting/school_supplies/` (NOT `/counting/school/`)
+- Food Treats → `/counting/food_treats/` (NOT `/counting/food/`)
+- Toys → `/counting/toys/`
+- Garden → `/counting/garden/`
+- Vegetables → `/counting/vegetables/`
+- Sports → `/counting/sports/`
+- Shapes → `/counting/shapes/`
+- Vehicles → `/counting/vehicles/`
+
+**THIS RULE APPLIES TO EVERY SINGLE OBJECT** - whether it's apples, cows, books, pencils, cookies, or ANY other object in VERIFIED VOCABULARY. ALWAYS use explicit img tags with correct folder names. NEVER use text labels.
+
+## VERIFIED VOCABULARY (WORKSHEET_OBJECTS ONLY)
+**Fruits:** apples, bananas, oranges, strawberries, grapes, pears, lemons, watermelons, peaches, pineapples | **Garden:** flowers, butterflies, bees, birds, trees, leaves, mushrooms, worms, acorns | **School Supplies:** books, pencils, erasers, crayons, markers, scissors, rulers, glue, backpacks | **Farm Animals:** chickens, cows, sheep, pigs, horses, ducks, goats, geese, turkeys | **Toys:** balls, cars, dolls, kites, blocks | **Vegetables:** carrots, tomatoes, broccoli, cucumbers, peppers, potatoes | **Sports:** footballs, basketballs, tennis balls, bats, medals | **Food Treats:** cookies, cupcakes | **Shapes:** stars, hearts, circles, squares, diamonds, suns, moons | **Vehicles:** cars, buses, bikes, trains, planes
+
+**FRESHNESS:** System provides forbidden list, fresh categories, avoid forbidden objects, target 80%+ novelty.
+**Paths:** `/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png` | **FORBIDDEN:** Any object NOT listed above = broken images
+
 ## PROVEN 5-QUESTION STRUCTURE (EXACT FORMAT REQUIRED)
 
-**Q1: Giant Number** (Yellow #FFF9C4)
-- Show `.number-display-large` with `.giant-number` (72pt)
-- "What number is this? Write the number: ___"
+**Q1: Giant Number** - COMPLETE EXAMPLE:
+```html
+<div class="question" style="background: #FFF9C4;">
+    <p class="question-text"><span class="question-number">1.</span> What number is this?</p>
 
-**Q2: Multiple Choice** (Blue #E3F2FD)
-- Show `.number-display-medium` with target number
-- 3 options (A/B/C) in `.multiple-choice-grid`
-- Option B = CORRECT quantity
+    <div class="number-display-large">
+        <span class="giant-number">7</span>
+    </div>
 
-**Q3: Ten Frame** (Green #F1F8E9)
-- `.ten-frame` with 2 rows, 5 cells each
-- Filled cells = ★, Empty = blank
-- "How many stars? The number is: ___"
+    <p class="answer-prompt">Write the number: <span class="answer-line">___</span></p>
+</div>
+```
+**CRITICAL**: Show the COMPLETE question wrapper with background, question-text, number display, and answer prompt!
 
-**Q4: Context** (Pink #FCE4EC)
-- "[Name] has some [objects]. How many?"
-- Objects in `.context-scene`
-- "[Name] has ___ [objects]. Write: ___"
+**Q2: Multiple Choice** - COMPLETE EXAMPLE:
+```html
+<div class="question" style="background: #E3F2FD;">
+    <p class="question-text"><span class="question-number">2.</span> Circle the group that matches the number</p>
 
-**Q5: Matching** (Orange #FFF3E0)
-- `.matching-container`: 2 numbers left, 4 picture groups right
-- "Draw line from number to picture"
-- 2 correct matches, 2 distractors
+    <div class="number-display-medium">
+        <span class="large-number">3</span>
+    </div>
+
+    <div class="multiple-choice-grid">
+        <div class="choice-option">
+            <span class="option-label">A.</span>
+            <div class="objects-row">
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/banana.png" width="45" height="45" alt="Banana" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/banana.png" width="45" height="45" alt="Banana" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/banana.png" width="45" height="45" alt="Banana" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/banana.png" width="45" height="45" alt="Banana" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/banana.png" width="45" height="45" alt="Banana" />
+            </div>
+        </div>
+        <div class="choice-option">
+            <span class="option-label">B.</span>
+            <div class="objects-row">
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/banana.png" width="45" height="45" alt="Banana" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/banana.png" width="45" height="45" alt="Banana" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/banana.png" width="45" height="45" alt="Banana" />
+            </div>
+        </div>
+        <div class="choice-option">
+            <span class="option-label">C.</span>
+            <div class="objects-row">
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/banana.png" width="45" height="45" alt="Banana" />
+            </div>
+        </div>
+    </div>
+</div>
+```
+**CRITICAL**: Show ALL 3 options (A/B/C) with COMPLETE question wrapper! Option B = correct quantity (3 bananas). NEVER write "Banana Banana Banana" - ALWAYS use explicit img tags!
+
+**Q3: Ten Frame** - COMPLETE EXAMPLE:
+```html
+<div class="question" style="background: #F1F8E9;">
+    <p class="question-text"><span class="question-number">3.</span> How many stars do you see? Write the number.</p>
+
+    <div class="ten-frame">
+        <div class="frame-row">
+            <div class="frame-cell filled">★</div>
+            <div class="frame-cell filled">★</div>
+            <div class="frame-cell filled">★</div>
+            <div class="frame-cell filled">★</div>
+            <div class="frame-cell filled">★</div>
+        </div>
+        <div class="frame-row">
+            <div class="frame-cell filled">★</div>
+            <div class="frame-cell filled">★</div>
+            <div class="frame-cell empty"></div>
+            <div class="frame-cell empty"></div>
+            <div class="frame-cell empty"></div>
+        </div>
+    </div>
+
+    <p class="answer-prompt">The number is: <span class="answer-line">___</span></p>
+</div>
+```
+**CRITICAL**: Show COMPLETE ten-frame (2 rows, 5 cells each) with question wrapper! Example shows 7 stars.
+
+**Q4: Context** - COMPLETE EXAMPLE:
+```html
+<div class="question" style="background: #FCE4EC;">
+    <p class="question-text"><span class="question-number">4.</span> Emma has some pencils. How many pencils does Emma have?</p>
+
+    <div class="context-scene">
+        <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="55" height="55" alt="Pencil" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="55" height="55" alt="Pencil" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="55" height="55" alt="Pencil" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="55" height="55" alt="Pencil" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="55" height="55" alt="Pencil" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="55" height="55" alt="Pencil" />
+    </div>
+
+    <p class="answer-prompt">Emma has <span class="answer-line">___</span> pencils.</p>
+    <p class="answer-prompt">Write the number: <span class="answer-line">___</span></p>
+</div>
+```
+**CRITICAL**: Show COMPLETE context scene with ALL img tags explicit (6 pencils = 6 img tags). NEVER write "Pencil Pencil Pencil" - write out EVERY img tag!
+
+**Q5: Matching** - COMPLETE EXAMPLE:
+```html
+<div class="question" style="background: #FFF3E0;">
+    <p class="question-text"><span class="question-number">5.</span> Draw a line from the number to the correct picture</p>
+
+    <div class="matching-container">
+        <div class="match-left">
+            <div class="number-box">2</div>
+            <div class="number-box">4</div>
+        </div>
+
+        <div class="match-right">
+            <div class="picture-option">
+                <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="40" height="40" alt="Ball" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="40" height="40" alt="Ball" />
+            </div>
+            <div class="picture-option">
+                <img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="40" height="40" alt="Flower" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="40" height="40" alt="Flower" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="40" height="40" alt="Flower" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="40" height="40" alt="Flower" />
+            </div>
+            <div class="picture-option">
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="40" height="40" alt="Apple" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="40" height="40" alt="Apple" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="40" height="40" alt="Apple" />
+            </div>
+            <div class="picture-option">
+                <img src="/images/WORKSHEET_OBJECTS/counting/toys/car.png" width="40" height="40" alt="Car" />
+            </div>
+        </div>
+    </div>
+</div>
+```
+**CRITICAL**: Show COMPLETE matching question with 2 numbers (left) and 4 picture groups (right). Write out EVERY img tag explicitly (4 flowers = 4 img tags)!
+
+**CRITICAL**: ALL questions MUST have colored backgrounds using style="background: #XXXXXX" on the .question div!
 
 ## ULTRA-COMPACT CSS (36PT GIANT NUMBER, HORIZONTAL GRID, AGGRESSIVE SPACING)
 

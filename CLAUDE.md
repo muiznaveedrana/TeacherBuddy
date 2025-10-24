@@ -37,3 +37,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - whenever you are going to create a new js file for worksheet-quality-assessor agent then first ask get confirmation and tell why it can not be done via  autonomous-worksheet-quality-agent.js to help keeping the path straight and unambigous.
 - Always use the worksheet-quality-assessor  agent for test. do not fallback to simpler testing.
 - when I say run agent then it should default 3 worksheets(iterations) per cycle and two cycles
+- when I say run paralell agent then run batch-paralell-agent and show html report with screenshots after worksheet vision assessment in the same agent and open final html with screenshots and assessment using chrome
+## Worksheet Vision Assessment (CRITICAL - STRICT CRITERIA)
+- **When user says "assess worksheets"**: Apply STRICT criteria from `scripts/STRICT-VISION-ASSESSMENT-CRITERIA.md`
+- **Zero-tolerance policy**: ANY broken images, identical objects in comparisons, or missing questions = AUTOMATIC FAIL
+- **Critical checks**:
+  1. ALL images must load correctly (no broken/placeholder/empty boxes)
+  2. Comparison questions MUST have OBVIOUS visual differences (30-50%+ size difference)
+  3. ALL expected questions must be visible (no cut-off/missing content)
+  4. For Reception (4-5 years): Visual differences must be immediately apparent
+- **Scoring**: Production Ready = Score ≥95 AND zero critical issues
+- **Auto-fail caps**:
+  - Any broken images: Max score 65
+  - Missing questions: Max score = (% visible × 100)
+  - Unanswerable comparisons (identical objects): Max score 40
+- **Always check**: Can a 4-year-old answer this question by LOOKING at the images?
+- **When in doubt**: FAIL it. Quality > Quantity.

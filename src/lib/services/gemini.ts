@@ -72,7 +72,7 @@ You generate only pure HTML content - nothing else.`
   },
   generationConfig: {
     temperature: 0.7, // Balanced creativity vs consistency
-    maxOutputTokens: 8192, // Doubled from 4096 to ensure all 5 questions generate (number-recognition needs ~7000+ tokens)
+    maxOutputTokens: 16384, // Quadrupled from 4096 to prevent truncation (number-recognition needs ~7000-9000+ tokens with full HTML/CSS)
     topP: 0.9, // Optimized for better token selection
     topK: 40
   }
@@ -135,6 +135,26 @@ async function callGeminiWithRetry(prompt: string, metrics: GenerationMetrics, m
 
       if (!response) {
         throw new APIError('Empty response from Gemini API', true)
+      }
+
+      // Log token usage to detect if we're hitting the limit
+      const usageMetadata = (response as any).usageMetadata
+      const MAX_OUTPUT_TOKENS = 16384
+      if (usageMetadata) {
+        console.log('📊 Token Usage:', {
+          promptTokens: usageMetadata.promptTokenCount,
+          outputTokens: usageMetadata.candidatesTokenCount,
+          totalTokens: usageMetadata.totalTokenCount,
+          maxOutputTokens: MAX_OUTPUT_TOKENS,
+          percentUsed: ((usageMetadata.candidatesTokenCount / MAX_OUTPUT_TOKENS) * 100).toFixed(1) + '%'
+        })
+
+        // WARNING: If we're using 95%+ of max tokens, content might be truncated
+        if (usageMetadata.candidatesTokenCount >= MAX_OUTPUT_TOKENS * 0.95) {
+          console.warn('⚠️ WARNING: Output tokens at 95%+ of limit - content may be truncated!')
+          console.warn(`   Current: ${usageMetadata.candidatesTokenCount} tokens`)
+          console.warn(`   Limit: ${MAX_OUTPUT_TOKENS} tokens`)
+        }
       }
 
       return response.text()
@@ -1181,7 +1201,7 @@ export async function generateWorksheetStreaming(
           contents: [{ role: 'user', parts: [{ text: prompt }] }],
           generationConfig: {
             temperature: 0.7,
-            maxOutputTokens: 8192,
+            maxOutputTokens: 16384,
             topP: 0.9,
             topK: 40
           }
@@ -1190,7 +1210,7 @@ export async function generateWorksheetStreaming(
           contents: [{ role: 'user', parts: [{ text: prompt }] }],
           generationConfig: {
             temperature: 0.7,
-            maxOutputTokens: 8192,
+            maxOutputTokens: 16384,
             topP: 0.9,
             topK: 40
           }

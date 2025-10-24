@@ -24,14 +24,58 @@ Create a Reception simple patterns worksheet with EXACTLY {{questionCount}} ques
 
 ### Rule 4: Visual-First Approach (CRITICAL)
 - **ALL patterns must be visual - use colors, shapes, or objects**
+- **MANDATORY: Pattern items MUST have clear spacing between them (minimum 15px gap)**
 - Clear, distinct elements in each pattern
 - Bright, engaging colors
 - NO number patterns (ages 4-5 focus on visual patterns)
+- **CRITICAL: Children must see individual items clearly separated - no items touching or overlapping**
 
 ### Rule 5: Age-Appropriate Language
 - **Use simple instructions**
 - Vocabulary: pattern, repeat, next, comes after, continues
 - "What comes next?", "Continue the pattern", "Copy the pattern"
+
+## VERIFIED VOCABULARY - WORKSHEET_OBJECTS LIBRARY
+
+**CRITICAL: You MUST ONLY use objects from this approved list. Using unlisted objects WILL result in broken images.**
+
+**67 objects with confirmed working images:**
+
+**Fruits (10) - Excellent for patterns:** apples, bananas, oranges, strawberries, grapes, pears, lemons, watermelons, peaches, pineapples
+
+**Garden & Nature (9) - Great visual variety:** flowers, butterflies, bees, birds, trees, leaves, mushrooms, worms, acorns
+
+**School Supplies (9):** books, pencils, erasers, crayons, markers, scissors, rulers, glue, backpacks
+
+**Farm Animals (9) - Excellent for patterns:** chickens, cows, sheep, pigs, horses, ducks, goats, geese, turkeys
+
+**Toys (5):** balls, cars, dolls, kites, blocks
+
+**Vegetables (6):** carrots, tomatoes, broccoli, cucumbers, peppers, potatoes
+
+**Sports Equipment (5):** footballs, basketballs, tennis balls, bats, medals
+
+**Food & Treats (2) - Good for simple patterns:** cookies, cupcakes
+
+**Shapes & Objects (7) - PRIMARY for geometric patterns:** stars, hearts, circles, squares, diamonds, suns, moons
+
+**Vehicles (5):** cars, buses, bikes, trains, planes
+
+**FRESHNESS STRATEGY:** System provides forbidden list and priority categories. Select from fresh categories, avoid forbidden objects, target 80%+ new vocabulary.
+
+**IMAGE PATHS**: All images are in `/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png`
+
+**Example Paths:**
+- Shapes: `/images/WORKSHEET_OBJECTS/counting/shapes/star.png`
+- Fruits: `/images/WORKSHEET_OBJECTS/counting/fruits/apple.png`
+- Farm Animals: `/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png`
+
+**CRITICAL NOTES FOR PATTERNS:**
+- Combine shapes AND objects for variety (e.g., red circle, blue square, red circle, blue square)
+- Farm animals work excellently for AB/ABC patterns
+- Fruits provide good visual variety and color contrast
+
+**NOTE:** All objects above have verified images in WORKSHEET_OBJECTS directory. Using objects NOT in this list will result in broken images and worksheet failure.
 
 ## PROVEN 5-QUESTION FORMAT (RESEARCH-BASED)
 
@@ -203,14 +247,81 @@ Create a Reception simple patterns worksheet with EXACTLY {{questionCount}} ques
 
 ---
 
+## PATTERN ANSWER VALIDATION (CRITICAL - AUTO-FAIL IF VIOLATED)
+
+### MANDATORY RULE: Correct Answer MUST Be in Multiple Choice Options
+
+For ALL "What comes next?" pattern questions (Q1, Q4, Q5):
+
+**VALIDATION PROCESS (REQUIRED BEFORE RENDERING):**
+1. **Identify the pattern sequence** (e.g., ABAB → next is A, or ABC-ABC → next is C)
+2. **Determine the correct next item** (which specific shape/color/object continues the pattern)
+3. **VERIFY the correct answer EXISTS in the multiple choice options**
+4. **If correct answer is MISSING → REGENERATE the multiple choice options immediately**
+
+**CRITICAL EXAMPLES:**
+
+✅ **CORRECT - Pattern Answer Validation PASSES:**
+```
+Pattern: Red Circle - Blue Square - Red Circle - Blue Square - ?
+Correct answer: Red Circle
+Multiple choice options: Red Circle ✓, Blue Square, Green Triangle
+Status: VALID - Correct answer is present in options
+```
+
+❌ **WRONG - Pattern Answer Validation FAILS:**
+```
+Pattern: Red Circle - Blue Square - Red Circle - Blue Square - ?
+Correct answer: Red Circle
+Multiple choice options: Yellow Star, Green Triangle, Purple Heart
+Status: INVALID - Red Circle is MISSING from options!
+Action Required: REGENERATE options to include Red Circle
+```
+
+### Multiple Choice Generation Rules:
+
+1. **ALWAYS include the correct answer** as one of the 2-4 options
+2. **Use items FROM the pattern** for at least 2-3 options
+3. **Add 1-2 distractor options** (items NOT in the pattern) for cognitive challenge
+4. **Match item types**: If pattern uses shapes, options must use shapes; if pattern uses objects (toys, fruits), options must use objects
+5. **Vary correct answer position**: Don't always put correct answer first or last
+
+**Example - Q1 (AB Pattern with Shapes):**
+- Pattern: Star - Diamond - Star - Diamond - ?
+- Correct answer: Star
+- Multiple choice: Star ✓, Diamond, Triangle, Circle (4 options, correct answer present)
+
+**Example - Q4 (AB Pattern with Objects):**
+- Pattern: Ball - Car - Ball - Car - ?
+- Correct answer: Ball
+- Multiple choice: Ball ✓, Car (2 options, correct answer present)
+
+**Example - Q5 (ABC Pattern):**
+- Pattern: Red Triangle - Blue Square - Green Circle - Red Triangle - Blue Square - ?
+- Correct answer: Green Circle
+- Multiple choice: Red Triangle, Green Circle ✓, Blue Square, Yellow Star (4 options, correct answer present)
+
+### Pre-Render Validation Checklist:
+
+Before finalizing HTML for EACH pattern question:
+- [ ] Pattern sequence is clear (AB, ABB, ABC)
+- [ ] Correct next item is determinable
+- [ ] Correct answer is INCLUDED in multiple choice options
+- [ ] If correct answer is missing → REGENERATE options
+- [ ] NEVER render a question where correct answer is unavailable
+
+**FAILURE TO VALIDATE = AUTO-FAIL WORKSHEET (Score 40/100)**
+
+---
+
 ## PATTERN GUIDELINES
 
 ### Pattern Types Distribution:
-- **Q1**: AB pattern (simplest - 2 elements)
-- **Q2**: ABB pattern (3 elements, one repeats)
-- **Q3**: AB pattern for copying
-- **Q4**: AB pattern with real objects
-- **Q5**: ABC pattern (most complex - 3 different elements)
+- **Q1**: AB pattern (simplest - 2 elements) - MUST validate answer in options
+- **Q2**: ABB pattern (3 elements, one repeats) - Fill-in-the-blank format
+- **Q3**: AB pattern for copying - Drawing activity
+- **Q4**: AB pattern with real objects - MUST validate answer in options
+- **Q5**: ABC pattern (most complex - 3 different elements) - MUST validate answer in options
 
 ### Color Palette (Use bright, distinct colors):
 - Red (#E74C3C)
@@ -225,9 +336,12 @@ Create a Reception simple patterns worksheet with EXACTLY {{questionCount}} ques
 - Circle, Square, Triangle, Rectangle, Star, Heart
 
 ### Pattern Length Guidelines:
-- Show 4-6 complete cycles for recognition
-- Ask for 1-2 next elements
-- Ensure pattern is obvious
+- **CRITICAL FOR AGES 4-5: Keep patterns SIMPLE and SHORT**
+- Show 2-3 complete cycles (NOT 4-6, that's too complex for Reception)
+- Ask for 1-2 next elements maximum
+- Ensure pattern is obvious and repeating
+- **Example for AB pattern**: Show Red-Blue-Red-Blue-Red-? (2.5 cycles, perfect for age 4-5)
+- **Example for ABC pattern**: Show Red-Blue-Green-Red-Blue-? (1.5 cycles is sufficient)
 
 ---
 
@@ -281,7 +395,7 @@ body {
 /* Pattern Sequences */
 .pattern-sequence, .pattern-sequence-objects, .pattern-to-copy {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     justify-content: center;
     align-items: center;
     margin: 20px auto;
@@ -424,7 +538,7 @@ body {
 /* Copy Area */
 .pattern-copy-area {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     justify-content: center;
     margin: 20px auto;
     padding: 15px;
@@ -501,8 +615,10 @@ Before returning HTML:
 6. ✓ **Question 5 = ABC pattern (most complex)?**
 7. ✓ **Answer key present at bottom?**
 8. ✓ **All patterns have clear, distinct colors/shapes?**
-9. ✓ **Pattern sequences are obvious and repeating?**
-10. ✓ **Age-appropriate for 4-5 year olds?**
+9. ✓ **CRITICAL: Pattern items have at least 15px gap between them (no touching/crowding)?**
+10. ✓ **Pattern sequences are obvious and repeating?**
+11. ✓ **CRITICAL: Patterns are SHORT (2-3 cycles max, NOT 4-6 cycles)?**
+12. ✓ **Age-appropriate complexity for 4-5 year olds (simple AB, ABB, ABC only)?**
 
 **If ANY fails, STOP and regenerate.**
 

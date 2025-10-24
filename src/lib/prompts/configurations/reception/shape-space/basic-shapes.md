@@ -6,10 +6,11 @@ Create a Reception basic shapes worksheet with EXACTLY {{questionCount}} questio
 
 ## RECEPTION PEDAGOGY (Ages 4-5) - NON-NEGOTIABLE RULES
 
-### Rule 1: Basic 2D Shapes Only (CRITICAL)
-- **ONLY use basic 2D shapes appropriate for ages 4-5**
-- PRIMARY SHAPES: circle, square, triangle, rectangle
-- ADDITIONAL SHAPES (for variety): star, heart
+### Rule 1: Basic 2D Shapes Only (CRITICAL - CURRICULUM REQUIREMENT)
+- **ONLY use the 4 basic geometric shapes specified in UK EYFS curriculum**
+- **ALLOWED SHAPES: circle, square, triangle, rectangle ONLY**
+- **FORBIDDEN SHAPES: star, heart, diamond, oval, pentagon, hexagon, or ANY other shapes**
+- **This is a strict curriculum requirement - using non-basic shapes = WORKSHEET FAILURE**
 - Use informal and mathematical language: 'sides', 'corners', 'straight', 'flat', 'round', 'pointy'
 
 ### Rule 2: Question Count (CRITICAL)
@@ -29,8 +30,47 @@ Create a Reception basic shapes worksheet with EXACTLY {{questionCount}} questio
 
 ### Rule 5: Age-Appropriate Language
 - **Use simple, clear instructions**
-- Vocabulary: circle, square, triangle, rectangle, star, heart, sides, corners, round, straight
+- Vocabulary: circle, square, triangle, rectangle, sides, corners, round, straight
 - Encourage tracing, coloring, circling, matching activities
+
+## VERIFIED VOCABULARY - WORKSHEET_OBJECTS LIBRARY
+
+**CRITICAL: You MUST ONLY use objects from this approved list. Using unlisted objects WILL result in broken images.**
+
+**67 objects with confirmed working images:**
+
+**Fruits (10):** apples, bananas, oranges, strawberries, grapes, pears, lemons, watermelons, peaches, pineapples
+
+**Garden & Nature (9):** flowers, butterflies, bees, birds, trees, leaves, mushrooms, worms, acorns
+
+**School Supplies (9) - Excellent for counting in shape worksheets:** books, pencils, erasers, crayons, markers, scissors, rulers, glue, backpacks
+
+**Farm Animals (9):** chickens, cows, sheep, pigs, horses, ducks, goats, geese, turkeys
+
+**Toys (5):** balls, cars, dolls, kites, blocks
+
+**Vegetables (6):** carrots, tomatoes, broccoli, cucumbers, peppers, potatoes
+
+**Sports Equipment (5):** footballs, basketballs, tennis balls, bats, medals
+
+**Food & Treats (2):** cookies, cupcakes
+
+**Shapes & Objects (4) - PRIMARY for basic shapes (CURRICULUM-COMPLIANT ONLY):** circles, squares, triangles, rectangles
+
+**NOTE FOR BASIC SHAPES WORKSHEET**: ONLY use circles, squares, triangles, rectangles. DO NOT use stars, hearts, diamonds, suns, or moons.
+
+**Vehicles (5):** cars, buses, bikes, trains, planes
+
+**FRESHNESS STRATEGY:** System provides forbidden list and priority categories. Select from fresh categories, avoid forbidden objects, target 80%+ new vocabulary.
+
+**IMAGE PATHS**: All images are in `/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png`
+
+**Example Paths:**
+- Shapes: `/images/WORKSHEET_OBJECTS/counting/shapes/star.png`
+- School: `/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png`
+- Fruits: `/images/WORKSHEET_OBJECTS/counting/fruits/apple.png`
+
+**NOTE:** All objects above have verified images in WORKSHEET_OBJECTS directory. Using objects NOT in this list will result in broken images and worksheet failure.
 
 ## PROVEN 5-QUESTION FORMAT (RESEARCH-BASED)
 
@@ -52,13 +92,13 @@ Create a Reception basic shapes worksheet with EXACTLY {{questionCount}} questio
 ```
 **Example**: Show large blue circle. "What shape is this? This is a ___" (Answer: circle)
 
-**Shape Classes:**
+**Shape Classes (ONLY BASIC SHAPES ALLOWED):**
 - `.giant-shape.circle` - Blue circle
 - `.giant-shape.square` - Red square
 - `.giant-shape.triangle` - Green triangle
 - `.giant-shape.rectangle` - Orange rectangle
-- `.giant-shape.star` - Yellow star
-- `.giant-shape.heart` - Pink heart
+
+**WARNING: DO NOT USE .star or .heart classes in Basic Shapes worksheets**
 
 ---
 
@@ -121,6 +161,12 @@ Create a Reception basic shapes worksheet with EXACTLY {{questionCount}} questio
 ### **Question 4: Shape Matching** (Properties Recognition)
 **Format**: Match shapes on left to identical shapes on right
 **Pedagogical Purpose**: Visual discrimination, same/different concept
+
+**🚨 CRITICAL - CURRICULUM COMPLIANCE:**
+- **ONLY USE**: circle, square, triangle, rectangle CSS classes
+- **FORBIDDEN**: .heart, .star, .diamond, or ANY other shape classes
+- **If you use hearts or stars → WORKSHEET WILL FAIL QUALITY CHECK**
+
 **HTML Structure**:
 ```html
 <div class="question" style="background: #FCE4EC;">
@@ -157,6 +203,14 @@ Create a Reception basic shapes worksheet with EXACTLY {{questionCount}} questio
 ### **Question 5: Shape Properties Challenge** (Consolidation)
 **Format**: Multiple choice about shape properties (sides/corners)
 **Pedagogical Purpose**: Understanding shape characteristics
+
+**🚨 CRITICAL - CURRICULUM COMPLIANCE & RENDERING:**
+- **ONLY USE**: circle, square, triangle, rectangle CSS classes
+- **FORBIDDEN**: .heart, .star, .diamond, or ANY other shape classes
+- **Triangle Rendering**: ALWAYS use `.choice-shape.triangle` CSS class - NEVER use text "Triangle" without the CSS shape
+- **Each choice box MUST have**: `<div class="choice-shape [shape]"></div>` followed by `<p class="shape-name">[Shape]</p>`
+- **If you use hearts/stars OR forget triangle CSS → WORKSHEET WILL FAIL QUALITY CHECK**
+
 **HTML Structure**:
 ```html
 <div class="question" style="background: #FFF3E0;">
@@ -296,11 +350,24 @@ body {
 }
 
 .giant-shape.triangle {
+    width: 120px !important;
+    height: 120px !important;
+    background: transparent;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+}
+
+.giant-shape.triangle::before {
+    content: '';
     width: 0;
     height: 0;
     border-left: 60px solid transparent;
     border-right: 60px solid transparent;
     border-bottom: 104px solid #27AE60;
+    position: absolute;
+    bottom: 8px;
 }
 
 .giant-shape.rectangle {
@@ -368,11 +435,24 @@ body {
 }
 
 .shape-item.triangle {
+    width: 80px !important;
+    height: 80px !important;
+    background: transparent;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+}
+
+.shape-item.triangle::before {
+    content: '';
     width: 0;
     height: 0;
     border-left: 40px solid transparent;
     border-right: 40px solid transparent;
     border-bottom: 69px solid #27AE60;
+    position: absolute;
+    bottom: 5px;
 }
 
 .shape-item.rectangle {
@@ -493,11 +573,24 @@ body {
 }
 
 .match-shape.triangle {
+    width: 60px !important;
+    height: 60px !important;
+    background: transparent;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+}
+
+.match-shape.triangle::before {
+    content: '';
     width: 0;
     height: 0;
     border-left: 30px solid transparent;
     border-right: 30px solid transparent;
     border-bottom: 52px solid #27AE60;
+    position: absolute;
+    bottom: 4px;
 }
 
 .match-shape.rectangle {
@@ -553,11 +646,24 @@ body {
 }
 
 .choice-shape.triangle {
+    width: 80px !important;
+    height: 80px !important;
+    background: transparent;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+}
+
+.choice-shape.triangle::before {
+    content: '';
     width: 0;
     height: 0;
     border-left: 40px solid transparent;
     border-right: 40px solid transparent;
     border-bottom: 69px solid #27AE60;
+    position: absolute;
+    bottom: 5px;
 }
 
 .choice-shape.rectangle {
