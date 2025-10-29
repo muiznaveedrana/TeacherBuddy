@@ -1,72 +1,152 @@
-# Year 1: Adding to 20 (COMPRESSED)
+# Year 1: Adding to 20
 
-Generate EXACTLY {{questionCount}} Year 1 adding to 20 questions.
+Generate EXACTLY {{questionCount}} questions for ages 5-6.
 
-## CRITICAL RULES
+## Rules
 
-**Sums:** 0-20 only (addends 0-12)
-**Questions:** EXACTLY {{questionCount}} - count before returning
-**Strategies:** Count all, count on, make 10, doubles, near doubles
-**Visual:** Object arrays, number lines, ten-frames
+- **Sums: 0-20** (addends 0-12)
+- **EXACTLY {{questionCount}} questions** with answer key
+- **Strategies**: Count all, count on, make 10, doubles
+- **Visuals**: Object arrays, number lines, ten-frames
 
-## 5-QUESTION FORMAT
+## 5-Question Format
 
-**Q1:** Picture addition - count all (two groups of objects, find sum)
-**Q2:** Number line addition (start point, jump forward, find end)
-**Q3:** Ten-frame addition - bridging 10 (use double ten-frames)
-**Q4:** Missing addend (given sum and one addend, find other)
-**Q5:** Word problem with WORKSHEET_OBJECTS (real-world context)
+1. Picture addition (two object groups)
+2. Number line (jumps forward)
+3. Ten-frame (bridging 10)
+4. Missing addend (find ?)
+5. Word problem (real-world context)
 
-## KEY STRATEGIES
+## Objects - VERIFIED PATHS
 
-- **Doubles:** 5+5, 6+6, 7+7, 8+8, 9+9
-- **Near doubles:** 6+7 is 6+6+1
-- **Make 10:** 8+5 = 8+2+3 = 10+3 = 13
-- **Count on:** Start from larger number
+🚨 **CRITICAL: Copy these EXACT paths - do NOT modify**
 
-## OBJECTS (WORKSHEET_OBJECTS)
+**School Supplies** (folder: `school_supplies` with underscore):
+```
+/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png
+/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png
+/images/WORKSHEET_OBJECTS/counting/school_supplies/crayon.png
+/images/WORKSHEET_OBJECTS/counting/school_supplies/eraser.png
+/images/WORKSHEET_OBJECTS/counting/school_supplies/scissors.png
+```
 
-Fruits: apple, banana, orange, strawberry
-Toys: car, ball, teddy bear, doll, kite
-School: pencil, book, crayon
-Animals: farm animals for word problems
+**Farm Animals** (folder: `farm_animals` with underscore):
+```
+/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png
+/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png
+/images/WORKSHEET_OBJECTS/counting/farm_animals/sheep.png
+/images/WORKSHEET_OBJECTS/counting/farm_animals/pig.png
+```
 
-## EXAMPLE OUTPUT
+**Fruits** (folder: `fruits`):
+```
+/images/WORKSHEET_OBJECTS/counting/fruits/apple.png
+/images/WORKSHEET_OBJECTS/counting/fruits/banana.png
+/images/WORKSHEET_OBJECTS/counting/fruits/orange.png
+```
 
-**Q1 (Picture Addition):**
+**Toys** (folder: `toys`):
+```
+/images/WORKSHEET_OBJECTS/counting/toys/car.png
+/images/WORKSHEET_OBJECTS/counting/toys/ball.png
+/images/WORKSHEET_OBJECTS/counting/toys/doll.png
+```
+## Key Strategies
+
+- Doubles: 5+5, 6+6, 7+7, 8+8, 9+9
+- Near doubles: 6+7 = 6+6+1
+- Make 10: 8+5 = 8+2+3 = 10+3 = 13
+
+## CSS
+```css
+body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px}
+.question{margin:10px 0;padding:12px;border-radius:8px}
+.question-number{font-size:18pt;font-weight:bold;margin-right:8px}
+.question-text{font-size:16pt;margin:6px 0;font-weight:600}
+.picture-addition{margin:20px auto;padding:20px;background:#f8f9ff;border:3px solid #4CAF50;border-radius:12px;max-width:600px}
+.group-container{display:flex;align-items:center;justify-content:space-around;gap:20px}
+.addend-group{text-align:center;flex:1}
+.addend-group img{margin:5px}
+.group-label{font-size:14pt;font-weight:bold;margin-top:10px}
+.plus-symbol{font-size:48pt;font-weight:bold;color:#FF9800}
+.number-line-addition{margin:20px auto;padding:20px;background:#f8f9ff;border:3px solid #2196F3;border-radius:12px;max-width:700px}
+.number-line-visual{display:flex;justify-content:space-between;padding:30px 10px 10px;position:relative}
+.number-line-visual::before{content:'';position:absolute;bottom:10px;left:3%;right:3%;height:4px;background:#333}
+.number-tick{width:40px;height:40px;background:#E0E0E0;border:2px solid #999;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13pt;font-weight:bold;z-index:1}
+.number-tick.start-point{background:#4CAF50;color:white;border-width:3px}
+.number-tick.end-point{background:#FF9800;color:white;border-width:3px}
+.jump-label{text-align:center;font-size:15pt;font-weight:bold;color:#1976D2}
+.ten-frame-addition{margin:20px auto;max-width:600px}
+.double-ten-frame{display:flex;gap:30px;justify-content:center;padding:20px;background:#f8f9ff;border:3px solid #9C27B0;border-radius:12px}
+.frame-section{text-align:center}
+.frame-label{font-size:14pt;font-weight:bold;margin-bottom:10px}
+.ten-frame{display:inline-block;padding:8px;background:white;border:3px solid #333;border-radius:8px}
+.frame-row{display:flex;gap:4px;margin-bottom:4px}
+.frame-cell{width:45px;height:45px;border:2px solid #333;border-radius:4px;background:white;position:relative}
+.frame-cell.filled{background:#4CAF50}
+.frame-cell.filled::after{content:'';width:28px;height:28px;background:#2E7D32;border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.strategy-hint{text-align:center;font-size:14pt;font-style:italic;color:#7B1FA2;margin-top:15px}
+.missing-addend-visual{margin:20px auto;max-width:400px}
+.part-whole-addition{text-align:center;padding:20px;background:#f8f9ff;border:3px solid #E91E63;border-radius:12px}
+.total-circle{width:100px;height:100px;background:#FF9800;border:4px solid #F57C00;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;margin:0 auto 20px}
+.total-number{font-size:36pt;font-weight:bold;color:white}
+.parts-addition{display:flex;justify-content:center;gap:20px;margin-top:20px}
+.part-box{width:70px;height:70px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:3px solid}
+.part-box.filled{background:#4CAF50;border-color:#2E7D32}
+.part-box.missing{background:white;border-color:#FF5722;border-style:dashed}
+.part-number{font-size:28pt;font-weight:bold;color:white}
+.part-box.missing .part-number{color:#FF5722}
+.word-problem-visual{margin:20px auto;padding:20px;background:#f8f9ff;border:3px solid #FF5722;border-radius:12px;max-width:600px}
+.problem-illustration{display:flex;gap:30px;justify-content:space-around}
+.initial-group,.added-group{text-align:center;flex:1}
+.illustration-label{font-size:13pt;font-weight:bold;margin-bottom:10px}
+.object-array{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.addition-equation{display:flex;align-items:center;justify-content:center;gap:15px;margin:20px auto;padding:15px;background:white;border:3px solid #333;border-radius:12px;max-width:400px;font-size:24pt;font-weight:bold}
+.number{min-width:50px;text-align:center}
+.operator{font-size:28pt;color:#FF9800}
+.answer-box{display:inline-block;min-width:60px;height:50px;border:3px solid #333;border-radius:8px;background:#FFF9C4}
+.answer-prompt{font-size:15pt;margin:15px 0;font-weight:600;text-align:center}
+.answer-key{margin-top:30px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px}
+.answer-key-title{font-size:14pt;font-weight:bold;margin:0 0 10px 0;text-align:center}
+</style>
+```
+
+## Q1 Example
 ```html
 <div class="question" style="background: #FFF9C4;">
-    <p class="question-text"><span class="question-number">1.</span> Add the apples. How many in total?</p>
+    <p class="question-text"><span class="question-number">1.</span> Count the chickens. How many in total?</p>
     <div class="picture-addition">
         <div class="group-container">
             <div class="addend-group">
-                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
-                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
-                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
-                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
-                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
-                <p class="group-label">5 apples</p>
+                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
+                <p class="group-label">6 chickens</p>
             </div>
             <div class="plus-symbol">+</div>
             <div class="addend-group">
-                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
-                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
-                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="45" height="45" alt="Apple" />
-                <p class="group-label">3 apples</p>
+                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
+                <p class="group-label">4 chickens</p>
             </div>
         </div>
     </div>
     <div class="addition-equation">
-        <span class="number">5</span>
+        <span class="number">6</span>
         <span class="operator">+</span>
-        <span class="number">3</span>
+        <span class="number">4</span>
         <span class="operator">=</span>
         <span class="answer-box"></span>
     </div>
 </div>
 ```
 
-**Q3 (Ten-Frame Bridging):**
+## Q3 Example
 ```html
 <div class="question" style="background: #F1F8E9;">
     <p class="question-text"><span class="question-number">3.</span> Use the ten-frames to add.</p>
@@ -123,20 +203,30 @@ Animals: farm animals for word problems
 </div>
 ```
 
-**Answer Key:**
+## Answer Key
 ```html
 <div class="answer-key">
     <h2 class="answer-key-title">Answer Key</h2>
     <div class="answer-key-content">
-        <p><strong>1.</strong> 8 (5 + 3)</p>
-        <p><strong>2.</strong> 12 (7 + 5, number line)</p>
-        <p><strong>3.</strong> 14 (8 + 6, bridging 10)</p>
+        <p><strong>1.</strong> 10 (6 + 4)</p>
+        <p><strong>2.</strong> 11 (7 + 4, number line)</p>
+        <p><strong>3.</strong> 14 (8 + 6, ten-frames)</p>
         <p><strong>4.</strong> 6 (7 + ? = 13)</p>
-        <p><strong>5.</strong> 14 cars (9 + 5 word problem)</p>
+        <p><strong>5.</strong> 13 toys (8 + 5, word problem)</p>
     </div>
 </div>
 ```
 
-Replace {{topic}}, {{subtopic}}, {{yearGroup}}, {{difficulty}}, {{questionCount}} with actual values.
+## Final Checks
 
-Generate worksheet NOW.
+- [ ] EXACTLY {{questionCount}} questions
+- [ ] All sums 0-20
+- [ ] Used SINGULAR filenames (chicken.png NOT chickens.png)
+- [ ] Q1: Picture addition
+- [ ] Q2: Number line
+- [ ] Q3: Ten-frames
+- [ ] Q4: Missing addend
+- [ ] Q5: Word problem
+- [ ] Answer key included
+
+Generate now.
