@@ -11,8 +11,8 @@
 ### 1. Visual Display
 - **Mandatory:** Use `<img>` tags for ALL objects (never text)
 - Pattern: `/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png`
-- Size: width="60" height="60" (consistent for all)
-- Format: `<img src="{path}" width="60" height="60" alt="{Object}" />`
+- Size: width="50" height="50" (consistent for all)
+- Format: `<img src="{path}" width="50" height="50" alt="{Object}" />`
 
 ### 2. Comparison Requirements
 - Minimum 2-3 object difference between groups (clear visual distinction)
@@ -55,14 +55,14 @@ Girls: Emma, Lily, Sophie, Ava, Mia, Isla, Grace, Ella
         <div class="comparison-group">
             <span class="group-label">Group A</span>
             <div class="objects-display">
-                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="60" height="60" alt="Apple" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="50" height="50" alt="Apple" />
                 <!-- Repeat 3x total -->
             </div>
         </div>
         <div class="comparison-group">
             <span class="group-label">Group B</span>
             <div class="objects-display">
-                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="60" height="60" alt="Apple" />
+                <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="50" height="50" alt="Apple" />
                 <!-- Repeat 7x total -->
             </div>
         </div>

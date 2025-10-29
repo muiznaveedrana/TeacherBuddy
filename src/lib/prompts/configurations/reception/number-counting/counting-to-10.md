@@ -80,7 +80,7 @@ Use these formats ONLY (vary usage across questions):
 <div class="question" style="background: #FFF9C4;">
     <p class="question-text"><span class="question-number">1.</span> How many apples are there?</p>
     <div class="counting-objects-grid">
-        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="80" height="80" alt="Apple" />
+        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="50" height="50" alt="Apple" />
         <!-- Repeat for actual count (e.g., 7 times) -->
     </div>
     <p class="answer-line">Answer: _________</p>
@@ -89,3 +89,4 @@ Use these formats ONLY (vary usage across questions):
 
 **Generate EXACTLY {{questionCount}} questions - NO MORE, NO LESS**
 Count your questions before returning: 1, 2, 3, 4, 5 = {{questionCount}} questions
+

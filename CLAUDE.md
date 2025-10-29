@@ -38,6 +38,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Always use the worksheet-quality-assessor  agent for test. do not fallback to simpler testing.
 - when I say run agent then it should default 3 worksheets(iterations) per cycle and two cycles
 - when I say run paralell agent then run batch-paralell-agent and show html report with screenshots after worksheet vision assessment in the same agent and open final html with screenshots and assessment using chrome
+- **Screenshot workflow (snip)**: When user says "snip", automatically run `powershell -ExecutionPolicy Bypass -File save-snip.ps1` to save clipboard screenshot as latest-snip.png, then immediately read and display the image. User workflow: Win+Shift+S → take screenshot → type "snip" to Claude.
+
 ## Worksheet Vision Assessment (CRITICAL - STRICT CRITERIA)
 - **When user says "assess worksheets"**: Apply STRICT criteria from `scripts/STRICT-VISION-ASSESSMENT-CRITERIA.md`
 - **Zero-tolerance policy**: ANY broken images, identical objects in comparisons, or missing questions = AUTOMATIC FAIL
