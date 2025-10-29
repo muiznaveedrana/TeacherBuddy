@@ -172,7 +172,7 @@ export class PromptService {
 
       // Inject lean freshness instructions from previous worksheets
       // LEAN FRESHNESS is now the permanent default (simpler, faster, proven effective)
-      const freshnessInstructions = this.buildFreshnessInstructionsLean(previousWorksheets);
+      const freshnessInstructions = this.buildFreshnessInstructionsLean(previousWorksheets, config.subtopic);
 
       // Add freshness instructions if available
       if (freshnessInstructions) {
@@ -325,7 +325,7 @@ export class PromptService {
 
     // Build lean freshness instructions if we have previous worksheets
     // LEAN FRESHNESS is now the permanent default (simpler, faster, proven effective)
-    const freshnessInstructions = this.buildFreshnessInstructionsLean(previousWorksheets)
+    const freshnessInstructions = this.buildFreshnessInstructionsLean(previousWorksheets, config.subtopic)
 
     // 🔍 FRESHNESS DEBUG: Log freshness instructions generation
     console.log('🔍 Freshness instructions generated:', freshnessInstructions ? 'YES' : 'NO')
@@ -1828,8 +1828,44 @@ ${historyLines}
    *
    * RESULT: ~350-420 tokens → ~120-150 tokens (64-68% reduction)
    */
+  /**
+   * Pattern question variations for randomization (ultra-compact for tokens)
+   * Generates different pattern questions each worksheet
+   */
+  private static PATTERN_VARIATIONS = {
+    types: ['AB','ABB','AAB','ABC','AABB'],
+    q1: ['R/B','R/G','R/Y','B/G','B/Y','G/Y','O/P','R/O','B/P','Y/O','G/P','Y/P','R/P','B/O','G/B'],
+    q2: ['G/Y','B/O','R/P','Y/P','G/O','B/R','O/Y','P/B','R/G','Y/B','P/G','O/R'],
+    q5types: ['ABC','AAB','ABB'],
+    q5: ['R/B/G','R/Y/B','G/O/P','Y/R/P','B/Y/G','R/G/O','B/R/Y','Y/G/B','P/O/R','O/Y/P','G/P/Y','R/O/B'],
+    obj: ['fruits','farm_animals','toys','vehicles','school_supplies','garden','sports_equipment','food_items','household_items','nature_items','stationery'],
+    copyStyles: ['AB','ABB','ABC','grid','extend']
+  };
+
+  /**
+   * Select random pattern question specs (compact output)
+   */
+  private static selectPatternQuestions(used?: {c1?:string[],c2?:string[],c5?:string[],o?:string[]}) {
+    const v = this.PATTERN_VARIATIONS;
+    const u = used || {c1:[],c2:[],c5:[],o:[]};
+    const pick = (arr: string[], avoid: string[]) => {
+      const avail = arr.filter(x => !avoid.includes(x));
+      return avail[Math.floor(Math.random() * avail.length)] || arr[0];
+    };
+
+    return {
+      q1: `${pick(v.types.filter(t=>t!='ABC'&&t!='AABB'),[])}/${pick(v.q1,u.c1||[])}`,
+      q2: `${pick(v.types.filter(t=>t!='AB'),[])}/${pick(v.q2,u.c2||[])}`,
+      q3: `copy/${pick(v.copyStyles,[])}`,
+      q4: `${pick(v.types,[])}/${pick(v.obj,u.o||[])}`,
+      q5: `${pick(v.q5types,[])}/${pick(v.q5,u.c5||[])}`
+    };
+  }
+
+
   private static buildFreshnessInstructionsLean(
-    previousWorksheets?: Array<{ questions: string[]; images: string[] }>
+    previousWorksheets?: Array<{ questions: string[]; images: string[] }>,
+    subtopic?: string
   ): string {
     // PHASE 2 OPTIMIZATION: Lazy Freshness - Skip freshness on first worksheet
     // FIRST WORKSHEET: Return empty string (let LLM use natural randomness)
@@ -1848,6 +1884,37 @@ ${historyLines}
 
     console.log('🔍 [LEAN] buildFreshnessInstructions: Received', previousWorksheets?.length || 0, 'previous worksheets')
     console.log(`🔄 [LEAN] Using ${WINDOW_SIZE}-worksheet sliding window: tracking last ${recentWorksheets.length} worksheets`)
+
+    // 🎨 PATTERN WORKSHEET DETECTION: Inject pattern question specs for variety
+    const isPatterns = subtopic?.toLowerCase().includes('pattern');
+    console.log("🎨 [PATTERN DEBUG] subtopic:", subtopic, "isPatterns:", isPatterns);
+    if (isPatterns && previousWorksheets && previousWorksheets.length > 0) {
+      // Extract used color combinations from previous worksheets
+      const usedColors: {c1:string[],c2:string[],c5:string[],o:string[]} = {c1:[],c2:[],c5:[],o:[]};
+      recentWorksheets.forEach(w => {
+        const html = w.questions.join(' ');
+        // Extract Q1 colors (first patterns in worksheet)
+        const q1Match = html.match(/pattern-item \w+ (red|blue|green|yellow|orange|purple)/gi);
+        if (q1Match && q1Match.length >= 2) {
+          const c1 = q1Match.slice(0,2).map(m => m.split(' ').pop()?.[0]?.toUpperCase() || '').filter(x => x).join('/');
+          if (c1.length === 3 && !usedColors.c1.includes(c1)) usedColors.c1.push(c1);
+        }
+      });
+
+      // Select fresh pattern specs
+      const specs = this.selectPatternQuestions(usedColors);
+
+      // Ultra-compact output (saves ~100+ tokens vs verbose format)
+      console.log("🎨 [PATTERN SPECS]", specs);
+      const patternInstructions = `**ITER ${previousWorksheets.length} PATTERNS:**
+Q1:${specs.q1}|Q2:${specs.q2}|Q3:${specs.q3}|Q4:${specs.q4}|Q5:${specs.q5}
+AVOID:${usedColors.c1.join(',')||'none'}
+RULE:Use EXACT specs above for variation.
+`;
+      console.log("🎨 [PATTERN FRESHNESS OUTPUT]:", patternInstructions);
+      return patternInstructions;
+
+    }
 
     // Extract forbidden objects from recent worksheets
     const allPreviousQuestions = recentWorksheets.flatMap(w => w.questions)
