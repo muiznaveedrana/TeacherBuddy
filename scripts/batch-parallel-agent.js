@@ -360,74 +360,91 @@ function addToAssessmentQueue(screenshotData, sessionDir) {
 // PARALLEL WORKSHEET GENERATOR
 // ============================================================================
 
-async function generateWorksheetInContext(page, worksheetId, config, screenshotDir, configId) {
+async function generateWorksheetInContext(page, worksheetId, config, screenshotDir, configId, isRegenerate = false) {
   const startTime = performance.now();
 
   try {
     console.log(`      📄 [WS-${worksheetId}] Starting generation...`);
 
-    // Navigate to dashboard
-    await page.goto(`${AGENT_CONFIG.BASE_URL}/dashboard`, {
-      waitUntil: 'networkidle',
-      timeout: AGENT_CONFIG.TIMEOUT
-    });
+    if (isRegenerate) {
+      // FRESHNESS FIX: For subsequent worksheets, click Regenerate instead of reloading
+      console.log(`      🔄 [WS-${worksheetId}] Clicking Regenerate to preserve React state...`);
 
-    // Wait for year-group select
-    await page.waitForSelector('[data-testid="year-group-select"]', { timeout: 10000 });
+      // Click the Regenerate button
+      const regenerateButton = page.getByRole('button', { name: 'Regenerate' });
+      await regenerateButton.waitFor({ state: 'visible', timeout: 5000 });
+      await regenerateButton.click();
+    } else {
+      // First worksheet: Navigate to dashboard and configure
+      await page.goto(`${AGENT_CONFIG.BASE_URL}/dashboard`, {
+        waitUntil: 'networkidle',
+        timeout: AGENT_CONFIG.TIMEOUT
+      });
 
-    // Select Year Group
-    const yearGroupValue = config.yearGroup.toLowerCase().replace(/\s+/g, '-');
-    await page.getByTestId('year-group-select').click();
-    await page.waitForTimeout(300); // Small delay for dropdown animation
-    await page.getByTestId(`year-group-option-${yearGroupValue}`).click();
+      // Wait for year-group select
+      await page.waitForSelector('[data-testid="year-group-select"]', { timeout: 10000 });
 
-    // Wait for topic dropdown
-    await page.waitForSelector('[data-testid="topic-select"]:not([disabled])', { timeout: 10000 });
+      // Select Year Group
+      const yearGroupValue = config.yearGroup.toLowerCase().replace(/\s+/g, '-');
+      await page.getByTestId('year-group-select').click();
+      await page.waitForTimeout(300); // Small delay for dropdown animation
+      await page.getByTestId(`year-group-option-${yearGroupValue}`).click();
 
-    // Select Topic
-    const topicValue = config.topicValue || config.topic.toLowerCase().replace(/\s+/g, '-');
-    await page.getByTestId('topic-select').click();
-    await page.waitForTimeout(300); // Small delay for dropdown animation
-    await page.waitForSelector(`[data-testid="topic-option-${topicValue}"]`, { timeout: 10000, state: 'visible' });
-    await page.getByTestId(`topic-option-${topicValue}`).click();
+      // Wait for topic dropdown
+      await page.waitForSelector('[data-testid="topic-select"]:not([disabled])', { timeout: 10000 });
 
-    // Wait for subtopic dropdown
-    await page.waitForSelector('[data-testid="subtopic-select"]:not([disabled])', { timeout: 10000 });
+      // Select Topic
+      const topicValue = config.topicValue || config.topic.toLowerCase().replace(/\s+/g, '-');
+      await page.getByTestId('topic-select').click();
+      await page.waitForTimeout(300); // Small delay for dropdown animation
+      await page.waitForSelector(`[data-testid="topic-option-${topicValue}"]`, { timeout: 10000, state: 'visible' });
+      await page.getByTestId(`topic-option-${topicValue}`).click();
 
-    // Select Subtopic
-    const subtopicValue = config.subtopicValue || config.subtopic.toLowerCase().replace(/\s+/g, '-');
-    console.log(`      🔍 [WS-${worksheetId}] Selecting subtopic: ${subtopicValue}`);
-    await page.getByTestId('subtopic-select').click();
-    await page.waitForTimeout(500); // Longer delay for dropdown animation and state update
-    await page.waitForSelector(`[data-testid="subtopic-option-${subtopicValue}"]`, { timeout: 10000, state: 'visible' });
-    await page.getByTestId(`subtopic-option-${subtopicValue}`).click();
-    await page.waitForTimeout(500); // Wait for state to update after click
+      // Wait for subtopic dropdown
+      await page.waitForSelector('[data-testid="subtopic-select"]:not([disabled])', { timeout: 10000 });
 
-    // Verify subtopic was selected correctly
-    const selectedSubtopic = await page.getByTestId('subtopic-select').textContent();
-    console.log(`      ✅ [WS-${worksheetId}] Subtopic selected: ${selectedSubtopic}`);
+      // Select Subtopic
+      const subtopicValue = config.subtopicValue || config.subtopic.toLowerCase().replace(/\s+/g, '-');
+      console.log(`      🔍 [WS-${worksheetId}] Selecting subtopic: ${subtopicValue}`);
+      await page.getByTestId('subtopic-select').click();
+      await page.waitForTimeout(500); // Longer delay for dropdown animation and state update
+      await page.waitForSelector(`[data-testid="subtopic-option-${subtopicValue}"]`, { timeout: 10000, state: 'visible' });
+      await page.getByTestId(`subtopic-option-${subtopicValue}`).click();
+      await page.waitForTimeout(500); // Wait for state to update after click
 
-    // Wait for form state update
-    await page.waitForLoadState('domcontentloaded');
+      // Verify subtopic was selected correctly
+      const selectedSubtopic = await page.getByTestId('subtopic-select').textContent();
+      console.log(`      ✅ [WS-${worksheetId}] Subtopic selected: ${selectedSubtopic}`);
 
-    // Select Difficulty
-    if (config.difficulty) {
-      await page.click(`#difficulty-${config.difficulty}`);
+      // Wait for form state update
       await page.waitForLoadState('domcontentloaded');
-    }
 
-    // Click Generate
-    const generateButton = page.getByRole('button', { name: 'Generate Worksheet' });
-    const isEnabled = await generateButton.isEnabled();
-    if (!isEnabled) {
-      throw new Error('Generate button is disabled');
+      // SKIP: Difficulty Selection - HIDDEN in UI (not implemented in backend)
+      // The difficulty field is hidden via CSS in dashboard/page.tsx line 672
+      // if (config.difficulty) {
+      //   await page.click(`#difficulty-${config.difficulty}`);
+      //   await page.waitForLoadState('domcontentloaded');
+      // }
+
+      // Click Generate
+      const generateButton = page.getByRole('button', { name: 'Generate Worksheet' });
+      const isEnabled = await generateButton.isEnabled();
+      if (!isEnabled) {
+        throw new Error('Generate button is disabled');
+      }
+      await generateButton.click();
     }
-    await generateButton.click();
 
     console.log(`      ⏳ [WS-${worksheetId}] Waiting for generation...`);
 
     // Wait for completion - Download button appears
     await page.waitForSelector('text=Download', { timeout: AGENT_CONFIG.TIMEOUT });
+
+    // FRESHNESS FIX: Give React time to complete state updates
+    // The frontend extracts worksheet data and updates previousWorksheets state
+    // BEFORE showing the Download button, but React state updates are async.
+    // Wait 500ms to ensure state update completes before next Regenerate click.
+    await page.waitForTimeout(500);
 
     // CRITICAL: Wait for worksheet content to actually render (not just config screen)
     // With streaming enabled, we wait for the preview to be visible
@@ -621,26 +638,30 @@ async function processBatchSequential(browser, batchNum, config) {
   const results = [];
   const worksheetIds = Array.from({ length: AGENT_CONFIG.BATCH_SIZE }, (_, i) => i + 1);
 
-  console.log(`   🚀 Starting sequential generation...\n`);
+  console.log(`   🚀 Starting sequential generation (reusing context for freshness)...\n`);
 
-  for (const worksheetId of worksheetIds) {
-    const contextId = `batch${batchNum}-ws${worksheetId}`;
-    const { page } = await contextManager.createContext(contextId);
+  // FRESHNESS FIX: Create ONE context and reuse it for all worksheets
+  const contextId = `batch${batchNum}-shared`;
+  const { page } = await contextManager.createContext(contextId);
 
-    try {
-      const result = await generateWorksheetInContext(page, worksheetId, config, screenshotDir, config.configId);
-      results.push(result);
-    } catch (error) {
-      results.push({
-        success: false,
-        worksheetId,
-        error: error.message,
-        userMessage: 'Sorry for the inconvenience, please regenerate. Thanks!',
-        generationTime: 0
-      });
-    } finally {
-      await contextManager.closeContext(contextId);
+  try {
+    for (const worksheetId of worksheetIds) {
+      try {
+        const result = await generateWorksheetInContext(page, worksheetId, config, screenshotDir, config.configId, worksheetId > 1);
+        results.push(result);
+      } catch (error) {
+        results.push({
+          success: false,
+          worksheetId,
+          error: error.message,
+          userMessage: 'Sorry for the inconvenience, please regenerate. Thanks!',
+          generationTime: 0
+        });
+      }
     }
+  } finally {
+    // Close the shared context after all worksheets are done
+    await contextManager.closeContext(contextId);
   }
 
   // Close all contexts

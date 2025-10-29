@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Navigation } from '@/components/ui/navigation'
@@ -69,6 +69,10 @@ export default function DashboardPage() {
   // Cross-iteration freshness tracking
   const [previousWorksheets, setPreviousWorksheets] = useState<Array<{ questions: string[]; images: string[] }>>([])
 
+  // FRESHNESS FIX: Use ref for synchronous access (bypasses React's async state batching)
+  // The ref always holds the current value, even during re-renders
+  const previousWorksheetsRef = useRef<Array<{ questions: string[]; images: string[] }>>([])
+
   // 🔍 DEBUG: Log worksheet history state changes
   useEffect(() => {
     console.log('🔍 DASHBOARD: previousWorksheets state updated:', previousWorksheets.length, 'worksheets')
@@ -79,8 +83,9 @@ export default function DashboardPage() {
   
   const canGenerate = hasConfiguration && generationState !== 'generating'
   const showPreview = generationState === 'completed' && generatedWorksheet
-  const showAds = generationState !== 'completed'
+  const showAds = generationState === 'idle' // Only show ads when idle, not during generation
   const showError = generationState === 'error'
+  const showGenerating = generationState === 'generating' // Show generating state explicitly
   
   // Curriculum hierarchy state
   const isTopicDisabled = !yearGroup || loadingTopics
@@ -126,35 +131,59 @@ export default function DashboardPage() {
     // Store found objects as the "questions" array for compatibility
     questions.push(...Array.from(foundObjects))
 
-    // Extract image paths from SCRAPPING DOODLE collections
+    // Extract image paths from WORKSHEET_OBJECTS collections
     const images: string[] = []
     const imageElements = doc.querySelectorAll('img')
     imageElements.forEach(img => {
       const src = img.getAttribute('src')
       // Only track images from our collections (exclude UI icons, etc.)
-      if (src && src.includes('SCRAPPING')) {
+      if (src && src.includes('WORKSHEET_OBJECTS')) {
         images.push(src)
       }
     })
 
-    console.log(`🔍 DEBUG: Extracted ${questions.length} objects: ${questions.join(', ')}`)
+    console.log(`🔍 DEBUG: Extracted ${questions.length} vocabulary items:`, questions.slice(0, 5))
+    console.log(`🔍 DEBUG: Extracted ${images.length} images:`, images.slice(0, 3))
+
+    // CRITICAL: Ensure we always have questions for freshness to work
+    if (questions.length === 0) {
+      console.warn('⚠️ No vocabulary extracted! Freshness will fail.')
+    }
+
     return { questions, images }
   }
 
   const handleGenerate = async () => {
     if (!hasConfiguration) return
 
+    // IMMEDIATE FEEDBACK: Set generating state BEFORE any async operations
+    // This prevents blank screen while waiting for server to respond
     setGenerationState('generating')
     setProgress(0)
     setErrorMessage('')
     setGeneratedWorksheet(null)
 
     try {
+      // FRESHNESS FIX: Use ref value (synchronous) instead of state (async)
+      const worksheetsToSend = previousWorksheetsRef.current
+
       // 🔍 DEBUG: Log API request payload
-      console.log('🔍 DASHBOARD: Sending streaming API request with previousWorksheets:', previousWorksheets.length, 'worksheets')
-      if (previousWorksheets.length > 0) {
-        console.log('🔍 DASHBOARD: First previous worksheet:', previousWorksheets[0])
+      console.log('🔍 DASHBOARD: ========== STARTING GENERATION ==========')
+      console.log('🔍 DASHBOARD: Current ref value:', previousWorksheetsRef.current)
+      console.log('🔍 DASHBOARD: Sending streaming API request with previousWorksheets:', worksheetsToSend.length, 'worksheets')
+      console.log('🔍 DASHBOARD: Full worksheets to send:', JSON.stringify(worksheetsToSend, null, 2))
+      if (worksheetsToSend.length > 0) {
+        console.log('🔍 DASHBOARD: First previous worksheet:', {
+          questions: worksheetsToSend[0].questions.length,
+          images: worksheetsToSend[0].images.length,
+          sampleImage: worksheetsToSend[0].images[0],
+          allQuestions: worksheetsToSend[0].questions,
+          allImages: worksheetsToSend[0].images
+        })
+      } else {
+        console.log('⚠️ DASHBOARD: No previous worksheets - this is worksheet #1 (freshness will be skipped)')
       }
+      console.log('🔍 DASHBOARD: ====================================================')
 
       // Call the streaming worksheet generation API using Server-Sent Events
       const requestBody = JSON.stringify({
@@ -166,7 +195,7 @@ export default function DashboardPage() {
         nameList: nameList === 'none' ? '' : nameList,
         yearGroup,
         ...(visualTheme && visualTheme !== 'none' && { visualTheme }),
-        previousWorksheets
+        previousWorksheets: worksheetsToSend
       })
 
       const response = await fetch('/api/generate-stream', {
@@ -222,6 +251,8 @@ export default function DashboardPage() {
             if (event.type === 'start') {
               console.log('🌊 DASHBOARD: Generation started')
               setProgress(10)
+              // State is already 'generating' from handleGenerate() start
+              // Just update progress here
 
             } else if (event.type === 'progress') {
               // Progressive HTML update - show partial content!
@@ -267,20 +298,51 @@ export default function DashboardPage() {
 
               // Set final worksheet
               if (event.worksheet) {
-                setGeneratedWorksheet(event.worksheet)
-                setGenerationState('completed')
-
-                // Extract and store worksheet data for freshness tracking
+                // CRITICAL FIX: Extract and update state BEFORE setting completion status
+                // This prevents race conditions with automated clicking of "Regenerate" button
                 console.log('🔍 DASHBOARD: Extracting worksheet data from generated HTML')
-                const worksheetData = extractWorksheetData(event.worksheet.html)
-                console.log('🔍 DASHBOARD: Extracted data:', worksheetData)
+                console.log('🔍 DASHBOARD: HTML length:', event.worksheet.html.length, 'chars')
+                console.log('🔍 DASHBOARD: HTML preview (first 500 chars):', event.worksheet.html.substring(0, 500))
 
+                const worksheetData = extractWorksheetData(event.worksheet.html)
+                console.log('🔍 DASHBOARD: Extracted data:', {
+                  questions: worksheetData.questions.length,
+                  images: worksheetData.images.length,
+                  firstImage: worksheetData.images[0] || 'none',
+                  allQuestions: worksheetData.questions,
+                  allImages: worksheetData.images
+                })
+
+                // Warn if no images extracted (freshness will fail)
+                if (worksheetData.images.length === 0) {
+                  console.warn('⚠️ DASHBOARD: No images extracted! Freshness mechanism will not work.')
+                  console.warn('⚠️ Check if HTML contains WORKSHEET_OBJECTS image paths')
+                }
+
+                // FRESHNESS FIX: Update ref SYNCHRONOUSLY (immediate access for next generation)
+                // Then update state (for UI consistency)
+                console.log('🔍 DASHBOARD: BEFORE ref update - ref length:', previousWorksheetsRef.current.length)
+                previousWorksheetsRef.current = [...previousWorksheetsRef.current, worksheetData]
+                console.log('🔍 DASHBOARD: AFTER ref update - ref length:', previousWorksheetsRef.current.length)
+                console.log('🔍 DASHBOARD: Full ref content:', JSON.stringify(previousWorksheetsRef.current, null, 2))
+
+                // Also update state for UI consistency (React will batch this asynchronously)
                 setPreviousWorksheets(prev => {
                   const updated = [...prev, worksheetData]
-                  console.log('🔍 DASHBOARD: Updated previousWorksheets array, new length:', updated.length)
+                  console.log('🔍 DASHBOARD: Updated previousWorksheets state, new length:', updated.length)
+                  if (updated.length > 0) {
+                    console.log('🔍 DASHBOARD: Previous worksheet sample:', {
+                      questions: updated[updated.length - 1].questions.length,
+                      images: updated[updated.length - 1].images.length
+                    })
+                  }
                   return updated
                 })
                 console.log(`🔄 Freshness tracking: Stored worksheet data (${worksheetData.questions.length} questions, ${worksheetData.images.length} images)`)
+
+                // NOW set worksheet and completion status (Download button will appear)
+                setGeneratedWorksheet(event.worksheet)
+                setGenerationState('completed')
               }
 
             } else if (event.type === 'error') {
@@ -668,8 +730,8 @@ export default function DashboardPage() {
                   </Select>
                 </div>
 
-                {/* Difficulty Selection */}
-                <div className="space-y-3">
+                {/* Difficulty Selection - HIDDEN: Not implemented in backend */}
+                <div className="space-y-3 hidden">
                   <Label className="text-base md:text-sm">Difficulty Level</Label>
                   <div className="flex flex-col gap-4 md:gap-3">
                     {[
@@ -797,7 +859,20 @@ export default function DashboardPage() {
           <div className="w-full lg:col-span-7 order-2">
             <Card className="h-full min-h-[400px] md:min-h-[500px]">
               <CardContent className="p-0 h-full">
-                {showAds ? (
+                {showGenerating ? (
+                  /* Generating State - Immediate feedback */
+                  <div className="h-full flex items-center justify-center bg-blue-50">
+                    <div className="text-center p-6">
+                      <Loader2 className="w-16 h-16 text-blue-600 mx-auto mb-4 animate-spin" />
+                      <h3 className="text-lg font-medium text-blue-900 mb-2">Generating Your Worksheet...</h3>
+                      <p className="text-sm text-blue-700 mb-4">
+                        Creating curriculum-aligned questions with personalized content
+                      </p>
+                      <Progress value={progress} className="w-64 mx-auto" />
+                      <p className="text-xs text-blue-600 mt-2">{Math.round(progress)}% complete</p>
+                    </div>
+                  </div>
+                ) : showAds ? (
                   /* Ad Placeholder */
                   <div className="h-full flex items-center justify-center bg-slate-100 border-2 border-dashed border-slate-300 rounded-lg m-4">
                     <div className="text-center p-6">

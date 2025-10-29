@@ -1358,7 +1358,8 @@ Show TWO groups side by side for comparison:
       const recentWorksheets = options.previousWorksheets.slice(-2);
       recentWorksheets.forEach(ws => {
         ws.images.forEach(imgPath => {
-          const match = imgPath.match(/SCRAPPING DOODLE\/([^\/]+)/i);
+          // Extract category from WORKSHEET_OBJECTS paths: /images/WORKSHEET_OBJECTS/counting/{category}/{object}.png
+          const match = imgPath.match(/WORKSHEET_OBJECTS\/counting\/([^\/]+)\//i);
           if (match) {
             recentlyUsedCollections.add(match[1]);
           }

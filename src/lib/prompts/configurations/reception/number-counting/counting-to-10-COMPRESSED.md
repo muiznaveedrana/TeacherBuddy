@@ -1,154 +1,91 @@
-# Reception: Counting to 10 (COMPRESSED)
+# Reception Counting Worksheet Generator (1-10)
 
-Generate EXACTLY {{questionCount}} Reception counting questions.
+## Parameters
+**CRITICAL CONSTRAINT: Generate EXACTLY {{questionCount}} questions.**
+- Questions: {{questionCount}} (exact count required)
+- Year Group: Reception
+- Number Range: 1-10 only
+- Topic: Counting to 10
 
-## 🚨 ABSOLUTE RULE - IMG TAGS ONLY (NO EXCEPTIONS)
+## 🚫 FORBIDDEN QUESTION FORMAT (VIOLATION = UNUSABLE WORKSHEET)
 
-**YOU MUST USE `<img>` TAGS FOR ALL OBJECTS - NEVER TEXT LABELS**
+**YOU MUST NEVER STATE THE NUMBER IN THE QUESTION TEXT.**
 
-### CRITICAL: Object Substitution Examples
+The student must count the images to find the answer. If you include the number in the question, the student can answer without counting, making the worksheet completely useless.
 
-When you see examples with one object, use the EXACT SAME pattern for ANY object you choose:
+**FORBIDDEN FORMATS - DO NOT USE THESE:**
+- ❌ "[Name] has 8 [objects]. How many [objects] does [Name] have?"
+- ❌ "[Name] is counting 5 [objects]. How many are there?"
+- ❌ "There are 3 [objects]. How many [objects] are there?"
+- ❌ ANY format that mentions a specific number before asking the question
 
-**Example 1: Fruits** (showing 3 apples):
-```html
-<img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="80" height="80" alt="Apple" />
-<img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="80" height="80" alt="Apple" />
-<img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="80" height="80" alt="Apple" />
-```
+**ONLY USE THESE APPROVED FORMATS:**
+- ✅ "How many [objects] are there?"
+- ✅ "How many [objects] does [Name] have?"
+- ✅ "Count the [objects]."
+- ✅ "[Name] is counting [objects]. How many are there?"
 
-**Example 2: Farm Animals** (showing 4 cows):
-```html
-<img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png" width="80" height="80" alt="Cow" />
-<img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png" width="80" height="80" alt="Cow" />
-<img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png" width="80" height="80" alt="Cow" />
-<img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png" width="80" height="80" alt="Cow" />
-```
+## Core Requirements
 
-**Example 3: School Supplies** (showing 6 books):
-```html
-<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="80" height="80" alt="Book" />
-<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="80" height="80" alt="Book" />
-<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="80" height="80" alt="Book" />
-<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="80" height="80" alt="Book" />
-<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="80" height="80" alt="Book" />
-<img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png" width="80" height="80" alt="Book" />
-```
+### 1. Image Display Rules
+**MANDATORY:** Use `<img>` tags for ALL countable objects
+- Pattern: `/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png`
+- Format: `<img src="{path}" width="60" height="60" alt="{Object}" />`
+- NEVER use text labels or emoji for countable items
 
-**Example 4: Toys** (showing 5 balls):
-```html
-<img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="80" height="80" alt="Ball" />
-<img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="80" height="80" alt="Ball" />
-<img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="80" height="80" alt="Ball" />
-<img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="80" height="80" alt="Ball" />
-<img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="80" height="80" alt="Ball" />
-```
+### 2. Question Structure
+Each question must have:
+- Colored background (rotate: #FFF9C4, #F1F8E9, #E3F2FD, #FCE4EC, #FFF3E0)
+- Question text with number
+- `.counting-objects-grid` container with images
+- Answer line
 
-**Example 5: Garden** (showing 7 flowers):
-```html
-<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="80" height="80" alt="Flower" />
-<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="80" height="80" alt="Flower" />
-<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="80" height="80" alt="Flower" />
-<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="80" height="80" alt="Flower" />
-<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="80" height="80" alt="Flower" />
-<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="80" height="80" alt="Flower" />
-<img src="/images/WORKSHEET_OBJECTS/counting/garden/flower.png" width="80" height="80" alt="Flower" />
-```
-
-❌ **FORBIDDEN** - Text labels:
-```html
-Cow Cow Cow Cow
-Book Book Book Book Book Book
-Ball Ball Ball Ball Ball
-```
-
-❌ **FORBIDDEN** - Mixing img tags with text:
-```html
-<img src="...cow.png" /> Cow <img src="...cow.png" /> Cow
-```
-
-**PATTERN**: `/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png`
-
-**FOLDER NAME MAPPING** (USE THESE EXACT NAMES):
-- Fruits → `/counting/fruits/`
-- Farm Animals → `/counting/farm_animals/` (NOT `/counting/farm/`)
-- School Supplies → `/counting/school_supplies/` (NOT `/counting/school/`)
-- Food Treats → `/counting/food_treats/` (NOT `/counting/food/`)
-- Toys → `/counting/toys/`
-- Garden → `/counting/garden/`
-- Vegetables → `/counting/vegetables/`
-- Sports → `/counting/sports/`
-- Shapes → `/counting/shapes/`
-- Vehicles → `/counting/vehicles/`
-
-**THIS RULE APPLIES TO EVERY SINGLE OBJECT** - whether it's apples, cows, books, pencils, pigs, chickens, or ANY other object in VERIFIED OBJECTS. ALWAYS use explicit img tags with correct folder names. NEVER use text labels.
-
-## CRITICAL RULES
-
-**Numbers:** 1-10 ONLY (NO 0,11,12,15,20,100,666)
-**Questions:** EXACTLY {{questionCount}} - count before returning
-**Objects:** ONE type per question, ALL different, real-world contexts
-**Images:** EVERY question needs images via `.counting-objects-grid`
-**Colors:** MUST use colored backgrounds - rotate: Yellow (#FFF9C4), Green (#F1F8E9), Blue (#E3F2FD), Pink (#FCE4EC), Orange (#FFF3E0)
-
-## QUESTION TEMPLATES
-
+### 3. Approved Question Templates
+Use these formats ONLY (vary usage across questions):
 1. "How many [objects] are there?"
-2. "[Name] has [n] [objects]. How many [objects] does [Name] have?"
+2. "How many [objects] does [Name] have?"
 3. "Count the [objects]."
+4. "[Name] is counting [objects]. How many are there?"
 
-## VERIFIED OBJECTS (67 total - all have working images)
+## Available Objects (67 total)
 
-**Fruits (10):** apple, banana, orange, strawberry, grape, pear, lemon, watermelon, peach, pineapple
+### Categories & Folder Mapping
+- **fruits** (10): apple, banana, orange, strawberry, grape, pear, lemon, watermelon, peach, pineapple
+- **farm_animals** (9): chicken, cow, sheep, pig, horse, duck, goat, goose, turkey
+- **garden** (9): flower, butterfly, bee, bird, tree, leaf, mushroom, worm, acorn
+- **school_supplies** (9): book, pencil, eraser, crayon, marker, scissors, ruler, glue, backpack
+- **vegetables** (6): carrot, tomato, broccoli, cucumber, pepper, potato
+- **shapes** (7): star, heart, circle, square, diamond, sun, moon
+- **toys** (5): ball, car, doll, kite, block
+- **vehicles** (5): car, bus, bike, train, plane
+- **sports** (5): football, basketball, tennis_ball, bat, medal
+- **food_treats** (2): cookie, cupcake
 
-**Garden (9):** flower, butterfly, bee, bird, tree, leaf, mushroom, worm, acorn
+## Constraints
+- Use DIFFERENT object for each question
+- Use DIFFERENT number for each question (maximize variety across 1-10 range)
+- **RANDOMIZE number order** - DO NOT use sequential numbers (e.g., NOT 1,2,3,4,5 or 6,7,8,9,10)
+- Numbers 1-10 only (no 0, 11+)
+- ONE object type per question
+- Real-world contexts preferred
+- Avoid recently used objects (system provides forbidden list)
+- Distribute numbers across full range: include some small (1-3), medium (4-7), and large (8-10) quantities
+- Example good order: 3, 7, 2, 9, 5 (mixed) ✓
+- Example bad order: 1, 2, 3, 4, 5 (sequential) ✗
 
-**School (9):** book, pencil, eraser, crayon, marker, scissors, ruler, glue, backpack
+## Output Format
 
-**Farm (9):** chicken, cow, sheep, pig, horse, duck, goat, goose, turkey
-
-**Toys (5):** ball, car, doll, kite, block
-
-**Vegetables (6):** carrot, tomato, broccoli, cucumber, pepper, potato
-
-**Sports (5):** football, basketball, tennis ball, bat, medal
-
-**Food (2):** cookie, cupcake
-
-**Shapes (7):** star, heart, circle, square, diamond, sun, moon
-
-**Vehicles (5):** car, bus, bike, train, plane
-
-**FRESHNESS:** System provides forbidden list. Use fresh categories, avoid forbidden objects, target 80%+ novelty.
-
-## EXAMPLE OUTPUT
-
-**Question 1 (Yellow background):**
+### Question Example
 ```html
 <div class="question" style="background: #FFF9C4;">
-    <p class="question-text"><span class="question-number">1.</span> How many strawberries are there?</p>
+    <p class="question-text"><span class="question-number">1.</span> How many apples are there?</p>
     <div class="counting-objects-grid">
-        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png" width="80" height="80" alt="Strawberry" />
-        <!-- Repeat 7 times total -->
+        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="50" height="50" alt="Apple" />
+        <!-- Repeat for actual count (e.g., 7 times) -->
     </div>
     <p class="answer-line">Answer: _________</p>
 </div>
 ```
 
-**Answer Key (add at end):**
-```html
-<div class="answer-key">
-    <h2 class="answer-key-title">Answer Key</h2>
-    <div class="answer-key-content">
-        <p><strong>1.</strong> 7 strawberries</p>
-        <p><strong>2.</strong> 5 bees</p>
-        <p><strong>3.</strong> 9 pencils</p>
-        <p><strong>4.</strong> 6 carrots</p>
-        <p><strong>5.</strong> 8 footballs</p>
-    </div>
-</div>
-```
-
-Replace {{topic}}, {{subtopic}}, {{yearGroup}}, {{difficulty}}, {{questionCount}} with actual values.
-
-Generate worksheet NOW.
+**Generate EXACTLY {{questionCount}} questions - NO MORE, NO LESS**
+Count your questions before returning: 1, 2, 3, 4, 5 = {{questionCount}} questions

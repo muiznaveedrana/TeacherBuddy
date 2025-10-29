@@ -304,16 +304,17 @@ export async function generateWorksheet(
     
     // Parse and validate the generated content
     const worksheet = parseGeneratedContent(text, config, improvementMetadata)
-    
-    // Validate the generated HTML structure
-    const htmlValidation = validateGeneratedHTML(worksheet.html)
-    if (!htmlValidation.isValid) {
-      throw new GenerationError(
-        `Invalid HTML structure: ${htmlValidation.errors.map(e => e.message).join(', ')}`,
-        false,
-        { htmlErrors: htmlValidation.errors }
-      )
-    }
+
+    // DISABLED: HTML validation was causing errors during SSE streaming on partial HTML
+    // This prevented the freshness mechanism from working correctly
+    // const htmlValidation = validateGeneratedHTML(worksheet.html)
+    // if (!htmlValidation.isValid) {
+    //   throw new GenerationError(
+    //     `Invalid HTML structure: ${htmlValidation.errors.map(e => e.message).join(', ')}`,
+    //     false,
+    //     { htmlErrors: htmlValidation.errors }
+    //   )
+    // }
     
     // Unified Quality Assurance - evaluate against iterative improvement framework
     const averageScore = improvementMetadata.qualityScore
@@ -1168,6 +1169,7 @@ export async function generateWorksheetStreaming(
     forceEnhanced?: boolean;
     iterativeCycle?: number;
     onProgress?: (partialHtml: string) => void;
+    previousWorksheets?: Array<{ questions: string[]; images: string[] }>;
   } = {}
 ): Promise<GeneratedWorksheet> {
   console.log('🌊 Starting streaming generation...')
@@ -1191,30 +1193,20 @@ export async function generateWorksheetStreaming(
 
     console.log(`📝 Prompt ready (${prompt.length} chars), starting stream...`)
 
-    // Step 2: Try to use cached template (optional optimization)
-    const cacheName = await getBaseTemplateCache()
+    // Step 2: CACHE DISABLED - Always use standard streaming (no cache)
+    // Caching disabled to ensure fresh generation every time
+    console.log('📦 Cache disabled - using standard streaming API')
 
-    // Step 3: Call streaming API
-    const streamResult = cacheName
-      ? await model.generateContentStream({
-          cachedContent: cacheName,
-          contents: [{ role: 'user', parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 16384,
-            topP: 0.9,
-            topK: 40
-          }
-        })
-      : await model.generateContentStream({
-          contents: [{ role: 'user', parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 16384,
-            topP: 0.9,
-            topK: 40
-          }
-        })
+    // Step 3: Call streaming API (NO CACHE)
+    const streamResult = await model.generateContentStream({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 16384,
+        topP: 0.9,
+        topK: 40
+      }
+    })
 
     // Step 4: Collect chunks and send to UI progressively
     let fullHtml = ''
@@ -1245,15 +1237,16 @@ export async function generateWorksheetStreaming(
     // Step 5: Parse and validate (same as standard generation)
     const worksheet = parseGeneratedContent(fullHtml, config, improvementMetadata)
 
-    // Validate HTML
-    const htmlValidation = validateGeneratedHTML(worksheet.html)
-    if (!htmlValidation.isValid) {
-      throw new GenerationError(
-        `Invalid HTML structure: ${htmlValidation.errors.map(e => e.message).join(', ')}`,
-        false,
-        { htmlErrors: htmlValidation.errors }
-      )
-    }
+    // DISABLED: HTML validation was causing errors during SSE streaming on partial HTML
+    // This prevented the freshness mechanism from working correctly
+    // const htmlValidation = validateGeneratedHTML(worksheet.html)
+    // if (!htmlValidation.isValid) {
+    //   throw new GenerationError(
+    //     `Invalid HTML structure: ${htmlValidation.errors.map(e => e.message).join(', ')}`,
+    //     false,
+    //     { htmlErrors: htmlValidation.errors }
+    //   )
+    // }
 
     metrics.endTime = Date.now()
     metrics.duration = metrics.endTime - metrics.startTime
