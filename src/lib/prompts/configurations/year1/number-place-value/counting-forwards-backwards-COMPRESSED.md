@@ -2,49 +2,43 @@
 
 **Generate EXACTLY {{questionCount}} questions. Choose from the question types below.**
 
-## CRITICAL RULES
+## Background Colors - MANDATORY
+Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
+
+## CRITICAL RULES - NO ANSWER CLUES!
+
 1. **ALL numbers MUST be between 0-20** (NO exceptions - houses, stairs, number lines)
-2. **ZERO VISUAL ANSWER CLUES** - Answer positions must look IDENTICAL to non-answer positions:
-   - NO different colors on answer boxes/houses/stairs/branches
-   - NO highlights, borders, or background changes
-   - NO special styling that reveals the answer
-   - ALL items (except start) must use the SAME base styling
-   - NO inline styles on answer positions
-   - NO additional classes on answer positions
-3. **Only start positions can be marked** with `.start` class - nothing else
+2. **ABSOLUTELY NO VISUAL ANSWER CLUES**:
+   - ❌ NO colored/green/highlighted text in question text (e.g., "Use the <span style="color:green">book</span>" is WRONG)
+   - ❌ NO direction arrows or text (e.g., "← Count Backwards" is WRONG - gives away answer)
+   - ❌ NO different colors on answer boxes/houses/stairs/branches
+   - ❌ NO highlights, borders, or background changes on answer positions
+   - ❌ NO special styling that reveals the answer
+   - ❌ NO inline styles on answer positions
+   - ❌ NO additional classes on answer positions (except `.start` on start position only)
+3. **Question text must be plain black** - NO colored words, NO hints in the question wording
+4. **Only start positions can be marked** with `.start` class - nothing else
 
-### ❌ DO NOT DO THIS (Wrong Examples):
-```html
-<!-- WRONG: Answer position has different color -->
-<div class="number-point">12</div>
-<div class="number-point" style="background: yellow;">13</div> ❌
-<div class="number-point">14</div>
+**❌ WRONG:**
+- `Use the <span style="color:green">book</span>` (colored text clue)
+- `<div class="direction-arrow">← Count Backwards</div>` (direction clue)
+- `<div class="number-point" style="background: yellow;">13</div>` (colored answer)
 
-<!-- WRONG: Answer position has special class -->
-<div class="number-point">12</div>
-<div class="number-point end">13</div> ❌
-<div class="number-point">14</div>
-```
-
-### ✓ CORRECT (Right Example):
-```html
-<!-- ALL positions except start use identical styling -->
-<div class="number-point">12</div>
-<div class="number-point">13</div> ✓
-<div class="number-point">14</div>
-```
+**✓ CORRECT:**
+- `Fill in the missing numbers.` (no clues)
+- `<div class="number-point">13</div>` (answer looks identical to others)
 
 ---
 
 ## CORE QUESTION TYPES (Choose 5)
 
 ### Q1: Forward Sequence - Missing Numbers (BG: #FFF9C4)
-Range 0-20, 2-3 gaps. DO NOT color the answer boxes.
+Range 0-20, 2-3 gaps. **NO direction hints** (e.g., "Count FORWARDS" or "Use the X" are WRONG). **NO colored text** in question.
 
 ```html
 <div class="question" style="background: #FFF9C4;">
     <span class="question-number">1.</span>
-    <p class="question-text">Fill in the missing numbers. Count FORWARDS.</p>
+    <p class="question-text">Fill in the missing numbers.</p>
     <div class="number-sequence">
         <div class="sequence-box filled">5</div>
         <div class="sequence-box filled">6</div>
@@ -60,11 +54,22 @@ Range 0-20, 2-3 gaps. DO NOT color the answer boxes.
 ---
 
 ### Q2: Backward Sequence - Missing Numbers (BG: #E3F2FD)
-Range 10-20, 2-3 gaps. Add `.backwards` class and arrow.
+Range 10-20, 2-3 gaps. Add `.backwards` class for visual styling only. **NO direction arrows or text hints**.
 
 ```html
-<div class="number-sequence backwards">...</div>
-<div class="direction-arrow">←</div>
+<div class="question" style="background: #E3F2FD;">
+    <span class="question-number">2.</span>
+    <p class="question-text">Fill in the missing numbers.</p>
+    <div class="number-sequence backwards">
+        <div class="sequence-box filled">15</div>
+        <div class="sequence-box filled">14</div>
+        <div class="sequence-box empty"></div>
+        <div class="sequence-box filled">12</div>
+        <div class="sequence-box empty"></div>
+        <div class="sequence-box filled">10</div>
+    </div>
+    <p class="answer-prompt">Write the missing numbers</p>
+</div>
 ```
 
 ---

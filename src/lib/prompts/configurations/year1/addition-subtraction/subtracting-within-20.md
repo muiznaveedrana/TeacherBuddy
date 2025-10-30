@@ -337,24 +337,29 @@ body {
 
 /* Picture Subtraction */
 .picture-subtraction {
-    margin: 20px auto;
-    padding: 20px;
+    margin: 15px auto;
+    padding: 15px;
     background: #f8f9ff;
     border: 3px solid #E91E63;
     border-radius: 12px;
-    max-width: 600px;
+    max-width: 500px;
     text-align: center;
 }
 
 .object-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 4px;
     justify-content: center;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    max-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .object-group img {
+    width: 32px;
+    height: 32px;
     object-fit: contain;
 }
 

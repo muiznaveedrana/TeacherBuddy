@@ -213,297 +213,37 @@ zero, one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve,
 
 ---
 
-## ULTRA-COMPACT CSS (OPTIMIZED FOR NUMBERS TO 20)
+## CSS
 
 ```css
-body {
-    font-family: 'Sassoon Primary', 'Century Gothic', 'Comic Sans MS', sans-serif;
-    font-size: 16pt;
-    line-height: 1.6;
-    margin: 0;
-    padding: 20px;
-    background: white;
-    color: #000;
-}
-
-.worksheet-header {
-    text-align: center;
-    margin-bottom: 15px;
-    padding-bottom: 6px;
-    border-bottom: 3px solid #000;
-}
-
-.worksheet-title {
-    font-size: 16pt;
-    font-weight: bold;
-    margin: 0;
-}
-
-.question {
-    margin: 10px 0;
-    padding: 12px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.question-number {
-    font-size: 18pt;
-    font-weight: bold;
-    color: #2c3e50;
-    margin-right: 8px;
-}
-
-.question-text {
-    font-size: 16pt;
-    line-height: 1.4;
-    margin: 6px 0;
-    font-weight: 600;
-}
-
-/* Counting Arrays */
-.counting-array {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-    margin: 20px auto;
-    padding: 20px;
-    background: #f8f9ff;
-    border: 3px solid #4CAF50;
-    border-radius: 12px;
-    max-width: 500px;
-}
-
-.counting-array img {
-    object-fit: contain;
-}
-
-/* Number Line */
-.number-line-container {
-    margin: 20px auto;
-    padding: 20px;
-    background: #f8f9ff;
-    border: 3px solid #2196F3;
-    border-radius: 12px;
-    max-width: 600px;
-}
-
-.number-line {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    position: relative;
-    padding: 20px 0;
-}
-
-.number-line::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 5%;
-    right: 5%;
-    height: 4px;
-    background: #333;
-}
-
-.number-marker {
-    width: 50px;
-    height: 50px;
-    background: #4CAF50;
-    border: 3px solid #2E7D32;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18pt;
-    font-weight: bold;
-    color: white;
-    position: relative;
-    z-index: 1;
-}
-
-.number-marker.missing {
-    background: white;
-    color: #FF5722;
-    border-color: #FF5722;
-}
-
-/* Ten-Frames */
-.ten-frame {
-    display: inline-block;
-    margin: 20px auto;
-    padding: 10px;
-    background: white;
-    border: 4px solid #333;
-    border-radius: 8px;
-}
-
-.frame-row {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 5px;
-}
-
-.frame-row:last-child {
-    margin-bottom: 0;
-}
-
-.frame-cell {
-    width: 50px;
-    height: 50px;
-    border: 2px solid #333;
-    border-radius: 4px;
-    background: white;
-}
-
-.frame-cell.filled {
-    background: #4CAF50;
-    position: relative;
-}
-
-.frame-cell.filled::after {
-    content: '';
-    width: 30px;
-    height: 30px;
-    background: #2E7D32;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-/* Number Relationships */
-.number-relationships {
-    margin: 20px auto;
-    max-width: 500px;
-}
-
-.relationship-row {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    gap: 20px;
-    padding: 20px;
-    background: #f8f9ff;
-    border: 3px solid #9C27B0;
-    border-radius: 12px;
-}
-
-.relationship-box {
-    text-align: center;
-    flex: 1;
-}
-
-.relationship-label {
-    font-size: 14pt;
-    font-weight: bold;
-    color: #2c3e50;
-    margin-bottom: 10px;
-}
-
-.central-number {
-    flex: 1.5;
-}
-
-.number-display {
-    width: 80px;
-    height: 80px;
-    background: #FF9800;
-    border: 4px solid #F57C00;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32pt;
-    font-weight: bold;
-    color: white;
-    margin: 0 auto;
-}
-
-/* Matching Activity */
-.matching-activity {
-    display: flex;
-    justify-content: space-around;
-    gap: 60px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #f8f9ff;
-    border: 3px solid #FF5722;
-    border-radius: 12px;
-    max-width: 500px;
-}
-
-.matching-column {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    flex: 1;
-}
-
-.match-item {
-    padding: 12px 20px;
-    background: white;
-    border: 3px solid #333;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.match-item.number {
-    font-size: 24pt;
-    color: #2196F3;
-    border-color: #2196F3;
-}
-
-.match-item.word {
-    font-size: 16pt;
-    color: #4CAF50;
-    border-color: #4CAF50;
-}
-
-/* Answer Prompts and Boxes */
-.answer-prompt {
-    font-size: 15pt;
-    margin: 15px 0;
-    font-weight: 600;
-    text-align: center;
-}
-
-.answer-box {
-    display: inline-block;
-    min-width: 60px;
-    height: 40px;
-    border: 3px solid #333;
-    border-radius: 6px;
-    background: white;
-    margin: 0 8px;
-    vertical-align: middle;
-}
-
-/* Answer Key */
-.answer-key {
-    margin-top: 30px;
-    padding: 15px;
-    background: #f0f8ff;
-    border: 2px solid #4169E1;
-    border-radius: 10px;
-    page-break-before: always;
-}
-
-.answer-key-title {
-    font-size: 14pt;
-    font-weight: bold;
-    color: #2c3e50;
-    margin: 0 0 10px 0;
-    text-align: center;
-}
-
-.answer-key-content p {
-    font-size: 12pt;
-    margin: 6px 0;
-    line-height: 1.5;
-}
+body{font-family:'Comic Sans MS',sans-serif;font-size:14pt;padding:15px;}
+.question{margin:10px 0;padding:10px;border-radius:8px;}
+.counting-array{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:15px 0;}
+.number-line-container{margin:15px auto;max-width:400px;}
+.number-line{display:flex;justify-content:space-around;padding:10px;}
+.number-marker{width:40px;height:40px;border:2px solid #333;border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:bold;}
+.number-marker.missing{background:#ffffcc;font-size:20pt;}
+.ten-frame{display:flex;flex-direction:column;margin:15px auto;width:fit-content;}
+.frame-row{display:flex;}
+.frame-cell{width:40px;height:40px;border:2px solid #333;margin:2px;}
+.frame-cell.filled{background:#4A90E2;border-radius:50%;}
+.frame-cell.empty{background:#fff;}
+.number-relationships{display:flex;justify-content:center;margin:15px 0;}
+.relationship-row{display:flex;gap:15px;align-items:center;}
+.relationship-box{text-align:center;padding:10px;border:2px solid #ddd;border-radius:8px;min-width:80px;}
+.central-number{background:#FFF3E0;}
+.number-display{font-size:24pt;font-weight:bold;}
+.relationship-label{font-size:12pt;margin-bottom:5px;}
+.matching-activity{display:grid;grid-template-columns:1fr 1fr;gap:30px;max-width:400px;margin:15px auto;}
+.matching-column{display:flex;flex-direction:column;gap:15px;}
+.match-item{padding:12px;border:2px solid #333;border-radius:8px;text-align:center;font-weight:bold;font-size:14pt;}
+.match-item.number{background:#E3F2FD;}
+.match-item.word{background:#FFF9C4;}
+.answer-prompt{font-weight:bold;margin-top:10px;}
+.answer-box{display:inline-block;border-bottom:2px solid #333;min-width:60px;height:24px;vertical-align:middle;}
+.answer-key{margin-top:40px;padding:20px;background:#f5f5f5;border:2px solid #333;border-radius:8px;}
+.answer-key-title{font-size:18pt;margin-bottom:10px;}
+.answer-key-content p{margin:5px 0;}
 ```
 
 ---

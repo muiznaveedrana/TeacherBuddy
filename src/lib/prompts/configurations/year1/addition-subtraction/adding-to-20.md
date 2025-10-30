@@ -63,10 +63,10 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px}
 .question{margin:10px 0;padding:12px;border-radius:8px}
 .question-number{font-size:18pt;font-weight:bold;margin-right:8px}
 .question-text{font-size:16pt;margin:6px 0;font-weight:600}
-.picture-addition{margin:20px auto;padding:20px;background:#f8f9ff;border:3px solid #4CAF50;border-radius:12px;max-width:600px}
-.group-container{display:flex;align-items:center;justify-content:space-around;gap:20px}
-.addend-group{text-align:center;flex:1}
-.addend-group img{margin:5px}
+.picture-addition{margin:15px auto;padding:15px;background:#f8f9ff;border:3px solid #4CAF50;border-radius:12px;max-width:500px}
+.group-container{display:flex;align-items:flex-start;justify-content:center;gap:15px;flex-wrap:wrap}
+.addend-group{text-align:center;display:flex;flex-wrap:wrap;gap:4px;justify-content:center;max-width:180px}
+.addend-group img{width:32px;height:32px}
 .group-label{font-size:14pt;font-weight:bold;margin-top:10px}
 .plus-symbol{font-size:48pt;font-weight:bold;color:#FF9800}
 .number-line-addition{margin:20px auto;padding:20px;background:#f8f9ff;border:3px solid #2196F3;border-radius:12px;max-width:700px}

@@ -2,12 +2,31 @@
 
 Generate EXACTLY {{questionCount}} questions for ages 5-6.
 
-## Rules
+## Background Colors - MANDATORY
+Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 
-- **Sums: 0-20** (addends 0-12)
-- **EXACTLY {{questionCount}} questions** with answer key
-- **Strategies**: Count all, count on, make 10, doubles
-- **Visuals**: Object arrays, number lines, ten-frames
+## CRITICAL RULES - NO ANSWER CLUES!
+
+1. **Sums: 0-20** (addends 0-12)
+2. **EXACTLY {{questionCount}} questions** with answer key
+3. **Strategies**: Count all, count on, make 10, doubles
+4. **Visuals**: Object arrays, number lines, ten-frames
+
+5. **ABSOLUTELY NO VISUAL ANSWER CLUES**:
+   - ❌ NO colored/highlighted numbers in visuals (e.g., orange "12" in number line)
+   - ❌ NO strategy hints/text (e.g., "Think: 9 + 1 = 10, then 10 + 4 = ?")
+   - ❌ NO calculation steps shown in the question
+   - ❌ ALL numbers in visuals must be plain black - NO colored hints
+
+**❌ WRONG:**
+- Number line with orange colored answer positions
+- Blue text: "Think: 9 + 1 = 10, then 10 + 4 = ?"
+- Green highlighted numbers showing the calculation path
+
+**✓ CORRECT:**
+- All numbers plain black in visuals
+- No strategy hints visible to students
+- Question text does NOT show calculation steps
 
 ## 5-Question Format
 
@@ -19,38 +38,10 @@ Generate EXACTLY {{questionCount}} questions for ages 5-6.
 
 ## Objects - VERIFIED PATHS
 
-🚨 **CRITICAL: Copy these EXACT paths - do NOT modify**
-
-**School Supplies** (folder: `school_supplies` with underscore):
-```
-/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png
-/images/WORKSHEET_OBJECTS/counting/school_supplies/book.png
-/images/WORKSHEET_OBJECTS/counting/school_supplies/crayon.png
-/images/WORKSHEET_OBJECTS/counting/school_supplies/eraser.png
-/images/WORKSHEET_OBJECTS/counting/school_supplies/scissors.png
-```
-
-**Farm Animals** (folder: `farm_animals` with underscore):
-```
-/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png
-/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png
-/images/WORKSHEET_OBJECTS/counting/farm_animals/sheep.png
-/images/WORKSHEET_OBJECTS/counting/farm_animals/pig.png
-```
-
-**Fruits** (folder: `fruits`):
-```
-/images/WORKSHEET_OBJECTS/counting/fruits/apple.png
-/images/WORKSHEET_OBJECTS/counting/fruits/banana.png
-/images/WORKSHEET_OBJECTS/counting/fruits/orange.png
-```
-
-**Toys** (folder: `toys`):
-```
-/images/WORKSHEET_OBJECTS/counting/toys/car.png
-/images/WORKSHEET_OBJECTS/counting/toys/ball.png
-/images/WORKSHEET_OBJECTS/counting/toys/doll.png
-```
+**School:** `/images/WORKSHEET_OBJECTS/counting/school_supplies/{pencil,book,crayon,eraser,scissors}.png`
+**Farm:** `/images/WORKSHEET_OBJECTS/counting/farm_animals/{chicken,cow,sheep,pig}.png`
+**Fruits:** `/images/WORKSHEET_OBJECTS/counting/fruits/{apple,banana,orange}.png`
+**Toys:** `/images/WORKSHEET_OBJECTS/counting/toys/{car,ball,doll}.png`
 ## Key Strategies
 
 - Doubles: 5+5, 6+6, 7+7, 8+8, 9+9
@@ -63,10 +54,10 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px}
 .question{margin:10px 0;padding:12px;border-radius:8px}
 .question-number{font-size:18pt;font-weight:bold;margin-right:8px}
 .question-text{font-size:16pt;margin:6px 0;font-weight:600}
-.picture-addition{margin:20px auto;padding:20px;background:#f8f9ff;border:3px solid #4CAF50;border-radius:12px;max-width:600px}
-.group-container{display:flex;align-items:center;justify-content:space-around;gap:20px}
-.addend-group{text-align:center;flex:1}
-.addend-group img{margin:5px}
+.picture-addition{margin:15px auto;padding:15px;background:#f8f9ff;border:3px solid #4CAF50;border-radius:12px;max-width:500px}
+.group-container{display:flex;align-items:flex-start;justify-content:center;gap:15px;flex-wrap:wrap}
+.addend-group{text-align:center;display:flex;flex-wrap:wrap;gap:4px;justify-content:center;max-width:180px}
+.addend-group img{width:32px;height:32px}
 .group-label{font-size:14pt;font-weight:bold;margin-top:10px}
 .plus-symbol{font-size:48pt;font-weight:bold;color:#FF9800}
 .number-line-addition{margin:20px auto;padding:20px;background:#f8f9ff;border:3px solid #2196F3;border-radius:12px;max-width:700px}

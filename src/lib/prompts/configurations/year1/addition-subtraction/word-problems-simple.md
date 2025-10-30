@@ -159,29 +159,34 @@ body {
 }
 
 .word-problem-visual {
-    margin: 20px auto;
-    padding: 20px;
+    margin: 15px auto;
+    padding: 15px;
     background: #f8f9ff;
     border: 3px solid #4CAF50;
     border-radius: 12px;
-    max-width: 600px;
+    max-width: 500px;
 }
 
 .problem-scene {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
     flex-wrap: wrap;
 }
 
 .object-group {
     text-align: center;
-    margin: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+    max-width: 250px;
 }
 
 .object-group img {
-    margin: 3px;
+    width: 32px;
+    height: 32px;
 }
 
 .label {
@@ -205,29 +210,37 @@ body {
 }
 
 .comparison-visual {
-    margin: 20px auto;
-    padding: 20px;
+    margin: 15px auto;
+    padding: 15px;
     background: #f8f9ff;
     border: 3px solid #2196F3;
     border-radius: 12px;
-    max-width: 600px;
+    max-width: 500px;
 }
 
 .comparison-row {
-    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    gap: 8px;
 }
 
 .person-label {
     font-size: 15pt;
     font-weight: bold;
     color: #2c3e50;
-    margin-bottom: 8px;
+    min-width: 90px;
 }
 
 .object-line {
     display: flex;
-    gap: 5px;
+    gap: 4px;
     flex-wrap: wrap;
+}
+
+.object-line img {
+    width: 32px;
+    height: 32px;
 }
 
 .number-sentence {

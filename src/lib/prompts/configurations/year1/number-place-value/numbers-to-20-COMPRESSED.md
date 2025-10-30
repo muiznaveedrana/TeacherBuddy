@@ -2,6 +2,9 @@
 
 Generate EXACTLY {{questionCount}} Year 1 numbers to 20 questions.
 
+## Background Colors - MANDATORY
+Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
+
 ## CRITICAL RULES
 
 **Number Range:** 0-20 ONLY (focus on 11-20)
@@ -147,6 +150,38 @@ Shapes: star, heart, circle, square
 </div>
 ```
 
-Replace {{topic}}, {{subtopic}}, {{yearGroup}}, {{difficulty}}, {{questionCount}} with actual values.
+## CSS
+```css
+<style>
+body{font-family:'Comic Sans MS',sans-serif;font-size:14pt;padding:15px;}
+.question{margin:10px 0;padding:10px;border-radius:8px;}
+.counting-array{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:15px 0;}
+.number-line-container{margin:15px auto;max-width:400px;}
+.number-line{display:flex;justify-content:space-around;padding:10px;}
+.number-marker{width:40px;height:40px;border:2px solid #333;border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:bold;}
+.number-marker.missing{background:#ffffcc;font-size:20pt;}
+.ten-frame{display:flex;flex-direction:column;margin:15px auto;width:fit-content;}
+.frame-row{display:flex;}
+.frame-cell{width:40px;height:40px;border:2px solid #333;margin:2px;}
+.frame-cell.filled{background:#4A90E2;border-radius:50%;}
+.frame-cell.empty{background:#fff;}
+.number-relationships{display:flex;justify-content:center;margin:15px 0;}
+.relationship-row{display:flex;gap:15px;align-items:center;}
+.relationship-box{text-align:center;padding:10px;border:2px solid #ddd;border-radius:8px;min-width:80px;}
+.central-number{background:#FFF3E0;}
+.number-display{font-size:24pt;font-weight:bold;}
+.relationship-label{font-size:12pt;margin-bottom:5px;}
+.matching-activity{display:grid;grid-template-columns:1fr 1fr;gap:30px;max-width:400px;margin:15px auto;}
+.matching-column{display:flex;flex-direction:column;gap:15px;}
+.match-item{padding:12px;border:2px solid #333;border-radius:8px;text-align:center;font-weight:bold;font-size:14pt;}
+.match-item.number{background:#E3F2FD;}
+.match-item.word{background:#FFF9C4;}
+.answer-prompt{font-weight:bold;margin-top:10px;}
+.answer-box{display:inline-block;border-bottom:2px solid #333;min-width:60px;height:24px;vertical-align:middle;}
+.answer-key{margin-top:40px;padding:20px;background:#f5f5f5;border:2px solid #333;border-radius:8px;}
+.answer-key-title{font-size:18pt;margin-bottom:10px;}
+.answer-key-content p{margin:5px 0;}
+</style>
+```
 
-Generate worksheet NOW.
+Replace {{topic}}, {{subtopic}}, {{yearGroup}}, {{difficulty}}, {{questionCount}} with actual values.
