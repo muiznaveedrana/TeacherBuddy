@@ -1,68 +1,46 @@
-# Year 1: Weight and Capacity (COMPRESSED)
+# Y1 Weight/Capacity (ULTRA-COMPRESSED)
 
-Generate EXACTLY {{questionCount}} Year 1 weight and capacity questions.
+Gen {{questionCount}} Y1 Qs. BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## CRITICAL RULES
+**RULES**: NO units! Non-std compare. Vocab: heavier/lighter/heaviest/lightest/more/less/full/empty/half/quarter. Each Q diff objs. EXTREME size diffs (obvious 5yo). SIZE≠WEIGHT via surprising pairs.
 
-**Measurement:** Non-standard units, direct comparison
-**Questions:** EXACTLY {{questionCount}} - count before returning
-**Vocabulary:** heavier, lighter, full, empty, holds more, holds less
-**Visual:** Balance scales, containers, comparison visuals
+**57 IMAGES** (/images/WORKSHEET_OBJECTS/measurement/): fruit(banana|lemon|watermelon) school(pencil|crayon|ribbon|ruler|cup|jug) tools(saw|paintbrush|wrench|hammer|scale) garden(caterpillar|snail|snake|leaf) farm(chicken|duck|goose|turkey|pig|sheep|goat|cow|horse|elephant) household(book|shoe|backpack|teddy-bear|toy-car|building-block) contrast(balloon|sponge|stone|feather|coin|key) containers(glass|bottle|bucket|bowl|mug|watering-can|milk-carton|fish-tank|kettle)
 
-## 5-QUESTION FORMAT
+**WEIGHT ORDER**: feather<leaf<caterpillar<coin<key<snail<pencil<crayon<lemon<balloon<sponge<banana<ribbon<ruler<stone<duck<chicken<book<goose<turkey<shoe<paintbrush<building-block<toy-car<hammer<backpack<wrench<snake<pig<teddy-bear<saw<sheep<goat<watermelon<cow<horse<elephant
 
-**Q1:** Direct comparison - which is heavier? (balance scale visual)
-**Q2:** Order by weight (3 objects, lightest to heaviest)
-**Q3:** Capacity - which holds more? (container comparison)
-**Q4:** Word problem - weight/capacity context
-**Q5:** Estimate weight/capacity (predict then check)
+**AVOID**: toy-car&saw|toy-car&hammer|ruler&ribbon|book&shoe|hammer&wrench|goose&turkey|pig&sheep|sheep&goat
 
-## VOCABULARY
+**SURPRISE PAIRS**: balloon vs stone|sponge vs coin|feather vs key
 
-**Weight:** heavier, lighter, weighs more, weighs less, heaviest, lightest
-**Capacity:** full, empty, holds more, holds less, most, least
+**CONTAINERS**: cup<glass<mug<bowl<bottle<jug<milk-carton<kettle<watering-can<bucket<fish-tank
 
-## EXAMPLE OUTPUT
+**NAMES**: Ben/Emma|Lily/Max|Sam/Zara|Ali/Maya|Leo/Mia|Jack/Ella
 
-**Q1 (Weight Comparison):**
-```html
-<div class="question" style="background: #FFF9C4;">
-    <p class="question-text"><span class="question-number">1.</span> Which is HEAVIER?</p>
-    <div class="balance-scale">
-        <div class="scale-left"><img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="50" height="50" /><p>Apple</p></div>
-        <div class="scale-center">⚖️</div>
-        <div class="scale-right"><img src="/images/WORKSHEET_OBJECTS/counting/fruits/watermelon.png" width="70" height="70" /><p>Watermelon</p></div>
-    </div>
-    <p class="answer-prompt">Circle: <span class="choice">Apple</span> or <span class="choice">Watermelon</span></p>
-</div>
-```
+**Q-TYPES**:
+Q1A-Balance: 2 objs, ⚖️, "Which HEAVIER?" Ex:(lemon,watermelon)|(snail,elephant)|(feather,book). Use surprise pairs sometimes.
+Q1B-Lightest: 3 objs, "Which LIGHTEST?" Ex:(feather,lemon,cow)|(leaf,book,horse)
+Q2A-Order: 3 objs skip 3+pos, "Order LIGHTEST→HEAVIEST. Write 1,2,3" BEST:(feather|book|elephant)|(coin|shoe|cow)|(leaf|backpack|horse)|(caterpillar|teddy-bear|elephant)
+Q2B-Heaviest: 3 objs, "Which HEAVIEST?" Ex:(banana,hammer,elephant)
+Q3A-Container: 2, "Which holds MORE?" BEST:(cup,bucket)|(glass,fish-tank)|(mug,watering-can) OK:(cup,jug)|(glass,bottle)
+Q3B-HalfFull: 3 containers diff fills, "Which HALF FULL?" CSS:liquid-level-full|half|quarter|empty
+Q3C-Practical: Real scenario. "Water plants?"→watering-can "Dog water?"→bowl "Milk cereal?"→milk-carton "Wash car?"→bucket "Tea?"→kettle
+Q3D-EstFill: "How many CUPS fill BUCKET? Guess:___" Ex:(cup→bucket)|(glass→jug)
+Q4A-WordProb: Name+2objs, "Whose HEAVIER?" Ex:(pencil,hammer)|(banana,watermelon)|(toy-car,backpack)|(duck,pig)
+Q4B-SurpriseProb: "Sam big balloon. Zara small stone. Whose heavier?" Use surprise pairs.
+Q5A-Estimate: 2 objs EXTREME, "Which MORE?" BEST:(feather,elephant)|(leaf,cow)|(coin,horse) GOOD:(lemon,watermelon)|(banana,backpack) NEVER:(toy-car,saw)|(book,shoe) Add:"My guess:___ Why:___"
+Q5B-3way: 3 objs, "Which MOST?" BEST:(feather,book,elephant)|(leaf,shoe,cow) GOOD:(banana,shoe,cow)
 
-**Q3 (Capacity):**
-```html
-<div class="question" style="background: #F1F8E9;">
-    <p class="question-text"><span class="question-number">3.</span> Which cup holds MORE water?</p>
-    <div class="capacity-visual">
-        <div class="container small-cup"><p>Cup A</p></div>
-        <div class="container large-cup"><p>Cup B</p></div>
-    </div>
-    <p class="answer-prompt">Circle: <span class="choice">Cup A</span> or <span class="choice">Cup B</span></p>
-</div>
-```
+**CSS**:`<style>body{font-family:'Comic Sans MS',sans-serif;font-size:18pt;padding:25px;line-height:2.2;color:#222}h1{text-align:center;margin-bottom:35px;padding:25px;font-size:26pt;font-weight:bold;color:#2c3e50}.question{margin:30px 0;padding:30px;border-radius:12px;border:3px solid #ddd;box-shadow:0 2px 8px rgba(0,0,0,.1)}.question-text{margin-bottom:20px;line-height:2.6;font-size:19pt;font-weight:600}.instruction-text{margin-bottom:25px;line-height:2.4;font-size:16pt;color:#555;font-style:italic}.question-number{display:inline-block;background:#4169E1;color:#fff;width:40px;height:40px;line-height:40px;text-align:center;border-radius:50%;margin-right:15px;font-weight:bold}.balance-scale{display:flex;justify-content:space-around;align-items:center;margin:30px 0}.scale-item{text-align:center;flex:1}.scale-center{font-size:50pt;margin:0 30px}.weight-img{height:80px;margin-bottom:15px;object-fit:contain}.weight-img-large{height:120px;margin-bottom:15px;object-fit:contain}.order-sequence{display:flex;justify-content:space-around;align-items:flex-end;margin:35px 0;gap:20px}.order-item{text-align:center;padding:15px;flex:1}.order-img-tiny{height:40px;margin-bottom:15px;object-fit:contain}.order-img-small{height:60px;margin-bottom:15px;object-fit:contain}.order-img-medium{height:100px;margin-bottom:15px;object-fit:contain}.order-img-large{height:140px;margin-bottom:15px;object-fit:contain}.order-img-massive{height:180px;margin-bottom:15px;object-fit:contain}.order-box{width:60px;height:60px;border:4px solid #333;border-radius:8px;margin:15px auto;background:#FFF;box-shadow:inset 0 2px 4px rgba(0,0,0,.1)}.capacity-compare{display:flex;justify-content:space-around;align-items:flex-end;margin:35px 0;gap:30px}.container-visual{text-align:center;flex:1;position:relative}.container-wrapper{position:relative;display:inline-block}.capacity-img-small{height:100px;margin-bottom:15px;object-fit:contain}.capacity-img-medium{height:120px;margin-bottom:15px;object-fit:contain}.capacity-img-large{height:160px;margin-bottom:15px;object-fit:contain}.liquid-overlay{position:absolute;bottom:0;left:0;right:0;background:rgba(33,150,243,.5);border-radius:0 0 8px 8px;pointer-events:none}.liquid-level-full{height:95%}.liquid-level-half{height:50%}.liquid-level-quarter{height:25%}.liquid-level-empty{height:0}.object-compare{display:flex;justify-content:space-around;margin:35px 0;gap:30px}.object-card{text-align:center;padding:25px;border:3px dashed #999;border-radius:12px;background:#FAFAFA;flex:1;max-width:250px;box-shadow:0 2px 6px rgba(0,0,0,.1)}.name-label{font-size:17pt;font-weight:bold;margin-bottom:15px;color:#4169E1}.object-img{height:90px;max-width:200px;object-fit:contain;margin:20px 0}.object-label{font-size:16pt;font-weight:600;margin:10px 0;color:#333}.estimate-compare{display:flex;justify-content:space-around;align-items:center;margin:35px 0;gap:40px}.estimate-item{text-align:center;flex:1}.estimate-img{height:90px;margin-bottom:15px;object-fit:contain}.estimate-img-large{height:130px;margin-bottom:15px;object-fit:contain}.circle-choice{display:inline-block;border:3px solid #333;border-radius:25px;padding:8px 20px;margin:0 12px;font-weight:bold;font-size:16pt;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.1)}.answer-prompt{margin-top:25px;font-size:17pt;line-height:2.8;padding:12px 0;font-weight:600}.answer-line{display:inline-block;border-bottom:4px solid #333;min-width:200px;padding-bottom:5px;margin:0 10px}.answer-line-long{display:inline-block;border-bottom:4px solid #333;min-width:320px;padding-bottom:5px;margin:0 10px}.answer-key{margin-top:60px;padding:30px;background:#E8F4F8;border:4px solid #4169E1;border-radius:12px;page-break-before:always}.answer-key h2{font-size:22pt;color:#2c3e50;margin-bottom:20px;text-align:center}.answer-key p{font-size:16pt;line-height:2.4;margin:15px 0}</style>`
 
-**Answer Key:**
-```html
-<div class="answer-key">
-    <h2 class="answer-key-title">Answer Key</h2>
-    <div class="answer-key-content">
-        <p><strong>1.</strong> Watermelon (heavier)</p>
-        <p><strong>2.</strong> Order: Feather, Apple, Book (lightest to heaviest)</p>
-        <p><strong>3.</strong> Cup B (holds more)</p>
-        <p><strong>4.</strong> Box B (heavier - word problem)</p>
-        <p><strong>5.</strong> Estimates vary (check reasoning)</p>
-    </div>
-</div>
-```
+**EXAMPLES**:
+Q1:`<div class="question" style="background:#FFF9C4"><p class="question-text"><span class="question-number">1.</span> Which is <strong>HEAVIER</strong>?</p><div class="balance-scale"><div class="scale-item"><img src="/images/WORKSHEET_OBJECTS/measurement/fruit/lemon.png" alt="lemon" class="weight-img"><p class="object-label">Lemon</p></div><div class="scale-center">⚖️</div><div class="scale-item"><img src="/images/WORKSHEET_OBJECTS/measurement/fruit/watermelon.png" alt="watermelon" class="weight-img-large"><p class="object-label">Watermelon</p></div></div><p class="answer-prompt">Circle your answer: <span class="circle-choice">Lemon</span> or <span class="circle-choice">Watermelon</span></p></div>`
 
-Replace {{topic}}, {{subtopic}}, {{yearGroup}}, {{difficulty}}, {{questionCount}} with actual values.
+Q2:`<div class="question" style="background:#E3F2FD"><p class="question-text"><span class="question-number">2.</span> Put these in order from <strong>LIGHTEST</strong> to <strong>HEAVIEST</strong>.</p><p class="instruction-text">Write <strong>1</strong> for lightest, <strong>2</strong> for middle, <strong>3</strong> for heaviest.</p><div class="order-sequence"><div class="order-item"><img src="/images/WORKSHEET_OBJECTS/measurement/contrast/feather.png" alt="feather" class="order-img-tiny"><p class="object-label">Feather</p><div class="order-box"></div></div><div class="order-item"><img src="/images/WORKSHEET_OBJECTS/measurement/household/book.png" alt="book" class="order-img-medium"><p class="object-label">Book</p><div class="order-box"></div></div><div class="order-item"><img src="/images/WORKSHEET_OBJECTS/measurement/farm/elephant.png" alt="elephant" class="order-img-massive"><p class="object-label">Elephant</p><div class="order-box"></div></div></div></div>`
 
-Generate worksheet NOW.
+Q3:`<div class="question" style="background:#F1F8E9"><p class="question-text"><span class="question-number">3.</span> Which holds <strong>MORE</strong> water?</p><div class="capacity-compare"><div class="container-visual"><img src="/images/WORKSHEET_OBJECTS/measurement/school/cup.png" alt="cup" class="capacity-img-small"><p class="object-label">Cup</p></div><div class="container-visual"><img src="/images/WORKSHEET_OBJECTS/measurement/containers/bucket.png" alt="bucket" class="capacity-img-large"><p class="object-label">Bucket</p></div></div><p class="answer-prompt">Circle your answer: <span class="circle-choice">Cup</span> or <span class="circle-choice">Bucket</span></p></div>`
+
+Q4:`<div class="question" style="background:#FCE4EC"><p class="question-text"><span class="question-number">4.</span> Ben has a <strong>pencil</strong>. Emma has a <strong>hammer</strong>.</p><p class="question-text">Whose object is <strong>HEAVIER</strong>?</p><div class="object-compare"><div class="object-card"><p class="name-label">👤 Ben</p><img src="/images/WORKSHEET_OBJECTS/measurement/school/pencil.png" alt="pencil" class="object-img"><p class="object-label">Pencil</p></div><div class="object-card"><p class="name-label">👤 Emma</p><img src="/images/WORKSHEET_OBJECTS/measurement/tools/hammer.png" alt="hammer" class="object-img"><p class="object-label">Hammer</p></div></div><p class="answer-prompt">Circle your answer: <span class="circle-choice">Ben's pencil</span> or <span class="circle-choice">Emma's hammer</span></p></div>`
+
+Q5:`<div class="question" style="background:#FFF3E0"><p class="question-text"><span class="question-number">5.</span> Look at these animals. Which weighs <strong>MORE</strong>?</p><div class="estimate-compare"><div class="estimate-item"><img src="/images/WORKSHEET_OBJECTS/measurement/garden/snail.png" alt="snail" class="estimate-img"><p class="object-label">Snail</p></div><div class="estimate-item"><img src="/images/WORKSHEET_OBJECTS/measurement/farm/duck.png" alt="duck" class="estimate-img-large"><p class="object-label">Duck</p></div></div><p class="answer-prompt">My guess: <span class="answer-line"></span></p><p class="answer-prompt">Why I think so: <span class="answer-line-long"></span></p></div>`
+
+**GEN**: 5Qs. If adult thinks which heavier=TOO AMBIGUOUS! Use BEST pairs. Skip 3+pos. Diff objs each Q. 1+ surprise pair. Answer key. <strong> key vocab.
