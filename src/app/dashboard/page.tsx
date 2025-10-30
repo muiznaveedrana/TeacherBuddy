@@ -103,7 +103,7 @@ export default function DashboardPage() {
 
     // Use regex to extract only real counting objects (nouns that appear in counting contexts)
     // This matches patterns like "5 apples", "count the pears", "how many butterflies"
-    const objectPattern = /\b(apples?|pears?|oranges?|bananas?|grapes?|strawberr(?:y|ies)|cherr(?:y|ies)|watermelons?|lemons?|peaches?|plums?|flowers?|roses?|tulips?|daisies?|sunflowers?|butterfl(?:y|ies)|bees?|ladybugs?|ants?|spiders?|birds?|chickens?|cows?|pigs?|sheep|horses?|dogs?|cats?|frogs?|fish|ducks?|rabbits?|bears?|elephants?|lions?|tigers?|monkeys?|giraffes?|cars?|trucks?|buses?|trains?|planes?|boats?|bicycles?|pencils?|pens?|crayons?|markers?|books?|scissors?|rulers?|erasers?|balls?|blocks?|toys?|dolls?|teddy bears?|stars?|hearts?|circles?|squares?|triangles?|diamonds?|cookies?|cupcakes?|candies?|lollipops?|carrots?|tomatoes?|potatoes?|corn|broccoli|peas?|balloons?|presents?|candles?|hats?|shoes?|socks?|shirts?|buttons?|leaves?|trees?|acorns?|shells?|rocks?|feathers?)\b/gi
+    const objectPattern = /\b(apples?|pears?|oranges?|bananas?|grapes?|strawberr(?:y|ies)|cherr(?:y|ies)|watermelons?|lemons?|peaches?|plums?|flowers?|roses?|tulips?|daisies?|sunflowers?|butterfl(?:y|ies)|bees?|ladybugs?|ants?|spiders?|birds?|chickens?|cows?|pigs?|sheep|horses?|dogs?|cats?|frogs?|fish|ducks?|rabbits?|bears?|elephants?|lions?|tigers?|monkeys?|giraffes?|cars?|trucks?|buses?|trains?|planes?|boats?|bicycles?|pencils?|pens?|crayons?|markers?|books?|scissors?|rulers?|erasers?|balls?|blocks?|toys?|dolls?|teddy bears?|stars?|hearts?|circles?|squares?|triangles?|diamonds?|cookies?|cupcakes?|candies?|lollipops?|carrots?|tomatoes?|potatoes?|corn|broccoli|peas?|balloons?|presents?|candles?|hats?|shoes?|socks?|shirts?|buttons?|leaves?|trees?|acorns?|shells?|rocks?|feathers?|ribbons?|saws?|caterpillars?|snails?|snakes?|paintbrushes?|wrenches?|hammers?|goats?|scarves?|sticks?)\b/gi
 
     let match
     const foundObjects = new Set<string>()
@@ -139,6 +139,15 @@ export default function DashboardPage() {
       // Only track images from our collections (exclude UI icons, etc.)
       if (src && src.includes('WORKSHEET_OBJECTS')) {
         images.push(src)
+
+        // CRITICAL: Extract object name from image filename for freshness tracking
+        // Example: "/images/WORKSHEET_OBJECTS/measurement/garden/caterpillar.png" -> "caterpillar"
+        const fileNameMatch = src.match(/\/([^\/]+)\.png$/i)
+        if (fileNameMatch) {
+          const objectName = fileNameMatch[1].toLowerCase()
+          foundObjects.add(objectName)
+          console.log(`🖼️ DEBUG: Extracted object from image: ${objectName}`)
+        }
       }
     })
 

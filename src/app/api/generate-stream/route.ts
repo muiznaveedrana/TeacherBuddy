@@ -62,6 +62,12 @@ export async function POST(request: NextRequest) {
       previousWorksheets?: Array<{ questions: string[]; images: string[] }>
     }
 
+    // Debug: Check previousWorksheets value
+    console.log('🔍 [API] previousWorksheets received:', previousWorksheets ? `${previousWorksheets.length} worksheets` : 'undefined/null');
+    if (previousWorksheets && previousWorksheets.length > 0) {
+      console.log('🔍 [API] Previous worksheet data:', JSON.stringify(previousWorksheets, null, 2));
+    }
+
     // Validate yearGroup is provided
     if (!yearGroup) {
       const encoder = new TextEncoder()

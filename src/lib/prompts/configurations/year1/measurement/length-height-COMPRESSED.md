@@ -1,133 +1,27 @@
-# Year 1: Length and Height (COMPRESSED)
+# Y1 Length/Height (ULTRA-COMPRESSED)
 
-Generate EXACTLY {{questionCount}} Year 1 length and height questions.
+Gen {{questionCount}} Y1 measurement Qs. BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## CRITICAL RULES
+**RULES**: NO cm/m! Non-standard units only (cubes/clips/hands/blocks). Check AVOID list (top of prompt). Each Q uses DIFFERENT object. Vocab: longer/shorter/taller/longest/shortest/tallest.
 
-**Measurement:** Non-standard units (cubes, hands, paper clips)
-**Questions:** EXACTLY {{questionCount}} - count before returning
-**Language:** longer, shorter, taller, tallest, longest, shortest
-**Visual:** Objects to measure, comparison visuals, rulers with units
+**IMAGES**: `/images/WORKSHEET_OBJECTS/measurement/` → school/(pencil|crayon|ribbon|ruler), tools/(saw|paintbrush|wrench), garden/(caterpillar|snail|snake), fruit/(banana|lemon|watermelon). 13 objects total.
 
-## 5-QUESTION FORMAT
+**POOLS**: Names: Ben/Emma|Lily/Max|Sam/Zara|Ali/Maya|Leo/Mia|Jack/Ella. Numbers: Small 3-5|Med 6-8|Large 9-12 (MIX, no sequential!). Bars: Blue(#4A90E2,#357ABD)|Green(#50C878,#3DA75F)|Orange(#FF9500,#CC7700). Emoji: 📎 ONLY for Q5.
 
-**Q1:** Direct comparison - which is longer/taller? (visual comparison, 2 objects)
-**Q2:** Measure with non-standard units (count cubes/clips to measure object)
-**Q3:** Order by length (arrange 3 objects from shortest to longest)
-**Q4:** Comparison word problem (real-world context)
-**Q5:** Estimate and measure (predict length, then measure)
+**Q-FORMAT**:
+Q1(#FFF9C4): Visual compare. 1 obj, 2 sizes with class="compare-img". Heights: 60-80px vs 100-120px. "Which [obj] LONGER/SHORTER?" Circle answer. Display side-by-side.
+Q2(#E3F2FD): Measure cubes. 1 obj ≠Q1. Counts: small(caterpillar/snail/lemon)=5-6, med(banana/paintbrush)=7-8, large(saw/snake/wrench)=9-10. Img 80px + numbered cubes. "How many cubes long?"
+Q3(#F1F8E9): Order 3. Images (same obj, 3 widths 120/200/280px, unused from Q1/Q2) OR bars (Stick A/B/C). Randomize order! "Put numbers 1, 2, 3 in boxes. 1=shortest 3=longest" with empty boxes below each.
+Q4(#FCE4EC): Compare bars. Name pair. Obj: book/scarf/train. Unit: hands/blocks (NOT cubes). MIN 4 units, 3+ apart. 35px/unit. 👤 icons. Gradient bars. 25px margin-bottom between rows! "Whose [obj] LONGER/TALLER?"
+Q5(#FFF3E0): Estimate+measure 📎. 1 obj ≠Q1/Q2. Counts: small=5-6, med=7-8, large=9-12 clips. Img 70px + 📎 ruler. "Estimate... Then count. My estimate:__ I measured:__"
 
-## NON-STANDARD UNITS
+**ALL 5 Qs = DIFFERENT objects!**
 
-- Cubes/blocks (most common)
-- Paper clips
-- Hand spans
-- Footsteps
-- Pencils/crayons
+**EXAMPLES** (expand structure, vary objects):
+Q2: `<div class="question" style="background:#E3F2FD"><p><span class="question-number">2.</span> How many cubes long is the saw?</p><img src="/images/WORKSHEET_OBJECTS/measurement/tools/saw.png" alt="saw" style="height:80px"><div class="unit-ruler"><div class="unit-cube">1</div>...<div class="unit-cube">9</div></div><p>The saw is <span class="answer-box"></span> cubes long.</p></div>`
 
-## VOCABULARY
+Q4: `<div class="question" style="background:#FCE4EC"><p><span class="question-number">4.</span> 👤 Lily's scarf is 5 hands. 👤 Max's scarf is 9 hands. Whose LONGER?</p><div class="bar-row"><p>👤 Lily:</p><div class="measurement-bar" style="width:175px;background:linear-gradient(90deg,#4A90E2,#357ABD);border:3px solid #2C5F8D">5 hands</div></div><div class="bar-row"><p>👤 Max:</p><div class="measurement-bar" style="width:315px;background:linear-gradient(90deg,#50C878,#3DA75F);border:3px solid #2E7D4E">9 hands</div></div><p><span class="answer-line"></span> has longer scarf.</p></div>`
 
-**Comparative:** longer, shorter, taller, wider
-**Superlative:** longest, shortest, tallest, widest
-**Measurement:** measure, length, height, about, approximately
+**CSS**: `<style>body{font-family:'Comic Sans MS',sans-serif;font-size:14pt;padding:15px}.question{margin:10px 0;padding:12px;border-radius:8px}.compare-img{max-height:120px;max-width:300px;object-fit:contain;margin:10px}.unit-cube{width:40px;height:40px;border:2px solid #333;display:flex;align-items:center;justify-content:center;font-weight:bold;background:#FFE082}.measurement-bar{height:35px;border:3px solid;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold}.bar-row{margin-bottom:25px}.answer-box{border-bottom:3px solid #333;min-width:55px;height:30px}.answer-key{margin-top:40px;padding:20px;background:#f0f8ff;border:3px solid #4169E1;border-radius:10px}</style>`
 
-## EXAMPLE OUTPUT
-
-**Q1 (Direct Comparison):**
-```html
-<div class="question" style="background: #FFF9C4;">
-    <p class="question-text"><span class="question-number">1.</span> Which pencil is LONGER?</p>
-    <div class="comparison-visual">
-        <div class="object-to-compare">
-            <p class="object-label">Pencil A</p>
-            <div class="pencil short-pencil"></div>
-        </div>
-        <div class="object-to-compare">
-            <p class="object-label">Pencil B</p>
-            <div class="pencil long-pencil"></div>
-        </div>
-    </div>
-    <p class="answer-prompt">Circle: <span class="choice">Pencil A</span> or <span class="choice">Pencil B</span></p>
-</div>
-```
-
-**Q2 (Measure with Units):**
-```html
-<div class="question" style="background: #E3F2FD;">
-    <p class="question-text"><span class="question-number">2.</span> How many cubes long is the ribbon?</p>
-    <div class="measurement-visual">
-        <div class="object-to-measure ribbon"></div>
-        <div class="unit-ruler">
-            <div class="unit-cube"></div>
-            <div class="unit-cube"></div>
-            <div class="unit-cube"></div>
-            <div class="unit-cube"></div>
-            <div class="unit-cube"></div>
-            <div class="unit-cube"></div>
-        </div>
-    </div>
-    <p class="answer-prompt">The ribbon is <span class="answer-box"></span> cubes long.</p>
-</div>
-```
-
-**Q3 (Order by Length):**
-```html
-<div class="question" style="background: #F1F8E9;">
-    <p class="question-text"><span class="question-number">3.</span> Write the numbers 1, 2, 3 to order from SHORTEST to LONGEST.</p>
-    <div class="ordering-visual">
-        <div class="item-box"><div class="line medium-line"></div><p class="order-box">___</p></div>
-        <div class="item-box"><div class="line short-line"></div><p class="order-box">___</p></div>
-        <div class="item-box"><div class="line long-line"></div><p class="order-box">___</p></div>
-    </div>
-</div>
-```
-
-**Q4 (Word Problem):**
-```html
-<div class="question" style="background: #FCE4EC;">
-    <p class="question-text"><span class="question-number">4.</span> Ben's pencil is 8 cubes long. Emma's pencil is 5 cubes long. Whose pencil is longer?</p>
-    <div class="comparison-bars">
-        <div class="bar-row"><p class="person-label">Ben</p><div class="bar" style="width: 240px;">8 cubes</div></div>
-        <div class="bar-row"><p class="person-label">Emma</p><div class="bar" style="width: 150px;">5 cubes</div></div>
-    </div>
-    <p class="answer-prompt"><span class="answer-line">________</span> has the longer pencil.</p>
-</div>
-```
-
-**Q5 (Estimate and Measure):**
-```html
-<div class="question" style="background: #FFF3E0;">
-    <p class="question-text"><span class="question-number">5.</span> Estimate: About how many paper clips long is the book? Then measure.</p>
-    <div class="estimate-measure">
-        <div class="book-visual"></div>
-        <div class="clip-ruler">
-            <div class="paper-clip"></div>
-            <div class="paper-clip"></div>
-            <div class="paper-clip"></div>
-            <div class="paper-clip"></div>
-            <div class="paper-clip"></div>
-            <div class="paper-clip"></div>
-            <div class="paper-clip"></div>
-        </div>
-    </div>
-    <p class="answer-prompt">Estimate: <span class="answer-box"></span> clips | Actual: <span class="answer-box"></span> clips</p>
-</div>
-```
-
-**Answer Key:**
-```html
-<div class="answer-key">
-    <h2 class="answer-key-title">Answer Key</h2>
-    <div class="answer-key-content">
-        <p><strong>1.</strong> Pencil B (longer)</p>
-        <p><strong>2.</strong> 6 cubes long</p>
-        <p><strong>3.</strong> Order: 2 (short), 1 (medium), 3 (long)</p>
-        <p><strong>4.</strong> Ben (8 cubes > 5 cubes)</p>
-        <p><strong>5.</strong> Actual: 7 clips (estimates vary)</p>
-    </div>
-</div>
-```
-
-Replace {{topic}}, {{subtopic}}, {{yearGroup}}, {{difficulty}}, {{questionCount}} with actual values.
-
-Generate worksheet NOW.
+5Qs (Q1-Q5 formats above) + counts (Q2:small 5-6|med 7-8|large 9-10; Q4:min4,3+gap; Q5:small 5-6|med 7-8|large 9-12) + answer key + CSS. NO cm/m. Gen NOW.

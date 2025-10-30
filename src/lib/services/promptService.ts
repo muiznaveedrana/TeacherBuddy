@@ -178,6 +178,7 @@ export class PromptService {
       if (freshnessInstructions) {
         configPrompt = `${freshnessInstructions}\n\n---\n\n${configPrompt}`;
         console.log(`🔄 Freshness tracking enabled: ${previousWorksheets?.length || 0} previous worksheet(s) excluded`);
+        console.log(`📋 FRESHNESS INSTRUCTIONS:\n${freshnessInstructions}\n`);
       }
 
       console.log(`✅ Loaded prompt: ${path.basename(promptPathToUse)}`);
@@ -1721,7 +1722,7 @@ ${questionGuidanceLines}
     const usedObjects = new Set<string>()
 
     allPreviousQuestions.forEach(q => {
-      const objectMatches = q.match(/\b(apples?|pears?|oranges?|bananas?|grapes?|strawberr(?:y|ies)|cherr(?:y|ies)|watermelons?|lemons?|peaches?|plums?|flowers?|roses?|tulips?|daisies?|sunflowers?|butterfl(?:y|ies)|bees?|ladybugs?|ants?|spiders?|birds?|chickens?|cows?|pigs?|sheep|horses?|dogs?|cats?|frogs?|fish|ducks?|rabbits?|bears?|elephants?|lions?|tigers?|monkeys?|giraffes?|cars?|trucks?|buses?|trains?|planes?|boats?|bicycles?|pencils?|pens?|crayons?|markers?|books?|scissors?|rulers?|erasers?|balls?|blocks?|toys?|dolls?|teddy bears?|stars?|hearts?|circles?|squares?|triangles?|diamonds?|cookies?|cupcakes?|candies?|lollipops?|carrots?|tomatoes?|potatoes?|corn|broccoli|peas?|balloons?|presents?|candles?|hats?|shoes?|socks?|shirts?|buttons?|leaves?|trees?|acorns?|shells?|rocks?|feathers?|goats?)\b/gi)
+      const objectMatches = q.match(/\b(apples?|pears?|oranges?|bananas?|grapes?|strawberr(?:y|ies)|cherr(?:y|ies)|watermelons?|lemons?|peaches?|plums?|flowers?|roses?|tulips?|daisies?|sunflowers?|butterfl(?:y|ies)|bees?|ladybugs?|ants?|spiders?|birds?|chickens?|cows?|pigs?|sheep|horses?|dogs?|cats?|frogs?|fish|ducks?|rabbits?|bears?|elephants?|lions?|tigers?|monkeys?|giraffes?|cars?|trucks?|buses?|trains?|planes?|boats?|bicycles?|pencils?|pens?|crayons?|markers?|books?|scissors?|rulers?|erasers?|balls?|blocks?|toys?|dolls?|teddy bears?|stars?|hearts?|circles?|squares?|triangles?|diamonds?|cookies?|cupcakes?|candies?|lollipops?|carrots?|tomatoes?|potatoes?|corn|broccoli|peas?|balloons?|presents?|candles?|hats?|shoes?|socks?|shirts?|buttons?|leaves?|trees?|acorns?|shells?|rocks?|feathers?|goats?|ribbons?|saws?|caterpillars?|snails?|scarves?|sticks?|paintbrushes?|wrenches?|hammers?|snakes?)\b/gi)
       if (objectMatches) {
         objectMatches.forEach(obj => {
           const normalized = obj.toLowerCase().replace(/ies$/, 'y').replace(/s$/, '')
@@ -1922,7 +1923,7 @@ RULE:Use EXACT specs above for variation.
     const usedNumbers = new Set<number>()
 
     allPreviousQuestions.forEach(q => {
-      const objectMatches = q.match(/\b(apples?|pears?|oranges?|bananas?|grapes?|strawberr(?:y|ies)|cherr(?:y|ies)|watermelons?|lemons?|peaches?|plums?|flowers?|roses?|tulips?|daisies?|sunflowers?|butterfl(?:y|ies)|bees?|ladybugs?|ants?|spiders?|birds?|chickens?|cows?|pigs?|sheep|horses?|dogs?|cats?|frogs?|fish|ducks?|rabbits?|bears?|elephants?|lions?|tigers?|monkeys?|giraffes?|cars?|trucks?|buses?|trains?|planes?|boats?|bicycles?|pencils?|pens?|crayons?|markers?|books?|scissors?|rulers?|erasers?|balls?|blocks?|toys?|dolls?|teddy bears?|stars?|hearts?|circles?|squares?|triangles?|diamonds?|cookies?|cupcakes?|candies?|lollipops?|carrots?|tomatoes?|potatoes?|corn|broccoli|peas?|balloons?|presents?|candles?|hats?|shoes?|socks?|shirts?|buttons?|leaves?|trees?|acorns?|shells?|rocks?|feathers?|goats?)\b/gi)
+      const objectMatches = q.match(/\b(apples?|pears?|oranges?|bananas?|grapes?|strawberr(?:y|ies)|cherr(?:y|ies)|watermelons?|lemons?|peaches?|plums?|flowers?|roses?|tulips?|daisies?|sunflowers?|butterfl(?:y|ies)|bees?|ladybugs?|ants?|spiders?|birds?|chickens?|cows?|pigs?|sheep|horses?|dogs?|cats?|frogs?|fish|ducks?|rabbits?|bears?|elephants?|lions?|tigers?|monkeys?|giraffes?|cars?|trucks?|buses?|trains?|planes?|boats?|bicycles?|pencils?|pens?|crayons?|markers?|books?|scissors?|rulers?|erasers?|balls?|blocks?|toys?|dolls?|teddy bears?|stars?|hearts?|circles?|squares?|triangles?|diamonds?|cookies?|cupcakes?|candies?|lollipops?|carrots?|tomatoes?|potatoes?|corn|broccoli|peas?|balloons?|presents?|candles?|hats?|shoes?|socks?|shirts?|buttons?|leaves?|trees?|acorns?|shells?|rocks?|feathers?|goats?|ribbons?|saws?|caterpillars?|snails?|scarves?|sticks?|paintbrushes?|wrenches?|hammers?|snakes?)\b/gi)
       if (objectMatches) {
         objectMatches.forEach(obj => {
           const normalized = obj.toLowerCase().replace(/ies$/, 'y').replace(/s$/, '')
@@ -1983,6 +1984,32 @@ RULE:Use EXACT specs above for variation.
 
     // PHASE 2 OPTIMIZATION: Ultra-compact freshness format
     // Token savings: ~60-80 tokens per iteration (from ~150 tokens to ~70-90 tokens)
+
+    // MEASUREMENT TOPICS: Add stronger enforcement
+    const isMeasurement = subtopic?.toLowerCase().includes('length') ||
+                          subtopic?.toLowerCase().includes('height') ||
+                          subtopic?.toLowerCase().includes('measure');
+
+    if (isMeasurement && forbiddenArray.length > 0) {
+      return `**ITERATION ${previousWorksheets.length} - MANDATORY FRESHNESS:**
+
+❌ FORBIDDEN OBJECTS (Recently used - DO NOT REPEAT):
+${forbiddenArray.map(obj => `   - ${obj}`).join('\n')}
+
+❌ FORBIDDEN NUMBERS (DO NOT REPEAT): ${usedNumbersList}
+✅ REQUIRED NUMBERS (Use these): ${freshNumbersList}
+
+🎯 WITHIN THIS WORKSHEET:
+   - Q1 must use DIFFERENT object than Q2, Q3, Q5
+   - Q2 must use DIFFERENT object than Q1, Q3, Q5
+   - Q3 must use DIFFERENT object than Q1, Q2, Q5
+   - Q5 must use DIFFERENT object than Q1, Q2, Q3
+
+⚠️  PENALTY: Using forbidden object = AUTOMATIC REJECTION
+✅ SUCCESS: All 5 questions use different objects + avoid forbidden list
+`;
+    }
+
     return `**ITER ${previousWorksheets.length} (Track ${recentWorksheets.length}):**
 AVOID OBJECTS: ${forbiddenList}
 AVOID NUMBERS: ${usedNumbersList}

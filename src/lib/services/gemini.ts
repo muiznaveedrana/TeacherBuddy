@@ -683,7 +683,8 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, improve
     let questionCount = 0
     
     // Try multiple patterns to detect questions
-    const questionNumberMatches = cleanContent.match(/<span class="question-number">\d+\.<\/span>/g)
+    // Updated regex to allow optional content (like emojis) after the number
+    const questionNumberMatches = cleanContent.match(/<span class="question-number">\d+\..*?<\/span>/g)
     console.log('🔍 Question detection - question-number spans:', questionNumberMatches ? questionNumberMatches.length : 0)
     
     if (questionNumberMatches) {
