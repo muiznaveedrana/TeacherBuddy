@@ -1868,7 +1868,36 @@ ${historyLines}
     previousWorksheets?: Array<{ questions: string[]; images: string[] }>,
     subtopic?: string
   ): string {
-    // PHASE 2 OPTIMIZATION: Lazy Freshness - Skip freshness on first worksheet
+    console.log('🔍 [DEBUG] Subtopic received:', subtopic, 'type:', typeof subtopic)
+    console.log('🔍 [LEAN] buildFreshnessInstructions: Received', previousWorksheets?.length || 0, 'previous worksheets')
+
+    // 🎯 YEAR 2 MENTAL STRATEGIES DETECTION: Route to specialized freshness function
+    const isMentalStrategies = subtopic?.toLowerCase().includes('mental') &&
+                               subtopic?.toLowerCase().includes('strateg');
+    console.log("🎯 [Y2 MENTAL DEBUG] subtopic:", subtopic, "isMentalStrategies:", isMentalStrategies);
+    if (isMentalStrategies) {
+      // SLIDING WINDOW for mental strategies
+      const WINDOW_SIZE = 5;
+      const recentWorksheets = (previousWorksheets && previousWorksheets.length > WINDOW_SIZE)
+        ? previousWorksheets.slice(-WINDOW_SIZE)
+        : previousWorksheets || [];
+      return this.buildYear2MentalStrategiesFreshness(previousWorksheets || [], recentWorksheets);
+    }
+
+    // 🎯 YEAR 2 EQUIVALENT FRACTIONS DETECTION: Route to specialized freshness function (ALWAYS injects)
+    const isEquivalentFractions = subtopic?.toLowerCase().includes('equivalent') &&
+                                  subtopic?.toLowerCase().includes('fraction');
+    console.log("🎯 [Y2 EQUIV FRAC DEBUG] subtopic:", subtopic, "isEquivalentFractions:", isEquivalentFractions);
+    if (isEquivalentFractions) {
+      // SLIDING WINDOW for equivalent fractions
+      const WINDOW_SIZE = 5;
+      const recentWorksheets = (previousWorksheets && previousWorksheets.length > WINDOW_SIZE)
+        ? previousWorksheets.slice(-WINDOW_SIZE)
+        : previousWorksheets || [];
+      return this.buildYear2EquivalentFractionsFreshness(previousWorksheets || [], recentWorksheets);
+    }
+
+    // PHASE 2 OPTIMIZATION: Lazy Freshness - Skip freshness on first worksheet (ONLY for non-specialized topics)
     // FIRST WORKSHEET: Return empty string (let LLM use natural randomness)
     // Token savings: ~180-220 tokens per first worksheet
     // Time savings: ~1-2s (no processing + smaller prompt to send)
@@ -1883,8 +1912,48 @@ ${historyLines}
       ? previousWorksheets.slice(-WINDOW_SIZE)
       : previousWorksheets;
 
-    console.log('🔍 [LEAN] buildFreshnessInstructions: Received', previousWorksheets?.length || 0, 'previous worksheets')
     console.log(`🔄 [LEAN] Using ${WINDOW_SIZE}-worksheet sliding window: tracking last ${recentWorksheets.length} worksheets`)
+
+    // 🎯 YEAR 2 TWO-DIGIT NUMBERS DETECTION: Route to specialized freshness function
+    const isTwoDigitNumbers = subtopic?.toLowerCase().includes('two-digit') ||
+                              subtopic?.toLowerCase().includes('two digit') ||
+                              (subtopic?.toLowerCase().includes('digit') && subtopic?.toLowerCase().includes('number'));
+    console.log("🎯 [Y2 TWODIGIT DEBUG] subtopic:", subtopic, "isTwoDigitNumbers:", isTwoDigitNumbers);
+    if (isTwoDigitNumbers) {
+      return this.buildYear2TwoDigitFreshness(previousWorksheets, recentWorksheets);
+    }
+
+    // 🎯 YEAR 2 WORD PROBLEMS DETECTION: Route to specialized freshness function
+    const isWordProblems = subtopic?.toLowerCase().includes('word') &&
+                          subtopic?.toLowerCase().includes('problem');
+    console.log("🎯 [Y2 WORDPROB DEBUG] subtopic:", subtopic, "isWordProblems:", isWordProblems);
+    if (isWordProblems) {
+      return this.buildYear2WordProblemsFreshness(previousWorksheets, recentWorksheets);
+    }
+
+    // 🎯 YEAR 3 THREE-DIGIT NUMBERS DETECTION: Route to specialized freshness function
+    const isYear3ThreeDigit = subtopic?.toLowerCase().includes('three-digit') ||
+                              (subtopic?.toLowerCase().includes('three') && subtopic?.toLowerCase().includes('digit'));
+    console.log("🎯 [Y3 THREEDIGIT DEBUG] subtopic:", subtopic, "isYear3ThreeDigit:", isYear3ThreeDigit);
+    if (isYear3ThreeDigit) {
+      return this.buildYear3ThreeDigitFreshness(previousWorksheets, recentWorksheets);
+    }
+
+    // 🎯 YEAR 3 WRITTEN METHODS DETECTION: Route to specialized freshness function
+    const isYear3WrittenMethods = subtopic?.toLowerCase().includes('written') &&
+                                  subtopic?.toLowerCase().includes('method');
+    console.log("🎯 [Y3 WRITTEN DEBUG] subtopic:", subtopic, "isYear3WrittenMethods:", isYear3WrittenMethods);
+    if (isYear3WrittenMethods) {
+      return this.buildYear3WrittenMethodsFreshness(previousWorksheets, recentWorksheets);
+    }
+
+    // 🎯 YEAR 3 PROBLEM SOLVING DETECTION: Route to specialized freshness function
+    const isYear3ProblemSolving = subtopic?.toLowerCase().includes('problem') &&
+                                  subtopic?.toLowerCase().includes('solv');
+    console.log("🎯 [Y3 PROBLEMSOLV DEBUG] subtopic:", subtopic, "isYear3ProblemSolving:", isYear3ProblemSolving);
+    if (isYear3ProblemSolving) {
+      return this.buildYear3ProblemSolvingFreshness(previousWorksheets, recentWorksheets);
+    }
 
     // 🎨 PATTERN WORKSHEET DETECTION: Inject pattern question specs for variety
     const isPatterns = subtopic?.toLowerCase().includes('pattern');
@@ -2043,6 +2112,776 @@ RULE: NEW objects+numbers, 80%+ fresh.
     })
 
     return freshCategories.slice(0, 5).join(', ')
+  }
+
+  /**
+   * ========================================
+   * YEAR 2 MENTAL STRATEGIES FRESHNESS
+   * ========================================
+   * Specialized rotation logic for Year 2 mental addition/subtraction strategies
+   * Handles 5 rotation dimensions:
+   * 1. Strategy types (ND, BR10, NB, COMP, MIX)
+   * 2. Visual modes (pure, visual, css, objects, numberline, coins)
+   * 3. Number ranges (within20, within50)
+   * 4. Coin integration (frequency & denominations)
+   * 5. Object contexts (school, fruits, toys, farm, etc.)
+   */
+
+  // Year 2 Mental Strategies Rotation Pools
+  private static readonly Y2_STRATEGY_ROTATIONS = {
+    Q1: ['ND-visual', 'ND-pure', 'ND-css', 'ND-objects'],
+    Q2: ['BR10-numberline', 'BR10-diagram', 'BR10-pure', 'BR10-visual'],
+    Q3: ['NB-css', 'NB-visual', 'NB-objects', 'NB-pure'],
+    Q4: ['COMP-pure', 'COMP-visual', 'COMP-money', 'COMP-css'],
+    Q5: ['MIX-word', 'MIX-selection', 'MIX-speed', 'MIX-money']
+  };
+
+  private static readonly Y2_NUMBER_RANGES = [
+    'Q1-3:within20|Q4-5:within50',
+    'Q1-2:within20|Q3-5:within50',
+    'Q1,3,5:within20|Q2,4:within50',
+    'Q1-4:within20|Q5:within50',
+    'ALL:within20',
+    'Q1-2:within50|Q3-5:within20'
+  ];
+
+  private static readonly Y2_COIN_SPECS = [
+    'Q4:use(5p,10p)',
+    'Q4:use(1p,2p,5p)',
+    'Q5:use(5p,10p,20p)',
+    'Q4-5:use(5p,10p)',
+    'none'
+  ];
+
+  private static readonly Y2_VISUAL_CONTEXTS = [
+    'school:pencil,book,eraser,crayon',
+    'fruits:apple,banana,orange,strawberry',
+    'toys:ball,car,doll,block',
+    'farm:chicken,cow,duck,sheep',
+    'shapes:star,heart,circle,square',
+    'food:cookie,cupcake'
+  ];
+
+  /**
+   * Year 2 Equivalent Fractions (Simple 1/2 = 2/4) Rotation Pools
+   */
+  private static readonly Y2_EQUIVALENTFRACTIONS_COLORS = [
+    'shaded-blue',
+    'shaded-orange',
+    'shaded-green',
+    'shaded-purple'
+  ];
+
+  private static readonly Y2_EQUIVALENTFRACTIONS_Q2_ORDERS = [
+    '1/4,2/4,3/4',
+    '2/4,1/4,3/4',
+    '3/4,2/4,1/4',
+    '1/4,3/4,2/4',
+    '2/4,3/4,1/4',
+    '3/4,1/4,2/4'
+  ];
+
+  private static readonly Y2_EQUIVALENTFRACTIONS_CONTEXTS = [
+    'pizza',
+    'chocolate bar',
+    'cake',
+    'sandwich',
+    'ribbon',
+    'apple'
+  ];
+
+  private static readonly Y2_EQUIVALENTFRACTIONS_SHAPES = [
+    'circle',
+    'rectangle-horizontal',
+    'rectangle-vertical',
+    'bar'
+  ];
+
+  private static readonly Y2_EQUIVALENTFRACTIONS_Q5_PIECES = [
+    '4',
+    '8'
+  ];
+
+  private static readonly Y2_EQUIVALENTFRACTIONS_Q1_VARIATIONS = [
+    'A', 'B', 'C'
+  ];
+
+  private static readonly Y2_EQUIVALENTFRACTIONS_Q4_VARIATIONS = [
+    'A', 'B', 'C', 'D'
+  ];
+
+  /**
+   * Select fresh option from pool, avoiding recently used
+   */
+  private static selectFreshOption<T>(pool: T[], usedOptions: Set<T>): T {
+    const available = pool.filter(opt => !usedOptions.has(opt));
+    if (available.length === 0) {
+      // All used - pick random from full pool
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
+    return available[Math.floor(Math.random() * available.length)];
+  }
+
+  /**
+   * Extract used strategy specs from previous worksheets
+   */
+  private static extractUsedY2Specs(recentWorksheets: Array<{ questions: string[]; images: string[] }>) {
+    const usedSpecs = {
+      Q1: new Set<string>(),
+      Q2: new Set<string>(),
+      Q3: new Set<string>(),
+      Q4: new Set<string>(),
+      Q5: new Set<string>(),
+      ranges: new Set<string>(),
+      coins: new Set<string>(),
+      contexts: new Set<string>()
+    };
+
+    // Extract specs from previous worksheet HTML/content
+    recentWorksheets.forEach(ws => {
+      const content = ws.questions.join(' ');
+
+      // Extract strategy patterns
+      const specMatch = content.match(/SPEC:\s*Q1:([\w-]+)\|Q2:([\w-]+)\|Q3:([\w-]+)\|Q4:([\w-]+)\|Q5:([\w-]+)/);
+      if (specMatch) {
+        usedSpecs.Q1.add(specMatch[1]);
+        usedSpecs.Q2.add(specMatch[2]);
+        usedSpecs.Q3.add(specMatch[3]);
+        usedSpecs.Q4.add(specMatch[4]);
+        usedSpecs.Q5.add(specMatch[5]);
+      }
+
+      // Extract range patterns
+      const rangeMatch = content.match(/RANGE:\s*([\w:,|-]+)/);
+      if (rangeMatch) {
+        usedSpecs.ranges.add(rangeMatch[1]);
+      }
+
+      // Extract coin patterns
+      const coinMatch = content.match(/COINS:\s*([\w:,()|-]+)/);
+      if (coinMatch) {
+        usedSpecs.coins.add(coinMatch[1]);
+      }
+
+      // Extract context patterns
+      const contextMatch = content.match(/CONTEXT:\s*([\w:,]+)/);
+      if (contextMatch) {
+        usedSpecs.contexts.add(contextMatch[1]);
+      }
+    });
+
+    return usedSpecs;
+  }
+
+  /**
+   * Extract avoided objects from previous worksheets
+   */
+  private static extractAvoidedObjects(recentWorksheets: Array<{ questions: string[]; images: string[] }>): string[] {
+    const usedObjects = new Set<string>();
+    const allPreviousQuestions = recentWorksheets.flatMap(w => w.questions);
+
+    allPreviousQuestions.forEach(q => {
+      const objectMatches = q.match(/\b(apple|banana|orange|strawberry|grape|pear|lemon|watermelon|peach|pineapple|pencil|book|eraser|crayon|marker|scissors|ruler|glue|backpack|ball|car|doll|block|kite|teddy|chicken|cow|duck|sheep|pig|horse|goat|goose|turkey|star|heart|circle|square|diamond|cookie|cupcake|flower|butterfly|bee|bird|tree|leaf|carrot|tomato|broccoli|cucumber|pepper|potato)\b/gi);
+      if (objectMatches) {
+        objectMatches.forEach(obj => usedObjects.add(obj.toLowerCase()));
+      }
+    });
+
+    return Array.from(usedObjects);
+  }
+
+  /**
+   * Extract avoided numbers from previous worksheets
+   */
+  private static extractAvoidedNumbers(recentWorksheets: Array<{ questions: string[]; images: string[] }>): number[] {
+    const usedNumbers = new Set<number>();
+    const allPreviousQuestions = recentWorksheets.flatMap(w => w.questions);
+
+    allPreviousQuestions.forEach(q => {
+      // Match numbers in mathematical context (addition/subtraction)
+      const numberMatches = q.match(/\b([5-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|50)\s*[+\-]|[+\-]\s*([5-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|50)\b/g);
+      if (numberMatches) {
+        numberMatches.forEach(match => {
+          const nums = match.match(/\d+/g);
+          nums?.forEach(n => usedNumbers.add(parseInt(n, 10)));
+        });
+      }
+    });
+
+    return Array.from(usedNumbers).sort((a, b) => a - b);
+  }
+
+  /**
+   * Build Year 2 Mental Strategies freshness instructions
+   */
+  private static buildYear2MentalStrategiesFreshness(
+    previousWorksheets: Array<{ questions: string[]; images: string[] }>,
+    recentWorksheets: Array<{ questions: string[]; images: string[] }>
+  ): string {
+
+    console.log('🎯 [Y2 MENTAL] Building freshness for Year 2 Mental Strategies');
+    console.log(`🎯 [Y2 MENTAL] Previous worksheets: ${previousWorksheets.length}, Recent window: ${recentWorksheets.length}`);
+
+    // FIRST WORKSHEET: Return empty string (lazy freshness - let LLM use natural variety)
+    if (!previousWorksheets || previousWorksheets.length === 0) {
+      console.log('🎯 [Y2 MENTAL] First worksheet - using natural variety (no injection)');
+      return '';
+    }
+
+    // Extract used specs from recent worksheets
+    const usedSpecs = this.extractUsedY2Specs(recentWorksheets);
+    console.log('🎯 [Y2 MENTAL] Used specs:', {
+      Q1: Array.from(usedSpecs.Q1),
+      Q2: Array.from(usedSpecs.Q2),
+      Q3: Array.from(usedSpecs.Q3),
+      Q4: Array.from(usedSpecs.Q4),
+      Q5: Array.from(usedSpecs.Q5),
+      ranges: Array.from(usedSpecs.ranges),
+      coins: Array.from(usedSpecs.coins),
+      contexts: Array.from(usedSpecs.contexts)
+    });
+
+    // Select fresh strategy rotations (avoid recently used)
+    const freshQ1 = this.selectFreshOption(this.Y2_STRATEGY_ROTATIONS.Q1, usedSpecs.Q1);
+    const freshQ2 = this.selectFreshOption(this.Y2_STRATEGY_ROTATIONS.Q2, usedSpecs.Q2);
+    const freshQ3 = this.selectFreshOption(this.Y2_STRATEGY_ROTATIONS.Q3, usedSpecs.Q3);
+    const freshQ4 = this.selectFreshOption(this.Y2_STRATEGY_ROTATIONS.Q4, usedSpecs.Q4);
+    const freshQ5 = this.selectFreshOption(this.Y2_STRATEGY_ROTATIONS.Q5, usedSpecs.Q5);
+
+    // Select fresh number range
+    const freshRange = this.selectFreshOption(this.Y2_NUMBER_RANGES, usedSpecs.ranges);
+
+    // Rotate coin integration (25% frequency OR every 4th iteration OR if Q4/Q5 strategy requires money)
+    const needsMoneyForStrategy = freshQ4.includes('money') || freshQ5.includes('money');
+    const isCoinIteration = previousWorksheets.length % 4 === 0;
+    const randomCoin = Math.random() < 0.25;
+    const useCoins = needsMoneyForStrategy || isCoinIteration || randomCoin;
+
+    const coinSpec = useCoins
+      ? this.selectFreshOption(this.Y2_COIN_SPECS.filter(c => c !== 'none'), usedSpecs.coins)
+      : 'none';
+
+    console.log('🎯 [Y2 MENTAL] Coin decision:', { needsMoneyForStrategy, isCoinIteration, randomCoin, useCoins, coinSpec });
+
+    // Select fresh object context
+    const freshContext = this.selectFreshOption(this.Y2_VISUAL_CONTEXTS, usedSpecs.contexts);
+
+    // Extract avoided objects and numbers
+    const avoidObjects = this.extractAvoidedObjects(recentWorksheets);
+    const avoidNumbers = this.extractAvoidedNumbers(recentWorksheets);
+
+    console.log('🎯 [Y2 MENTAL] Avoid:', { objects: avoidObjects.length, numbers: avoidNumbers.length });
+    console.log('🎯 [Y2 MENTAL] Fresh selections:', { Q1: freshQ1, Q2: freshQ2, Q3: freshQ3, Q4: freshQ4, Q5: freshQ5, range: freshRange, context: freshContext });
+
+    // Build ultra-compact freshness injection
+    const freshnessOutput = `**ITER ${previousWorksheets.length}:**
+{{STRATEGY_SPEC}} = Q1:${freshQ1}|Q2:${freshQ2}|Q3:${freshQ3}|Q4:${freshQ4}|Q5:${freshQ5}
+{{NUMBER_RANGE}} = ${freshRange}
+{{COIN_SPEC}} = ${coinSpec}
+{{VISUAL_MODE}} = ${freshContext}
+AVOID-OBJ: ${avoidObjects.length > 0 ? avoidObjects.join(',') : 'none'}
+AVOID-NUM: ${avoidNumbers.length > 0 ? avoidNumbers.join(',') : 'none'}
+RULE: Follow {{STRATEGY_SPEC}} exactly. Replace injection points with values above. Fresh every time.
+`;
+
+    console.log('🎯 [Y2 MENTAL] Freshness output preview:', freshnessOutput.substring(0, 200));
+    return freshnessOutput;
+  }
+
+  /**
+   * Build Year 2 Equivalent Fractions - inject variation parameters (TOKEN-EFFICIENT)
+   * Works WITH the COMPRESSED prompt's built-in variation system instead of fighting it
+   */
+  private static buildYear2EquivalentFractionsFreshness(
+    previousWorksheets: Array<{ questions: string[]; images: string[] }>,
+    recentWorksheets: Array<{ questions: string[]; images: string[] }>
+  ): string {
+
+    console.log('🎯 [Y2 EQUIV FRAC] Building parameter-based freshness (token-efficient)');
+
+    // Random variation parameters to work WITH COMPRESSED prompt's variation system
+    const q1Vars = ['A', 'B', 'C'];
+    const q5Opts = [
+      { ctx: 'pizza', pcs: 4 },
+      { ctx: 'chocolate bar', pcs: 4 },
+      { ctx: 'cake', pcs: 4 },
+      { ctx: 'pizza', pcs: 8 },
+      { ctx: 'sandwich', pcs: 4 },
+      { ctx: 'ribbon', pcs: 4 }
+    ];
+
+    const q1 = q1Vars[Math.floor(Math.random() * q1Vars.length)];
+    const q5 = q5Opts[Math.floor(Math.random() * q5Opts.length)];
+
+    // Ultra-compact parameter injection (~35 tokens vs ~600+ for full HTML templates = 17x more efficient!)
+    const output = `# VARIATION OVERRIDE (MANDATORY)
+Use Q1-VARIATION=${q1}, Q5-CONTEXT=${q5.ctx}, Q5-PIECES=${q5.pcs}
+
+`;
+
+    console.log(`🎯 [Y2 EQUIV FRAC] Q1=${q1}, Q5=${q5.ctx}(${q5.pcs}pc)`);
+    return output;
+  }
+
+  /**
+   * Year 2 Two-Digit Addition/Subtraction Rotation Pools
+   */
+  private static readonly Y2_TWODIGIT_METHOD_ROTATIONS = {
+    Q1: ['partition-horizontal', 'partition-vertical', 'partition-with-objects', 'base10-visual'],
+    Q2: ['column-addition-no-regroup', 'column-addition-regroup', 'horizontal-addition', 'number-line-addition'],
+    Q3: ['partition-subtraction', 'base10-subtraction', 'number-line-subtraction', 'place-value-chart'],
+    Q4: ['column-subtraction-no-regroup', 'column-subtraction-regroup', 'horizontal-subtraction', 'comparison-subtraction'],
+    Q5: ['word-problem-addition', 'word-problem-subtraction', 'word-problem-money', 'word-problem-mixed']
+  };
+
+  private static readonly Y2_TWODIGIT_NUMBER_RANGES = [
+    'Easy:20-50', 'Average:30-70', 'Hard:50-99',
+    'Mixed:20-99', 'Easy-Avg:20-60', 'Avg-Hard:40-99'
+  ];
+
+  private static readonly Y2_TWODIGIT_REGROUP_SPECS = [
+    'Q2:no,Q4:no',   // No regrouping/borrowing
+    'Q2:yes,Q4:no',  // Addition regroups, subtraction doesn't
+    'Q2:no,Q4:yes',  // Subtraction borrows, addition doesn't
+    'Q2:yes,Q4:yes'  // Both regroup
+  ];
+
+  private static readonly Y2_TWODIGIT_CONTEXTS = [
+    'school', 'toys', 'food', 'animals', 'money', 'party'
+  ];
+
+  private static readonly Y2_TWODIGIT_OPERATION_MIXES = [
+    'Q1-3:add,Q4-5:subtract',
+    'Q1-2:add,Q3-5:subtract',
+    'Q1,3,5:add,Q2,4:subtract',
+    'ALL:mixed'
+  ];
+
+  /**
+   * Build Year 2 Two-Digit Numbers Freshness Injection
+   * Rotates: method per question, number range, regrouping spec, context, operation mix
+   */
+  private static buildYear2TwoDigitFreshness(
+    previousWorksheets: Array<{ questions: string[]; images: string[] }>,
+    recentWorksheets: Array<{ questions: string[]; images: string[] }>
+  ): string {
+    console.log('🎯 [Y2 TWODIGIT] Building freshness for Year 2 Two-Digit Addition/Subtraction');
+
+    // First worksheet: no injection (lazy freshness)
+    if (!previousWorksheets || previousWorksheets.length === 0) {
+      console.log('🎯 [Y2 TWODIGIT] First worksheet - using natural variety (no injection)');
+      return '';
+    }
+
+    // Extract used specs from recent worksheets
+    const usedSpecs = this.extractUsedY2Specs(recentWorksheets);
+    console.log('🎯 [Y2 TWODIGIT] Used specs from recent worksheets:', usedSpecs);
+
+    // Select fresh options for each question
+    const freshQ1 = this.selectFreshOption(this.Y2_TWODIGIT_METHOD_ROTATIONS.Q1, usedSpecs.Q1);
+    const freshQ2 = this.selectFreshOption(this.Y2_TWODIGIT_METHOD_ROTATIONS.Q2, usedSpecs.Q2);
+    const freshQ3 = this.selectFreshOption(this.Y2_TWODIGIT_METHOD_ROTATIONS.Q3, usedSpecs.Q3);
+    const freshQ4 = this.selectFreshOption(this.Y2_TWODIGIT_METHOD_ROTATIONS.Q4, usedSpecs.Q4);
+    const freshQ5 = this.selectFreshOption(this.Y2_TWODIGIT_METHOD_ROTATIONS.Q5, usedSpecs.Q5);
+    console.log('🎯 [Y2 TWODIGIT] Selected fresh methods:', { Q1: freshQ1, Q2: freshQ2, Q3: freshQ3, Q4: freshQ4, Q5: freshQ5 });
+
+    // Select fresh range
+    const freshRange = this.selectFreshOption(this.Y2_TWODIGIT_NUMBER_RANGES, usedSpecs.ranges);
+    console.log('🎯 [Y2 TWODIGIT] Selected fresh number range:', freshRange);
+
+    // Select fresh regrouping spec (create empty Set if not exists)
+    const freshRegroup = this.selectFreshOption(this.Y2_TWODIGIT_REGROUP_SPECS, new Set<string>());
+    console.log('🎯 [Y2 TWODIGIT] Selected fresh regrouping spec:', freshRegroup);
+
+    // Select fresh context
+    const freshContext = this.selectFreshOption(this.Y2_TWODIGIT_CONTEXTS, usedSpecs.contexts);
+    console.log('🎯 [Y2 TWODIGIT] Selected fresh context:', freshContext);
+
+    // Select fresh operation mix (create empty Set if not exists)
+    const freshOpMix = this.selectFreshOption(this.Y2_TWODIGIT_OPERATION_MIXES, new Set<string>());
+    console.log('🎯 [Y2 TWODIGIT] Selected fresh operation mix:', freshOpMix);
+
+    // Build compact injection
+    const freshnessOutput = `**ITER ${previousWorksheets.length}:**
+{{METHOD_SPEC}} = Q1:${freshQ1}|Q2:${freshQ2}|Q3:${freshQ3}|Q4:${freshQ4}|Q5:${freshQ5}
+{{NUMBER_RANGE}} = ${freshRange}
+{{REGROUP_SPEC}} = ${freshRegroup}
+{{CONTEXT}} = ${freshContext}
+{{OPERATION_MIX}} = ${freshOpMix}
+RULE: Follow {{METHOD_SPEC}} exactly. Replace injection points with values above. Fresh every time.
+`;
+
+    console.log('🎯 [Y2 TWODIGIT] Freshness output preview:', freshnessOutput.substring(0, 200));
+    return freshnessOutput;
+  }
+
+  /**
+   * Year 2 Word Problems Rotation Pools
+   */
+  private static readonly Y2_WORDPROB_TYPE_ROTATIONS = {
+    Q1: ['result-unknown-addition', 'result-unknown-objects', 'result-unknown-money', 'result-unknown-bar-model'],
+    Q2: ['part-unknown-subtraction', 'change-unknown-addition', 'comparison-difference', 'result-unknown-subtraction'],
+    Q3: ['comparison-bar-model', 'change-unknown-subtraction', 'part-unknown-addition', 'result-unknown-mixed'],
+    Q4: ['two-step-add-subtract', 'two-step-subtract-add', 'two-step-add-add', 'two-step-comparison'],
+    Q5: ['challenge-three-step', 'challenge-comparison-complex', 'challenge-money-change', 'challenge-open-ended']
+  };
+
+  private static readonly Y2_WORDPROB_VISUAL_SUPPORT = [
+    'bar-model-full', 'bar-model-simple', 'bar-model-blank',
+    'pictures-with-bar', 'pictures-only', 'pure-text'
+  ];
+
+  private static readonly Y2_WORDPROB_CONTEXTS = [
+    'school', 'toys', 'food-fruits', 'food-treats', 'animals', 'money-pence', 'party', 'sports'
+  ];
+
+  private static readonly Y2_WORDPROB_NUMBER_RANGES = [
+    'Easy:10-30', 'Average:20-50', 'Hard:30-99',
+    'Mixed:10-99', 'Easy-Avg:10-40', 'Avg-Hard:30-80'
+  ];
+
+  /**
+   * Build Year 2 Word Problems Freshness Injection
+   * Rotates: problem type per question, visual support, context, number range
+   */
+  private static buildYear2WordProblemsFreshness(
+    previousWorksheets: Array<{ questions: string[]; images: string[] }>,
+    recentWorksheets: Array<{ questions: string[]; images: string[] }>
+  ): string {
+    console.log('🎯 [Y2 WORDPROB] Building freshness for Year 2 Word Problems');
+
+    // First worksheet: no injection (lazy freshness)
+    if (!previousWorksheets || previousWorksheets.length === 0) {
+      console.log('🎯 [Y2 WORDPROB] First worksheet - using natural variety (no injection)');
+      return '';
+    }
+
+    // Extract used specs from recent worksheets
+    const usedSpecs = this.extractUsedY2Specs(recentWorksheets);
+    console.log('🎯 [Y2 WORDPROB] Used specs from recent worksheets:', usedSpecs);
+
+    // Select fresh problem types for each question
+    const freshQ1 = this.selectFreshOption(this.Y2_WORDPROB_TYPE_ROTATIONS.Q1, usedSpecs.Q1);
+    const freshQ2 = this.selectFreshOption(this.Y2_WORDPROB_TYPE_ROTATIONS.Q2, usedSpecs.Q2);
+    const freshQ3 = this.selectFreshOption(this.Y2_WORDPROB_TYPE_ROTATIONS.Q3, usedSpecs.Q3);
+    const freshQ4 = this.selectFreshOption(this.Y2_WORDPROB_TYPE_ROTATIONS.Q4, usedSpecs.Q4);
+    const freshQ5 = this.selectFreshOption(this.Y2_WORDPROB_TYPE_ROTATIONS.Q5, usedSpecs.Q5);
+    console.log('🎯 [Y2 WORDPROB] Selected fresh problem types:', { Q1: freshQ1, Q2: freshQ2, Q3: freshQ3, Q4: freshQ4, Q5: freshQ5 });
+
+    // Select fresh visual support (create empty Set if not exists)
+    const freshVisual = this.selectFreshOption(this.Y2_WORDPROB_VISUAL_SUPPORT, new Set<string>());
+    console.log('🎯 [Y2 WORDPROB] Selected fresh visual support:', freshVisual);
+
+    // Select fresh context
+    const freshContext = this.selectFreshOption(this.Y2_WORDPROB_CONTEXTS, usedSpecs.contexts);
+    console.log('🎯 [Y2 WORDPROB] Selected fresh context:', freshContext);
+
+    // Select fresh number range
+    const freshRange = this.selectFreshOption(this.Y2_WORDPROB_NUMBER_RANGES, usedSpecs.ranges);
+    console.log('🎯 [Y2 WORDPROB] Selected fresh number range:', freshRange);
+
+    // Alternate operations (mostly addition/subtraction mix for Year 2)
+    const operations = previousWorksheets.length % 2 === 0 ? 'ADD-focused' : 'SUB-focused';
+    console.log('🎯 [Y2 WORDPROB] Selected operations focus:', operations);
+
+    // Build compact injection
+    const freshnessOutput = `**ITER ${previousWorksheets.length}:**
+{{PROBLEM_TYPE_SPEC}} = Q1:${freshQ1}|Q2:${freshQ2}|Q3:${freshQ3}|Q4:${freshQ4}|Q5:${freshQ5}
+{{CONTEXT}} = ${freshContext}
+{{VISUAL_SUPPORT}} = ${freshVisual}
+{{OPERATIONS}} = ${operations}
+{{NUMBER_RANGE}} = ${freshRange}
+RULE: Follow {{PROBLEM_TYPE_SPEC}} exactly. Replace injection points with values above. Fresh every time.
+`;
+
+    console.log('🎯 [Y2 WORDPROB] Freshness output preview:', freshnessOutput.substring(0, 200));
+    return freshnessOutput;
+  }
+
+  /**
+   * ========================================
+   * YEAR 3 THREE-DIGIT NUMBERS FRESHNESS
+   * ========================================
+   * Specialized rotation for Year 3 three-digit addition/subtraction
+   * Handles 5 rotation dimensions:
+   * 1. Method types (column-add, column-sub, mental, base10, mixed)
+   * 2. Number ranges (200-400, 300-600, 400-800, mixed)
+   * 3. Regrouping specs (ones, tens, multi, none)
+   * 4. Contexts (money, school, toys, animals, shopping)
+   * 5. Visual modes (column-standard, base10-blocks, place-value-chart, number-line, bar-model)
+   */
+  private static readonly Y3_THREEDIGIT_METHOD_ROTATIONS = {
+    Q1: ['column-add-regroup-ones', 'column-add-regroup-tens', 'column-add-no-regroup', 'base10-visual-add', 'place-value-add'],
+    Q2: ['column-sub-borrow-ones', 'column-sub-borrow-tens', 'column-sub-no-borrow', 'column-sub-zeros', 'base10-visual-sub'],
+    Q3: ['mental-add-hundreds', 'mental-add-tens', 'mental-sub-hundreds', 'mental-sub-tens', 'number-line-mental'],
+    Q4: ['mixed-operations-4problems', 'inverse-operations', 'missing-numbers', 'comparison-problems', 'estimation-check'],
+    Q5: ['word-problem-money', 'word-problem-shopping', 'word-problem-school', 'word-problem-multi-step', 'word-problem-bar-model']
+  };
+
+  private static readonly Y3_THREEDIGIT_NUMBER_RANGES = [
+    '200-400', '300-600', '400-800', '500-900', '100-900', 'mixed'
+  ];
+
+  private static readonly Y3_THREEDIGIT_REGROUP_SPECS = [
+    'Q1:ones,Q2:ones',
+    'Q1:tens,Q2:tens',
+    'Q1:multi,Q2:multi',
+    'Q1:none,Q2:none',
+    'Q1:ones,Q2:tens',
+    'Q1:multi,Q2:ones'
+  ];
+
+  private static readonly Y3_THREEDIGIT_CONTEXTS = [
+    'money', 'school', 'toys', 'animals', 'food', 'shopping'
+  ];
+
+  private static readonly Y3_THREEDIGIT_VISUAL_MODES = [
+    'column-standard', 'column-expanded', 'base10-blocks', 'place-value-chart', 'number-line-jumps', 'bar-model'
+  ];
+
+  /**
+   * Build Year 3 Three-Digit Numbers Freshness Injection
+   */
+  private static buildYear3ThreeDigitFreshness(
+    previousWorksheets: Array<{ questions: string[]; images: string[] }>,
+    recentWorksheets: Array<{ questions: string[]; images: string[] }>
+  ): string {
+    console.log('🎯 [Y3 THREEDIGIT] Building freshness for Year 3 Three-Digit Numbers');
+
+    // First worksheet: no injection (lazy freshness)
+    if (!previousWorksheets || previousWorksheets.length === 0) {
+      console.log('🎯 [Y3 THREEDIGIT] First worksheet - using natural variety (no injection)');
+      return '';
+    }
+
+    // Extract used specs from recent worksheets
+    const usedSpecs = this.extractUsedY2Specs(recentWorksheets); // Reuse Y2 extraction logic
+    console.log('🎯 [Y3 THREEDIGIT] Used specs from recent worksheets:', usedSpecs);
+
+    // Select fresh options for each question
+    const freshQ1 = this.selectFreshOption(this.Y3_THREEDIGIT_METHOD_ROTATIONS.Q1, usedSpecs.Q1);
+    const freshQ2 = this.selectFreshOption(this.Y3_THREEDIGIT_METHOD_ROTATIONS.Q2, usedSpecs.Q2);
+    const freshQ3 = this.selectFreshOption(this.Y3_THREEDIGIT_METHOD_ROTATIONS.Q3, usedSpecs.Q3);
+    const freshQ4 = this.selectFreshOption(this.Y3_THREEDIGIT_METHOD_ROTATIONS.Q4, usedSpecs.Q4);
+    const freshQ5 = this.selectFreshOption(this.Y3_THREEDIGIT_METHOD_ROTATIONS.Q5, usedSpecs.Q5);
+    console.log('🎯 [Y3 THREEDIGIT] Selected fresh methods:', { Q1: freshQ1, Q2: freshQ2, Q3: freshQ3, Q4: freshQ4, Q5: freshQ5 });
+
+    // Select fresh range
+    const freshRange = this.selectFreshOption(this.Y3_THREEDIGIT_NUMBER_RANGES, usedSpecs.ranges);
+    console.log('🎯 [Y3 THREEDIGIT] Selected fresh number range:', freshRange);
+
+    // Select fresh regrouping spec
+    const freshRegroup = this.selectFreshOption(this.Y3_THREEDIGIT_REGROUP_SPECS, new Set<string>());
+    console.log('🎯 [Y3 THREEDIGIT] Selected fresh regrouping spec:', freshRegroup);
+
+    // Select fresh context (PREFER MONEY 60% of the time for UK curriculum emphasis)
+    const freshContext = Math.random() < 0.6 ? 'money' :
+      this.selectFreshOption(this.Y3_THREEDIGIT_CONTEXTS.filter(c => c !== 'money'), usedSpecs.contexts);
+    console.log('🎯 [Y3 THREEDIGIT] Selected fresh context (money-weighted):', freshContext);
+
+    // Select fresh visual mode
+    const freshVisual = this.selectFreshOption(this.Y3_THREEDIGIT_VISUAL_MODES, new Set<string>());
+    console.log('🎯 [Y3 THREEDIGIT] Selected fresh visual mode:', freshVisual);
+
+    // Build compact injection
+    const freshnessOutput = `**ITER ${previousWorksheets.length}:**
+{{METHOD_SPEC}} = Q1:${freshQ1}|Q2:${freshQ2}|Q3:${freshQ3}|Q4:${freshQ4}|Q5:${freshQ5}
+{{NUMBER_RANGE}} = ${freshRange}
+{{REGROUP_SPEC}} = ${freshRegroup}
+{{CONTEXT}} = ${freshContext}
+{{VISUAL_MODE}} = ${freshVisual}
+RULE: Follow {{METHOD_SPEC}} exactly. Replace injection points with values above. Fresh every time.
+`;
+
+    console.log('🎯 [Y3 THREEDIGIT] Freshness output preview:', freshnessOutput.substring(0, 200));
+    return freshnessOutput;
+  }
+
+  /**
+   * ========================================
+   * YEAR 3 WRITTEN METHODS FRESHNESS
+   * ========================================
+   * Specialized rotation for Year 3 written column methods
+   * Handles 5 rotation dimensions:
+   * 1. Column types (standard, expanded, compact, grid, error-spotting)
+   * 2. Regrouping stages (ones-only, tens-only, multi-column, all-types)
+   * 3. Difficulty (no-regroup, single-regroup, double-regroup, mixed)
+   * 4. Visual support (plain, with-arrows, with-place-value-chart, with-hints)
+   * 5. Check methods (inverse, estimation, rounding, alternative-method)
+   */
+  private static readonly Y3_WRITTEN_COLUMN_TYPES = {
+    Q1: ['standard-add-ones', 'expanded-add-ones', 'standard-add-no-regroup', 'place-value-add-ones', 'compact-add-ones'],
+    Q2: ['standard-add-tens', 'expanded-add-tens', 'standard-add-multi', 'missing-digits-add', 'checking-add-inverse'],
+    Q3: ['standard-sub-ones', 'expanded-sub-ones', 'standard-sub-no-borrow', 'place-value-sub-ones', 'compact-sub-ones'],
+    Q4: ['standard-sub-tens', 'standard-sub-zeros', 'standard-sub-multi', 'missing-digits-sub', 'checking-sub-inverse'],
+    Q5: ['mixed-challenge-5problems', 'error-correction', 'real-world-column-money', 'estimation-first', 'two-step-column']
+  };
+
+  private static readonly Y3_WRITTEN_REGROUP_STAGES = [
+    'ones-only', 'tens-only', 'hundreds-only', 'multi-column', 'all-types'
+  ];
+
+  private static readonly Y3_WRITTEN_DIFFICULTY = [
+    'no-regroup', 'single-regroup', 'double-regroup', 'triple-regroup', 'mixed'
+  ];
+
+  private static readonly Y3_WRITTEN_VISUAL_SUPPORT = [
+    'plain', 'with-arrows', 'with-place-value-chart', 'with-base10', 'with-grid', 'with-hints'
+  ];
+
+  private static readonly Y3_WRITTEN_CHECK_METHODS = [
+    'inverse', 'estimation', 'rounding', 'number-sense', 'alternative-method'
+  ];
+
+  /**
+   * Build Year 3 Written Methods Freshness Injection
+   */
+  private static buildYear3WrittenMethodsFreshness(
+    previousWorksheets: Array<{ questions: string[]; images: string[] }>,
+    recentWorksheets: Array<{ questions: string[]; images: string[] }>
+  ): string {
+    console.log('🎯 [Y3 WRITTEN] Building freshness for Year 3 Written Methods');
+
+    // First worksheet: no injection (lazy freshness)
+    if (!previousWorksheets || previousWorksheets.length === 0) {
+      console.log('🎯 [Y3 WRITTEN] First worksheet - using natural variety (no injection)');
+      return '';
+    }
+
+    // Extract used specs from recent worksheets
+    const usedSpecs = this.extractUsedY2Specs(recentWorksheets);
+    console.log('🎯 [Y3 WRITTEN] Used specs from recent worksheets:', usedSpecs);
+
+    // Select fresh options for each question
+    const freshQ1 = this.selectFreshOption(this.Y3_WRITTEN_COLUMN_TYPES.Q1, usedSpecs.Q1);
+    const freshQ2 = this.selectFreshOption(this.Y3_WRITTEN_COLUMN_TYPES.Q2, usedSpecs.Q2);
+    const freshQ3 = this.selectFreshOption(this.Y3_WRITTEN_COLUMN_TYPES.Q3, usedSpecs.Q3);
+    const freshQ4 = this.selectFreshOption(this.Y3_WRITTEN_COLUMN_TYPES.Q4, usedSpecs.Q4);
+    const freshQ5 = this.selectFreshOption(this.Y3_WRITTEN_COLUMN_TYPES.Q5, usedSpecs.Q5);
+    console.log('🎯 [Y3 WRITTEN] Selected fresh column types:', { Q1: freshQ1, Q2: freshQ2, Q3: freshQ3, Q4: freshQ4, Q5: freshQ5 });
+
+    // Select fresh regrouping stage
+    const freshRegroupStage = this.selectFreshOption(this.Y3_WRITTEN_REGROUP_STAGES, new Set<string>());
+    console.log('🎯 [Y3 WRITTEN] Selected fresh regrouping stage:', freshRegroupStage);
+
+    // Select fresh difficulty
+    const freshDifficulty = this.selectFreshOption(this.Y3_WRITTEN_DIFFICULTY, new Set<string>());
+    console.log('🎯 [Y3 WRITTEN] Selected fresh difficulty:', freshDifficulty);
+
+    // Select fresh visual support
+    const freshVisual = this.selectFreshOption(this.Y3_WRITTEN_VISUAL_SUPPORT, new Set<string>());
+    console.log('🎯 [Y3 WRITTEN] Selected fresh visual support:', freshVisual);
+
+    // Select fresh check method
+    const freshCheck = this.selectFreshOption(this.Y3_WRITTEN_CHECK_METHODS, new Set<string>());
+    console.log('🎯 [Y3 WRITTEN] Selected fresh check method:', freshCheck);
+
+    // Build compact injection
+    const freshnessOutput = `**ITER ${previousWorksheets.length}:**
+{{COLUMN_TYPE}} = Q1:${freshQ1}|Q2:${freshQ2}|Q3:${freshQ3}|Q4:${freshQ4}|Q5:${freshQ5}
+{{REGROUP_STAGE}} = ${freshRegroupStage}
+{{DIFFICULTY}} = ${freshDifficulty}
+{{VISUAL_SUPPORT}} = ${freshVisual}
+{{CHECK_METHOD}} = ${freshCheck}
+RULE: Follow {{COLUMN_TYPE}} exactly. Replace injection points with values above. Fresh every time.
+`;
+
+    console.log('🎯 [Y3 WRITTEN] Freshness output preview:', freshnessOutput.substring(0, 200));
+    return freshnessOutput;
+  }
+
+  /**
+   * ========================================
+   * YEAR 3 PROBLEM SOLVING FRESHNESS
+   * ========================================
+   * Specialized rotation for Year 3 problem solving with bar models
+   * Handles 5 rotation dimensions:
+   * 1. Problem types (two-step, comparison, missing-number, inverse, multi-step)
+   * 2. Context specs (money, school, shopping, travel, sports)
+   * 3. Visual support (bar-model, objects, number-line, diagrams, none)
+   * 4. Operation focus (add-only, sub-only, mixed, inverse)
+   * 5. Reasoning levels (concrete, pictorial, abstract)
+   */
+  private static readonly Y3_PROBLEMSOLV_TYPE_ROTATIONS = {
+    Q1: ['two-step-add-sub', 'two-step-money', 'two-step-shopping', 'two-step-school', 'two-step-bar-model'],
+    Q2: ['comparison-how-many-more', 'comparison-difference', 'comparison-money', 'comparison-bar-model', 'comparison-greater-by'],
+    Q3: ['missing-addend', 'missing-subtrahend', 'missing-minuend', 'missing-in-context', 'create-equation'],
+    Q4: ['inverse-check-addition', 'inverse-check-subtraction', 'inverse-fact-family', 'inverse-find-error', 'inverse-reasoning'],
+    Q5: ['multi-step-3operations', 'multi-step-money-shopping', 'multi-step-school-trip', 'multi-step-bar-model-complex', 'multi-step-reasoning-challenge']
+  };
+
+  private static readonly Y3_PROBLEMSOLV_CONTEXTS = [
+    'money', 'school', 'shopping', 'travel', 'party', 'sports'
+  ];
+
+  private static readonly Y3_PROBLEMSOLV_VISUAL_SUPPORT = [
+    'bar-model', 'objects', 'number-line', 'diagrams', 'none'
+  ];
+
+  private static readonly Y3_PROBLEMSOLV_OPERATION_FOCUS = [
+    'add-only', 'sub-only', 'mixed', 'inverse'
+  ];
+
+  private static readonly Y3_PROBLEMSOLV_REASONING_LEVELS = [
+    'concrete', 'pictorial', 'abstract'
+  ];
+
+  /**
+   * Build Year 3 Problem Solving Freshness Injection
+   */
+  private static buildYear3ProblemSolvingFreshness(
+    previousWorksheets: Array<{ questions: string[]; images: string[] }>,
+    recentWorksheets: Array<{ questions: string[]; images: string[] }>
+  ): string {
+    console.log('🎯 [Y3 PROBLEMSOLV] Building freshness for Year 3 Problem Solving');
+
+    // First worksheet: no injection (lazy freshness)
+    if (!previousWorksheets || previousWorksheets.length === 0) {
+      console.log('🎯 [Y3 PROBLEMSOLV] First worksheet - using natural variety (no injection)');
+      return '';
+    }
+
+    // Extract used specs from recent worksheets
+    const usedSpecs = this.extractUsedY2Specs(recentWorksheets);
+    console.log('🎯 [Y3 PROBLEMSOLV] Used specs from recent worksheets:', usedSpecs);
+
+    // Select fresh options for each question
+    const freshQ1 = this.selectFreshOption(this.Y3_PROBLEMSOLV_TYPE_ROTATIONS.Q1, usedSpecs.Q1);
+    const freshQ2 = this.selectFreshOption(this.Y3_PROBLEMSOLV_TYPE_ROTATIONS.Q2, usedSpecs.Q2);
+    const freshQ3 = this.selectFreshOption(this.Y3_PROBLEMSOLV_TYPE_ROTATIONS.Q3, usedSpecs.Q3);
+    const freshQ4 = this.selectFreshOption(this.Y3_PROBLEMSOLV_TYPE_ROTATIONS.Q4, usedSpecs.Q4);
+    const freshQ5 = this.selectFreshOption(this.Y3_PROBLEMSOLV_TYPE_ROTATIONS.Q5, usedSpecs.Q5);
+    console.log('🎯 [Y3 PROBLEMSOLV] Selected fresh problem types:', { Q1: freshQ1, Q2: freshQ2, Q3: freshQ3, Q4: freshQ4, Q5: freshQ5 });
+
+    // Select fresh context (PREFER MONEY 60% of the time for UK curriculum emphasis)
+    const freshContext = Math.random() < 0.6 ? 'money' :
+      this.selectFreshOption(this.Y3_PROBLEMSOLV_CONTEXTS.filter(c => c !== 'money'), usedSpecs.contexts);
+    console.log('🎯 [Y3 PROBLEMSOLV] Selected fresh context (money-weighted):', freshContext);
+
+    // Select fresh visual support (prefer bar-model)
+    const freshVisual = this.selectFreshOption(this.Y3_PROBLEMSOLV_VISUAL_SUPPORT, new Set<string>());
+    console.log('🎯 [Y3 PROBLEMSOLV] Selected fresh visual support:', freshVisual);
+
+    // Select fresh operation focus
+    const freshOpFocus = this.selectFreshOption(this.Y3_PROBLEMSOLV_OPERATION_FOCUS, new Set<string>());
+    console.log('🎯 [Y3 PROBLEMSOLV] Selected fresh operation focus:', freshOpFocus);
+
+    // Select fresh reasoning level
+    const freshReasoning = this.selectFreshOption(this.Y3_PROBLEMSOLV_REASONING_LEVELS, new Set<string>());
+    console.log('🎯 [Y3 PROBLEMSOLV] Selected fresh reasoning level:', freshReasoning);
+
+    // Build compact injection
+    const freshnessOutput = `**ITER ${previousWorksheets.length}:**
+{{PROBLEM_TYPE}} = Q1:${freshQ1}|Q2:${freshQ2}|Q3:${freshQ3}|Q4:${freshQ4}|Q5:${freshQ5}
+{{CONTEXT_SPEC}} = ${freshContext}
+{{VISUAL_SUPPORT}} = ${freshVisual}
+{{OPERATION_FOCUS}} = ${freshOpFocus}
+{{REASONING_LEVEL}} = ${freshReasoning}
+RULE: Follow {{PROBLEM_TYPE}} exactly. Replace injection points with values above. Fresh every time.
+`;
+
+    console.log('🎯 [Y3 PROBLEMSOLV] Freshness output preview:', freshnessOutput.substring(0, 200));
+    return freshnessOutput;
   }
 
 }

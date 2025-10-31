@@ -132,6 +132,58 @@ export const CURRICULUM_MAPPING: YearGroupCurriculum = {
         ],
         learningObjectives: ['Recall times tables for 2, 5, 10', 'Understand multiplication as repeated addition', 'Share objects equally'],
         complexity: 'Practical contexts and visual representations'
+      },
+      'fractions': {
+        label: 'Fractions',
+        subtopics: [
+          { value: 'recognising-fractions', label: 'Recognising Fractions' },
+          { value: 'finding-fractions', label: 'Finding Fractions' },
+          { value: 'equivalent-fractions-simple', label: 'Simple Equivalent Fractions' }
+        ],
+        learningObjectives: ['Recognise and find 1/2, 1/4, 2/4, 3/4', 'Find fractions of shapes and quantities', 'Understand simple equivalence'],
+        complexity: 'Visual representations with shapes and objects'
+      },
+      'measurement': {
+        label: 'Measurement',
+        subtopics: [
+          { value: 'length-and-height', label: 'Length and Height (cm, m)' },
+          { value: 'mass-and-weight', label: 'Mass and Weight (g, kg)' },
+          { value: 'capacity-and-volume', label: 'Capacity and Volume (ml, l)' },
+          { value: 'money', label: 'Money (pence and pounds)' },
+          { value: 'time', label: 'Time (o\'clock, half past, quarter to/past)' }
+        ],
+        learningObjectives: ['Choose and use appropriate standard units', 'Compare and order measurements', 'Read scales to nearest division', 'Tell time to 5 minutes'],
+        complexity: 'Standard units introduced with practical applications'
+      },
+      'statistics': {
+        label: 'Statistics',
+        subtopics: [
+          { value: 'pictograms', label: 'Pictograms' },
+          { value: 'tally-charts', label: 'Tally Charts' },
+          { value: 'block-diagrams-tables', label: 'Block Diagrams and Tables' }
+        ],
+        learningObjectives: ['Interpret and construct pictograms', 'Use tally charts', 'Interpret simple tables', 'Ask and answer questions about data'],
+        complexity: 'Real-world data with simple questions'
+      },
+      'geometry-shapes': {
+        label: 'Geometry: Properties of Shapes',
+        subtopics: [
+          { value: '2d-shapes-properties', label: '2D Shapes and Properties' },
+          { value: '3d-shapes-properties', label: '3D Shapes and Properties' },
+          { value: 'sorting-shapes', label: 'Sorting and Classifying Shapes' }
+        ],
+        learningObjectives: ['Identify and describe 2D and 3D shapes', 'Count sides, edges, vertices, faces', 'Compare and sort shapes'],
+        complexity: 'Hands-on activities with shape manipulation'
+      },
+      'geometry-position': {
+        label: 'Geometry: Position and Direction',
+        subtopics: [
+          { value: 'position-direction', label: 'Position and Direction' },
+          { value: 'movement', label: 'Movement and Patterns' },
+          { value: 'turns', label: 'Turns (Whole, Half, Quarter)' }
+        ],
+        learningObjectives: ['Use mathematical language for position', 'Describe movement and patterns', 'Recognize and make turns'],
+        complexity: 'Practical activities with clear visual examples'
       }
     }
   },

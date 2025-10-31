@@ -1,119 +1,136 @@
-# Year 2: Word Problems (COMPRESSED)
+# Y2: Word Problems ({{questionCount}}Q)
 
-Generate EXACTLY {{questionCount}} Year 2 word problems.
+**CRITICAL: EXACTLY {{questionCount}} questions.**
 
-## CRITICAL RULES
+BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-**Number Range:** 0-100
-**Questions:** EXACTLY {{questionCount}} - count before returning
-**Problem Types:** One-step and two-step (addition/subtraction focus)
-**Visual:** Bar models, picture representations, number sentences
-**Contexts:** School, toys, money, fruit, birthdays
+## SPECS (Injected):
+{{PROBLEM_TYPE_SPEC}}
+{{CONTEXT}}
+{{VISUAL_SUPPORT}}
+{{OPERATIONS}}
+{{NUMBER_RANGE}}
 
-## 5-QUESTION FORMAT
+<!-- DEBUG: Check injection above -->
 
-**Q1:** Addition - result unknown (combining groups)
-**Q2:** Subtraction - result unknown (taking away)
-**Q3:** Comparison - how many more/fewer?
-**Q4:** Part unknown - missing addend
-**Q5:** Two-step - combine two operations
+## PROBLEM TYPES
 
-## PROBLEM STRUCTURES
+**RESULT-UNKNOWN**: "Emma has 15 stickers. Gets 8 more. How many now?" (start+change=?)
+**PART-UNKNOWN**: "Tom had some marbles. Gave 12 away. Has 9 left. How many at start?" (?-change=result)
+**CHANGE-UNKNOWN**: "Sarah has 23 pencils. Needs 35 total. How many more?" (start+?=result)
+**COMPARISON**: "Class A: 28 books, Class B: 17 books. How many more?" (difference)
+**TWO-STEP**: "Shop had 45 apples. Sold 18 morning, 12 afternoon. How many left?" (18+12, then 45-30)
 
-**Addition:** "Ben has 24 marbles. Emma gives him 15 more. How many now?"
-**Subtraction:** "Lily had 45 stickers. She used 18. How many left?"
-**Comparison:** "Sam has 36 shells. Jack has 22. How many more does Sam have?"
-**Part Unknown:** "50 children total. 32 are girls. How many boys?"
-**Two-Step:** "Maya had 30 pencils. Bought 15, gave away 12. How many now?"
+## Q SPECS (Use {{PROBLEM_TYPE_SPEC}}):
 
-## EXAMPLE OUTPUT
+**Q1**: result-unknown-addition|result-unknown-objects|result-unknown-money|result-unknown-bar-model
+**Q2**: part-unknown-subtraction|change-unknown-addition|comparison-difference|result-unknown-subtraction
+**Q3**: comparison-bar-model|change-unknown-subtraction|part-unknown-addition|result-unknown-mixed
+**Q4**: two-step-add-subtract|two-step-subtract-add|two-step-add-add|two-step-comparison
+**Q5**: challenge-three-step|challenge-comparison-complex|challenge-money-change|challenge-open-ended
 
-**Q1 (Addition):**
-```html
-<div class="question" style="background: #FFF9C4;">
-    <p class="question-text"><span class="question-number">1.</span> Tom has 28 toy cars. His friend gives him 17 more toy cars. How many toy cars does Tom have altogether?</p>
-    <div class="word-problem-visual">
-        <div class="bar-model">
-            <div class="bar-part" style="width: 60%;">28 cars</div>
-            <div class="bar-part" style="width: 40%;">17 cars</div>
-        </div>
-        <p class="label">Total: ?</p>
-    </div>
-    <div class="working-space">
-        <p>Number sentence: <span class="answer-line">___ + ___ = ___</span></p>
-        <p class="answer-prompt">Answer: <span class="answer-box"></span> toy cars</p>
-    </div>
-</div>
+## VISUAL SUPPORT (Use {{VISUAL_SUPPORT}}):
+bar-model-full | bar-model-simple | bar-model-blank | pictures-with-bar | pictures-only | pure-text
+
+## CONTEXTS (Use {{CONTEXT}}):
+**school**: `/images/WORKSHEET_OBJECTS/counting/school_supplies/[pencil|book|eraser|crayon].png`
+**toys**: `/images/WORKSHEET_OBJECTS/counting/toys/[ball|car|doll|teddy].png`
+**food-fruits**: `/images/WORKSHEET_OBJECTS/counting/fruits/[apple|banana|orange].png`
+**food-treats**: `/images/WORKSHEET_OBJECTS/counting/food_treats/[cookie|cupcake].png`
+**animals**: `/images/WORKSHEET_OBJECTS/counting/farm_animals/[chicken|cow|sheep|pig].png`
+
+**money-pence**: ⚠️ CRITICAL - Copy paths EXACTLY as shown:
+  - 1p: `/images/WORKSHEET_OBJECTS/money/UK coins/1p tails col - TRF.png`
+  - 2p: `/images/WORKSHEET_OBJECTS/money/UK coins/2p tails col - TRF.png`
+  - 5p: `/images/WORKSHEET_OBJECTS/money/UK coins/5p tails col - TRF.png`
+  - 10p: `/images/WORKSHEET_OBJECTS/money/UK coins/10p tails col - TRF.png`
+  - 20p heads: `/images/WORKSHEET_OBJECTS/money/UK coins/20p heads col - TRF.png`
+  - 20p tails: `/images/WORKSHEET_OBJECTS/money/UK coins/20p tails col - TRF.png`
+  - 50p heads: `/images/WORKSHEET_OBJECTS/money/UK coins/50p heads col - TRF.png`
+  - 50p tails: `/images/WORKSHEET_OBJECTS/money/UK coins/50p tails col - TRF.png`
+
+⚠️ DO NOT invent paths. DO NOT change capitalization. DO NOT remove "heads/tails".
+
+## RANGES (Use {{NUMBER_RANGE}}):
+**Easy:10-30** | **Average:20-50** | **Hard:30-99**
+
+## CSS (Compact):
+```css
+body{font-family:'Comic Sans MS',sans-serif;font-size:17pt;padding:20px;line-height:1.8}
+.question{margin:25px 0;padding:25px;border-radius:10px;border:2px solid #ddd}
+.question-number{display:inline-block;background:#4169E1;color:white;width:38px;height:38px;line-height:38px;text-align:center;border-radius:50%;margin-right:12px;font-weight:bold;font-size:16pt}
+.question-text{font-size:18pt;margin:10px 0;font-weight:600;line-height:1.6}
+.bar-model-container{margin:25px 0;padding:20px;background:#F5F5F5;border-radius:10px;border:2px solid #ddd}
+.bar-model-title{font-size:15pt;font-weight:bold;margin-bottom:15px;color:#1976D2;text-align:center}
+.bar-full{display:flex;border:3px solid #333;border-radius:6px;overflow:hidden;margin:15px auto;max-width:500px}
+.bar-section{padding:20px 15px;font-size:18pt;font-weight:bold;text-align:center;border-right:3px solid #333;min-width:80px;display:flex;align-items:center;justify-content:center}
+.bar-section:last-child{border-right:none}
+.bar-section.known{background:#4CAF50;color:white}
+.bar-section.unknown{background:white;color:#333;border:3px dashed #FF5722}
+.bar-label{text-align:center;margin-top:10px;font-size:14pt;color:#555}
+.comparison-bars{margin:20px 0}
+.comparison-bar{margin:15px 0}
+.comparison-label{font-size:15pt;font-weight:bold;margin-bottom:8px;color:#1976D2}
+.comparison-bar-visual{display:inline-block;height:40px;background:#FF9800;border:3px solid #F57C00;border-radius:6px;vertical-align:middle;margin-right:10px}
+.comparison-amount{display:inline-block;vertical-align:middle;font-size:16pt;font-weight:bold}
+.two-step-container{margin:20px 0;padding:15px;background:#E3F2FD;border-radius:8px;border:2px dashed #1976D2}
+.step-box{margin:15px 0;padding:12px;background:white;border:2px solid #666;border-radius:6px}
+.step-number{display:inline-block;width:30px;height:30px;background:#FF9800;color:white;border-radius:50%;text-align:center;line-height:30px;font-weight:bold;margin-right:10px}
+.step-text{font-size:15pt;font-weight:600}
+.context-visual{margin:20px 0;padding:15px;background:#FFF9C4;border:3px dashed #FF9800;border-radius:10px;text-align:center}
+.object-group{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:15px 0}
+.object-group img{width:45px;height:45px}
+.money-visual{margin:20px 0;padding:15px;background:#E8F5E9;border:2px solid #4CAF50;border-radius:8px;text-align:center}
+.coin-group{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:15px 0}
+.coin-group img{width:50px;height:50px}
+.money-label{font-size:15pt;font-weight:bold;margin:10px 0;color:#2E7D32}
+.working-space{border:2px dashed #999;padding:25px;margin:15px 0;min-height:100px;background:#FAFAFA;border-radius:8px}
+.working-space-label{font-size:14pt;font-style:italic;color:#666;margin-bottom:10px}
+.answer-box{display:inline-block;min-width:90px;height:50px;border:3px solid #333;border-radius:8px;background:#FFF;vertical-align:middle;margin:0 10px}
+.answer-line{border:none;border-bottom:3px solid #333;display:inline-block;min-width:80px;margin:0 5px;background:transparent}
+.part-whole-container{text-align:center;margin:25px 0}
+.whole-box{width:120px;height:60px;background:#FF9800;border:4px solid #F57C00;border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 3px 8px rgba(0,0,0,0.15)}
+.whole-number{font-size:28pt;font-weight:bold;color:white}
+.whole-question{font-size:32pt;font-weight:bold;color:white}
+.parts-row{display:flex;justify-content:center;gap:30px;margin-top:20px}
+.part-box{width:100px;height:55px;border:3px solid #333;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.part-box.filled{background:#4CAF50;border-color:#2E7D32}
+.part-box.empty{background:white;border-style:dashed;border-color:#FF5722}
+.part-number{font-size:24pt;font-weight:bold;color:white}
+.part-box.empty .part-number{color:#FF5722}
+.answer-key{margin-top:50px;padding:25px;background:#E8F4F8;border:3px solid #4169E1;border-radius:10px;page-break-before:always}
+.answer-key h2{font-size:20pt;color:#2c3e50;margin-bottom:18px;text-align:center}
+.answer-key p{font-size:15pt;line-height:2;margin:12px 0}
+.answer-key .working{font-style:italic;color:#555;margin-left:15px;font-size:14pt}
+</style>
 ```
 
-**Q2 (Subtraction):**
-```html
-<div class="question" style="background: #E3F2FD;">
-    <p class="question-text"><span class="question-number">2.</span> Sarah had 56 sweets. She ate 23 sweets. How many sweets does she have left?</p>
-    <div class="word-problem-visual">
-        <div class="starting-amount">Started with: 56</div>
-        <div class="crossed-out">Ate: 23</div>
-        <div class="remaining">Left: ?</div>
-    </div>
-    <div class="working-space">
-        <p>Number sentence: <span class="answer-line">___ - ___ = ___</span></p>
-        <p class="answer-prompt">Answer: <span class="answer-box"></span> sweets</p>
-    </div>
-</div>
-```
+## RULES
 
-**Q3 (Comparison):**
-```html
-<div class="question" style="background: #F1F8E9;">
-    <p class="question-text"><span class="question-number">3.</span> Jack read 42 pages. Emma read 27 pages. How many MORE pages did Jack read than Emma?</p>
-    <div class="comparison-bars">
-        <div class="compare-bar">
-            <div class="bar jack" style="width: 100%;">Jack: 42 pages</div>
-        </div>
-        <div class="compare-bar">
-            <div class="bar emma" style="width: 64%;">Emma: 27 pages</div>
-        </div>
-        <div class="difference">Difference: ?</div>
-    </div>
-    <div class="working-space">
-        <p>Number sentence: <span class="answer-line">___ - ___ = ___</span></p>
-        <p class="answer-prompt">Answer: <span class="answer-box"></span> more pages</p>
-    </div>
-</div>
-```
+1. Follow {{PROBLEM_TYPE_SPEC}} exactly per Q
+2. Use {{NUMBER_RANGE}} for difficulty
+3. Apply {{VISUAL_SUPPORT}} mode
+4. Use {{CONTEXT}} for scenarios
+5. NO hints revealing problem type
+6. NO technical labels in questions (e.g., NO "Word Problem: Money", NO "result-unknown-addition")
+7. Natural story problems only
+8. Clear Year 2 language (ages 6-7)
+9. UK pence format (47p)
+10. Answer key with full working
+11. Complete image paths
+12. Colored backgrounds
 
-**Q5 (Two-Step):**
-```html
-<div class="question" style="background: #FFF3E0;">
-    <p class="question-text"><span class="question-number">5.</span> A shop had 60 balloons. They sold 35 balloons in the morning and 18 balloons in the afternoon. How many balloons are left?</p>
-    <div class="two-step-visual">
-        <div class="step">Started: 60</div>
-        <div class="step">Morning: -35</div>
-        <div class="step">Afternoon: -18</div>
-        <div class="step">Left: ?</div>
-    </div>
-    <div class="working-space">
-        <p>Step 1: <span class="answer-line">60 - 35 = ___</span></p>
-        <p>Step 2: <span class="answer-line">___ - 18 = ___</span></p>
-        <p class="answer-prompt">Answer: <span class="answer-box"></span> balloons</p>
-    </div>
-</div>
-```
+## VALIDATION
 
-**Answer Key:**
-```html
-<div class="answer-key">
-    <h2 class="answer-key-title">Answer Key</h2>
-    <div class="answer-key-content">
-        <p><strong>1.</strong> 45 toy cars (28 + 17 = 45)</p>
-        <p><strong>2.</strong> 33 sweets (56 - 23 = 33)</p>
-        <p><strong>3.</strong> 15 more pages (42 - 27 = 15)</p>
-        <p><strong>4.</strong> 22 boys (50 - 28 = 22)</p>
-        <p><strong>5.</strong> 7 balloons (60-35=25, 25-18=7)</p>
-    </div>
-</div>
-```
+- [ ] {{questionCount}} questions?
+- [ ] {{PROBLEM_TYPE_SPEC}} followed?
+- [ ] {{NUMBER_RANGE}} correct?
+- [ ] {{VISUAL_SUPPORT}} applied?
+- [ ] {{CONTEXT}} used?
+- [ ] Backgrounds correct?
+- [ ] Answer key included?
+- [ ] No problem type hints?
 
-Replace {{topic}}, {{subtopic}}, {{yearGroup}}, {{difficulty}}, {{questionCount}} with actual values.
+<!-- DEBUG-END: Check console -->
 
-Generate worksheet NOW.
+Generate complete HTML. UK Year 2 aligned.

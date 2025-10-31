@@ -1,130 +1,114 @@
-# Year 2: Two-Digit Addition & Subtraction (COMPRESSED)
+# Y2: Two-Digit Add/Sub ({{questionCount}}Q)
 
-Generate EXACTLY {{questionCount}} Year 2 two-digit addition/subtraction questions.
+**CRITICAL: EXACTLY {{questionCount}} questions.**
 
-## CRITICAL RULES
+BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-**Number Range:** 0-100 (two-digit focus)
-**Questions:** EXACTLY {{questionCount}} - count before returning
-**Methods:** Partitioning, column method
-**Visual:** Base-10 blocks, part-whole models, vertical layout
+## SPECS (Injected):
+{{METHOD_SPEC}}
+{{NUMBER_RANGE}}
+{{REGROUP_SPEC}}
+{{CONTEXT}}
+{{OPERATION_MIX}}
 
-## 5-QUESTION FORMAT
+<!-- DEBUG: Check injection above -->
 
-**Q1:** Addition with base-10 blocks visual (e.g., 34 + 23)
-**Q2:** Column addition - 2 problems (vertical format)
-**Q3:** Subtraction with partitioning - show tens and ones
-**Q4:** Column subtraction - 2 problems (vertical format)
-**Q5:** Word problem - mixed addition and subtraction
+## METHODS
 
-## PARTITIONING STRATEGY
+**PART**: Split tens/ones → (40+5)+(30+2)=(40+30)+(5+2)=77
+**COL**: Column method, add ones then tens, carry if needed
+**B10**: Base-10 blocks (CSS rectangles=10, squares=1)
+**NL**: Number line jumps
 
-**45 + 32:**
-- (40 + 5) + (30 + 2)
-- Tens: 40 + 30 = 70
-- Ones: 5 + 2 = 7
-- Total: 77
+## Q SPECS (Use {{METHOD_SPEC}}):
 
-## COLUMN METHOD
+**Q1**: partition-horizontal|partition-vertical|partition-with-objects|base10-visual
+**Q2**: column-addition-no-regroup|column-addition-regroup|horizontal-addition|number-line-addition
+**Q3**: partition-subtraction|base10-subtraction|number-line-subtraction|place-value-chart
+**Q4**: column-subtraction-no-regroup|column-subtraction-regroup|horizontal-subtraction|comparison-subtraction
+**Q5**: word-problem-addition|word-problem-subtraction|word-problem-money|word-problem-mixed
 
-```
-  45
-+ 32
-----
-  77
-```
+## RANGES (Use {{NUMBER_RANGE}}):
+**Easy:20-50** | **Average:30-70** | **Hard:50-99**
 
-## EXAMPLE OUTPUT
+## REGROUP (Use {{REGROUP_SPEC}}):
+Q2:yes/no (addition regroup), Q4:yes/no (subtraction borrow)
 
-**Q1 (Base-10 Addition):**
-```html
-<div class="question" style="background: #FFF9C4;">
-    <p class="question-text"><span class="question-number">1.</span> Add using the base-10 blocks.</p>
-    <div class="addition-visual">
-        <div class="number-group">
-            <p class="label">34</p>
-            <div class="base10-blocks">
-                <!-- 3 tens rods + 4 ones cubes -->
-            </div>
-        </div>
-        <div class="operator">+</div>
-        <div class="number-group">
-            <p class="label">52</p>
-            <div class="base10-blocks">
-                <!-- 5 tens rods + 2 ones cubes -->
-            </div>
-        </div>
-    </div>
-    <p class="answer-prompt">34 + 52 = <span class="answer-box"></span></p>
-</div>
-```
+## CONTEXTS (Use {{CONTEXT}}):
+**school**: `/images/WORKSHEET_OBJECTS/counting/school_supplies/[pencil|book|eraser|crayon].png`
+**toys**: `/images/WORKSHEET_OBJECTS/counting/toys/[ball|car|doll|teddy].png`
+**food**: `/images/WORKSHEET_OBJECTS/counting/fruits/[apple|banana|orange].png`
+**animals**: `/images/WORKSHEET_OBJECTS/counting/farm_animals/[chicken|cow|sheep|pig].png`
+**money**: Use EXACT paths - 1p/2p/5p/10p are TAILS only:
+  - 1p: `/images/WORKSHEET_OBJECTS/money/UK coins/1p tails col - TRF.png`
+  - 2p: `/images/WORKSHEET_OBJECTS/money/UK coins/2p tails col - TRF.png`
+  - 5p: `/images/WORKSHEET_OBJECTS/money/UK coins/5p tails col - TRF.png`
+  - 10p: `/images/WORKSHEET_OBJECTS/money/UK coins/10p tails col - TRF.png`
+  - 20p: `/images/WORKSHEET_OBJECTS/money/UK coins/20p [heads|tails] col - TRF.png`
+  - 50p: `/images/WORKSHEET_OBJECTS/money/UK coins/50p [heads|tails] col - TRF.png`
 
-**Q2 (Column Addition):**
-```html
-<div class="question" style="background: #E3F2FD;">
-    <p class="question-text"><span class="question-number">2.</span> Solve these additions.</p>
-    <div class="column-grid">
-        <div class="column-problem">
-            <div class="number-column">
-              <div class="number">47</div>
-              <div class="number">+&nbsp;31</div>
-              <div class="line"></div>
-              <div class="answer-space"></div>
-            </div>
-        </div>
-        <div class="column-problem">
-            <div class="number-column">
-              <div class="number">65</div>
-              <div class="number">+&nbsp;23</div>
-              <div class="line"></div>
-              <div class="answer-space"></div>
-            </div>
-        </div>
-    </div>
-</div>
-```
-
-**Q3 (Partitioning Subtraction):**
-```html
-<div class="question" style="background: #F1F8E9;">
-    <p class="question-text"><span class="question-number">3.</span> Subtract by partitioning: 58 - 23</p>
-    <div class="partition-model">
-        <div class="part-whole">
-            <div class="whole">58</div>
-            <div class="parts">
-                <div class="part">50 (tens)</div>
-                <div class="part">8 (ones)</div>
-            </div>
-        </div>
-        <div class="operator">−</div>
-        <div class="part-whole">
-            <div class="whole">23</div>
-            <div class="parts">
-                <div class="part">20 (tens)</div>
-                <div class="part">3 (ones)</div>
-            </div>
-        </div>
-    </div>
-    <p class="working">50 - 20 = <span class="answer-box"></span></p>
-    <p class="working">8 - 3 = <span class="answer-box"></span></p>
-    <p class="answer-prompt">58 - 23 = <span class="answer-box"></span></p>
-</div>
+## CSS (Ultra-Compact):
+```css
+body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-height:1.4}
+.question{margin:8px 0;padding:12px;border-radius:8px;border:2px solid #ddd}
+.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:14pt}
+.question-text{font-size:15pt;margin:5px 0;font-weight:600}
+.partition-container{display:flex;justify-content:center;align-items:center;gap:8px;margin:8px 0;flex-wrap:wrap}
+.partition-box{border:2px solid #333;padding:4px 8px;border-radius:6px;font-size:15pt;font-weight:bold;background:white;min-width:40px;text-align:center}
+.partition-tens{background:#FFEB3B;color:#000}
+.partition-ones{background:#4CAF50;color:#fff}
+.operator{font-size:20pt;font-weight:bold;color:#FF9800}
+.column-container{display:inline-block;border:2px solid #333;padding:10px 15px;border-radius:8px;background:#F5F5F5;text-align:right;font-family:monospace;font-size:18pt;line-height:1.3;margin:8px auto}
+.column-line{border-top:2px solid #000;margin:3px 0}
+.base10-container{display:flex;justify-content:center;gap:15px;margin:10px 0;flex-wrap:wrap}
+.base10-group{text-align:center}
+.base10-label{font-size:13pt;font-weight:bold;margin-bottom:5px;color:#1976D2}
+.base10-blocks{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:280px}
+.block-ten{width:70px;height:22px;background:#FF9800;border:2px solid #F57C00;border-radius:3px;margin:2px}
+.block-one{width:18px;height:18px;background:#4CAF50;border:2px solid #2E7D32;border-radius:2px;margin:2px}
+.number-line-container{margin:10px 0;padding:10px;background:#E3F2FD;border-radius:8px}
+.number-line{display:flex;justify-content:space-between;position:relative;padding:20px 8px 8px}
+.number-line::before{content:'';position:absolute;bottom:8px;left:5%;right:5%;height:2px;background:#333}
+.tick{width:28px;height:28px;background:#E0E0E0;border:2px solid #999;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10pt;font-weight:bold;z-index:1}
+.tick.highlight{background:#FF9800;color:white;border-width:2px}
+.pv-chart{display:inline-block;border:2px solid #333;margin:8px 0}
+.pv-row{display:flex}
+.pv-cell{border:2px solid #666;padding:8px 15px;font-size:16pt;font-weight:bold;text-align:center;min-width:50px}
+.pv-header{background:#1976D2;color:white}
+.word-problem-visual{margin:8px 0;padding:10px;background:#FFF9C4;border:2px dashed #FF9800;border-radius:8px}
+.object-group{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:8px 0}
+.object-group img{width:35px;height:35px}
+.answer-box{display:inline-block;min-width:80px;height:40px;border:2px solid #333;border-radius:6px;background:#FFF;vertical-align:middle;margin:0 8px}
+.working-space{border:2px dashed #999;padding:8px;margin:8px 0;min-height:50px;background:#FAFAFA;border-radius:6px}
+.answer-key{margin-top:30px;padding:15px;background:#E8F4F8;border:2px solid #4169E1;border-radius:8px;page-break-before:always}
+.answer-key h2{font-size:17pt;color:#2c3e50;margin-bottom:10px;text-align:center}
+.answer-key p{font-size:13pt;line-height:1.6;margin:6px 0}
+</style>
 ```
 
-**Answer Key:**
-```html
-<div class="answer-key">
-    <h2 class="answer-key-title">Answer Key</h2>
-    <div class="answer-key-content">
-        <p><strong>1.</strong> 34 + 52 = 86</p>
-        <p><strong>2.</strong> 47 + 31 = 78, 65 + 23 = 88</p>
-        <p><strong>3.</strong> 58 - 23 = 35 (50-20=30, 8-3=5, 30+5=35)</p>
-        <p><strong>4.</strong> 76 - 42 = 34, 89 - 56 = 33</p>
-        <p><strong>5.</strong> 45 children (68 - 23)</p>
-    </div>
-</div>
-```
+## RULES
 
-Replace {{topic}}, {{subtopic}}, {{yearGroup}}, {{difficulty}}, {{questionCount}} with actual values.
+1. Follow {{METHOD_SPEC}} exactly per Q
+2. Use {{NUMBER_RANGE}} for difficulty
+3. Apply {{REGROUP_SPEC}} for Q2/Q4
+4. Use {{CONTEXT}} objects for Q5
+5. NO hints or intermediate steps
+6. NO method labels in student questions (e.g., NO "word-problem-money", NO "partition-horizontal")
+7. Child-friendly question text only
+8. Answer key with working
+9. Complete image paths
+10. Colored backgrounds
 
-Generate worksheet NOW.
+## VALIDATION
+
+- [ ] {{questionCount}} questions?
+- [ ] {{METHOD_SPEC}} followed?
+- [ ] {{NUMBER_RANGE}} correct?
+- [ ] {{REGROUP_SPEC}} applied?
+- [ ] {{CONTEXT}} used?
+- [ ] Backgrounds correct?
+- [ ] Answer key included?
+
+<!-- DEBUG-END: Check console -->
+
+Generate complete HTML. UK Year 2 aligned.

@@ -17,6 +17,15 @@ Generate EXACTLY {{questionCount}} Year 2 equal groups questions.
 **Q4:** Comparison (more groups vs more in each)
 **Q5:** Word problem (equal groups context)
 
+## CONTEXTS (CRITICAL - USE EXACT PATHS):
+
+**school**: `/images/WORKSHEET_OBJECTS/counting/school_supplies/[pencil|book|eraser|crayon|marker|scissors|ruler|glue|backpack].png`
+**fruits**: `/images/WORKSHEET_OBJECTS/counting/fruits/[apple|banana|orange|strawberry|grape|pear|lemon|watermelon].png`
+**toys**: `/images/WORKSHEET_OBJECTS/counting/toys/[ball|car|doll|teddy|block|kite].png`
+**farm**: `/images/WORKSHEET_OBJECTS/counting/farm_animals/[chicken|cow|sheep|pig|horse|duck|goat].png`
+**shapes**: `/images/WORKSHEET_OBJECTS/counting/shapes/[star|heart|circle|square|diamond].png`
+**food**: `/images/WORKSHEET_OBJECTS/counting/food_treats/[cookie|cupcake].png`
+
 ## EXAMPLE OUTPUT
 
 **Q1 (Count Groups):**
@@ -51,7 +60,7 @@ Generate EXACTLY {{questionCount}} Year 2 equal groups questions.
 </div>
 ```
 
-**Q2 (Draw Groups):**
+**Q2 (Draw Groups - SIMPLE SHAPES ONLY):**
 ```html
 <div class="question" style="background: #E3F2FD;">
     <p class="question-text"><span class="question-number">2.</span> Draw 5 groups of 2 stars. ⭐</p>
@@ -65,6 +74,7 @@ Generate EXACTLY {{questionCount}} Year 2 equal groups questions.
     <p class="answer-prompt">Total: <span class="answer-line">___ × ___ = ___</span></p>
 </div>
 ```
+**CRITICAL: Q2 must use ONLY simple drawable shapes: stars ⭐, circles ●, hearts ♥, squares ■. NEVER animals, objects, or complex items.**
 
 **Q3 (Write Multiplication):**
 ```html
@@ -108,6 +118,14 @@ Generate EXACTLY {{questionCount}} Year 2 equal groups questions.
     </div>
 </div>
 ```
+
+## RULES
+
+1. **CORRECT PATHS**: Use EXACT image paths from CONTEXTS section above (full folder structure required)
+2. **Q2 DRAWING ONLY**: Q2 must use ONLY simple drawable shapes (stars ⭐, circles ●, hearts ♥, squares ■). NEVER animals, objects, or complex items that Year 2 students (ages 6-7) cannot easily draw
+3. Use diverse contexts across questions (don't repeat same objects)
+4. Answer key with clear explanations
+5. Colored backgrounds Q1-Q5
 
 Replace {{topic}}, {{subtopic}}, {{yearGroup}}, {{difficulty}}, {{questionCount}} with actual values.
 
