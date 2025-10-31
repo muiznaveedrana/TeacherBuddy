@@ -45,7 +45,7 @@ export default function DashboardPage() {
   
   // Configuration state
   const [layout, setLayout] = useState<LayoutType>(DEFAULT_LAYOUT) // Layout selection drives template
-  const [yearGroup, setYearGroup] = useState<string>('Year 3') // Default from mock profile - NOW FIRST
+  const [yearGroup, setYearGroup] = useState<string>('Year 1') // Default from mock profile - NOW FIRST
   const [availableTopics, setAvailableTopics] = useState<{value: string, label: string}[]>([])
   const [availableSubtopics, setAvailableSubtopics] = useState<{value: string, label: string}[]>([])
   const [topic, setTopic] = useState<string>('')
@@ -525,19 +525,21 @@ export default function DashboardPage() {
   return (
     <PullToRefresh onRefresh={handleRefresh}>
       <div className="min-h-screen bg-slate-50 flex flex-col">
-      {/* Enhanced Navigation */}
-      <Navigation 
-        user={{
-          name: 'Sarah Johnson',
-          email: 'sarah.johnson@school.edu.uk'
-        }}
-        usage={{
-          current: 15,
-          limit: 30,
-          tier: 'Free'
-        }}
-        notifications={2}
-      />
+      {/* Enhanced Navigation - HIDDEN */}
+      <div className="hidden">
+        <Navigation
+          user={{
+            name: 'Sarah Johnson',
+            email: 'sarah.johnson@school.edu.uk'
+          }}
+          usage={{
+            current: 15,
+            limit: 30,
+            tier: 'Free'
+          }}
+          notifications={2}
+        />
+      </div>
 
       {/* Breadcrumb Navigation */}
       <div className="bg-white border-b border-slate-100 px-4 py-2">
@@ -646,7 +648,7 @@ export default function DashboardPage() {
                     </SelectTrigger>
                     <SelectContent data-testid="year-group-dropdown">
                       {YEAR_GROUPS.map(year => (
-                        <SelectItem key={year.value} value={year.value} data-testid={`year-group-option-${year.value.toLowerCase().replace(/\s+/g, '-')}`}>
+                        <SelectItem key={year.value} value={year.value} data-testid={`year-group-option-${year.value.toLowerCase().replace(/\s+/g, '-')}`} disabled={year.disabled}>
                           {year.label}
                         </SelectItem>
                       ))}
@@ -843,15 +845,15 @@ export default function DashboardPage() {
                     </div>
                     <Progress value={progress} className="w-full" />
                     <p className="text-xs text-blue-700">
-                      Creating curriculum-aligned questions with personalized student names
+                      Creating curriculum-aligned worksheets
                     </p>
                   </div>
                 )}
               </CardContent>
             </Card>
             
-            {/* Enhanced Configuration Panel - USP.2 */}
-            <div className="mt-4 w-full">
+            {/* Enhanced Configuration Panel - USP.2 - DISABLED */}
+            <div className="mt-4 w-full hidden">
               <EnhancedConfigurationPanel
                 yearGroup={yearGroup}
                 topic={topic}
@@ -875,7 +877,7 @@ export default function DashboardPage() {
                       <Loader2 className="w-16 h-16 text-blue-600 mx-auto mb-4 animate-spin" />
                       <h3 className="text-lg font-medium text-blue-900 mb-2">Generating Your Worksheet...</h3>
                       <p className="text-sm text-blue-700 mb-4">
-                        Creating curriculum-aligned questions with personalized content
+                        Creating curriculum-aligned worksheets
                       </p>
                       <Progress value={progress} className="w-64 mx-auto" />
                       <p className="text-xs text-blue-600 mt-2">{Math.round(progress)}% complete</p>

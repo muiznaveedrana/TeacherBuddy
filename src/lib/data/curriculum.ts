@@ -27,13 +27,13 @@ export interface YearGroupCurriculum {
 }
 
 export const YEAR_GROUPS = [
-  { value: 'Reception', label: 'Reception (Ages 4-5)' },
-  { value: 'Year 1', label: 'Year 1 (Ages 5-6)' },
-  { value: 'Year 2', label: 'Year 2 (Ages 6-7)' },
-  { value: 'Year 3', label: 'Year 3 (Ages 7-8)' },
-  { value: 'Year 4', label: 'Year 4 (Ages 8-9)' },
-  { value: 'Year 5', label: 'Year 5 (Ages 9-10)' },
-  { value: 'Year 6', label: 'Year 6 (Ages 10-11)' }
+  { value: 'Reception', label: 'Reception (Ages 4-5)', disabled: false },
+  { value: 'Year 1', label: 'Year 1 (Ages 5-6)', disabled: false },
+  { value: 'Year 2', label: 'Year 2 (Ages 6-7)', disabled: false },
+  { value: 'Year 3', label: 'Year 3 (Ages 7-8)', disabled: true },
+  { value: 'Year 4', label: 'Year 4 (Ages 8-9)', disabled: true },
+  { value: 'Year 5', label: 'Year 5 (Ages 9-10)', disabled: true },
+  { value: 'Year 6', label: 'Year 6 (Ages 10-11)', disabled: true }
 ]
 
 export const CURRICULUM_MAPPING: YearGroupCurriculum = {
