@@ -10,13 +10,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Progress } from '@/components/ui/progress'
-import { BookOpen, Download, Info, Loader2, AlertCircle } from 'lucide-react'
+import { BookOpen, Download, Info, Loader2, AlertCircle, Edit3, Eye } from 'lucide-react'
 import WelcomeTour from '@/components/WelcomeTour'
 import { PullToRefresh } from '@/components/mobile/PullToRefresh'
 import { YEAR_GROUPS } from '@/lib/data/curriculum'
 import { LAYOUT_TEMPLATES, DEFAULT_LAYOUT, getLayoutOptions } from '@/lib/data/layouts'
 import type { LayoutType, VisualTheme } from '@/lib/types/worksheet'
 import { EnhancedConfigurationPanel } from '@/components/worksheet/EnhancedConfigurationPanel'
+import { WorksheetEditor } from '@/components/worksheet/WorksheetEditor'
 
 const mockNameLists = [
   { value: 'year3-class-a', label: 'Year 3 Class A (25 students)' },
@@ -42,7 +43,7 @@ interface GeneratedWorksheet {
 
 export default function DashboardPage() {
   const [showTour, setShowTour] = useState(false)
-  
+
   // Configuration state
   const [layout, setLayout] = useState<LayoutType>(DEFAULT_LAYOUT) // Layout selection drives template
   const [yearGroup, setYearGroup] = useState<string>('Year 1') // Default from mock profile - NOW FIRST
@@ -54,6 +55,7 @@ export default function DashboardPage() {
   const [questionCount, setQuestionCount] = useState<number>(5)
   const [nameList, setNameList] = useState<string>('')
   const [showAnswers, setShowAnswers] = useState<boolean>(true) // Default: show answers
+  const [editMode, setEditMode] = useState<boolean>(false) // Toggle between view and edit modes
 
   // Enhanced configuration state (USP.2)
   const [visualTheme, setVisualTheme] = useState<VisualTheme | undefined>(undefined)
@@ -172,6 +174,7 @@ export default function DashboardPage() {
     setProgress(0)
     setErrorMessage('')
     setGeneratedWorksheet(null)
+    setEditMode(false) // Reset edit mode when generating new worksheet
 
     try {
       // FRESHNESS FIX: Use ref value (synchronous) instead of state (async)
@@ -963,21 +966,61 @@ export default function DashboardPage() {
                     </div>
                   </div>
                 ) : showPreview && generatedWorksheet ? (
-                  /* Real Worksheet Preview */
-                  <div className="p-4 h-full">
-                    <div className="bg-white border rounded-lg shadow-sm h-full p-4 overflow-y-auto">
-                      <style dangerouslySetInnerHTML={{ __html: `
-                        .worksheet-preview .answer-key { display: ${showAnswers ? 'block' : 'none'} !important; }
-                      ` }} />
-                      <div
-                        className="worksheet-preview text-sm"
-                        dangerouslySetInnerHTML={{ __html: generatedWorksheet.html }}
-                        style={{
-                          fontFamily: "'Times New Roman', serif",
-                          lineHeight: 1.6,
-                        }}
-                      />
+                  /* Real Worksheet Preview with Edit Mode */
+                  <div className="h-full flex flex-col">
+                    {/* Mode Toggle Button */}
+                    <div className="px-4 pt-4 pb-2">
+                      <Button
+                        onClick={() => setEditMode(!editMode)}
+                        variant={editMode ? "default" : "outline"}
+                        size="sm"
+                        className="flex items-center gap-2"
+                      >
+                        {editMode ? (
+                          <>
+                            <Eye className="h-4 w-4" />
+                            View Mode
+                          </>
+                        ) : (
+                          <>
+                            <Edit3 className="h-4 w-4" />
+                            Edit Mode
+                          </>
+                        )}
+                      </Button>
                     </div>
+
+                    {/* Conditional Rendering: Editor or Preview */}
+                    {editMode ? (
+                      <div className="flex-1 px-4 pb-4 overflow-y-auto">
+                        <WorksheetEditor
+                          htmlContent={generatedWorksheet.html}
+                          onSave={(updatedContent) => {
+                            // Update the generatedWorksheet with edited content
+                            setGeneratedWorksheet({
+                              ...generatedWorksheet,
+                              html: updatedContent
+                            })
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <div className="flex-1 p-4">
+                        <div className="bg-white border rounded-lg shadow-sm h-full p-4 overflow-y-auto">
+                          <style dangerouslySetInnerHTML={{ __html: `
+                            .worksheet-preview .answer-key { display: ${showAnswers ? 'block' : 'none'} !important; }
+                          ` }} />
+                          <div
+                            className="worksheet-preview text-sm"
+                            dangerouslySetInnerHTML={{ __html: generatedWorksheet.html }}
+                            style={{
+                              fontFamily: "'Times New Roman', serif",
+                              lineHeight: 1.6,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   /* Initial State - No content generated yet */
