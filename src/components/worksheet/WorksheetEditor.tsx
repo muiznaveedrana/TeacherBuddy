@@ -10,6 +10,7 @@ import {
   Check,
   X
 } from 'lucide-react'
+import { ImagePickerModal } from './ImagePickerModal'
 
 interface WorksheetEditorProps {
   htmlContent: string
@@ -19,6 +20,9 @@ interface WorksheetEditorProps {
 export function WorksheetEditor({ htmlContent, onSave }: WorksheetEditorProps) {
   const contentRef = useRef<HTMLDivElement>(null)
   const [showSaved, setShowSaved] = useState(false)
+  const [showImagePicker, setShowImagePicker] = useState(false)
+  const [selectedImageElement, setSelectedImageElement] = useState<HTMLImageElement | null>(null)
+  const [replacementCount, setReplacementCount] = useState(0)
 
   // Initialize content when component mounts or htmlContent changes
   useEffect(() => {
@@ -28,8 +32,94 @@ export function WorksheetEditor({ htmlContent, onSave }: WorksheetEditorProps) {
       localStorage.removeItem('worksheet-editor-content')
       // Enable editing immediately
       contentRef.current.contentEditable = 'true'
+
+      // Add click handlers to all images
+      addImageClickHandlers()
     }
   }, [htmlContent])
+
+  // Add click handlers to images for replacement
+  const addImageClickHandlers = () => {
+    if (!contentRef.current) return
+
+    const images = contentRef.current.querySelectorAll('img')
+    images.forEach((img) => {
+      // Make images non-editable to prevent contentEditable issues
+      img.contentEditable = 'false'
+      img.style.cursor = 'pointer'
+
+      // Add hover effect class
+      img.classList.add('worksheet-image-replaceable')
+
+      // Add click handler
+      img.addEventListener('click', (e) => {
+        e.stopPropagation()
+        handleImageClick(img)
+      })
+
+      // Add tooltip
+      img.title = 'Click to change image'
+    })
+  }
+
+  const handleImageClick = (img: HTMLImageElement) => {
+    setSelectedImageElement(img)
+    setShowImagePicker(true)
+  }
+
+  const handleImageReplace = (newImagePath: string) => {
+    if (!selectedImageElement || !contentRef.current) return
+
+    const oldImagePath = selectedImageElement.src
+    const oldImageSrc = new URL(oldImagePath).pathname
+
+    // Find all images with the same src and replace them
+    const images = contentRef.current.querySelectorAll('img')
+    let count = 0
+
+    images.forEach((img) => {
+      const imgSrc = new URL(img.src).pathname
+      if (imgSrc === oldImageSrc) {
+        img.src = newImagePath
+        count++
+      }
+    })
+
+    setReplacementCount(count)
+
+    // Show toast notification
+    showToast(`✓ Replaced ${count} image${count > 1 ? 's' : ''}`)
+
+    // Re-add click handlers to new images
+    setTimeout(() => addImageClickHandlers(), 100)
+  }
+
+  const showToast = (message: string) => {
+    // Create toast element
+    const toast = document.createElement('div')
+    toast.textContent = message
+    toast.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #10b981;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      z-index: 9999;
+      font-weight: 500;
+      animation: slideIn 0.3s ease-out;
+    `
+
+    document.body.appendChild(toast)
+
+    // Remove after 2 seconds
+    setTimeout(() => {
+      toast.style.animation = 'slideOut 0.3s ease-out'
+      setTimeout(() => toast.remove(), 300)
+    }, 2000)
+  }
 
   const handleDone = () => {
     if (contentRef.current) {
@@ -198,10 +288,19 @@ export function WorksheetEditor({ htmlContent, onSave }: WorksheetEditorProps) {
         <ul className="text-sm text-blue-800 space-y-1">
           <li>• Click anywhere in the worksheet and start typing</li>
           <li>• Select text and use the formatting buttons (Bold, Italic, etc.)</li>
+          <li>• <strong>Click any image</strong> to replace it with a different one</li>
           <li>• Click "Done" when finished - changes save automatically</li>
           <li>• Use "Download PDF" button to export your worksheet</li>
         </ul>
       </div>
+
+      {/* Image Picker Modal */}
+      <ImagePickerModal
+        isOpen={showImagePicker}
+        currentImagePath={selectedImageElement?.src || ''}
+        onClose={() => setShowImagePicker(false)}
+        onSelect={handleImageReplace}
+      />
 
       <style jsx>{`
         /* Make contenteditable work properly */
@@ -218,10 +317,21 @@ export function WorksheetEditor({ htmlContent, onSave }: WorksheetEditorProps) {
           user-select: text;
         }
 
-        /* Fix for images in contenteditable */
-        .worksheet-content[contenteditable="true"] img {
+        /* Image replacement hover effects */
+        .worksheet-image-replaceable {
+          transition: all 0.2s ease;
+          border-radius: 4px;
+        }
+
+        .worksheet-image-replaceable:hover {
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+          transform: scale(1.05);
+        }
+
+        /* Re-enable pointer events for images so they can be clicked */
+        .worksheet-content[contenteditable="true"] img.worksheet-image-replaceable {
           user-select: none;
-          pointer-events: none;
+          pointer-events: auto !important;
         }
 
         /* Fade-in animation for save indicator */
@@ -238,6 +348,29 @@ export function WorksheetEditor({ htmlContent, onSave }: WorksheetEditorProps) {
 
         .animate-fade-in {
           animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Toast animations */
+        @keyframes slideIn {
+          from {
+            opacity: 0;
+            transform: translateX(100%);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes slideOut {
+          from {
+            opacity: 1;
+            transform: translateX(0);
+          }
+          to {
+            opacity: 0;
+            transform: translateX(100%);
+          }
         }
       `}</style>
     </div>
