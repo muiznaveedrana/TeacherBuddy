@@ -20,7 +20,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
 **Q4**: Multiple representations. "Circle all shapes that show 1/2." Show various shapes (circles, rectangles, bars).
 
-**Q5**: Word problem with visual. "Emma eats 1/4 of a pizza. How many pieces did she eat out of 4?"
+**Q5**: Word problem with visual. "Emma eats 1/4 of a pizza. How many pieces did she eat out of 4?" (Note: Only for Q5, you may use "pizza" (circle) or "chocolate bar" (rectangle) to add context. All other questions must use abstract geometric terms.)
 
 ## SHAPE TYPES
 - **Circles**: Divided into 2 or 4 equal parts (pie chart style)
@@ -84,6 +84,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 6. Answer key with explanations
 7. Colored backgrounds Q1-Q5
 8. Year 2 appropriate complexity
+9. **CRITICAL - LANGUAGE CONSTRAINT**: Use ONLY abstract geometric language (circle, rectangle, bar, shape) for Q1-Q4. DO NOT reference real-world objects like fruits, vegetables, food items, sports items, animals, etc. For Q5 word problems ONLY, you may use "pizza" (rendered as circle) or "chocolate bar" (rendered as rectangle) to add real-world context. Questions must match what can be visually rendered with CSS geometric shapes.
 
 ## EXAMPLES
 
@@ -217,5 +218,8 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 - [ ] Colored backgrounds Q1-Q5?
 - [ ] Answer key included?
 - [ ] Child-friendly language?
+- [ ] Q1-Q4 use ONLY geometric terms (circle, rectangle, bar, shape)?
+- [ ] Q5 (if word problem) uses only "pizza" or "chocolate bar" for context?
+- [ ] NO references to fruits, vegetables, sports items, or other objects?
 
 Generate complete HTML. UK Year 2 aligned.

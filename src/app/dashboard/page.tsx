@@ -53,7 +53,8 @@ export default function DashboardPage() {
   const [difficulty, setDifficulty] = useState<DifficultyLevel>('easy')
   const [questionCount, setQuestionCount] = useState<number>(5)
   const [nameList, setNameList] = useState<string>('')
-  
+  const [showAnswers, setShowAnswers] = useState<boolean>(true) // Default: show answers
+
   // Enhanced configuration state (USP.2)
   const [visualTheme, setVisualTheme] = useState<VisualTheme | undefined>(undefined)
   
@@ -386,9 +387,22 @@ export default function DashboardPage() {
       if (!generatedWorksheet.html || generatedWorksheet.html.length < 10) {
         throw new Error('Generated worksheet content is too short or missing')
       }
-      
+
       if (generatedWorksheet.html.length > 50000) {
         throw new Error('Generated worksheet content is too long for PDF generation')
+      }
+
+      // Strip answer key from HTML if toggle is OFF
+      let htmlContent = generatedWorksheet.html
+      if (!showAnswers) {
+        // Remove answer key section using DOM parser
+        const parser = new DOMParser()
+        const doc = parser.parseFromString(htmlContent, 'text/html')
+        const answerKeyElement = doc.querySelector('.answer-key')
+        if (answerKeyElement) {
+          answerKeyElement.remove()
+        }
+        htmlContent = doc.documentElement.outerHTML
       }
 
       const config = {
@@ -403,7 +417,7 @@ export default function DashboardPage() {
 
       const pdfRequest = {
         config,
-        generatedContent: generatedWorksheet.html, // Use the HTML directly as preview does
+        generatedContent: htmlContent, // Use the HTML (with or without answer key)
         title: generatedWorksheet.title
       }
 
@@ -741,6 +755,37 @@ export default function DashboardPage() {
                   </Select>
                 </div>
 
+                {/* Show Answers Toggle */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-slate-50">
+                    <div className="flex items-center gap-2">
+                      <Label htmlFor="show-answers" className="text-base md:text-sm font-medium cursor-pointer">
+                        Show Answers
+                      </Label>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <Info className="h-4 w-4 text-slate-400" />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Include answer key in the generated worksheet</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                    <label htmlFor="show-answers" className="relative inline-flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        id="show-answers"
+                        checked={showAnswers}
+                        onChange={(e) => setShowAnswers(e.target.checked)}
+                        className="sr-only peer"
+                      />
+                      <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    </label>
+                  </div>
+                </div>
+
                 {/* Difficulty Selection - HIDDEN: Not implemented in backend */}
                 <div className="space-y-3 hidden">
                   <Label className="text-base md:text-sm">Difficulty Level</Label>
@@ -921,7 +966,10 @@ export default function DashboardPage() {
                   /* Real Worksheet Preview */
                   <div className="p-4 h-full">
                     <div className="bg-white border rounded-lg shadow-sm h-full p-4 overflow-y-auto">
-                      <div 
+                      <style dangerouslySetInnerHTML={{ __html: `
+                        .worksheet-preview .answer-key { display: ${showAnswers ? 'block' : 'none'} !important; }
+                      ` }} />
+                      <div
                         className="worksheet-preview text-sm"
                         dangerouslySetInnerHTML={{ __html: generatedWorksheet.html }}
                         style={{
