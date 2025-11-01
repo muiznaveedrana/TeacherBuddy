@@ -8,11 +8,11 @@
     "PUPPETEER_EXECUTABLE_PATH": "/usr/bin/google-chrome-stable"
   },
   "functions": {
-    "app/api/generate-worksheet/route.ts": {
-      "includeFiles": "src/lib/prompts/configurations/**/*.md"
+    "app/api/generate-worksheet/route.js": {
+      "includeFiles": "src/lib/prompts/**"
     },
-    "app/api/generate-stream/route.ts": {
-      "includeFiles": "src/lib/prompts/configurations/**/*.md"
+    "app/api/generate-stream/route.js": {
+      "includeFiles": "src/lib/prompts/**"
     }
   }
 }
