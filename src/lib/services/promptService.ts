@@ -130,18 +130,7 @@ export class PromptService {
       const normalizedSubtopic = config.subtopic.toLowerCase().replace(/\s+/g, '-')
 
       // Check production location for config-specific .md file
-      // In Vercel serverless, src files aren't accessible, so check public directory first
-      const publicPromptPath = path.join(
-        process.cwd(),
-        'public',
-        'prompts',
-        'configurations',
-        normalizedYear,
-        normalizedTopic,
-        `${normalizedSubtopic}.md`
-      )
-
-      const srcPromptPath = path.join(
+      const configPromptPath = path.join(
         process.cwd(),
         'src',
         'lib',
@@ -151,9 +140,6 @@ export class PromptService {
         normalizedTopic,
         `${normalizedSubtopic}.md`
       )
-
-      // Try public directory first (for Vercel), then src directory (for local dev)
-      const configPromptPath = fs.existsSync(publicPromptPath) ? publicPromptPath : srcPromptPath
 
       // PHASE 2 OPTIMIZATION: Check for compressed prompt first if enabled
       const useCompression = process.env.USE_PROMPT_COMPRESSION === 'true';
