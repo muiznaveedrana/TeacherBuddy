@@ -126,6 +126,458 @@ const CONFIG_REGISTRY = {
     subtopic: 'Patterns',
     difficulty: 'average',
     numQuestions: 5
+  },
+  'year1-number-place-value-numbers-to-20': {
+      "yearGroup": "Year 1",
+      "yearGroupSelect": "Year 1 (Ages 5-6)",
+      "topicValue": "number-place-value",
+      "topic": "Number and Place Value",
+      "subtopicValue": "numbers-to-20",
+      "subtopic": "Numbers to 20",
+      "difficulty": "average",
+      "numQuestions": 5
+  },
+  'year1-number-place-value-counting-forwards-backwards': {
+      "yearGroup": "Year 1",
+      "yearGroupSelect": "Year 1 (Ages 5-6)",
+      "topicValue": "number-place-value",
+      "topic": "Number and Place Value",
+      "subtopicValue": "counting-forwards-backwards",
+      "subtopic": "Counting Forwards and Backwards",
+      "difficulty": "average",
+      "numQuestions": 5
+  },
+  'year1-number-place-value-number-bonds-10': {
+      "yearGroup": "Year 1",
+      "yearGroupSelect": "Year 1 (Ages 5-6)",
+      "topicValue": "number-place-value",
+      "topic": "Number and Place Value",
+      "subtopicValue": "number-bonds-10",
+      "subtopic": "Number Bonds to 10",
+      "difficulty": "average",
+      "numQuestions": 5
+  },
+  'year1-addition-subtraction-adding-to-20': {
+      "yearGroup": "Year 1",
+      "yearGroupSelect": "Year 1 (Ages 5-6)",
+      "topicValue": "addition-subtraction",
+      "topic": "Addition and Subtraction",
+      "subtopicValue": "adding-to-20",
+      "subtopic": "Adding within 20",
+      "difficulty": "average",
+      "numQuestions": 5
+  },
+  'year1-addition-subtraction-subtracting-within-20': {
+      "yearGroup": "Year 1",
+      "yearGroupSelect": "Year 1 (Ages 5-6)",
+      "topicValue": "addition-subtraction",
+      "topic": "Addition and Subtraction",
+      "subtopicValue": "subtracting-within-20",
+      "subtopic": "Subtracting within 20",
+      "difficulty": "average",
+      "numQuestions": 5
+  },
+  'year1-addition-subtraction-word-problems-simple': {
+      "yearGroup": "Year 1",
+      "yearGroupSelect": "Year 1 (Ages 5-6)",
+      "topicValue": "addition-subtraction",
+      "topic": "Addition and Subtraction",
+      "subtopicValue": "word-problems-simple",
+      "subtopic": "Simple Word Problems",
+      "difficulty": "average",
+      "numQuestions": 5
+  },
+  'year1-measurement-length-height': {
+      "yearGroup": "Year 1",
+      "yearGroupSelect": "Year 1 (Ages 5-6)",
+      "topicValue": "measurement",
+      "topic": "Measurement",
+      "subtopicValue": "length-height",
+      "subtopic": "Length and Height",
+      "difficulty": "average",
+      "numQuestions": 5
+  },
+  'year1-measurement-weight-capacity': {
+      "yearGroup": "Year 1",
+      "yearGroupSelect": "Year 1 (Ages 5-6)",
+      "topicValue": "measurement",
+      "topic": "Measurement",
+      "subtopicValue": "weight-capacity",
+      "subtopic": "Weight and Capacity",
+      "difficulty": "average",
+      "numQuestions": 5
+  },
+  'year1-measurement-time-days-months': {
+      "yearGroup": "Year 1",
+      "yearGroupSelect": "Year 1 (Ages 5-6)",
+      "topicValue": "measurement",
+      "topic": "Measurement",
+      "subtopicValue": "time-days-months",
+      "subtopic": "Time - Days and Months",
+      "difficulty": "average",
+      "numQuestions": 5
+  },
+  // Year 2 configs (24 subtopics)
+  'year2-number-place-value-numbers-to-100': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "number-place-value",
+    "topic": "Number and Place Value",
+    "subtopicValue": "numbers-to-100",
+    "subtopic": "Numbers to 100",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-number-place-value-comparing-numbers': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "number-place-value",
+    "topic": "Number and Place Value",
+    "subtopicValue": "comparing-numbers",
+    "subtopic": "Comparing Numbers",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-number-place-value-rounding-nearest-10': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "number-place-value",
+    "topic": "Number and Place Value",
+    "subtopicValue": "rounding-nearest-10",
+    "subtopic": "Rounding to Nearest 10",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-addition-subtraction-two-digit-numbers': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "addition-subtraction",
+    "topic": "Addition and Subtraction",
+    "subtopicValue": "two-digit-numbers",
+    "subtopic": "Two-digit Number Operations",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-addition-subtraction-mental-strategies': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "addition-subtraction",
+    "topic": "Addition and Subtraction",
+    "subtopicValue": "mental-strategies",
+    "subtopic": "Mental Calculation Strategies",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-addition-subtraction-word-problems': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "addition-subtraction",
+    "topic": "Addition and Subtraction",
+    "subtopicValue": "word-problems",
+    "subtopic": "Word Problems",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-multiplication-division-times-tables-2-5-10': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "multiplication-division",
+    "topic": "Multiplication and Division",
+    "subtopicValue": "times-tables-2-5-10",
+    "subtopic": "Times Tables 2, 5, 10",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-multiplication-division-equal-groups': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "multiplication-division",
+    "topic": "Multiplication and Division",
+    "subtopicValue": "equal-groups",
+    "subtopic": "Equal Groups",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-multiplication-division-sharing-grouping': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "multiplication-division",
+    "topic": "Multiplication and Division",
+    "subtopicValue": "sharing-grouping",
+    "subtopic": "Sharing and Grouping",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-fractions-recognising-fractions': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "fractions",
+    "topic": "Fractions",
+    "subtopicValue": "recognising-fractions",
+    "subtopic": "Recognising Fractions",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-fractions-finding-fractions': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "fractions",
+    "topic": "Fractions",
+    "subtopicValue": "finding-fractions",
+    "subtopic": "Finding Fractions",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-fractions-equivalent-fractions-simple': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "fractions",
+    "topic": "Fractions",
+    "subtopicValue": "equivalent-fractions-simple",
+    "subtopic": "Simple Equivalent Fractions",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-measurement-length-and-height': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "measurement",
+    "topic": "Measurement",
+    "subtopicValue": "length-and-height",
+    "subtopic": "Length and Height (cm, m)",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-measurement-mass-and-weight': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "measurement",
+    "topic": "Measurement",
+    "subtopicValue": "mass-and-weight",
+    "subtopic": "Mass and Weight (g, kg)",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-measurement-capacity-and-volume': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "measurement",
+    "topic": "Measurement",
+    "subtopicValue": "capacity-and-volume",
+    "subtopic": "Capacity and Volume (ml, l)",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-measurement-money': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "measurement",
+    "topic": "Measurement",
+    "subtopicValue": "money",
+    "subtopic": "Money (pence and pounds)",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-measurement-time': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "measurement",
+    "topic": "Measurement",
+    "subtopicValue": "time",
+    "subtopic": "Time (o'clock, half past, quarter to/past)",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-statistics-pictograms': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "statistics",
+    "topic": "Statistics",
+    "subtopicValue": "pictograms",
+    "subtopic": "Pictograms",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-statistics-tally-charts': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "statistics",
+    "topic": "Statistics",
+    "subtopicValue": "tally-charts",
+    "subtopic": "Tally Charts",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-statistics-block-diagrams-tables': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "statistics",
+    "topic": "Statistics",
+    "subtopicValue": "block-diagrams-tables",
+    "subtopic": "Block Diagrams and Tables",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-geometry-shapes-2d-shapes-properties': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "geometry-shapes",
+    "topic": "Geometry: Properties of Shapes",
+    "subtopicValue": "2d-shapes-properties",
+    "subtopic": "2D Shapes and Properties",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-geometry-shapes-3d-shapes-properties': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "geometry-shapes",
+    "topic": "Geometry: Properties of Shapes",
+    "subtopicValue": "3d-shapes-properties",
+    "subtopic": "3D Shapes and Properties",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-geometry-shapes-sorting-shapes': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "geometry-shapes",
+    "topic": "Geometry: Properties of Shapes",
+    "subtopicValue": "sorting-shapes",
+    "subtopic": "Sorting and Classifying Shapes",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year2-geometry-position-position-direction': {
+    "yearGroup": "Year 2",
+    "yearGroupSelect": "Year 2 (Ages 6-7)",
+    "topicValue": "geometry-position",
+    "topic": "Geometry: Position and Direction",
+    "subtopicValue": "position-direction",
+    "subtopic": "Position and Direction",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  // Year 3 configs (12 subtopics)
+  'year3-number-place-value-numbers-to-1000': {
+    "yearGroup": "Year 3",
+    "yearGroupSelect": "Year 3 (Ages 7-8)",
+    "topicValue": "number-place-value",
+    "topic": "Number and Place Value",
+    "subtopicValue": "numbers-to-1000",
+    "subtopic": "Numbers to 1000",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year3-number-place-value-comparing-ordering': {
+    "yearGroup": "Year 3",
+    "yearGroupSelect": "Year 3 (Ages 7-8)",
+    "topicValue": "number-place-value",
+    "topic": "Number and Place Value",
+    "subtopicValue": "comparing-ordering",
+    "subtopic": "Comparing and Ordering",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year3-number-place-value-rounding-nearest-100': {
+    "yearGroup": "Year 3",
+    "yearGroupSelect": "Year 3 (Ages 7-8)",
+    "topicValue": "number-place-value",
+    "topic": "Number and Place Value",
+    "subtopicValue": "rounding-nearest-100",
+    "subtopic": "Rounding to Nearest 100",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year3-addition-subtraction-three-digit-numbers': {
+    "yearGroup": "Year 3",
+    "yearGroupSelect": "Year 3 (Ages 7-8)",
+    "topicValue": "addition-subtraction",
+    "topic": "Addition and Subtraction",
+    "subtopicValue": "three-digit-numbers",
+    "subtopic": "Three-digit Calculations",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year3-addition-subtraction-written-methods': {
+    "yearGroup": "Year 3",
+    "yearGroupSelect": "Year 3 (Ages 7-8)",
+    "topicValue": "addition-subtraction",
+    "topic": "Addition and Subtraction",
+    "subtopicValue": "written-methods",
+    "subtopic": "Written Methods",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year3-addition-subtraction-problem-solving': {
+    "yearGroup": "Year 3",
+    "yearGroupSelect": "Year 3 (Ages 7-8)",
+    "topicValue": "addition-subtraction",
+    "topic": "Addition and Subtraction",
+    "subtopicValue": "problem-solving",
+    "subtopic": "Problem Solving",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year3-multiplication-division-times-tables-3-4-8': {
+    "yearGroup": "Year 3",
+    "yearGroupSelect": "Year 3 (Ages 7-8)",
+    "topicValue": "multiplication-division",
+    "topic": "Multiplication and Division",
+    "subtopicValue": "times-tables-3-4-8",
+    "subtopic": "Times Tables 3, 4, 8",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year3-multiplication-division-written-methods-multiply': {
+    "yearGroup": "Year 3",
+    "yearGroupSelect": "Year 3 (Ages 7-8)",
+    "topicValue": "multiplication-division",
+    "topic": "Multiplication and Division",
+    "subtopicValue": "written-methods-multiply",
+    "subtopic": "Written Methods for Multiplication",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year3-multiplication-division-division-remainders': {
+    "yearGroup": "Year 3",
+    "yearGroupSelect": "Year 3 (Ages 7-8)",
+    "topicValue": "multiplication-division",
+    "topic": "Multiplication and Division",
+    "subtopicValue": "division-remainders",
+    "subtopic": "Division with Remainders",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year3-fractions-unit-fractions': {
+    "yearGroup": "Year 3",
+    "yearGroupSelect": "Year 3 (Ages 7-8)",
+    "topicValue": "fractions",
+    "topic": "Fractions",
+    "subtopicValue": "unit-fractions",
+    "subtopic": "Unit Fractions",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year3-fractions-equivalent-fractions-simple': {
+    "yearGroup": "Year 3",
+    "yearGroupSelect": "Year 3 (Ages 7-8)",
+    "topicValue": "fractions",
+    "topic": "Fractions",
+    "subtopicValue": "equivalent-fractions-simple",
+    "subtopic": "Simple Equivalent Fractions",
+    "difficulty": "average",
+    "numQuestions": 5
+  },
+  'year3-fractions-comparing-fractions': {
+    "yearGroup": "Year 3",
+    "yearGroupSelect": "Year 3 (Ages 7-8)",
+    "topicValue": "fractions",
+    "topic": "Fractions",
+    "subtopicValue": "comparing-fractions",
+    "subtopic": "Comparing Fractions",
+    "difficulty": "average",
+    "numQuestions": 5
   }
 };
 
@@ -138,6 +590,58 @@ const CONFIG_GROUPS = {
     'reception-shape-space-size-comparison',
     'reception-shape-space-basic-shapes',
     'reception-shape-space-patterns'
+  ]
+,
+  'all-year1': [
+    'year1-number-place-value-numbers-to-20',
+    'year1-number-place-value-counting-forwards-backwards',
+    'year1-number-place-value-number-bonds-10',
+    'year1-addition-subtraction-adding-to-20',
+    'year1-addition-subtraction-subtracting-within-20',
+    'year1-addition-subtraction-word-problems-simple',
+    'year1-measurement-length-height',
+    'year1-measurement-weight-capacity',
+    'year1-measurement-time-days-months'
+  ],
+  'all-year2': [
+    'year2-number-place-value-numbers-to-100',
+    'year2-number-place-value-comparing-numbers',
+    'year2-number-place-value-rounding-nearest-10',
+    'year2-addition-subtraction-two-digit-numbers',
+    'year2-addition-subtraction-mental-strategies',
+    'year2-addition-subtraction-word-problems',
+    'year2-multiplication-division-times-tables-2-5-10',
+    'year2-multiplication-division-equal-groups',
+    'year2-multiplication-division-sharing-grouping',
+    'year2-fractions-recognising-fractions',
+    'year2-fractions-finding-fractions',
+    'year2-fractions-equivalent-fractions-simple',
+    'year2-measurement-length-and-height',
+    'year2-measurement-mass-and-weight',
+    'year2-measurement-capacity-and-volume',
+    'year2-measurement-money',
+    'year2-measurement-time',
+    'year2-statistics-pictograms',
+    'year2-statistics-tally-charts',
+    'year2-statistics-block-diagrams-tables',
+    'year2-geometry-shapes-2d-shapes-properties',
+    'year2-geometry-shapes-3d-shapes-properties',
+    'year2-geometry-shapes-sorting-shapes',
+    'year2-geometry-position-position-direction'
+  ],
+  'all-year3': [
+    'year3-number-place-value-numbers-to-1000',
+    'year3-number-place-value-comparing-ordering',
+    'year3-number-place-value-rounding-nearest-100',
+    'year3-addition-subtraction-three-digit-numbers',
+    'year3-addition-subtraction-written-methods',
+    'year3-addition-subtraction-problem-solving',
+    'year3-multiplication-division-times-tables-3-4-8',
+    'year3-multiplication-division-written-methods-multiply',
+    'year3-multiplication-division-division-remainders',
+    'year3-fractions-unit-fractions',
+    'year3-fractions-equivalent-fractions-simple',
+    'year3-fractions-comparing-fractions'
   ]
 };
 
