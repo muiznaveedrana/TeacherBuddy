@@ -130,7 +130,8 @@ export class PromptService {
       const normalizedSubtopic = config.subtopic.toLowerCase().replace(/\s+/g, '-')
 
       // Check production location for config-specific .md file
-      const configPromptPath = path.join(
+      // Always use compressed prompts
+      const promptPathToUse = path.join(
         process.cwd(),
         'src',
         'lib',
@@ -138,17 +139,8 @@ export class PromptService {
         'configurations',
         normalizedYear,
         normalizedTopic,
-        `${normalizedSubtopic}.md`
+        `${normalizedSubtopic}-COMPRESSED.md`
       )
-
-      // PHASE 2 OPTIMIZATION: Check for compressed prompt first if enabled
-      const useCompression = process.env.USE_PROMPT_COMPRESSION === 'true';
-      const compressedPromptPath = configPromptPath.replace('.md', '-COMPRESSED.md');
-
-      // Determine which prompt file to load
-      const promptPathToUse = useCompression && fs.existsSync(compressedPromptPath)
-        ? compressedPromptPath
-        : configPromptPath;
 
       // PHASE 1 OPTIMIZATION: Check cache first
       const cacheKey = promptPathToUse;
@@ -182,7 +174,7 @@ export class PromptService {
       }
 
       console.log(`✅ Loaded prompt: ${path.basename(promptPathToUse)}`);
-      console.log(`   Mode: ${useCompression && promptPathToUse === compressedPromptPath ? 'COMPRESSED' : 'FULL'} (self-contained)`)
+      console.log(`   Mode: COMPRESSED (self-contained)`)
 
       // Replace placeholders with actual config values
       configPrompt = configPrompt
@@ -195,7 +187,6 @@ export class PromptService {
       console.log(`   Location: src/lib/prompts/configurations/${normalizedYear}/${normalizedTopic}/`);
       console.log(`   Image system: WORKSHEET_OBJECTS (proven 97.7% quality)`)
       console.log(`   Freshness: ${freshnessInstructions ? 'ENABLED' : 'DISABLED'}`);
-      console.log(`   Compression: ${useCompression && promptPathToUse === compressedPromptPath ? 'ENABLED' : 'DISABLED'}`);
 
       return configPrompt;
     } catch (error) {
