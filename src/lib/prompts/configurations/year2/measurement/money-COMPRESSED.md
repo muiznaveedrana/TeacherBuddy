@@ -33,20 +33,20 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 ⚠️ **CRITICAL**: Copy paths EXACTLY. DO NOT change capitalization or heads/tails labels.
 
 **Small coins (tails only)**:
-- 1p: `/images/WORKSHEET_OBJECTS/money/UK coins/1p tails col - TRF.png`
-- 2p: `/images/WORKSHEET_OBJECTS/money/UK coins/2p tails col - TRF.png`
-- 5p: `/images/WORKSHEET_OBJECTS/money/UK coins/5p tails col - TRF.png`
-- 10p: `/images/WORKSHEET_OBJECTS/money/UK coins/10p tails col - TRF.png`
+- 1p: `/images/1p tails col - TRF.png`
+- 2p: `/images/2p tails col - TRF.png`
+- 5p: `/images/5p tails col - TRF.png`
+- 10p: `/images/10p tails col - TRF.png`
 
 **Larger coins (heads OR tails)**:
-- 20p heads: `/images/WORKSHEET_OBJECTS/money/UK coins/20p heads col - TRF.png`
-- 20p tails: `/images/WORKSHEET_OBJECTS/money/UK coins/20p tails col - TRF.png`
-- 50p heads: `/images/WORKSHEET_OBJECTS/money/UK coins/50p heads col - TRF.png`
-- 50p tails: `/images/WORKSHEET_OBJECTS/money/UK coins/50p tails col - TRF.png`
+- 20p heads: `/images/20p heads col - TRF.png`
+- 20p tails: `/images/20p tails col - TRF.png`
+- 50p heads: `/images/50p heads col - TRF.png`
+- 50p tails: `/images/50p tails col - TRF.png`
 
 ⚠️ **FALLBACK PATHS**: If LLM struggles, images also copied to:
-- `/images/WORKSHEET_OBJECTS/counting/money/uk_coins/[same filenames]`
-- `/images/WORKSHEET_OBJECTS/counting/money_pence/[same filenames with underscores]`
+- `/images/uk_coins/[same filenames]`
+- `/images/[same filenames with underscores]`
 
 ## COIN SIZES (for display):
 - 1p, 2p: 35px
@@ -103,10 +103,10 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
   <p class="question-text"><span class="question-number">1.</span> How much money is shown here?</p>
   <div class="money-container">
     <div class="coin-group">
-      <img src="/images/WORKSHEET_OBJECTS/money/UK coins/20p heads col - TRF.png" width="45" height="45" alt="20p">
-      <img src="/images/WORKSHEET_OBJECTS/money/UK coins/20p tails col - TRF.png" width="45" height="45" alt="20p">
-      <img src="/images/WORKSHEET_OBJECTS/money/UK coins/10p tails col - TRF.png" width="40" height="40" alt="10p">
-      <img src="/images/WORKSHEET_OBJECTS/money/UK coins/5p tails col - TRF.png" width="40" height="40" alt="5p">
+      <img src="/images/20p heads col - TRF.png" width="45" height="45" alt="20p">
+      <img src="/images/20p tails col - TRF.png" width="45" height="45" alt="20p">
+      <img src="/images/10p tails col - TRF.png" width="40" height="40" alt="10p">
+      <img src="/images/5p tails col - TRF.png" width="40" height="40" alt="5p">
     </div>
     <p class="money-label">Total: <span class="answer-box"></span>p</p>
   </div>
@@ -121,16 +121,16 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
     <div class="money-item">
       <p><strong>Tom</strong></p>
       <div class="coin-group">
-        <img src="/images/WORKSHEET_OBJECTS/money/UK coins/20p heads col - TRF.png" width="45" height="45" alt="20p">
-        <img src="/images/WORKSHEET_OBJECTS/money/UK coins/10p tails col - TRF.png" width="40" height="40" alt="10p">
+        <img src="/images/20p heads col - TRF.png" width="45" height="45" alt="20p">
+        <img src="/images/10p tails col - TRF.png" width="40" height="40" alt="10p">
       </div>
       <p class="money-amount">30p</p>
     </div>
     <div class="money-item">
       <p><strong>Emma</strong></p>
       <div class="coin-group">
-        <img src="/images/WORKSHEET_OBJECTS/money/UK coins/20p tails col - TRF.png" width="45" height="45" alt="20p">
-        <img src="/images/WORKSHEET_OBJECTS/money/UK coins/20p heads col - TRF.png" width="45" height="45" alt="20p">
+        <img src="/images/20p tails col - TRF.png" width="45" height="45" alt="20p">
+        <img src="/images/20p heads col - TRF.png" width="45" height="45" alt="20p">
       </div>
       <p class="money-amount">40p</p>
     </div>
@@ -150,7 +150,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
     <div class="change-step">
       <strong>You pay:</strong> 50p
       <div class="coin-group" style="justify-content:flex-start;margin-top:10px">
-        <img src="/images/WORKSHEET_OBJECTS/money/UK coins/50p heads col - TRF.png" width="50" height="50" alt="50p">
+        <img src="/images/50p heads col - TRF.png" width="50" height="50" alt="50p">
       </div>
     </div>
   </div>
@@ -166,11 +166,11 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
   <div class="word-problem-visual">
     <div class="shopping-context">
       <div class="shopping-item">
-        <img src="/images/WORKSHEET_OBJECTS/measurement/school/pencil.png" alt="pencil" style="height:50px">
+        <img src="/images/pencil.png" alt="pencil" style="height:50px">
         <span class="price-tag">45p</span>
       </div>
       <div class="shopping-item">
-        <img src="/images/WORKSHEET_OBJECTS/measurement/school/crayon.png" alt="eraser" style="height:45px">
+        <img src="/images/crayon.png" alt="eraser" style="height:45px">
         <span class="price-tag">28p</span>
       </div>
     </div>

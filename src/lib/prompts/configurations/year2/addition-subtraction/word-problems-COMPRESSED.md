@@ -33,21 +33,21 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 bar-model-full | bar-model-simple | bar-model-blank | pictures-with-bar | pictures-only | pure-text
 
 ## CONTEXTS (Use {{CONTEXT}}):
-**school**: `/images/WORKSHEET_OBJECTS/counting/school_supplies/[pencil|book|eraser|crayon].png`
-**toys**: `/images/WORKSHEET_OBJECTS/counting/toys/[ball|car|doll|teddy].png`
-**food-fruits**: `/images/WORKSHEET_OBJECTS/counting/fruits/[apple|banana|orange].png`
-**food-treats**: `/images/WORKSHEET_OBJECTS/counting/food_treats/[cookie|cupcake].png`
-**animals**: `/images/WORKSHEET_OBJECTS/counting/farm_animals/[chicken|cow|sheep|pig].png`
+**school**: `/images/[pencil|book|eraser|crayon].png`
+**toys**: `/images/[ball|car|doll|teddy].png`
+**food-fruits**: `/images/[apple|banana|orange].png`
+**food-treats**: `/images/[cookie|cupcake].png`
+**animals**: `/images/[chicken|cow|sheep|pig].png`
 
 **money-pence**: ⚠️ CRITICAL - Copy paths EXACTLY as shown:
-  - 1p: `/images/WORKSHEET_OBJECTS/money/UK coins/1p tails col - TRF.png`
-  - 2p: `/images/WORKSHEET_OBJECTS/money/UK coins/2p tails col - TRF.png`
-  - 5p: `/images/WORKSHEET_OBJECTS/money/UK coins/5p tails col - TRF.png`
-  - 10p: `/images/WORKSHEET_OBJECTS/money/UK coins/10p tails col - TRF.png`
-  - 20p heads: `/images/WORKSHEET_OBJECTS/money/UK coins/20p heads col - TRF.png`
-  - 20p tails: `/images/WORKSHEET_OBJECTS/money/UK coins/20p tails col - TRF.png`
-  - 50p heads: `/images/WORKSHEET_OBJECTS/money/UK coins/50p heads col - TRF.png`
-  - 50p tails: `/images/WORKSHEET_OBJECTS/money/UK coins/50p tails col - TRF.png`
+  - 1p: `/images/1p tails col - TRF.png`
+  - 2p: `/images/2p tails col - TRF.png`
+  - 5p: `/images/5p tails col - TRF.png`
+  - 10p: `/images/10p tails col - TRF.png`
+  - 20p heads: `/images/20p heads col - TRF.png`
+  - 20p tails: `/images/20p tails col - TRF.png`
+  - 50p heads: `/images/50p heads col - TRF.png`
+  - 50p tails: `/images/50p tails col - TRF.png`
 
 ⚠️ DO NOT invent paths. DO NOT change capitalization. DO NOT remove "heads/tails".
 

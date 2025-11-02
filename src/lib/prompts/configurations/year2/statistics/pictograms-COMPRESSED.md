@@ -91,31 +91,31 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
       <tr class="pictogram-row">
         <td class="pictogram-label">🍎 Apple</td>
         <td class="pictogram-data">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="pictogram-symbol" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="pictogram-symbol" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="pictogram-symbol" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="pictogram-symbol" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="pictogram-symbol" alt="apple">
+          <img src="/images/apple.png" class="pictogram-symbol" alt="apple">
+          <img src="/images/apple.png" class="pictogram-symbol" alt="apple">
+          <img src="/images/apple.png" class="pictogram-symbol" alt="apple">
+          <img src="/images/apple.png" class="pictogram-symbol" alt="apple">
+          <img src="/images/apple.png" class="pictogram-symbol" alt="apple">
         </td>
       </tr>
       <tr class="pictogram-row">
         <td class="pictogram-label">🍌 Banana</td>
         <td class="pictogram-data">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/banana.png" class="pictogram-symbol" alt="banana">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/banana.png" class="pictogram-symbol" alt="banana">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/banana.png" class="pictogram-symbol" alt="banana">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/banana.png" class="pictogram-symbol" alt="banana">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/banana.png" class="pictogram-symbol" alt="banana">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/banana.png" class="pictogram-symbol" alt="banana">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/banana.png" class="pictogram-symbol" alt="banana">
+          <img src="/images/banana.png" class="pictogram-symbol" alt="banana">
+          <img src="/images/banana.png" class="pictogram-symbol" alt="banana">
+          <img src="/images/banana.png" class="pictogram-symbol" alt="banana">
+          <img src="/images/banana.png" class="pictogram-symbol" alt="banana">
+          <img src="/images/banana.png" class="pictogram-symbol" alt="banana">
+          <img src="/images/banana.png" class="pictogram-symbol" alt="banana">
+          <img src="/images/banana.png" class="pictogram-symbol" alt="banana">
         </td>
       </tr>
       <tr class="pictogram-row">
         <td class="pictogram-label">🍊 Orange</td>
         <td class="pictogram-data">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/orange.png" class="pictogram-symbol" alt="orange">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/orange.png" class="pictogram-symbol" alt="orange">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/orange.png" class="pictogram-symbol" alt="orange">
+          <img src="/images/orange.png" class="pictogram-symbol" alt="orange">
+          <img src="/images/orange.png" class="pictogram-symbol" alt="orange">
+          <img src="/images/orange.png" class="pictogram-symbol" alt="orange">
         </td>
       </tr>
     </table>
@@ -151,18 +151,18 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
       <tr class="pictogram-row">
         <td class="pictogram-label">🔴 Red</td>
         <td class="pictogram-data">
-          <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" class="pictogram-symbol" alt="red" style="filter:hue-rotate(0deg)">
-          <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" class="pictogram-symbol" alt="red" style="filter:hue-rotate(0deg)">
-          <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" class="pictogram-symbol" alt="red" style="filter:hue-rotate(0deg)">
-          <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" class="pictogram-symbol" alt="red" style="filter:hue-rotate(0deg)">
+          <img src="/images/ball.png" class="pictogram-symbol" alt="red" style="filter:hue-rotate(0deg)">
+          <img src="/images/ball.png" class="pictogram-symbol" alt="red" style="filter:hue-rotate(0deg)">
+          <img src="/images/ball.png" class="pictogram-symbol" alt="red" style="filter:hue-rotate(0deg)">
+          <img src="/images/ball.png" class="pictogram-symbol" alt="red" style="filter:hue-rotate(0deg)">
         </td>
       </tr>
       <tr class="pictogram-row">
         <td class="pictogram-label">🔵 Blue</td>
         <td class="pictogram-data">
-          <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" class="pictogram-symbol" alt="blue" style="filter:hue-rotate(220deg)">
-          <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" class="pictogram-symbol" alt="blue" style="filter:hue-rotate(220deg)">
-          <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" class="pictogram-symbol" alt="blue" style="filter:hue-rotate(220deg)">
+          <img src="/images/ball.png" class="pictogram-symbol" alt="blue" style="filter:hue-rotate(220deg)">
+          <img src="/images/ball.png" class="pictogram-symbol" alt="blue" style="filter:hue-rotate(220deg)">
+          <img src="/images/ball.png" class="pictogram-symbol" alt="blue" style="filter:hue-rotate(220deg)">
         </td>
       </tr>
     </table>

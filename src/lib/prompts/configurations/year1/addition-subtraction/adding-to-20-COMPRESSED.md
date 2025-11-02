@@ -38,10 +38,10 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 
 ## Objects - VERIFIED PATHS
 
-**School:** `/images/WORKSHEET_OBJECTS/counting/school_supplies/{pencil,book,crayon,eraser,scissors}.png`
-**Farm:** `/images/WORKSHEET_OBJECTS/counting/farm_animals/{chicken,cow,sheep,pig}.png`
-**Fruits:** `/images/WORKSHEET_OBJECTS/counting/fruits/{apple,banana,orange}.png`
-**Toys:** `/images/WORKSHEET_OBJECTS/counting/toys/{car,ball,doll}.png`
+**School:** `/images/{pencil,book,crayon,eraser,scissors}.png`
+**Farm:** `/images/{chicken,cow,sheep,pig}.png`
+**Fruits:** `/images/{apple,banana,orange}.png`
+**Toys:** `/images/{car,ball,doll}.png`
 ## Key Strategies
 
 - Doubles: 5+5, 6+6, 7+7, 8+8, 9+9
@@ -109,20 +109,20 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px}
     <div class="picture-addition">
         <div class="group-container">
             <div class="addend-group">
-                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
-                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
-                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
-                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
-                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
-                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/chicken.png" width="45" height="45" alt="Chicken" />
                 <p class="group-label">6 chickens</p>
             </div>
             <div class="plus-symbol">+</div>
             <div class="addend-group">
-                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
-                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
-                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
-                <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/chicken.png" width="45" height="45" alt="Chicken" />
+                <img src="/images/chicken.png" width="45" height="45" alt="Chicken" />
                 <p class="group-label">4 chickens</p>
             </div>
         </div>

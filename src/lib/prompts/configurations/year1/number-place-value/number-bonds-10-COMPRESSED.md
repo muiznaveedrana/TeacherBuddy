@@ -8,7 +8,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 ## Rules
 1. **All bonds sum to 10** (0+10, 1+9, 2+8, 3+7, 4+6, 5+5)
 2. **NO visual answer clues** - Answer boxes must NOT be colored differently
-3. **Fruit images**: `/images/WORKSHEET_OBJECTS/counting/fruits/{name}.png` - Available: apple, banana, grape, lemon, orange, peach, pear, pineapple, strawberry, watermelon
+3. **Fruit images**: `/images/{name}.png` - Available: apple, banana, grape, lemon, orange, peach, pear, pineapple, strawberry, watermelon
 4. **Q4 descriptive words only** (big, ripe, sweet) NOT colors
 
 ## 5 Questions (IN ORDER)
@@ -89,11 +89,11 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
     <p class="question-text">There are 10 strawberries. 5 strawberries are ripe. How many more strawberries?</p>
     <div class="object-bond-visual">
         <div class="objects-group">
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png" width="40" height="40" alt="Strawberry" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png" width="40" height="40" alt="Strawberry" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png" width="40" height="40" alt="Strawberry" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png" width="40" height="40" alt="Strawberry" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png" width="40" height="40" alt="Strawberry" />
+            <img src="/images/strawberry.png" width="40" height="40" alt="Strawberry" />
+            <img src="/images/strawberry.png" width="40" height="40" alt="Strawberry" />
+            <img src="/images/strawberry.png" width="40" height="40" alt="Strawberry" />
+            <img src="/images/strawberry.png" width="40" height="40" alt="Strawberry" />
+            <img src="/images/strawberry.png" width="40" height="40" alt="Strawberry" />
             <p class="object-label">5 ripe strawberries</p>
         </div>
         <div class="objects-group">

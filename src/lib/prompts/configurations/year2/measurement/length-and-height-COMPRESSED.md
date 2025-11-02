@@ -31,14 +31,14 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 **MANDATORY**: ALL image paths MUST start with `/images/WORKSHEET_OBJECTS/measurement/`
 
 Available folders and objects:
-- **school**: `/images/WORKSHEET_OBJECTS/measurement/school/[pencil|crayon|ribbon|ruler].png`
-- **tools**: `/images/WORKSHEET_OBJECTS/measurement/tools/[paintbrush|wrench|hammer|saw].png`
-- **garden**: `/images/WORKSHEET_OBJECTS/measurement/garden/[caterpillar|snail|snake|leaf].png`
-- **fruit**: `/images/WORKSHEET_OBJECTS/measurement/fruit/[banana|lemon|watermelon].png`
-- **household**: `/images/WORKSHEET_OBJECTS/measurement/household/[book|shoe|teddy-bear|toy-car|building-block].png`
+- **school**: `/images/[pencil|crayon|ribbon|ruler].png`
+- **tools**: `/images/[paintbrush|wrench|hammer|saw].png`
+- **garden**: `/images/[caterpillar|snail|snake|leaf].png`
+- **fruit**: `/images/[banana|lemon|watermelon].png`
+- **household**: `/images/[book|shoe|teddy-bear|toy-car|building-block].png`
 
 **WRONG**: `/images/WORKSHEET_OBJECTS/school/pencil.png` ❌
-**CORRECT**: `/images/WORKSHEET_OBJECTS/measurement/school/pencil.png` ✅
+**CORRECT**: `/images/pencil.png` ✅
 
 ## CSS (Ultra-Compact):
 ```css
@@ -91,7 +91,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 <div class="question" style="background:#FFF9C4">
   <p class="question-text"><span class="question-number">1.</span> How long is the pencil?</p>
   <div class="ruler-container">
-    <img src="/images/WORKSHEET_OBJECTS/measurement/school/pencil.png" alt="pencil" style="height:60px">
+    <img src="/images/pencil.png" alt="pencil" style="height:60px">
     <div class="ruler">
       <div class="ruler-mark major"><span class="ruler-label">0</span></div>
       <div class="ruler-mark"></div>
@@ -113,12 +113,12 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
   <div class="word-problem-visual">
     <div class="measurement-item">
       <strong>Emma:</strong>
-      <img src="/images/WORKSHEET_OBJECTS/measurement/school/ribbon.png" alt="ribbon" style="height:40px">
+      <img src="/images/ribbon.png" alt="ribbon" style="height:40px">
       <span class="measurement-value">45 cm</span>
     </div>
     <div class="measurement-item">
       <strong>Lily:</strong>
-      <img src="/images/WORKSHEET_OBJECTS/measurement/school/ribbon.png" alt="ribbon" style="height:40px">
+      <img src="/images/ribbon.png" alt="ribbon" style="height:40px">
       <span class="measurement-value">68 cm</span>
     </div>
   </div>

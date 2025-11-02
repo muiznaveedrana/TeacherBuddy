@@ -24,9 +24,8 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 </div>
 ```
 
-## Q2 - Find Matching Shapes (CRITICAL - Reception Clarity)
-**WORDING RULE**: Always say "Circle all the [shape name]" - NOT "shapes that look like"
-**AGE-APPROPRIATE**: 4-5 year olds need direct, simple instructions
+## Q2 - Find Matching Shapes
+**WORDING**: Say "Circle all the [shape name]" (direct instruction for ages 4-5)
 
 ```html
 <div class="question" style="background: #F1F8E9;">
@@ -42,11 +41,9 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 </div>
 ```
 
-## Q3 - Count Shapes (CRITICAL - Stay On Topic!)
-**MUST use CSS shapes** - NOT real-world objects (apples/flowers belong in Number Recognition)
-**PURPOSE**: Reinforce shape recognition while practicing counting
-
-Pick ONE shape type (circle, square, triangle, rectangle) and show 3-7 of them.
+## Q3 - Count Shapes
+**MUST use CSS shapes** (circle, square, triangle, rectangle) - NOT real-world objects
+Show 3-7 of ONE shape type.
 
 ```html
 <div class="question" style="background: #E3F2FD;">
@@ -83,19 +80,13 @@ Pick ONE shape type (circle, square, triangle, rectangle) and show 3-7 of them.
 </div>
 ```
 
-## Q5 - Shape Properties (RANDOMIZE EVERY TIME!)
-**CRITICAL**: Use DIFFERENT question each worksheet! Pick ONE from list below.
-**PURPOSE**: Teach geometric properties (corners, sides, roundness)
-
-**AVAILABLE QUESTIONS (rotate through these):**
-1. "Which shape has 3 corners?" (Answer: Triangle)
-2. "Which shape has 4 corners?" (Answer: Square)
-3. "Which shape has NO corners?" (Answer: Circle)
-4. "Which shape has 3 sides?" (Answer: Triangle)
-5. "Which shape has 4 sides that are all the same length?" (Answer: Square)
-6. "Which shape is round all around?" (Answer: Circle)
-7. "Which shape has a point at the top?" (Answer: Triangle)
-8. "Which shape has NO straight sides?" (Answer: Circle)
+## Q5 - Shape Properties (RANDOMIZE!)
+**Pick ONE question:**
+1. "Which shape has 3 corners?" (Triangle)
+2. "Which shape has 4 corners?" (Square)
+3. "Which shape has NO corners?" (Circle)
+4. "Which shape has 3 sides?" (Triangle)
+5. "Which shape is round all around?" (Circle)
 
 **Template** (use question from above list):
 ```html
@@ -140,5 +131,22 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 .shape-scene{display:flex;gap:15px;flex-wrap:wrap;justify-content:center;margin:20px 0;}
 .answer-prompt{font-size:15pt;margin:10px 0;text-align:center;}
 .answer-line{border-bottom:2px solid #333;display:inline-block;min-width:150px;margin-left:10px;}
+.answer-key{margin-top:30px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px;}
+.answer-key-title{font-size:14pt;font-weight:bold;margin:0 0 10px 0;text-align:center;}
+.answer-key-content p{font-size:12pt;margin:6px 0;}
 </style>
+```
+
+## Answer Key
+```html
+<div class="answer-key">
+    <h2 class="answer-key-title">Answer Key</h2>
+    <div class="answer-key-content">
+        <p><strong>1.</strong> [Shape name shown, e.g., "Square"]</p>
+        <p><strong>2.</strong> [Shapes to circle, e.g., "All 4 circles"]</p>
+        <p><strong>3.</strong> [Count, e.g., "5 triangles"]</p>
+        <p><strong>4.</strong> [Matching pairs: Circle→Circle, Square→Square, Triangle→Triangle]</p>
+        <p><strong>5.</strong> [Letter of correct shape, e.g., "B (Square)" for "Which has 4 corners?"]</p>
+    </div>
+</div>
 ```

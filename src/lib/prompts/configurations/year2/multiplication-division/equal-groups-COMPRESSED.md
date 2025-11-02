@@ -19,12 +19,12 @@ Generate EXACTLY {{questionCount}} Year 2 equal groups questions.
 
 ## CONTEXTS (CRITICAL - USE EXACT PATHS):
 
-**school**: `/images/WORKSHEET_OBJECTS/counting/school_supplies/[pencil|book|eraser|crayon|marker|scissors|ruler|glue|backpack].png`
-**fruits**: `/images/WORKSHEET_OBJECTS/counting/fruits/[apple|banana|orange|strawberry|grape|pear|lemon|watermelon].png`
-**toys**: `/images/WORKSHEET_OBJECTS/counting/toys/[ball|car|doll|teddy|block|kite].png`
-**farm**: `/images/WORKSHEET_OBJECTS/counting/farm_animals/[chicken|cow|sheep|pig|horse|duck|goat].png`
-**shapes**: `/images/WORKSHEET_OBJECTS/counting/shapes/[star|heart|circle|square|diamond].png`
-**food**: `/images/WORKSHEET_OBJECTS/counting/food_treats/[cookie|cupcake].png`
+**school**: `/images/[pencil|book|eraser|crayon|marker|scissors|ruler|glue|backpack].png`
+**fruits**: `/images/[apple|banana|orange|strawberry|grape|pear|lemon|watermelon].png`
+**toys**: `/images/[ball|car|doll|teddy|block|kite].png`
+**farm**: `/images/[chicken|cow|sheep|pig|horse|duck|goat].png`
+**shapes**: `/images/[star|heart|circle|square|diamond].png`
+**food**: `/images/[cookie|cupcake].png`
 
 ## EXAMPLE OUTPUT
 
@@ -34,24 +34,24 @@ Generate EXACTLY {{questionCount}} Year 2 equal groups questions.
     <p class="question-text"><span class="question-number">1.</span> Count the groups and objects.</p>
     <div class="equal-groups-visual">
         <div class="group-circle">
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="30" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="30" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="30" />
+            <img src="/images/apple.png" width="30" />
+            <img src="/images/apple.png" width="30" />
+            <img src="/images/apple.png" width="30" />
         </div>
         <div class="group-circle">
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="30" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="30" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="30" />
+            <img src="/images/apple.png" width="30" />
+            <img src="/images/apple.png" width="30" />
+            <img src="/images/apple.png" width="30" />
         </div>
         <div class="group-circle">
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="30" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="30" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="30" />
+            <img src="/images/apple.png" width="30" />
+            <img src="/images/apple.png" width="30" />
+            <img src="/images/apple.png" width="30" />
         </div>
         <div class="group-circle">
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="30" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="30" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="30" />
+            <img src="/images/apple.png" width="30" />
+            <img src="/images/apple.png" width="30" />
+            <img src="/images/apple.png" width="30" />
         </div>
     </div>
     <p class="question">How many groups? <span class="answer-box"></span></p>

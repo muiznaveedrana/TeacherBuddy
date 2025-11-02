@@ -120,47 +120,11 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
 
     // Generate worksheet using Gemini AI with STREAMING for better UX
     // Uses generateWorksheetStreaming() which delivers first content in 5-6s vs 30s
-    let worksheet
-    let generationTime
+    const worksheet = await generateWorksheetStreaming(config, { previousWorksheets })
+    const generationTime = Date.now() - startTime
 
-    try {
-      worksheet = await generateWorksheetStreaming(config, { previousWorksheets })
-      generationTime = Date.now() - startTime
-
-      // Quality tracking - validate worksheet meets requirements
-      console.log('✅ Worksheet generated successfully (streaming)')
-
-    } catch (error) {
-      // Check if this is a retryable error (insufficient questions or non-HTML format)
-      const isRetryableError = error instanceof Error && (
-        (error.message.includes('Need at least 3 questions') && error.message.includes('Generated worksheet has')) ||
-        (error.message.includes('Generated content is not in HTML format'))
-      )
-
-      if (isRetryableError) {
-
-        console.log('First attempt failed (insufficient questions or format issues), retrying once...')
-
-        try {
-          // One retry attempt (still using streaming)
-          worksheet = await generateWorksheetStreaming(config, { previousWorksheets })
-          generationTime = Date.now() - startTime
-          console.log('Retry successful (streaming)')
-        } catch (retryError: any) {
-          // If retry also fails, check if we have partial worksheet data
-          if (retryError?.metadata?.partialWorksheet) {
-            // Accept the partial worksheet from the first attempt
-            console.warn(`Accepting partial worksheet with ${retryError.metadata.generatedCount} questions after retry failed`)
-            worksheet = retryError.metadata.partialWorksheet
-            generationTime = Date.now() - startTime
-          } else {
-            throw retryError
-          }
-        }
-      } else {
-        throw error
-      }
-    }
+    // Quality tracking - validate worksheet meets requirements
+    console.log('✅ Worksheet generated successfully (streaming)')
 
     // Log performance for monitoring (Unified Service)
     const hasEnhanced = !!(visualTheme)

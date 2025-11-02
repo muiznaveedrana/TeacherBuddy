@@ -147,26 +147,26 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
   <p class="question-text"><span class="question-number">3.</span> There are 20 apples. Emma takes 1/2 of them. How many apples does Emma take?</p>
   <div class="word-problem-visual">
     <div class="object-array">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
+      <img src="/images/apple.png" class="count-object" alt="apple">
     </div>
     <p class="quantity-display">Total: 20 apples</p>
   </div>

@@ -9,31 +9,21 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 ## Rules
 - Q1-Q3, Q5: CSS shapes only (NO text/images)
 - Q4: IMG tags with FULL paths, **50x50px**
-- No answer key
 - Pattern length: 2-3 cycles max
-- **CRITICAL**: VARY colors and shapes each worksheet!
+- **VARY colors and shapes each worksheet**
 
 ## 5 Questions
 1. AB pattern (shapes, multiple choice)
 2. ABB pattern (fill blanks)
 3. Copy pattern
 4. AB objects (**50x50 img tags**, multiple choice)
-5. ABC pattern (shapes, multiple choice) - Most complex
+5. ABC pattern (shapes, multiple choice)
 
-## Color Variations - MUST RANDOMIZE!
-**Pick DIFFERENT combinations each worksheet**
-
-**Q1 Color Pairs** (pick ONE):
-Red/Blue, Red/Green, Red/Yellow, Blue/Green, Blue/Yellow, Green/Yellow, Orange/Purple, Red/Orange, Blue/Purple, Yellow/Orange, Green/Purple, Yellow/Purple, Red/Purple, Blue/Orange, Green/Blue
-
-**Q2 Color Pairs** (pick ONE):
-Green/Yellow, Blue/Orange, Red/Purple, Yellow/Purple, Green/Orange, Blue/Red, Orange/Yellow, Purple/Blue, Red/Green, Yellow/Blue, Purple/Green, Orange/Red
-
-**Q5 Color Sets** (pick ONE):
-Red/Blue/Green, Red/Yellow/Blue, Green/Orange/Purple, Yellow/Red/Purple, Blue/Yellow/Green, Red/Green/Orange, Blue/Red/Yellow, Yellow/Green/Blue, Purple/Orange/Red, Orange/Yellow/Purple, Green/Purple/Yellow, Red/Orange/Blue
+## Color Variations - RANDOMIZE!
+**Q1-Q2 Color Pairs** (pick DIFFERENT for each): Red/Blue, Red/Green, Blue/Yellow, Green/Yellow, Orange/Purple, Red/Orange
+**Q5 Color Sets** (pick ONE): Red/Blue/Green, Red/Yellow/Blue, Green/Orange/Purple, Blue/Yellow/Green, Red/Green/Orange, Purple/Orange/Red
 
 ## Q1 - AB Pattern
-**VARY colors**: Use different pair from Q1 list above
 
 ```html
 <div class="question" style="background: #FFF9C4;">
@@ -62,40 +52,37 @@ Red/Blue/Green, Red/Yellow/Blue, Green/Orange/Purple, Yellow/Red/Purple, Blue/Ye
 </div>
 ```
 
-## Q4 - Objects (CRITICAL)
-Use FULL paths: `/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png`
-Image size: **50x50px**
-**VARY objects each worksheet**: fruits (apple, banana, orange), farm_animals (cow, chicken, sheep), toys (ball, doll)
+## Q4 - Objects
+FULL paths: `/images/{object}.png` (50x50px)
+**VARY objects**: fruits (apple, banana, orange), farm_animals (cow, chicken, sheep), toys (ball, doll)
 
 ```html
 <div class="question" style="background: #FCE4EC;">
     <p class="question-text"><span class="question-number">4.</span> What comes next in this pattern?</p>
     <div class="pattern-sequence-objects">
-        <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="50" height="50" alt="Ball" />
-        <img src="/images/WORKSHEET_OBJECTS/counting/toys/doll.png" width="50" height="50" alt="Doll" />
-        <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="50" height="50" alt="Ball" />
+        <img src="/images/ball.png" width="50" height="50" alt="Ball" />
+        <img src="/images/doll.png" width="50" height="50" alt="Doll" />
+        <img src="/images/ball.png" width="50" height="50" alt="Ball" />
         <div class="pattern-next">?</div>
     </div>
     <div class="object-choices">
         <div class="choice-box">
             <span class="choice-label">A</span>
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/doll.png" width="50" height="50" alt="Doll" />
+            <img src="/images/doll.png" width="50" height="50" alt="Doll" />
         </div>
         <div class="choice-box">
             <span class="choice-label">B</span>
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="50" height="50" alt="Ball" />
+            <img src="/images/ball.png" width="50" height="50" alt="Ball" />
         </div>
         <div class="choice-box">
             <span class="choice-label">C</span>
-            <img src="/images/WORKSHEET_OBJECTS/counting/farm_animals/cow.png" width="50" height="50" alt="Cow" />
+            <img src="/images/cow.png" width="50" height="50" alt="Cow" />
         </div>
     </div>
 </div>
 ```
 
 ## Q5 - ABC Pattern (VARY COLORS!)
-**MUST use DIFFERENT color set each worksheet** (from Q5 list above)
-**Match shape AND color exactly**
 
 ```html
 <div class="question" style="background: #FFF3E0;">
@@ -159,5 +146,22 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 .choice-shape.triangle.yellow{border-bottom-color:#F1C40F;background:transparent;}
 .choice-shape.triangle.orange{border-bottom-color:#FF8C00;background:transparent;}
 .choice-shape.triangle.purple{border-bottom-color:#9B59B6;background:transparent;}
+.answer-key{margin-top:30px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px;}
+.answer-key-title{font-size:14pt;font-weight:bold;margin:0 0 10px 0;text-align:center;}
+.answer-key-content p{font-size:12pt;margin:6px 0;}
 </style>
+```
+
+## Answer Key
+```html
+<div class="answer-key">
+    <h2 class="answer-key-title">Answer Key</h2>
+    <div class="answer-key-content">
+        <p><strong>1.</strong> [Next shape/color, e.g., "A (Red Circle)"]</p>
+        <p><strong>2.</strong> [Missing shapes, e.g., "Two blue squares"]</p>
+        <p><strong>3.</strong> [Pattern to copy, e.g., "Yellow triangle, green square, yellow triangle"]</p>
+        <p><strong>4.</strong> [Next object, e.g., "A (Doll)"]</p>
+        <p><strong>5.</strong> [Next shape/color, e.g., "A (Green Triangle)"]</p>
+    </div>
+</div>
 ```

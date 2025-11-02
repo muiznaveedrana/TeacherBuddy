@@ -37,15 +37,15 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 **MANDATORY**: ALL image paths MUST start with `/images/WORKSHEET_OBJECTS/measurement/`
 
 Available folders and objects:
-- **contrast**: `/images/WORKSHEET_OBJECTS/measurement/contrast/[feather|stone|coin|key|sponge|balloon].png`
-- **fruit**: `/images/WORKSHEET_OBJECTS/measurement/fruit/[apple|banana|lemon|watermelon].png`
-- **vegetables**: `/images/WORKSHEET_OBJECTS/measurement/vegetables/[pea|carrot|tomato|onion|potato|cucumber|broccoli|pepper|pumpkin].png`
-- **household**: `/images/WORKSHEET_OBJECTS/measurement/household/[book|shoe|teddy-bear|toy-car|building-block|backpack].png`
-- **farm**: `/images/WORKSHEET_OBJECTS/measurement/farm/[chicken|duck|goose|turkey|pig|sheep].png` (for kg weights)
-- **tools**: `/images/WORKSHEET_OBJECTS/measurement/tools/scale.png` (for showing weighing)
+- **contrast**: `/images/[feather|stone|coin|key|sponge|balloon].png`
+- **fruit**: `/images/[apple|banana|lemon|watermelon].png`
+- **vegetables**: `/images/[pea|carrot|tomato|onion|potato|cucumber|broccoli|pepper|pumpkin].png`
+- **household**: `/images/[book|shoe|teddy-bear|toy-car|building-block|backpack].png`
+- **farm**: `/images/[chicken|duck|goose|turkey|pig|sheep].png` (for kg weights)
+- **tools**: `/images/scale.png` (for showing weighing)
 
 **WRONG**: `/images/WORKSHEET_OBJECTS/vegetables/pea.png` ❌
-**CORRECT**: `/images/WORKSHEET_OBJECTS/measurement/vegetables/pea.png` ✅
+**CORRECT**: `/images/pea.png` ✅
 
 ## CSS (Ultra-Compact):
 ```css
@@ -103,7 +103,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
   <p class="question-text"><span class="question-number">1.</span> What weight does the scale show?</p>
   <div class="scale-container">
     <div class="scale-image">
-      <img src="/images/WORKSHEET_OBJECTS/measurement/tools/scale.png" alt="scale" style="height:100px">
+      <img src="/images/scale.png" alt="scale" style="height:100px">
     </div>
     <div class="scale-visual">
       <div class="scale-pointer" style="transform:rotate(-45deg)"></div>
@@ -122,12 +122,12 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
   <p class="question-text"><span class="question-number">2.</span> Which object is heavier?</p>
   <div class="comparison-container">
     <div class="comparison-item">
-      <img src="/images/WORKSHEET_OBJECTS/measurement/contrast/feather.png" alt="feather">
+      <img src="/images/feather.png" alt="feather">
       <p class="weight-value">85 g</p>
       <p><strong>Feather</strong></p>
     </div>
     <div class="comparison-item">
-      <img src="/images/WORKSHEET_OBJECTS/measurement/contrast/stone.png" alt="stone">
+      <img src="/images/stone.png" alt="stone">
       <p class="weight-value">320 g</p>
       <p><strong>Stone</strong></p>
     </div>
@@ -143,12 +143,12 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
   <div class="word-problem-visual">
     <div class="weight-comparison">
       <div class="weight-item">
-        <img src="/images/WORKSHEET_OBJECTS/measurement/fruit/apple.png" alt="apple">
+        <img src="/images/apple.png" alt="apple">
         <p><strong>Tom</strong></p>
         <p class="weight-value">120 g</p>
       </div>
       <div class="weight-item">
-        <img src="/images/WORKSHEET_OBJECTS/measurement/fruit/apple.png" alt="apple">
+        <img src="/images/apple.png" alt="apple">
         <p><strong>Sam</strong></p>
         <p class="weight-value">95 g</p>
       </div>

@@ -7,21 +7,18 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 **CRITICAL**: ALL questions MUST have colored background.
 
 ## Rules
-- **50% size difference minimum** (Reception needs OBVIOUS differences)
+- **50% size difference minimum** (OBVIOUS differences for ages 4-5)
 - **5 DIFFERENT categories** (NO repeats)
 - **Lowercase/title case** (NOT "BIGGER" but "bigger")
 - **Real images only** (NO CSS shapes)
-- **NO answer key**
-- **MANDATORY**: ALL questions MUST have answer input areas:
-  - Q1-Q3, Q5: Answer choice circles (see Q1 template)
-  - Q4: Drawing space for lines to match (see Q4 template)
-- **Q3, Q4, Q5 CRITICAL**: Items MUST be SCRAMBLED (NOT in small→medium→large order). Example orders: Medium/Small/Large, Large/Medium/Small, Large/Small/Medium
-- **ALL QUESTIONS**: Use SAME object type at different sizes (e.g., 3 apples NOT apple/banana/orange, 3 cars NOT car/bus/bike)
+- **ALL questions**: Use SAME object type at different sizes (e.g., 3 apples NOT apple/banana/orange)
+- **Q3-Q5**: Items MUST be SCRAMBLED (NOT small→medium→large order)
+- **Answer areas**: Q1-Q3, Q5 use choice circles; Q4 uses drawing space for lines
 
 ## Objects (67)
 **fruits**: strawberry, apple, watermelon, pineapple, banana, orange | **toys**: ball, bear, block, doll | **farm_animals**: chicken, cow, sheep, pig, horse, duck | **vegetables**: carrot, tomato, cucumber, pepper, potato | **sports**: football, basketball, tennis_ball | **food_treats**: cookie, cupcake, icecream | **shapes**: star, heart, circle, square, diamond | **garden**: flower, tree, mushroom, leaf, butterfly | **school_supplies**: book, pencil, eraser, crayon, backpack | **vehicles**: car, bus, bike
 
-**Path**: `/images/WORKSHEET_OBJECTS/counting/{category}/{object}.png`
+**Path**: `/images/{object}.png`
 
 ## 5 Questions (Pick 5 DIFFERENT categories)
 1. **Which is Bigger?** (2 objects, 50px vs 100px - OBVIOUS difference) + Answer choice circles
@@ -37,11 +34,11 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
     <div class="size-comparison-two">
         <div class="comparison-item">
             <span class="item-label">Left</span>
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png" width="50" height="50" alt="Small" />
+            <img src="/images/strawberry.png" width="50" height="50" alt="Small" />
         </div>
         <div class="comparison-item">
             <span class="item-label">Right</span>
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png" width="100" height="100" alt="Big" />
+            <img src="/images/strawberry.png" width="100" height="100" alt="Big" />
         </div>
     </div>
     <div class="answer-choices">
@@ -52,20 +49,19 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 ```
 
 ## Q4 Template (Ordering) - WITH LINES TO DRAW
-**CRITICAL**: Items MUST be in SCRAMBLED order (e.g., Medium/Smallest/Biggest OR Biggest/Medium/Smallest)
 ```html
 <div class="question" style="background: #FCE4EC;">
     <p class="question-text"><span class="question-number">4.</span> Can you put these blocks in order from smallest to biggest? Draw lines to match.</p>
     <div class="ordering-activity">
         <div class="animals-unsorted">
             <div class="animal-box">
-                <img src="/images/WORKSHEET_OBJECTS/counting/toys/block.png" width="75" height="75" alt="Medium" />
+                <img src="/images/block.png" width="75" height="75" alt="Medium" />
             </div>
             <div class="animal-box">
-                <img src="/images/WORKSHEET_OBJECTS/counting/toys/block.png" width="50" height="50" alt="Small" />
+                <img src="/images/block.png" width="50" height="50" alt="Small" />
             </div>
             <div class="animal-box">
-                <img src="/images/WORKSHEET_OBJECTS/counting/toys/block.png" width="100" height="100" alt="Large" />
+                <img src="/images/block.png" width="100" height="100" alt="Large" />
             </div>
         </div>
         <div class="drawing-space"></div>
@@ -79,22 +75,21 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 ```
 
 ## Q5 Template (3-way comparison) - WITH ANSWER BOXES
-**CRITICAL**: Must use SAME object 3 times at different sizes + SCRAMBLED ORDER (NOT small/medium/large)
 ```html
 <div class="question" style="background: #FFF3E0;">
     <p class="question-text"><span class="question-number">5.</span> Which apple is the biggest?</p>
     <div class="size-comparison-three">
         <div class="comparison-item">
             <span class="item-label">Left</span>
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="80" height="80" alt="Medium" />
+            <img src="/images/apple.png" width="80" height="80" alt="Medium" />
         </div>
         <div class="comparison-item">
             <span class="item-label">Middle</span>
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="55" height="55" alt="Small" />
+            <img src="/images/apple.png" width="55" height="55" alt="Small" />
         </div>
         <div class="comparison-item">
             <span class="item-label">Right</span>
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="105" height="105" alt="Large" />
+            <img src="/images/apple.png" width="105" height="105" alt="Large" />
         </div>
     </div>
     <div class="answer-choices">
@@ -123,5 +118,22 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:12pt;padding:10px;}
 .answer-prompt{font-size:11pt;margin:5px 0;font-weight:600;text-align:center;}
 .answer-choices{display:flex;justify-content:center;gap:12px;margin-top:8px;}
 .choice-circle{width:45px;height:45px;border:2px solid #333;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9pt;font-weight:bold;background:#fff;}
+.answer-key{margin-top:30px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px;}
+.answer-key-title{font-size:14pt;font-weight:bold;margin:0 0 10px 0;text-align:center;}
+.answer-key-content p{font-size:12pt;margin:6px 0;}
 </style>
+```
+
+## Answer Key
+```html
+<div class="answer-key">
+    <h2 class="answer-key-title">Answer Key</h2>
+    <div class="answer-key-content">
+        <p><strong>1.</strong> [Position, e.g., "Right" (bigger object)]</p>
+        <p><strong>2.</strong> [Position, e.g., "Left" (shorter object)]</p>
+        <p><strong>3.</strong> [Position, e.g., "Middle" (longest object)]</p>
+        <p><strong>4.</strong> [Ordering, e.g., "Medium block → Smallest, Small block → Medium, Large block → Biggest"]</p>
+        <p><strong>5.</strong> [Position, e.g., "Right" (biggest/tallest object)]</p>
+    </div>
+</div>
 ```

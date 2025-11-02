@@ -45,10 +45,10 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 
 ## OBJECTS (WORKSHEET_OBJECTS) - VERIFIED PATHS ONLY
 
-**Fruits:** `/images/WORKSHEET_OBJECTS/counting/fruits/{strawberry,apple,banana,orange}.png`
-**Toys:** `/images/WORKSHEET_OBJECTS/counting/toys/{ball,car,doll}.png`
-**School:** `/images/WORKSHEET_OBJECTS/counting/school_supplies/{pencil,book,crayon,eraser,scissors}.png`
-**Farm Animals:** `/images/WORKSHEET_OBJECTS/counting/farm_animals/{chicken,cow,sheep,pig,horse,goat,duck,goose,turkey}.png`
+**Fruits:** `/images/{strawberry,apple,banana,orange}.png`
+**Toys:** `/images/{ball,car,doll}.png`
+**School:** `/images/{pencil,book,crayon,eraser,scissors}.png`
+**Farm Animals:** `/images/{chicken,cow,sheep,pig,horse,goat,duck,goose,turkey}.png`
 
 **IMPORTANT:** ONLY use objects from the verified paths above. DO NOT invent new objects or paths (no flowers, cookies, balloons, etc.)
 
@@ -68,15 +68,15 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
     <p class="question-text"><span class="question-number">1.</span> There are 9 strawberries. Cross out 4. How many are left?</p>
     <div class="picture-subtraction">
         <div class="object-group">
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png" width="50" height="50" alt="Strawberry" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png" width="50" height="50" alt="Strawberry" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png" width="50" height="50" alt="Strawberry" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png" width="50" height="50" alt="Strawberry" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png" width="50" height="50" alt="Strawberry" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png" width="50" height="50" alt="Strawberry" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png" width="50" height="50" alt="Strawberry" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png" width="50" height="50" alt="Strawberry" />
-            <img src="/images/WORKSHEET_OBJECTS/counting/fruits/strawberry.png" width="50" height="50" alt="Strawberry" />
+            <img src="/images/strawberry.png" width="50" height="50" alt="Strawberry" />
+            <img src="/images/strawberry.png" width="50" height="50" alt="Strawberry" />
+            <img src="/images/strawberry.png" width="50" height="50" alt="Strawberry" />
+            <img src="/images/strawberry.png" width="50" height="50" alt="Strawberry" />
+            <img src="/images/strawberry.png" width="50" height="50" alt="Strawberry" />
+            <img src="/images/strawberry.png" width="50" height="50" alt="Strawberry" />
+            <img src="/images/strawberry.png" width="50" height="50" alt="Strawberry" />
+            <img src="/images/strawberry.png" width="50" height="50" alt="Strawberry" />
+            <img src="/images/strawberry.png" width="50" height="50" alt="Strawberry" />
         </div>
         <p class="instruction">Cross out 4 strawberries</p>
     </div>

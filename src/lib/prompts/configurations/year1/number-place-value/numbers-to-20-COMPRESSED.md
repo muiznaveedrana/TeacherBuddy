@@ -38,14 +38,14 @@ Shapes: star, heart, circle, square
 <div class="question" style="background: #FFF9C4;">
     <p class="question-text"><span class="question-number">1.</span> Count the apples. Write the number.</p>
     <div class="counting-array">
-        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="50" height="50" alt="Apple" />
-        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="50" height="50" alt="Apple" />
-        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="50" height="50" alt="Apple" />
-        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="50" height="50" alt="Apple" />
-        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="50" height="50" alt="Apple" />
-        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="50" height="50" alt="Apple" />
-        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="50" height="50" alt="Apple" />
-        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="50" height="50" alt="Apple" />
+        <img src="/images/apple.png" width="50" height="50" alt="Apple" />
+        <img src="/images/apple.png" width="50" height="50" alt="Apple" />
+        <img src="/images/apple.png" width="50" height="50" alt="Apple" />
+        <img src="/images/apple.png" width="50" height="50" alt="Apple" />
+        <img src="/images/apple.png" width="50" height="50" alt="Apple" />
+        <img src="/images/apple.png" width="50" height="50" alt="Apple" />
+        <img src="/images/apple.png" width="50" height="50" alt="Apple" />
+        <img src="/images/apple.png" width="50" height="50" alt="Apple" />
     </div>
     <p class="answer-prompt">There are <span class="answer-box"></span> apples.</p>
 </div>

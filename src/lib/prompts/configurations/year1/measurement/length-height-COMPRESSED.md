@@ -4,7 +4,7 @@ Gen {{questionCount}} Y1 measurement Qs. BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q
 
 **RULES**: NO cm/m! Non-standard units only (cubes/clips/hands/blocks). Check AVOID list (top of prompt). Each Q uses DIFFERENT object. Vocab: longer/shorter/taller/longest/shortest/tallest.
 
-**IMAGES**: `/images/WORKSHEET_OBJECTS/measurement/` → school/(pencil|crayon|ribbon|ruler), tools/(saw|paintbrush|wrench), garden/(caterpillar|snail|snake), fruit/(banana|lemon|watermelon). 13 objects total.
+**IMAGES**: `/images/(pencil|crayon|ribbon|ruler), tools/(saw|paintbrush|wrench), garden/(caterpillar|snail|snake), fruit/(banana|lemon|watermelon). 13 objects total.
 
 **POOLS**: Names: Ben/Emma|Lily/Max|Sam/Zara|Ali/Maya|Leo/Mia|Jack/Ella. Numbers: Small 3-5|Med 6-8|Large 9-12 (MIX, no sequential!). Bars: Blue(#4A90E2,#357ABD)|Green(#50C878,#3DA75F)|Orange(#FF9500,#CC7700). Emoji: 📎 ONLY for Q5.
 
@@ -18,7 +18,7 @@ Q5(#FFF3E0): Estimate+measure 📎. 1 obj ≠Q1/Q2. Counts: small=5-6, med=7-8, 
 **ALL 5 Qs = DIFFERENT objects!**
 
 **EXAMPLES** (expand structure, vary objects):
-Q2: `<div class="question" style="background:#E3F2FD"><p><span class="question-number">2.</span> How many cubes long is the saw?</p><img src="/images/WORKSHEET_OBJECTS/measurement/tools/saw.png" alt="saw" style="height:80px"><div class="unit-ruler"><div class="unit-cube">1</div>...<div class="unit-cube">9</div></div><p>The saw is <span class="answer-box"></span> cubes long.</p></div>`
+Q2: `<div class="question" style="background:#E3F2FD"><p><span class="question-number">2.</span> How many cubes long is the saw?</p><img src="/images/saw.png" alt="saw" style="height:80px"><div class="unit-ruler"><div class="unit-cube">1</div>...<div class="unit-cube">9</div></div><p>The saw is <span class="answer-box"></span> cubes long.</p></div>`
 
 Q4: `<div class="question" style="background:#FCE4EC"><p><span class="question-number">4.</span> 👤 Lily's scarf is 5 hands. 👤 Max's scarf is 9 hands. Whose LONGER?</p><div class="bar-row"><p>👤 Lily:</p><div class="measurement-bar" style="width:175px;background:linear-gradient(90deg,#4A90E2,#357ABD);border:3px solid #2C5F8D">5 hands</div></div><div class="bar-row"><p>👤 Max:</p><div class="measurement-bar" style="width:315px;background:linear-gradient(90deg,#50C878,#3DA75F);border:3px solid #2E7D4E">9 hands</div></div><p><span class="answer-line"></span> has longer scarf.</p></div>`
 

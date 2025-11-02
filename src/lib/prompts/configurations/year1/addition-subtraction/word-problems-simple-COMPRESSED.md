@@ -34,10 +34,10 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 
 ## CONTEXTS & OBJECTS
 
-**Toys:** `/images/WORKSHEET_OBJECTS/counting/toys/{car,ball,doll}.png`
-**Fruits:** `/images/WORKSHEET_OBJECTS/counting/fruits/{apple,banana,orange,strawberry}.png`
-**School:** `/images/WORKSHEET_OBJECTS/counting/school_supplies/{pencil,book,crayon}.png`
-**Farm Animals:** `/images/WORKSHEET_OBJECTS/counting/farm_animals/{chicken,cow,sheep,pig,horse,goat,duck,goose,turkey}.png`
+**Toys:** `/images/{car,ball,doll}.png`
+**Fruits:** `/images/{apple,banana,orange,strawberry}.png`
+**School:** `/images/{pencil,book,crayon}.png`
+**Farm Animals:** `/images/{chicken,cow,sheep,pig,horse,goat,duck,goose,turkey}.png`
 **People names:** Ben, Emma, Sam, Lily, Jack, Sophie
 
 ## EXAMPLE OUTPUT

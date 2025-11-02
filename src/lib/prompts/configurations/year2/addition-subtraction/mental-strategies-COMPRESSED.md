@@ -34,15 +34,15 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
 ## CONTEXTS (CRITICAL - USE EXACT PATHS):
 
-**school**: `/images/WORKSHEET_OBJECTS/counting/school_supplies/[pencil|book|eraser|crayon|marker|scissors|ruler|glue|backpack].png`
-**fruits**: `/images/WORKSHEET_OBJECTS/counting/fruits/[apple|banana|orange|strawberry|grape|pear|lemon|watermelon].png`
-**toys**: `/images/WORKSHEET_OBJECTS/counting/toys/[ball|car|doll|teddy|block|kite].png`
-**farm**: `/images/WORKSHEET_OBJECTS/counting/farm_animals/[chicken|cow|sheep|pig|horse|duck|goat].png`
-**shapes**: `/images/WORKSHEET_OBJECTS/counting/shapes/[star|heart|circle|square|diamond].png`
-**food**: `/images/WORKSHEET_OBJECTS/counting/food_treats/[cookie|cupcake].png`
+**school**: `/images/[pencil|book|eraser|crayon|marker|scissors|ruler|glue|backpack].png`
+**fruits**: `/images/[apple|banana|orange|strawberry|grape|pear|lemon|watermelon].png`
+**toys**: `/images/[ball|car|doll|teddy|block|kite].png`
+**farm**: `/images/[chicken|cow|sheep|pig|horse|duck|goat].png`
+**shapes**: `/images/[star|heart|circle|square|diamond].png`
+**food**: `/images/[cookie|cupcake].png`
 
 ## COINS (when {{COIN_SPEC}}):
-1p,2p,5p,10p,20p,50p at `/images/WORKSHEET_OBJECTS/money/UK coins/[X]p tails col - TRF.png`
+1p,2p,5p,10p,20p,50p at `/images/[X]p tails col - TRF.png`
 
 ## CSS (Compact):
 ```css

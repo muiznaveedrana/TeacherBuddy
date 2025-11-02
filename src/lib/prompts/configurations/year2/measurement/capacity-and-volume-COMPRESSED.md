@@ -37,11 +37,11 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 **MANDATORY**: ALL image paths MUST start with `/images/WORKSHEET_OBJECTS/measurement/`
 
 Available containers:
-- `/images/WORKSHEET_OBJECTS/measurement/containers/[cup|glass|mug|bowl|bottle|jug|kettle|milk-carton|bucket|watering-can|fish-tank].png`
-- `/images/WORKSHEET_OBJECTS/measurement/school/[cup|jug].png`
+- `/images/[cup|glass|mug|bowl|bottle|jug|kettle|milk-carton|bucket|watering-can|fish-tank].png`
+- `/images/[cup|jug].png`
 
 **WRONG**: `/images/WORKSHEET_OBJECTS/containers/cup.png` ❌
-**CORRECT**: `/images/WORKSHEET_OBJECTS/measurement/containers/cup.png` ✅
+**CORRECT**: `/images/cup.png` ✅
 
 ## CSS (Ultra-Compact):
 ```css
@@ -99,7 +99,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
   <p class="question-text"><span class="question-number">1.</span> How much water is in the measuring jug?</p>
   <div class="jug-container">
     <div class="container-visual">
-      <img src="/images/WORKSHEET_OBJECTS/measurement/containers/jug.png" alt="measuring jug" style="height:100px">
+      <img src="/images/jug.png" alt="measuring jug" style="height:100px">
     </div>
     <div class="measuring-jug">
       <div class="jug-scale">
@@ -120,12 +120,12 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
   <p class="question-text"><span class="question-number">2.</span> Which container holds more liquid?</p>
   <div class="comparison-container">
     <div class="comparison-item">
-      <img src="/images/WORKSHEET_OBJECTS/measurement/containers/cup.png" alt="cup">
+      <img src="/images/cup.png" alt="cup">
       <p class="capacity-value">200 ml</p>
       <p><strong>Cup</strong></p>
     </div>
     <div class="comparison-item">
-      <img src="/images/WORKSHEET_OBJECTS/measurement/containers/bottle.png" alt="bottle">
+      <img src="/images/bottle.png" alt="bottle">
       <p class="capacity-value">500 ml</p>
       <p><strong>Bottle</strong></p>
     </div>
@@ -141,12 +141,12 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
   <div class="word-problem-visual">
     <div class="capacity-comparison">
       <div class="capacity-item">
-        <img src="/images/WORKSHEET_OBJECTS/measurement/containers/jug.png" alt="jug">
+        <img src="/images/jug.png" alt="jug">
         <p><strong>Emma</strong></p>
         <p class="capacity-value">300 ml</p>
       </div>
       <div class="capacity-item">
-        <img src="/images/WORKSHEET_OBJECTS/measurement/containers/jug.png" alt="jug">
+        <img src="/images/jug.png" alt="jug">
         <p><strong>Lily</strong></p>
         <p class="capacity-value">450 ml</p>
       </div>

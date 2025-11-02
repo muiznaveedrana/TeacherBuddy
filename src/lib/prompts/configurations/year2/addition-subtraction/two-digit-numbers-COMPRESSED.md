@@ -35,17 +35,17 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 Q2:yes/no (addition regroup), Q4:yes/no (subtraction borrow)
 
 ## CONTEXTS (Use {{CONTEXT}}):
-**school**: `/images/WORKSHEET_OBJECTS/counting/school_supplies/[pencil|book|eraser|crayon].png`
-**toys**: `/images/WORKSHEET_OBJECTS/counting/toys/[ball|car|doll|teddy].png`
-**food**: `/images/WORKSHEET_OBJECTS/counting/fruits/[apple|banana|orange].png`
-**animals**: `/images/WORKSHEET_OBJECTS/counting/farm_animals/[chicken|cow|sheep|pig].png`
+**school**: `/images/[pencil|book|eraser|crayon].png`
+**toys**: `/images/[ball|car|doll|teddy].png`
+**food**: `/images/[apple|banana|orange].png`
+**animals**: `/images/[chicken|cow|sheep|pig].png`
 **money**: Use EXACT paths - 1p/2p/5p/10p are TAILS only:
-  - 1p: `/images/WORKSHEET_OBJECTS/money/UK coins/1p tails col - TRF.png`
-  - 2p: `/images/WORKSHEET_OBJECTS/money/UK coins/2p tails col - TRF.png`
-  - 5p: `/images/WORKSHEET_OBJECTS/money/UK coins/5p tails col - TRF.png`
-  - 10p: `/images/WORKSHEET_OBJECTS/money/UK coins/10p tails col - TRF.png`
-  - 20p: `/images/WORKSHEET_OBJECTS/money/UK coins/20p [heads|tails] col - TRF.png`
-  - 50p: `/images/WORKSHEET_OBJECTS/money/UK coins/50p [heads|tails] col - TRF.png`
+  - 1p: `/images/1p tails col - TRF.png`
+  - 2p: `/images/2p tails col - TRF.png`
+  - 5p: `/images/5p tails col - TRF.png`
+  - 10p: `/images/10p tails col - TRF.png`
+  - 20p: `/images/20p [heads|tails] col - TRF.png`
+  - 50p: `/images/50p [heads|tails] col - TRF.png`
 
 ## CSS (Ultra-Compact):
 ```css
