@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - yolo
 - For all Supabase queries, use `supabase` CLI (global CLI)
 - For all Playwright queries, use `playwright` CLI (global CLI)
-- When port 3000 is already in use, kill the existing process using that port first, then restart the dev server on port 3000
+- When port 3000 is already in use, kill the existing process using that port first, then restart the dev server on port 3000, if 3000 is in use then kill it first and then always run server on port 3000
 - use dev environment only
 -  rm -rf .next to clean trace file, which may have permission issue
 - before build or clean operation,make usre that already available ports starting from 3000 to 3005 are killed, if they are there

@@ -68,9 +68,9 @@ export class PromptService {
   private static readonly SERVICE_VERSION = '2.0.0-unified'
   private static readonly QUALITY_TARGET = 4.5 // Elevated target for competitive excellence
 
-  // PHASE 1 OPTIMIZATION: In-memory cache for prompt files
-  // Eliminates disk I/O overhead on subsequent requests (2-5s savings per worksheet)
-  private static promptCache = new Map<string, string>();
+  // HOT-RELOAD MODE: Caching disabled for instant prompt updates
+  // Prompts are now read fresh from disk on every request
+  // (Caching can be re-enabled for production if needed)
 
   /**
    * Main prompt generation method with iterative improvement focus
@@ -142,19 +142,14 @@ export class PromptService {
         `${normalizedSubtopic}-COMPRESSED.md`
       )
 
-      // PHASE 1 OPTIMIZATION: Check cache first
-      const cacheKey = promptPathToUse;
+      // HOT-RELOAD: Always read from disk for immediate prompt updates
+      // No caching in development for instant feedback on prompt changes
       let rawPrompt: string;
 
-      if (this.promptCache.has(cacheKey)) {
-        // Cache HIT - use cached raw prompt
-        rawPrompt = this.promptCache.get(cacheKey)!;
-        console.log(`💾 Prompt cache HIT: ${path.basename(promptPathToUse)} (saved ~2-5s)`);
-      } else if (fs.existsSync(promptPathToUse)) {
-        // Cache MISS - load from disk and cache it
+      if (fs.existsSync(promptPathToUse)) {
+        // Always read fresh from disk
         rawPrompt = fs.readFileSync(promptPathToUse, 'utf-8');
-        this.promptCache.set(cacheKey, rawPrompt);
-        console.log(`📁 Prompt cache MISS - loaded and cached: ${path.basename(promptPathToUse)}`);
+        console.log(`🔄 Prompt loaded fresh from disk: ${path.basename(promptPathToUse)}`);
       } else {
         return null; // File doesn't exist
       }

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { X, Check } from 'lucide-react'
+import { X, Check, Search } from 'lucide-react'
 
 interface Image {
   path: string
@@ -20,14 +20,17 @@ interface ImagePickerModalProps {
 
 export function ImagePickerModal({ isOpen, currentImagePath, onClose, onSelect }: ImagePickerModalProps) {
   const [images, setImages] = useState<Image[]>([])
+  const [filteredImages, setFilteredImages] = useState<Image[]>([])
   const [selectedImage, setSelectedImage] = useState<string>(currentImagePath)
   const [loading, setLoading] = useState(true)
   const [showAll, setShowAll] = useState(false)
   const [currentCategory, setCurrentCategory] = useState({ type: '', category: '' })
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
     if (isOpen) {
       setShowAll(false) // Reset to category view when reopening
+      setSearchQuery('') // Reset search query
       loadImages(false)
       setSelectedImage(currentImagePath)
       // Prevent body scrolling when modal is open
@@ -42,6 +45,20 @@ export function ImagePickerModal({ isOpen, currentImagePath, onClose, onSelect }
       document.body.style.overflow = ''
     }
   }, [isOpen, currentImagePath])
+
+  // Filter images based on search query
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredImages(images)
+    } else {
+      const query = searchQuery.toLowerCase()
+      const filtered = images.filter(image =>
+        image.name.toLowerCase().includes(query) ||
+        image.category.toLowerCase().includes(query)
+      )
+      setFilteredImages(filtered)
+    }
+  }, [searchQuery, images])
 
   useEffect(() => {
     if (isOpen) {
@@ -77,10 +94,13 @@ export function ImagePickerModal({ isOpen, currentImagePath, onClose, onSelect }
       const response = await fetch(url)
       const data = await response.json()
 
-      setImages(data.images || [])
+      const loadedImages = data.images || []
+      setImages(loadedImages)
+      setFilteredImages(loadedImages)
     } catch (error) {
       console.error('Failed to load images:', error)
       setImages([])
+      setFilteredImages([])
     } finally {
       setLoading(false)
     }
@@ -122,42 +142,22 @@ export function ImagePickerModal({ isOpen, currentImagePath, onClose, onSelect }
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-[9999] overflow-y-auto">
-      {/* Center container */}
-      <div className="min-h-screen px-4 text-center">
-        {/* Overlay */}
-        <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
-          onClick={onClose}
-        />
+    <div className="fixed inset-0 z-50">
+      <div
+        className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm transition-opacity"
+        onClick={onClose}
+      />
 
-        {/* This element is to trick the browser into centering the modal contents. */}
-        <span className="inline-block h-screen align-middle" aria-hidden="true">
-          &#8203;
-        </span>
-
-        {/* Modal */}
-        <Card className="inline-block w-full max-w-4xl max-h-[85vh] my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-2xl rounded-lg relative z-10 flex flex-col">
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b">
-          <div className="flex-1">
-            <h2 className="text-xl font-semibold">Replace Image</h2>
-            <p className="text-sm text-gray-500">
-              Current: {extractImageName(currentImagePath)}
-              {currentCategory.type && currentCategory.type !== 'all' && (
-                <span> • Category: {currentCategory.type}/{currentCategory.category}</span>
-              )}
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button
-              onClick={() => setShowAll(!showAll)}
-              variant="outline"
-              size="sm"
-              className="text-xs"
-            >
-              {showAll ? 'Show Category' : 'Browse All'}
-            </Button>
+      <Card className="fixed right-0 top-0 h-screen w-full max-w-3xl overflow-hidden text-left transition-transform duration-300 ease-out transform bg-white shadow-2xl relative z-10 flex flex-col">
+        {/* Header - Fixed at top */}
+        <div className="flex flex-col border-b flex-shrink-0">
+          <div className="flex items-center justify-between p-4 pb-3">
+            <div className="flex-1">
+              <h2 className="text-xl font-semibold">Replace Image</h2>
+              <p className="text-sm text-gray-500">
+                Current: {extractImageName(currentImagePath)}
+              </p>
+            </div>
             <Button
               onClick={onClose}
               variant="ghost"
@@ -167,10 +167,38 @@ export function ImagePickerModal({ isOpen, currentImagePath, onClose, onSelect }
               <X className="h-4 w-4" />
             </Button>
           </div>
+
+          {/* Search Box */}
+          <div className="px-4 pb-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search images... (e.g., apple, star, circle)"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                autoFocus
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+            {searchQuery && (
+              <p className="text-xs text-gray-500 mt-1">
+                Found {filteredImages.length} image{filteredImages.length !== 1 ? 's' : ''}
+              </p>
+            )}
+          </div>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6">
+        {/* Content - Scrollable middle section */}
+        <div className="flex-1 overflow-y-auto p-4 min-h-0">
           {loading ? (
             <div className="flex items-center justify-center py-12">
               <div className="text-center">
@@ -178,38 +206,40 @@ export function ImagePickerModal({ isOpen, currentImagePath, onClose, onSelect }
                 <p className="text-gray-500">Loading images...</p>
               </div>
             </div>
-          ) : images.length === 0 ? (
+          ) : filteredImages.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-500">No images available in this category</p>
+              <p className="text-gray-500">
+                {searchQuery ? `No images found for "${searchQuery}"` : 'No images available'}
+              </p>
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="text-blue-500 text-sm mt-2 hover:underline"
+                >
+                  Clear search
+                </button>
+              )}
             </div>
           ) : (
-            <div className="grid grid-cols-6 gap-4">
-              {images.map((image) => (
+            <div className="grid grid-cols-6 gap-2">
+              {filteredImages.map((image) => (
                 <button
                   key={image.path}
                   onClick={() => setSelectedImage(image.path)}
-                  className={`relative group flex flex-col items-center p-3 rounded-lg border-2 transition-all hover:shadow-md ${
+                  className={`relative group flex flex-col items-center p-2 rounded-md border transition-all hover:shadow-md ${
                     selectedImage === image.path
-                      ? 'border-blue-500 bg-blue-50'
+                      ? 'border-blue-500 bg-blue-50 border-2'
                       : 'border-gray-200 hover:border-blue-300'
                   }`}
+                  title={image.name}
                 >
-                  {/* Selected Badge */}
                   {selectedImage === image.path && (
-                    <div className="absolute -top-2 -right-2 bg-green-500 rounded-full p-1">
+                    <div className="absolute -top-1 -right-1 bg-blue-500 rounded-full p-0.5">
                       <Check className="h-3 w-3 text-white" />
                     </div>
                   )}
 
-                  {/* Current Badge */}
-                  {currentImagePath === image.path && selectedImage !== image.path && (
-                    <div className="absolute -top-2 -right-2 bg-gray-500 rounded-full p-1">
-                      <Check className="h-3 w-3 text-white" />
-                    </div>
-                  )}
-
-                  {/* Image */}
-                  <div className="w-20 h-20 flex items-center justify-center mb-2">
+                  <div className="w-16 h-16 flex items-center justify-center mb-1">
                     <img
                       src={image.path}
                       alt={image.name}
@@ -217,8 +247,7 @@ export function ImagePickerModal({ isOpen, currentImagePath, onClose, onSelect }
                     />
                   </div>
 
-                  {/* Name */}
-                  <p className="text-xs text-center text-gray-700 line-clamp-2">
+                  <p className="text-[10px] text-center text-gray-700 line-clamp-1 w-full">
                     {image.name}
                   </p>
                 </button>
@@ -227,30 +256,38 @@ export function ImagePickerModal({ isOpen, currentImagePath, onClose, onSelect }
           )}
         </div>
 
-        {/* Footer */}
-        <div className="flex items-center justify-end gap-3 p-4 border-t bg-gray-50">
-          <Button
-            onClick={onClose}
-            variant="outline"
-            size="sm"
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={handleReplace}
-            disabled={!selectedImage || selectedImage === currentImagePath}
-            size="sm"
-            className={`${
-              selectedImage && selectedImage !== currentImagePath
-                ? 'bg-green-600 hover:bg-green-700 animate-pulse'
-                : ''
-            }`}
-          >
-            Replace
-          </Button>
+        {/* Sticky Footer - Always visible at bottom of Card */}
+        <div className="flex items-center justify-between px-4 pt-4 pb-6 border-t bg-white shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] flex-shrink-0 z-10">
+          <p className="text-sm text-gray-500">
+            {selectedImage && selectedImage !== currentImagePath ? (
+              <span className="text-blue-600 font-medium">Ready to replace</span>
+            ) : (
+              <span>Showing {filteredImages.length} of {images.length} images</span>
+            )}
+          </p>
+          <div className="flex gap-3">
+            <Button
+              onClick={onClose}
+              variant="outline"
+              size="sm"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleReplace}
+              disabled={!selectedImage || selectedImage === currentImagePath}
+              size="sm"
+              className={`${
+                selectedImage && selectedImage !== currentImagePath
+                  ? 'bg-blue-600 hover:bg-blue-700'
+                  : ''
+              }`}
+            >
+              Replace
+            </Button>
+          </div>
         </div>
       </Card>
-      </div>
     </div>
   )
 }
