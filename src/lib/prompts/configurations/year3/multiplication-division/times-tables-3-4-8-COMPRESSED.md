@@ -30,9 +30,9 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 - **8×3**: 8 rows of 3 objects
 
 ### Use object images:
-- `/images/WORKSHEET_OBJECTS/counting/toys/ball.png` (25px)
-- `/images/WORKSHEET_OBJECTS/counting/fruits/apple.png` (25px)
-- `/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png` (25px)
+- `/images/counting/toys/ball.png` (25px)
+- `/images/counting/fruits/apple.png` (25px)
+- `/images/counting/school_supplies/pencil.png` (25px)
 
 ## COLOR SCHEME (Year 3 Enhanced)
 - **3× table**: #9C27B0 (purple)
@@ -134,40 +134,40 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:10px;line-hei
     <div class="problem-illustration">
       <div class="group-visual">
         <div class="object-array">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
         </div>
         <p class="group-label">Group 1</p>
       </div>
       <div class="group-visual">
         <div class="object-array">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
         </div>
         <p class="group-label">Group 2</p>
       </div>
       <div class="group-visual">
         <div class="object-array">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
         </div>
         <p class="group-label">Group 3</p>
       </div>
@@ -288,45 +288,45 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:10px;line-hei
       <div class="group-visual">
         <p style="font-weight:bold;margin-bottom:10px">Table 1</p>
         <div class="object-array" style="max-width:120px">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
         </div>
       </div>
       <div class="group-visual">
         <p style="font-weight:bold;margin-bottom:10px">Table 2</p>
         <div class="object-array" style="max-width:120px">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
         </div>
       </div>
       <div class="group-visual">
         <p style="font-weight:bold;margin-bottom:10px">Table 3</p>
         <div class="object-array" style="max-width:120px">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
         </div>
       </div>
       <div class="group-visual">
         <p style="font-weight:bold;margin-bottom:10px">Table 4</p>
         <div class="object-array" style="max-width:120px">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
-          <img src="/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
+          <img src="/images/counting/school_supplies/pencil.png" width="20" height="20" alt="pencil">
         </div>
       </div>
     </div>

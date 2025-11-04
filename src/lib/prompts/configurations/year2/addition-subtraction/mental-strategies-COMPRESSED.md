@@ -42,7 +42,8 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 **food**: `/images/[cookie|cupcake].png`
 
 ## COINS (when {{COIN_SPEC}}):
-1p,2p,5p,10p,20p,50p at `/images/[X]p tails col - TRF.png`
+Small coins (tails): `/images/coin-[1p|2p|5p|10p]-tails.png`
+Larger coins (heads/tails): `/images/coin-[20p|50p]-[heads|tails].png`
 
 ## CSS (Compact):
 ```css

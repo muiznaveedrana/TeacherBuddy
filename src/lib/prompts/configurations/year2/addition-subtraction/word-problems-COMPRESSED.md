@@ -40,14 +40,14 @@ bar-model-full | bar-model-simple | bar-model-blank | pictures-with-bar | pictur
 **animals**: `/images/[chicken|cow|sheep|pig].png`
 
 **money-pence**: ⚠️ CRITICAL - Copy paths EXACTLY as shown:
-  - 1p: `/images/1p tails col - TRF.png`
-  - 2p: `/images/2p tails col - TRF.png`
-  - 5p: `/images/5p tails col - TRF.png`
-  - 10p: `/images/10p tails col - TRF.png`
-  - 20p heads: `/images/20p heads col - TRF.png`
-  - 20p tails: `/images/20p tails col - TRF.png`
-  - 50p heads: `/images/50p heads col - TRF.png`
-  - 50p tails: `/images/50p tails col - TRF.png`
+  - 1p: `/images/coin-1p-tails.png`
+  - 2p: `/images/coin-2p-tails.png`
+  - 5p: `/images/coin-5p-tails.png`
+  - 10p: `/images/coin-10p-tails.png`
+  - 20p heads: `/images/coin-20p-heads.png`
+  - 20p tails: `/images/coin-20p-tails.png`
+  - 50p heads: `/images/coin-50p-heads.png`
+  - 50p tails: `/images/coin-50p-tails.png`
 
 ⚠️ DO NOT invent paths. DO NOT change capitalization. DO NOT remove "heads/tails".
 

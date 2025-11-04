@@ -33,7 +33,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 - **Scale 1:2**: 1 picture = 2 items (harder, introduce in Q4-Q5)
 
 ## PICTURE SYMBOLS
-Use images from `/images/WORKSHEET_OBJECTS/counting/`:
+Use images from `/images/counting/`:
 - **fruits**: apple.png, banana.png, orange.png, grape.png
 - **farm_animals** (pets): cat.png (use chicken/duck as substitute), dog.png (use cow as substitute), rabbit.png (use sheep), fish.png (need to note)
 - **toys**: ball.png, car.png, doll.png, teddy.png

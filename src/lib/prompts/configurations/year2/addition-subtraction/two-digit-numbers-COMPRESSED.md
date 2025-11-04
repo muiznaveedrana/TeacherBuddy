@@ -40,12 +40,12 @@ Q2:yes/no (addition regroup), Q4:yes/no (subtraction borrow)
 **food**: `/images/[apple|banana|orange].png`
 **animals**: `/images/[chicken|cow|sheep|pig].png`
 **money**: Use EXACT paths - 1p/2p/5p/10p are TAILS only:
-  - 1p: `/images/1p tails col - TRF.png`
-  - 2p: `/images/2p tails col - TRF.png`
-  - 5p: `/images/5p tails col - TRF.png`
-  - 10p: `/images/10p tails col - TRF.png`
-  - 20p: `/images/20p [heads|tails] col - TRF.png`
-  - 50p: `/images/50p [heads|tails] col - TRF.png`
+  - 1p: `/images/coin-1p-tails.png`
+  - 2p: `/images/coin-2p-tails.png`
+  - 5p: `/images/coin-5p-tails.png`
+  - 10p: `/images/coin-10p-tails.png`
+  - 20p: `/images/coin-20p-[heads|tails].png`
+  - 50p: `/images/coin-50p-[heads|tails].png`
 
 ## CSS (Ultra-Compact):
 ```css

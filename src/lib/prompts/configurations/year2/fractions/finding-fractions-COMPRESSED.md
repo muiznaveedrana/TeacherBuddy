@@ -31,7 +31,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 Use counting objects or shapes:
 - **Circles**: CSS-generated colored circles
 - **Squares**: CSS-generated colored squares
-- **Real objects**: Use `/images/WORKSHEET_OBJECTS/counting/` (fruits, toys, school supplies)
+- **Real objects**: Use `/images/counting/` (fruits, toys, school supplies)
   - fruits: apple, banana, orange
   - toys: ball, car, doll, teddy
   - school_supplies: pencil, book, eraser

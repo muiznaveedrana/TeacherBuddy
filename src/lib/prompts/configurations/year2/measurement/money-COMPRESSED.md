@@ -30,29 +30,44 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
 ## UK COIN IMAGES (CRITICAL - USE EXACT PATHS)
 
-⚠️ **CRITICAL**: Copy paths EXACTLY. DO NOT change capitalization or heads/tails labels.
+⚠️ **CRITICAL**: Copy paths EXACTLY. All images are in `/images/` directory.
 
 **Small coins (tails only)**:
-- 1p: `/images/1p tails col - TRF.png`
-- 2p: `/images/2p tails col - TRF.png`
-- 5p: `/images/5p tails col - TRF.png`
-- 10p: `/images/10p tails col - TRF.png`
+- 1p: `/images/coin-1p-tails.png`
+- 2p: `/images/coin-2p-tails.png`
+- 5p: `/images/coin-5p-tails.png`
+- 10p: `/images/coin-10p-tails.png`
 
-**Larger coins (heads OR tails)**:
-- 20p heads: `/images/20p heads col - TRF.png`
-- 20p tails: `/images/20p tails col - TRF.png`
-- 50p heads: `/images/50p heads col - TRF.png`
-- 50p tails: `/images/50p tails col - TRF.png`
+**Larger coins (heads OR tails - choose randomly)**:
+- 20p heads: `/images/coin-20p-heads.png`
+- 20p tails: `/images/coin-20p-tails.png`
+- 50p heads: `/images/coin-50p-heads.png`
+- 50p tails: `/images/coin-50p-tails.png`
+- £1 heads: `/images/coin-1pound-heads.png`
+- £1 tails: `/images/coin-1pound-tails.png`
+- £2 heads: `/images/coin-2pound-heads.png`
+- £2 tails: `/images/coin-2pound-tails.png`
 
-⚠️ **FALLBACK PATHS**: If LLM struggles, images also copied to:
-- `/images/uk_coins/[same filenames]`
-- `/images/[same filenames with underscores]`
+**Bank notes (front or back)**:
+- £5 front: `/images/note-5-front.png`
+- £5 back: `/images/note-5-back.png`
+- £10 front: `/images/note-10-front.png`
+- £10 back: `/images/note-10-back.png`
+- £20 front: `/images/note-20-front.png`
+- £20 back: `/images/note-20-back.png`
+- £50 front: `/images/note-50.png`
+- £50 back: `/images/note-50-back.png`
 
-## COIN SIZES (for display):
-- 1p, 2p: 35px
-- 5p, 10p: 40px
-- 20p: 45px
-- 50p: 50px
+## COIN SIZES (PROPORTIONALLY ACCURATE - CRITICAL):
+⚠️ Sizes reflect real UK coin proportions for educational accuracy:
+- 5p: 31px (smallest - 18mm real)
+- 1p: 35px (20.3mm real)
+- 20p: 37px (21.4mm real)
+- £1: 39px (22.5mm real)
+- 10p: 42px (24.5mm real)
+- 2p: 45px (25.9mm real)
+- 50p: 47px (27.3mm real)
+- £2: 49px (largest - 28.4mm real)
 
 ## CSS (Ultra-Compact):
 ```css
@@ -62,7 +77,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .question-text{font-size:15pt;margin:5px 0;font-weight:600}
 .money-container{margin:10px 0;padding:15px;background:#E8F5E9;border:2px solid #4CAF50;border-radius:8px;text-align:center}
 .coin-group{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:15px 0}
-.coin-group img{margin:5px}
+.coin-group img{margin:5px;object-fit:contain;display:inline-block}
 .money-total{font-size:20pt;font-weight:bold;color:#2E7D32;margin-top:15px}
 .money-label{font-size:16pt;font-weight:bold;margin:10px 0;color:#1976D2}
 .money-comparison{display:flex;justify-content:space-around;margin:15px 0;flex-wrap:wrap}
@@ -88,12 +103,13 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 
 1. Use UK currency symbols: p for pence, £ for pounds
 2. Use EXACT coin image paths (copy from above)
-3. Coin sizes: 1p/2p=35px, 5p/10p=40px, 20p=45px, 50p=50px
-4. Realistic prices (pencil: 45p NOT £45!)
-5. Include coin visuals for counting questions
-6. Answer key with calculation steps
-7. Colored backgrounds Q1-Q5
-8. Year 2 appropriate amounts (up to 99p)
+3. **CRITICAL**: Set BOTH width AND height to keep coins circular (e.g., `width="31" height="31"`)
+4. Use proportional sizes from above (5p=31px, 1p=35px, 20p=37px, £1=39px, 10p=42px, 2p=45px, 50p=47px, £2=49px)
+5. Realistic prices (pencil: 45p NOT £45!)
+6. Include coin visuals for counting questions
+7. Answer key with calculation steps
+8. Colored backgrounds Q1-Q5
+9. Year 2 appropriate amounts (up to 99p)
 
 ## EXAMPLES
 
@@ -103,10 +119,10 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
   <p class="question-text"><span class="question-number">1.</span> How much money is shown here?</p>
   <div class="money-container">
     <div class="coin-group">
-      <img src="/images/20p heads col - TRF.png" width="45" height="45" alt="20p">
-      <img src="/images/20p tails col - TRF.png" width="45" height="45" alt="20p">
-      <img src="/images/10p tails col - TRF.png" width="40" height="40" alt="10p">
-      <img src="/images/5p tails col - TRF.png" width="40" height="40" alt="5p">
+      <img src="/images/coin-20p-heads.png" width="37" height="37" alt="20p">
+      <img src="/images/coin-20p-tails.png" width="37" height="37" alt="20p">
+      <img src="/images/coin-10p-tails.png" width="42" height="42" alt="10p">
+      <img src="/images/coin-5p-tails.png" width="31" height="31" alt="5p">
     </div>
     <p class="money-label">Total: <span class="answer-box"></span>p</p>
   </div>
@@ -121,16 +137,16 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
     <div class="money-item">
       <p><strong>Tom</strong></p>
       <div class="coin-group">
-        <img src="/images/20p heads col - TRF.png" width="45" height="45" alt="20p">
-        <img src="/images/10p tails col - TRF.png" width="40" height="40" alt="10p">
+        <img src="/images/coin-20p-heads.png" width="37" height="37" alt="20p">
+        <img src="/images/coin-10p-tails.png" width="42" height="42" alt="10p">
       </div>
       <p class="money-amount">30p</p>
     </div>
     <div class="money-item">
       <p><strong>Emma</strong></p>
       <div class="coin-group">
-        <img src="/images/20p tails col - TRF.png" width="45" height="45" alt="20p">
-        <img src="/images/20p heads col - TRF.png" width="45" height="45" alt="20p">
+        <img src="/images/coin-20p-tails.png" width="37" height="37" alt="20p">
+        <img src="/images/coin-20p-heads.png" width="37" height="37" alt="20p">
       </div>
       <p class="money-amount">40p</p>
     </div>
@@ -150,7 +166,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
     <div class="change-step">
       <strong>You pay:</strong> 50p
       <div class="coin-group" style="justify-content:flex-start;margin-top:10px">
-        <img src="/images/50p heads col - TRF.png" width="50" height="50" alt="50p">
+        <img src="/images/coin-50p-heads.png" width="47" height="47" alt="50p">
       </div>
     </div>
   </div>

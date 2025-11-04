@@ -61,14 +61,14 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 ### Money (EMPHASIZE THIS)
 UK coins and notes: £1-£9.99 typical range
 ```
-/images/£2 heads col - TRF.png
-/images/£1 heads col - TRF.png
-/images/50p heads col - TRF.png
-/images/20p heads col - TRF.png
-/images/10p tails col - TRF.png
-/images/5p tails col - TRF.png
-/images/2p tails col - TRF.png
-/images/1p tails col - TRF.png
+/images/coin-2pound-heads.png
+/images/coin-1pound-heads.png
+/images/coin-50p-heads.png
+/images/coin-20p-heads.png
+/images/coin-10p-tails.png
+/images/coin-5p-tails.png
+/images/coin-2p-tails.png
+/images/coin-1p-tails.png
 ```
 
 ### Other Contexts

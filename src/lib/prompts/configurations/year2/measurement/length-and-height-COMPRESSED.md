@@ -28,7 +28,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 - **Differences**: 5-30 cm (subtraction within Y2 range)
 
 ## IMAGES (CRITICAL - EXACT PATHS REQUIRED)
-**MANDATORY**: ALL image paths MUST start with `/images/WORKSHEET_OBJECTS/measurement/`
+**MANDATORY**: ALL image paths MUST start with `/images/measurement/`
 
 Available folders and objects:
 - **school**: `/images/[pencil|crayon|ribbon|ruler].png`
@@ -37,7 +37,7 @@ Available folders and objects:
 - **fruit**: `/images/[banana|lemon|watermelon].png`
 - **household**: `/images/[book|shoe|teddy-bear|toy-car|building-block].png`
 
-**WRONG**: `/images/WORKSHEET_OBJECTS/school/pencil.png` ❌
+**WRONG**: `/images/school/pencil.png` ❌
 **CORRECT**: `/images/pencil.png` ✅
 
 ## CSS (Ultra-Compact):

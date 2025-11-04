@@ -68,24 +68,24 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 ### Money (EMPHASIZE THIS for Q5)
 UK coin images available:
 ```
-/images/WORKSHEET_OBJECTS/money/UK-coins/£2 heads col - TRF.png
-/images/WORKSHEET_OBJECTS/money/UK-coins/£2 tails col - TRF.png
-/images/WORKSHEET_OBJECTS/money/UK-coins/£1 heads col - TRF.png
-/images/WORKSHEET_OBJECTS/money/UK-coins/£1 tails col - TRF.png
-/images/WORKSHEET_OBJECTS/money/UK-coins/50p heads col - TRF.png
-/images/WORKSHEET_OBJECTS/money/UK-coins/50p tails col - TRF.png
-/images/WORKSHEET_OBJECTS/money/UK-coins/20p heads col - TRF.png
-/images/WORKSHEET_OBJECTS/money/UK-coins/20p tails col - TRF.png
-/images/WORKSHEET_OBJECTS/money/UK-coins/10p tails col - TRF.png
-/images/WORKSHEET_OBJECTS/money/UK-coins/5p tails col - TRF.png
-/images/WORKSHEET_OBJECTS/money/UK-coins/2p tails col - TRF.png
-/images/WORKSHEET_OBJECTS/money/UK-coins/1p tails col - TRF.png
+/images/coin-2pound-heads.png
+/images/coin-2pound-tails.png
+/images/coin-1pound-heads.png
+/images/coin-1pound-tails.png
+/images/coin-50p-heads.png
+/images/coin-50p-tails.png
+/images/coin-20p-heads.png
+/images/coin-20p-tails.png
+/images/coin-10p-tails.png
+/images/coin-5p-tails.png
+/images/coin-2p-tails.png
+/images/coin-1p-tails.png
 ```
 
 ### Other Contexts
-- **School**: `/images/WORKSHEET_OBJECTS/counting/school_supplies/[item].png`
-- **Toys**: `/images/WORKSHEET_OBJECTS/counting/toys/[item].png`
-- **Animals**: `/images/WORKSHEET_OBJECTS/counting/farm_animals/[item].png`
+- **School**: `/images/counting/school_supplies/[item].png`
+- **Toys**: `/images/counting/toys/[item].png`
+- **Animals**: `/images/counting/farm_animals/[item].png`
 
 ## COLOR SCHEME (Year 3 Enhanced)
 - **Hundreds**: #FF9800 (orange)

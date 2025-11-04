@@ -110,9 +110,9 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:10px;line-hei
 10. Year 3 appropriate (ages 7-8)
 
 ## OBJECT IMAGES
-- `/images/WORKSHEET_OBJECTS/counting/fruits/apple.png` (25px)
-- `/images/WORKSHEET_OBJECTS/counting/toys/ball.png` (25px)
-- `/images/WORKSHEET_OBJECTS/counting/school_supplies/pencil.png` (25px)
+- `/images/counting/fruits/apple.png` (25px)
+- `/images/counting/toys/ball.png` (25px)
+- `/images/counting/school_supplies/pencil.png` (25px)
 
 ## EXAMPLES
 
@@ -125,39 +125,39 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:10px;line-hei
       <div class="group-box">
         <p class="group-label">Child 1</p>
         <div class="group-items">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
         </div>
       </div>
       <div class="group-box">
         <p class="group-label">Child 2</p>
         <div class="group-items">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
         </div>
       </div>
       <div class="group-box">
         <p class="group-label">Child 3</p>
         <div class="group-items">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-          <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+          <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
         </div>
       </div>
     </div>
     <div class="remainder-box">
       <p class="remainder-label">Left Over</p>
       <div class="remainder-items">
-        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
-        <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="25" height="25" alt="apple">
+        <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
+        <img src="/images/counting/fruits/apple.png" width="25" height="25" alt="apple">
       </div>
     </div>
   </div>
@@ -214,47 +214,47 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:10px;line-hei
         <p class="full-group-label">Full Bags</p>
         <div class="bag-visual">
           <div style="display:flex;gap:5px;flex-wrap:wrap;max-width:80px">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
           </div>
         </div>
         <div class="bag-visual">
           <div style="display:flex;gap:5px;flex-wrap:wrap;max-width:80px">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
           </div>
         </div>
         <div class="bag-visual">
           <div style="display:flex;gap:5px;flex-wrap:wrap;max-width:80px">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
           </div>
         </div>
         <div class="bag-visual">
           <div style="display:flex;gap:5px;flex-wrap:wrap;max-width:80px">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
-            <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
+            <img src="/images/counting/toys/ball.png" width="15" height="15" alt="cookie">
           </div>
         </div>
       </div>
       <div class="leftover-visual">
         <p class="leftover-label">Cookies Left Over</p>
         <div class="leftover-items">
-          <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="25" height="25" alt="cookie">
-          <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="25" height="25" alt="cookie">
-          <img src="/images/WORKSHEET_OBJECTS/counting/toys/ball.png" width="25" height="25" alt="cookie">
+          <img src="/images/counting/toys/ball.png" width="25" height="25" alt="cookie">
+          <img src="/images/counting/toys/ball.png" width="25" height="25" alt="cookie">
+          <img src="/images/counting/toys/ball.png" width="25" height="25" alt="cookie">
         </div>
       </div>
     </div>

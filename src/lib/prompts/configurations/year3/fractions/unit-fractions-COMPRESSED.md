@@ -48,7 +48,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 - **Fraction labels**: #7B1FA2 (deep purple)
 
 ## OBJECTS FOR SETS
-Use images from `/images/WORKSHEET_OBJECTS/counting/`:
+Use images from `/images/counting/`:
 - **fruits**: apple.png, orange.png, banana.png, strawberry.png (35px size)
 - **toys**: ball.png, car.png, doll.png (35px size)
 - **school**: pencil.png, book.png, eraser.png (35px size)
@@ -220,16 +220,16 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:10px;line-hei
   <p class="question-text"><span class="question-number">3.</span> Look at the apples below.</p>
   <div class="object-set-container">
     <div class="object-grid">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="35" height="35" alt="Apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="35" height="35" alt="Apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="35" height="35" alt="Apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="35" height="35" alt="Apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="35" height="35" alt="Apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="35" height="35" alt="Apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="35" height="35" alt="Apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="35" height="35" alt="Apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="35" height="35" alt="Apple">
-      <img src="/images/WORKSHEET_OBJECTS/counting/fruits/apple.png" width="35" height="35" alt="Apple">
+      <img src="/images/counting/fruits/apple.png" width="35" height="35" alt="Apple">
+      <img src="/images/counting/fruits/apple.png" width="35" height="35" alt="Apple">
+      <img src="/images/counting/fruits/apple.png" width="35" height="35" alt="Apple">
+      <img src="/images/counting/fruits/apple.png" width="35" height="35" alt="Apple">
+      <img src="/images/counting/fruits/apple.png" width="35" height="35" alt="Apple">
+      <img src="/images/counting/fruits/apple.png" width="35" height="35" alt="Apple">
+      <img src="/images/counting/fruits/apple.png" width="35" height="35" alt="Apple">
+      <img src="/images/counting/fruits/apple.png" width="35" height="35" alt="Apple">
+      <img src="/images/counting/fruits/apple.png" width="35" height="35" alt="Apple">
+      <img src="/images/counting/fruits/apple.png" width="35" height="35" alt="Apple">
     </div>
   </div>
   <p class="question-text">a) How many apples are there in total? <span class="answer-box" style="min-width:60px"></span></p>

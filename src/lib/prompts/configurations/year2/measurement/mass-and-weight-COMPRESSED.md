@@ -34,7 +34,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 - **kg objects (1-5kg)**: farm animals (chicken, duck, goose), large household items
 
 ## IMAGES (CRITICAL - EXACT PATHS REQUIRED)
-**MANDATORY**: ALL image paths MUST start with `/images/WORKSHEET_OBJECTS/measurement/`
+**MANDATORY**: ALL image paths MUST start with `/images/measurement/`
 
 Available folders and objects:
 - **contrast**: `/images/[feather|stone|coin|key|sponge|balloon].png`
@@ -44,7 +44,7 @@ Available folders and objects:
 - **farm**: `/images/[chicken|duck|goose|turkey|pig|sheep].png` (for kg weights)
 - **tools**: `/images/scale.png` (for showing weighing)
 
-**WRONG**: `/images/WORKSHEET_OBJECTS/vegetables/pea.png` ❌
+**WRONG**: `/images/vegetables/pea.png` ❌
 **CORRECT**: `/images/pea.png` ✅
 
 ## CSS (Ultra-Compact):

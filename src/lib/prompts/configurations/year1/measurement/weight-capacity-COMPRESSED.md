@@ -4,7 +4,7 @@ Gen {{questionCount}} Y1 Qs. BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5
 
 **RULES**: NO units! Non-std compare. Vocab: heavier/lighter/heaviest/lightest/more/less/full/empty/half/quarter. Each Q diff objs. EXTREME size diffs (obvious 5yo). SIZE≠WEIGHT via surprising pairs.
 
-**57 IMAGES** (/images/WORKSHEET_OBJECTS/measurement/): fruit(banana|lemon|watermelon) school(pencil|crayon|ribbon|ruler|cup|jug) tools(saw|paintbrush|wrench|hammer|scale) garden(caterpillar|snail|snake|leaf) farm(chicken|duck|goose|turkey|pig|sheep|goat|cow|horse|elephant) household(book|shoe|backpack|teddy-bear|toy-car|building-block) contrast(balloon|sponge|stone|feather|coin|key) containers(glass|bottle|bucket|bowl|mug|watering-can|milk-carton|fish-tank|kettle)
+**57 IMAGES** (/images/): fruit(banana|lemon|watermelon) school(pencil|crayon|ribbon|ruler|cup|jug) tools(saw|paintbrush|wrench|hammer|scale) garden(caterpillar|snail|snake|leaf) farm(chicken|duck|goose|turkey|pig|sheep|goat|cow|horse|elephant) household(book|shoe|backpack|teddy-bear|toy-car|building-block) contrast(balloon|sponge|stone|feather|coin|key) containers(glass|bottle|bucket|bowl|mug|watering-can|milk-carton|fish-tank|kettle)
 
 **WEIGHT ORDER**: feather<leaf<caterpillar<coin<key<snail<pencil<crayon<lemon<balloon<sponge<banana<ribbon<ruler<stone<duck<chicken<book<goose<turkey<shoe<paintbrush<building-block<toy-car<hammer<backpack<wrench<snake<pig<teddy-bear<saw<sheep<goat<watermelon<cow<horse<elephant
 

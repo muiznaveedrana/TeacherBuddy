@@ -34,13 +34,13 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 - **Litres (1-5l)**: bucket, watering-can, fish-tank
 
 ## IMAGES (CRITICAL - EXACT PATHS REQUIRED)
-**MANDATORY**: ALL image paths MUST start with `/images/WORKSHEET_OBJECTS/measurement/`
+**MANDATORY**: ALL image paths MUST start with `/images/measurement/`
 
 Available containers:
 - `/images/[cup|glass|mug|bowl|bottle|jug|kettle|milk-carton|bucket|watering-can|fish-tank].png`
 - `/images/[cup|jug].png`
 
-**WRONG**: `/images/WORKSHEET_OBJECTS/containers/cup.png` ❌
+**WRONG**: `/images/containers/cup.png` ❌
 **CORRECT**: `/images/cup.png` ✅
 
 ## CSS (Ultra-Compact):
