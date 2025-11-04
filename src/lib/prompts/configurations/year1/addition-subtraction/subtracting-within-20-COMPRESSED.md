@@ -32,7 +32,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 
 **Q1:** Picture subtraction - cross out (show objects, cross out some, count remainder)
 **Q2:** Number line subtraction - count back (start point, jump backward, find end)
-**Q3:** Ten-frame subtraction (use double ten-frames, cross out dots)
+**Q3:** Ten-frame subtraction (show all dots filled green, child crosses out specified number, counts remainder)
 **Q4:** Fact families (complete family showing addition-subtraction link)
 **Q5:** Word problem with WORKSHEET_OBJECTS (taking away context)
 
@@ -43,14 +43,12 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 - **Bridge through 10:** 13-5 = 13-3-2 = 10-2
 - **Fact families:** If 6+8=14, then 14-6=8 and 14-8=6
 
-## OBJECTS (WORKSHEET_OBJECTS) - VERIFIED PATHS ONLY
+## OBJECTS - `/images/{object}.png`
 
-**Fruits:** `/images/{strawberry,apple,banana,orange}.png`
-**Toys:** `/images/{ball,car,doll}.png`
-**School:** `/images/{pencil,book,crayon,eraser,scissors}.png`
-**Farm Animals:** `/images/{chicken,cow,sheep,pig,horse,goat,duck,goose,turkey}.png`
-
-**IMPORTANT:** ONLY use objects from the verified paths above. DO NOT invent new objects or paths (no flowers, cookies, balloons, etc.)
+**Fruits**: strawberry,apple,banana,orange
+**Toys**: ball,car,doll
+**School**: pencil,book,crayon,eraser,scissors
+**Farm Animals**: chicken,cow,sheep,pig,horse,goat,duck,goose,turkey
 
 ## WORD PROBLEM CONTEXTS
 
@@ -122,8 +120,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 <style>
 body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px}
 .question{margin:10px 0;padding:12px;border-radius:8px}
-.question-number{font-size:18pt;font-weight:bold;margin-right:8px}
-.question-text{font-size:16pt;margin:6px 0;font-weight:600}
+.question-number,.question-text{font-size:16pt;font-weight:600;display:inline}
 .picture-subtraction{margin:15px auto;padding:15px;background:#f8f9ff;border:3px solid #F44336;border-radius:12px;max-width:500px}
 .object-group{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-bottom:10px;max-width:350px;margin-left:auto;margin-right:auto}
 .object-group img{width:32px;height:32px}

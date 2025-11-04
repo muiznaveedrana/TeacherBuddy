@@ -9,7 +9,6 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 ## Rules
 - **50% size difference minimum** (OBVIOUS differences for ages 4-5)
 - **5 DIFFERENT categories** (NO repeats)
-- **Lowercase/title case** (NOT "BIGGER" but "bigger")
 - **Real images only** (NO CSS shapes)
 - **ALL questions**: Use SAME object type at different sizes (e.g., 3 apples NOT apple/banana/orange)
 - **Q3-Q5**: Items MUST be SCRAMBLED (NOT small→medium→large order)

@@ -275,8 +275,7 @@ body{font-family:'Sassoon Primary','Century Gothic',sans-serif;font-size:16pt;ma
 .worksheet-header{text-align:center;margin-bottom:15px;border-bottom:3px solid #000}
 .worksheet-title{font-size:16pt;font-weight:bold;margin:0}
 .question{margin:10px 0;padding:12px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
-.question-number{font-size:18pt;font-weight:bold;color:#2c3e50;margin-right:8px}
-.question-text{font-size:16pt;margin:6px 0;font-weight:600}
+.question-number,.question-text{font-size:16pt;font-weight:600;display:inline}
 .number-sequence{display:flex;gap:10px;justify-content:center;margin:20px auto;padding:20px;background:#f8f9ff;border:3px solid #4CAF50;border-radius:12px;max-width:600px;position:relative}
 .number-sequence.backwards::before{content:'← Count Backwards';position:absolute;top:-10px;left:20px;background:#E3F2FD;padding:5px 15px;border-radius:20px;font-size:13pt;font-weight:bold;color:#1976D2}
 .sequence-box{width:60px;height:60px;display:flex;align-items:center;justify-content:center;font-size:22pt;font-weight:bold;border:3px solid #333;border-radius:8px}

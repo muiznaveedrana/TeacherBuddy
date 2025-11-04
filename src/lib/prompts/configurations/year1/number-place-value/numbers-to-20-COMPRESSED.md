@@ -16,7 +16,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 
 **Q1:** Count and write number (object array, 6-18 objects)
 **Q2:** Number line - missing number (show 6 consecutive numbers)
-**Q3:** Ten-frame recognition (10-20 dots)
+**Q3:** Ten-frame recognition (show 10-20)
 **Q4:** One more, one less (given number 5-19)
 **Q5:** Number word matching (numerals to words)
 
@@ -24,12 +24,12 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 
 zero, one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty
 
-## OBJECTS (WORKSHEET_OBJECTS)
+## OBJECTS - `/images/{object}.png`
 
-Fruits: apple, banana, orange, strawberry
-School: pencil, book, crayon, scissors
-Toys: ball, car, doll, kite
-Shapes: star, heart, circle, square
+Fruits: apple,banana,orange,strawberry
+School: pencil,book,crayon,scissors
+Toys: ball,car,doll,kite,teddy,bear
+Shapes: star,heart,circle,square
 
 ## EXAMPLE OUTPUT
 
@@ -72,7 +72,7 @@ Shapes: star, heart, circle, square
 **Q3 (Ten-Frame):**
 ```html
 <div class="question" style="background: #F1F8E9;">
-    <p class="question-text"><span class="question-number">3.</span> How many dots are in the ten-frame?</p>
+    <p class="question-text"><span class="question-number">3.</span> Count the blue circles.</p>
     <div class="ten-frame">
         <div class="frame-row">
             <div class="frame-cell filled"></div>
@@ -89,7 +89,7 @@ Shapes: star, heart, circle, square
             <div class="frame-cell empty"></div>
         </div>
     </div>
-    <p class="answer-prompt">There are <span class="answer-box"></span> dots.</p>
+    <p class="answer-prompt">There are <span class="answer-box"></span> blue circles.</p>
 </div>
 ```
 
@@ -143,7 +143,7 @@ Shapes: star, heart, circle, square
     <div class="answer-key-content">
         <p><strong>1.</strong> 8 apples</p>
         <p><strong>2.</strong> 15</p>
-        <p><strong>3.</strong> 13 dots</p>
+        <p><strong>3.</strong> 13 blue circles</p>
         <p><strong>4.</strong> One less: 13, One more: 15</p>
         <p><strong>5.</strong> 11→eleven, 15→fifteen, 18→eighteen, 20→twenty</p>
     </div>

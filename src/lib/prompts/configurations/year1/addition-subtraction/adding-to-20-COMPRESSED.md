@@ -36,12 +36,12 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 4. Missing addend (find ?)
 5. Word problem (real-world context)
 
-## Objects - VERIFIED PATHS
+## Objects - `/images/{object}.png`
 
-**School:** `/images/{pencil,book,crayon,eraser,scissors}.png`
-**Farm:** `/images/{chicken,cow,sheep,pig}.png`
-**Fruits:** `/images/{apple,banana,orange}.png`
-**Toys:** `/images/{car,ball,doll}.png`
+**School**: pencil,book,crayon,eraser,scissors
+**Farm**: chicken,cow,sheep,pig
+**Fruits**: apple,banana,orange
+**Toys**: car,ball,doll
 ## Key Strategies
 
 - Doubles: 5+5, 6+6, 7+7, 8+8, 9+9
@@ -52,8 +52,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 ```css
 body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px}
 .question{margin:10px 0;padding:12px;border-radius:8px}
-.question-number{font-size:18pt;font-weight:bold;margin-right:8px}
-.question-text{font-size:16pt;margin:6px 0;font-weight:600}
+.question-number,.question-text{font-size:16pt;font-weight:600;display:inline}
 .picture-addition{margin:15px auto;padding:15px;background:#f8f9ff;border:3px solid #4CAF50;border-radius:12px;max-width:500px}
 .group-container{display:flex;align-items:flex-start;justify-content:center;gap:15px;flex-wrap:wrap}
 .addend-group{text-align:center;display:flex;flex-wrap:wrap;gap:4px;justify-content:center;max-width:180px}

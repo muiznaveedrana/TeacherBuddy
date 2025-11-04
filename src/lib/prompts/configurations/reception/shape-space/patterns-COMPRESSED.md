@@ -8,7 +8,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 
 ## Rules
 - Q1-Q3, Q5: CSS shapes only (NO text/images)
-- Q4: IMG tags with FULL paths, **50x50px**
+- Q4: IMG tags with FULL paths, **30x30px**
 - Pattern length: 2-3 cycles max
 - **VARY colors and shapes each worksheet**
 
@@ -16,7 +16,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 1. AB pattern (shapes, multiple choice)
 2. ABB pattern (fill blanks)
 3. Copy pattern
-4. AB objects (**50x50 img tags**, multiple choice)
+4. AB objects (**30x30 img tags**, multiple choice)
 5. ABC pattern (shapes, multiple choice)
 
 ## Color Variations - RANDOMIZE!
@@ -53,30 +53,30 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 ```
 
 ## Q4 - Objects
-FULL paths: `/images/{object}.png` (50x50px)
+FULL paths: `/images/{object}.png` (30x30px)
 **VARY objects**: fruits (apple, banana, orange), farm_animals (cow, chicken, sheep), toys (ball, doll)
 
 ```html
 <div class="question" style="background: #FCE4EC;">
     <p class="question-text"><span class="question-number">4.</span> What comes next in this pattern?</p>
     <div class="pattern-sequence-objects">
-        <img src="/images/ball.png" width="50" height="50" alt="Ball" />
-        <img src="/images/doll.png" width="50" height="50" alt="Doll" />
-        <img src="/images/ball.png" width="50" height="50" alt="Ball" />
+        <img src="/images/ball.png" width="30" height="30" alt="Ball" />
+        <img src="/images/doll.png" width="30" height="30" alt="Doll" />
+        <img src="/images/ball.png" width="30" height="30" alt="Ball" />
         <div class="pattern-next">?</div>
     </div>
     <div class="object-choices">
         <div class="choice-box">
             <span class="choice-label">A</span>
-            <img src="/images/doll.png" width="50" height="50" alt="Doll" />
+            <img src="/images/doll.png" width="30" height="30" alt="Doll" />
         </div>
         <div class="choice-box">
             <span class="choice-label">B</span>
-            <img src="/images/ball.png" width="50" height="50" alt="Ball" />
+            <img src="/images/ball.png" width="30" height="30" alt="Ball" />
         </div>
         <div class="choice-box">
             <span class="choice-label">C</span>
-            <img src="/images/cow.png" width="50" height="50" alt="Cow" />
+            <img src="/images/cow.png" width="30" height="30" alt="Cow" />
         </div>
     </div>
 </div>

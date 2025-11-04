@@ -132,8 +132,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 <style>
 body{font-family:'Sassoon Primary','Century Gothic',sans-serif;font-size:16pt;margin:0;padding:20px;}
 .question{margin:10px 0;padding:12px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.1);}
-.question-number{font-size:18pt;font-weight:bold;color:#2c3e50;margin-right:8px;}
-.question-text{font-size:16pt;margin:6px 0;font-weight:600;}
+.question-number,.question-text{font-size:16pt;font-weight:600;display:inline}
 .bond-visual{text-align:center;margin:20px auto;}
 .ten-frame{display:inline-block;padding:10px;background:#fff;border:4px solid #333;border-radius:8px;}
 .frame-row{display:flex;gap:5px;margin-bottom:5px;}

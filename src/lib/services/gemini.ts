@@ -18,6 +18,43 @@ if (!process.env.GEMINI_API_KEY) {
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
 
 /**
+ * DEVELOPMENT HELPER: Inject performance metrics banner into worksheet HTML
+ * Shows generation time and token usage at the top of the worksheet for development
+ */
+function injectDevMetrics(html: string, metrics: GenerationMetrics): string {
+  const generationTime = (metrics.duration / 1000).toFixed(2)
+  const inputTokens = metrics.inputTokens || 0
+  const outputTokens = metrics.outputTokens || 0
+  const totalTokens = metrics.totalTokens || 0
+
+  const devBanner = `
+<div style="background: #1a1a1a; color: #fff; padding: 15px; font-family: 'Courier New', monospace; font-size: 13px; border-bottom: 3px solid #4CAF50; margin-bottom: 20px;">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <div style="font-weight: bold; font-size: 14px; color: #4CAF50;">🔧 DEVELOPMENT METRICS</div>
+    <div style="background: #4CAF50; color: #000; padding: 4px 12px; border-radius: 4px; font-weight: bold;">GENERATED: ${generationTime}s</div>
+  </div>
+  <div style="margin-top: 10px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+    <div>
+      <div style="color: #888; font-size: 11px;">INPUT TOKENS</div>
+      <div style="font-size: 18px; font-weight: bold; color: #4CAF50;">${inputTokens.toLocaleString()}</div>
+    </div>
+    <div>
+      <div style="color: #888; font-size: 11px;">OUTPUT TOKENS</div>
+      <div style="font-size: 18px; font-weight: bold; color: #2196F3;">${outputTokens.toLocaleString()}</div>
+    </div>
+    <div>
+      <div style="color: #888; font-size: 11px;">TOTAL TOKENS</div>
+      <div style="font-size: 18px; font-weight: bold; color: #FF9800;">${totalTokens.toLocaleString()}</div>
+    </div>
+  </div>
+</div>
+`
+
+  // Inject after <body> tag
+  return html.replace(/<body[^>]*>/i, (match) => match + devBanner)
+}
+
+/**
  * PERFORMANCE OPTIMIZATION: Calculate optimal token limits dynamically
  * Reduces generation time by 3-5s for simple worksheets
  * Instead of always using 16,384 tokens, calculates based on actual needs
@@ -37,9 +74,9 @@ function calculateOptimalTokens(config: WorksheetConfig): number {
     if (topic.includes('counting') || topic.includes('number-recognition')) {
       tokensPerQuestion = 300 // Very simple - just images and numbers
     } else if (topic.includes('shape') || topic.includes('pattern')) {
-      tokensPerQuestion = 400 // Simple with some descriptions
+      tokensPerQuestion = 500 // Simple with some descriptions
     } else {
-      tokensPerQuestion = 500 // Other reception topics
+      tokensPerQuestion = 600 // Other reception topics
     }
   }
 
@@ -221,6 +258,11 @@ async function callGeminiWithRetry(prompt: string, config: WorksheetConfig, metr
   const usageMetadata = (response as any).usageMetadata
   const MAX_OUTPUT_TOKENS = 16384
   if (usageMetadata) {
+    // Store token counts in metrics for development display
+    metrics.inputTokens = usageMetadata.promptTokenCount
+    metrics.outputTokens = usageMetadata.candidatesTokenCount
+    metrics.totalTokens = usageMetadata.totalTokenCount
+
     console.log('📊 Token Usage:', {
       promptTokens: usageMetadata.promptTokenCount,
       outputTokens: usageMetadata.candidatesTokenCount,
@@ -367,10 +409,13 @@ export async function generateWorksheet(
     metrics.endTime = Date.now()
     metrics.duration = metrics.endTime - metrics.startTime
     metrics.success = true
-    
+
     // Performance metrics tracking (removed console.log for production)
     // Metrics available in the metrics object for monitoring systems
-    
+
+    // Inject development metrics banner
+    worksheet.html = injectDevMetrics(worksheet.html, metrics)
+
     return worksheet
   } catch (error) {
     metrics.endTime = Date.now()
@@ -1280,6 +1325,20 @@ export async function generateWorksheetStreaming(
     metrics.responseLength = fullHtml.length
     console.log(`✅ Streaming complete: ${chunkCount} chunks, ${fullHtml.length} chars`)
 
+    // Capture token usage from the stream result
+    const response = await streamResult.response
+    const usageMetadata = (response as any).usageMetadata
+    if (usageMetadata) {
+      metrics.inputTokens = usageMetadata.promptTokenCount
+      metrics.outputTokens = usageMetadata.candidatesTokenCount
+      metrics.totalTokens = usageMetadata.totalTokenCount
+      console.log('📊 Token Usage (streaming):', {
+        inputTokens: usageMetadata.promptTokenCount,
+        outputTokens: usageMetadata.candidatesTokenCount,
+        totalTokens: usageMetadata.totalTokenCount
+      })
+    }
+
     // Step 5: Parse and validate (same as standard generation)
     const worksheet = parseGeneratedContent(fullHtml, config, improvementMetadata)
 
@@ -1299,6 +1358,9 @@ export async function generateWorksheetStreaming(
     metrics.success = true
 
     console.log(`🎉 Streaming generation complete in ${(metrics.duration / 1000).toFixed(2)}s`)
+
+    // Inject development metrics banner
+    worksheet.html = injectDevMetrics(worksheet.html, metrics)
 
     return worksheet
 

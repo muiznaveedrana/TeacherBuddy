@@ -99,4 +99,7 @@ export interface GenerationMetrics {
   responseLength: number
   success: boolean
   errorType?: string
+  inputTokens?: number
+  outputTokens?: number
+  totalTokens?: number
 }
