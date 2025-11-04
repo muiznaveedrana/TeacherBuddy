@@ -34,7 +34,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 **Q2:** Number line subtraction - count back (start point, jump backward, find end)
 **Q3:** Ten-frame subtraction (show all dots filled green, child crosses out specified number, counts remainder)
 **Q4:** Fact families (complete family showing addition-subtraction link)
-**Q5:** Word problem with WORKSHEET_OBJECTS (taking away context)
+**Q5:** Word problem with images (taking away context)
 
 ## KEY STRATEGIES
 

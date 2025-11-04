@@ -10,7 +10,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 **Operations:** Addition and subtraction within 20
 **Questions:** EXACTLY {{questionCount}} - count before returning
 **Language:** Simple, 1-2 sentences, clear action words
-**Visual:** WORKSHEET_OBJECTS illustrations, number sentences
+**Visual:** Image illustrations, number sentences
 
 **IMPORTANT - NO COLOR DESCRIPTORS:**
 - ❌ NEVER use color adjectives for objects (NO "red cars", "blue apples", "green pencils")

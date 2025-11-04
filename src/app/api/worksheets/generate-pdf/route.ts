@@ -14,7 +14,7 @@ const PdfGenerationSchema = z.object({
     yearGroup: z.string().min(1).max(20),
     studentNames: z.array(z.string()).optional()
   }),
-  generatedContent: z.string().min(10).max(50000),
+  generatedContent: z.string().min(10).max(1000000), // Increased to 1MB to support base64-encoded mascot images
   title: z.string().min(1).max(200)
 })
 

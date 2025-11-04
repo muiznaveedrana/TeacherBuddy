@@ -107,24 +107,12 @@ export function ImagePickerModal({ isOpen, currentImagePath, onClose, onSelect }
   }
 
   const extractTypeAndCategory = (path: string): { type: string, category: string } => {
-    // Extract type and category from path like:
-    // /images/WORKSHEET_OBJECTS/counting/fruits/apple.png
-    // /images/WORKSHEET_OBJECTS/money/UK-coins/1p.png
+    // All images are directly in /images/ folder (flat structure)
+    // Example: /images/apple.png -> type: 'all', category: 'all'
 
-    const parts = path.split('/')
-    const worksheetIndex = parts.indexOf('WORKSHEET_OBJECTS')
-
-    if (worksheetIndex === -1) {
-      return { type: 'all', category: 'all' }
-    }
-
-    // Type is the folder after WORKSHEET_OBJECTS (e.g., 'counting', 'money')
-    const type = parts[worksheetIndex + 1] || 'all'
-
-    // Category is the next folder (e.g., 'fruits', 'UK-coins')
-    const category = parts[worksheetIndex + 2] || 'all'
-
-    return { type, category }
+    // For flat structure, we don't have type/category subdirectories
+    // All images are treated as 'all' type and 'all' category
+    return { type: 'all', category: 'all' }
   }
 
   const extractImageName = (path: string): string => {

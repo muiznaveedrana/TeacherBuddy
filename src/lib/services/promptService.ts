@@ -110,7 +110,7 @@ export class PromptService {
    * Returns the complete prompt as a replacement for generic prompt
    *
    * PRODUCTION PATH: src/lib/prompts/configurations/{year}/{topic}/{subtopic}.md
-   * Uses WORKSHEET_OBJECTS image system (proven 97.7% quality)
+   * Uses /images/ directory for all worksheet images (proven 97.7% quality)
    */
   private static async loadConfigSpecificPrompt(
     config: EnhancedPromptConfig,
@@ -180,7 +180,7 @@ export class PromptService {
         .replace(/\{\{yearGroup\}\}/g, config.yearGroup);
 
       console.log(`   Location: src/lib/prompts/configurations/${normalizedYear}/${normalizedTopic}/`);
-      console.log(`   Image system: WORKSHEET_OBJECTS (proven 97.7% quality)`)
+      console.log(`   Image system: /images/ directory (proven 97.7% quality)`)
       console.log(`   Freshness: ${freshnessInstructions ? 'ENABLED' : 'DISABLED'}`);
 
       return configPrompt;
@@ -1323,7 +1323,7 @@ Show TWO groups side by side for comparison:
    * - System falls back to generic prompt generation
    *
    * PRODUCTION USAGE:
-   * - Reception counting: NOT USED (has config-specific .md file with WORKSHEET_OBJECTS)
+   * - Reception counting: NOT USED (has config-specific .md file with /images/ directory)
    * - Other configs: MAY BE USED (if no .md file exists)
    *
    * See ARCHITECTURE.md for details on production vs fallback systems.
@@ -1345,8 +1345,9 @@ Show TWO groups side by side for comparison:
       const recentWorksheets = options.previousWorksheets.slice(-2);
       recentWorksheets.forEach(ws => {
         ws.images.forEach(imgPath => {
-          // Extract category from WORKSHEET_OBJECTS paths: /images/WORKSHEET_OBJECTS/counting/{category}/{object}.png
-          const match = imgPath.match(/WORKSHEET_OBJECTS\/counting\/([^\/]+)\//i);
+          // Extract object name from flat paths: /images/apple.png -> "apple"
+          // For flat structure, we track individual image filenames
+          const match = imgPath.match(/\/images\/([^\/]+)\.(png|jpg|jpeg|svg)$/i);
           if (match) {
             recentlyUsedCollections.add(match[1]);
           }

@@ -28,9 +28,23 @@ const mockNameLists = [
 type GenerationState = 'idle' | 'generating' | 'completed' | 'error'
 type DifficultyLevel = 'easy' | 'average' | 'hard'
 
+interface Mascot {
+  id: string
+  src: string
+  x: number
+  y: number
+  width: number
+  height: number
+  rotation: number
+  opacity: number
+  zIndex: number
+  locked: boolean
+}
+
 interface GeneratedWorksheet {
   title: string
   html: string
+  mascots?: Mascot[]
   metadata: {
     topic: string
     subtopic: string
@@ -134,18 +148,18 @@ export default function DashboardPage() {
     // Store found objects as the "questions" array for compatibility
     questions.push(...Array.from(foundObjects))
 
-    // Extract image paths from WORKSHEET_OBJECTS collections
+    // Extract image paths from /images/ directory
     const images: string[] = []
     const imageElements = doc.querySelectorAll('img')
     imageElements.forEach(img => {
       const src = img.getAttribute('src')
-      // Only track images from our collections (exclude UI icons, etc.)
-      if (src && src.includes('WORKSHEET_OBJECTS')) {
+      // Only track images from our collections (exclude external URLs, mascots, etc.)
+      if (src && src.startsWith('/images/') && !src.includes('/mascot/')) {
         images.push(src)
 
         // CRITICAL: Extract object name from image filename for freshness tracking
-        // Example: "/images/WORKSHEET_OBJECTS/measurement/garden/caterpillar.png" -> "caterpillar"
-        const fileNameMatch = src.match(/\/([^\/]+)\.png$/i)
+        // Example: "/images/apple.png" -> "apple"
+        const fileNameMatch = src.match(/\/([^\/]+)\.(png|jpg|jpeg|svg)$/i)
         if (fileNameMatch) {
           const objectName = fileNameMatch[1].toLowerCase()
           foundObjects.add(objectName)
@@ -329,7 +343,7 @@ export default function DashboardPage() {
                 // Warn if no images extracted (freshness will fail)
                 if (worksheetData.images.length === 0) {
                   console.warn('⚠️ DASHBOARD: No images extracted! Freshness mechanism will not work.')
-                  console.warn('⚠️ Check if HTML contains WORKSHEET_OBJECTS image paths')
+                  console.warn('⚠️ Check if HTML contains /images/ paths (excluding mascots)')
                 }
 
                 // FRESHNESS FIX: Update ref SYNCHRONOUSLY (immediate access for next generation)
@@ -391,22 +405,93 @@ export default function DashboardPage() {
         throw new Error('Generated worksheet content is too short or missing')
       }
 
-      if (generatedWorksheet.html.length > 50000) {
-        throw new Error('Generated worksheet content is too long for PDF generation')
+      // Note: Increased limit to support base64-encoded mascot images (was 50000)
+      if (generatedWorksheet.html.length > 1000000) {
+        throw new Error('Generated worksheet content is too long for PDF generation (max 1MB)')
       }
 
-      // Strip answer key from HTML if toggle is OFF
+      // Strip answer key from HTML if toggle is OFF and inject mascots
       let htmlContent = generatedWorksheet.html
+      const parser = new DOMParser()
+      const doc = parser.parseFromString(htmlContent, 'text/html')
+
       if (!showAnswers) {
-        // Remove answer key section using DOM parser
-        const parser = new DOMParser()
-        const doc = parser.parseFromString(htmlContent, 'text/html')
+        // Remove answer key section
         const answerKeyElement = doc.querySelector('.answer-key')
         if (answerKeyElement) {
           answerKeyElement.remove()
         }
-        htmlContent = doc.documentElement.outerHTML
       }
+
+      // Inject mascots into the HTML for PDF generation with base64 encoding
+      if (generatedWorksheet.mascots && generatedWorksheet.mascots.length > 0) {
+        const body = doc.body
+        if (body) {
+          // Make body position relative if not already
+          const bodyStyle = doc.createElement('style')
+          bodyStyle.textContent = 'body { position: relative; }'
+          doc.head.appendChild(bodyStyle)
+
+          // Create mascot container with absolute positioning
+          const mascotContainer = doc.createElement('div')
+          mascotContainer.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 9999;
+          `
+
+          // Convert mascot images to base64 and add them
+          const mascotPromises = generatedWorksheet.mascots.map(async (mascot) => {
+            try {
+              // Fetch the image and convert to base64
+              const response = await fetch(mascot.src)
+              const blob = await response.blob()
+              const base64 = await new Promise<string>((resolve) => {
+                const reader = new FileReader()
+                reader.onloadend = () => resolve(reader.result as string)
+                reader.readAsDataURL(blob)
+              })
+
+              const mascotDiv = doc.createElement('div')
+              mascotDiv.style.cssText = `
+                position: absolute;
+                left: ${mascot.x}px;
+                top: ${mascot.y}px;
+                width: ${mascot.width}px;
+                height: ${mascot.height}px;
+                z-index: ${mascot.zIndex};
+                opacity: ${mascot.opacity};
+                transform: rotate(${mascot.rotation}deg);
+                pointer-events: none;
+              `
+
+              const img = doc.createElement('img')
+              img.src = base64 // Use base64 data URL instead of relative path
+              img.alt = 'Mascot'
+              img.style.cssText = `
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+              `
+
+              mascotDiv.appendChild(img)
+              mascotContainer.appendChild(mascotDiv)
+            } catch (error) {
+              console.error('Failed to load mascot image:', mascot.src, error)
+            }
+          })
+
+          // Wait for all mascots to be converted and added
+          await Promise.all(mascotPromises)
+          body.appendChild(mascotContainer)
+        }
+      }
+
+      htmlContent = doc.documentElement.outerHTML
 
       const config = {
         layout,
@@ -995,11 +1080,13 @@ export default function DashboardPage() {
                       <div className="flex-1 px-4 pb-4 overflow-y-auto">
                         <WorksheetEditor
                           htmlContent={generatedWorksheet.html}
-                          onSave={(updatedContent) => {
-                            // Update the generatedWorksheet with edited content
+                          initialMascots={generatedWorksheet.mascots}
+                          onSave={(updatedContent, mascots) => {
+                            // Update the generatedWorksheet with edited content and mascots
                             setGeneratedWorksheet({
                               ...generatedWorksheet,
-                              html: updatedContent
+                              html: updatedContent,
+                              mascots: mascots || []
                             })
                           }}
                         />
@@ -1010,14 +1097,61 @@ export default function DashboardPage() {
                           <style dangerouslySetInnerHTML={{ __html: `
                             .worksheet-preview .answer-key { display: ${showAnswers ? 'block' : 'none'} !important; }
                           ` }} />
-                          <div
-                            className="worksheet-preview text-sm"
-                            dangerouslySetInnerHTML={{ __html: generatedWorksheet.html }}
-                            style={{
-                              fontFamily: "'Times New Roman', serif",
-                              lineHeight: 1.6,
-                            }}
-                          />
+                          <div className="relative">
+                            <div
+                              className="worksheet-preview text-sm"
+                              dangerouslySetInnerHTML={{ __html: generatedWorksheet.html }}
+                              style={{
+                                fontFamily: "'Times New Roman', serif",
+                                lineHeight: 1.6,
+                                position: 'relative',
+                                zIndex: 1
+                              }}
+                            />
+                            {/* Mascot overlay for view mode */}
+                            {generatedWorksheet.mascots && generatedWorksheet.mascots.length > 0 && (
+                              <div
+                                className="mascot-overlay"
+                                style={{
+                                  position: 'absolute',
+                                  top: 0,
+                                  left: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  pointerEvents: 'none',
+                                  zIndex: 10
+                                }}
+                              >
+                                {generatedWorksheet.mascots.map(mascot => (
+                                  <div
+                                    key={mascot.id}
+                                    style={{
+                                      position: 'absolute',
+                                      left: `${mascot.x}px`,
+                                      top: `${mascot.y}px`,
+                                      width: `${mascot.width}px`,
+                                      height: `${mascot.height}px`,
+                                      zIndex: mascot.zIndex,
+                                      opacity: mascot.opacity,
+                                      transform: `rotate(${mascot.rotation}deg)`,
+                                      pointerEvents: 'none'
+                                    }}
+                                  >
+                                    <img
+                                      src={mascot.src}
+                                      alt="Mascot"
+                                      style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'contain',
+                                        pointerEvents: 'none'
+                                      }}
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
                     )}

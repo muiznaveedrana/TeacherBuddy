@@ -6,7 +6,7 @@ Generate EXACTLY {{questionCount}} Year 2 equal groups questions.
 
 **Concept:** Multiplication as equal groups
 **Questions:** EXACTLY {{questionCount}} - count before returning
-**Visual:** Circles/boxes containing objects, WORKSHEET_OBJECTS
+**Visual:** Circles/boxes containing objects, images
 **Language:** "groups of", "in each group", "altogether"
 
 ## 5-QUESTION FORMAT

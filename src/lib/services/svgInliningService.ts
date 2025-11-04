@@ -19,65 +19,49 @@ class SVGInliningService {
   private svgCache = new Map<string, string>();
 
   /**
-   * Process HTML and inline all counting object images (PNG/SVG) for PDF generation
-   * Handles both old and new image directory structures
+   * Process HTML and inline ALL images (PNG/SVG) for PDF generation
+   * Handles all image directory structures
    */
   async inlineCountingObjectSVGs(html: string): Promise<SVGInliningResult> {
     const errors: string[] = [];
     let processedImages = 0;
     let processedHtml = html;
 
-    // Pattern to match WORKSHEET_OBJECTS counting images (new structure)
-    // Captures the full img tag including width, height, alt, and closing />
-    const worksheetObjectsPattern = /<img\s+src="\/images\/WORKSHEET_OBJECTS\/counting\/([^"]+\.(?:png|svg))"[^>]*alt="([^"]*)"[^>]*\/?>/gi;
-
-    // Pattern to match old counting-objects structure (legacy)
-    const legacyPattern = /<img\s+src="\/images\/educational\/counting-objects\/([^"]+)"\s+class="counting-object"\s+alt="([^"]+)"\s*\/>/g;
+    // Universal pattern to match ANY image in /images/ directory
+    const universalPattern = /<img\s+src="(\/images\/[^"]+\.(?:png|svg|jpg|jpeg))([^"]*)"([^>]*)>/gi;
 
     const replacements = new Map<string, string>();
 
-    // Process new WORKSHEET_OBJECTS images
+    // Process ALL images
     let match;
-    while ((match = worksheetObjectsPattern.exec(html)) !== null) {
-      const [fullMatch, relativePath, altText] = match;
-      const fullPath = `/images/WORKSHEET_OBJECTS/counting/${relativePath}`;
+    while ((match = universalPattern.exec(html)) !== null) {
+      const [fullMatch, imagePath] = match;
 
       try {
-        // Load image content (PNG or SVG)
-        const imageContent = await this.loadWorksheetObjectImage(relativePath);
+        // Extract relative path from full path (e.g., /images/apple.png -> apple.png)
+        const relativePath = imagePath.replace('/images/', '');
+
+        // Load image content
+        const imageContent = await this.loadAnyImage(relativePath);
 
         if (imageContent) {
           // Convert to base64 data URL for PDF embedding
-          const inlineImage = this.createInlineImage(imageContent, relativePath, altText, fullMatch);
-          replacements.set(fullMatch, inlineImage);
+          const ext = path.extname(relativePath).toLowerCase();
+          const mimeType = ext === '.png' ? 'image/png' : ext === '.svg' ? 'image/svg+xml' : 'image/jpeg';
+          const base64 = Buffer.isBuffer(imageContent)
+            ? imageContent.toString('base64')
+            : Buffer.from(imageContent).toString('base64');
+
+          const dataUrl = `data:${mimeType};base64,${base64}`;
+          const replacement = fullMatch.replace(imagePath, dataUrl);
+
+          replacements.set(fullMatch, replacement);
           processedImages++;
         } else {
-          errors.push(`Failed to load image: ${fullPath}`);
+          errors.push(`Failed to load image: ${imagePath}`);
         }
       } catch (error) {
-        errors.push(`Error processing ${fullPath}: ${error instanceof Error ? error.message : 'Unknown error'}`);
-      }
-    }
-
-    // Process legacy counting-objects images (if any)
-    while ((match = legacyPattern.exec(html)) !== null) {
-      const [fullMatch, relativePath, altText] = match;
-      const fullPath = `/images/educational/counting-objects/${relativePath}`;
-
-      try {
-        // Get or load SVG content
-        const svgContent = await this.loadSVGContent(relativePath);
-
-        if (svgContent) {
-          // Create inline SVG with proper sizing
-          const inlineSvg = this.createInlineSVG(svgContent, altText);
-          replacements.set(fullMatch, inlineSvg);
-          processedImages++;
-        } else {
-          errors.push(`Failed to load SVG: ${fullPath}`);
-        }
-      } catch (error) {
-        errors.push(`Error processing ${fullPath}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        errors.push(`Error processing ${imagePath}: ${error instanceof Error ? error.message : 'Unknown error'}`);
       }
     }
 
@@ -95,19 +79,21 @@ class SVGInliningService {
   }
 
   /**
-   * Load WORKSHEET_OBJECTS image (PNG/SVG) from file system with caching
+   * Load ANY image (PNG/SVG/JPG) from /images/ directory with caching
+   * Handles all subdirectory structures dynamically
    */
-  private async loadWorksheetObjectImage(relativePath: string): Promise<Buffer | string | null> {
-    const cacheKey = `WORKSHEET_OBJECTS:${relativePath}`;
+  private async loadAnyImage(relativePath: string): Promise<Buffer | string | null> {
+    const cacheKey = `ANY_IMAGE:${relativePath}`;
 
     if (this.svgCache.has(cacheKey)) {
       return this.svgCache.get(cacheKey)!;
     }
 
     try {
-      const fullPath = path.join(process.cwd(), 'public', 'images', 'WORKSHEET_OBJECTS', 'counting', relativePath);
+      // Build full path from public/images/ + relative path
+      const fullPath = path.join(process.cwd(), 'public', 'images', relativePath);
 
-      // Check if file is SVG or PNG/image
+      // Check if file is SVG or binary image
       if (relativePath.toLowerCase().endsWith('.svg')) {
         const svgContent = await fs.readFile(fullPath, 'utf-8');
         this.svgCache.set(cacheKey, svgContent);
@@ -115,106 +101,13 @@ class SVGInliningService {
       } else {
         // Read as binary for PNG/JPG images
         const imageBuffer = await fs.readFile(fullPath);
-        // Convert to base64 string for caching
-        const base64 = imageBuffer.toString('base64');
-        this.svgCache.set(cacheKey, base64);
-        return base64;
+        this.svgCache.set(cacheKey, imageBuffer);
+        return imageBuffer;
       }
     } catch (error) {
-      console.warn(`Failed to load WORKSHEET_OBJECTS image: ${relativePath}`, error);
+      console.warn(`Failed to load image: ${relativePath}`, error);
       return null;
     }
-  }
-
-  /**
-   * Load SVG content from file system with caching (legacy method)
-   */
-  private async loadSVGContent(relativePath: string): Promise<string | null> {
-    if (this.svgCache.has(relativePath)) {
-      return this.svgCache.get(relativePath)!;
-    }
-
-    try {
-      const fullPath = path.join(process.cwd(), 'public', 'images', 'educational', 'counting-objects', relativePath);
-      const svgContent = await fs.readFile(fullPath, 'utf-8');
-
-      // Cache the content
-      this.svgCache.set(relativePath, svgContent);
-      return svgContent;
-    } catch (error) {
-      console.warn(`Failed to load SVG file: ${relativePath}`, error);
-      return null;
-    }
-  }
-
-  /**
-   * Create inline image (PNG/SVG) for PDF embedding
-   * Converts PNG to base64 data URL, or inlines SVG directly
-   */
-  private createInlineImage(imageContent: Buffer | string, relativePath: string, altText: string, originalTag: string): string {
-    // Extract width/height from original tag if present
-    const widthMatch = originalTag.match(/width="(\d+)"/);
-    const heightMatch = originalTag.match(/height="(\d+)"/);
-    const width = widthMatch ? widthMatch[1] : '80';
-    const height = heightMatch ? heightMatch[1] : '80';
-
-    if (relativePath.toLowerCase().endsWith('.svg')) {
-      // Inline SVG content directly
-      return this.createInlineSVG(imageContent as string, altText);
-    } else {
-      // Create base64 data URL for PNG/JPG
-      const extension = relativePath.toLowerCase().split('.').pop();
-      const mimeType = extension === 'png' ? 'image/png' : extension === 'jpg' || extension === 'jpeg' ? 'image/jpeg' : 'image/png';
-      const base64Data = typeof imageContent === 'string' ? imageContent : (imageContent as Buffer).toString('base64');
-
-      return `<img src="data:${mimeType};base64,${base64Data}" width="${width}" height="${height}" alt="${altText}" style="object-fit: contain;" />`;
-    }
-  }
-
-  /**
-   * Create optimized inline SVG with proper styling for PDF generation
-   * Enhanced with responsive sizing and accessibility
-   */
-  private createInlineSVG(svgContent: string, altText: string): string {
-    // Remove XML declaration and DOCTYPE if present
-    let cleanSvg = svgContent
-      .replace(/<\?xml[^>]*\?>/g, '')
-      .replace(/<!DOCTYPE[^>]*>/g, '')
-      .trim();
-
-    // Extract original viewBox if present for proper scaling
-    const viewBoxMatch = cleanSvg.match(/viewBox="([^"]+)"/i);
-    const originalViewBox = viewBoxMatch ? viewBoxMatch[1] : '0 0 100 100';
-
-    // Enhanced SVG styling for PDF compatibility and responsive design
-    const svgStyle = [
-      'width: 45px',
-      'height: 45px',
-      'border-radius: 4px',
-      'display: inline-block',
-      'vertical-align: middle',
-      'max-width: 100%',
-      'max-height: 100%',
-      'fill: currentColor' // Inherit text color for better integration
-    ].join('; ');
-
-    // Replace or add SVG opening tag with enhanced attributes
-    if (cleanSvg.includes('<svg')) {
-      cleanSvg = cleanSvg.replace(
-        /<svg([^>]*)>/i,
-        `<svg$1 style="${svgStyle}" role="img" aria-label="${altText}" preserveAspectRatio="xMidYMid meet">`
-      );
-    } else {
-      // Wrap content if not already an SVG
-      cleanSvg = `<svg viewBox="${originalViewBox}" style="${svgStyle}" role="img" aria-label="${altText}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">${cleanSvg}</svg>`;
-    }
-
-    // Ensure proper closing tag
-    if (!cleanSvg.includes('</svg>')) {
-      cleanSvg += '</svg>';
-    }
-
-    return cleanSvg;
   }
 
   /**

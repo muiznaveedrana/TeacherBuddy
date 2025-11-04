@@ -8,21 +8,44 @@ import {
   Italic,
   Underline,
   Check,
-  X
+  X,
+  ImagePlus
 } from 'lucide-react'
 import { ImagePickerModal } from './ImagePickerModal'
+import { MascotLibraryModal } from './MascotLibraryModal'
+import { DraggableMascot } from './DraggableMascot'
+
+interface Mascot {
+  id: string
+  src: string
+  x: number
+  y: number
+  width: number
+  height: number
+  rotation: number
+  opacity: number
+  zIndex: number
+  locked: boolean
+}
 
 interface WorksheetEditorProps {
   htmlContent: string
-  onSave?: (content: string) => void
+  initialMascots?: Mascot[]
+  onSave?: (content: string, mascots?: Mascot[]) => void
 }
 
-export function WorksheetEditor({ htmlContent, onSave }: WorksheetEditorProps) {
+export function WorksheetEditor({ htmlContent, initialMascots, onSave }: WorksheetEditorProps) {
   const contentRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const [showSaved, setShowSaved] = useState(false)
   const [showImagePicker, setShowImagePicker] = useState(false)
   const [selectedImageElement, setSelectedImageElement] = useState<HTMLImageElement | null>(null)
   const [replacementCount, setReplacementCount] = useState(0)
+
+  // Mascot state - initialize with initialMascots if provided
+  const [mascots, setMascots] = useState<Mascot[]>(initialMascots || [])
+  const [showMascotLibrary, setShowMascotLibrary] = useState(false)
+  const [selectedMascotId, setSelectedMascotId] = useState<string | null>(null)
 
   // Initialize content when component mounts or htmlContent changes
   useEffect(() => {
@@ -30,6 +53,7 @@ export function WorksheetEditor({ htmlContent, onSave }: WorksheetEditorProps) {
       contentRef.current.innerHTML = htmlContent
       // Clear localStorage when new worksheet is loaded (prevents old cached worksheets from showing)
       localStorage.removeItem('worksheet-editor-content')
+      localStorage.removeItem('worksheet-editor-mascots')
       // Enable editing immediately
       contentRef.current.contentEditable = 'true'
 
@@ -37,6 +61,13 @@ export function WorksheetEditor({ htmlContent, onSave }: WorksheetEditorProps) {
       addImageClickHandlers()
     }
   }, [htmlContent])
+
+  // Sync mascots when initialMascots changes
+  useEffect(() => {
+    if (initialMascots) {
+      setMascots(initialMascots)
+    }
+  }, [initialMascots])
 
   // Add click handlers to images for replacement
   const addImageClickHandlers = () => {
@@ -126,10 +157,11 @@ export function WorksheetEditor({ htmlContent, onSave }: WorksheetEditorProps) {
       // Auto-save to localStorage
       const content = contentRef.current.innerHTML
       localStorage.setItem('worksheet-editor-content', content)
+      localStorage.setItem('worksheet-editor-mascots', JSON.stringify(mascots))
 
       // Call onSave callback if provided
       if (onSave) {
-        onSave(content)
+        onSave(content, mascots)
       }
 
       // Show saved indicator briefly
@@ -150,8 +182,52 @@ export function WorksheetEditor({ htmlContent, onSave }: WorksheetEditorProps) {
       contentRef.current.innerHTML = htmlContent
       contentRef.current.contentEditable = 'true' // Keep in edit mode
       localStorage.removeItem('worksheet-editor-content')
+      localStorage.removeItem('worksheet-editor-mascots')
+      setMascots([])
       setShowSaved(false)
     }
+  }
+
+  // Mascot handlers
+  const handleAddMascot = (mascotPath: string) => {
+    const newMascot: Mascot = {
+      id: `mascot-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      src: mascotPath,
+      x: 100, // Default position
+      y: 100,
+      width: 150, // Default size
+      height: 150,
+      rotation: 0,
+      opacity: 1,
+      zIndex: 1000 + mascots.length,
+      locked: false
+    }
+
+    setMascots(prev => [...prev, newMascot])
+    setSelectedMascotId(newMascot.id)
+  }
+
+  const handleUpdateMascot = (id: string, updates: Partial<Mascot>) => {
+    setMascots(prev =>
+      prev.map(mascot =>
+        mascot.id === id ? { ...mascot, ...updates } : mascot
+      )
+    )
+  }
+
+  const handleDeleteMascot = (id: string) => {
+    setMascots(prev => prev.filter(mascot => mascot.id !== id))
+    if (selectedMascotId === id) {
+      setSelectedMascotId(null)
+    }
+  }
+
+  const handleSelectMascot = (id: string) => {
+    setSelectedMascotId(id)
+  }
+
+  const handleDeselectMascot = () => {
+    setSelectedMascotId(null)
   }
 
   return (
@@ -177,6 +253,24 @@ export function WorksheetEditor({ htmlContent, onSave }: WorksheetEditorProps) {
             {showSaved && (
               <span className="text-sm text-green-600 font-medium animate-fade-in">
                 ✓ Saved
+              </span>
+            )}
+          </div>
+
+          {/* Mascot Tools */}
+          <div className="flex items-center gap-1 border-l pl-2">
+            <Button
+              onClick={() => setShowMascotLibrary(true)}
+              variant="ghost"
+              size="sm"
+              className="p-2"
+              title="Add Mascot"
+            >
+              <ImagePlus className="h-4 w-4" />
+            </Button>
+            {mascots.length > 0 && (
+              <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                {mascots.length} mascot{mascots.length !== 1 ? 's' : ''}
               </span>
             )}
           </div>
@@ -265,22 +359,56 @@ export function WorksheetEditor({ htmlContent, onSave }: WorksheetEditorProps) {
         </div>
       </Card>
 
-      {/* Editable Content Area */}
+      {/* Editable Content Area with Mascot Layer */}
       <div
-        ref={contentRef}
-        className="worksheet-content"
-        style={{
-          fontFamily: "'Times New Roman', serif",
-          lineHeight: 1.6,
-          minHeight: '500px',
-          padding: '20px',
-          background: 'white',
-          borderRadius: '8px',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-          border: '2px solid #3b82f6',
-          outline: 'none'
-        }}
-      />
+        ref={containerRef}
+        className="worksheet-container relative"
+        onClick={handleDeselectMascot}
+        style={{ position: 'relative' }}
+      >
+        <div
+          ref={contentRef}
+          className="worksheet-content"
+          style={{
+            fontFamily: "'Times New Roman', serif",
+            lineHeight: 1.6,
+            minHeight: '500px',
+            padding: '20px',
+            background: 'white',
+            borderRadius: '8px',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            border: '2px solid #3b82f6',
+            outline: 'none',
+            position: 'relative',
+            zIndex: 1
+          }}
+        />
+
+        {/* Mascot Layer - Absolute positioned overlay */}
+        <div
+          className="mascot-layer"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            pointerEvents: 'none',
+            zIndex: 10
+          }}
+        >
+          {mascots.map(mascot => (
+            <DraggableMascot
+              key={mascot.id}
+              mascot={mascot}
+              onUpdate={handleUpdateMascot}
+              onDelete={handleDeleteMascot}
+              isSelected={selectedMascotId === mascot.id}
+              onSelect={handleSelectMascot}
+            />
+          ))}
+        </div>
+      </div>
 
       {/* Simple Instructions */}
       <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
@@ -289,6 +417,8 @@ export function WorksheetEditor({ htmlContent, onSave }: WorksheetEditorProps) {
           <li>• Click anywhere in the worksheet and start typing</li>
           <li>• Select text and use the formatting buttons (Bold, Italic, etc.)</li>
           <li>• <strong>Click any image</strong> to replace it with a different one</li>
+          <li>• <strong>Click mascot icon</strong> to add fun characters to your worksheet</li>
+          <li>• <strong>Drag mascots</strong> to reposition, resize from corner, or use controls to rotate/delete</li>
           <li>• Click "Done" when finished - changes save automatically</li>
           <li>• Use "Download PDF" button to export your worksheet</li>
         </ul>
@@ -300,6 +430,13 @@ export function WorksheetEditor({ htmlContent, onSave }: WorksheetEditorProps) {
         currentImagePath={selectedImageElement?.src || ''}
         onClose={() => setShowImagePicker(false)}
         onSelect={handleImageReplace}
+      />
+
+      {/* Mascot Library Modal */}
+      <MascotLibraryModal
+        isOpen={showMascotLibrary}
+        onClose={() => setShowMascotLibrary(false)}
+        onSelect={handleAddMascot}
       />
 
       <style jsx>{`

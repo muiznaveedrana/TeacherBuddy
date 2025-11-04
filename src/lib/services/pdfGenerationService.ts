@@ -213,7 +213,7 @@ export async function generateWorksheetPdf(
     
     // Set content with optimized loading and timeout protection
     await page.setContent(html, {
-      waitUntil: 'domcontentloaded', // Faster than networkidle0 for self-contained HTML
+      waitUntil: 'load', // Wait for DOM and embedded resources (base64 images)
       timeout: 45000 // Extended timeout for complex worksheets
     })
 

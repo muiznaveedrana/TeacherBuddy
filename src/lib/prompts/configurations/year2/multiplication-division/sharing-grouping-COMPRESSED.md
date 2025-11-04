@@ -7,7 +7,7 @@ Generate EXACTLY {{questionCount}} Year 2 sharing and grouping questions.
 **Concept:** Division as sharing and grouping
 **Questions:** EXACTLY {{questionCount}} - count before returning
 **Types:** Sharing (partitive) and Grouping (quotitive)
-**Visual:** Circles for sharing, boxes for grouping, WORKSHEET_OBJECTS
+**Visual:** Circles for sharing, boxes for grouping, images
 **Link:** Use 2, 5, 10 times tables (inverse of multiplication)
 
 ## 5-QUESTION FORMAT
