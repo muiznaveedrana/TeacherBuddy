@@ -86,6 +86,8 @@ export interface SaveToLibraryMetadata {
   topic: string
   subtopic: string
   layout_type: string
+  difficulty?: 'easy' | 'average' | 'hard'
+  question_count?: number
   visual_theme?: string
   activity_type?: string
   seasonal_theme?: string

@@ -18,6 +18,7 @@ import { LAYOUT_TEMPLATES, DEFAULT_LAYOUT, getLayoutOptions } from '@/lib/data/l
 import type { LayoutType, VisualTheme } from '@/lib/types/worksheet'
 import { EnhancedConfigurationPanel } from '@/components/worksheet/EnhancedConfigurationPanel'
 import { WorksheetEditor } from '@/components/worksheet/WorksheetEditor'
+import { SaveToLibraryModal } from '@/components/SaveToLibraryModal'
 
 const mockNameLists = [
   { value: 'year3-class-a', label: 'Year 3 Class A (25 students)' },
@@ -82,6 +83,7 @@ export default function DashboardPage() {
   const [loadingTopics, setLoadingTopics] = useState<boolean>(false)
   const [loadingSubtopics, setLoadingSubtopics] = useState<boolean>(false)
   const [pdfGenerating, setPdfGenerating] = useState<boolean>(false)
+  const [showSaveModal, setShowSaveModal] = useState<boolean>(false)
 
   // Cross-iteration freshness tracking
   const [previousWorksheets, setPreviousWorksheets] = useState<Array<{ questions: string[]; images: string[] }>>([])
@@ -1206,25 +1208,36 @@ export default function DashboardPage() {
           )}
           
           {showPreview && (
-            <Button 
-              variant="outline" 
-              size="touch" 
-              className="w-full md:w-auto md:min-w-32 text-lg md:text-base"
-              onClick={handleDownloadPdf}
-              disabled={pdfGenerating}
-            >
-              {pdfGenerating ? (
-                <>
-                  <Loader2 className="h-5 w-5 md:h-4 md:w-4 animate-spin mr-2" />
-                  Generating PDF...
-                </>
-              ) : (
-                <>
-                  <Download className="h-5 w-5 md:h-4 md:w-4 mr-2" />
-                  Download PDF
-                </>
-              )}
-            </Button>
+            <>
+              <Button
+                variant="outline"
+                size="touch"
+                className="w-full md:w-auto md:min-w-32 text-lg md:text-base"
+                onClick={handleDownloadPdf}
+                disabled={pdfGenerating}
+              >
+                {pdfGenerating ? (
+                  <>
+                    <Loader2 className="h-5 w-5 md:h-4 md:w-4 animate-spin mr-2" />
+                    Generating PDF...
+                  </>
+                ) : (
+                  <>
+                    <Download className="h-5 w-5 md:h-4 md:w-4 mr-2" />
+                    Download PDF
+                  </>
+                )}
+              </Button>
+
+              <Button
+                variant="default"
+                size="touch"
+                className="w-full md:w-auto md:min-w-32 text-lg md:text-base"
+                onClick={() => setShowSaveModal(true)}
+              >
+                💾 Save to Library
+              </Button>
+            </>
           )}
         </div>
       </main>
@@ -1232,6 +1245,28 @@ export default function DashboardPage() {
       {/* Welcome Tour */}
       {showTour && (
         <WelcomeTour onComplete={() => setShowTour(false)} />
+      )}
+
+      {/* Save to Library Modal */}
+      {generatedWorksheet && (
+        <SaveToLibraryModal
+          isOpen={showSaveModal}
+          onClose={() => setShowSaveModal(false)}
+          worksheetHtml={generatedWorksheet.html}
+          metadata={{
+            title: generatedWorksheet.title,
+            year_group: yearGroup,
+            topic,
+            subtopic,
+            layout_type: layout,
+            visual_theme: visualTheme,
+            difficulty,
+            question_count: questionCount,
+          }}
+          onSuccess={(worksheet) => {
+            console.log('✅ Worksheet saved to library:', worksheet)
+          }}
+        />
       )}
 
         {/* Footer */}

@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
       referrer: request.headers.get('referer') || undefined,
     })
 
-    return new NextResponse(pdfBuffer, {
+    return new NextResponse(Buffer.from(pdfBuffer), {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${slug}.pdf"`,
