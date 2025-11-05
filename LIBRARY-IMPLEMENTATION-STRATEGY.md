@@ -19,6 +19,109 @@ This document defines Claude Code's autonomous approach to implementing the comp
 
 ---
 
+## 🌿 Git Branching Strategy (Option C: Stacked Branches)
+
+### **Branch Structure**
+
+```
+master (production)
+  │
+  └─── feature/worksheet-library (base feature branch)
+        │
+        ├─── feature/library-phase-1-database
+        │     └─── Merge to feature/worksheet-library → Checkpoint 1 ⏸️
+        │
+        ├─── feature/library-phase-2-services
+        │     └─── Merge to feature/worksheet-library → Checkpoint 2 ⏸️
+        │
+        ├─── feature/library-phase-3-api-routes
+        │     └─── Merge to feature/worksheet-library → Checkpoint 3 ⏸️
+        │
+        ├─── feature/library-phase-4-browse-ui
+        │     └─── Merge to feature/worksheet-library → Checkpoint 4 ⏸️
+        │
+        ├─── feature/library-phase-5-admin-features
+        │     └─── Merge to feature/worksheet-library → Checkpoint 5 ⏸️
+        │
+        ├─── feature/library-phase-6-topic-guides
+        │     └─── Merge to feature/worksheet-library → Checkpoint 6 ⏸️
+        │
+        └─── feature/library-phase-7-testing-deployment
+              └─── Merge to feature/worksheet-library → Checkpoint 7 ⏸️
+                    │
+                    └─── Merge feature/worksheet-library to master (FINAL)
+```
+
+### **Workflow Per Phase**
+
+**Initial Setup (Session 1):**
+```bash
+git checkout -b feature/worksheet-library
+git push -u origin feature/worksheet-library
+```
+
+**For Each Phase:**
+```bash
+# 1. Create phase branch from base
+git checkout feature/worksheet-library
+git checkout -b feature/library-phase-N-description
+
+# 2. Implement phase (Claude Code does this)
+# ... commits ...
+
+# 3. At checkpoint: Merge to base branch
+git checkout feature/worksheet-library
+git merge feature/library-phase-N-description
+
+# 4. Tag checkpoint for safety
+git tag checkpoint-N-phase-name
+git push --tags
+git push
+
+# 5. Optional: Create safety checkpoint branch
+git checkout -b checkpoint-2025-11-0X
+git push
+```
+
+**Final Merge (After Checkpoint 7):**
+```bash
+git checkout master
+git merge feature/worksheet-library
+git push
+# Deploy to production! 🚀
+```
+
+### **Benefits of This Strategy**
+
+✅ **Phase Isolation**: Each phase has its own branch for clean separation
+✅ **One Final PR**: Base branch merges to master once at the end
+✅ **Easy Rollback**: Can rollback entire feature (delete base) or to any checkpoint (git reset to tag)
+✅ **Staging Deployment**: Can deploy base branch to Vercel preview URL
+✅ **Clear History**: Master only gets one merge commit for entire feature
+✅ **Multi-Session Safe**: Can pause/resume at any checkpoint without conflicts
+✅ **PR Workflow**: Can create draft PR from base→master, update as phases complete
+
+### **Checkpoint Safety Tags**
+
+After each checkpoint approval, Claude Code will create a git tag:
+- `checkpoint-1-database`
+- `checkpoint-2-services`
+- `checkpoint-3-api-routes`
+- `checkpoint-4-browse-ui`
+- `checkpoint-5-admin-features`
+- `checkpoint-6-topic-guides`
+- `checkpoint-7-testing-deployment`
+
+**Rollback Example:**
+```bash
+# If you want to rollback to Checkpoint 3:
+git checkout feature/worksheet-library
+git reset --hard checkpoint-3-api-routes
+git push --force
+```
+
+---
+
 ## 📅 Implementation Timeline
 
 **Total**: 6-7 sessions (10-15 hours of work)
@@ -89,10 +192,33 @@ Claude Code will **automatically pause and wait for user approval** at these che
 
 Claude Code will autonomously:
 
-1. ✅ **Create Feature Branch**: `git checkout -b feature/library-phase-N-description`
-2. ✅ **Read Implementation Guide**: Review relevant phase from COMPLETE-IMPLEMENTATION-GUIDE.md
-3. ✅ **Update Progress Tracking**: Mark phase as "in_progress" in TodoWrite
-4. ✅ **Announce Plan**: Tell user what will be implemented in this phase
+1. ✅ **Switch to Base Branch**: `git checkout feature/worksheet-library`
+2. ✅ **Pull Latest**: `git pull` (in case you made changes)
+3. ✅ **Create Phase Branch**: `git checkout -b feature/library-phase-N-description`
+4. ✅ **Read Implementation Guide**: Review relevant phase from COMPLETE-IMPLEMENTATION-GUIDE.md
+5. ✅ **Update Progress Tracking**: Mark phase as "in_progress" in TodoWrite
+6. ✅ **Announce Plan**: Tell user what will be implemented in this phase
+
+### **Post-Phase (At Every Checkpoint)**
+
+Claude Code will autonomously:
+
+1. ✅ **Merge to Base Branch**:
+   ```bash
+   git checkout feature/worksheet-library
+   git merge feature/library-phase-N-description
+   ```
+2. ✅ **Create Checkpoint Tag**:
+   ```bash
+   git tag checkpoint-N-phase-name
+   git push --tags
+   ```
+3. ✅ **Push to Remote**:
+   ```bash
+   git push
+   ```
+4. ✅ **Update Progress**: Mark phase as "completed" in LIBRARY-IMPLEMENTATION-PROGRESS.md
+5. ✅ **Pause and Report**: Wait for user approval with deliverables summary
 
 ---
 
@@ -668,11 +794,15 @@ When user types **"execute complete implementation guide"**:
 
 1. ✅ Read LIBRARY-IMPLEMENTATION-PROGRESS.md to find current phase
 2. ✅ Read COMPLETE-IMPLEMENTATION-GUIDE.md for implementation details
-3. ✅ Create/checkout appropriate feature branch
+3. ✅ Setup git branches:
+   - **If Phase 1 (first time)**: Create base branch `feature/worksheet-library`
+   - **If Phase 2+**: Checkout base branch and pull latest
+   - Create phase branch `feature/library-phase-N-description`
 4. ✅ Announce current phase and plan
 5. ✅ Request confirmation: "Ready to start Phase X? (yes/no)"
 6. ✅ Execute autonomously until checkpoint
-7. ✅ Pause at checkpoint with clear deliverables summary
+7. ✅ Merge to base branch and create checkpoint tag
+8. ✅ Pause at checkpoint with clear deliverables summary
 
 ### **User Will:**
 

@@ -64,7 +64,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **7 Mandatory Checkpoints**: Claude Code pauses for user review after each phase
 - **Full Autonomy**: Claude Code makes all technical decisions, user only approves checkpoints
 - **Phase-Based**: Database → Services → API → UI → Admin → SEO → Testing
-- **Git Workflow**: Feature branches per phase, atomic commits, clean history
+- **Git Branching Strategy (Stacked Branches)**:
+  - Base branch: `feature/worksheet-library` (created on first run)
+  - Phase branches: `feature/library-phase-N-description` (one per phase)
+  - Merge flow: Phase branch → Base branch (at each checkpoint)
+  - Final merge: Base branch → master (after checkpoint 7)
+  - Safety tags: `checkpoint-N-phase-name` (created at each checkpoint)
+  - Rollback: `git reset --hard checkpoint-N-phase-name` on base branch
 - **Quality Gates**: Unit tests → Integration tests → E2E tests → Code review
 - **User Commands**:
   - `execute complete implementation guide` - Start/resume autonomous implementation
