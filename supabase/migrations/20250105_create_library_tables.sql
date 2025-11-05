@@ -2,8 +2,6 @@
 -- WORKSHEET LIBRARY DATABASE SCHEMA
 -- ============================================================================
 
--- Enable UUID extension
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- ============================================================================
 -- TABLE: library_worksheets
@@ -11,7 +9,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS library_worksheets (
   -- Primary
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   slug VARCHAR(255) UNIQUE NOT NULL,
 
   -- Content
@@ -68,7 +66,7 @@ CREATE TABLE IF NOT EXISTS library_worksheets (
 -- ============================================================================
 
 CREATE TABLE IF NOT EXISTS library_downloads (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   worksheet_id UUID NOT NULL REFERENCES library_worksheets(id) ON DELETE CASCADE,
   downloaded_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   user_agent TEXT,

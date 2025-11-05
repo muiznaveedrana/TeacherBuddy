@@ -6,6 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - yolo
 - For all Supabase queries, use `npx supabase` (Supabase CLI v2.54.11 available via npx)
+- **Supabase CLI Authentication**: User runs `npx supabase login` in their own terminal (Option 1). Token is stored locally at ~/.supabase/access-token and persists across sessions. Claude Code can then use all supabase CLI commands without re-authentication.
 - For all Playwright queries, use `playwright` CLI (global CLI)
 - **ImageKit MCP Server**: Installed at user scope (mcp__imagekit__* tools available for CDN uploads, folder management, and URL transformations)
 - When port 3000 is already in use, kill the existing process using that port first, then restart the dev server on port 3000, if 3000 is in use then kill it first and then always run server on port 3000
