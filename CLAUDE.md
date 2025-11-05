@@ -5,8 +5,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Claude Memories
 
 - yolo
-- For all Supabase queries, use `supabase` CLI (global CLI)
+- For all Supabase queries, use `npx supabase` (Supabase CLI v2.54.11 available via npx)
 - For all Playwright queries, use `playwright` CLI (global CLI)
+- **ImageKit MCP Server**: Installed at user scope (mcp__imagekit__* tools available for CDN uploads, folder management, and URL transformations)
 - When port 3000 is already in use, kill the existing process using that port first, then restart the dev server on port 3000, if 3000 is in use then kill it first and then always run server on port 3000
 - use dev environment only
 -  rm -rf .next to clean trace file, which may have permission issue
@@ -55,3 +56,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - Unanswerable comparisons (identical objects): Max score 40
 - **Always check**: Can a 4-year-old answer this question by LOOKING at the images?
 - **When in doubt**: FAIL it. Quality > Quantity.
+
+## Worksheet Library Implementation (AUTONOMOUS STRATEGY)
+- **TRIGGER PHRASE**: When user types `execute complete implementation guide`, Claude Code autonomously implements COMPLETE-IMPLEMENTATION-GUIDE.md
+- **Strategy Document**: LIBRARY-IMPLEMENTATION-STRATEGY.md (comprehensive autonomous workflow)
+- **Progress Tracking**: LIBRARY-IMPLEMENTATION-PROGRESS.md (auto-updated each phase)
+- **7 Mandatory Checkpoints**: Claude Code pauses for user review after each phase
+- **Full Autonomy**: Claude Code makes all technical decisions, user only approves checkpoints
+- **Phase-Based**: Database → Services → API → UI → Admin → SEO → Testing
+- **Git Workflow**: Feature branches per phase, atomic commits, clean history
+- **Quality Gates**: Unit tests → Integration tests → E2E tests → Code review
+- **User Commands**:
+  - `execute complete implementation guide` - Start/resume autonomous implementation
+  - `continue to phase N` - Approve checkpoint and proceed
+  - `show progress` - Display current phase status
+  - `pause implementation` - Save progress and create checkpoint
+- **Multi-Session Safe**: Can pause/resume at any of 7 checkpoints across multiple days
+- **Testing Strategy**: Test after every phase before moving forward
+- **Region Field**: All worksheets default to region='UK' for MVP (future-proof for US/AU expansion)
