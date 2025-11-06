@@ -7,15 +7,25 @@ import type {
 } from '@/lib/types/library'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
-export const supabase = createClient(supabaseUrl, supabaseKey)
+// Public client for reads (respects RLS)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+// Admin client for writes (bypasses RLS) - server-side only
+export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
+  auth: {
+    autoRefreshToken: false,
+    persistSession: false,
+  },
+})
 
 export async function createLibraryWorksheet(
   input: CreateLibraryWorksheetInput
 ): Promise<LibraryWorksheet> {
   try {
-    const { data, error } = await supabase
+    const { data, error} = await supabaseAdmin
       .from('library_worksheets')
       .insert({
         ...input,
@@ -40,7 +50,7 @@ export async function getWorksheetBySlug(
   slug: string
 ): Promise<LibraryWorksheet | null> {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('library_worksheets')
       .select('*')
       .eq('slug', slug)
@@ -151,14 +161,14 @@ export async function recordDownload(
     })
 
     // Fetch current worksheet to increment download count
-    const { data: worksheet } = await supabase
+    const { data: worksheet } = await supabaseAdmin
       .from('library_worksheets')
       .select('download_count')
       .eq('id', worksheetId)
       .single()
 
     if (worksheet) {
-      await supabase
+      await supabaseAdmin
         .from('library_worksheets')
         .update({
           download_count: worksheet.download_count + 1,
@@ -239,7 +249,7 @@ export async function getWorksheetById(
   id: string
 ): Promise<LibraryWorksheet | null> {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('library_worksheets')
       .select('*')
       .eq('id', id)
@@ -260,7 +270,7 @@ export async function getWorksheetById(
 
 export async function publishWorksheet(id: string): Promise<LibraryWorksheet> {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('library_worksheets')
       .update({
         status: 'published',
@@ -283,7 +293,7 @@ export async function publishWorksheet(id: string): Promise<LibraryWorksheet> {
 
 export async function unpublishWorksheet(id: string): Promise<LibraryWorksheet> {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('library_worksheets')
       .update({
         status: 'draft',
@@ -306,13 +316,13 @@ export async function unpublishWorksheet(id: string): Promise<LibraryWorksheet> 
 export async function deleteWorksheet(id: string): Promise<void> {
   try {
     // First delete associated downloads
-    await supabase
+    await supabaseAdmin
       .from('library_downloads')
       .delete()
       .eq('worksheet_id', id)
 
     // Then delete the worksheet
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('library_worksheets')
       .delete()
       .eq('id', id)
@@ -332,7 +342,7 @@ export async function updateWorksheetMetadata(
   updates: Partial<CreateLibraryWorksheetInput>
 ): Promise<LibraryWorksheet> {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('library_worksheets')
       .update(updates)
       .eq('id', id)

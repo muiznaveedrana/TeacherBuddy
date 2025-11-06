@@ -44,16 +44,31 @@ export async function generateWorksheetThumbnail(
       launchOptions.executablePath = await chromium.executablePath()
       launchOptions.args = chromium.args
     } else {
-      // Development: Use Playwright's Chromium or system Chrome
-      try {
-        // Try to use Playwright's Chromium
-        const { chromium: pwChromium } = require('playwright-core')
-        const executablePath = pwChromium.executablePath()
-        launchOptions.executablePath = executablePath
-      } catch {
+      // Development: Use Puppeteer's installed Chromium
+      const path = require('path')
+      const fs = require('fs')
+      const glob = require('glob')
+
+      // Find Chromium executable dynamically (version-agnostic)
+      const chromiumDir = path.join(process.cwd(), 'chromium')
+
+      if (fs.existsSync(chromiumDir)) {
+        // Find chrome.exe recursively in chromium directory
+        const chromiumPaths = glob.sync('**/chrome.exe', {
+          cwd: chromiumDir,
+          absolute: true,
+        })
+
+        if (chromiumPaths.length > 0) {
+          const chromiumPath = chromiumPaths[0]
+          console.log('📍 Using Puppeteer Chromium:', chromiumPath)
+          launchOptions.executablePath = chromiumPath
+        } else {
+          console.log('⚠️ Chromium directory exists but chrome.exe not found')
+        }
+      } else {
         // Fallback: Let Puppeteer find Chrome/Chromium automatically
-        // (will work if Chrome is installed on the system)
-        console.log('⚠️ Using system Chrome (Playwright not available)')
+        console.log('⚠️ Using system Chrome (Puppeteer Chromium not found)')
       }
     }
 
