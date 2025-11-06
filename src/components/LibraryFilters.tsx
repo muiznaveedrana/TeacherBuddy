@@ -52,7 +52,7 @@ export function LibraryFilters() {
   const updateFilter = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams)
 
-    if (value) {
+    if (value && value !== 'all') {
       params.set(key, value)
     } else {
       params.delete(key)
@@ -89,7 +89,7 @@ export function LibraryFilters() {
             <SelectValue placeholder="All Years" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Years</SelectItem>
+            <SelectItem value="all">All Years</SelectItem>
             {YEAR_GROUPS.map((year) => (
               <SelectItem key={year} value={year}>
                 {year}
@@ -109,7 +109,7 @@ export function LibraryFilters() {
             <SelectValue placeholder="All Topics" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Topics</SelectItem>
+            <SelectItem value="all">All Topics</SelectItem>
             {TOPICS.map((topic) => (
               <SelectItem key={topic} value={topic}>
                 {topic}
@@ -129,7 +129,7 @@ export function LibraryFilters() {
             <SelectValue placeholder="All Subtopics" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Subtopics</SelectItem>
+            <SelectItem value="all">All Subtopics</SelectItem>
             {SUBTOPICS.map((subtopic) => (
               <SelectItem key={subtopic} value={subtopic}>
                 {subtopic}
@@ -149,7 +149,7 @@ export function LibraryFilters() {
             <SelectValue placeholder="All Themes" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Themes</SelectItem>
+            <SelectItem value="all">All Themes</SelectItem>
             {VISUAL_THEMES.map((theme) => (
               <SelectItem key={theme} value={theme}>
                 {theme.charAt(0).toUpperCase() + theme.slice(1)}
@@ -169,7 +169,7 @@ export function LibraryFilters() {
             <SelectValue placeholder="All Activities" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Activities</SelectItem>
+            <SelectItem value="all">All Activities</SelectItem>
             {ACTIVITY_TYPES.map((activity) => (
               <SelectItem key={activity} value={activity}>
                 {activity.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
@@ -189,7 +189,7 @@ export function LibraryFilters() {
             <SelectValue placeholder="All Seasons" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Seasons</SelectItem>
+            <SelectItem value="all">All Seasons</SelectItem>
             {SEASONAL_THEMES.map((season) => (
               <SelectItem key={season} value={season}>
                 {season.charAt(0).toUpperCase() + season.slice(1)}

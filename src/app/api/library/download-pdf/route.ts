@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getWorksheetBySlug, recordDownload } from '@/lib/services/libraryService'
-import puppeteer from 'puppeteer-core'
-import chromium from '@sparticuz/chromium'
 import crypto from 'crypto'
+
+// Dynamic import based on environment
+const isDev = process.env.NODE_ENV === 'development'
 
 export async function POST(request: NextRequest) {
   let browser = null
@@ -28,11 +29,21 @@ export async function POST(request: NextRequest) {
 
     console.log('📄 Generating PDF for:', worksheet.title)
 
-    browser = await puppeteer.launch({
-      executablePath: await chromium.executablePath(),
-      args: chromium.args,
-      headless: true,
-    })
+    // Use bundled Chromium in development, serverless Chromium in production
+    if (isDev) {
+      const puppeteer = (await import('puppeteer')).default
+      browser = await puppeteer.launch({
+        headless: true,
+      })
+    } else {
+      const puppeteerCore = (await import('puppeteer-core')).default
+      const chromium = (await import('@sparticuz/chromium')).default
+      browser = await puppeteerCore.launch({
+        executablePath: await chromium.executablePath(),
+        args: chromium.args,
+        headless: true,
+      })
+    }
 
     const page = await browser.newPage()
 

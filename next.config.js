@@ -9,6 +9,22 @@ const nextConfig = {
     ]
   },
 
+  // Image domains for worksheet library thumbnails
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ik.imagekit.io',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+        pathname: '/**',
+      },
+    ],
+  },
+
   // Environment variables configuration
   env: {
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
