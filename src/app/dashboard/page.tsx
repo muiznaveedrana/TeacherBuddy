@@ -1254,7 +1254,7 @@ export default function DashboardPage() {
           onClose={() => setShowSaveModal(false)}
           worksheetHtml={generatedWorksheet.html}
           metadata={{
-            title: generatedWorksheet.title,
+            title: `${yearGroup} - ${topic.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}`,
             year_group: yearGroup,
             topic,
             subtopic,

@@ -28,15 +28,36 @@ export async function generateWorksheetThumbnail(
   try {
     console.log(`📸 Generating thumbnail for: ${slug}`)
 
-    browser = await puppeteer.launch({
-      executablePath: await chromium.executablePath(),
-      args: chromium.args,
+    // Use local Chromium in development, Sparticuz in production
+    const isProduction = process.env.NODE_ENV === 'production'
+
+    const launchOptions: any = {
       headless: true,
       defaultViewport: {
         width: finalConfig.width,
         height: finalConfig.height,
       },
-    })
+    }
+
+    if (isProduction) {
+      // Production: Use Sparticuz Chromium for AWS Lambda
+      launchOptions.executablePath = await chromium.executablePath()
+      launchOptions.args = chromium.args
+    } else {
+      // Development: Use Playwright's Chromium or system Chrome
+      try {
+        // Try to use Playwright's Chromium
+        const { chromium: pwChromium } = require('playwright-core')
+        const executablePath = pwChromium.executablePath()
+        launchOptions.executablePath = executablePath
+      } catch {
+        // Fallback: Let Puppeteer find Chrome/Chromium automatically
+        // (will work if Chrome is installed on the system)
+        console.log('⚠️ Using system Chrome (Playwright not available)')
+      }
+    }
+
+    browser = await puppeteer.launch(launchOptions)
 
     const page = await browser.newPage()
 
