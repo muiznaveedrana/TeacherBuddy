@@ -192,7 +192,7 @@ export async function getAllWorksheetsForAdmin(
   filters: Partial<LibraryFilters> = {}
 ): Promise<LibraryBrowseResponse> {
   try {
-    let query = supabase
+    let query = supabaseAdmin
       .from('library_worksheets')
       .select('*', { count: 'exact' })
 
