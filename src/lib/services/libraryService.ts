@@ -174,6 +174,186 @@ export async function recordDownload(
   }
 }
 
+// ============================================
+// ADMIN FUNCTIONS
+// ============================================
+
+export async function getAllWorksheetsForAdmin(
+  filters: Partial<LibraryFilters> = {}
+): Promise<LibraryBrowseResponse> {
+  try {
+    let query = supabase
+      .from('library_worksheets')
+      .select('*', { count: 'exact' })
+
+    // No status filter - show ALL worksheets (published & drafts)
+
+    if (filters.year_group) {
+      query = query.eq('year_group', filters.year_group)
+    }
+
+    if (filters.topic) {
+      query = query.eq('topic', filters.topic)
+    }
+
+    if (filters.search) {
+      query = query.textSearch('title', filters.search)
+    }
+
+    // Default sort: newest first
+    const sortBy = filters.sort_by || 'newest'
+    switch (sortBy) {
+      case 'newest':
+        query = query.order('created_at', { ascending: false })
+        break
+      case 'popular':
+        query = query.order('view_count', { ascending: false })
+        break
+      case 'downloads':
+        query = query.order('download_count', { ascending: false })
+        break
+    }
+
+    const limit = filters.limit || 50
+    const offset = filters.offset || 0
+    query = query.range(offset, offset + limit - 1)
+
+    const { data, error, count } = await query
+
+    if (error) throw error
+
+    return {
+      worksheets: (data as LibraryWorksheet[]) || [],
+      total_count: count || 0,
+      has_more: (count || 0) > offset + limit,
+      filters_applied: filters,
+    }
+
+  } catch (error) {
+    console.error('❌ Failed to fetch admin worksheets:', error)
+    throw error
+  }
+}
+
+export async function getWorksheetById(
+  id: string
+): Promise<LibraryWorksheet | null> {
+  try {
+    const { data, error } = await supabase
+      .from('library_worksheets')
+      .select('*')
+      .eq('id', id)
+      .single()
+
+    if (error) {
+      if (error.code === 'PGRST116') return null
+      throw error
+    }
+
+    return data as LibraryWorksheet
+
+  } catch (error) {
+    console.error('❌ Failed to fetch worksheet by ID:', error)
+    throw error
+  }
+}
+
+export async function publishWorksheet(id: string): Promise<LibraryWorksheet> {
+  try {
+    const { data, error } = await supabase
+      .from('library_worksheets')
+      .update({
+        status: 'published',
+        published_at: new Date().toISOString(),
+      })
+      .eq('id', id)
+      .select()
+      .single()
+
+    if (error) throw error
+
+    console.log('✅ Worksheet published:', id)
+    return data as LibraryWorksheet
+
+  } catch (error) {
+    console.error('❌ Failed to publish worksheet:', error)
+    throw error
+  }
+}
+
+export async function unpublishWorksheet(id: string): Promise<LibraryWorksheet> {
+  try {
+    const { data, error } = await supabase
+      .from('library_worksheets')
+      .update({
+        status: 'draft',
+      })
+      .eq('id', id)
+      .select()
+      .single()
+
+    if (error) throw error
+
+    console.log('✅ Worksheet unpublished:', id)
+    return data as LibraryWorksheet
+
+  } catch (error) {
+    console.error('❌ Failed to unpublish worksheet:', error)
+    throw error
+  }
+}
+
+export async function deleteWorksheet(id: string): Promise<void> {
+  try {
+    // First delete associated downloads
+    await supabase
+      .from('library_downloads')
+      .delete()
+      .eq('worksheet_id', id)
+
+    // Then delete the worksheet
+    const { error } = await supabase
+      .from('library_worksheets')
+      .delete()
+      .eq('id', id)
+
+    if (error) throw error
+
+    console.log('✅ Worksheet deleted:', id)
+
+  } catch (error) {
+    console.error('❌ Failed to delete worksheet:', error)
+    throw error
+  }
+}
+
+export async function updateWorksheetMetadata(
+  id: string,
+  updates: Partial<CreateLibraryWorksheetInput>
+): Promise<LibraryWorksheet> {
+  try {
+    const { data, error } = await supabase
+      .from('library_worksheets')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single()
+
+    if (error) throw error
+
+    console.log('✅ Worksheet metadata updated:', id)
+    return data as LibraryWorksheet
+
+  } catch (error) {
+    console.error('❌ Failed to update worksheet metadata:', error)
+    throw error
+  }
+}
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
 function generateSlug(
   title: string,
   visualTheme?: string,

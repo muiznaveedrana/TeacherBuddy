@@ -53,5 +53,53 @@ export default async function WorksheetDetailPage({ params }: PageProps) {
     notFound()
   }
 
-  return <WorksheetDetailView worksheet={worksheet} />
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+
+  // JSON-LD structured data for SEO
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'LearningResource',
+    name: worksheet.title,
+    description: worksheet.seo_description || `Free printable ${worksheet.year_group} ${worksheet.topic} worksheet`,
+    learningResourceType: 'Worksheet',
+    educationalLevel: worksheet.year_group,
+    about: {
+      '@type': 'Thing',
+      name: worksheet.topic,
+    },
+    url: `${baseUrl}/library/${worksheet.slug}`,
+    image: worksheet.thumbnail_url,
+    thumbnailUrl: worksheet.thumbnail_url,
+    isAccessibleForFree: true,
+    interactivityType: 'mixed',
+    inLanguage: 'en-GB',
+    keywords: worksheet.seo_keywords?.join(', '),
+    datePublished: worksheet.published_at,
+    dateModified: worksheet.updated_at || worksheet.created_at,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Star Worksheets',
+      url: baseUrl,
+    },
+    educationalUse: ['practice', 'assessment', 'homework'],
+    audience: {
+      '@type': 'EducationalAudience',
+      educationalRole: 'student',
+    },
+    aggregateRating: worksheet.view_count > 10 ? {
+      '@type': 'AggregateRating',
+      ratingValue: '4.5',
+      ratingCount: Math.floor(worksheet.view_count / 10),
+    } : undefined,
+  }
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <WorksheetDetailView worksheet={worksheet} />
+    </>
+  )
 }

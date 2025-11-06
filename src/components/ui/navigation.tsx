@@ -29,6 +29,7 @@ import {
   CreditCard,
   LogOut,
   X,
+  Library,
 } from 'lucide-react'
 
 type SubscriptionTier = 'Free' | 'Pro' | 'Pro Plus'
@@ -198,6 +199,10 @@ export function Navigation({
                     <Users className="mr-2 h-4 w-4" />
                     Name Lists
                   </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleNavigation('/admin/library')}>
+                    <Library className="mr-2 h-4 w-4" />
+                    Library Admin
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => handleNavigation('/subscription')}>
                     <CreditCard className="mr-2 h-4 w-4" />
                     Subscription Management
@@ -284,8 +289,8 @@ export function Navigation({
                     <Settings className="mr-2 h-4 w-4" />
                     Profile Settings
                   </Button>
-                  <Button 
-                    variant="ghost" 
+                  <Button
+                    variant="ghost"
                     className="w-full justify-start"
                     onClick={() => {
                       handleNavigation('/name-lists')
@@ -295,8 +300,19 @@ export function Navigation({
                     <Users className="mr-2 h-4 w-4" />
                     Name Lists
                   </Button>
-                  <Button 
-                    variant="ghost" 
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    onClick={() => {
+                      handleNavigation('/admin/library')
+                      setIsMobileMenuOpen(false)
+                    }}
+                  >
+                    <Library className="mr-2 h-4 w-4" />
+                    Library Admin
+                  </Button>
+                  <Button
+                    variant="ghost"
                     className="w-full justify-start"
                     onClick={() => {
                       handleNavigation('/subscription')
