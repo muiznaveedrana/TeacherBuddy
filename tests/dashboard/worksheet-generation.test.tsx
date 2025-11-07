@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
-import DashboardPage from '@/app/dashboard/page'
+import DashboardPage from '@/app/create/page'
 
 // Mock the WelcomeTour component to prevent it from interfering with tests
 vi.mock('@/components/WelcomeTour', () => ({

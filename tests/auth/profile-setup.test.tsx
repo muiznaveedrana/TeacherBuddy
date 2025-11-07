@@ -87,7 +87,7 @@ describe('ProfileSetupPage', () => {
     
     // Should redirect to dashboard
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith('/dashboard')
+      expect(mockPush).toHaveBeenCalledWith('/create')
     }, { timeout: 4000 })
   })
 
@@ -97,7 +97,7 @@ describe('ProfileSetupPage', () => {
     const skipButton = screen.getByRole('button', { name: /skip for now/i })
     fireEvent.click(skipButton)
     
-    expect(mockPush).toHaveBeenCalledWith('/dashboard')
+    expect(mockPush).toHaveBeenCalledWith('/create')
   })
 
   it('displays benefits information', () => {

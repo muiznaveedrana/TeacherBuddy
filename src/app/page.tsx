@@ -26,15 +26,25 @@ export default function LandingPage() {
                   <a href="#testimonials" className="text-gray-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">
                     Reviews
                   </a>
+                  <Link href="/library" className="text-gray-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">
+                    Library
+                  </Link>
                 </div>
               </div>
             </div>
             <div className="hidden md:block">
-              <Link href="/dashboard">
-                <Button size="sm" className="bg-blue-700 hover:bg-blue-800">
-                  Start Creating
-                </Button>
-              </Link>
+              <div className="flex items-center gap-3">
+                <Link href="/library">
+                  <Button size="sm" variant="outline" className="border-blue-700 text-blue-700 hover:bg-blue-50">
+                    Browse Library
+                  </Button>
+                </Link>
+                <Link href="/create">
+                  <Button size="sm" className="bg-blue-700 hover:bg-blue-800">
+                    Start Creating
+                  </Button>
+                </Link>
+              </div>
             </div>
             <div className="md:hidden">
               <button className="text-gray-600 hover:text-gray-900">
@@ -56,11 +66,17 @@ export default function LandingPage() {
             AI-powered worksheet generator designed for UK primary school teachers. 
             Create curriculum-aligned worksheets with personalized student names in seconds.
           </p>
-          <div className="flex justify-center mt-8 md:mt-10 px-4">
-            <Link href="/dashboard">
-              <Button size="touch" className="w-full max-w-sm md:w-auto text-lg px-8 py-6 bg-blue-700 hover:bg-blue-800 touch-manipulation">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8 md:mt-10 px-4">
+            <Link href="/create">
+              <Button size="touch" className="w-full min-w-[280px] md:w-auto text-lg px-8 py-6 bg-blue-700 hover:bg-blue-800 touch-manipulation">
                 Start Creating Now
                 <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </Link>
+            <Link href="/library">
+              <Button size="touch" variant="outline" className="w-full min-w-[280px] md:w-auto text-lg px-8 py-6 border-2 border-blue-700 text-blue-700 hover:bg-blue-50 touch-manipulation">
+                Browse Free Worksheets
+                <BookOpen className="ml-2 w-5 h-5" />
               </Button>
             </Link>
           </div>
@@ -329,7 +345,7 @@ export default function LandingPage() {
                   <span className="w-5 h-5">•</span>
                   <span>Includes advertisements</span>
                 </div>
-                <Link href="/dashboard">
+                <Link href="/create">
                   <Button className="w-full mt-8" variant="outline">Get Started Free</Button>
                 </Link>
               </CardContent>
@@ -371,7 +387,7 @@ export default function LandingPage() {
                   <Check className="w-5 h-5 text-green-500" />
                   <span>Priority support</span>
                 </div>
-                <Link href="/dashboard">
+                <Link href="/create">
                   <Button className="w-full mt-8 bg-blue-700 hover:bg-blue-800">Start Pro Trial</Button>
                 </Link>
               </CardContent>
@@ -412,7 +428,7 @@ export default function LandingPage() {
                   <Check className="w-5 h-5 text-green-500" />
                   <span>Bulk worksheet generation</span>
                 </div>
-                <Link href="/dashboard">
+                <Link href="/create">
                   <Button className="w-full mt-8" variant="outline">Upgrade to Pro Plus</Button>
                 </Link>
               </CardContent>
@@ -424,37 +440,30 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="py-12 bg-gray-900 text-white">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-3">
             <div>
               <h3 className="text-lg font-semibold mb-4">Product</h3>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-300 hover:text-white">Features</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Pricing</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Curriculum Topics</a></li>
+                <li><Link href="/#features" className="text-gray-300 hover:text-white">Features</Link></li>
+                <li><Link href="/library" className="text-gray-300 hover:text-white">Browse Library</Link></li>
+                <li><Link href="/create" className="text-gray-300 hover:text-white">Create Worksheets</Link></li>
+                <li><Link href="/name-lists" className="text-gray-300 hover:text-white">Name Lists</Link></li>
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold mb-4">Support</h3>
+              <h3 className="text-lg font-semibold mb-4">Resources</h3>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-300 hover:text-white">Help Centre</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Contact Us</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Training Videos</a></li>
+                <li><Link href="/#how-it-works" className="text-gray-300 hover:text-white">How it Works</Link></li>
+                <li><Link href="/#testimonials" className="text-gray-300 hover:text-white">Testimonials</Link></li>
+                <li><Link href="/admin/library" className="text-gray-300 hover:text-white">Admin Dashboard</Link></li>
               </ul>
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4">Company</h3>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-300 hover:text-white">About</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Blog</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Careers</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Legal</h3>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-gray-300 hover:text-white">Privacy Policy</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Terms of Service</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Cookie Policy</a></li>
+                <li><Link href="/" className="text-gray-300 hover:text-white">Home</Link></li>
+                <li><a href="mailto:support@worksheetgenerator.ai" className="text-gray-300 hover:text-white">Contact Us</a></li>
+                <li><span className="text-gray-500 cursor-not-allowed">Privacy Policy (Coming Soon)</span></li>
               </ul>
             </div>
           </div>

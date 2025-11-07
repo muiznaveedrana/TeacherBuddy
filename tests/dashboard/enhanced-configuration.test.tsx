@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
-import DashboardPage from '@/app/dashboard/page'
+import DashboardPage from '@/app/create/page'
 import { getSmartDefaults, getContextualSuggestions } from '@/lib/config/enhanced-options'
 
 // Mock the WelcomeTour component

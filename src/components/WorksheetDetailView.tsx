@@ -1,8 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
+import { Home, PlusCircle, ArrowLeft } from 'lucide-react'
 import type { LibraryWorksheet } from '@/lib/types/library'
 
 interface WorksheetDetailViewProps {
@@ -11,6 +14,55 @@ interface WorksheetDetailViewProps {
 
 export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false)
+  const router = useRouter()
+
+  const handleGenerateSimilar = () => {
+    // Store worksheet preview in sessionStorage for smooth restoration
+    const worksheetPreview = {
+      html: worksheet.html_content, // Fixed: Using correct field name 'html_content' instead of 'worksheet_html'
+      metadata: {
+        title: worksheet.title,
+        topic: worksheet.topic,
+        subtopic: worksheet.subtopic,
+        difficulty: worksheet.difficulty || 'easy',
+        questionCount: worksheet.question_count || 5,
+        curriculum: 'UK National Curriculum',
+        generatedAt: new Date().toISOString(),
+      },
+    }
+
+    sessionStorage.setItem('resumeWorksheet', JSON.stringify(worksheetPreview))
+    console.log('📋 Stored worksheet preview in sessionStorage:', {
+      hasHtml: !!worksheetPreview.html,
+      htmlLength: worksheetPreview.html?.length || 0,
+      metadata: worksheetPreview.metadata
+    })
+
+    // Build query params from worksheet metadata
+    const params = new URLSearchParams({
+      yearGroup: worksheet.year_group,
+      topic: worksheet.topic,
+      subtopic: worksheet.subtopic,
+      resumePreview: 'true', // Flag to indicate we should restore preview
+    })
+
+    // Add optional fields if they exist
+    if (worksheet.layout_type) {
+      params.append('layout', worksheet.layout_type)
+    }
+    // FRESHNESS: Don't pass visualTheme to allow variety on first regeneration
+    // This prevents the "stale" experience of seeing the same theme again
+    // The LLM will automatically vary themes for a fresh worksheet
+    if (worksheet.difficulty) {
+      params.append('difficulty', worksheet.difficulty)
+    }
+    if (worksheet.question_count) {
+      params.append('questionCount', worksheet.question_count.toString())
+    }
+
+    // Navigate to dashboard with pre-filled config and preview
+    router.push(`/create?${params.toString()}`)
+  }
 
   const handleDownloadPDF = async () => {
     setIsGeneratingPDF(true)
@@ -51,6 +103,38 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Navigation Header */}
+      <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center gap-8">
+              <Link href="/" className="flex items-center">
+                <h1 className="text-xl font-bold text-blue-700">WorksheetGenerator.AI</h1>
+              </Link>
+              <div className="hidden md:flex items-center gap-6">
+                <Link href="/" className="text-gray-600 hover:text-blue-700 transition-colors">
+                  <Home className="w-4 h-4 inline mr-1" />
+                  Home
+                </Link>
+                <Link href="/library" className="text-gray-600 hover:text-blue-700 transition-colors">
+                  <ArrowLeft className="w-4 h-4 inline mr-1" />
+                  Back to Library
+                </Link>
+                <Link href="/create" className="text-gray-600 hover:text-blue-700 transition-colors">
+                  <PlusCircle className="w-4 h-4 inline mr-1" />
+                  Create Worksheet
+                </Link>
+              </div>
+            </div>
+            <Link href="/create">
+              <Button size="sm" className="bg-blue-700 hover:bg-blue-800">
+                Start Creating
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </nav>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="bg-white rounded-lg border p-6">
@@ -140,7 +224,12 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
                 )}
               </Button>
 
-              <Button variant="outline" className="w-full" size="lg">
+              <Button
+                variant="outline"
+                className="w-full"
+                size="lg"
+                onClick={handleGenerateSimilar}
+              >
                 🔄 Generate Similar Worksheet
               </Button>
             </div>

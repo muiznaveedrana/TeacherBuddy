@@ -301,7 +301,7 @@ export default function DevelopmentGuidelinesPage() {
                   <div>&nbsp;&nbsp;/app/                    # Next.js App Router</div>
                   <div>&nbsp;&nbsp;&nbsp;&nbsp;layout.tsx</div>
                   <div>&nbsp;&nbsp;&nbsp;&nbsp;page.tsx</div>
-                  <div>&nbsp;&nbsp;&nbsp;&nbsp;/dashboard/</div>
+                  <div>&nbsp;&nbsp;&nbsp;&nbsp;/create/</div>
                   <div>&nbsp;&nbsp;&nbsp;&nbsp;/subscription/</div>
                   <div>&nbsp;&nbsp;&nbsp;&nbsp;/api/</div>
                   <div>&nbsp;&nbsp;/components/             # Reusable components</div>

@@ -86,12 +86,12 @@ export default function ProfileSetupPage() {
     
     // After showing welcome, redirect to dashboard
     setTimeout(() => {
-      router.push('/dashboard')
+      router.push('/create')
     }, 3000)
   }
 
   const handleSkip = () => {
-    router.push('/dashboard')
+    router.push('/create')
   }
 
   if (showWelcome) {

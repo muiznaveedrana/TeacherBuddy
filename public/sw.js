@@ -5,7 +5,7 @@ const DYNAMIC_CACHE_NAME = 'dynamic-v1.0.0'
 // Files to cache on install
 const STATIC_FILES = [
   '/',
-  '/dashboard',
+  '/create',
   '/manifest.json',
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png',
@@ -243,7 +243,7 @@ self.addEventListener('push', event => {
 self.addEventListener('notificationclick', event => {
   event.notification.close()
   
-  const urlToOpen = event.notification.data?.url || '/dashboard'
+  const urlToOpen = event.notification.data?.url || '/create'
   
   event.waitUntil(
     clients.matchAll({ type: 'window' }).then(clients => {

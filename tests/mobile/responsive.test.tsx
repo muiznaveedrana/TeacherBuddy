@@ -3,7 +3,7 @@
  */
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
-import DashboardPage from '@/app/dashboard/page'
+import DashboardPage from '@/app/create/page'
 import LandingPage from '@/app/page'
 
 // Mock window.matchMedia for responsive tests

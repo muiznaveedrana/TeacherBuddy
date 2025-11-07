@@ -22,7 +22,7 @@ test('Generate worksheet with standard layout - Year 1 Counting', async ({ page 
   });
 
   // Navigate to dashboard
-  await page.goto('http://localhost:3000/dashboard');
+  await page.goto('http://localhost:3000/create');
   await page.waitForLoadState('networkidle');
   console.log('✓ Step 1: Dashboard loaded');
 

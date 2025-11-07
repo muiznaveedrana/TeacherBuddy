@@ -18,7 +18,7 @@ describe('Progressive Web App Features', () => {
         json: async () => ({
           name: "WorksheetGenerator.AI - Transform Worksheet Creation",
           short_name: "WorksheetGen.AI",
-          start_url: "/dashboard",
+          start_url: "/create",
           display: "standalone",
           theme_color: "#1d4ed8",
           background_color: "#ffffff",
@@ -31,7 +31,7 @@ describe('Progressive Web App Features', () => {
 
       expect(manifest.name).toBe("WorksheetGenerator.AI - Transform Worksheet Creation")
       expect(manifest.short_name).toBe("WorksheetGen.AI")
-      expect(manifest.start_url).toBe("/dashboard")
+      expect(manifest.start_url).toBe("/create")
       expect(manifest.display).toBe("standalone")
       expect(manifest.theme_color).toBe("#1d4ed8")
       expect(manifest.icons).toBeInstanceOf(Array)
@@ -119,7 +119,7 @@ describe('Progressive Web App Features', () => {
         delete: jest.fn().mockResolvedValue(true)
       }
 
-      const cachedResponse = await caches.match('/dashboard')
+      const cachedResponse = await caches.match('/create')
       expect(cachedResponse).toBeInstanceOf(Response)
     })
   })
@@ -128,7 +128,7 @@ describe('Progressive Web App Features', () => {
     test('critical resources are cached', () => {
       const criticalResources = [
         '/',
-        '/dashboard',
+        '/create',
         '/manifest.json',
         '/icons/icon-192x192.png',
         '/icons/icon-512x512.png'
@@ -144,7 +144,7 @@ describe('Progressive Web App Features', () => {
       // Mock service worker cache
       const mockCache = new Map()
       mockCache.set('/', new Response('<html>App Shell</html>'))
-      mockCache.set('/dashboard', new Response('<html>Dashboard</html>'))
+      mockCache.set('/create', new Response('<html>Dashboard</html>'))
 
       global.caches = {
         match: jest.fn().mockImplementation((request) => {
@@ -161,7 +161,7 @@ describe('Progressive Web App Features', () => {
       }
 
       // Simulate offline request
-      const cachedDashboard = await caches.match('/dashboard')
+      const cachedDashboard = await caches.match('/create')
       expect(cachedDashboard).toBeInstanceOf(Response)
     })
   })
@@ -274,7 +274,7 @@ describe('Progressive Web App Features', () => {
           shortcuts: [
             {
               name: "Create Worksheet",
-              url: "/dashboard?action=generate",
+              url: "/create?action=generate",
               icons: [{ src: "/icons/shortcut-create.png", sizes: "192x192" }]
             },
             {

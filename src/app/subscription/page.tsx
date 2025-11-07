@@ -79,7 +79,7 @@ export default function SubscriptionPage() {
         <div className="max-w-7xl mx-auto">
           <Breadcrumb 
             items={[
-              { label: 'Dashboard', href: '/dashboard' },
+              { label: 'Dashboard', href: '/create' },
               { label: 'Subscription Management', current: true }
             ]}
           />

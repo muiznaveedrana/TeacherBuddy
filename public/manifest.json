@@ -2,7 +2,7 @@
   "name": "WorksheetGenerator.AI - Transform Worksheet Creation",
   "short_name": "WorksheetGen.AI",
   "description": "AI-powered worksheet generator for UK primary school teachers. Create curriculum-aligned worksheets in seconds.",
-  "start_url": "/dashboard",
+  "start_url": "/create",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#1d4ed8",
@@ -15,7 +15,7 @@
       "name": "Create Worksheet",
       "short_name": "Create",
       "description": "Generate a new worksheet",
-      "url": "/dashboard?action=generate",
+      "url": "/create?action=generate",
       "icons": [
         {
           "src": "/icons/shortcut-create.png",

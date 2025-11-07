@@ -1,6 +1,8 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
+import { useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Navigation } from '@/components/ui/navigation'
@@ -10,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Progress } from '@/components/ui/progress'
-import { BookOpen, Download, Info, Loader2, AlertCircle, Edit3, Eye } from 'lucide-react'
+import { BookOpen, Download, Info, Loader2, AlertCircle, Edit3, Eye, Home, Library, PlusCircle } from 'lucide-react'
 import WelcomeTour from '@/components/WelcomeTour'
 import { PullToRefresh } from '@/components/mobile/PullToRefresh'
 import { YEAR_GROUPS } from '@/lib/data/curriculum'
@@ -19,6 +21,7 @@ import type { LayoutType, VisualTheme } from '@/lib/types/worksheet'
 import { EnhancedConfigurationPanel } from '@/components/worksheet/EnhancedConfigurationPanel'
 import { WorksheetEditor } from '@/components/worksheet/WorksheetEditor'
 import { SaveToLibraryModal } from '@/components/SaveToLibraryModal'
+import { generateLibraryMetadata } from '@/lib/helpers/metadataGenerator'
 
 const mockNameLists = [
   { value: 'year3-class-a', label: 'Year 3 Class A (25 students)' },
@@ -57,7 +60,15 @@ interface GeneratedWorksheet {
 }
 
 export default function DashboardPage() {
+  const searchParams = useSearchParams()
   const [showTour, setShowTour] = useState(false)
+  const [fromLibrary, setFromLibrary] = useState(false)
+
+  // Ref to preserve subtopic from URL params during subtopics loading
+  const pendingSubtopicRef = useRef<string | null>(null)
+
+  // Ref to track if we've already restored from sessionStorage (prevent double-restoration in React Strict Mode)
+  const hasRestoredRef = useRef(false)
 
   // Configuration state
   const [layout, setLayout] = useState<LayoutType>(DEFAULT_LAYOUT) // Layout selection drives template
@@ -98,13 +109,115 @@ export default function DashboardPage() {
     console.log('🔍 DASHBOARD: Current history:', previousWorksheets)
   }, [previousWorksheets])
 
+  // Pre-fill configuration from query parameters (for "Generate Similar" feature)
+  useEffect(() => {
+    if (searchParams) {
+      const yearGroupParam = searchParams.get('yearGroup')
+      const topicParam = searchParams.get('topic')
+      const subtopicParam = searchParams.get('subtopic')
+      const layoutParam = searchParams.get('layout')
+      const visualThemeParam = searchParams.get('visualTheme')
+      const difficultyParam = searchParams.get('difficulty')
+      const questionCountParam = searchParams.get('questionCount')
+      const resumePreviewParam = searchParams.get('resumePreview')
+
+      // Check if user came from library
+      if (resumePreviewParam === 'true') {
+        setFromLibrary(true)
+      }
+
+      if (yearGroupParam) setYearGroup(yearGroupParam)
+      if (topicParam) setTopic(topicParam)
+      // Store subtopic in ref to preserve it during subtopics loading
+      if (subtopicParam) {
+        pendingSubtopicRef.current = subtopicParam
+        setSubtopic(subtopicParam)
+      }
+      if (layoutParam) setLayout(layoutParam as LayoutType)
+      if (visualThemeParam) setVisualTheme(visualThemeParam as VisualTheme)
+      if (difficultyParam) setDifficulty(difficultyParam as DifficultyLevel)
+      if (questionCountParam) setQuestionCount(parseInt(questionCountParam))
+
+      // Restore worksheet preview from sessionStorage (only once, prevent double-restoration in Strict Mode)
+      if (resumePreviewParam === 'true' && !hasRestoredRef.current) {
+        const storedWorksheet = sessionStorage.getItem('resumeWorksheet')
+        console.log('📋 Attempting to restore worksheet from sessionStorage:', storedWorksheet ? 'Found' : 'Not found')
+
+        if (storedWorksheet) {
+          try {
+            const worksheetData = JSON.parse(storedWorksheet)
+            console.log('📋 Parsed worksheet data:', worksheetData)
+
+            setGeneratedWorksheet({
+              title: worksheetData.metadata.title,
+              html: worksheetData.html,
+              metadata: worksheetData.metadata,
+            })
+            setGenerationState('completed')
+            hasRestoredRef.current = true // Mark as restored
+            console.log('✅ Restored worksheet preview from sessionStorage')
+            console.log('✅ generatedWorksheet set, generationState set to completed')
+
+            // FRESHNESS: For library worksheets, auto-select a random age-appropriate visual theme
+            // This prevents the "stale" experience of regenerating the same theme
+            if (!visualThemeParam && yearGroupParam) {
+              // Age-appropriate theme selection based on year group
+              let variedThemes: VisualTheme[] = []
+
+              if (['Reception', 'Year 1', 'Year 2'].includes(yearGroupParam)) {
+                // Younger students: animals and food
+                variedThemes = ['animals', 'food']
+              } else if (['Year 3', 'Year 4'].includes(yearGroupParam)) {
+                // Middle years: animals, food, and sports
+                variedThemes = ['animals', 'food', 'sports']
+              } else {
+                // Older students: all themes including space
+                variedThemes = ['animals', 'food', 'sports', 'space']
+              }
+
+              const randomTheme = variedThemes[Math.floor(Math.random() * variedThemes.length)]
+              setVisualTheme(randomTheme)
+              console.log(`🎲 Auto-selected random visual theme for ${yearGroupParam}: ${randomTheme}`)
+            }
+
+            // Clear the stored worksheet to prevent re-restoration
+            sessionStorage.removeItem('resumeWorksheet')
+          } catch (error) {
+            console.error('❌ Failed to restore worksheet preview:', error)
+          }
+        } else {
+          console.warn('⚠️ No worksheet found in sessionStorage, but resumePreview=true')
+        }
+      }
+
+      console.log('✅ Pre-filled configuration from query params:', {
+        yearGroupParam,
+        topicParam,
+        subtopicParam,
+        layoutParam,
+        visualThemeParam,
+        difficultyParam,
+        questionCountParam,
+        resumePreviewParam
+      })
+    }
+  }, [searchParams])
+
   const hasConfiguration = layout && yearGroup && topic && subtopic
-  
+
   const canGenerate = hasConfiguration && generationState !== 'generating'
   const showPreview = generationState === 'completed' && generatedWorksheet
   const showAds = generationState === 'idle' // Only show ads when idle, not during generation
   const showError = generationState === 'error'
   const showGenerating = generationState === 'generating' // Show generating state explicitly
+
+  // Debug logging for preview state
+  console.log('🔍 Preview state:', {
+    generationState,
+    hasGeneratedWorksheet: !!generatedWorksheet,
+    showPreview,
+    worksheetHtml: generatedWorksheet?.html ? `${generatedWorksheet.html.length} chars` : 'none'
+  })
   
   // Curriculum hierarchy state
   const isTopicDisabled = !yearGroup || loadingTopics
@@ -597,13 +710,23 @@ export default function DashboardPage() {
     
     const loadSubtopics = async () => {
       setLoadingSubtopics(true)
-      setSubtopic('') // Clear subtopic when topic changes
-      
+      // Only clear subtopic if not restoring from URL params
+      if (!pendingSubtopicRef.current) {
+        setSubtopic('') // Clear subtopic when topic changes
+      }
+
       try {
         const response = await fetch(`/api/curriculum/subtopics?yearGroup=${encodeURIComponent(yearGroup)}&topic=${encodeURIComponent(topic)}`)
         if (response.ok) {
           const data = await response.json()
           setAvailableSubtopics(data.subtopics || [])
+
+          // Restore subtopic from ref if it was set from URL params
+          if (pendingSubtopicRef.current) {
+            setSubtopic(pendingSubtopicRef.current)
+            console.log('✅ Restored subtopic from URL params:', pendingSubtopicRef.current)
+            pendingSubtopicRef.current = null // Clear the ref
+          }
         } else {
           console.error('Failed to load subtopics')
           setAvailableSubtopics([])
@@ -629,33 +752,49 @@ export default function DashboardPage() {
   return (
     <PullToRefresh onRefresh={handleRefresh}>
       <div className="min-h-screen bg-slate-50 flex flex-col">
-      {/* Enhanced Navigation - HIDDEN */}
-      <div className="hidden">
-        <Navigation
-          user={{
-            name: 'Sarah Johnson',
-            email: 'sarah.johnson@school.edu.uk'
-          }}
-          usage={{
-            current: 15,
-            limit: 30,
-            tier: 'Free'
-          }}
-          notifications={2}
-        />
-      </div>
-
-      {/* Breadcrumb Navigation */}
-      <div className="bg-white border-b border-slate-100 px-4 py-2">
-        <div className="max-w-7xl mx-auto">
-          <Breadcrumb 
-            items={[
-              { label: 'Worksheet Generator', current: true }
-            ]}
-            showHome={false}
-          />
+      {/* Navigation Header */}
+      <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center gap-8">
+              <Link href="/" className="flex items-center">
+                <h1 className="text-xl font-bold text-blue-700">WorksheetGenerator.AI</h1>
+              </Link>
+              <div className="hidden md:flex items-center gap-6">
+                <Link href="/" className="text-gray-600 hover:text-blue-700 transition-colors">
+                  <Home className="w-4 h-4 inline mr-1" />
+                  Home
+                </Link>
+                <Link href="/library" className="text-gray-600 hover:text-blue-700 transition-colors">
+                  <Library className="w-4 h-4 inline mr-1" />
+                  Browse Library
+                </Link>
+                <Link href="/create" className="text-blue-700 font-medium">
+                  <PlusCircle className="w-4 h-4 inline mr-1" />
+                  Create Worksheet
+                </Link>
+                {fromLibrary && (
+                  <span className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-full">
+                    From Library
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <Link href="/name-lists">
+                <Button size="sm" variant="outline">
+                  Name Lists
+                </Button>
+              </Link>
+              <Link href="/admin/library">
+                <Button size="sm" variant="outline">
+                  Admin
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
+      </nav>
 
       {/* Main Content - Mobile-First Responsive Layout */}
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-4 md:py-6">
@@ -1253,16 +1392,15 @@ export default function DashboardPage() {
           isOpen={showSaveModal}
           onClose={() => setShowSaveModal(false)}
           worksheetHtml={generatedWorksheet.html}
-          metadata={{
-            title: `${yearGroup} - ${topic.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}`,
-            year_group: yearGroup,
+          metadata={generateLibraryMetadata({
+            yearGroup,
             topic,
             subtopic,
-            layout_type: layout,
-            visual_theme: visualTheme,
+            layout,
+            visualTheme,
             difficulty,
-            question_count: questionCount,
-          }}
+            questionCount,
+          })}
           onSuccess={(worksheet) => {
             console.log('✅ Worksheet saved to library:', worksheet)
           }}

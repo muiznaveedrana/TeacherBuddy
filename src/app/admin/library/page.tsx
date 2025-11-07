@@ -110,7 +110,7 @@ export default function AdminLibraryPage() {
               </p>
             </div>
             <Link
-              href="/dashboard"
+              href="/create"
               className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
             >
               Back to Dashboard

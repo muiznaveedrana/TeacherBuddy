@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 test.describe('Save to Library Flow', () => {
   test('should save worksheet to library (full workflow)', async ({ page }) => {
     // Step 1: Navigate to dashboard
-    await page.goto('http://localhost:3000/dashboard', { waitUntil: 'networkidle' })
+    await page.goto('http://localhost:3000/create', { waitUntil: 'networkidle' })
 
     // Check dashboard loaded (look for worksheet generator form)
     await expect(page.locator('text=Generate Worksheet').or(page.locator('text=Year Group')).first()).toBeVisible({ timeout: 10000 })
@@ -133,7 +133,7 @@ test.describe('Save to Library Flow', () => {
 
   test('should validate required fields in save modal', async ({ page }) => {
     // Navigate and generate worksheet first
-    await page.goto('http://localhost:3000/dashboard')
+    await page.goto('http://localhost:3000/create')
 
     // Quick generation (skip full workflow, just open modal)
     // This test checks form validation, not full save

@@ -36,7 +36,7 @@ export function Breadcrumb({ items, showHome = true, className = '', onNavigate 
             variant="ghost"
             size="sm"
             className="h-8 px-2 text-slate-600 hover:text-slate-900"
-            onClick={() => handleNavigation('/dashboard')}
+            onClick={() => handleNavigation('/create')}
           >
             <Home className="h-4 w-4" />
           </Button>

@@ -39,7 +39,7 @@ test.describe('New User Flow - Simplified', () => {
     
     // Step 6: Wait for redirect and go to dashboard
     await page.waitForTimeout(3000) // Wait for mock auth
-    await page.goto('/dashboard')
+    await page.goto('/create')
     await page.waitForLoadState('networkidle')
     
     // Step 7: Check key dashboard elements
@@ -65,7 +65,7 @@ test.describe('New User Flow - Simplified', () => {
     await page.waitForLoadState('networkidle')
     
     // Mobile dashboard
-    await page.goto('/dashboard')
+    await page.goto('/create')
     await page.waitForLoadState('networkidle')
     
     // Verify essential elements work on mobile
