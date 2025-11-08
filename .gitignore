@@ -13,6 +13,11 @@ playwright-report/
 coverage/
 *.log
 
+# Playwright browser binaries
+chromium/
+firefox/
+webkit/
+
 # Build artifacts
 dist/
 build/
