@@ -11,11 +11,24 @@ import { getTopicDetails } from '@/lib/data/curriculum'
 import { PromptService, IterativeImprovementMetadata, PromptVariation } from '@/lib/services/promptService'
 import { APIError, ValidationError as AppValidationError, GenerationError, standardizeError, logError } from '@/lib/utils/errorHandling'
 
-if (!process.env.GEMINI_API_KEY) {
-  throw new Error('GEMINI_API_KEY environment variable is not configured')
+// Lazy initialization to avoid build-time errors
+let _genAI: GoogleGenerativeAI | null = null
+
+function getGenAI() {
+  if (!_genAI) {
+    if (!process.env.GEMINI_API_KEY) {
+      throw new Error('GEMINI_API_KEY environment variable is not configured')
+    }
+    _genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
+  }
+  return _genAI
 }
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
+const genAI = new Proxy({} as GoogleGenerativeAI, {
+  get: (target, prop) => {
+    return (getGenAI() as any)[prop]
+  }
+})
 
 /**
  * DEVELOPMENT HELPER: Inject performance metrics banner into worksheet HTML
