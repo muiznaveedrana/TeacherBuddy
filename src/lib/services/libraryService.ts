@@ -6,19 +6,46 @@ import type {
   LibraryBrowseResponse,
 } from '@/lib/types/library'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+// Lazy initialization to avoid build-time errors
+let _supabase: ReturnType<typeof createClient> | null = null
+let _supabaseAdmin: ReturnType<typeof createClient> | null = null
 
-// Public client for reads (respects RLS)
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Public client for reads (respects RLS) - lazy getter
+export function getSupabase() {
+  if (!_supabase) {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    _supabase = createClient(supabaseUrl, supabaseAnonKey)
+  }
+  return _supabase
+}
 
-// Admin client for writes (bypasses RLS) - server-side only
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false,
-  },
+// Admin client for writes (bypasses RLS) - lazy getter
+export function getSupabaseAdmin() {
+  if (!_supabaseAdmin) {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+    _supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+    })
+  }
+  return _supabaseAdmin
+}
+
+// Export lazy-initialized clients for backward compatibility
+export const supabase = new Proxy({} as ReturnType<typeof createClient>, {
+  get: (target, prop) => {
+    return (getSupabase() as any)[prop]
+  }
+})
+
+export const supabaseAdmin = new Proxy({} as ReturnType<typeof createClient>, {
+  get: (target, prop) => {
+    return (getSupabaseAdmin() as any)[prop]
+  }
 })
 
 export async function createLibraryWorksheet(
