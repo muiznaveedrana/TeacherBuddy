@@ -20,8 +20,20 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
 /**
  * DEVELOPMENT HELPER: Inject performance metrics banner into worksheet HTML
  * Shows generation time and token usage at the top of the worksheet for development
+ *
+ * Controlled by SHOW_DEV_METRICS environment variable:
+ * - Set to 'true' to show metrics (default for development)
+ * - Set to 'false' to hide metrics (for production/clean screenshots)
  */
 function injectDevMetrics(html: string, metrics: GenerationMetrics): string {
+  // Check environment variable (defaults to true if not set for backward compatibility)
+  const showMetrics = process.env.SHOW_DEV_METRICS !== 'false'
+
+  if (!showMetrics) {
+    console.log('📊 Dev metrics hidden (SHOW_DEV_METRICS=false)')
+    return html // Return HTML without metrics
+  }
+
   const generationTime = (metrics.duration / 1000).toFixed(2)
   const inputTokens = metrics.inputTokens || 0
   const outputTokens = metrics.outputTokens || 0

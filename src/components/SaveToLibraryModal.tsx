@@ -12,6 +12,7 @@ interface SaveToLibraryModalProps {
   isOpen: boolean
   onClose: () => void
   worksheetHtml: string
+  showAnswers: boolean
   metadata: SaveToLibraryMetadata
   onSuccess?: (worksheet: any) => void
 }
@@ -20,6 +21,7 @@ export function SaveToLibraryModal({
   isOpen,
   onClose,
   worksheetHtml,
+  showAnswers,
   metadata: initialMetadata,
   onSuccess,
 }: SaveToLibraryModalProps) {
@@ -33,13 +35,36 @@ export function SaveToLibraryModal({
     setError(null)
 
     try {
+      // Clean the HTML before saving (same logic as PDF download)
+      let cleanedHtml = worksheetHtml
+      const parser = new DOMParser()
+      const doc = parser.parseFromString(cleanedHtml, 'text/html')
+
+      // Remove answer key if toggle is OFF
+      if (!showAnswers) {
+        const answerKeyElement = doc.querySelector('.answer-key')
+        if (answerKeyElement) {
+          answerKeyElement.remove()
+          console.log('🗑️ Removed answer key from library save (showAnswers = false)')
+        }
+      }
+
+      // Remove worksheet header (metrics) for cleaner library screenshots
+      const headerElement = doc.querySelector('.worksheet-header')
+      if (headerElement) {
+        headerElement.remove()
+        console.log('🗑️ Removed worksheet header (metrics) from library save')
+      }
+
+      cleanedHtml = doc.documentElement.outerHTML
+
       const response = await fetch('/api/library/save', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          worksheetHtml,
+          worksheetHtml: cleanedHtml,
           metadata,
         }),
       })
@@ -57,10 +82,10 @@ export function SaveToLibraryModal({
         onSuccess(result.worksheet)
       }
 
+      // Auto-redirect to library after 1.5 seconds
       setTimeout(() => {
-        onClose()
-        setSuccess(false)
-      }, 2000)
+        window.location.href = '/library'
+      }, 1500)
 
     } catch (err) {
       console.error('❌ Save failed:', err)
@@ -81,10 +106,10 @@ export function SaveToLibraryModal({
           <div className="p-8 text-center">
             <div className="text-6xl mb-4">✅</div>
             <h3 className="text-2xl font-bold text-green-600">
-              Saved to Library!
+              Published to Library!
             </h3>
             <p className="text-gray-600 mt-2">
-              Worksheet has been saved as a draft
+              Opening library...
             </p>
           </div>
         ) : (

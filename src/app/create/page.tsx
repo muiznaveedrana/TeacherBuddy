@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Progress } from '@/components/ui/progress'
-import { BookOpen, Download, Info, Loader2, AlertCircle, Edit3, Eye, Home, Library, PlusCircle } from 'lucide-react'
+import { BookOpen, Download, Info, Loader2, AlertCircle, Edit3, Eye, Home, Library, PlusCircle, LogOut } from 'lucide-react'
 import WelcomeTour from '@/components/WelcomeTour'
 import { PullToRefresh } from '@/components/mobile/PullToRefresh'
 import { YEAR_GROUPS } from '@/lib/data/curriculum'
@@ -22,6 +22,7 @@ import { EnhancedConfigurationPanel } from '@/components/worksheet/EnhancedConfi
 import { WorksheetEditor } from '@/components/worksheet/WorksheetEditor'
 import { SaveToLibraryModal } from '@/components/SaveToLibraryModal'
 import { generateLibraryMetadata } from '@/lib/helpers/metadataGenerator'
+import { createBrowserClient } from '@supabase/ssr'
 
 const mockNameLists = [
   { value: 'year3-class-a', label: 'Year 3 Class A (25 students)' },
@@ -61,8 +62,16 @@ interface GeneratedWorksheet {
 
 export default function DashboardPage() {
   const searchParams = useSearchParams()
+  const router = useRouter()
   const [showTour, setShowTour] = useState(false)
   const [fromLibrary, setFromLibrary] = useState(false)
+  const [isAdmin, setIsAdmin] = useState<boolean>(false)
+
+  // Supabase client
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
 
   // Ref to preserve subtopic from URL params during subtopics loading
   const pendingSubtopicRef = useRef<string | null>(null)
@@ -80,7 +89,7 @@ export default function DashboardPage() {
   const [difficulty, setDifficulty] = useState<DifficultyLevel>('easy')
   const [questionCount, setQuestionCount] = useState<number>(5)
   const [nameList, setNameList] = useState<string>('')
-  const [showAnswers, setShowAnswers] = useState<boolean>(true) // Default: show answers
+  const [showAnswers, setShowAnswers] = useState<boolean>(false) // Default: hide answers
   const [editMode, setEditMode] = useState<boolean>(false) // Toggle between view and edit modes
 
   // Enhanced configuration state (USP.2)
@@ -102,6 +111,28 @@ export default function DashboardPage() {
   // FRESHNESS FIX: Use ref for synchronous access (bypasses React's async state batching)
   // The ref always holds the current value, even during re-renders
   const previousWorksheetsRef = useRef<Array<{ questions: string[]; images: string[] }>>([])
+
+  // Check if user is admin on mount
+  useEffect(() => {
+    const checkAdmin = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .single()
+        setIsAdmin(profile?.role === 'admin')
+      }
+    }
+    checkAdmin()
+  }, [])
+
+  // Logout handler
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    router.push('/login')
+  }
 
   // 🔍 DEBUG: Log worksheet history state changes
   useEffect(() => {
@@ -781,16 +812,12 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Link href="/name-lists">
-                <Button size="sm" variant="outline">
-                  Name Lists
+              {isAdmin && (
+                <Button size="sm" variant="outline" onClick={handleLogout}>
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
                 </Button>
-              </Link>
-              <Link href="/admin/library">
-                <Button size="sm" variant="outline">
-                  Admin
-                </Button>
-              </Link>
+              )}
             </div>
           </div>
         </div>
@@ -1368,14 +1395,16 @@ export default function DashboardPage() {
                 )}
               </Button>
 
-              <Button
-                variant="default"
-                size="touch"
-                className="w-full md:w-auto md:min-w-32 text-lg md:text-base"
-                onClick={() => setShowSaveModal(true)}
-              >
-                💾 Save to Library
-              </Button>
+              {isAdmin && (
+                <Button
+                  variant="default"
+                  size="touch"
+                  className="w-full md:w-auto md:min-w-32 text-lg md:text-base"
+                  onClick={() => setShowSaveModal(true)}
+                >
+                  💾 Save to Library
+                </Button>
+              )}
             </>
           )}
         </div>
@@ -1392,6 +1421,7 @@ export default function DashboardPage() {
           isOpen={showSaveModal}
           onClose={() => setShowSaveModal(false)}
           worksheetHtml={generatedWorksheet.html}
+          showAnswers={showAnswers}
           metadata={generateLibraryMetadata({
             yearGroup,
             topic,

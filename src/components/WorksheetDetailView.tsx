@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
+import { Breadcrumb } from '@/components/ui/breadcrumb'
+import { RelatedWorksheets } from '@/components/RelatedWorksheets'
 import { Home, PlusCircle, ArrowLeft } from 'lucide-react'
 import type { LibraryWorksheet } from '@/lib/types/library'
 
@@ -134,6 +136,16 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
           </div>
         </div>
       </nav>
+
+      {/* Breadcrumb Navigation */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <Breadcrumb items={[
+          { label: 'Library', href: '/library' },
+          { label: worksheet.year_group, href: `/library?year_group=${encodeURIComponent(worksheet.year_group)}` },
+          { label: worksheet.topic, href: `/library?topic=${encodeURIComponent(worksheet.topic)}` },
+          { label: worksheet.title, current: true }
+        ]} />
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -265,6 +277,71 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
             )}
           </div>
         </div>
+
+        {/* Educational Benefits Section */}
+        {worksheet.educational_benefits && (
+          <div className="mt-8 bg-white rounded-lg border p-6">
+            <h2 className="text-2xl font-bold mb-4">About This Worksheet</h2>
+            <p className="text-gray-700 whitespace-pre-line leading-relaxed">{worksheet.educational_benefits}</p>
+          </div>
+        )}
+
+        {/* Learning Objectives */}
+        {worksheet.learning_objectives && worksheet.learning_objectives.length > 0 && (
+          <div className="mt-6 bg-blue-50 rounded-lg border border-blue-200 p-6">
+            <h3 className="text-xl font-bold mb-4">Learning Objectives</h3>
+            <ul className="space-y-3">
+              {worksheet.learning_objectives.map((obj, i) => (
+                <li key={i} className="flex items-start">
+                  <span className="text-blue-600 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700">{obj}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* How to Use */}
+        {worksheet.how_to_use && (
+          <div className="mt-6 bg-white rounded-lg border p-6">
+            <h3 className="text-xl font-bold mb-4">💡 How to Use This Worksheet</h3>
+            <p className="text-gray-700 whitespace-pre-line leading-relaxed">{worksheet.how_to_use}</p>
+          </div>
+        )}
+
+        {/* Skills Developed */}
+        {worksheet.skills_developed && worksheet.skills_developed.length > 0 && (
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold mb-3">Skills Developed</h3>
+            <div className="flex flex-wrap gap-2">
+              {worksheet.skills_developed.map((skill, i) => (
+                <span key={i} className="px-4 py-2 bg-green-50 text-green-700 rounded-full text-sm font-medium border border-green-200">
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* FAQ Section */}
+        {worksheet.faq && worksheet.faq.length > 0 && (
+          <div className="mt-8 bg-white rounded-lg border p-6">
+            <h3 className="text-2xl font-bold mb-6">❓ Frequently Asked Questions</h3>
+            <div className="space-y-6">
+              {worksheet.faq.map((item, i) => (
+                <div key={i} className="border-b last:border-b-0 pb-4 last:pb-0">
+                  <h4 className="font-semibold text-lg mb-2 text-gray-900">{item.question}</h4>
+                  <p className="text-gray-700 leading-relaxed">{item.answer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Related Worksheets */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <RelatedWorksheets worksheetId={worksheet.id} />
       </div>
     </div>
   )

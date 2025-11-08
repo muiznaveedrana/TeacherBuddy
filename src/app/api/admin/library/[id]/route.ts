@@ -4,12 +4,16 @@ import {
   updateWorksheetMetadata,
   deleteWorksheet,
 } from '@/lib/services/libraryService'
+import { requireAdmin } from '@/lib/auth/authHelpers'
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    // Require admin authentication
+    await requireAdmin()
+
     const worksheet = await getWorksheetById(params.id)
 
     if (!worksheet) {
@@ -39,6 +43,9 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Require admin authentication
+    await requireAdmin()
+
     const updates = await request.json()
 
     const worksheet = await updateWorksheetMetadata(params.id, updates)
@@ -68,6 +75,9 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Require admin authentication
+    await requireAdmin()
+
     await deleteWorksheet(params.id)
 
     return NextResponse.json({

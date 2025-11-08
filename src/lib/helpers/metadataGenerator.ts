@@ -24,8 +24,9 @@ export function generateLibraryMetadata(config: {
   const formattedTopic = formatLabel(topic)
   const formattedSubtopic = formatLabel(subtopic)
 
-  // Generate title
-  const title = `${yearGroup} - ${formattedTopic} - ${formattedSubtopic}`
+  // Generate title (simple, clean - just the topic name)
+  // Year group and subtopic are already visible on the worksheet itself
+  const title = formattedTopic
 
   // Generate SEO title (max 60 chars)
   const seoTitle = `Free ${yearGroup} ${formattedSubtopic} Worksheet | UK Curriculum`
@@ -35,25 +36,22 @@ export function generateLibraryMetadata(config: {
   const questionText = questionCount ? ` with ${questionCount} questions` : ''
   const seoDescription = `Download free ${yearGroup} ${formattedSubtopic} worksheet${difficultyText}${questionText}. Aligned with UK National Curriculum. Print-ready PDF format.`
 
-  // Generate tags
+  // Generate tags (clean, curriculum-focused only)
   const tags = [
     yearGroup.toLowerCase().replace(/\s+/g, '-'),
     topic,
     subtopic,
+    layout, // e.g., 'standard'
   ]
 
-  // Add difficulty tag
-  if (difficulty) {
-    tags.push(difficulty)
+  // ONLY add visual theme if explicitly set by user
+  // (themes like 'food', 'animals' should only appear if user selected them)
+  if (visualTheme && visualTheme.trim() !== '') {
+    tags.push(visualTheme.toLowerCase())
   }
 
-  // Add theme tag
-  if (visualTheme) {
-    tags.push(visualTheme)
-  }
-
-  // Add layout tag
-  tags.push(layout)
+  // NOTE: Difficulty is NOT added to tags (user preference)
+  // Difficulty is stored in metadata but not used for tagging/SEO
 
   return {
     title,

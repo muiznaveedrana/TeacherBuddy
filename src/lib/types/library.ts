@@ -23,6 +23,14 @@ export interface LibraryWorksheet {
   seo_title: string | null
   seo_description: string | null
   seo_keywords: string[] | null
+  // Rich educational content fields
+  learning_objectives: string[] | null
+  how_to_use: string | null
+  educational_benefits: string | null
+  skills_developed: string[] | null
+  estimated_time_minutes: number | null
+  curriculum_standards: string[] | null
+  faq: Array<{question: string; answer: string}> | null
   quality_score: number | null // Admin-set quality score
   tags: string[]
   status: 'draft' | 'published' | 'archived'
@@ -54,6 +62,14 @@ export interface CreateLibraryWorksheetInput {
   seo_title?: string
   seo_description?: string
   seo_keywords?: string[]
+  // Rich educational content fields
+  learning_objectives?: string[]
+  how_to_use?: string
+  educational_benefits?: string
+  skills_developed?: string[]
+  estimated_time_minutes?: number
+  curriculum_standards?: string[]
+  faq?: Array<{question: string; answer: string}>
   quality_score?: number
   tags?: string[]
   status?: 'draft' | 'published'

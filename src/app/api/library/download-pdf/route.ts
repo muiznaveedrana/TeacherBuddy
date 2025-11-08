@@ -1,13 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getWorksheetBySlug, recordDownload } from '@/lib/services/libraryService'
+import { generateWorksheetPdf } from '@/lib/services/pdfGenerationService'
 import crypto from 'crypto'
 
-// Dynamic import based on environment
-const isDev = process.env.NODE_ENV === 'development'
-
 export async function POST(request: NextRequest) {
-  let browser = null
-
   try {
     const { worksheetId, slug } = await request.json()
 
@@ -29,43 +25,31 @@ export async function POST(request: NextRequest) {
 
     console.log('📄 Generating PDF for:', worksheet.title)
 
-    // Use bundled Chromium in development, serverless Chromium in production
-    if (isDev) {
-      const puppeteer = (await import('puppeteer')).default
-      browser = await puppeteer.launch({
-        headless: true,
-      })
-    } else {
-      const puppeteerCore = (await import('puppeteer-core')).default
-      const chromium = (await import('@sparticuz/chromium')).default
-      browser = await puppeteerCore.launch({
-        executablePath: await chromium.executablePath(),
-        args: chromium.args,
-        headless: true,
-      })
+    // Use the proven PDF generation service (same as create/dashboard)
+    const result = await generateWorksheetPdf(
+      {
+        config: {
+          layout: worksheet.layout || 'standard',
+          topic: worksheet.topic,
+          subtopic: worksheet.subtopic,
+          difficulty: worksheet.difficulty || 'average',
+          questionCount: worksheet.question_count || 10,
+          yearGroup: worksheet.year_group,
+        },
+        generatedContent: worksheet.html_content,
+        title: worksheet.title,
+      },
+      'library-download' // userId for rate limiting
+    )
+
+    if (!result.success) {
+      return NextResponse.json(
+        { error: result.error || 'PDF generation failed' },
+        { status: 500 }
+      )
     }
 
-    const page = await browser.newPage()
-
-    await page.setContent(worksheet.html_content, {
-      waitUntil: 'networkidle0',
-      timeout: 30000,
-    })
-
-    const pdfBuffer = await page.pdf({
-      format: 'A4',
-      printBackground: true,
-      margin: {
-        top: '10mm',
-        right: '10mm',
-        bottom: '10mm',
-        left: '10mm',
-      },
-    })
-
-    await browser.close()
-    browser = null
-
+    // Record download analytics
     const userAgent = request.headers.get('user-agent') || undefined
     const ipHash = crypto
       .createHash('sha256')
@@ -78,7 +62,7 @@ export async function POST(request: NextRequest) {
       referrer: request.headers.get('referer') || undefined,
     })
 
-    return new NextResponse(Buffer.from(pdfBuffer), {
+    return new NextResponse(result.buffer, {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${slug}.pdf"`,
@@ -88,7 +72,6 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('❌ PDF download failed:', error)
-    if (browser) await browser.close()
 
     return NextResponse.json(
       {

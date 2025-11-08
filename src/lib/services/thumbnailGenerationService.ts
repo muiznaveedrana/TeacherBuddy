@@ -76,10 +76,34 @@ export async function generateWorksheetThumbnail(
 
     const page = await browser.newPage()
 
-    await page.setContent(worksheetHtml, {
+    // CRITICAL FIX: Convert relative image paths to absolute URLs
+    // Puppeteer's setContent() doesn't have a base URL, so /images/star.png fails
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+    const htmlWithAbsoluteUrls = worksheetHtml.replace(
+      /src="\/images\//g,
+      `src="${baseUrl}/images/`
+    )
+
+    await page.setContent(htmlWithAbsoluteUrls, {
       waitUntil: 'networkidle0',
       timeout: 30000,
     })
+
+    // CRITICAL: Wait for ALL images to load before screenshot
+    console.log('🖼️ Waiting for images to load...')
+    await page.evaluate(() => {
+      return Promise.all(
+        Array.from(document.images)
+          .filter(img => !img.complete)
+          .map(img => new Promise((resolve) => {
+            img.addEventListener('load', resolve)
+            img.addEventListener('error', resolve) // Don't block on broken images
+          }))
+      )
+    })
+
+    // Additional safety: Wait for network to be idle
+    await new Promise(resolve => setTimeout(resolve, 1000))
 
     console.log('📷 Taking screenshot...')
     const screenshotBuffer = await page.screenshot({
@@ -102,12 +126,14 @@ export async function generateWorksheetThumbnail(
     console.log(`✅ Image optimized: ${(optimizedBuffer.length / 1024).toFixed(1)} KB`)
 
     console.log('☁️ Uploading to ImageKit...')
+    // Add timestamp to ensure each thumbnail is unique and prevent CDN caching issues
+    const timestamp = Date.now()
     const thumbnailUrl = await uploadToImageKit(optimizedBuffer, {
-      fileName: `${slug}-thumb.${finalConfig.format}`,
+      fileName: `${slug}-${timestamp}-thumb.${finalConfig.format}`,
       folder: '/worksheets/thumbnails',
       tags: ['worksheet', 'thumbnail', slug.split('-')[0]],
       useUniqueFileName: false,
-      overwriteFile: true,
+      overwriteFile: false, // Don't overwrite - each version should have its own thumbnail
     })
 
     console.log('✅ Thumbnail generated:', thumbnailUrl)

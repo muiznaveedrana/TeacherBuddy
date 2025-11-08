@@ -1,7 +1,7 @@
 'use client'
 
+import Link from 'next/link'
 import { ChevronRight, Home } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 
 interface BreadcrumbItem {
   label: string
@@ -13,54 +13,38 @@ interface BreadcrumbProps {
   items: BreadcrumbItem[]
   showHome?: boolean
   className?: string
-  onNavigate?: (path: string) => void | Promise<void>
 }
 
-export function Breadcrumb({ items, showHome = true, className = '', onNavigate }: BreadcrumbProps) {
-  const handleNavigation = (href?: string) => {
-    if (href) {
-      if (onNavigate) {
-        onNavigate(href)
-      } else {
-        // Fallback for development/mock mode
-        console.log(`Navigating to: ${href}`)
-      }
-    }
-  }
-
+export function Breadcrumb({ items, showHome = true, className = '' }: BreadcrumbProps) {
   return (
-    <nav className={`flex items-center space-x-1 text-sm text-slate-600 ${className}`}>
+    <nav className={`flex items-center space-x-1 text-sm text-gray-600 ${className}`}>
       {showHome && (
         <>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-8 px-2 text-slate-600 hover:text-slate-900"
-            onClick={() => handleNavigation('/create')}
+          <Link
+            href="/"
+            className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
           >
             <Home className="h-4 w-4" />
-          </Button>
+          </Link>
           {items.length > 0 && <ChevronRight className="h-4 w-4" />}
         </>
       )}
-      
+
       {items.map((item, index) => (
         <div key={index} className="flex items-center space-x-1">
           {item.href && !item.current ? (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 px-2 text-slate-600 hover:text-slate-900"
-              onClick={() => handleNavigation(item.href)}
+            <Link
+              href={item.href}
+              className="px-2 py-1 text-gray-600 hover:text-blue-700 transition-colors"
             >
               {item.label}
-            </Button>
+            </Link>
           ) : (
-            <span className={`px-2 ${item.current ? 'text-slate-900 font-medium' : 'text-slate-600'}`}>
+            <span className={`px-2 ${item.current ? 'text-gray-900 font-medium' : 'text-gray-600'}`}>
               {item.label}
             </span>
           )}
-          
+
           {index < items.length - 1 && <ChevronRight className="h-4 w-4" />}
         </div>
       ))}

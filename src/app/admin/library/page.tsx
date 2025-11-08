@@ -4,11 +4,65 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import type { LibraryWorksheet } from '@/lib/types/library'
 
+// Extract version from slug (e.g., "reception-counting-v2" → "V2")
+function extractVersion(slug: string): string | null {
+  const versionMatch = slug.match(/-v(\d+)$/)
+  if (versionMatch) {
+    return `V${versionMatch[1]}`
+  }
+  return null // First version (no suffix)
+}
+
 export default function AdminLibraryPage() {
   const [worksheets, setWorksheets] = useState<LibraryWorksheet[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState<'all' | 'published' | 'draft'>('all')
+  const [showDevMetrics, setShowDevMetrics] = useState(false) // Default to hidden
+
+  // Load dev metrics preference from localStorage
+  useEffect(() => {
+    const savedPreference = localStorage.getItem('admin_show_dev_metrics')
+    if (savedPreference !== null) {
+      const shouldShow = savedPreference === 'true'
+      setShowDevMetrics(shouldShow)
+      applyDevMetricsVisibility(shouldShow)
+    } else {
+      // No saved preference, apply default (hidden)
+      applyDevMetricsVisibility(false)
+    }
+  }, [])
+
+  function toggleDevMetrics() {
+    const newValue = !showDevMetrics
+    setShowDevMetrics(newValue)
+    localStorage.setItem('admin_show_dev_metrics', String(newValue))
+    applyDevMetricsVisibility(newValue)
+  }
+
+  function applyDevMetricsVisibility(show: boolean) {
+    // Apply global CSS to hide/show dev metrics across the entire app
+    const styleId = 'dev-metrics-visibility'
+    let styleEl = document.getElementById(styleId) as HTMLStyleElement
+
+    if (!styleEl) {
+      styleEl = document.createElement('style')
+      styleEl.id = styleId
+      document.head.appendChild(styleEl)
+    }
+
+    if (show) {
+      styleEl.textContent = '' // Show metrics
+    } else {
+      styleEl.textContent = `
+        /* Hide development metrics banner globally */
+        div[style*="DEVELOPMENT METRICS"],
+        div[style*="background: #1a1a1a"] {
+          display: none !important;
+        }
+      `
+    }
+  }
 
   useEffect(() => {
     fetchWorksheets()
@@ -138,7 +192,7 @@ export default function AdminLibraryPage() {
       {/* Filters */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="bg-white rounded-lg shadow p-4">
-          <div className="flex gap-4">
+          <div className="flex gap-4 items-center">
             <input
               type="text"
               placeholder="Search worksheets..."
@@ -155,6 +209,20 @@ export default function AdminLibraryPage() {
               <option value="published">Published</option>
               <option value="draft">Draft</option>
             </select>
+
+            {/* Dev Metrics Toggle (Admin Only) */}
+            <button
+              onClick={toggleDevMetrics}
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border transition-colors ${
+                showDevMetrics
+                  ? 'bg-green-50 border-green-300 text-green-700 hover:bg-green-100'
+                  : 'bg-gray-50 border-gray-300 text-gray-700 hover:bg-gray-100'
+              }`}
+              title="Toggle development metrics visibility"
+            >
+              <span>{showDevMetrics ? '👁️' : '👁️‍🗨️'}</span>
+              <span>Dev Metrics</span>
+            </button>
           </div>
         </div>
 
@@ -190,7 +258,10 @@ export default function AdminLibraryPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredWorksheets.map((worksheet) => (
+                {filteredWorksheets.map((worksheet) => {
+                  const version = extractVersion(worksheet.slug)
+
+                  return (
                   <tr key={worksheet.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <div className="flex items-center">
@@ -202,8 +273,13 @@ export default function AdminLibraryPage() {
                           />
                         )}
                         <div>
-                          <div className="text-sm font-medium text-gray-900">
-                            {worksheet.title}
+                          <div className="text-sm font-medium text-gray-900 flex items-center gap-2">
+                            <span>{worksheet.title}</span>
+                            {version && (
+                              <span className="px-2 py-0.5 bg-amber-100 text-amber-800 text-xs font-semibold rounded">
+                                {version}
+                              </span>
+                            )}
                           </div>
                           <div className="text-sm text-gray-500">
                             {worksheet.year_group} • {worksheet.topic}
@@ -262,7 +338,8 @@ export default function AdminLibraryPage() {
                       </div>
                     </td>
                   </tr>
-                ))}
+                  )
+                })}
               </tbody>
             </table>
           )}

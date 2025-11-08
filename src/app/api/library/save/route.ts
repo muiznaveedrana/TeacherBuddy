@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createLibraryWorksheet } from '@/lib/services/libraryService'
 import { generateWorksheetThumbnail, generateSlugFromTitle } from '@/lib/services/thumbnailGenerationService'
+import { generateEducationalContent } from '@/lib/services/educationalContentService'
+import { normalizeTopicValue, normalizeSubtopicValue } from '@/lib/config/worksheetTaxonomy'
 import type { SaveToLibraryMetadata } from '@/lib/types/library'
 
 export async function POST(request: NextRequest) {
@@ -36,6 +38,37 @@ export async function POST(request: NextRequest) {
     const thumbnailUrl = await generateWorksheetThumbnail(worksheetHtml, slug)
     console.log('✅ Thumbnail URL:', thumbnailUrl)
 
+    console.log('📚 Generating educational content...')
+    const educationalContent = await generateEducationalContent({
+      title: metadata.title,
+      year_group: metadata.year_group,
+      topic: metadata.topic,
+      subtopic: metadata.subtopic,
+      difficulty: metadata.difficulty,
+      question_count: metadata.question_count,
+      visual_theme: metadata.visual_theme,
+      activity_type: metadata.activity_type,
+      seasonal_theme: metadata.seasonal_theme,
+    })
+
+    // CRITICAL FIX: Force estimated_time_minutes to be a valid integer
+    // Parse strings like "15-30" or "20 minutes" to just the number
+    let safeEstimatedTime = educationalContent.estimated_time_minutes
+    if (typeof safeEstimatedTime === 'string') {
+      // Extract first number from string (handles "15-30", "20 minutes", etc.)
+      const match = safeEstimatedTime.match(/\d+/)
+      safeEstimatedTime = match ? parseInt(match[0]) : 15 // Default 15 if no number found
+    } else if (typeof safeEstimatedTime !== 'number' || isNaN(safeEstimatedTime)) {
+      safeEstimatedTime = 15 // Default fallback
+    }
+
+    console.log('✅ Educational content generated:', {
+      objectives: educationalContent.learning_objectives.length,
+      skills: educationalContent.skills_developed.length,
+      faq: educationalContent.faq.length,
+      estimated_time: safeEstimatedTime,
+    })
+
     const seoTitle = metadata.seo_title ||
       `${metadata.title} - Free Printable ${metadata.year_group} Worksheet`
 
@@ -69,13 +102,28 @@ export async function POST(request: NextRequest) {
       'printable',
     ]
 
-    console.log('💾 Saving to database...')
+    // NORMALIZE: Enforce taxonomy standards
+    const normalizedTopic = normalizeTopicValue(metadata.topic) || metadata.topic
+    const normalizedSubtopic = normalizeSubtopicValue(normalizedTopic, metadata.subtopic) || metadata.subtopic
+
+    if (!normalizeTopicValue(metadata.topic)) {
+      console.warn(`⚠️ Unknown topic value: "${metadata.topic}"`)
+    }
+    if (!normalizeSubtopicValue(normalizedTopic, metadata.subtopic)) {
+      console.warn(`⚠️ Unknown subtopic value: "${metadata.subtopic}" for topic "${metadata.topic}"`)
+    }
+
+    console.log('💾 Saving to database with normalized values:', {
+      original: { topic: metadata.topic, subtopic: metadata.subtopic },
+      normalized: { topic: normalizedTopic, subtopic: normalizedSubtopic }
+    })
+
     const worksheet = await createLibraryWorksheet({
       title: metadata.title,
       html_content: worksheetHtml,
       year_group: metadata.year_group,
-      topic: metadata.topic,
-      subtopic: metadata.subtopic,
+      topic: normalizedTopic,
+      subtopic: normalizedSubtopic,
       layout_type: metadata.layout_type,
       thumbnail_url: thumbnailUrl,
       seo_title: seoTitle,
@@ -87,7 +135,15 @@ export async function POST(request: NextRequest) {
       activity_type: metadata.activity_type,
       seasonal_theme: metadata.seasonal_theme,
       worksheet_version: metadata.worksheet_version,
-      status: 'draft',
+      // Rich educational content
+      learning_objectives: educationalContent.learning_objectives,
+      how_to_use: educationalContent.how_to_use,
+      educational_benefits: educationalContent.educational_benefits,
+      skills_developed: educationalContent.skills_developed,
+      estimated_time_minutes: safeEstimatedTime,
+      curriculum_standards: educationalContent.curriculum_standards,
+      faq: educationalContent.faq,
+      status: 'published', // Auto-publish (was 'draft')
     })
 
     console.log('✅ Worksheet saved to library:', worksheet.id)
@@ -102,7 +158,7 @@ export async function POST(request: NextRequest) {
           thumbnail_url: worksheet.thumbnail_url,
           status: worksheet.status,
         },
-        message: 'Worksheet saved to library as draft',
+        message: 'Worksheet published to library',
       },
       { status: 201 }
     )

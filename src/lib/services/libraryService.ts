@@ -25,12 +25,22 @@ export async function createLibraryWorksheet(
   input: CreateLibraryWorksheetInput
 ): Promise<LibraryWorksheet> {
   try {
+    // Generate slug with auto-versioning
+    const slug = await generateUniqueSlug(
+      input.title,
+      input.visual_theme,
+      input.activity_type,
+      input.seasonal_theme,
+      input.layout_type,
+      input.worksheet_version
+    )
+
     const { data, error} = await supabaseAdmin
       .from('library_worksheets')
       .insert({
         ...input,
         region: input.region || 'UK', // Default to UK for MVP
-        slug: generateSlug(input.title, input.visual_theme, input.activity_type, input.seasonal_theme, input.layout_type, input.worksheet_version),
+        slug,
       })
       .select()
       .single()
@@ -363,6 +373,76 @@ export async function updateWorksheetMetadata(
 // ============================================
 // HELPER FUNCTIONS
 // ============================================
+
+/**
+ * Check if a slug already exists in the database
+ */
+async function slugExists(slug: string): Promise<boolean> {
+  const { data, error } = await supabaseAdmin
+    .from('library_worksheets')
+    .select('slug')
+    .eq('slug', slug)
+    .single()
+
+  // If no error and data exists, slug is taken
+  if (data) return true
+
+  // PGRST116 means no rows found, which is what we want
+  if (error?.code === 'PGRST116') return false
+
+  // Any other error, assume slug exists for safety
+  if (error) {
+    console.warn('⚠️ Error checking slug existence:', error)
+    return true
+  }
+
+  return false
+}
+
+/**
+ * Generate a unique slug with auto-versioning (-v2, -v3, etc.)
+ */
+async function generateUniqueSlug(
+  title: string,
+  visualTheme?: string,
+  activityType?: string,
+  seasonalTheme?: string,
+  layoutType?: string,
+  version?: string
+): Promise<string> {
+  // Generate base slug
+  const baseSlug = generateSlug(title, visualTheme, activityType, seasonalTheme, layoutType, version)
+
+  // Check if base slug is available
+  const baseExists = await slugExists(baseSlug)
+  if (!baseExists) {
+    console.log('✅ Slug available:', baseSlug)
+    return baseSlug
+  }
+
+  // Base slug exists, try versioned slugs
+  console.log('⚠️ Slug already exists, trying versioned slugs:', baseSlug)
+
+  let versionNumber = 2
+  let versionedSlug = `${baseSlug}-v${versionNumber}`
+
+  // Keep incrementing until we find an available slug
+  while (await slugExists(versionedSlug)) {
+    versionNumber++
+    versionedSlug = `${baseSlug}-v${versionNumber}`
+
+    // Safety check to prevent infinite loop
+    if (versionNumber > 100) {
+      // Fallback: add timestamp
+      const timestamp = Date.now()
+      versionedSlug = `${baseSlug}-${timestamp}`
+      break
+    }
+  }
+
+  console.log('✅ Generated versioned slug:', versionedSlug)
+  return versionedSlug
+}
 
 function generateSlug(
   title: string,

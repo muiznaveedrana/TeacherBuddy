@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getAllWorksheetsForAdmin } from '@/lib/services/libraryService'
+import { requireAdmin } from '@/lib/auth/authHelpers'
 import type { LibraryFilters } from '@/lib/types/library'
 
 export async function GET(request: NextRequest) {
   try {
+    // Require admin authentication
+    await requireAdmin()
+
     const { searchParams } = new URL(request.url)
 
     const filters: Partial<LibraryFilters> = {
@@ -21,6 +25,17 @@ export async function GET(request: NextRequest) {
 
   } catch (error) {
     console.error('❌ Admin browse failed:', error)
+
+    // Check if it's an auth error
+    if (error instanceof Error && error.message.includes('Unauthorized')) {
+      return NextResponse.json(
+        {
+          error: 'Unauthorized',
+          details: 'Admin access required',
+        },
+        { status: 401 }
+      )
+    }
 
     return NextResponse.json(
       {
