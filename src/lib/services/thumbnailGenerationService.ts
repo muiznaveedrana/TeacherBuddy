@@ -76,15 +76,45 @@ export async function generateWorksheetThumbnail(
 
     const page = await browser.newPage()
 
-    // CRITICAL FIX: Convert relative image paths to absolute URLs
-    // Puppeteer's setContent() doesn't have a base URL, so /images/star.png fails
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-    const htmlWithAbsoluteUrls = worksheetHtml.replace(
-      /src="\/images\//g,
-      `src="${baseUrl}/images/`
-    )
+    // CRITICAL FIX: Convert image paths to data URIs for reliable screenshot generation
+    // Puppeteer can't reliably fetch images from production URL during serverless execution
+    // So we read them from the filesystem and embed as base64 data URIs
+    const path = require('path')
+    const fs = require('fs')
 
-    await page.setContent(htmlWithAbsoluteUrls, {
+    // Function to convert image to data URI
+    function imageToDataUri(imagePath: string): string {
+      try {
+        const fullPath = path.join(process.cwd(), 'public', imagePath)
+        if (fs.existsSync(fullPath)) {
+          const imageBuffer = fs.readFileSync(fullPath)
+          const ext = path.extname(imagePath).substring(1)
+          const mimeType = ext === 'svg' ? 'svg+xml' : ext
+          return `data:image/${mimeType};base64,${imageBuffer.toString('base64')}`
+        }
+      } catch (error) {
+        console.warn(`Failed to read image: ${imagePath}`, error)
+      }
+      return '' // Return empty string if image not found
+    }
+
+    // Replace all image src paths with data URIs
+    let htmlWithDataUris = worksheetHtml
+    const imageSrcRegex = /src="\/images\/([^"]+)"/g
+    let match
+
+    while ((match = imageSrcRegex.exec(worksheetHtml)) !== null) {
+      const imagePath = `/images/${match[1]}`
+      const dataUri = imageToDataUri(imagePath)
+      if (dataUri) {
+        htmlWithDataUris = htmlWithDataUris.replace(
+          `src="${imagePath}"`,
+          `src="${dataUri}"`
+        )
+      }
+    }
+
+    await page.setContent(htmlWithDataUris, {
       waitUntil: 'networkidle0',
       timeout: 30000,
     })
