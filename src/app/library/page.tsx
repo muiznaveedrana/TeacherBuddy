@@ -9,32 +9,17 @@ import { Home, PlusCircle, Library, ChevronRight } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const revalidate = 3600
+export const dynamic = 'force-dynamic' // Required for searchParams
 
-// Generate dynamic metadata for SEO
-export async function generateMetadata({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}): Promise<Metadata> {
-  const params = await searchParams
-  const currentPage = parseInt((params.page as string) || '0')
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://worksheetgenerator-ai.vercel.app'
-
-  const title = currentPage > 0
-    ? `Free Printable Worksheets - Page ${currentPage + 1} | WorksheetGenerator.AI`
-    : 'Free Printable Worksheets Library | WorksheetGenerator.AI'
-
-  const description = 'Browse thousands of high-quality, free printable worksheets for Reception, Year 1-6. Math, English, Science and more.'
-
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      type: 'website',
-    },
-  }
+// Static metadata (will be overridden client-side for different pages)
+export const metadata: Metadata = {
+  title: 'Free Printable Worksheets Library | WorksheetGenerator.AI',
+  description: 'Browse thousands of high-quality, free printable worksheets for Reception, Year 1-6. Math, English, Science and more.',
+  openGraph: {
+    title: 'Free Printable Worksheets Library | WorksheetGenerator.AI',
+    description: 'Browse thousands of high-quality, free printable worksheets for Reception, Year 1-6. Math, English, Science and more.',
+    type: 'website',
+  },
 }
 
 export default function LibraryPage() {
