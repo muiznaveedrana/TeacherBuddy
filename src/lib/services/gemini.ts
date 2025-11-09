@@ -26,7 +26,11 @@ function getGenAI() {
 
 const genAI = new Proxy({} as GoogleGenerativeAI, {
   get: (target, prop) => {
-    return (getGenAI() as any)[prop]
+    const value = (getGenAI() as any)[prop]
+    if (typeof value === 'function') {
+      return value.bind(getGenAI())
+    }
+    return value
   }
 })
 
@@ -34,16 +38,16 @@ const genAI = new Proxy({} as GoogleGenerativeAI, {
  * DEVELOPMENT HELPER: Inject performance metrics banner into worksheet HTML
  * Shows generation time and token usage at the top of the worksheet for development
  *
- * Controlled by SHOW_DEV_METRICS environment variable:
- * - Set to 'true' to show metrics (default for development)
- * - Set to 'false' to hide metrics (for production/clean screenshots)
+ * Automatically hidden in production (NODE_ENV !== 'development')
+ * Can be disabled in development with SHOW_DEV_METRICS=false
  */
 function injectDevMetrics(html: string, metrics: GenerationMetrics): string {
-  // Check environment variable (defaults to true if not set for backward compatibility)
-  const showMetrics = process.env.SHOW_DEV_METRICS !== 'false'
+  // Only show metrics in development mode
+  const isDevelopment = process.env.NODE_ENV === 'development'
+  const showMetrics = isDevelopment && process.env.SHOW_DEV_METRICS !== 'false'
 
   if (!showMetrics) {
-    console.log('📊 Dev metrics hidden (SHOW_DEV_METRICS=false)')
+    console.log('📊 Dev metrics hidden (production mode or SHOW_DEV_METRICS=false)')
     return html // Return HTML without metrics
   }
 
@@ -154,8 +158,14 @@ function calculateOptimalTokens(config: WorksheetConfig): number {
 
   return optimalTokens
 }
-const model = genAI.getGenerativeModel({
-  model: 'gemini-2.5-flash',
+
+// Lazy initialization for model to avoid build-time errors
+let _model: ReturnType<typeof genAI.getGenerativeModel> | null = null
+
+function getModel() {
+  if (!_model) {
+    _model = genAI.getGenerativeModel({
+      model: 'gemini-2.5-flash',
   // Temporarily disable function calling to test basic HTML generation
   // tools: [{
   //   functionDeclarations: [{
@@ -206,11 +216,20 @@ CRITICAL FORMAT REQUIREMENTS:
 FORBIDDEN: Any response that doesn't start with <!DOCTYPE html> will cause system failure.
 
 You generate only pure HTML content - nothing else.`
-    }]
+        }]
+      }
+      // Note: generationConfig (temperature, maxOutputTokens, etc.) is now passed per-request
+      // for dynamic optimization based on worksheet complexity
+    })
   }
-  // Note: generationConfig (temperature, maxOutputTokens, etc.) is now passed per-request
-  // for dynamic optimization based on worksheet complexity
-})
+  return _model
+}
+
+// Use getter to avoid module-load-time initialization
+const model = {
+  generateContent: (...args: any[]) => getModel().generateContent(...args),
+  generateContentStream: (...args: any[]) => getModel().generateContentStream(...args)
+} as ReturnType<typeof genAI.getGenerativeModel>
 
 /**
  * Generates exceptional math worksheets using unified prompt service

@@ -38,13 +38,21 @@ export function getSupabaseAdmin() {
 // Export lazy-initialized clients for backward compatibility
 export const supabase = new Proxy({} as ReturnType<typeof createClient>, {
   get: (target, prop) => {
-    return (getSupabase() as any)[prop]
+    const value = (getSupabase() as any)[prop]
+    if (typeof value === 'function') {
+      return value.bind(getSupabase())
+    }
+    return value
   }
 })
 
 export const supabaseAdmin = new Proxy({} as ReturnType<typeof createClient>, {
   get: (target, prop) => {
-    return (getSupabaseAdmin() as any)[prop]
+    const value = (getSupabaseAdmin() as any)[prop]
+    if (typeof value === 'function') {
+      return value.bind(getSupabaseAdmin())
+    }
+    return value
   }
 })
 
@@ -153,10 +161,16 @@ export async function browseLibraryWorksheets(
         query = query.order('published_at', { ascending: false })
         break
       case 'popular':
-        query = query.order('view_count', { ascending: false })
+        // Popular = Most downloads, then newest for ties
+        query = query
+          .order('download_count', { ascending: false })
+          .order('published_at', { ascending: false })
         break
       case 'downloads':
-        query = query.order('download_count', { ascending: false })
+        // Most downloads, then newest for ties
+        query = query
+          .order('download_count', { ascending: false })
+          .order('published_at', { ascending: false })
         break
     }
 

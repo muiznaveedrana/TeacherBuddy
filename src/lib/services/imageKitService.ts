@@ -1,9 +1,28 @@
 import ImageKit from 'imagekit'
 
-const imagekit = new ImageKit({
-  publicKey: process.env.IMAGEKIT_PUBLIC_KEY || '',
-  privateKey: process.env.IMAGEKIT_PRIVATE_KEY || '',
-  urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT || '',
+// Lazy initialization to avoid build-time errors
+let _imagekit: ImageKit | null = null
+
+function getImageKit() {
+  if (!_imagekit) {
+    _imagekit = new ImageKit({
+      publicKey: process.env.IMAGEKIT_PUBLIC_KEY || '',
+      privateKey: process.env.IMAGEKIT_PRIVATE_KEY || '',
+      urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT || '',
+    })
+  }
+  return _imagekit
+}
+
+const imagekit = new Proxy({} as ImageKit, {
+  get: (target, prop) => {
+    const value = (getImageKit() as any)[prop]
+    // Bind methods to preserve 'this' context
+    if (typeof value === 'function') {
+      return value.bind(getImageKit())
+    }
+    return value
+  }
 })
 
 export function checkImageKitConfig(): boolean {
@@ -56,7 +75,8 @@ export async function uploadToImageKit(
 
   } catch (error) {
     console.error('❌ ImageKit upload failed:', error)
-    throw new Error(`Failed to upload to ImageKit: ${error}`)
+    const errorMessage = error instanceof Error ? error.message : JSON.stringify(error)
+    throw new Error(`Failed to upload to ImageKit: ${errorMessage}`)
   }
 }
 

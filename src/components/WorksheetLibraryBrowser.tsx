@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useEffect, useState, useRef, useCallback } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { LibraryWorksheet } from '@/lib/types/library'
@@ -41,12 +41,17 @@ function extractVersion(slug: string): string | null {
 
 export function WorksheetLibraryBrowser() {
   const searchParams = useSearchParams()
+  const router = useRouter()
   const [worksheets, setWorksheets] = useState<LibraryWorksheet[]>([])
   const [loading, setLoading] = useState(true)
   const [loadingMore, setLoadingMore] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [hasMore, setHasMore] = useState(true)
   const [page, setPage] = useState(0)
+  const observerTarget = useRef<HTMLDivElement>(null)
+
+  // Get sort from URL or default to 'newest'
+  const sortBy = searchParams.get('sort') || 'newest'
 
   useEffect(() => {
     async function loadWorksheets() {
@@ -78,7 +83,7 @@ export function WorksheetLibraryBrowser() {
     loadWorksheets()
   }, [searchParams])
 
-  const loadMore = async () => {
+  const loadMore = useCallback(async () => {
     if (loadingMore || !hasMore) return
 
     setLoadingMore(true)
@@ -88,6 +93,7 @@ export function WorksheetLibraryBrowser() {
       const params = new URLSearchParams(searchParams.toString())
       params.set('page', nextPage.toString())
       params.set('limit', '20')
+      params.set('sort', sortBy)
 
       const response = await fetch(`/api/library/browse?${params.toString()}`)
 
@@ -105,6 +111,36 @@ export function WorksheetLibraryBrowser() {
     } finally {
       setLoadingMore(false)
     }
+  }, [loadingMore, hasMore, page, searchParams, sortBy])
+
+  // Infinite scroll using IntersectionObserver
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting && hasMore && !loadingMore) {
+          loadMore()
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    const currentTarget = observerTarget.current
+    if (currentTarget) {
+      observer.observe(currentTarget)
+    }
+
+    return () => {
+      if (currentTarget) {
+        observer.unobserve(currentTarget)
+      }
+    }
+  }, [hasMore, loadingMore, loadMore])
+
+  // Handle sort change
+  const handleSortChange = (newSort: string) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('sort', newSort)
+    router.push(`/library?${params.toString()}`)
   }
 
 
@@ -145,8 +181,28 @@ export function WorksheetLibraryBrowser() {
 
   return (
     <div>
-      <div className="mb-4 text-sm text-gray-600">
-        Showing {worksheets.length} worksheet{worksheets.length !== 1 ? 's' : ''}
+      {/* Header with count and sort controls */}
+      <div className="mb-4 flex items-center justify-between">
+        <div className="text-sm text-gray-600">
+          Showing {worksheets.length} worksheet{worksheets.length !== 1 ? 's' : ''}
+        </div>
+
+        {/* Sort Dropdown */}
+        <div className="flex items-center gap-2">
+          <label htmlFor="sort" className="text-sm text-gray-600">
+            Sort by:
+          </label>
+          <select
+            id="sort"
+            value={sortBy}
+            onChange={(e) => handleSortChange(e.target.value)}
+            className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="newest">Newest First</option>
+            <option value="popular">Most Popular</option>
+            <option value="downloads">Most Downloaded</option>
+          </select>
+        </div>
       </div>
 
       {/* 4-Column Responsive Grid */}
@@ -225,23 +281,30 @@ export function WorksheetLibraryBrowser() {
         })}
       </div>
 
-      {/* Load More Button */}
+      {/* Infinite Scroll Trigger */}
       {hasMore && (
-        <div className="mt-8 flex justify-center">
-          <button
-            onClick={loadMore}
-            disabled={loadingMore}
-            className="px-6 py-3 bg-blue-700 text-white rounded-lg font-medium hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {loadingMore ? 'Loading...' : 'Load More Worksheets'}
-          </button>
+        <div ref={observerTarget} className="mt-8">
+          {loadingMore && (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="bg-white rounded-lg border overflow-hidden animate-pulse">
+                  <div className="aspect-[4/5] bg-gray-200" />
+                  <div className="px-2 py-1.5 space-y-0">
+                    <div className="h-3 bg-gray-200 rounded mb-1" />
+                    <div className="h-2 bg-gray-200 rounded w-3/4" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
       {/* End of results message */}
       {!hasMore && worksheets.length > 0 && (
-        <div className="mt-8 text-center text-sm text-gray-500">
-          You've reached the end of the results
+        <div className="mt-8 text-center py-8 border-t">
+          <p className="text-sm text-gray-500">✓ You've viewed all worksheets</p>
+          <p className="text-xs text-gray-400 mt-1">Total: {worksheets.length} worksheets</p>
         </div>
       )}
     </div>

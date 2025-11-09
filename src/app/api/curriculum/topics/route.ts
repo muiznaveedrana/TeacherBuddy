@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getAvailableTopics } from '@/lib/data/curriculum'
 
+export const dynamic = 'force-dynamic'
+
 /**
  * GET /api/curriculum/topics?yearGroup=Year3
  * Returns available topics for a specific year group

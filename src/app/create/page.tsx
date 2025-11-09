@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -23,6 +23,8 @@ import { WorksheetEditor } from '@/components/worksheet/WorksheetEditor'
 import { SaveToLibraryModal } from '@/components/SaveToLibraryModal'
 import { generateLibraryMetadata } from '@/lib/helpers/metadataGenerator'
 import { createBrowserClient } from '@supabase/ssr'
+
+export const dynamic = 'force-dynamic'
 
 const mockNameLists = [
   { value: 'year3-class-a', label: 'Year 3 Class A (25 students)' },
@@ -60,7 +62,7 @@ interface GeneratedWorksheet {
   }
 }
 
-export default function DashboardPage() {
+function DashboardContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [showTour, setShowTour] = useState(false)
@@ -1441,5 +1443,20 @@ export default function DashboardPage() {
         <Footer version="v1.0.0-beta" />
       </div>
     </PullToRefresh>
+  )
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-blue-600" />
+          <p className="text-slate-600">Loading worksheet generator...</p>
+        </div>
+      </div>
+    }>
+      <DashboardContent />
+    </Suspense>
   )
 }

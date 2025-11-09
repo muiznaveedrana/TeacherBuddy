@@ -5,6 +5,8 @@ import { generateEducationalContent } from '@/lib/services/educationalContentSer
 import { normalizeTopicValue, normalizeSubtopicValue } from '@/lib/config/worksheetTaxonomy'
 import type { SaveToLibraryMetadata } from '@/lib/types/library'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
   try {
     console.log('📥 Received save to library request')

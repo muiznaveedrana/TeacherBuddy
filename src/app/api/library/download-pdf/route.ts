@@ -3,6 +3,8 @@ import { getWorksheetBySlug, recordDownload } from '@/lib/services/libraryServic
 import { generateWorksheetPdf } from '@/lib/services/pdfGenerationService'
 import crypto from 'crypto'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
   try {
     const { worksheetId, slug } = await request.json()

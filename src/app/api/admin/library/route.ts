@@ -3,6 +3,8 @@ import { getAllWorksheetsForAdmin } from '@/lib/services/libraryService'
 import { requireAdmin } from '@/lib/auth/authHelpers'
 import type { LibraryFilters } from '@/lib/types/library'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: NextRequest) {
   try {
     // Require admin authentication
