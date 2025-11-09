@@ -43,16 +43,21 @@ export function WorksheetLibraryBrowser() {
   const searchParams = useSearchParams()
   const [worksheets, setWorksheets] = useState<LibraryWorksheet[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [hasMore, setHasMore] = useState(true)
+  const [page, setPage] = useState(0)
 
   useEffect(() => {
     async function loadWorksheets() {
       setLoading(true)
       setError(null)
+      setPage(0)
+      setHasMore(true)
 
       try {
         const response = await fetch(
-          `/api/library/browse?${searchParams.toString()}`
+          `/api/library/browse?${searchParams.toString()}&limit=20`
         )
 
         if (!response.ok) {
@@ -61,6 +66,7 @@ export function WorksheetLibraryBrowser() {
 
         const data = await response.json()
         setWorksheets(data.worksheets)
+        setHasMore(data.worksheets.length === 20) // If we got 20, there might be more
 
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error')
@@ -71,6 +77,35 @@ export function WorksheetLibraryBrowser() {
 
     loadWorksheets()
   }, [searchParams])
+
+  const loadMore = async () => {
+    if (loadingMore || !hasMore) return
+
+    setLoadingMore(true)
+    const nextPage = page + 1
+
+    try {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set('page', nextPage.toString())
+      params.set('limit', '20')
+
+      const response = await fetch(`/api/library/browse?${params.toString()}`)
+
+      if (!response.ok) {
+        throw new Error('Failed to load more worksheets')
+      }
+
+      const data = await response.json()
+      setWorksheets(prev => [...prev, ...data.worksheets])
+      setPage(nextPage)
+      setHasMore(data.worksheets.length === 20)
+
+    } catch (err) {
+      console.error('Failed to load more:', err)
+    } finally {
+      setLoadingMore(false)
+    }
+  }
 
 
   if (loading) {
@@ -189,6 +224,26 @@ export function WorksheetLibraryBrowser() {
           )
         })}
       </div>
+
+      {/* Load More Button */}
+      {hasMore && (
+        <div className="mt-8 flex justify-center">
+          <button
+            onClick={loadMore}
+            disabled={loadingMore}
+            className="px-6 py-3 bg-blue-700 text-white rounded-lg font-medium hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {loadingMore ? 'Loading...' : 'Load More Worksheets'}
+          </button>
+        </div>
+      )}
+
+      {/* End of results message */}
+      {!hasMore && worksheets.length > 0 && (
+        <div className="mt-8 text-center text-sm text-gray-500">
+          You've reached the end of the results
+        </div>
+      )}
     </div>
   )
 }
