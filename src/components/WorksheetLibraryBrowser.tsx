@@ -52,26 +52,50 @@ export function WorksheetLibraryBrowser() {
 
   // Get sort from URL or default to 'newest'
   const sortBy = searchParams.get('sort') || 'newest'
+  const initialPage = parseInt(searchParams.get('page') || '0')
 
   useEffect(() => {
     async function loadWorksheets() {
       setLoading(true)
       setError(null)
-      setPage(0)
       setHasMore(true)
 
       try {
-        const response = await fetch(
-          `/api/library/browse?${searchParams.toString()}&limit=20`
-        )
+        // If URL has page parameter (e.g., /library?page=2), load all pages up to that point
+        const targetPage = Math.max(0, initialPage)
+        const allWorksheets: LibraryWorksheet[] = []
 
-        if (!response.ok) {
-          throw new Error('Failed to load worksheets')
+        // Load all pages from 0 to targetPage
+        for (let pageNum = 0; pageNum <= targetPage; pageNum++) {
+          const params = new URLSearchParams(searchParams.toString())
+          if (!params.has('sort')) {
+            params.set('sort', 'newest')
+          }
+          params.set('page', pageNum.toString())
+          params.set('limit', '20')
+
+          const response = await fetch(`/api/library/browse?${params.toString()}`)
+
+          if (!response.ok) {
+            throw new Error('Failed to load worksheets')
+          }
+
+          const data = await response.json()
+          allWorksheets.push(...data.worksheets)
+
+          // If we got less than 20, there are no more pages
+          if (data.worksheets.length < 20) {
+            setHasMore(false)
+            break
+          }
         }
 
-        const data = await response.json()
-        setWorksheets(data.worksheets)
-        setHasMore(data.worksheets.length === 20) // If we got 20, there might be more
+        setWorksheets(allWorksheets)
+        setPage(targetPage)
+        // If last page had 20 items, there might be more
+        if (allWorksheets.length > 0 && allWorksheets.length % 20 === 0) {
+          setHasMore(true)
+        }
 
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error')
@@ -81,7 +105,7 @@ export function WorksheetLibraryBrowser() {
     }
 
     loadWorksheets()
-  }, [searchParams])
+  }, [searchParams, initialPage])
 
   const loadMore = useCallback(async () => {
     if (loadingMore || !hasMore) return
@@ -106,6 +130,11 @@ export function WorksheetLibraryBrowser() {
       setPage(nextPage)
       setHasMore(data.worksheets.length === 20)
 
+      // Update URL for SEO and shareability (without page reload)
+      const newParams = new URLSearchParams(searchParams.toString())
+      newParams.set('page', nextPage.toString())
+      window.history.pushState({}, '', `/library?${newParams.toString()}`)
+
     } catch (err) {
       console.error('Failed to load more:', err)
     } finally {
@@ -114,27 +143,31 @@ export function WorksheetLibraryBrowser() {
   }, [loadingMore, hasMore, page, searchParams, sortBy])
 
   // Infinite scroll using IntersectionObserver
+  // IMPORTANT: This must run AFTER worksheets load (when ref div is rendered)
   useEffect(() => {
+    // Don't set up observer during initial loading or if no worksheets
+    if (loading || worksheets.length === 0) {
+      return;
+    }
+
+    const currentTarget = observerTarget.current
+    if (!currentTarget) return;
+
     const observer = new IntersectionObserver(
       entries => {
         if (entries[0].isIntersecting && hasMore && !loadingMore) {
           loadMore()
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0, rootMargin: '400px' } // Large rootMargin to trigger early during scroll
     )
 
-    const currentTarget = observerTarget.current
-    if (currentTarget) {
-      observer.observe(currentTarget)
-    }
+    observer.observe(currentTarget)
 
     return () => {
-      if (currentTarget) {
-        observer.unobserve(currentTarget)
-      }
+      observer.unobserve(currentTarget)
     }
-  }, [hasMore, loadingMore, loadMore])
+  }, [loading, worksheets.length, hasMore, loadingMore, loadMore])
 
   // Handle sort change
   const handleSortChange = (newSort: string) => {
@@ -200,7 +233,6 @@ export function WorksheetLibraryBrowser() {
           >
             <option value="newest">Newest First</option>
             <option value="popular">Most Popular</option>
-            <option value="downloads">Most Downloaded</option>
           </select>
         </div>
       </div>
@@ -281,24 +313,27 @@ export function WorksheetLibraryBrowser() {
         })}
       </div>
 
-      {/* Infinite Scroll Trigger */}
-      {hasMore && (
-        <div ref={observerTarget} className="mt-8">
-          {loadingMore && (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="bg-white rounded-lg border overflow-hidden animate-pulse">
-                  <div className="aspect-[4/5] bg-gray-200" />
-                  <div className="px-2 py-1.5 space-y-0">
-                    <div className="h-3 bg-gray-200 rounded mb-1" />
-                    <div className="h-2 bg-gray-200 rounded w-3/4" />
-                  </div>
+      {/* Infinite Scroll Trigger - Always render when hasMore, positioned AFTER grid */}
+      <div ref={observerTarget} className="mt-8 min-h-[100px]">
+        {loadingMore && hasMore && (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="bg-white rounded-lg border overflow-hidden animate-pulse">
+                <div className="aspect-[4/5] bg-gray-200" />
+                <div className="px-2 py-1.5 space-y-0">
+                  <div className="h-3 bg-gray-200 rounded mb-1" />
+                  <div className="h-2 bg-gray-200 rounded w-3/4" />
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+              </div>
+            ))}
+          </div>
+        )}
+        {!loadingMore && hasMore && (
+          <div className="text-center text-sm text-gray-400">
+            Scroll down to load more...
+          </div>
+        )}
+      </div>
 
       {/* End of results message */}
       {!hasMore && worksheets.length > 0 && (

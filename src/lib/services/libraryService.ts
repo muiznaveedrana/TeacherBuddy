@@ -158,19 +158,21 @@ export async function browseLibraryWorksheets(
     const sortBy = filters.sort_by || 'newest'
     switch (sortBy) {
       case 'newest':
-        query = query.order('published_at', { ascending: false })
+        // Sort by created_at (since published_at is often null)
+        // Use created_at DESC to show latest worksheets first
+        query = query.order('created_at', { ascending: false })
         break
       case 'popular':
         // Popular = Most downloads, then newest for ties
         query = query
           .order('download_count', { ascending: false })
-          .order('published_at', { ascending: false })
+          .order('created_at', { ascending: false })
         break
       case 'downloads':
         // Most downloads, then newest for ties
         query = query
           .order('download_count', { ascending: false })
-          .order('published_at', { ascending: false })
+          .order('created_at', { ascending: false })
         break
     }
 

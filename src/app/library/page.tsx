@@ -3,14 +3,46 @@ import Link from 'next/link'
 import { WorksheetLibraryBrowser } from '@/components/WorksheetLibraryBrowser'
 import { LibraryFilters } from '@/components/LibraryFilters'
 import { LibrarySearch } from '@/components/LibrarySearch'
+import { LibraryPaginationMeta } from '@/components/LibraryPaginationMeta'
 import { Button } from '@/components/ui/button'
 import { Home, PlusCircle, Library, ChevronRight } from 'lucide-react'
+import { Metadata } from 'next'
 
 export const revalidate = 3600
+
+// Generate dynamic metadata for SEO
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}): Promise<Metadata> {
+  const params = await searchParams
+  const currentPage = parseInt((params.page as string) || '0')
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://worksheetgenerator-ai.vercel.app'
+
+  const title = currentPage > 0
+    ? `Free Printable Worksheets - Page ${currentPage + 1} | WorksheetGenerator.AI`
+    : 'Free Printable Worksheets Library | WorksheetGenerator.AI'
+
+  const description = 'Browse thousands of high-quality, free printable worksheets for Reception, Year 1-6. Math, English, Science and more.'
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+    },
+  }
+}
 
 export default function LibraryPage() {
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* SEO: Add pagination link tags for better search engine crawling */}
+      <LibraryPaginationMeta />
+
       {/* Navigation Header */}
       <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
