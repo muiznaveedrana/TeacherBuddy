@@ -37,6 +37,11 @@ export function SaveToLibraryModal({
     setError(null)
 
     try {
+      console.log('💾 SaveToLibraryModal received HTML:', {
+        length: worksheetHtml.length,
+        preview: worksheetHtml.substring(0, 200)
+      })
+
       // Clean the HTML before saving (same logic as PDF download)
       let cleanedHtml = worksheetHtml
       const parser = new DOMParser()

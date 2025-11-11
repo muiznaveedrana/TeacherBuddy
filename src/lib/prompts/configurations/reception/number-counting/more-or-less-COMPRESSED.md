@@ -26,6 +26,7 @@
 ## Style
 Backgrounds (Q1-5): #FFF9C4,#F1F8E9,#E3F2FD,#FCE4EC,#FFF3E0
 All text: BLACK, 16pt base
+**TEXT CASE**: Use normal sentence case (only capitalize first word). Do NOT capitalize comparison words (more, fewer, most) - they should be lowercase.
 2-Group: `.comparison-container` + `.comparison-group` (A/B labels)
 3-Group: `.three-way-comparison` + `.comparison-group` (names)
 

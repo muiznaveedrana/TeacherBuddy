@@ -24,9 +24,9 @@ export function generateLibraryMetadata(config: {
   const formattedTopic = formatLabel(topic)
   const formattedSubtopic = formatLabel(subtopic)
 
-  // Generate title (simple, clean - just the topic name)
-  // Year group and subtopic are already visible on the worksheet itself
-  const title = formattedTopic
+  // Generate title including subtopic for unique slugs
+  // Format: "Topic - Subtopic" (e.g., "Number Counting - Counting To 10")
+  const title = `${formattedTopic} - ${formattedSubtopic}`
 
   // Generate SEO title (max 60 chars)
   const seoTitle = `Free ${yearGroup} ${formattedSubtopic} Worksheet | UK Curriculum`

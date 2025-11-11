@@ -13,6 +13,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 - **ALL questions**: Use SAME object type at different sizes (e.g., 3 apples NOT apple/banana/orange)
 - **Q3-Q5**: Items MUST be SCRAMBLED (NOT small→medium→large order)
 - **Answer areas**: Q1-Q3, Q5 use choice circles; Q4 uses drawing space for lines
+- **TEXT CASE**: Use normal sentence case (only capitalize first word). Do NOT capitalize size comparison words (bigger, smaller, tallest, shortest, longest, most) - they should be lowercase
 
 ## Objects (67)
 **fruits**: strawberry, apple, watermelon, pineapple, banana, orange | **toys**: ball, bear, block, doll | **farm_animals**: chicken, cow, sheep, pig, horse, duck | **vegetables**: carrot, tomato, cucumber, pepper, potato | **sports**: football, basketball, tennis_ball | **food_treats**: cookie, cupcake, icecream | **shapes**: star, heart, circle, square, diamond | **garden**: flower, tree, mushroom, leaf, butterfly | **school_supplies**: book, pencil, eraser, crayon, backpack | **vehicles**: car, bus, bike
@@ -20,11 +21,11 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 **Path**: `/images/{object}.png`
 
 ## 5 Questions (Pick 5 DIFFERENT categories)
-1. **Which is Bigger?** (2 objects, 50px vs 100px - OBVIOUS difference) + Answer choice circles
-2. **Which is Shorter?** (2 objects, 55px vs 105px - OBVIOUS difference) + Answer choice circles
-3. **Which is Longest?** (3 objects SCRAMBLED: e.g. 70px/45px/95px or 95px/70px/45px, labeled Left/Middle/Right) + Answer choice circles
-4. **Size Ordering** (3 objects SCRAMBLED: 50px/75px/100px, labels: Smallest/Medium/Biggest) + Drawing space for lines
-5. **Tallest/Biggest** (3 SAME objects SCRAMBLED: e.g. 80px/55px/105px or 105px/80px/55px, labeled Left/Middle/Right) + Answer choice circles
+1. **Which is bigger?** (2 objects, 50px vs 100px - OBVIOUS difference) + Answer choice circles
+2. **Which is shorter?** (2 objects, 55px vs 105px - OBVIOUS difference) + Answer choice circles
+3. **Which is longest?** (3 objects SCRAMBLED: e.g. 70px/45px/95px or 95px/70px/45px, labeled Left/Middle/Right) + Answer choice circles
+4. **Size ordering** (3 objects SCRAMBLED: 50px/75px/100px, labels: Smallest/Medium/Biggest) + Drawing space for lines
+5. **Which is tallest/biggest?** (3 SAME objects SCRAMBLED: e.g. 80px/55px/105px or 105px/80px/55px, labeled Left/Middle/Right) + Answer choice circles
 
 ## Q1 Template (50px vs 100px) - WITH ANSWER BOXES
 ```html

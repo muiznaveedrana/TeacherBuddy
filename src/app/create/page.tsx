@@ -1253,10 +1253,19 @@ function DashboardContent() {
                           initialMascots={generatedWorksheet.mascots}
                           onSave={(updatedContent, mascots) => {
                             // Update the generatedWorksheet with edited content and mascots
-                            setGeneratedWorksheet({
-                              ...generatedWorksheet,
-                              html: updatedContent,
-                              mascots: mascots || []
+                            // Use functional update to avoid closure issues with stale state
+                            setGeneratedWorksheet(prev => {
+                              if (!prev) return prev
+                              console.log('📝 Saving edited worksheet:', {
+                                originalLength: prev.html.length,
+                                editedLength: updatedContent.length,
+                                mascotsCount: mascots?.length || 0
+                              })
+                              return {
+                                ...prev,
+                                html: updatedContent,
+                                mascots: mascots || []
+                              }
                             })
                           }}
                         />
