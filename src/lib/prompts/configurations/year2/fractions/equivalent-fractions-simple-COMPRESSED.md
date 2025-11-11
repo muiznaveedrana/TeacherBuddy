@@ -1,4 +1,4 @@
-# Y2: Simple Equivalent Fractions ({{questionCount}}Q)
+# Year 2: Simple Equivalent Fractions
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Simple equivalence: 1/2 = 2/4 only.**
 
@@ -71,10 +71,10 @@ IF context=apple, pieces=4: "An apple is cut into 4 pieces. Maya eats half. How 
 
 ## CSS (COMPACT):
 ```css
-body{font-family:'Comic Sans MS',sans-serif;font-size:14pt;padding:8px;line-height:1.2}
+body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:8px;line-height:1.2}
 .question{margin:5px 0;padding:8px;border-radius:6px;border:2px solid #ddd}
 .question-number{display:inline-block;background:#4169E1;color:white;width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;margin-right:6px;font-weight:bold;font-size:13pt}
-.question-text{font-size:14pt;margin:3px 0;font-weight:600}
+.question-text{font-size:15pt;margin:3px 0;font-weight:600}
 .equivalence-container{margin:8px 0;padding:8px;background:#F5F5F5;border-radius:6px}
 .equivalence-pair{display:flex;justify-content:space-around;align-items:center;flex-wrap:wrap;margin:8px 0}
 .fraction-item{text-align:center;margin:8px;padding:8px;background:#FFF;border:2px solid #1976D2;border-radius:6px}
@@ -113,12 +113,12 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:14pt;padding:8px;line-heig
 .matching-option:hover{background:#E3F2FD;border-color:#2196F3}
 .word-problem-visual{margin:5px 0;padding:8px;background:#FFF3E0;border:2px dashed #FF9800;border-radius:6px}
 .pizza-visual{text-align:center;margin:8px 0}
-.instruction-box{margin:8px 0;padding:8px;background:#FFF9C4;border:2px dashed #FF9800;border-radius:6px;font-size:14pt;font-weight:600;text-align:center}
+.instruction-box{margin:8px 0;padding:8px;background:#FFF9C4;border:2px dashed #FF9800;border-radius:6px;font-size:15pt;font-weight:600;text-align:center}
 .answer-box{display:inline-block;min-width:60px;height:30px;border:2px solid #333;border-radius:4px;background:#FFF;vertical-align:middle;margin:0 4px}
 .answer-line{border:none;border-bottom:2px solid #333;display:inline-block;min-width:60px;margin:0 4px;background:transparent}
 .working-space{border:2px dashed #999;padding:8px;margin:5px 0;min-height:50px;background:#FAFAFA;border-radius:4px}
 .answer-key{margin-top:15px;padding:10px;background:#E8F4F8;border:2px solid #4169E1;border-radius:6px;page-break-before:always}
-.answer-key h2{font-size:16pt;color:#2c3e50;margin-bottom:8px;text-align:center}
+.answer-key h2{font-size:15pt;color:#2c3e50;margin-bottom:8px;text-align:center}
 .answer-key p{font-size:12pt;line-height:1.4;margin:4px 0}
 </style>
 ```
@@ -293,7 +293,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:14pt;padding:8px;line-heig
         <div class="division-lines"></div>
       </div>
       <p class="fraction-label">Pizza with 4 slices</p>
-      <p style="font-size:16pt;color:#666">Emma eats the green part</p>
+      <p style="font-size:15pt;color:#666">Emma eats the green part</p>
     </div>
   </div>
   <p class="question-text">Emma ate <span class="answer-box"></span> slices.</p>

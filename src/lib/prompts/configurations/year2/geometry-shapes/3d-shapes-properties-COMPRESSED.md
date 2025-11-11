@@ -1,4 +1,4 @@
-# Y2: 3D Shapes Properties ({{questionCount}}Q)
+# Year 2: 3D Shapes Properties
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Properties: faces, edges, vertices.**
 
@@ -34,7 +34,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 ```css
 body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-height:1.4}
 .question{margin:8px 0;padding:12px;border-radius:8px;border:2px solid #ddd}
-.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:14pt}
+.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:15pt}
 .question-text{font-size:15pt;margin:5px 0;font-weight:600}
 .shape-3d-container{margin:15px 0;padding:20px;background:#F5F5F5;border-radius:8px;text-align:center}
 .shape-3d{display:inline-block;margin:20px;position:relative}
@@ -46,9 +46,9 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .cylinder-3d{width:80px;height:100px;background:linear-gradient(90deg,#9C27B0,#7B1FA2,#9C27B0);border:3px solid #7B1FA2;border-radius:40px/10px;position:relative;box-shadow:10px 10px 20px rgba(0,0,0,0.3)}
 .cone-3d{width:0;height:0;border-left:60px solid transparent;border-right:60px solid transparent;border-bottom:120px solid #F44336;position:relative;filter:drop-shadow(5px 5px 10px rgba(0,0,0,0.3))}
 .pyramid-3d{width:0;height:0;border-left:70px solid transparent;border-right:70px solid transparent;border-bottom:100px solid #FF5722;position:relative;filter:drop-shadow(5px 5px 10px rgba(0,0,0,0.3))}
-.shape-label{font-size:16pt;font-weight:bold;color:#1976D2;margin-top:15px}
+.shape-label{font-size:15pt;font-weight:bold;color:#1976D2;margin-top:15px}
 .properties-table{margin:15px auto;border-collapse:collapse;background:#FFF;max-width:400px}
-.properties-table th{padding:10px;background:#1976D2;color:#FFF;border:2px solid #0D47A1;font-size:14pt}
+.properties-table th{padding:10px;background:#1976D2;color:#FFF;border:2px solid #0D47A1;font-size:15pt}
 .properties-table td{padding:10px;border:2px solid #1976D2;text-align:center;font-size:15pt}
 .property-label{font-weight:bold;background:#E3F2FD;text-align:left}
 .instruction-box{margin:15px 0;padding:12px;background:#FFF9C4;border:2px dashed #FF9800;border-radius:8px;font-size:15pt;font-weight:600}
@@ -58,7 +58,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .answer-box{display:inline-block;min-width:70px;height:35px;border:2px solid #333;border-radius:5px;background:#FFF;vertical-align:middle;margin:0 5px}
 .answer-line{border:none;border-bottom:3px solid #333;display:inline-block;min-width:100px;margin:0 5px;background:transparent}
 .answer-key{margin-top:30px;padding:15px;background:#E8F4F8;border:2px solid #4169E1;border-radius:8px;page-break-before:always}
-.answer-key h2{font-size:17pt;color:#2c3e50;margin-bottom:10px;text-align:center}
+.answer-key h2{font-size:15pt;color:#2c3e50;margin-bottom:10px;text-align:center}
 .answer-key p{font-size:13pt;line-height:1.6;margin:6px 0}
 </style>
 ```

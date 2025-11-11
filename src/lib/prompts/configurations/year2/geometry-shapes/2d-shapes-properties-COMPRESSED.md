@@ -1,4 +1,4 @@
-# Y2: 2D Shapes Properties ({{questionCount}}Q)
+# Year 2: 2D Shapes Properties
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Properties: sides, vertices (corners), lines of symmetry.**
 
@@ -35,7 +35,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 ```css
 body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-height:1.4}
 .question{margin:8px 0;padding:12px;border-radius:8px;border:2px solid #ddd}
-.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:14pt}
+.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:15pt}
 .question-text{font-size:15pt;margin:5px 0;font-weight:600}
 .shape-container{margin:15px 0;padding:20px;background:#F5F5F5;border-radius:8px;text-align:center}
 .shape-2d{display:inline-block;margin:15px}
@@ -46,21 +46,21 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .pentagon-2d{width:100px;height:95px;background:#9C27B0;clip-path:polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%);border:3px solid #7B1FA2}
 .hexagon-2d{width:100px;height:87px;background:#FF5722;clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);border:3px solid #E64A19}
 .octagon-2d{width:100px;height:100px;background:#00BCD4;clip-path:polygon(30% 0%,70% 0%,100% 30%,100% 70%,70% 100%,30% 100%,0% 70%,0% 30%);border:3px solid #0097A7}
-.shape-label{font-size:16pt;font-weight:bold;color:#1976D2;margin-top:10px}
+.shape-label{font-size:15pt;font-weight:bold;color:#1976D2;margin-top:10px}
 .properties-box{margin:15px 0;padding:15px;background:#E3F2FD;border:2px solid #1976D2;border-radius:8px}
-.property-item{margin:10px 0;padding:10px;background:#FFF;border-radius:5px;font-size:16pt}
+.property-item{margin:10px 0;padding:10px;background:#FFF;border-radius:5px;font-size:15pt}
 .property-label{font-weight:bold;color:#1976D2}
 .matching-options{display:flex;justify-content:space-around;flex-wrap:wrap;margin:15px 0}
 .matching-option{margin:10px;padding:15px;border:2px solid #ddd;border-radius:8px;background:#FFF;text-align:center;min-width:120px}
 .matching-option:hover{background:#E3F2FD;border-color:#2196F3}
 .drawing-space{border:3px dashed #999;padding:20px;margin:15px 0;min-height:150px;background:#FFF;border-radius:8px;text-align:center}
-.drawing-instruction{font-size:14pt;color:#666;font-style:italic}
+.drawing-instruction{font-size:15pt;color:#666;font-style:italic}
 .instruction-box{margin:15px 0;padding:12px;background:#FFF9C4;border:2px dashed #FF9800;border-radius:8px;font-size:15pt;font-weight:600}
 .answer-box{display:inline-block;min-width:70px;height:35px;border:2px solid #333;border-radius:5px;background:#FFF;vertical-align:middle;margin:0 5px}
 .answer-line{border:none;border-bottom:3px solid #333;display:inline-block;min-width:100px;margin:0 5px;background:transparent}
 .working-space{border:2px dashed #999;padding:10px;margin:10px 0;min-height:60px;background:#FAFAFA;border-radius:6px}
 .answer-key{margin-top:30px;padding:15px;background:#E8F4F8;border:2px solid #4169E1;border-radius:8px;page-break-before:always}
-.answer-key h2{font-size:17pt;color:#2c3e50;margin-bottom:10px;text-align:center}
+.answer-key h2{font-size:15pt;color:#2c3e50;margin-bottom:10px;text-align:center}
 .answer-key p{font-size:13pt;line-height:1.6;margin:6px 0}
 </style>
 ```

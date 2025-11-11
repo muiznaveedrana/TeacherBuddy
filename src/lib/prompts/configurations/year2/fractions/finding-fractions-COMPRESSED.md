@@ -1,4 +1,4 @@
-# Y2: Finding Fractions ({{questionCount}}Q)
+# Year 2: Finding Fractions
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Find fractions of shapes AND quantities.**
 
@@ -40,7 +40,7 @@ Use counting objects or shapes:
 ```css
 body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-height:1.4}
 .question{margin:8px 0;padding:12px;border-radius:8px;border:2px solid #ddd}
-.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:14pt}
+.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:15pt}
 .question-text{font-size:15pt;margin:5px 0;font-weight:600}
 .fraction-finding-container{margin:15px 0;padding:15px;background:#F5F5F5;border-radius:8px}
 .object-array{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:15px 0}
@@ -48,7 +48,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .count-square{width:40px;height:40px;border:3px solid #333;background:#2196F3;display:inline-block;border-radius:3px}
 .count-object{width:35px;height:35px;margin:5px}
 .fraction-calculation{margin:15px 0;padding:15px;background:#E3F2FD;border:2px solid #1976D2;border-radius:8px}
-.calc-step{margin:10px 0;padding:10px;background:#FFF;border-radius:5px;font-size:16pt}
+.calc-step{margin:10px 0;padding:10px;background:#FFF;border-radius:5px;font-size:15pt}
 .fraction-visual{display:flex;align-items:center;gap:20px;margin:15px 0;justify-content:center}
 .fraction-label{font-size:18pt;font-weight:bold;color:#1976D2}
 .fraction-equation{font-size:20pt;font-weight:bold;color:#FF5722;margin:15px 0;text-align:center}
@@ -62,12 +62,12 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .chocolate-piece:last-child{border-right:none}
 .chocolate-eaten{background:#8B4513;color:#FFF}
 .chocolate-left{background:#D2691E;color:#FFF}
-.instruction-box{margin:15px 0;padding:12px;background:#FFF9C4;border:2px dashed #FF9800;border-radius:8px;font-size:16pt;font-weight:600;text-align:center}
+.instruction-box{margin:15px 0;padding:12px;background:#FFF9C4;border:2px dashed #FF9800;border-radius:8px;font-size:15pt;font-weight:600;text-align:center}
 .answer-box{display:inline-block;min-width:70px;height:35px;border:2px solid #333;border-radius:5px;background:#FFF;vertical-align:middle;margin:0 5px}
 .answer-line{border:none;border-bottom:3px solid #333;display:inline-block;min-width:70px;margin:0 5px;background:transparent}
 .working-space{border:2px dashed #999;padding:10px;margin:10px 0;min-height:60px;background:#FAFAFA;border-radius:6px}
 .answer-key{margin-top:30px;padding:15px;background:#E8F4F8;border:2px solid #4169E1;border-radius:8px;page-break-before:always}
-.answer-key h2{font-size:17pt;color:#2c3e50;margin-bottom:10px;text-align:center}
+.answer-key h2{font-size:15pt;color:#2c3e50;margin-bottom:10px;text-align:center}
 .answer-key p{font-size:13pt;line-height:1.6;margin:6px 0}
 </style>
 ```

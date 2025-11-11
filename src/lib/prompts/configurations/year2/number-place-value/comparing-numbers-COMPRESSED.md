@@ -1,4 +1,4 @@
-# Year 2: Comparing Numbers (COMPRESSED)
+# Year 2: Comparing Numbers
 
 Generate EXACTLY {{questionCount}} Year 2 comparing numbers questions.
 

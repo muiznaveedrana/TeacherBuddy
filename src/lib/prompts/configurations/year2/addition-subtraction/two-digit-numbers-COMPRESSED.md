@@ -1,4 +1,4 @@
-# Y2: Two-Digit Add/Sub ({{questionCount}}Q)
+# Year 2: Two-Digit Add/Sub
 
 **CRITICAL: EXACTLY {{questionCount}} questions.**
 
@@ -51,7 +51,7 @@ Q2:yes/no (addition regroup), Q4:yes/no (subtraction borrow)
 ```css
 body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-height:1.4}
 .question{margin:8px 0;padding:12px;border-radius:8px;border:2px solid #ddd}
-.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:14pt}
+.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:15pt}
 .question-text{font-size:15pt;margin:5px 0;font-weight:600}
 .partition-container{display:flex;justify-content:center;align-items:center;gap:8px;margin:8px 0;flex-wrap:wrap}
 .partition-box{border:2px solid #333;padding:4px 8px;border-radius:6px;font-size:15pt;font-weight:bold;background:white;min-width:40px;text-align:center}
@@ -73,7 +73,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .tick.highlight{background:#FF9800;color:white;border-width:2px}
 .pv-chart{display:inline-block;border:2px solid #333;margin:8px 0}
 .pv-row{display:flex}
-.pv-cell{border:2px solid #666;padding:8px 15px;font-size:16pt;font-weight:bold;text-align:center;min-width:50px}
+.pv-cell{border:2px solid #666;padding:8px 15px;font-size:15pt;font-weight:bold;text-align:center;min-width:50px}
 .pv-header{background:#1976D2;color:white}
 .word-problem-visual{margin:8px 0;padding:10px;background:#FFF9C4;border:2px dashed #FF9800;border-radius:8px}
 .object-group{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:8px 0}
@@ -81,7 +81,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .answer-box{display:inline-block;min-width:80px;height:40px;border:2px solid #333;border-radius:6px;background:#FFF;vertical-align:middle;margin:0 8px}
 .working-space{border:2px dashed #999;padding:8px;margin:8px 0;min-height:50px;background:#FAFAFA;border-radius:6px}
 .answer-key{margin-top:30px;padding:15px;background:#E8F4F8;border:2px solid #4169E1;border-radius:8px;page-break-before:always}
-.answer-key h2{font-size:17pt;color:#2c3e50;margin-bottom:10px;text-align:center}
+.answer-key h2{font-size:15pt;color:#2c3e50;margin-bottom:10px;text-align:center}
 .answer-key p{font-size:13pt;line-height:1.6;margin:6px 0}
 </style>
 ```

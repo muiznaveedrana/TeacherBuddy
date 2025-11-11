@@ -1,4 +1,4 @@
-# Y2: Block Diagrams & Tables ({{questionCount}}Q)
+# Year 2: Block Diagrams & Tables
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Read and interpret block diagrams and simple tables.**
 
@@ -38,14 +38,14 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 ```css
 body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-height:1.4}
 .question{margin:8px 0;padding:12px;border-radius:8px;border:2px solid #ddd}
-.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:14pt}
+.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:15pt}
 .question-text{font-size:15pt;margin:5px 0;font-weight:600}
 .block-diagram-container{margin:15px 0;padding:20px;background:#F5F5F5;border:3px solid #1976D2;border-radius:8px}
 .block-diagram-title{font-size:18pt;font-weight:bold;color:#1976D2;text-align:center;margin-bottom:15px}
 .block-diagram{display:flex;align-items:flex-end;justify-content:space-around;min-height:250px;border-left:3px solid #333;border-bottom:3px solid #333;padding:10px;position:relative;background:#FFF;margin:20px 15px}
 .y-axis{position:absolute;left:-40px;top:0;height:100%;display:flex;flex-direction:column-reverse;justify-content:space-between;font-size:12pt;font-weight:bold}
 .y-label{height:20px;display:flex;align-items:center}
-.x-axis-labels{display:flex;justify-content:space-around;margin-top:10px;font-size:14pt;font-weight:bold}
+.x-axis-labels{display:flex;justify-content:space-around;margin-top:10px;font-size:15pt;font-weight:bold}
 .bar-column{display:flex;flex-direction:column;align-items:center;margin:0 10px}
 .block-stack{display:flex;flex-direction:column-reverse;gap:2px}
 .data-block{width:50px;height:20px;border:2px solid #333;border-radius:3px}
@@ -55,11 +55,11 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .block-yellow{background:#FFEB3B}
 .block-orange{background:#FF9800}
 .block-purple{background:#9C27B0}
-.category-label{margin-top:8px;font-size:14pt;font-weight:bold;text-align:center}
+.category-label{margin-top:8px;font-size:15pt;font-weight:bold;text-align:center}
 .simple-table-container{margin:15px 0;padding:15px;background:#F5F5F5;border:3px solid #1976D2;border-radius:8px}
 .simple-table{border-collapse:collapse;margin:0 auto;background:#FFF;width:90%;max-width:500px}
-.simple-table th{padding:12px;background:#1976D2;color:#FFF;border:2px solid #0D47A1;font-size:16pt;font-weight:bold}
-.simple-table td{padding:12px;border:2px solid #1976D2;font-size:16pt;text-align:center}
+.simple-table th{padding:12px;background:#1976D2;color:#FFF;border:2px solid #0D47A1;font-size:15pt;font-weight:bold}
+.simple-table td{padding:12px;border:2px solid #1976D2;font-size:15pt;text-align:center}
 .simple-table tr:nth-child(even){background:#E3F2FD}
 .row-header{background:#E3F2FD!important;font-weight:bold;text-align:left}
 .data-table{margin:15px 0;padding:15px;background:#E8F5E9;border:2px solid #4CAF50;border-radius:8px}
@@ -68,7 +68,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .answer-line{border:none;border-bottom:3px solid #333;display:inline-block;min-width:80px;margin:0 5px;background:transparent}
 .working-space{border:2px dashed #999;padding:10px;margin:10px 0;min-height:60px;background:#FAFAFA;border-radius:6px}
 .answer-key{margin-top:30px;padding:15px;background:#E8F4F8;border:2px solid #4169E1;border-radius:8px;page-break-before:always}
-.answer-key h2{font-size:17pt;color:#2c3e50;margin-bottom:10px;text-align:center}
+.answer-key h2{font-size:15pt;color:#2c3e50;margin-bottom:10px;text-align:center}
 .answer-key p{font-size:13pt;line-height:1.6;margin:6px 0}
 </style>
 ```
@@ -147,7 +147,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
         <p class="category-label">🟡 Yellow</p>
       </div>
     </div>
-    <p style="text-align:center;font-size:14pt;color:#666;margin-top:10px">Each block = 1 child</p>
+    <p style="text-align:center;font-size:15pt;color:#666;margin-top:10px">Each block = 1 child</p>
   </div>
   <p class="question-text">a) How many children chose red? <span class="answer-box"></span></p>
   <p class="question-text">b) How many children chose green? <span class="answer-box"></span></p>

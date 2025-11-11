@@ -1,4 +1,4 @@
-# Y2: Word Problems ({{questionCount}}Q)
+# Year 2: Word Problems
 
 **CRITICAL: EXACTLY {{questionCount}} questions.**
 
@@ -56,9 +56,9 @@ bar-model-full | bar-model-simple | bar-model-blank | pictures-with-bar | pictur
 
 ## CSS (Compact):
 ```css
-body{font-family:'Comic Sans MS',sans-serif;font-size:17pt;padding:20px;line-height:1.8}
+body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:20px;line-height:1.8}
 .question{margin:25px 0;padding:25px;border-radius:10px;border:2px solid #ddd}
-.question-number{display:inline-block;background:#4169E1;color:white;width:38px;height:38px;line-height:38px;text-align:center;border-radius:50%;margin-right:12px;font-weight:bold;font-size:16pt}
+.question-number{display:inline-block;background:#4169E1;color:white;width:38px;height:38px;line-height:38px;text-align:center;border-radius:50%;margin-right:12px;font-weight:bold;font-size:15pt}
 .question-text{font-size:18pt;margin:10px 0;font-weight:600;line-height:1.6}
 .bar-model-container{margin:25px 0;padding:20px;background:#F5F5F5;border-radius:10px;border:2px solid #ddd}
 .bar-model-title{font-size:15pt;font-weight:bold;margin-bottom:15px;color:#1976D2;text-align:center}
@@ -67,12 +67,12 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:17pt;padding:20px;line-hei
 .bar-section:last-child{border-right:none}
 .bar-section.known{background:#4CAF50;color:white}
 .bar-section.unknown{background:white;color:#333;border:3px dashed #FF5722}
-.bar-label{text-align:center;margin-top:10px;font-size:14pt;color:#555}
+.bar-label{text-align:center;margin-top:10px;font-size:15pt;color:#555}
 .comparison-bars{margin:20px 0}
 .comparison-bar{margin:15px 0}
 .comparison-label{font-size:15pt;font-weight:bold;margin-bottom:8px;color:#1976D2}
 .comparison-bar-visual{display:inline-block;height:40px;background:#FF9800;border:3px solid #F57C00;border-radius:6px;vertical-align:middle;margin-right:10px}
-.comparison-amount{display:inline-block;vertical-align:middle;font-size:16pt;font-weight:bold}
+.comparison-amount{display:inline-block;vertical-align:middle;font-size:15pt;font-weight:bold}
 .two-step-container{margin:20px 0;padding:15px;background:#E3F2FD;border-radius:8px;border:2px dashed #1976D2}
 .step-box{margin:15px 0;padding:12px;background:white;border:2px solid #666;border-radius:6px}
 .step-number{display:inline-block;width:30px;height:30px;background:#FF9800;color:white;border-radius:50%;text-align:center;line-height:30px;font-weight:bold;margin-right:10px}
@@ -85,7 +85,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:17pt;padding:20px;line-hei
 .coin-group img{width:50px;height:50px}
 .money-label{font-size:15pt;font-weight:bold;margin:10px 0;color:#2E7D32}
 .working-space{border:2px dashed #999;padding:25px;margin:15px 0;min-height:100px;background:#FAFAFA;border-radius:8px}
-.working-space-label{font-size:14pt;font-style:italic;color:#666;margin-bottom:10px}
+.working-space-label{font-size:15pt;font-style:italic;color:#666;margin-bottom:10px}
 .answer-box{display:inline-block;min-width:90px;height:50px;border:3px solid #333;border-radius:8px;background:#FFF;vertical-align:middle;margin:0 10px}
 .answer-line{border:none;border-bottom:3px solid #333;display:inline-block;min-width:80px;margin:0 5px;background:transparent}
 .part-whole-container{text-align:center;margin:25px 0}
@@ -101,7 +101,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:17pt;padding:20px;line-hei
 .answer-key{margin-top:50px;padding:25px;background:#E8F4F8;border:3px solid #4169E1;border-radius:10px;page-break-before:always}
 .answer-key h2{font-size:20pt;color:#2c3e50;margin-bottom:18px;text-align:center}
 .answer-key p{font-size:15pt;line-height:2;margin:12px 0}
-.answer-key .working{font-style:italic;color:#555;margin-left:15px;font-size:14pt}
+.answer-key .working{font-style:italic;color:#555;margin-left:15px;font-size:15pt}
 </style>
 ```
 

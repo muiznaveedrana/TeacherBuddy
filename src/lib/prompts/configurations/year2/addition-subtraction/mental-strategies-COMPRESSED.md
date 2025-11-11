@@ -1,4 +1,4 @@
-# Y2: Mental Add/Sub Strategies ({{questionCount}}Q)
+# Year 2: Mental Add/Sub Strategies
 
 **CRITICAL: EXACTLY {{questionCount}} questions.**
 
@@ -47,16 +47,16 @@ Larger coins (heads/tails): `/images/coin-[20p|50p]-[heads|tails].png`
 
 ## CSS (Compact):
 ```css
-body{font-family:'Comic Sans MS',sans-serif;font-size:17pt;padding:20px;line-height:1.8}
+body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:20px;line-height:1.8}
 .question{margin:25px 0;padding:25px;border-radius:10px;border:2px solid #ddd}
-.question-number{display:inline-block;background:#4169E1;color:white;width:38px;height:38px;line-height:38px;text-align:center;border-radius:50%;margin-right:12px;font-weight:bold;font-size:16pt}
+.question-number{display:inline-block;background:#4169E1;color:white;width:38px;height:38px;line-height:38px;text-align:center;border-radius:50%;margin-right:12px;font-weight:bold;font-size:15pt}
 .question-text{font-size:18pt;margin:10px 0;font-weight:600}
 .strategy-hint{font-size:15pt;font-style:italic;color:#7B1FA2;margin:15px 0;padding:10px;background:#F3E5F5;border-radius:6px}
 .answer-box-container{margin:20px 0;text-align:center}
 .answer-box{display:inline-block;width:80px;height:50px;border:3px solid #333;border-radius:8px;background:#FFF9C4}
 .near-doubles-visual{display:flex;gap:30px;justify-content:center;margin:20px 0}
 .double-group,.near-double-group{text-align:center}
-.group-label{font-size:16pt;font-weight:bold;margin-bottom:12px;color:#1976D2}
+.group-label{font-size:15pt;font-weight:bold;margin-bottom:12px;color:#1976D2}
 .object-group{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:200px;margin:10px auto}
 .part-whole-diagram{text-align:center;margin:25px 0}
 .whole-circle{width:90px;height:90px;background:#FF9800;border:4px solid #F57C00;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 25px;box-shadow:0 3px 8px rgba(0,0,0,0.15)}
@@ -70,7 +70,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:17pt;padding:20px;line-hei
 .number-line-container{margin:25px 0;padding:20px;background:#E3F2FD;border-radius:10px}
 .number-line{display:flex;justify-content:space-between;position:relative;padding:25px 10px 10px;margin-bottom:15px}
 .number-line::before{content:'';position:absolute;bottom:10px;left:5%;right:5%;height:3px;background:#333}
-.tick{width:38px;height:38px;background:#E0E0E0;border:2px solid #999;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14pt;font-weight:bold;position:relative;z-index:1}
+.tick{width:38px;height:38px;background:#E0E0E0;border:2px solid #999;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:15pt;font-weight:bold;position:relative;z-index:1}
 .tick.start{background:#4CAF50;color:white;border-width:3px}
 .tick.end{background:#FF9800;color:white;border-width:3px}
 .jump-arrows{text-align:center;margin-top:10px}
@@ -83,7 +83,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:17pt;padding:20px;line-hei
 .plus-sign{font-size:40pt;font-weight:bold;color:#FF9800}
 .strategy-selection{margin:20px 0}
 .strategy-options{display:flex;justify-content:center;gap:15px;flex-wrap:wrap;margin:15px 0}
-.strategy-badge{display:inline-block;padding:10px 18px;border:3px solid #333;border-radius:20px;font-size:14pt;font-weight:bold;background:white}
+.strategy-badge{display:inline-block;padding:10px 18px;border:3px solid #333;border-radius:20px;font-size:15pt;font-weight:bold;background:white}
 .answer-key{margin-top:50px;padding:25px;background:#E8F4F8;border:3px solid #4169E1;border-radius:10px;page-break-before:always}
 .answer-key h2{font-size:20pt;color:#2c3e50;margin-bottom:18px;text-align:center}
 .answer-key p{font-size:15pt;line-height:2;margin:12px 0}

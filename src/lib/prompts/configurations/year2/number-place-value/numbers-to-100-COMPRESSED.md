@@ -1,4 +1,4 @@
-# Y2: Numbers to 100 ({{questionCount}}Q)
+# Year 2: Numbers to 100
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Numbers to 100, place value focus.**
 
@@ -31,7 +31,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 ```css
 body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-height:1.4}
 .question{margin:8px 0;padding:12px;border-radius:8px;border:2px solid #ddd}
-.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:14pt}
+.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:15pt}
 .question-text{font-size:15pt;margin:5px 0;font-weight:600}
 .base10-container{display:flex;justify-content:center;gap:15px;margin:15px 0;flex-wrap:wrap}
 .base10-group{text-align:center}
@@ -41,7 +41,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .block-one{width:18px;height:18px;background:#4CAF50;border:2px solid #2E7D32;border-radius:2px;margin:2px}
 .pv-chart{display:inline-block;border:2px solid #333;margin:10px 0;background:#FFF}
 .pv-row{display:flex}
-.pv-cell{border:2px solid #666;padding:10px 20px;font-size:16pt;font-weight:bold;text-align:center;min-width:60px}
+.pv-cell{border:2px solid #666;padding:10px 20px;font-size:15pt;font-weight:bold;text-align:center;min-width:60px}
 .pv-header{background:#1976D2;color:white}
 .number-line-container{margin:15px 0;padding:15px;background:#E3F2FD;border-radius:8px}
 .number-line{display:flex;justify-content:space-between;position:relative;padding:20px 8px 8px}
@@ -58,9 +58,9 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .answer-box{display:inline-block;min-width:70px;height:35px;border:2px solid #333;border-radius:5px;background:#FFF;vertical-align:middle;margin:0 5px}
 .answer-line{border:none;border-bottom:3px solid #333;display:inline-block;min-width:80px;margin:0 5px;background:transparent}
 .working-space{border:2px dashed #999;padding:10px;margin:10px 0;min-height:60px;background:#FAFAFA;border-radius:6px}
-.instruction-box{margin:10px 0;padding:10px;background:#E8F5E9;border:2px dashed #4CAF50;border-radius:8px;font-size:14pt;font-style:italic;color:#2E7D32}
+.instruction-box{margin:10px 0;padding:10px;background:#E8F5E9;border:2px dashed #4CAF50;border-radius:8px;font-size:15pt;font-style:italic;color:#2E7D32}
 .answer-key{margin-top:30px;padding:15px;background:#E8F4F8;border:2px solid #4169E1;border-radius:8px;page-break-before:always}
-.answer-key h2{font-size:17pt;color:#2c3e50;margin-bottom:10px;text-align:center}
+.answer-key h2{font-size:15pt;color:#2c3e50;margin-bottom:10px;text-align:center}
 .answer-key p{font-size:13pt;line-height:1.6;margin:6px 0}
 </style>
 ```

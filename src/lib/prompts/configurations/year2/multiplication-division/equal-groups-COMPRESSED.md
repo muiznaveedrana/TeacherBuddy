@@ -1,4 +1,4 @@
-# Year 2: Equal Groups (COMPRESSED)
+# Year 2: Equal Groups
 
 Generate EXACTLY {{questionCount}} Year 2 equal groups questions.
 

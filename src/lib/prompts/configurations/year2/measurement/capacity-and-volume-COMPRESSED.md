@@ -1,4 +1,4 @@
-# Y2: Capacity/Volume ({{questionCount}}Q)
+# Year 2: Capacity/Volume
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Standard units (ml, l).**
 
@@ -47,7 +47,7 @@ Available containers:
 ```css
 body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-height:1.4}
 .question{margin:8px 0;padding:12px;border-radius:8px;border:2px solid #ddd}
-.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:14pt}
+.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:15pt}
 .question-text{font-size:15pt;margin:5px 0;font-weight:600}
 .jug-container{margin:10px 0;padding:15px;background:#F5F5F5;border-radius:8px;text-align:center}
 .measuring-jug{width:120px;height:200px;border:3px solid #333;border-radius:0 0 15px 15px;position:relative;margin:15px auto;background:linear-gradient(to top,#2196F3 0%,#2196F3 60%,transparent 60%)}
@@ -75,7 +75,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .answer-line{border:none;border-bottom:3px solid #333;display:inline-block;min-width:70px;margin:0 5px;background:transparent}
 .working-space{border:2px dashed #999;padding:10px;margin:10px 0;min-height:60px;background:#FAFAFA;border-radius:6px}
 .answer-key{margin-top:30px;padding:15px;background:#E8F4F8;border:2px solid #4169E1;border-radius:8px;page-break-before:always}
-.answer-key h2{font-size:17pt;color:#2c3e50;margin-bottom:10px;text-align:center}
+.answer-key h2{font-size:15pt;color:#2c3e50;margin-bottom:10px;text-align:center}
 .answer-key p{font-size:13pt;line-height:1.6;margin:6px 0}
 </style>
 ```

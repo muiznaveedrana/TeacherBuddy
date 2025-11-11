@@ -1,4 +1,4 @@
-# Y2: Pictograms ({{questionCount}}Q)
+# Year 2: Pictograms
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Read and interpret pictograms.**
 
@@ -43,26 +43,26 @@ Use images from `/images/counting/`:
 ```css
 body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-height:1.4}
 .question{margin:8px 0;padding:12px;border-radius:8px;border:2px solid #ddd}
-.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:14pt}
+.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:15pt}
 .question-text{font-size:15pt;margin:5px 0;font-weight:600}
 .pictogram-container{margin:15px 0;padding:15px;background:#F5F5F5;border:3px solid #1976D2;border-radius:8px}
 .pictogram-title{font-size:18pt;font-weight:bold;color:#1976D2;text-align:center;margin-bottom:15px}
-.pictogram-scale{font-size:14pt;font-weight:bold;color:#FF5722;text-align:center;margin-bottom:15px;padding:8px;background:#FFF3E0;border:2px dashed #FF9800;border-radius:5px}
+.pictogram-scale{font-size:15pt;font-weight:bold;color:#FF5722;text-align:center;margin-bottom:15px;padding:8px;background:#FFF3E0;border:2px dashed #FF9800;border-radius:5px}
 .pictogram-table{border-collapse:collapse;margin:0 auto;background:#FFF}
 .pictogram-row{border-bottom:2px solid #ddd}
-.pictogram-label{padding:10px 15px;font-weight:bold;font-size:16pt;background:#E3F2FD;border-right:3px solid #1976D2;min-width:120px;text-align:left}
+.pictogram-label{padding:10px 15px;font-weight:bold;font-size:15pt;background:#E3F2FD;border-right:3px solid #1976D2;min-width:120px;text-align:left}
 .pictogram-data{padding:10px;min-height:60px;vertical-align:middle}
 .pictogram-symbol{width:30px;height:30px;margin:3px;display:inline-block}
 .data-table{margin:15px 0;padding:15px;background:#E8F5E9;border:2px solid #4CAF50;border-radius:8px}
 .data-table table{border-collapse:collapse;margin:0 auto;background:#FFF}
 .data-table th{padding:10px 15px;background:#4CAF50;color:#FFF;border:2px solid #2E7D32;font-size:15pt}
-.data-table td{padding:10px 15px;border:2px solid #4CAF50;font-size:16pt;text-align:center}
+.data-table td{padding:10px 15px;border:2px solid #4CAF50;font-size:15pt;text-align:center}
 .instruction-box{margin:15px 0;padding:12px;background:#FFF9C4;border:2px dashed #FF9800;border-radius:8px;font-size:15pt;font-weight:600}
 .answer-box{display:inline-block;min-width:70px;height:35px;border:2px solid #333;border-radius:5px;background:#FFF;vertical-align:middle;margin:0 5px}
 .answer-line{border:none;border-bottom:3px solid #333;display:inline-block;min-width:80px;margin:0 5px;background:transparent}
 .working-space{border:2px dashed #999;padding:10px;margin:10px 0;min-height:60px;background:#FAFAFA;border-radius:6px}
 .answer-key{margin-top:30px;padding:15px;background:#E8F4F8;border:2px solid #4169E1;border-radius:8px;page-break-before:always}
-.answer-key h2{font-size:17pt;color:#2c3e50;margin-bottom:10px;text-align:center}
+.answer-key h2{font-size:15pt;color:#2c3e50;margin-bottom:10px;text-align:center}
 .answer-key p{font-size:13pt;line-height:1.6;margin:6px 0}
 </style>
 ```

@@ -1,4 +1,4 @@
-# Y2: Rounding to Nearest 10 ({{questionCount}}Q)
+# Year 2: Rounding to Nearest 10
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Concrete-Pictorial-Abstract progression.**
 
@@ -37,7 +37,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 ```css
 body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-height:1.4}
 .question{margin:8px 0;padding:12px;border-radius:8px;border:2px solid #ddd}
-.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:14pt}
+.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:15pt}
 .question-text{font-size:15pt;margin:5px 0;font-weight:600}
 .base10-container{display:flex;justify-content:center;gap:15px;margin:15px 0;flex-wrap:wrap}
 .base10-group{text-align:center}
@@ -52,9 +52,9 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .number-line{display:flex;justify-content:space-between;position:relative;padding:20px 8px 30px}
 .number-line::before{content:'';position:absolute;bottom:30px;left:5%;right:5%;height:3px;background:#333}
 .tick{width:32px;height:32px;background:#E0E0E0;border:2px solid #999;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11pt;font-weight:bold;position:relative;z-index:1}
-.tick.decade{background:#1976D2;color:#FFF;font-size:14pt;border:3px solid #0D47A1}
+.tick.decade{background:#1976D2;color:#FFF;font-size:15pt;border:3px solid #0D47A1}
 .tick.midpoint{background:#FF9800;color:#FFF;border:3px solid #F57C00}
-.tick.target{background:#4CAF50;color:#FFF;border:3px solid #2E7D32;width:40px;height:40px;font-size:16pt}
+.tick.target{background:#4CAF50;color:#FFF;border:3px solid #2E7D32;width:40px;height:40px;font-size:15pt}
 .tick-label{position:absolute;bottom:-25px;left:50%;transform:translateX(-50%);font-size:10pt;color:#666;white-space:nowrap}
 .rounding-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;margin:15px 0}
 .round-item{display:flex;align-items:center;justify-content:space-between;padding:12px;border:2px solid #ddd;border-radius:8px;background:#FFF}
@@ -69,7 +69,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .answer-line{border:none;border-bottom:3px solid #333;display:inline-block;min-width:80px;margin:0 5px;background:transparent}
 .working-space{border:2px dashed #999;padding:10px;margin:10px 0;min-height:60px;background:#FAFAFA;border-radius:6px}
 .answer-key{margin-top:30px;padding:15px;background:#E8F4F8;border:2px solid #4169E1;border-radius:8px;page-break-before:always}
-.answer-key h2{font-size:17pt;color:#2c3e50;margin-bottom:10px;text-align:center}
+.answer-key h2{font-size:15pt;color:#2c3e50;margin-bottom:10px;text-align:center}
 .answer-key p{font-size:13pt;line-height:1.6;margin:6px 0}
 </style>
 ```

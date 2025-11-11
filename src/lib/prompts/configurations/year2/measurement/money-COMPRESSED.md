@@ -1,4 +1,4 @@
-# Y2: Money ({{questionCount}}Q)
+# Year 2: Money
 
 **CRITICAL: EXACTLY {{questionCount}} questions. UK pence (p) and pounds (£).**
 
@@ -73,18 +73,18 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 ```css
 body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-height:1.4}
 .question{margin:8px 0;padding:12px;border-radius:8px;border:2px solid #ddd}
-.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:14pt}
+.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:15pt}
 .question-text{font-size:15pt;margin:5px 0;font-weight:600}
 .money-container{margin:10px 0;padding:15px;background:#E8F5E9;border:2px solid #4CAF50;border-radius:8px;text-align:center}
 .coin-group{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:15px 0}
 .coin-group img{margin:5px;object-fit:contain;display:inline-block}
 .money-total{font-size:20pt;font-weight:bold;color:#2E7D32;margin-top:15px}
-.money-label{font-size:16pt;font-weight:bold;margin:10px 0;color:#1976D2}
+.money-label{font-size:15pt;font-weight:bold;margin:10px 0;color:#1976D2}
 .money-comparison{display:flex;justify-content:space-around;margin:15px 0;flex-wrap:wrap}
 .money-item{text-align:center;padding:15px;margin:10px;border:2px solid #ddd;border-radius:8px;background:#FFF;min-width:180px}
 .money-amount{font-size:22pt;font-weight:bold;color:#2E7D32;margin:10px 0}
 .change-calculation{margin:10px 0;padding:15px;background:#FFF9C4;border:2px dashed #FF9800;border-radius:8px}
-.change-step{margin:10px 0;padding:10px;background:#FFF;border-radius:5px;font-size:16pt}
+.change-step{margin:10px 0;padding:10px;background:#FFF;border-radius:5px;font-size:15pt}
 .shopping-context{margin:10px 0;padding:15px;background:#E3F2FD;border:2px solid #1976D2;border-radius:8px}
 .shopping-item{display:flex;align-items:center;gap:15px;margin:10px 0;padding:10px;background:#FFF;border-radius:5px}
 .shopping-item img{height:50px}
@@ -94,7 +94,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .answer-line{border:none;border-bottom:3px solid #333;display:inline-block;min-width:70px;margin:0 5px;background:transparent}
 .working-space{border:2px dashed #999;padding:10px;margin:10px 0;min-height:60px;background:#FAFAFA;border-radius:6px}
 .answer-key{margin-top:30px;padding:15px;background:#E8F4F8;border:2px solid #4169E1;border-radius:8px;page-break-before:always}
-.answer-key h2{font-size:17pt;color:#2c3e50;margin-bottom:10px;text-align:center}
+.answer-key h2{font-size:15pt;color:#2c3e50;margin-bottom:10px;text-align:center}
 .answer-key p{font-size:13pt;line-height:1.6;margin:6px 0}
 </style>
 ```

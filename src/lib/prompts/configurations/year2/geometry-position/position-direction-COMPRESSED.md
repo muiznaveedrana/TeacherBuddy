@@ -1,4 +1,4 @@
-# Y2: Position, Direction & Movement ({{questionCount}}Q)
+# Year 2: Position, Direction & Movement
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Position, direction, movement, turns.**
 
@@ -32,7 +32,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 ```css
 body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-height:1.4}
 .question{margin:8px 0;padding:12px;border-radius:8px;border:2px solid #ddd}
-.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:14pt}
+.question-number{display:inline-block;background:#4169E1;color:white;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:15pt}
 .question-text{font-size:15pt;margin:5px 0;font-weight:600}
 .position-scene{margin:15px 0;padding:20px;background:#FFF9C4;border:3px solid #FF9800;border-radius:8px;text-align:center;position:relative;min-height:200px}
 .position-object{display:inline-block;margin:15px;font-size:40pt}
@@ -47,7 +47,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .turn-diagram{margin:15px auto;width:150px;height:150px;border:4px solid #333;border-radius:50%;position:relative;background:#FFF}
 .turn-arrow{position:absolute;top:50%;left:50%;width:60px;height:4px;background:#F44336;transform-origin:left center}
 .turn-arrow::after{content:'';position:absolute;right:-10px;top:-8px;width:0;height:0;border-left:20px solid #F44336;border-top:10px solid transparent;border-bottom:10px solid transparent}
-.turn-label{text-align:center;font-size:16pt;font-weight:bold;color:#1976D2;margin-top:10px}
+.turn-label{text-align:center;font-size:15pt;font-weight:bold;color:#1976D2;margin-top:10px}
 .compass-rose{margin:15px auto;width:180px;height:180px;position:relative;background:#FFF;border:3px solid #333;border-radius:50%}
 .compass-point{position:absolute;font-size:18pt;font-weight:bold}
 .compass-n{top:5px;left:50%;transform:translateX(-50%);color:#F44336}
@@ -61,7 +61,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .answer-box{display:inline-block;min-width:70px;height:35px;border:2px solid #333;border-radius:5px;background:#FFF;vertical-align:middle;margin:0 5px}
 .answer-line{border:none;border-bottom:3px solid #333;display:inline-block;min-width:100px;margin:0 5px;background:transparent}
 .answer-key{margin-top:30px;padding:15px;background:#E8F4F8;border:2px solid #4169E1;border-radius:8px;page-break-before:always}
-.answer-key h2{font-size:17pt;color:#2c3e50;margin-bottom:10px;text-align:center}
+.answer-key h2{font-size:15pt;color:#2c3e50;margin-bottom:10px;text-align:center}
 .answer-key p{font-size:13pt;line-height:1.6;margin:6px 0}
 </style>
 ```
