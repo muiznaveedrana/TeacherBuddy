@@ -50,9 +50,9 @@ export function WorksheetLibraryBrowser() {
   const [page, setPage] = useState(0)
   const observerTarget = useRef<HTMLDivElement>(null)
 
-  // Get sort from URL or default to 'newest'
-  const sortBy = searchParams.get('sort') || 'newest'
-  const initialPage = parseInt(searchParams.get('page') || '0')
+  // Get sort from URL or default to 'newest' (use optional chaining for safety)
+  const sortBy = searchParams?.get('sort') || 'newest'
+  const initialPage = parseInt(searchParams?.get('page') || '0')
 
   useEffect(() => {
     async function loadWorksheets() {
@@ -67,7 +67,7 @@ export function WorksheetLibraryBrowser() {
 
         // Load all pages from 0 to targetPage
         for (let pageNum = 0; pageNum <= targetPage; pageNum++) {
-          const params = new URLSearchParams(searchParams.toString())
+          const params = new URLSearchParams(searchParams?.toString() || '')
           if (!params.has('sort')) {
             params.set('sort', 'newest')
           }
@@ -114,7 +114,7 @@ export function WorksheetLibraryBrowser() {
     const nextPage = page + 1
 
     try {
-      const params = new URLSearchParams(searchParams.toString())
+      const params = new URLSearchParams(searchParams?.toString() || '')
       params.set('page', nextPage.toString())
       params.set('limit', '20')
       params.set('sort', sortBy)
@@ -130,10 +130,10 @@ export function WorksheetLibraryBrowser() {
       setPage(nextPage)
       setHasMore(data.worksheets.length === 20)
 
-      // Update URL for SEO and shareability (without page reload)
-      const newParams = new URLSearchParams(searchParams.toString())
+      // Update URL for SEO and shareability using Next.js router (prevents hydration errors)
+      const newParams = new URLSearchParams(searchParams?.toString() || '')
       newParams.set('page', nextPage.toString())
-      window.history.pushState({}, '', `/library?${newParams.toString()}`)
+      router.replace(`/library?${newParams.toString()}`, { scroll: false })
 
     } catch (err) {
       console.error('Failed to load more:', err)
@@ -171,7 +171,7 @@ export function WorksheetLibraryBrowser() {
 
   // Handle sort change
   const handleSortChange = (newSort: string) => {
-    const params = new URLSearchParams(searchParams.toString())
+    const params = new URLSearchParams(searchParams?.toString() || '')
     params.set('sort', newSort)
     router.push(`/library?${params.toString()}`)
   }

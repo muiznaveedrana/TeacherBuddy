@@ -26,7 +26,9 @@ export default function LibraryPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* SEO: Add pagination link tags for better search engine crawling */}
-      <LibraryPaginationMeta />
+      <Suspense fallback={null}>
+        <LibraryPaginationMeta />
+      </Suspense>
 
       {/* Navigation Header */}
       <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">

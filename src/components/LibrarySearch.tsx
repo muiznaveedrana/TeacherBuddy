@@ -8,10 +8,15 @@ import { Input } from '@/components/ui/input'
 export function LibrarySearch() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [query, setQuery] = useState(searchParams.get('q') || '')
+  const [query, setQuery] = useState('')
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [isSearching, setIsSearching] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // Sync query state with URL params (run on client after mount)
+  useEffect(() => {
+    setQuery(searchParams?.get('q') || '')
+  }, [searchParams])
 
   // Quick search suggestions based on common queries
   const suggestions = [
@@ -69,7 +74,7 @@ export function LibrarySearch() {
     } catch (error) {
       console.error('AI search error:', error)
       // Fallback to basic search
-      const params = new URLSearchParams(searchParams)
+      const params = new URLSearchParams(searchParams?.toString() || '')
       params.set('q', searchQuery.trim())
       router.push(`/library?${params.toString()}`)
     } finally {

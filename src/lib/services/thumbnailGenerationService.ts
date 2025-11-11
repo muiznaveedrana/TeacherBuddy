@@ -44,31 +44,68 @@ export async function generateWorksheetThumbnail(
       launchOptions.executablePath = await chromium.executablePath()
       launchOptions.args = chromium.args
     } else {
-      // Development: Use Puppeteer's installed Chromium
+      // Development: Try multiple sources in order of preference
       const path = require('path')
       const fs = require('fs')
       const glob = require('glob')
 
-      // Find Chromium executable dynamically (version-agnostic)
-      const chromiumDir = path.join(process.cwd(), 'chromium')
+      let foundExecutable = false
 
+      // 1. Try Puppeteer's installed Chromium
+      const chromiumDir = path.join(process.cwd(), 'chromium')
       if (fs.existsSync(chromiumDir)) {
-        // Find chrome.exe recursively in chromium directory
         const chromiumPaths = glob.sync('**/chrome.exe', {
           cwd: chromiumDir,
           absolute: true,
         })
-
         if (chromiumPaths.length > 0) {
-          const chromiumPath = chromiumPaths[0]
-          console.log('📍 Using Puppeteer Chromium:', chromiumPath)
-          launchOptions.executablePath = chromiumPath
-        } else {
-          console.log('⚠️ Chromium directory exists but chrome.exe not found')
+          launchOptions.executablePath = chromiumPaths[0]
+          console.log('📍 Using Puppeteer Chromium:', chromiumPaths[0])
+          foundExecutable = true
         }
-      } else {
-        // Fallback: Let Puppeteer find Chrome/Chromium automatically
-        console.log('⚠️ Using system Chrome (Puppeteer Chromium not found)')
+      }
+
+      // 2. Try Playwright's Chromium (most reliable for dev)
+      if (!foundExecutable) {
+        const playwrightChromiumPath = path.join(
+          process.cwd(),
+          'node_modules',
+          '@playwright',
+          'chromium',
+          '.local-browsers',
+          'chromium-*',
+          'chrome-win',
+          'chrome.exe'
+        )
+        const playwrightPaths = glob.sync(playwrightChromiumPath)
+        if (playwrightPaths.length > 0) {
+          launchOptions.executablePath = playwrightPaths[0]
+          console.log('📍 Using Playwright Chromium:', playwrightPaths[0])
+          foundExecutable = true
+        }
+      }
+
+      // 3. Try common system Chrome locations on Windows
+      if (!foundExecutable) {
+        const commonChromePaths = [
+          'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+          'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+          process.env.LOCALAPPDATA + '\\Google\\Chrome\\Application\\chrome.exe',
+        ]
+        for (const chromePath of commonChromePaths) {
+          if (fs.existsSync(chromePath)) {
+            launchOptions.executablePath = chromePath
+            console.log('📍 Using system Chrome:', chromePath)
+            foundExecutable = true
+            break
+          }
+        }
+      }
+
+      if (!foundExecutable) {
+        throw new Error(
+          '❌ No Chrome/Chromium found. Install Playwright browsers: npx playwright install chromium'
+        )
       }
     }
 
@@ -114,9 +151,10 @@ export async function generateWorksheetThumbnail(
       }
     }
 
+    // Use 'load' instead of 'networkidle0' since we're using data URIs (no network requests)
     await page.setContent(htmlWithDataUris, {
-      waitUntil: 'networkidle0',
-      timeout: 30000,
+      waitUntil: 'load',
+      timeout: 60000, // Increased to 60s for slower machines
     })
 
     // CRITICAL: Wait for ALL images to load before screenshot
@@ -132,8 +170,8 @@ export async function generateWorksheetThumbnail(
       )
     })
 
-    // Additional safety: Wait for network to be idle
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    // Additional safety: Wait for rendering to complete
+    await new Promise(resolve => setTimeout(resolve, 500))
 
     console.log('📷 Taking screenshot...')
     const screenshotBuffer = await page.screenshot({

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -25,6 +26,7 @@ export function SaveToLibraryModal({
   metadata: initialMetadata,
   onSuccess,
 }: SaveToLibraryModalProps) {
+  const router = useRouter()
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
@@ -82,9 +84,9 @@ export function SaveToLibraryModal({
         onSuccess(result.worksheet)
       }
 
-      // Auto-redirect to library after 1.5 seconds
+      // Auto-redirect to library after 1.5 seconds using client-side navigation
       setTimeout(() => {
-        window.location.href = '/library'
+        router.push('/library')
       }, 1500)
 
     } catch (err) {

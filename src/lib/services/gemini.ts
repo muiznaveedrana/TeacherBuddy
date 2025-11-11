@@ -84,6 +84,24 @@ function injectDevMetrics(html: string, metrics: GenerationMetrics): string {
 }
 
 /**
+ * BRANDING: Inject copyright notice into worksheet HTML
+ * Adds "© freemathprintable.com" in top right corner (10pt font)
+ *
+ * Always visible in production and development
+ * Positioned absolutely to avoid affecting worksheet layout
+ */
+function injectCopyright(html: string): string {
+  const copyrightNotice = `
+<div style="position: absolute; top: 10px; right: 10px; font-size: 10pt; color: #666; font-family: Arial, sans-serif; z-index: 1000; background: rgba(255, 255, 255, 0.9); padding: 2px 6px; border-radius: 3px;">
+  © freemathprintable.com
+</div>
+`
+
+  // Inject after <body> tag
+  return html.replace(/<body[^>]*>/i, (match) => match + copyrightNotice)
+}
+
+/**
  * PERFORMANCE OPTIMIZATION: Calculate optimal token limits dynamically
  * Reduces generation time by 3-5s for simple worksheets
  * Instead of always using 16,384 tokens, calculates based on actual needs
@@ -413,7 +431,10 @@ export async function generateWorksheet(
       metrics.endTime = Date.now()
       metrics.duration = metrics.endTime - metrics.startTime
       metrics.success = true
-      
+
+      // Inject copyright notice
+      worksheet.html = injectCopyright(worksheet.html)
+
       return worksheet
     }
     
@@ -457,8 +478,9 @@ export async function generateWorksheet(
     // Performance metrics tracking (removed console.log for production)
     // Metrics available in the metrics object for monitoring systems
 
-    // Inject development metrics banner
+    // Inject development metrics banner and copyright notice
     worksheet.html = injectDevMetrics(worksheet.html, metrics)
+    worksheet.html = injectCopyright(worksheet.html)
 
     return worksheet
   } catch (error) {
@@ -1210,9 +1232,12 @@ export async function generateWorksheetProgressive(
     console.log(`   - Answers: ~3-5s`)
     console.log(`   - Total: ${overallDuration.toFixed(2)}s`)
 
+    // Inject copyright notice
+    const htmlWithCopyright = injectCopyright(completeHtml)
+
     return {
       title: `${config.yearGroup} ${config.topic} - ${config.subtopic} (${config.difficulty})`,
-      html: completeHtml,
+      html: htmlWithCopyright,
       metadata: {
         ...questionsResult.metadata,
         generationMethod: 'progressive-dual-llm',
@@ -1403,8 +1428,9 @@ export async function generateWorksheetStreaming(
 
     console.log(`🎉 Streaming generation complete in ${(metrics.duration / 1000).toFixed(2)}s`)
 
-    // Inject development metrics banner
+    // Inject development metrics banner and copyright notice
     worksheet.html = injectDevMetrics(worksheet.html, metrics)
+    worksheet.html = injectCopyright(worksheet.html)
 
     return worksheet
 

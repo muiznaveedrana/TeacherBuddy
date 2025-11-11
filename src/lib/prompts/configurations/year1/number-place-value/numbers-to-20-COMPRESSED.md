@@ -1,4 +1,4 @@
-# Year 1: Numbers to 20 (COMPRESSED)
+# Year 1: Numbers to 20
 
 Generate EXACTLY {{questionCount}} Year 1 numbers to 20 questions.
 
@@ -153,7 +153,7 @@ Shapes: star,heart,circle,square
 ## CSS
 ```css
 <style>
-body{font-family:'Comic Sans MS',sans-serif;font-size:14pt;padding:15px;}
+body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 .question{margin:10px 0;padding:10px;border-radius:8px;}
 .counting-array{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:15px 0;}
 .number-line-container{margin:15px auto;max-width:400px;}

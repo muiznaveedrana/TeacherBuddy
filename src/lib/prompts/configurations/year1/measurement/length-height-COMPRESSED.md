@@ -1,4 +1,4 @@
-# Y1 Length/Height (ULTRA-COMPRESSED)
+# Year 1: Length and Height
 
 Gen {{questionCount}} Y1 measurement Qs. BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
@@ -22,6 +22,6 @@ Q2: `<div class="question" style="background:#E3F2FD"><p class="question-text"><
 
 Q4: `<div class="question" style="background:#FCE4EC"><p class="question-text"><span class="question-number">4.</span> 👤 Lily's scarf is 5 hands. 👤 Max's scarf is 9 hands. Whose LONGER?</p><div class="bar-row"><p>👤 Lily:</p><div class="measurement-bar" style="width:175px;background:linear-gradient(90deg,#4A90E2,#357ABD);border:3px solid #2C5F8D">5 hands</div></div><div class="bar-row"><p>👤 Max:</p><div class="measurement-bar" style="width:315px;background:linear-gradient(90deg,#50C878,#3DA75F);border:3px solid #2E7D4E">9 hands</div></div><p><span class="answer-line"></span> has longer scarf.</p></div>`
 
-**CSS**: `<style>body{font-family:'Comic Sans MS',sans-serif;font-size:14pt;padding:15px}.question{margin:10px 0;padding:12px;border-radius:8px}.question-number,.question-text{font-size:14pt;font-weight:600;display:inline}.compare-img{max-height:120px;max-width:300px;object-fit:contain;margin:10px}.unit-cube{width:40px;height:40px;border:2px solid #333;display:flex;align-items:center;justify-content:center;font-weight:bold;background:#FFE082}.measurement-bar{height:35px;border:3px solid;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold}.bar-row{margin-bottom:25px}.answer-box{border-bottom:3px solid #333;min-width:55px;height:30px}.answer-key{margin-top:40px;padding:20px;background:#f0f8ff;border:3px solid #4169E1;border-radius:10px}</style>`
+**CSS**: `<style>body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px}.question{margin:10px 0;padding:12px;border-radius:8px}.question-number,.question-text{font-size:16pt;font-weight:600;display:inline}.compare-img{max-height:120px;max-width:300px;object-fit:contain;margin:10px}.unit-cube{width:40px;height:40px;border:2px solid #333;display:flex;align-items:center;justify-content:center;font-weight:bold;background:#FFE082}.measurement-bar{height:35px;border:3px solid;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold}.bar-row{margin-bottom:25px}.answer-box{border-bottom:3px solid #333;min-width:55px;height:30px}.answer-key{margin-top:40px;padding:20px;background:#f0f8ff;border:3px solid #4169E1;border-radius:10px}</style>`
 
 5Qs (Q1-Q5 formats above) + counts (Q2:small 5-6|med 7-8|large 9-10; Q4:min4,3+gap; Q5:small 5-6|med 7-8|large 9-12) + answer key + CSS. NO cm/m. Gen NOW.
