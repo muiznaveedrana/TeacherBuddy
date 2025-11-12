@@ -11,13 +11,126 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 3. **Fruit images**: `/images/{name}.png` - Available: apple, banana, grape, lemon, orange, peach, pear, pineapple, strawberry, watermelon
 4. **Q4 descriptive words only** (big, ripe, sweet) NOT colors
 
-## 5 Questions (IN ORDER)
+## 5 Questions (IN ORDER - VARY EACH WORKSHEET!)
 
-**Q1: Ten Frame** (BG: #FFF9C4) - Show filled circles, find missing part
-**Q2: Part-Whole** (BG: #E3F2FD) - Whole=10 at top, 2 parts below
-**Q3: Bond Family** (BG: #F1F8E9) - Given 3+7=10, complete: 7+3, 10-3, 10-7
-**Q4: Real Objects** (BG: #FCE4EC) - Use fruit images, descriptive labels
-**Q5: Quick Grid** (BG: #FFF3E0) - 6 bonds in 2x3 grid
+**Q1: Ten Frame** (BG: #FFF9C4) - RANDOMIZE: filled amount + question wording
+**Q2: Part-Whole** (BG: #E3F2FD) - RANDOMIZE: shown part + question wording
+**Q3: Bond Family** (BG: #F1F8E9) - RANDOMIZE: starting bond pair + question wording
+**Q4: Real Objects** (BG: #FCE4EC) - RANDOMIZE: fruit + quantity + descriptive label
+**Q5: Quick Grid** (BG: #FFF3E0) - RANDOMIZE: which 6 bonds + arrangement
+
+## Q1 - Ten Frame (RANDOMIZE!)
+**RANDOMIZE**: Pick ONE filled amount + ONE question variation
+
+**Filled Amounts** (pick ONE - other side is empty):
+- 1 filled, 9 empty
+- 2 filled, 8 empty
+- 3 filled, 7 empty
+- 4 filled, 6 empty
+- 5 filled, 5 empty
+- 6 filled, 4 empty
+- 7 filled, 3 empty
+- 8 filled, 2 empty
+- 9 filled, 1 empty
+
+**Question Variations** (pick ONE):
+- "Complete the number bond to 10."
+- "Fill in the missing number to make 10."
+- "What number makes 10?"
+- "How many more to make 10?"
+
+## Q2 - Part-Whole Diagram (RANDOMIZE!)
+**RANDOMIZE**: Pick ONE shown part + ONE question variation
+
+**Shown Parts** (pick ONE - whole is always 10):
+- Show 1, missing 9
+- Show 2, missing 8
+- Show 3, missing 7
+- Show 4, missing 6
+- Show 5, missing 5
+- Show 6, missing 4
+- Show 7, missing 3
+- Show 8, missing 2
+- Show 9, missing 1
+
+**Question Variations** (pick ONE):
+- "Fill in the missing number to make 10."
+- "What is the missing part?"
+- "Complete the part-whole diagram."
+- "What number is missing?"
+
+## Q3 - Number Bond Family (RANDOMIZE!)
+**RANDOMIZE**: Pick ONE starting bond + ONE question variation
+
+**Starting Bonds** (pick ONE - complete the other 3):
+- Start with 1+9=10 (complete: 9+1=__, 10-1=__, 10-9=__)
+- Start with 2+8=10 (complete: 8+2=__, 10-2=__, 10-8=__)
+- Start with 3+7=10 (complete: 7+3=__, 10-3=__, 10-7=__)
+- Start with 4+6=10 (complete: 6+4=__, 10-4=__, 10-6=__)
+- Start with 5+5=10 (complete: 5+5=__, 10-5=__, 10-5=__)
+
+**Question Variations** (pick ONE):
+- "Complete the number bond family."
+- "Fill in the missing numbers in the fact family."
+- "Complete the related number sentences."
+- "Finish the number bond family."
+
+## Q4 - Real Objects with Fruit (RANDOMIZE!)
+**RANDOMIZE**: Pick ONE fruit + ONE quantity pair + ONE descriptive word
+
+**Fruits** (pick ONE):
+- strawberry, apple, banana, orange, grape, lemon, peach, pear, pineapple, watermelon
+
+**Quantity Pairs** (pick ONE - must add to 10):
+- 1 and 9, 2 and 8, 3 and 7, 4 and 6, 5 and 5, 6 and 4, 7 and 3, 8 and 2, 9 and 1
+
+**Descriptive Words** (pick ONE - NO colors):
+- ripe, sweet, big, small, juicy, fresh, round, whole
+
+**Question Pattern Variations** (pick ONE):
+1. "There are 10 [fruits]. [quantity] [fruits] are [descriptive]. **How many [fruits] are NOT [descriptive]?**"
+2. "There are 10 [fruits] altogether. [quantity] are [descriptive]. **How many are NOT [descriptive]?**"
+3. "I have 10 [fruits]. [quantity] [fruits] are [descriptive]. **How many [fruits] are left?**"
+4. "There are 10 [fruits]. [quantity] are [descriptive]. **How many more [fruits] are there?**"
+
+**Examples**:
+- "There are 10 strawberries. 5 strawberries are ripe. **How many strawberries are NOT ripe?**"
+- "There are 10 apples altogether. 3 are big. **How many are NOT big?**"
+- "I have 10 bananas. 7 bananas are sweet. **How many bananas are left?**"
+- "There are 10 oranges. 4 are juicy. **How many more oranges are there?**"
+
+## Q5 - Quick Bonds Grid (RANDOMIZE!)
+**RANDOMIZE**: Pick 6 different bonds from the pool + shuffle order
+
+**Bond Pool** (pick any 6 - NO repeats):
+- 0 + __ = 10 (answer: 10)
+- 1 + __ = 10 (answer: 9)
+- 2 + __ = 10 (answer: 8)
+- 3 + __ = 10 (answer: 7)
+- 4 + __ = 10 (answer: 6)
+- 5 + __ = 10 (answer: 5)
+- 6 + __ = 10 (answer: 4)
+- 7 + __ = 10 (answer: 3)
+- 8 + __ = 10 (answer: 2)
+- 9 + __ = 10 (answer: 1)
+- __ + 0 = 10 (answer: 10)
+- __ + 1 = 10 (answer: 9)
+- __ + 2 = 10 (answer: 8)
+- __ + 3 = 10 (answer: 7)
+- __ + 4 = 10 (answer: 6)
+- __ + 5 = 10 (answer: 5)
+- __ + 6 = 10 (answer: 4)
+- __ + 7 = 10 (answer: 3)
+- __ + 8 = 10 (answer: 2)
+- __ + 9 = 10 (answer: 1)
+
+**Question Variations** (pick ONE):
+- "Fill in the missing numbers to make 10."
+- "Complete each number bond to 10."
+- "What numbers make 10?"
+- "Fill in the boxes to make 10."
+
+**CRITICAL**: Shuffle the grid order - don't show them in sequence!
 
 ## Q1 Template
 ```html
@@ -86,7 +199,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 ```html
 <div class="question" style="background: #FCE4EC;">
     <span class="question-number">4.</span>
-    <p class="question-text">There are 10 strawberries. 5 strawberries are ripe. How many more strawberries?</p>
+    <p class="question-text">There are 10 strawberries. 5 strawberries are ripe. How many strawberries are NOT ripe?</p>
     <div class="object-bond-visual">
         <div class="objects-group">
             <img src="/images/strawberry.png" width="40" height="40" alt="Strawberry" />
@@ -182,7 +295,7 @@ body{font-family:'Sassoon Primary','Century Gothic',sans-serif;font-size:16pt;ma
         <p><strong>1.</strong> [e.g., 3 for 7+3=10]</p>
         <p><strong>2.</strong> [e.g., 4 for 6 and 4 make 10]</p>
         <p><strong>3.</strong> [e.g., 10, 7, 3]</p>
-        <p><strong>4.</strong> [e.g., 5 more strawberries]</p>
+        <p><strong>4.</strong> [e.g., 5 strawberries are NOT ripe]</p>
         <p><strong>5.</strong> [e.g., 8, 5, 2, 9, 4, 7]</p>
     </div>
 </div>

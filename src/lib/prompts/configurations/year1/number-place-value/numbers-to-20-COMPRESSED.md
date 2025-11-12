@@ -12,13 +12,13 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 **Visual Support:** Ten-frames, number lines, object arrays
 **Place Value:** Understanding tens and ones (e.g., 14 = 1 ten + 4 ones)
 
-## 5-QUESTION FORMAT
+## 5-QUESTION FORMAT (VARY EACH WORKSHEET!)
 
-**Q1:** Count and write number (object array, 6-18 objects)
-**Q2:** Number line - missing number (show 6 consecutive numbers)
-**Q3:** Ten-frame recognition (show 10-20)
-**Q4:** One more, one less (given number 5-19)
-**Q5:** Number word matching (numerals to words)
+**Q1:** Count and write number (object array, 6-18 objects) - RANDOMIZE: object + quantity + question wording
+**Q2:** Number line - missing number (show 6 consecutive numbers) - RANDOMIZE: starting number + question wording
+**Q3:** Ten-frame recognition (show 10-20) - RANDOMIZE: quantity + question wording
+**Q4:** One more, one less (given number 5-19) - RANDOMIZE: central number + question variation
+**Q5:** Number word matching (numerals to words) - RANDOMIZE: number set + question wording
 
 ## NUMBER WORDS (0-20)
 
@@ -28,8 +28,110 @@ zero, one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve,
 
 Fruits: apple,banana,orange,strawberry
 School: pencil,book,crayon,scissors
-Toys: ball,car,doll,kite,teddy,bear
+Toys: ball,car,doll,kite,bear
 Shapes: star,heart,circle,square
+
+## Q1 - Count and Write (RANDOMIZE!)
+**RANDOMIZE**: Pick ONE object + ONE quantity (6-18) + ONE question variation
+
+**Object Pool** (pick ONE):
+- apple, banana, orange, strawberry (fruits)
+- pencil, book, crayon, scissors (school)
+- ball, car, doll, bear (toys)
+- star, heart, circle, square (shapes)
+
+**Quantities**: 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+
+**Question Variations** (pick ONE):
+- "Count the [objects]. Write the number."
+- "How many [objects] are there?"
+- "Count the [objects]."
+- "How many [objects] can you see?"
+
+**Answer Format Variations** (pick ONE):
+- "There are ____ [objects]."
+- "I can see ____ [objects]."
+- "There are ____ altogether."
+
+## Q2 - Number Line Missing Number (RANDOMIZE!)
+**RANDOMIZE**: Pick ONE starting number + ONE question variation
+
+**Starting Numbers** (pick ONE - show 6 consecutive):
+- 3, 4, 5, 6, 7, 8 (missing can be any position)
+- 7, 8, 9, 10, 11, 12
+- 10, 11, 12, 13, 14, 15
+- 12, 13, 14, 15, 16, 17
+- 14, 15, 16, 17, 18, 19
+
+**Missing Position**: Position 2, 3, or 4 (not first or last - too easy)
+
+**Question Variations** (pick ONE):
+- "What number is missing?"
+- "Which number is missing from the number line?"
+- "Fill in the missing number."
+- "What number should go in the box?"
+
+**Answer Format Variations** (pick ONE):
+- "The missing number is ____"
+- "The number is ____"
+- "____ is missing."
+
+## Q3 - Ten-Frame Recognition (RANDOMIZE!)
+**RANDOMIZE**: Pick ONE quantity (10-20) + ONE question variation + ONE color
+
+**Quantities**: 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+
+**Colors** (for filled circles - pick ONE):
+- blue (#4A90E2)
+- red (#E74C3C)
+- green (#27AE60)
+- orange (#FF9800)
+
+**Question Variations** (pick ONE):
+- "Count the [color] circles."
+- "How many [color] circles are there?"
+- "Count the [color] counters."
+- "How many [color] dots can you see?"
+
+**Answer Format Variations** (pick ONE):
+- "There are ____ [color] circles."
+- "I can see ____ [color] circles."
+- "There are ____ altogether."
+
+## Q4 - One More, One Less (RANDOMIZE!)
+**RANDOMIZE**: Pick ONE central number (6-18) + ONE question variation
+
+**Central Numbers**: 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+
+**Question Variations** (pick ONE):
+- "Fill in the missing numbers."
+- "What is one more and one less than [number]?"
+- "Complete the number pattern."
+- "Write the numbers that are one more and one less."
+
+**Format Variations** (pick ONE):
+- Standard: "One Less | [Number] | One More"
+- Alternative: "1 less than [number] is ____. 1 more than [number] is ____."
+
+## Q5 - Number Words Matching (RANDOMIZE!)
+**RANDOMIZE**: Pick ONE number set (4 numbers) + ONE question variation + shuffle word order
+
+**Number Sets** (pick ONE - always use 4 numbers):
+- **Set 1**: 11, 13, 16, 19
+- **Set 2**: 12, 14, 17, 20
+- **Set 3**: 10, 13, 15, 18
+- **Set 4**: 11, 14, 16, 20
+- **Set 5**: 12, 15, 17, 19
+- **Set 6**: 10, 12, 16, 18
+- **Set 7**: 11, 15, 17, 20
+
+**Question Variations** (pick ONE):
+- "Draw lines to match the numbers to the words."
+- "Match the numbers with the correct words."
+- "Connect each number to its word."
+- "Match the numerals to the number words."
+
+**CRITICAL**: Always shuffle the word column order (don't align them!)
 
 ## EXAMPLE OUTPUT
 

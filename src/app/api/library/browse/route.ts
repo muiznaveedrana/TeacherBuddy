@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { browseLibraryWorksheets } from '@/lib/services/libraryService'
 import type { LibraryFilters } from '@/lib/types/library'
 
-export const revalidate = 60 // Revalidate every 60 seconds (was 3600 = 1 hour)
+export const revalidate = 0 // No caching - always fresh data
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {

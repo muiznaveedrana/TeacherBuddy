@@ -20,14 +20,109 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 
 **Path**: `/images/{object}.png`
 
-## 5 Questions (Pick 5 DIFFERENT categories)
-1. **Which is bigger?** (2 objects, 50px vs 100px - OBVIOUS difference) + Answer choice circles
-2. **Which is shorter?** (2 objects, 55px vs 105px - OBVIOUS difference) + Answer choice circles
-3. **Which is longest?** (3 objects SCRAMBLED: e.g. 70px/45px/95px or 95px/70px/45px, labeled Left/Middle/Right) + Answer choice circles
-4. **Size ordering** (3 objects SCRAMBLED: 50px/75px/100px, labels: Smallest/Medium/Biggest) + Drawing space for lines
-5. **Which is tallest/biggest?** (3 SAME objects SCRAMBLED: e.g. 80px/55px/105px or 105px/80px/55px, labeled Left/Middle/Right) + Answer choice circles
+## 5 Questions (Pick 5 DIFFERENT categories - VARY EACH WORKSHEET!)
+1. **Which is bigger?** - RANDOMIZE: object + question wording
+2. **Which is shorter?** - RANDOMIZE: object + question wording
+3. **Which is longest?** - RANDOMIZE: object + question wording
+4. **Size ordering** - RANDOMIZE: object + question wording
+5. **Which is tallest/biggest?** - RANDOMIZE: object + question wording
 
-## Q1 Template (50px vs 100px) - WITH ANSWER BOXES
+## Q1 - Which is Bigger? (RANDOMIZE!)
+**RANDOMIZE**: Pick ONE object + ONE question variation
+
+**Object Pool** (pick ONE from different category each time):
+- **Fruits**: strawberry, apple, watermelon, banana, orange
+- **Toys**: ball, bear, block, doll
+- **Farm Animals**: chicken, cow, sheep, pig
+- **Vegetables**: carrot, tomato, cucumber
+- **Food Treats**: cookie, cupcake
+- **School**: book, pencil, crayon
+- **Garden**: flower, butterfly, leaf
+
+**Question Variations** (pick ONE):
+- "Which [object] is bigger?"
+- "Which is the bigger [object]?"
+- "Find the bigger [object]."
+- "Point to the bigger [object]."
+
+**Sizes**: 50px vs 100px (OBVIOUS 50% difference)
+
+## Q2 - Which is Shorter? (RANDOMIZE!)
+**RANDOMIZE**: Pick ONE object (DIFFERENT from Q1) + ONE question variation
+
+**Object Pool** (pick ONE from different category than Q1):
+- **Vegetables**: carrot, cucumber
+- **School**: pencil, crayon, book
+- **Garden**: flower, tree, leaf
+- **Toys**: doll, block, bear
+- **Farm Animals**: duck, chicken, sheep
+
+**Question Variations** (pick ONE):
+- "Which [object] is shorter?"
+- "Which is the shorter [object]?"
+- "Find the shorter [object]."
+- "Point to the shorter [object]."
+
+**Sizes**: 55px vs 105px (OBVIOUS difference)
+
+## Q3 - Which is Longest? (RANDOMIZE!)
+**RANDOMIZE**: Pick ONE object (DIFFERENT from Q1-Q2) + ONE question variation
+
+**Object Pool** (pick ONE from different category):
+- **Vegetables**: carrot, cucumber
+- **School**: pencil, crayon, ruler
+- **Farm Animals**: pig, cow, horse
+- **Vehicles**: car, bus, bike
+- **Food**: banana, carrot
+
+**Question Variations** (pick ONE):
+- "Which [object] is the longest?"
+- "Which is the longest [object]?"
+- "Find the longest [object]."
+- "Which [object] is longest?"
+
+**Sizes**: 3 objects SCRAMBLED (e.g., 70px/45px/95px) labeled Left/Middle/Right
+
+## Q4 - Size Ordering (RANDOMIZE!)
+**RANDOMIZE**: Pick ONE object (DIFFERENT from Q1-Q3) + ONE question variation
+
+**Object Pool** (pick ONE):
+- **Toys**: block, ball, bear, doll
+- **Fruits**: apple, strawberry, orange
+- **Farm Animals**: chicken, duck, sheep
+- **School**: book, pencil, eraser
+- **Food Treats**: cookie, cupcake
+
+**Question Variations** (pick ONE):
+- "Can you put these [objects] in order from smallest to biggest? Draw lines to match."
+- "Put these [objects] in order. Draw lines from smallest to biggest."
+- "Match these [objects] to put them in size order."
+- "Draw lines to show the [objects] from smallest to biggest."
+
+**Sizes**: 3 objects SCRAMBLED (50px/75px/100px) - labels: Smallest/Medium/Biggest
+
+## Q5 - Which is Tallest/Biggest? (RANDOMIZE!)
+**RANDOMIZE**: Pick ONE object (DIFFERENT from Q1-Q4) + ONE question variation
+
+**Object Pool** (pick ONE):
+- **Garden**: flower, tree, butterfly
+- **Farm Animals**: cow, horse, pig, sheep
+- **School**: book, backpack, pencil
+- **Toys**: bear, doll, block
+- **Fruits**: apple, banana, watermelon
+
+**Question Variations** (pick ONE):
+- "Which [object] is the tallest?"
+- "Which [object] is the biggest?"
+- "Find the tallest [object]."
+- "Find the biggest [object]."
+- "Which is the tallest [object]?"
+
+**Sizes**: 3 objects SCRAMBLED (e.g., 80px/55px/105px) labeled Left/Middle/Right
+
+## Templates
+
+### Q1 Template (50px vs 100px) - WITH ANSWER BOXES
 ```html
 <div class="question" style="background: #FFF9C4;">
     <p class="question-text"><span class="question-number">1.</span> Which strawberry is bigger?</p>

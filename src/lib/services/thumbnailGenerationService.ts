@@ -11,8 +11,8 @@ interface ThumbnailConfig {
 }
 
 const DEFAULT_CONFIG: ThumbnailConfig = {
-  width: 800,
-  height: 1000,
+  width: 1200,
+  height: 1500,
   quality: 80,
   format: 'webp',
 }

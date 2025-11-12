@@ -64,6 +64,7 @@ export function WorksheetLibraryBrowser() {
         // If URL has page parameter (e.g., /library?page=2), load all pages up to that point
         const targetPage = Math.max(0, initialPage)
         const allWorksheets: LibraryWorksheet[] = []
+        let lastHasMore = true
 
         // Load all pages from 0 to targetPage
         for (let pageNum = 0; pageNum <= targetPage; pageNum++) {
@@ -82,20 +83,18 @@ export function WorksheetLibraryBrowser() {
 
           const data = await response.json()
           allWorksheets.push(...data.worksheets)
+          lastHasMore = data.has_more
 
-          // If we got less than 20, there are no more pages
-          if (data.worksheets.length < 20) {
-            setHasMore(false)
+          // Stop if backend says no more results
+          if (!data.has_more) {
             break
           }
         }
 
         setWorksheets(allWorksheets)
         setPage(targetPage)
-        // If last page had 20 items, there might be more
-        if (allWorksheets.length > 0 && allWorksheets.length % 20 === 0) {
-          setHasMore(true)
-        }
+        // Use the last page's has_more flag from backend
+        setHasMore(lastHasMore)
 
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error')
@@ -128,7 +127,7 @@ export function WorksheetLibraryBrowser() {
       const data = await response.json()
       setWorksheets(prev => [...prev, ...data.worksheets])
       setPage(nextPage)
-      setHasMore(data.worksheets.length === 20)
+      setHasMore(data.has_more) // Use backend's has_more flag
 
       // Update URL for SEO and shareability using Next.js router (prevents hydration errors)
       const newParams = new URLSearchParams(searchParams?.toString() || '')
