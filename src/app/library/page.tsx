@@ -13,11 +13,11 @@ export const dynamic = 'force-dynamic' // Required for searchParams
 
 // Static metadata (will be overridden client-side for different pages)
 export const metadata: Metadata = {
-  title: 'Free Printable Worksheets Library | WorksheetGenerator.AI',
-  description: 'Browse thousands of high-quality, free printable worksheets for Reception, Year 1-6. Math, English, Science and more.',
+  title: 'Free Math Printables Library | FreeMathPrintable.com',
+  description: 'Browse thousands of free printable math resources for UK primary schools (Reception to Year 6). Library always free.',
   openGraph: {
-    title: 'Free Printable Worksheets Library | WorksheetGenerator.AI',
-    description: 'Browse thousands of high-quality, free printable worksheets for Reception, Year 1-6. Math, English, Science and more.',
+    title: 'Free Math Printables Library | FreeMathPrintable.com',
+    description: 'Browse thousands of free printable math resources for UK primary schools. Library always free.',
     type: 'website',
   },
 }
@@ -36,7 +36,7 @@ export default function LibraryPage() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-8">
               <Link href="/" className="flex items-center">
-                <h1 className="text-xl font-bold text-blue-700">WorksheetGenerator.AI</h1>
+                <h1 className="text-xl font-bold text-blue-700">FreeMathPrintable.com</h1>
               </Link>
               <div className="hidden md:flex items-center gap-6">
                 <Link href="/" className="text-gray-600 hover:text-blue-700 transition-colors">
@@ -77,10 +77,10 @@ export default function LibraryPage() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <h1 className="text-4xl font-bold text-gray-900">
-                Free Worksheet Library
+                Free Printable Library
               </h1>
               <p className="mt-2 text-lg text-gray-600">
-                Browse thousands of high-quality, free printable worksheets
+                Browse thousands of high-quality, free printable resources
               </p>
             </div>
           </div>

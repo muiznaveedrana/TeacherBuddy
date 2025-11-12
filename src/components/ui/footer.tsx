@@ -38,12 +38,12 @@ export function Footer({ version = "v1.0.0", className = "", onLinkClick }: Foot
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <div className="w-6 h-6 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xs">W</span>
+                <span className="text-white font-bold text-xs">F</span>
               </div>
-              <span className="font-semibold text-slate-900">WorksheetGenerator.AI</span>
+              <span className="font-semibold text-slate-900">FreeMathPrintable.com</span>
             </div>
             <p className="text-sm text-slate-600">
-              Empowering UK primary school teachers with AI-powered worksheet generation.
+              Free math printables for UK primary schools. Library always free.
             </p>
             <div className="flex items-center space-x-2">
               <Badge variant="outline" className="text-xs">
@@ -185,7 +185,7 @@ export function Footer({ version = "v1.0.0", className = "", onLinkClick }: Foot
         <div className="mt-8 pt-6 border-t border-slate-200">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-sm text-slate-500">
-              © {currentYear} WorksheetGenerator.AI. All rights reserved.
+              © {currentYear} FreeMathPrintable.com. All rights reserved. Free math printables for UK primary schools.
             </div>
             <div className="flex items-center space-x-4 text-sm text-slate-500">
               <span>Designed for UK Primary Education</span>

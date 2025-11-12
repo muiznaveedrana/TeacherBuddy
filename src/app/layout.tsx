@@ -6,9 +6,9 @@ import { QuickAdminAccess } from "@/components/admin/QuickAdminAccess";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "WorksheetGenerator.AI - Transform Worksheet Creation from Hours to Seconds",
-  description: "AI-powered worksheet generator for UK primary school teachers. Create curriculum-aligned worksheets in seconds with personalized student names and professional formatting.",
-  keywords: "worksheet generator, AI, primary school, UK curriculum, teaching tools, educational technology",
+  title: "Free Math Printables UK | FreeMathPrintable.com",
+  description: "Download thousands of free math printables for UK primary schools (Reception to Year 6). Free library aligned with UK National Curriculum.",
+  keywords: "free math printables, printable worksheets UK, primary school printables, maths printables free, KS1 printables, KS2 printables, free printables",
   manifest: "/manifest.json",
   themeColor: "#1d4ed8",
   viewport: {
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "WorksheetGenerator.AI"
+    title: "FreeMathPrintable"
   },
   formatDetection: {
     telephone: false
@@ -30,8 +30,8 @@ export const metadata: Metadata = {
     'mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default',
-    'apple-mobile-web-app-title': 'WorksheetGen.AI',
-    'application-name': 'WorksheetGenerator.AI',
+    'apple-mobile-web-app-title': 'FreeMathPrintable',
+    'application-name': 'FreeMathPrintable.com',
     'msapplication-TileColor': '#1d4ed8',
     'msapplication-TileImage': '/icons/icon-144x144.png'
   }
@@ -50,7 +50,7 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="WorksheetGen.AI" />
+        <meta name="apple-mobile-web-app-title" content="FreeMathPrintable" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="msapplication-TileImage" content="/icons/icon-144x144.png" />
         <meta name="msapplication-TileColor" content="#1d4ed8" />
