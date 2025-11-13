@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { RelatedWorksheets } from '@/components/RelatedWorksheets'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Home, PlusCircle, ArrowLeft } from 'lucide-react'
 import type { LibraryWorksheet } from '@/lib/types/library'
 
@@ -219,32 +220,48 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
               </div>
             )}
 
-            <div className="space-y-3">
-              <Button
-                onClick={handleDownloadPDF}
-                disabled={isGeneratingPDF}
-                className="w-full"
-                size="lg"
-              >
-                {isGeneratingPDF ? (
-                  <>
-                    <span className="animate-spin mr-2">⏳</span>
-                    Generating PDF...
-                  </>
-                ) : (
-                  <>📥 Download PDF (Free)</>
-                )}
-              </Button>
+            <TooltipProvider>
+              <div className="space-y-3">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      onClick={handleDownloadPDF}
+                      disabled={isGeneratingPDF}
+                      className="w-full"
+                      size="lg"
+                    >
+                      {isGeneratingPDF ? (
+                        <>
+                          <span className="animate-spin mr-2">⏳</span>
+                          Generating PDF...
+                        </>
+                      ) : (
+                        <>📥 Download PDF (Free)</>
+                      )}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Download this worksheet as a ready-to-print PDF file</p>
+                  </TooltipContent>
+                </Tooltip>
 
-              <Button
-                variant="outline"
-                className="w-full"
-                size="lg"
-                onClick={handleGenerateSimilar}
-              >
-                🔄 Generate Similar Worksheet
-              </Button>
-            </div>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      size="lg"
+                      onClick={handleGenerateSimilar}
+                    >
+                      🔄 Generate Similar
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Create a new worksheet with the same topic and settings</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+            </TooltipProvider>
 
             <div className="flex items-center justify-around pt-6 border-t text-sm text-gray-600">
               <div className="text-center">
