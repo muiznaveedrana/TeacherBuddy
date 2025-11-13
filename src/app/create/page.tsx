@@ -23,6 +23,7 @@ import { WorksheetEditor } from '@/components/worksheet/WorksheetEditor'
 import { SaveToLibraryModal } from '@/components/SaveToLibraryModal'
 import { generateLibraryMetadata } from '@/lib/helpers/metadataGenerator'
 import { createBrowserClient } from '@supabase/ssr'
+import { LibraryShowcase } from '@/components/LibraryShowcase'
 
 export const dynamic = 'force-dynamic'
 
@@ -1187,19 +1188,8 @@ function DashboardContent() {
                     </div>
                   </div>
                 ) : showAds ? (
-                  /* Ad Placeholder */
-                  <div className="h-full flex items-center justify-center bg-slate-100 border-2 border-dashed border-slate-300 rounded-lg m-4">
-                    <div className="text-center p-6">
-                      <div className="w-16 h-16 bg-slate-300 rounded mx-auto mb-3"></div>
-                      <p className="text-sm font-medium text-slate-600">Advertisement</p>
-                      <p className="text-xs text-slate-500 mt-1">
-                        Support free worksheets
-                      </p>
-                      <p className="text-xs text-slate-400 mt-2">
-                        Upgrade to Pro to remove ads
-                      </p>
-                    </div>
-                  </div>
+                  /* Library Showcase Carousel */
+                  <LibraryShowcase className="h-full" />
                 ) : showError ? (
                   /* Error State */
                   <div className="h-full flex items-center justify-center p-4">
