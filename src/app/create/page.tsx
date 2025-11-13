@@ -24,6 +24,7 @@ import { SaveToLibraryModal } from '@/components/SaveToLibraryModal'
 import { generateLibraryMetadata } from '@/lib/helpers/metadataGenerator'
 import { createBrowserClient } from '@supabase/ssr'
 import { LibraryShowcase } from '@/components/LibraryShowcase'
+import { trackWorksheetGeneration, trackPdfDownload } from '@/lib/analytics'
 
 export const dynamic = 'force-dynamic'
 
@@ -519,6 +520,14 @@ function DashboardContent() {
                 // NOW set worksheet and completion status (Download button will appear)
                 setGeneratedWorksheet(event.worksheet)
                 setGenerationState('completed')
+
+                // Track successful worksheet generation
+                trackWorksheetGeneration({
+                  yearGroup,
+                  topic,
+                  subtopic,
+                  questionCount
+                })
               }
 
             } else if (event.type === 'error') {
@@ -685,8 +694,14 @@ function DashboardContent() {
       window.URL.revokeObjectURL(url)
       document.body.removeChild(a)
 
-      // PDF downloaded successfully
-      
+      // PDF downloaded successfully - track the event
+      trackPdfDownload({
+        worksheetType: `${yearGroup} - ${topic}`,
+        yearGroup,
+        topic,
+        source: 'generated'
+      })
+
     } catch (error) {
       console.error('PDF download error:', error)
       setErrorMessage(`PDF download failed: ${error instanceof Error ? error.message : 'Unknown error'}`)

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Search, X, Sparkles } from 'lucide-react'
 import { Input } from '@/components/ui/input'
+import { trackLibrarySearch } from '@/lib/analytics'
 
 export function LibrarySearch() {
   const router = useRouter()
@@ -71,12 +72,26 @@ export function LibrarySearch() {
       router.push(`/library?${params.toString()}`)
       setShowSuggestions(false)
 
+      // Track successful AI search
+      trackLibrarySearch({
+        searchQuery: searchQuery,
+        searchType: 'ai',
+        yearGroup: parsed.year_group,
+        topic: parsed.topic
+      })
+
     } catch (error) {
       console.error('AI search error:', error)
       // Fallback to basic search
       const params = new URLSearchParams(searchParams?.toString() || '')
       params.set('q', searchQuery.trim())
       router.push(`/library?${params.toString()}`)
+
+      // Track fallback text search
+      trackLibrarySearch({
+        searchQuery: searchQuery,
+        searchType: 'text'
+      })
     } finally {
       setIsSearching(false)
     }
