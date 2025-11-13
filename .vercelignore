@@ -1,4 +1,7 @@
 playwright-report
 test-results
+test-screenshots/*.png
+worksheet-quality-reports
 *.png
+!public/**/*.png
 nul
