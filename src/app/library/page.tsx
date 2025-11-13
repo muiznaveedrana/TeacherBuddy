@@ -53,11 +53,6 @@ export default function LibraryPage() {
                 </Link>
               </div>
             </div>
-            <Link href="/create">
-              <Button size="sm" className="bg-blue-700 hover:bg-blue-800">
-                Start Creating
-              </Button>
-            </Link>
           </div>
         </div>
       </nav>

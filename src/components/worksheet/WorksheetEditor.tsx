@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import {
@@ -9,7 +9,9 @@ import {
   Underline,
   Check,
   X,
-  ImagePlus
+  ImagePlus,
+  Undo2,
+  Redo2
 } from 'lucide-react'
 import { ImagePickerModal } from './ImagePickerModal'
 import { MascotLibraryModal } from './MascotLibraryModal'
@@ -34,10 +36,17 @@ interface WorksheetEditorProps {
   onSave?: (content: string, mascots?: Mascot[]) => void
 }
 
+interface EditorState {
+  html: string
+  mascots: Mascot[]
+  timestamp: number
+}
+
 export function WorksheetEditor({ htmlContent, initialMascots, onSave }: WorksheetEditorProps) {
   const contentRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [showSaved, setShowSaved] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
   const [showImagePicker, setShowImagePicker] = useState(false)
   const [selectedImageElement, setSelectedImageElement] = useState<HTMLImageElement | null>(null)
   const [replacementCount, setReplacementCount] = useState(0)
@@ -47,56 +56,11 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
   const [showMascotLibrary, setShowMascotLibrary] = useState(false)
   const [selectedMascotId, setSelectedMascotId] = useState<string | null>(null)
 
-  // Initialize content when component mounts or htmlContent changes
-  useEffect(() => {
-    if (contentRef.current) {
-      contentRef.current.innerHTML = htmlContent
-      // Clear localStorage when new worksheet is loaded (prevents old cached worksheets from showing)
-      localStorage.removeItem('worksheet-editor-content')
-      localStorage.removeItem('worksheet-editor-mascots')
-      // Enable editing immediately
-      contentRef.current.contentEditable = 'true'
-
-      // Add click handlers to all images
-      addImageClickHandlers()
-    }
-  }, [htmlContent])
-
-  // Sync mascots when initialMascots changes
-  useEffect(() => {
-    if (initialMascots) {
-      setMascots(initialMascots)
-    }
-  }, [initialMascots])
-
-  // Add click handlers to images for replacement
-  const addImageClickHandlers = () => {
-    if (!contentRef.current) return
-
-    const images = contentRef.current.querySelectorAll('img')
-    images.forEach((img) => {
-      // Make images non-editable to prevent contentEditable issues
-      img.contentEditable = 'false'
-      img.style.cursor = 'pointer'
-
-      // Add hover effect class
-      img.classList.add('worksheet-image-replaceable')
-
-      // Add click handler
-      img.addEventListener('click', (e) => {
-        e.stopPropagation()
-        handleImageClick(img)
-      })
-
-      // Add tooltip
-      img.title = 'Click to change image'
-    })
-  }
-
-  const handleImageClick = (img: HTMLImageElement) => {
-    setSelectedImageElement(img)
-    setShowImagePicker(true)
-  }
+  // History state for undo/redo
+  const [history, setHistory] = useState<EditorState[]>([])
+  const [currentHistoryIndex, setCurrentHistoryIndex] = useState(-1)
+  const autosaveTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const isUndoingRef = useRef(false)
 
   const handleImageReplace = (newImagePath: string) => {
     if (!selectedImageElement || !contentRef.current) return
@@ -185,8 +149,237 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
       localStorage.removeItem('worksheet-editor-mascots')
       setMascots([])
       setShowSaved(false)
+      // Clear history
+      setHistory([])
+      setCurrentHistoryIndex(-1)
     }
   }
+
+  // Save current state to history
+  const saveToHistory = useCallback(() => {
+    if (!contentRef.current || isUndoingRef.current) return
+
+    const currentState: EditorState = {
+      html: contentRef.current.innerHTML,
+      mascots: [...mascots],
+      timestamp: Date.now()
+    }
+
+    setHistory(prev => {
+      // Remove any "future" history if we're not at the end
+      const newHistory = prev.slice(0, currentHistoryIndex + 1)
+      // Add new state
+      newHistory.push(currentState)
+      // Keep only last 10 states (increased from 3 for better UX)
+      return newHistory.slice(-10)
+    })
+
+    setCurrentHistoryIndex(prev => Math.min(prev + 1, 9))
+  }, [mascots, currentHistoryIndex])
+
+  // Autosave function
+  const performAutosave = useCallback(() => {
+    if (!contentRef.current) return
+
+    setIsSaving(true)
+    const content = contentRef.current.innerHTML
+
+    console.log(`💾 WorksheetEditor: Autosaving with ${mascots.length} mascots`)
+
+    // Save to localStorage
+    localStorage.setItem('worksheet-editor-content', content)
+    localStorage.setItem('worksheet-editor-mascots', JSON.stringify(mascots))
+
+    // Call onSave callback
+    if (onSave) {
+      onSave(content, mascots)
+      console.log(`📤 WorksheetEditor: Called onSave with ${mascots.length} mascots`)
+    }
+
+    // Show saved indicator
+    setTimeout(() => {
+      setIsSaving(false)
+      setShowSaved(true)
+      setTimeout(() => setShowSaved(false), 2000)
+    }, 300)
+  }, [mascots, onSave])
+
+  // Debounced autosave for text changes
+  const scheduleAutosave = useCallback(() => {
+    if (autosaveTimerRef.current) {
+      clearTimeout(autosaveTimerRef.current)
+    }
+
+    autosaveTimerRef.current = setTimeout(() => {
+      saveToHistory()
+      performAutosave()
+    }, 1000) // 1 second delay
+  }, [saveToHistory, performAutosave])
+
+  // Immediate autosave for mascot changes
+  const autosaveImmediate = useCallback(() => {
+    saveToHistory()
+    performAutosave()
+  }, [saveToHistory, performAutosave])
+
+  // Image click handler
+  const handleImageClick = (img: HTMLImageElement) => {
+    setSelectedImageElement(img)
+    setShowImagePicker(true)
+  }
+
+  // Add click handlers to images for replacement
+  const addImageClickHandlers = useCallback(() => {
+    if (!contentRef.current) return
+
+    const images = contentRef.current.querySelectorAll('img')
+    images.forEach((img) => {
+      img.contentEditable = 'false'
+      img.style.cursor = 'pointer'
+      img.classList.add('worksheet-image-replaceable')
+
+      img.addEventListener('click', (e) => {
+        e.stopPropagation()
+        handleImageClick(img)
+      })
+
+      img.title = 'Click to change image'
+    })
+  }, [])
+
+  // Undo function
+  const handleUndo = useCallback(() => {
+    if (currentHistoryIndex <= 0 || !contentRef.current) return
+
+    isUndoingRef.current = true
+    const newIndex = currentHistoryIndex - 1
+    const previousState = history[newIndex]
+
+    if (previousState) {
+      contentRef.current.innerHTML = previousState.html
+      setMascots(previousState.mascots)
+      setCurrentHistoryIndex(newIndex)
+      addImageClickHandlers()
+    }
+
+    setTimeout(() => {
+      isUndoingRef.current = false
+    }, 100)
+  }, [currentHistoryIndex, history, addImageClickHandlers])
+
+  // Redo function
+  const handleRedo = useCallback(() => {
+    if (currentHistoryIndex >= history.length - 1 || !contentRef.current) return
+
+    isUndoingRef.current = true
+    const newIndex = currentHistoryIndex + 1
+    const nextState = history[newIndex]
+
+    if (nextState) {
+      contentRef.current.innerHTML = nextState.html
+      setMascots(nextState.mascots)
+      setCurrentHistoryIndex(newIndex)
+      addImageClickHandlers()
+    }
+
+    setTimeout(() => {
+      isUndoingRef.current = false
+    }, 100)
+  }, [currentHistoryIndex, history, addImageClickHandlers])
+
+  // Add keyboard shortcuts for undo/redo
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl+Z or Cmd+Z for undo
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+        e.preventDefault()
+        handleUndo()
+      }
+      // Ctrl+Y or Ctrl+Shift+Z or Cmd+Shift+Z for redo
+      else if (
+        ((e.ctrlKey || e.metaKey) && e.key === 'y') ||
+        ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'z')
+      ) {
+        e.preventDefault()
+        handleRedo()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [handleUndo, handleRedo])
+
+  // Initialize content when component mounts or htmlContent changes
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.innerHTML = htmlContent
+      // Clear localStorage when new worksheet is loaded (prevents old cached worksheets from showing)
+      localStorage.removeItem('worksheet-editor-content')
+      localStorage.removeItem('worksheet-editor-mascots')
+      // Enable editing immediately
+      contentRef.current.contentEditable = 'true'
+
+      // Add click handlers to all images
+      addImageClickHandlers()
+    }
+  }, [htmlContent, addImageClickHandlers])
+
+  // Sync mascots when initialMascots changes
+  useEffect(() => {
+    if (initialMascots) {
+      setMascots(initialMascots)
+    }
+  }, [initialMascots])
+
+  // Add input listener for text changes (debounced autosave)
+  useEffect(() => {
+    const contentElement = contentRef.current
+    if (!contentElement) return
+
+    const handleInput = () => {
+      scheduleAutosave()
+    }
+
+    contentElement.addEventListener('input', handleInput)
+    return () => contentElement.removeEventListener('input', handleInput)
+  }, [scheduleAutosave])
+
+  // Initialize history with first state
+  useEffect(() => {
+    if (contentRef.current && history.length === 0) {
+      const initialState: EditorState = {
+        html: htmlContent,
+        mascots: initialMascots || [],
+        timestamp: Date.now()
+      }
+      setHistory([initialState])
+      setCurrentHistoryIndex(0)
+    }
+  }, [htmlContent, initialMascots, history.length])
+
+  // Auto-trigger save when mascots change (after state updates)
+  const prevMascotsRef = useRef<Mascot[]>(initialMascots || [])
+  const mascotsSaveScheduledRef = useRef(false)
+
+  useEffect(() => {
+    // Only trigger if mascots actually changed (not on initial mount)
+    if (prevMascotsRef.current.length > 0 || mascots.length > 0) {
+      if (JSON.stringify(prevMascotsRef.current) !== JSON.stringify(mascots)) {
+        console.log(`🔄 Mascots changed: ${prevMascotsRef.current.length} → ${mascots.length}, triggering autosave`)
+
+        // Debounce to prevent multiple rapid saves
+        if (!mascotsSaveScheduledRef.current) {
+          mascotsSaveScheduledRef.current = true
+          setTimeout(() => {
+            saveToHistory()
+            performAutosave()
+            mascotsSaveScheduledRef.current = false
+          }, 100)
+        }
+      }
+    }
+    prevMascotsRef.current = mascots
+  }, [mascots, saveToHistory, performAutosave])
 
   // Mascot handlers
   const handleAddMascot = (mascotPath: string) => {
@@ -235,24 +428,45 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
       {/* Editor Toolbar */}
       <Card className="mb-4 p-3 bg-white shadow-lg">
         <div className="flex items-center justify-between flex-wrap gap-2">
-          <div className="flex items-center gap-2">
+          {/* Undo/Redo Controls */}
+          <div className="flex items-center gap-1">
             <Button
-              onClick={handleDone}
-              variant="default"
+              onClick={handleUndo}
+              variant="ghost"
               size="sm"
-              className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
+              disabled={currentHistoryIndex <= 0}
+              className="p-2"
+              title="Undo (Ctrl+Z)"
             >
-              <Check className="h-4 w-4" />
-              Done
+              <Undo2 className="h-4 w-4" />
+            </Button>
+            <Button
+              onClick={handleRedo}
+              variant="ghost"
+              size="sm"
+              disabled={currentHistoryIndex >= history.length - 1}
+              className="p-2"
+              title="Redo (Ctrl+Y)"
+            >
+              <Redo2 className="h-4 w-4" />
             </Button>
 
-            <span className="text-sm text-muted-foreground">
-              ✏️ Editing... Auto-saves when done
-            </span>
+            <div className="border-l mx-2"></div>
 
-            {showSaved && (
+            {/* Status Indicator */}
+            {isSaving && (
+              <span className="text-sm text-gray-500 animate-pulse">
+                💾 Saving...
+              </span>
+            )}
+            {!isSaving && showSaved && (
               <span className="text-sm text-green-600 font-medium animate-fade-in">
                 ✓ Saved
+              </span>
+            )}
+            {!isSaving && !showSaved && (
+              <span className="text-sm text-gray-400">
+                ✏️ Auto-saving
               </span>
             )}
           </div>
@@ -419,7 +633,8 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
           <li>• <strong>Click any image</strong> to replace it with a different one</li>
           <li>• <strong>Click mascot icon</strong> to add fun characters to your worksheet</li>
           <li>• <strong>Drag mascots</strong> to reposition, resize from corner, or use controls to rotate/delete</li>
-          <li>• Click "Done" when finished - changes save automatically</li>
+          <li>• <strong>Undo/Redo:</strong> Use Ctrl+Z / Ctrl+Y or the toolbar buttons</li>
+          <li>• <strong>Auto-saves:</strong> Changes save automatically as you edit</li>
           <li>• Use "Download PDF" button to export your worksheet</li>
         </ul>
       </div>

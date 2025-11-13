@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {
-    const { worksheetId, slug } = await request.json()
+    const { worksheetId, slug, customHtml } = await request.json()
 
     if (!worksheetId && !slug) {
       return NextResponse.json(
@@ -27,6 +27,9 @@ export async function POST(request: NextRequest) {
 
     console.log('📄 Generating PDF for:', worksheet.title)
 
+    // Use custom HTML if provided (from editor with mascots already injected), otherwise use library version
+    const htmlContent = customHtml || worksheet.html_content
+
     // Use the proven PDF generation service (same as create/dashboard)
     const result = await generateWorksheetPdf(
       {
@@ -38,7 +41,7 @@ export async function POST(request: NextRequest) {
           questionCount: worksheet.question_count || 10,
           yearGroup: worksheet.year_group,
         },
-        generatedContent: worksheet.html_content,
+        generatedContent: htmlContent,
         title: worksheet.title,
       },
       'library-download' // userId for rate limiting

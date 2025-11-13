@@ -67,6 +67,29 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
     router.push(`/create?${params.toString()}`)
   }
 
+  const showSuccessMessage = (message: string) => {
+    const toast = document.createElement('div')
+    toast.textContent = message
+    toast.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #10b981;
+      color: white;
+      padding: 16px 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      z-index: 99999;
+      font-weight: 600;
+      animation: slideIn 0.3s ease-out;
+    `
+    document.body.appendChild(toast)
+    setTimeout(() => {
+      toast.style.animation = 'slideOut 0.3s ease-out'
+      setTimeout(() => toast.remove(), 300)
+    }, 2000)
+  }
+
   const handleDownloadPDF = async () => {
     setIsGeneratingPDF(true)
 
@@ -95,6 +118,8 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
       a.click()
       document.body.removeChild(a)
       window.URL.revokeObjectURL(url)
+
+      showSuccessMessage('PDF downloaded successfully!')
 
     } catch (error) {
       console.error('Failed to download PDF:', error)
@@ -129,11 +154,6 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
                 </Link>
               </div>
             </div>
-            <Link href="/create">
-              <Button size="sm" className="bg-blue-700 hover:bg-blue-800">
-                Start Creating
-              </Button>
-            </Link>
           </div>
         </div>
       </nav>
@@ -242,6 +262,23 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Download this worksheet as a ready-to-print PDF file</p>
+                  </TooltipContent>
+                </Tooltip>
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link href={`/library/${worksheet.slug}/edit`} className="block w-full">
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        size="lg"
+                      >
+                        ✏️ Edit & Download
+                      </Button>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Customize this worksheet by editing questions and images, then download</p>
                   </TooltipContent>
                 </Tooltip>
 

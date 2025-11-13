@@ -583,6 +583,7 @@ function DashboardContent() {
 
       // Inject mascots into the HTML for PDF generation with base64 encoding
       if (generatedWorksheet.mascots && generatedWorksheet.mascots.length > 0) {
+        console.log(`🎭 PDF: Processing ${generatedWorksheet.mascots.length} mascots for injection`)
         const body = doc.body
         if (body) {
           // Make body position relative if not already
@@ -603,8 +604,9 @@ function DashboardContent() {
           `
 
           // Convert mascot images to base64 and add them
-          const mascotPromises = generatedWorksheet.mascots.map(async (mascot) => {
+          const mascotPromises = generatedWorksheet.mascots.map(async (mascot, index) => {
             try {
+              console.log(`🎭 PDF: Loading mascot ${index + 1}/${generatedWorksheet.mascots?.length}: ${mascot.src}`)
               // Fetch the image and convert to base64
               const response = await fetch(mascot.src)
               const blob = await response.blob()
@@ -638,13 +640,15 @@ function DashboardContent() {
 
               mascotDiv.appendChild(img)
               mascotContainer.appendChild(mascotDiv)
+              console.log(`✅ PDF: Mascot ${index + 1} added successfully`)
             } catch (error) {
-              console.error('Failed to load mascot image:', mascot.src, error)
+              console.error(`❌ PDF: Failed to load mascot ${index + 1}:`, mascot.src, error)
             }
           })
 
           // Wait for all mascots to be converted and added
           await Promise.all(mascotPromises)
+          console.log(`🎭 PDF: All mascots processed. Container has ${mascotContainer.children.length} children`)
           body.appendChild(mascotContainer)
         }
       }
@@ -702,12 +706,37 @@ function DashboardContent() {
         source: 'generated'
       })
 
+      showSuccessMessage('PDF downloaded successfully!')
+
     } catch (error) {
       console.error('PDF download error:', error)
       setErrorMessage(`PDF download failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
     } finally {
       setPdfGenerating(false)
     }
+  }
+
+  const showSuccessMessage = (message: string) => {
+    const toast = document.createElement('div')
+    toast.textContent = message
+    toast.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #10b981;
+      color: white;
+      padding: 16px 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      z-index: 99999;
+      font-weight: 600;
+      animation: slideIn 0.3s ease-out;
+    `
+    document.body.appendChild(toast)
+    setTimeout(() => {
+      toast.style.animation = 'slideOut 0.3s ease-out'
+      setTimeout(() => toast.remove(), 300)
+    }, 2000)
   }
 
   const handleConfigurationChange = () => {
