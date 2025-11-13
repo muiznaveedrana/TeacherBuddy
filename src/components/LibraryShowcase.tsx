@@ -89,10 +89,10 @@ export function LibraryShowcase({ className = '' }: LibraryShowcaseProps) {
             </div>
           </div>
           <h3 className="text-xl font-bold text-gray-900 mb-2">
-            Worksheet Preview Area
+            Printable Preview Area
           </h3>
           <p className="text-sm text-gray-600 mb-4">
-            Configure your worksheet using the panel on the left, then click <strong>"Generate Worksheet"</strong> below to see your personalized worksheet here.
+            Configure your printable using the panel on the left, then click <strong>"Generate Printable"</strong> below to see your personalized printable here.
           </p>
           <div className="space-y-2">
             <div className="flex items-center justify-center gap-2 text-xs text-blue-700 bg-blue-100 px-4 py-2 rounded-full inline-flex">

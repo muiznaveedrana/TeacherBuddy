@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { createLibraryWorksheet, getWorksheetById } from '@/lib/services/libraryService'
+import { generateWorksheetThumbnail, generateSlugFromTitle } from '@/lib/services/thumbnailGenerationService'
+import { addCacheBusting } from '@/lib/services/imageKitService'
 
 export const dynamic = 'force-dynamic'
 
@@ -52,7 +54,7 @@ export async function POST(request: NextRequest) {
 
     // Check admin role
     const { data: profile } = await supabase
-      .from('user_profiles')
+      .from('profiles')
       .select('role')
       .eq('id', user.id)
       .single()
@@ -74,14 +76,37 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Generate slug for the new version
+    const newTitle = title || `${originalWorksheet.title} (Edited)`
+    const tempSlug = generateSlugFromTitle(
+      newTitle,
+      originalWorksheet.visual_theme || undefined,
+      originalWorksheet.activity_type || undefined,
+      originalWorksheet.seasonal_theme || undefined,
+      originalWorksheet.layout_type,
+      undefined
+    )
+
+    console.log('📸 Generating thumbnail for new version with mascots...')
+    // Generate new thumbnail from the edited HTML with mascots
+    let thumbnailUrl = await generateWorksheetThumbnail(
+      html_content,
+      tempSlug,
+      mascots || undefined
+    )
+
+    // Add cache-busting parameter to ensure fresh image
+    thumbnailUrl = addCacheBusting(thumbnailUrl)
+    console.log('✅ New thumbnail URL (with cache-busting):', thumbnailUrl)
+
     // Create new worksheet as a version of the original
     const newWorksheet = await createLibraryWorksheet({
-      title: title || `${originalWorksheet.title} (Edited)`,
+      title: newTitle,
       year_group: year_group || originalWorksheet.year_group,
       topic: topic || originalWorksheet.topic,
       subtopic: subtopic || originalWorksheet.subtopic,
       html_content,
-      thumbnail_url: originalWorksheet.thumbnail_url, // Reuse thumbnail
+      thumbnail_url: thumbnailUrl, // Use newly generated thumbnail
       difficulty: difficulty || originalWorksheet.difficulty,
       question_count: question_count || originalWorksheet.question_count,
       layout_type: originalWorksheet.layout_type,

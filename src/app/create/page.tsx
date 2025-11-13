@@ -836,7 +836,7 @@ function DashboardContent() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-8">
               <Link href="/" className="flex items-center">
-                <h1 className="text-xl font-bold text-blue-700">WorksheetGenerator.AI</h1>
+                <h1 className="text-xl font-bold text-blue-700">FreeMathPrintable.com</h1>
               </Link>
               <div className="hidden md:flex items-center gap-6">
                 <Link href="/" className="text-gray-600 hover:text-blue-700 transition-colors">
@@ -849,7 +849,7 @@ function DashboardContent() {
                 </Link>
                 <Link href="/create" className="text-blue-700 font-medium">
                   <PlusCircle className="w-4 h-4 inline mr-1" />
-                  Create Worksheet
+                  Create Printable
                 </Link>
                 {fromLibrary && (
                   <span className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-full">
@@ -880,17 +880,17 @@ function DashboardContent() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <BookOpen className="h-5 w-5 text-blue-600" />
-                  Worksheet Configuration
+                  Printable Configuration
                 </CardTitle>
                 <CardDescription>
-                  Configure your worksheet settings and generate personalized content for your students
+                  Configure your printable settings and generate personalized content for your students
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 md:space-y-6">
                 {/* Layout Selection - FIRST for pedagogical choice */}
                 <div className="space-y-3 md:space-y-2">
                   <div className="flex items-center gap-2">
-                    <Label htmlFor="layout" className="text-base md:text-sm font-semibold">Worksheet Layout</Label>
+                    <Label htmlFor="layout" className="text-base md:text-sm font-semibold">Printable Layout</Label>
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger>
@@ -1189,11 +1189,11 @@ function DashboardContent() {
                   <div className="space-y-3 p-4 bg-blue-50 rounded-lg border">
                     <div className="flex items-center gap-2">
                       <Loader2 className="h-4 w-4 animate-spin text-blue-600" />
-                      <span className="text-sm font-medium text-blue-900">Generating your worksheet...</span>
+                      <span className="text-sm font-medium text-blue-900">Generating your printable...</span>
                     </div>
                     <Progress value={progress} className="w-full" />
                     <p className="text-xs text-blue-700">
-                      Creating curriculum-aligned worksheets
+                      Creating curriculum-aligned printables
                     </p>
                   </div>
                 )}
@@ -1376,7 +1376,7 @@ function DashboardContent() {
                       <BookOpen className="w-16 h-16 text-slate-400 mx-auto mb-3" />
                       <h3 className="text-sm font-medium text-slate-600 mb-1">Ready to Generate</h3>
                       <p className="text-xs text-slate-500">
-                        Configure your worksheet settings and click Generate
+                        Configure your printable settings and click Generate
                       </p>
                     </div>
                   </div>
@@ -1404,7 +1404,7 @@ function DashboardContent() {
             ) : showPreview ? (
               'Regenerate'
             ) : hasConfiguration ? (
-              'Generate Worksheet'
+              'Generate Printable'
             ) : (
               `Complete Configuration (${[!layout && 'Layout', !yearGroup && 'Year Group', !topic && 'Topic', !subtopic && 'Subtopic'].filter(Boolean).join(', ')})`
             )}

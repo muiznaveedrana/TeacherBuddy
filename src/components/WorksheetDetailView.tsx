@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -8,8 +8,9 @@ import { Button } from '@/components/ui/button'
 import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { RelatedWorksheets } from '@/components/RelatedWorksheets'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { Home, PlusCircle, ArrowLeft } from 'lucide-react'
+import { Home, PlusCircle, ArrowLeft, LogOut } from 'lucide-react'
 import type { LibraryWorksheet } from '@/lib/types/library'
+import { createBrowserClient } from '@supabase/ssr'
 
 interface WorksheetDetailViewProps {
   worksheet: LibraryWorksheet
@@ -17,7 +18,39 @@ interface WorksheetDetailViewProps {
 
 export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
   const router = useRouter()
+
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+
+  useEffect(() => {
+    async function checkAdmin() {
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (user) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single()
+
+          setIsAdmin(profile?.role === 'admin')
+          console.log('WorksheetDetailView: isAdmin =', profile?.role === 'admin')
+        }
+      } catch (error) {
+        console.error('WorksheetDetailView: Error checking admin status:', error)
+      }
+    }
+    checkAdmin()
+  }, [supabase])
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    router.push('/')
+  }
 
   const handleGenerateSimilar = () => {
     // Store worksheet preview in sessionStorage for smooth restoration
@@ -150,9 +183,17 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
                 </Link>
                 <Link href="/create" className="text-gray-600 hover:text-blue-700 transition-colors">
                   <PlusCircle className="w-4 h-4 inline mr-1" />
-                  Create Worksheet
+                  Create Printable
                 </Link>
               </div>
+            </div>
+            <div className="flex items-center gap-3">
+              {isAdmin && (
+                <Button size="sm" variant="outline" onClick={handleLogout}>
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </Button>
+              )}
             </div>
           </div>
         </div>

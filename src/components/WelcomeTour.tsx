@@ -15,14 +15,14 @@ interface TourStep {
 const tourSteps: TourStep[] = [
   {
     target: '[data-tour="generate-worksheet"]',
-    title: 'Generate Worksheets',
-    content: 'Click here to start creating personalized worksheets for your students with AI assistance.',
+    title: 'Generate Printables',
+    content: 'Click here to start creating personalized printables for your students with AI assistance.',
     position: 'top'
   },
   {
     target: '[data-tour="name-lists"]',
     title: 'Manage Student Names',
-    content: 'Add your students\' names to personalize worksheet questions and make them more engaging.',
+    content: 'Add your students\' names to personalize printable questions and make them more engaging.',
     position: 'top'
   },
   {

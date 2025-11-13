@@ -4,6 +4,7 @@ import { WorksheetLibraryBrowser } from '@/components/WorksheetLibraryBrowser'
 import { LibraryFilters } from '@/components/LibraryFilters'
 import { LibrarySearch } from '@/components/LibrarySearch'
 import { LibraryPaginationMeta } from '@/components/LibraryPaginationMeta'
+import { LibraryNavigation } from '@/components/LibraryNavigation'
 import { Button } from '@/components/ui/button'
 import { Home, PlusCircle, Library, ChevronRight } from 'lucide-react'
 import { Metadata } from 'next'
@@ -31,31 +32,7 @@ export default function LibraryPage() {
       </Suspense>
 
       {/* Navigation Header */}
-      <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-8">
-              <Link href="/" className="flex items-center">
-                <h1 className="text-xl font-bold text-blue-700">FreeMathPrintable.com</h1>
-              </Link>
-              <div className="hidden md:flex items-center gap-6">
-                <Link href="/" className="text-gray-600 hover:text-blue-700 transition-colors">
-                  <Home className="w-4 h-4 inline mr-1" />
-                  Home
-                </Link>
-                <Link href="/library" className="text-blue-700 font-medium">
-                  <Library className="w-4 h-4 inline mr-1" />
-                  Browse Library
-                </Link>
-                <Link href="/create" className="text-gray-600 hover:text-blue-700 transition-colors">
-                  <PlusCircle className="w-4 h-4 inline mr-1" />
-                  Create Worksheet
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <LibraryNavigation currentPage="library" />
 
       {/* Hero Section with Search */}
       <div className="bg-gradient-to-br from-blue-50 to-white border-b">

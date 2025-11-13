@@ -94,6 +94,44 @@ export async function testImageKitConnection(): Promise<boolean> {
   }
 }
 
+export async function deleteFromImageKit(fileUrl: string): Promise<boolean> {
+  try {
+    if (!checkImageKitConfig()) {
+      throw new Error('ImageKit configuration is incomplete')
+    }
+
+    // Extract fileId from URL
+    // ImageKit URLs format: https://ik.imagekit.io/your_id/path/to/file.ext
+    const url = new URL(fileUrl)
+    const pathParts = url.pathname.split('/').filter(p => p)
+
+    // Remove transformation parameters if present (tr:...)
+    const cleanPath = pathParts.filter(p => !p.startsWith('tr:')).join('/')
+
+    // Get file details by path to find fileId
+    const files = await imagekit.listFiles({
+      path: cleanPath,
+      limit: 1
+    })
+
+    if (files.length === 0) {
+      console.warn('⚠️ File not found in ImageKit:', cleanPath)
+      return false
+    }
+
+    const fileId = files[0].fileId
+    await imagekit.deleteFile(fileId)
+
+    console.log('✅ Deleted old thumbnail from ImageKit:', fileUrl)
+    return true
+
+  } catch (error) {
+    console.error('❌ Failed to delete from ImageKit:', error)
+    // Don't throw error - deletion failure shouldn't block the update
+    return false
+  }
+}
+
 export function getOptimizedThumbnailUrl(
   originalUrl: string,
   width: number,
@@ -113,5 +151,16 @@ export function getOptimizedThumbnailUrl(
   } catch (error) {
     console.error('Failed to generate optimized URL:', error)
     return originalUrl
+  }
+}
+
+export function addCacheBusting(url: string): string {
+  try {
+    const urlObj = new URL(url)
+    urlObj.searchParams.set('v', Date.now().toString())
+    return urlObj.toString()
+  } catch (error) {
+    console.error('Failed to add cache busting:', error)
+    return url
   }
 }

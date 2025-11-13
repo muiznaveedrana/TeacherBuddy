@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
-import { updateWorksheetMetadata } from '@/lib/services/libraryService'
+import { updateWorksheetMetadata, getWorksheetById } from '@/lib/services/libraryService'
+import { generateWorksheetThumbnail } from '@/lib/services/thumbnailGenerationService'
+import { deleteFromImageKit, addCacheBusting } from '@/lib/services/imageKitService'
 
 export const dynamic = 'force-dynamic'
 
@@ -11,6 +13,9 @@ export async function POST(
 ) {
   try {
     const { html_content, mascots } = await request.json()
+
+    console.log('🔍 API UPDATE: Received mascots:', mascots ? `${mascots.length} mascots` : 'undefined/null')
+    console.log('🔍 API UPDATE: Mascots data:', JSON.stringify(mascots, null, 2))
 
     if (!html_content) {
       return NextResponse.json(
@@ -45,7 +50,7 @@ export async function POST(
 
     // Check admin role
     const { data: profile } = await supabase
-      .from('user_profiles')
+      .from('profiles')
       .select('role')
       .eq('id', user.id)
       .single()
@@ -57,10 +62,38 @@ export async function POST(
       )
     }
 
-    // Update the worksheet
+    // Fetch the existing worksheet to get the slug
+    const existingWorksheet = await getWorksheetById(params.id)
+    if (!existingWorksheet) {
+      return NextResponse.json(
+        { error: 'Worksheet not found' },
+        { status: 404 }
+      )
+    }
+
+    // Delete old thumbnail from ImageKit to save space
+    if (existingWorksheet.thumbnail_url) {
+      console.log('🗑️ Deleting old thumbnail from ImageKit...')
+      await deleteFromImageKit(existingWorksheet.thumbnail_url)
+    }
+
+    console.log('📸 Regenerating thumbnail from updated HTML with mascots...')
+    // Generate new thumbnail from the updated HTML with mascots
+    let thumbnailUrl = await generateWorksheetThumbnail(
+      html_content,
+      existingWorksheet.slug,
+      mascots || undefined
+    )
+
+    // Add cache-busting parameter to force browser reload
+    thumbnailUrl = addCacheBusting(thumbnailUrl)
+    console.log('✅ New thumbnail URL (with cache-busting):', thumbnailUrl)
+
+    // Update the worksheet with new content and thumbnail
     const updatedWorksheet = await updateWorksheetMetadata(params.id, {
       html_content,
       mascots: mascots || null,
+      thumbnail_url: thumbnailUrl,
     })
 
     console.log('✅ Worksheet updated by admin:', params.id)

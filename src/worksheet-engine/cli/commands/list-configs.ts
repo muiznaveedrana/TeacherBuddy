@@ -6,7 +6,7 @@
 import { listAvailableConfigs, getConfigDetails } from '../utils/config-parser'
 
 export function listConfigs(): void {
-  console.log('\nAvailable Worksheet Configurations:\n')
+  console.log('\nAvailable Printable Configurations:\n')
   
   const configs = listAvailableConfigs()
   

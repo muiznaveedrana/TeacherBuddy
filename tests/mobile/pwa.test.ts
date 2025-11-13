@@ -273,7 +273,7 @@ describe('Progressive Web App Features', () => {
         json: async () => ({
           shortcuts: [
             {
-              name: "Create Worksheet",
+              name: "Create Printable",
               url: "/create?action=generate",
               icons: [{ src: "/icons/shortcut-create.png", sizes: "192x192" }]
             },
@@ -290,7 +290,7 @@ describe('Progressive Web App Features', () => {
       const manifest = await response.json()
 
       expect(manifest.shortcuts).toHaveLength(2)
-      expect(manifest.shortcuts[0].name).toBe("Create Worksheet")
+      expect(manifest.shortcuts[0].name).toBe("Create Printable")
       expect(manifest.shortcuts[1].name).toBe("Name Lists")
     })
   })

@@ -1,8 +1,8 @@
 {
-  "name": "WorksheetGenerator.AI - Transform Worksheet Creation",
-  "short_name": "WorksheetGen.AI",
-  "description": "AI-powered worksheet generator for UK primary school teachers. Create curriculum-aligned worksheets in seconds.",
-  "start_url": "/create",
+  "name": "FreeMathPrintable.com - Free Math Printables",
+  "short_name": "FreeMath",
+  "description": "Download thousands of free math printables for UK primary schools. Reception to Year 6, aligned with UK National Curriculum.",
+  "start_url": "/library",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#1d4ed8",
@@ -12,9 +12,9 @@
   "categories": ["education", "productivity", "utilities"],
   "shortcuts": [
     {
-      "name": "Create Worksheet",
+      "name": "Create Printable",
       "short_name": "Create",
-      "description": "Generate a new worksheet",
+      "description": "Generate a new printable",
       "url": "/create?action=generate",
       "icons": [
         {

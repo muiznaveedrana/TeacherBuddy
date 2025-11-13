@@ -101,7 +101,7 @@ export default function ProfileSetupPage() {
           <CardContent className="pt-6">
             <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-slate-900 mb-2">
-              Welcome to WorksheetGenerator.AI, {formData.firstName}!
+              Welcome to FreeMathPrintable.com, {formData.firstName}!
             </h2>
             <p className="text-slate-600 mb-4">
               Your profile has been set up successfully. You&apos;ll be redirected to your dashboard in a moment.

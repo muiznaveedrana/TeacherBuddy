@@ -102,7 +102,7 @@ export function QuickAdminAccess() {
               }}
               className="w-full text-left px-4 py-2 bg-blue-50 hover:bg-blue-100 rounded-lg text-blue-700 font-medium transition-colors"
             >
-              ✏️ Create Worksheet
+              ✏️ Create Printable
             </button>
             <button
               onClick={() => {

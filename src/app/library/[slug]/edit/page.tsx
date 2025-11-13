@@ -6,9 +6,10 @@ import { createBrowserClient } from '@supabase/ssr'
 import { WorksheetEditor } from '@/components/worksheet/WorksheetEditor'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { ArrowLeft, Download, Save, Loader2, Home, Library, PlusCircle } from 'lucide-react'
+import { ArrowLeft, Download, Save, Loader2, Home, Library, PlusCircle, LogOut } from 'lucide-react'
 import Link from 'next/link'
 import type { LibraryWorksheet } from '@/lib/types/library'
+import { useRouter as useNextRouter } from 'next/navigation'
 
 interface Mascot {
   id: string
@@ -25,6 +26,7 @@ interface Mascot {
 
 export default function EditWorksheetPage() {
   const router = useRouter()
+  const nextRouter = useNextRouter()
   const params = useParams()
   const slug = params?.slug as string
 
@@ -35,12 +37,19 @@ export default function EditWorksheetPage() {
   const [saveMode, setSaveMode] = useState<'download' | 'update' | 'new'>('download')
   const [editedContent, setEditedContent] = useState<string>('')
   const [editedMascots, setEditedMascots] = useState<Mascot[]>([])
+  const [showVersionModal, setShowVersionModal] = useState(false)
+  const [versionNumber, setVersionNumber] = useState('')
 
   // Supabase client
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    nextRouter.push('/')
+  }
 
   // Fetch worksheet and check admin status
   useEffect(() => {
@@ -60,12 +69,13 @@ export default function EditWorksheetPage() {
         const { data: { user } } = await supabase.auth.getUser()
         if (user) {
           const { data: profile } = await supabase
-            .from('user_profiles')
+            .from('profiles')
             .select('role')
             .eq('id', user.id)
             .single()
 
           setIsAdmin(profile?.role === 'admin')
+          console.log('EditPage: isAdmin =', profile?.role === 'admin')
         }
       } catch (error) {
         console.error('Error loading worksheet:', error)
@@ -89,6 +99,7 @@ export default function EditWorksheetPage() {
   const handleDownloadPDF = async () => {
     if (!editedContent && !worksheet) return
 
+    setSaveMode('download')
     setSaving(true)
     try {
       let htmlContent = editedContent || worksheet!.html_content
@@ -203,6 +214,7 @@ export default function EditWorksheetPage() {
   const handleUpdateLibrary = async () => {
     if (!isAdmin || !editedContent) return
 
+    setSaveMode('update')
     setSaving(true)
     try {
       const response = await fetch(`/api/library/${worksheet!.id}/update`, {
@@ -226,17 +238,27 @@ export default function EditWorksheetPage() {
     }
   }
 
-  const handleSaveAsNew = async () => {
+  const handleSaveAsNewClick = () => {
     if (!isAdmin || !editedContent || !worksheet) return
+    setShowVersionModal(true)
+  }
 
+  const handleSaveAsNew = async () => {
+    if (!isAdmin || !editedContent || !worksheet || !versionNumber.trim()) {
+      alert('Please enter a version number')
+      return
+    }
+
+    setSaveMode('new')
     setSaving(true)
+    setShowVersionModal(false)
     try {
       const response = await fetch('/api/library/create-version', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           original_id: worksheet.id,
-          title: `${worksheet.title} (v${Date.now()})`,
+          title: `${worksheet.title} (${versionNumber})`,
           html_content: editedContent,
           mascots: editedMascots,
           year_group: worksheet.year_group,
@@ -250,7 +272,8 @@ export default function EditWorksheetPage() {
       if (!response.ok) throw new Error('Save as new failed')
 
       const { slug: newSlug } = await response.json()
-      showSuccessMessage('New version saved successfully!')
+      showSuccessMessage(`New version ${versionNumber} saved successfully!`)
+      setVersionNumber('')
       setTimeout(() => router.push(`/library/${newSlug}`), 1500)
     } catch (error) {
       console.error('Save as new error:', error)
@@ -325,12 +348,18 @@ export default function EditWorksheetPage() {
                 </Link>
                 <Link href="/create" className="text-gray-600 hover:text-blue-700 transition-colors">
                   <PlusCircle className="w-4 h-4 inline mr-1" />
-                  Create Worksheet
+                  Create Printable
                 </Link>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <span className="text-sm text-gray-600 hidden md:block">Editing: {worksheet.title}</span>
+              {isAdmin && (
+                <Button size="sm" variant="outline" onClick={handleLogout}>
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -348,112 +377,115 @@ export default function EditWorksheetPage() {
         <Card className="mt-6 p-6">
           <h2 className="text-lg font-semibold mb-4">Save Options</h2>
 
-          {isAdmin && (
-            <div className="mb-4 space-y-2">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="radio"
-                  name="saveMode"
-                  value="download"
-                  checked={saveMode === 'download'}
-                  onChange={(e) => setSaveMode(e.target.value as any)}
-                  className="w-4 h-4"
-                />
-                <span>Download PDF only (don't update library)</span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="radio"
-                  name="saveMode"
-                  value="update"
-                  checked={saveMode === 'update'}
-                  onChange={(e) => setSaveMode(e.target.value as any)}
-                  className="w-4 h-4"
-                />
-                <span>Update library worksheet</span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="radio"
-                  name="saveMode"
-                  value="new"
-                  checked={saveMode === 'new'}
-                  onChange={(e) => setSaveMode(e.target.value as any)}
-                  className="w-4 h-4"
-                />
-                <span>Save as new version</span>
-              </label>
-            </div>
-          )}
-
-          <div className="flex gap-3">
+          <div className="flex gap-3 flex-wrap">
             <Link href={`/library/${slug}`}>
               <Button variant="outline" disabled={saving}>
                 Cancel
               </Button>
             </Link>
 
-            {saveMode === 'download' && (
-              <Button
-                onClick={handleDownloadPDF}
-                disabled={saving}
-                className="bg-blue-600 hover:bg-blue-700"
-              >
-                {saving ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <Download className="w-4 h-4 mr-2" />
-                    Download PDF
-                  </>
-                )}
-              </Button>
-            )}
+            <Button
+              onClick={handleDownloadPDF}
+              disabled={saving}
+              variant="outline"
+              className="border-blue-600 text-blue-600 hover:bg-blue-50"
+            >
+              {saving && saveMode === 'download' ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Download className="w-4 h-4 mr-2" />
+                  Download PDF
+                </>
+              )}
+            </Button>
 
-            {isAdmin && saveMode === 'update' && (
-              <Button
-                onClick={handleUpdateLibrary}
-                disabled={saving}
-                className="bg-green-600 hover:bg-green-700"
-              >
-                {saving ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Updating...
-                  </>
-                ) : (
-                  <>
-                    <Save className="w-4 h-4 mr-2" />
-                    Update Library
-                  </>
-                )}
-              </Button>
-            )}
+            {isAdmin && (
+              <>
+                <Button
+                  onClick={handleUpdateLibrary}
+                  disabled={saving || !editedContent}
+                  className="bg-green-600 hover:bg-green-700"
+                >
+                  {saving && saveMode === 'update' ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Updating...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="w-4 h-4 mr-2" />
+                      Save
+                    </>
+                  )}
+                </Button>
 
-            {isAdmin && saveMode === 'new' && (
-              <Button
-                onClick={handleSaveAsNew}
-                disabled={saving}
-                className="bg-purple-600 hover:bg-purple-700"
-              >
-                {saving ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Saving...
-                  </>
-                ) : (
-                  <>
-                    <Save className="w-4 h-4 mr-2" />
-                    Save as New Version
-                  </>
-                )}
-              </Button>
+                <Button
+                  onClick={handleSaveAsNewClick}
+                  disabled={saving || !editedContent}
+                  className="bg-purple-600 hover:bg-purple-700"
+                >
+                  {saving && saveMode === 'new' ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      <PlusCircle className="w-4 h-4 mr-2" />
+                      Save as New
+                    </>
+                  )}
+                </Button>
+              </>
             )}
           </div>
         </Card>
+
+        {/* Version Modal */}
+        {showVersionModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <Card className="max-w-md w-full p-6">
+              <h3 className="text-lg font-semibold mb-4">Enter Version Number</h3>
+              <p className="text-sm text-gray-600 mb-4">
+                Enter a version identifier (e.g., v2, v2.1, 2024-update, etc.)
+              </p>
+              <input
+                type="text"
+                value={versionNumber}
+                onChange={(e) => setVersionNumber(e.target.value)}
+                placeholder="e.g., v2"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                autoFocus
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleSaveAsNew()
+                  if (e.key === 'Escape') setShowVersionModal(false)
+                }}
+              />
+              <div className="flex gap-3 justify-end">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setShowVersionModal(false)
+                    setVersionNumber('')
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleSaveAsNew}
+                  disabled={!versionNumber.trim()}
+                  className="bg-purple-600 hover:bg-purple-700"
+                >
+                  Save Version
+                </Button>
+              </div>
+            </Card>
+          </div>
+        )}
       </div>
     </div>
   )

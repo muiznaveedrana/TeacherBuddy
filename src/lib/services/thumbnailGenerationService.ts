@@ -17,9 +17,23 @@ const DEFAULT_CONFIG: ThumbnailConfig = {
   format: 'webp',
 }
 
+interface Mascot {
+  id: string
+  src: string
+  x: number
+  y: number
+  width: number
+  height: number
+  rotation: number
+  opacity: number
+  zIndex: number
+  locked: boolean
+}
+
 export async function generateWorksheetThumbnail(
   worksheetHtml: string,
   slug: string,
+  mascots?: Mascot[],
   config: ThumbnailConfig = {}
 ): Promise<string> {
   const finalConfig = { ...DEFAULT_CONFIG, ...config }
@@ -27,6 +41,79 @@ export async function generateWorksheetThumbnail(
 
   try {
     console.log(`📸 Generating thumbnail for: ${slug}`)
+
+    // Inject mascots into HTML if provided (like we do for PDFs)
+    let htmlWithMascots = worksheetHtml
+    if (mascots && mascots.length > 0) {
+      console.log(`🎭 THUMBNAIL: Injecting ${mascots.length} mascots into HTML`)
+      const parser = new (require('jsdom').JSDOM)(worksheetHtml)
+      const doc = parser.window.document
+      const body = doc.body
+
+      if (body) {
+        // Add body style for relative positioning
+        const bodyStyle = doc.createElement('style')
+        bodyStyle.textContent = 'body { position: relative; }'
+        doc.head.appendChild(bodyStyle)
+
+        // Create mascot container
+        const mascotContainer = doc.createElement('div')
+        mascotContainer.style.cssText = `
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          pointer-events: none;
+          z-index: 9999;
+        `
+
+        // Add mascots with inline images (convert to base64)
+        for (const mascot of mascots) {
+          try {
+            // Read mascot image from filesystem and convert to base64
+            const path = require('path')
+            const fs = require('fs')
+            const fullPath = path.join(process.cwd(), 'public', mascot.src)
+            const imageBuffer = fs.readFileSync(fullPath)
+            const base64 = imageBuffer.toString('base64')
+            const mimeType = mascot.src.endsWith('.png') ? 'image/png' : 'image/jpeg'
+
+            const mascotDiv = doc.createElement('div')
+            mascotDiv.style.cssText = `
+              position: absolute;
+              left: ${mascot.x}px;
+              top: ${mascot.y}px;
+              width: ${mascot.width}px;
+              height: ${mascot.height}px;
+              z-index: ${mascot.zIndex};
+              opacity: ${mascot.opacity};
+              transform: rotate(${mascot.rotation}deg);
+              pointer-events: none;
+            `
+
+            const img = doc.createElement('img')
+            img.src = `data:${mimeType};base64,${base64}`
+            img.alt = 'Mascot'
+            img.style.cssText = `
+              width: 100%;
+              height: 100%;
+              object-fit: contain;
+            `
+
+            mascotDiv.appendChild(img)
+            mascotContainer.appendChild(mascotDiv)
+            console.log(`✅ THUMBNAIL: Added mascot at (${mascot.x}, ${mascot.y})`)
+          } catch (error) {
+            console.error(`❌ THUMBNAIL: Failed to load mascot ${mascot.src}:`, error)
+          }
+        }
+
+        body.appendChild(mascotContainer)
+        htmlWithMascots = parser.serialize()
+        console.log(`🎭 THUMBNAIL: All ${mascots.length} mascots injected successfully`)
+      }
+    }
 
     // Use local Chromium in development, Sparticuz in production
     const isProduction = process.env.NODE_ENV === 'production'
@@ -136,11 +223,11 @@ export async function generateWorksheetThumbnail(
     }
 
     // Replace all image src paths with data URIs
-    let htmlWithDataUris = worksheetHtml
+    let htmlWithDataUris = htmlWithMascots
     const imageSrcRegex = /src="\/images\/([^"]+)"/g
     let match
 
-    while ((match = imageSrcRegex.exec(worksheetHtml)) !== null) {
+    while ((match = imageSrcRegex.exec(htmlWithMascots)) !== null) {
       const imagePath = `/images/${match[1]}`
       const dataUri = imageToDataUri(imagePath)
       if (dataUri) {

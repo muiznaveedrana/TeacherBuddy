@@ -27,7 +27,7 @@ test('Generate worksheet with standard layout - Year 1 Counting', async ({ page 
   console.log('✓ Step 1: Dashboard loaded');
 
   // Wait for the configuration panel to be visible
-  await page.waitForSelector('text=Worksheet Configuration', { timeout: 10000 });
+  await page.waitForSelector('text=Printable Configuration', { timeout: 10000 });
 
   // Step 2: Select Year Group - Change to Year 1
   // Set up promise to wait for API call BEFORE clicking

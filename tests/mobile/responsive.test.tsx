@@ -42,7 +42,7 @@ describe('Mobile & Tablet Responsive Design', () => {
     test('dashboard stacks configuration and preview vertically', async () => {
       render(<DashboardPage />)
       
-      const configPanel = screen.getByText('Worksheet Configuration').closest('div')
+      const configPanel = screen.getByText('Printable Configuration').closest('div')
       const previewPanel = screen.getByText('Advertisement', { exact: false })?.closest('div')
       
       expect(configPanel).toBeInTheDocument()
@@ -195,7 +195,7 @@ describe('Mobile & Tablet Responsive Design', () => {
       // For now, we'll test that the component doesn't break
       render(<DashboardPage />)
       
-      expect(screen.getByText('Worksheet Configuration')).toBeInTheDocument()
+      expect(screen.getByText('Printable Configuration')).toBeInTheDocument()
     })
   })
 
