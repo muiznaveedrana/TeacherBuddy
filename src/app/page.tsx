@@ -3,44 +3,54 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Check, Clock, Zap, BookOpen, Star, ArrowRight, Menu } from "lucide-react";
 import Link from "next/link";
 import { Metadata } from "next";
+import { HomepageStructuredData } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
-  title: "Free Math Printables UK | Math Printables for Primary School | FreeMathPrintable.com",
-  description: "Download thousands of free math printables for UK primary schools (Reception to Year 6). Free library of curriculum-aligned math resources.",
+  title: "Free Math Printables UK | Reception to Year 6 Worksheets",
+  description: "Download 1000+ free math printables for UK primary schools (Reception to Year 6). KS1 & KS2 worksheets aligned with UK National Curriculum. Library always free.",
   keywords: [
     "free math printables",
+    "free maths worksheets uk",
     "printable worksheets UK",
     "primary school printables",
     "maths printables free",
     "KS1 printables",
     "KS2 printables",
-    "reception printables",
-    "year 1 printables",
-    "year 2 printables",
-    "year 3 printables",
-    "year 4 printables",
-    "year 5 printables",
-    "year 6 printables",
+    "reception worksheets",
+    "year 1 worksheets",
+    "year 2 worksheets",
+    "year 3 worksheets",
+    "year 4 worksheets",
+    "year 5 worksheets",
+    "year 6 worksheets",
     "free printables",
-    "UK curriculum printables"
+    "UK curriculum printables",
+    "math worksheets free download",
+    "primary maths resources"
   ],
   openGraph: {
-    title: "Free Math Printables for UK Primary Schools",
-    description: "Thousands of free math printables. Reception to Year 6. Library always free.",
+    title: "Free Math Printables UK | Reception to Year 6 Worksheets",
+    description: "1000+ free math printables. Reception to Year 6. KS1 & KS2. UK curriculum aligned. Library always free.",
     url: "https://freemathprintable.com",
     siteName: "FreeMathPrintable.com",
     type: "website",
+    locale: "en_GB",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Math Printables UK - FreeMathPrintable.com",
-    description: "Download free math printables for primary schools. Library always free.",
+    title: "Free Math Printables UK | Reception to Year 6",
+    description: "Download 1000+ free math printables for primary schools. KS1 & KS2. UK curriculum aligned.",
+  },
+  alternates: {
+    canonical: "https://freemathprintable.com",
   },
 };
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-50">
+      {/* SEO: Structured Data (Schema Markup) */}
+      <HomepageStructuredData />
       {/* Sticky Navigation */}
       <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -52,6 +52,7 @@
     "postcss": "^8",
     "puppeteer-core": "^24.29.0",
     "react": "^18",
+    "react-cookie-consent": "^9.0.0",
     "react-dom": "^18",
     "resemblejs": "^5.0.0",
     "sharp": "^0.34.4",

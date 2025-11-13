@@ -1,30 +1,48 @@
 import { MetadataRoute } from 'next'
 import { browseLibraryWorksheets } from '@/lib/services/libraryService'
 
+/**
+ * Dynamic Sitemap for FreeMathPrintable.com
+ *
+ * SEO Optimized sitemap that:
+ * - Includes all public pages
+ * - Dynamically lists all library worksheets
+ * - Excludes protected/private pages
+ * - Sets appropriate priorities and update frequencies
+ *
+ * Access at: https://freemathprintable.com/sitemap.xml
+ */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://freemathprintable.com'
 
-  // Static pages
+  // Static public pages (SEO optimized)
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/create`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.8,
+      changeFrequency: 'weekly',
+      priority: 1.0, // Homepage - highest priority
     },
     {
       url: `${baseUrl}/library`,
       lastModified: new Date(),
-      changeFrequency: 'hourly',
-      priority: 0.9,
+      changeFrequency: 'daily', // Updated frequently with new worksheets
+      priority: 0.9, // Main content - very high priority
+    },
+    {
+      url: `${baseUrl}/privacy`,
+      lastModified: new Date('2024-11-12'), // Last policy update
+      changeFrequency: 'monthly',
+      priority: 0.5, // Legal pages - medium priority
+    },
+    {
+      url: `${baseUrl}/terms`,
+      lastModified: new Date('2024-11-12'), // Last terms update
+      changeFrequency: 'monthly',
+      priority: 0.5, // Legal pages - medium priority
     },
   ]
+  // Note: /create is excluded (requires auth, not for public indexing)
 
   // Fetch all published worksheets
   try {

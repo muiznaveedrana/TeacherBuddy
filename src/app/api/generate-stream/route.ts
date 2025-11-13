@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server'
 import { generateWorksheetStreaming } from '@/lib/services/gemini'
 import { WorksheetConfig, LayoutType, VisualTheme } from '@/lib/types/worksheet'
 import { validateWorksheetRequest, sanitizeWorksheetRequest } from '@/lib/utils/validation'
+import { checkMultipleRateLimits, RATE_LIMIT_PRESETS } from '@/lib/utils/simpleRateLimit'
 
 // Mock name lists data (same as generate-worksheet/route.ts)
 const mockNameLists: Record<string, string[]> = {
@@ -14,6 +15,37 @@ export async function POST(request: NextRequest) {
   const startTime = Date.now()
 
   try {
+    // ⚡ RATE LIMITING: 20 worksheets/hour AND 30 worksheets/day (prevents AI API abuse)
+    const rateLimitResult = await checkMultipleRateLimits(request, [
+      { ...RATE_LIMIT_PRESETS.HOURLY, key: 'hourly' },
+      { ...RATE_LIMIT_PRESETS.DAILY, key: 'daily' },
+    ])
+
+    if (!rateLimitResult.success) {
+      const encoder = new TextEncoder()
+      const errorData = JSON.stringify({
+        type: 'error',
+        error: 'Rate limit exceeded',
+        message: rateLimitResult.message,
+        limit: rateLimitResult.limit,
+        remaining: rateLimitResult.remaining,
+        reset: rateLimitResult.reset,
+        timestamp: new Date().toISOString()
+      })
+
+      return new Response(encoder.encode(`data: ${errorData}\n\n`), {
+        status: 429,
+        headers: {
+          'Content-Type': 'text/event-stream',
+          'Cache-Control': 'no-cache',
+          'Connection': 'keep-alive',
+          'X-RateLimit-Limit': rateLimitResult.limit.toString(),
+          'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+          'X-RateLimit-Reset': rateLimitResult.reset.toString(),
+        }
+      })
+    }
+
     // Parse and sanitize request body
     const rawBody = await request.json()
     const sanitizedBody = sanitizeWorksheetRequest(rawBody)

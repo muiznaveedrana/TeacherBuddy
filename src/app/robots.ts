@@ -1,16 +1,83 @@
 import { MetadataRoute } from 'next'
 
+/**
+ * Robots.txt Configuration for FreeMathPrintable.com
+ *
+ * Controls search engine crawling behavior.
+ * Next.js automatically generates /robots.txt from this file.
+ *
+ * SEO Strategy:
+ * - Allow public pages (/, /library, /privacy, /terms)
+ * - Block protected pages (/admin, /name-lists, etc.)
+ * - Block API routes
+ * - Point to sitemap for better indexing
+ */
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://freemathprintable.com'
 
   return {
     rules: [
       {
         userAgent: '*',
-        allow: '/',
-        disallow: ['/api/', '/admin/', '/create/'],
+        allow: [
+          '/',           // Homepage
+          '/library',    // Public worksheet library
+          '/library/*',  // Individual worksheets
+          '/privacy',    // Privacy Policy
+          '/terms',      // Terms of Service
+        ],
+        disallow: [
+          '/api/*',              // All API routes
+          '/admin/*',            // Admin panel
+          '/name-lists/*',       // Student name lists (sensitive data)
+          '/subscription/*',     // Subscription management
+          '/profile/*',          // User profiles
+          '/create/*',           // Worksheet creation (requires auth)
+          '/privacy-settings/*', // Privacy settings
+          // Development/test pages (if any remain)
+          '/test/*',
+          '/dev/*',
+          '/components',
+          '/design-system',
+          '/mock-data',
+          '/style-guide',
+          '/ad-demo',
+          '/brand',
+          '/accessibility',
+          '/development',
+        ],
+        crawlDelay: 1, // Be nice to servers - wait 1 second between requests
+      },
+      // Block aggressive/spam bots
+      {
+        userAgent: ['AhrefsBot', 'SemrushBot', 'MJ12bot', 'DotBot'],
+        disallow: ['/'],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
   }
 }
+
+/**
+ * Generated robots.txt example:
+ *
+ * User-agent: *
+ * Allow: /
+ * Allow: /library
+ * Allow: /library/*
+ * Allow: /privacy
+ * Allow: /terms
+ * Disallow: /api/*
+ * Disallow: /admin/*
+ * Disallow: /name-lists/*
+ * ...
+ * Crawl-delay: 1
+ *
+ * User-agent: AhrefsBot
+ * User-agent: SemrushBot
+ * User-agent: MJ12bot
+ * User-agent: DotBot
+ * Disallow: /
+ *
+ * Sitemap: https://freemathprintable.com/sitemap.xml
+ */
