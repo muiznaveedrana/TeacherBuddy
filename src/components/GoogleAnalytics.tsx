@@ -12,6 +12,13 @@ export function GoogleAnalytics() {
     const cookieConsent = localStorage.getItem('cookieConsent');
     setConsent(cookieConsent === 'accepted');
 
+    // Debug logging
+    console.log('GA Debug:', {
+      gaId,
+      cookieConsent,
+      consent: cookieConsent === 'accepted'
+    });
+
     // Listen for consent changes
     const handleConsentChange = () => {
       const newConsent = localStorage.getItem('cookieConsent');
@@ -20,11 +27,13 @@ export function GoogleAnalytics() {
 
     window.addEventListener('storage', handleConsentChange);
     return () => window.removeEventListener('storage', handleConsentChange);
-  }, []);
+  }, [gaId]);
 
   if (!gaId || !consent) {
+    console.log('GA not loading:', { gaId: !!gaId, consent });
     return null;
   }
 
+  console.log('GA loading with ID:', gaId);
   return <GA gaId={gaId} />;
 }
