@@ -214,8 +214,13 @@ export default function EditWorksheetPage() {
   const handleUpdateLibrary = async () => {
     if (!isAdmin || !editedContent) return
 
+    // Set saving state BEFORE any async operations for immediate UI feedback
     setSaveMode('update')
     setSaving(true)
+
+    // Force a small delay to ensure state updates before async work
+    await new Promise(resolve => setTimeout(resolve, 0))
+
     try {
       const response = await fetch(`/api/library/${worksheet!.id}/update`, {
         method: 'POST',
@@ -249,9 +254,14 @@ export default function EditWorksheetPage() {
       return
     }
 
+    // Set saving state BEFORE any async operations for immediate UI feedback
     setSaveMode('new')
     setSaving(true)
     setShowVersionModal(false)
+
+    // Force a small delay to ensure state updates before async work
+    await new Promise(resolve => setTimeout(resolve, 0))
+
     try {
       const response = await fetch('/api/library/create-version', {
         method: 'POST',

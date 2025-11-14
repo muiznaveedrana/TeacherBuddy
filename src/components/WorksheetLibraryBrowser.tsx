@@ -31,11 +31,21 @@ function isTrendingWorksheet(worksheet: LibraryWorksheet): boolean {
 }
 
 // Extract version from slug (e.g., "reception-counting-v2" → "V2")
-function extractVersion(slug: string): string | null {
-  const versionMatch = slug.match(/-v(\d+)$/)
-  if (versionMatch) {
-    return `V${versionMatch[1]}`
+function extractVersion(slug: string, title?: string): string | null {
+  // First try to extract from slug (format: -v2, -v3, etc.)
+  const slugMatch = slug.match(/-v(\d+)$/)
+  if (slugMatch) {
+    return `V${slugMatch[1]}`
   }
+
+  // Then try to extract from title (format: (v2), (v3), etc.)
+  if (title) {
+    const titleMatch = title.match(/\(v(\d+)\)/i)
+    if (titleMatch) {
+      return `V${titleMatch[1]}`
+    }
+  }
+
   return null // First version (no suffix)
 }
 
@@ -242,7 +252,7 @@ export function WorksheetLibraryBrowser() {
           const isNew = worksheet.published_at ? isNewWorksheet(worksheet.published_at) : false
           const isTrending = isTrendingWorksheet(worksheet)
           const yearColor = YEAR_COLORS[worksheet.year_group] || 'bg-gray-600'
-          const version = extractVersion(worksheet.slug)
+          const version = extractVersion(worksheet.slug, worksheet.title)
 
           return (
             <Link
