@@ -55,6 +55,7 @@ export default function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="msapplication-TileImage" content="/icons/icon-144x144.png" />
         <meta name="msapplication-TileColor" content="#1d4ed8" />
+        <GoogleAnalytics />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -75,7 +76,6 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         {children}
         <CookieConsentBanner />
-        <GoogleAnalytics />
       </body>
     </html>
   );
