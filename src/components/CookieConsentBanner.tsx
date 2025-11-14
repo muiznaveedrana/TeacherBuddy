@@ -53,13 +53,20 @@ export function CookieConsentBanner() {
       expires={365} // Cookie expires after 1 year
       onAccept={() => {
         console.log('✅ User accepted cookies')
-        // Future: Enable analytics here when you add them
-        // window.gtag && window.gtag('consent', 'update', { analytics_storage: 'granted' })
+        // Store consent in localStorage as well
+        localStorage.setItem('cookieConsent', 'accepted')
+        // Dispatch custom event for GoogleAnalytics component
+        window.dispatchEvent(new Event('cookieConsentAccepted'))
+        // Reload page to initialize GA with consent
+        setTimeout(() => {
+          window.location.reload()
+        }, 100)
       }}
       onDecline={() => {
         console.log('❌ User declined non-essential cookies')
-        // Future: Disable analytics here
-        // window.gtag && window.gtag('consent', 'update', { analytics_storage: 'denied' })
+        // Store decline in localStorage
+        localStorage.setItem('cookieConsent', 'declined')
+        // GA won't load without consent
       }}
       // Overlay settings
       overlay={false}

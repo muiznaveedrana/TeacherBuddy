@@ -1,21 +1,74 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import Script from 'next/script';
+
 const GA_MEASUREMENT_ID = 'G-Q38YDPNBZV';
 
 export function GoogleAnalytics() {
+  const [hasConsent, setHasConsent] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Check if user has already consented
+    const checkConsent = () => {
+      // Check localStorage for our consent
+      const consent = localStorage.getItem('cookieConsent');
+      const cookieConsentBanner = document.cookie.includes('freemathprintable-cookie-consent=true');
+
+      if (consent === 'accepted' || cookieConsentBanner) {
+        setHasConsent(true);
+      }
+    };
+
+    // Check on mount
+    checkConsent();
+
+    // Listen for consent changes
+    const handleConsentUpdate = () => {
+      checkConsent();
+    };
+
+    // Listen for both storage changes and custom events
+    window.addEventListener('storage', handleConsentUpdate);
+    window.addEventListener('cookieConsentAccepted', handleConsentUpdate);
+
+    // Also check periodically for the first few seconds (for react-cookie-consent)
+    const intervalId = setInterval(checkConsent, 1000);
+    setTimeout(() => clearInterval(intervalId), 5000);
+
+    return () => {
+      window.removeEventListener('storage', handleConsentUpdate);
+      window.removeEventListener('cookieConsentAccepted', handleConsentUpdate);
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  // Only render GA scripts if consent is given
+  if (!hasConsent) {
+    return null;
+  }
+
   return (
     <>
-      {/* Google tag (gtag.js) */}
-      <script
-        async
+      <Script
+        id="google-analytics-script"
+        strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
       />
-      <script
+      <Script
+        id="google-analytics-config"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
 
-            // Basic GA config
+            // Configure GA with cookie consent granted
+            gtag('consent', 'default', {
+              'analytics_storage': 'granted'
+            });
+
             gtag('config', '${GA_MEASUREMENT_ID}', {
               page_path: window.location.pathname,
             });
