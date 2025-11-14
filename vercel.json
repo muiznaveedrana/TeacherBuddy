@@ -19,8 +19,5 @@
     "app/api/generate-pdf/route.js": {
       "maxDuration": 60
     }
-  },
-  "outputFunctionPatternOptions": {
-    "maxDuration": 30
   }
 }
