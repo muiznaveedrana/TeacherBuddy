@@ -41,9 +41,22 @@ const nextConfig = {
   },
 
   // Webpack configuration for serverless compatibility
-  webpack: (config) => {
-    // Exclude problematic packages from webpack bundling for serverless
-    config.externals = [...(config.externals || []), 'puppeteer', 'puppeteer-core']
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      // Exclude problematic packages from webpack bundling for serverless
+      config.externals = [
+        ...(config.externals || []),
+        'puppeteer',
+        'puppeteer-core',
+        '@sparticuz/chromium'
+      ]
+    }
+
+    // Optimize bundle size
+    config.optimization = {
+      ...config.optimization,
+      moduleIds: 'deterministic',
+    }
 
     return config
   },

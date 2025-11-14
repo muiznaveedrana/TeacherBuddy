@@ -2,17 +2,25 @@
   "framework": "nextjs",
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
-  "installCommand": "npm install",
+  "installCommand": "npm install --production",
   "env": {
     "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": "true",
     "PUPPETEER_EXECUTABLE_PATH": "/usr/bin/google-chrome-stable"
   },
   "functions": {
     "app/api/generate-worksheet/route.js": {
-      "includeFiles": "src/lib/prompts/**"
+      "includeFiles": "src/lib/prompts/**",
+      "maxDuration": 60
     },
     "app/api/generate-stream/route.js": {
-      "includeFiles": "src/lib/prompts/**"
+      "includeFiles": "src/lib/prompts/**",
+      "maxDuration": 60
+    },
+    "app/api/generate-pdf/route.js": {
+      "maxDuration": 60
     }
+  },
+  "outputFunctionPatternOptions": {
+    "maxDuration": 30
   }
 }
