@@ -29,12 +29,13 @@ export function GoogleAnalytics() {
     return () => window.removeEventListener('storage', handleConsentChange);
   }, [gaId]);
 
-  if (!gaId || !consent) {
-    console.log('GA not loading:', { gaId: !!gaId, consent });
+  // Temporarily load without consent for testing
+  if (!gaId) {
+    console.log('GA not loading: no gaId');
     return null;
   }
 
-  console.log('GA loading with ID:', gaId);
+  console.log('GA loading with ID:', gaId, 'consent:', consent);
 
   return (
     <>
