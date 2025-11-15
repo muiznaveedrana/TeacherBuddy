@@ -103,6 +103,7 @@ function DashboardContent() {
   const [generationState, setGenerationState] = useState<GenerationState>('idle')
   const [progress, setProgress] = useState<number>(0)
   const [generatedWorksheet, setGeneratedWorksheet] = useState<GeneratedWorksheet | null>(null)
+  const [originalWorksheet, setOriginalWorksheet] = useState<GeneratedWorksheet | null>(null) // Store original for reset
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [loadingTopics, setLoadingTopics] = useState<boolean>(false)
   const [loadingSubtopics, setLoadingSubtopics] = useState<boolean>(false)
@@ -183,11 +184,13 @@ function DashboardContent() {
             const worksheetData = JSON.parse(storedWorksheet)
             console.log('📋 Parsed worksheet data:', worksheetData)
 
-            setGeneratedWorksheet({
+            const restoredWorksheet = {
               title: worksheetData.metadata.title,
               html: worksheetData.html,
               metadata: worksheetData.metadata,
-            })
+            }
+            setGeneratedWorksheet(restoredWorksheet)
+            setOriginalWorksheet(restoredWorksheet) // Store original for reset
             setGenerationState('completed')
             hasRestoredRef.current = true // Mark as restored
             console.log('✅ Restored worksheet preview from sessionStorage')
@@ -338,6 +341,7 @@ function DashboardContent() {
     setProgress(0)
     setErrorMessage('')
     setGeneratedWorksheet(null)
+    setOriginalWorksheet(null) // Clear original when generating new worksheet
     setEditMode(false) // Reset edit mode when generating new worksheet
 
     try {
@@ -519,6 +523,7 @@ function DashboardContent() {
 
                 // NOW set worksheet and completion status (Download button will appear)
                 setGeneratedWorksheet(event.worksheet)
+                setOriginalWorksheet(event.worksheet) // Store original for reset functionality
                 setGenerationState('completed')
 
                 // Track successful worksheet generation
@@ -1285,6 +1290,8 @@ function DashboardContent() {
                         <WorksheetEditor
                           htmlContent={generatedWorksheet.html}
                           initialMascots={generatedWorksheet.mascots}
+                          originalHtmlContent={originalWorksheet?.html}
+                          originalMascots={originalWorksheet?.mascots}
                           onSave={(updatedContent, mascots) => {
                             // Update the generatedWorksheet with edited content and mascots
                             // Use functional update to avoid closure issues with stale state

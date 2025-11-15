@@ -96,6 +96,12 @@ export default function EditWorksheetPage() {
     setEditedMascots(mascots || [])
   }
 
+  const handleReset = () => {
+    console.log('🔄 EDIT: Reset called - clearing edited state')
+    setEditedContent('')
+    setEditedMascots([])
+  }
+
   const handleDownloadPDF = async () => {
     if (!editedContent && !worksheet) return
 
@@ -378,9 +384,11 @@ export default function EditWorksheetPage() {
       {/* Editor */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <WorksheetEditor
-          htmlContent={worksheet.html_content}
-          initialMascots={worksheet.mascots as Mascot[] | undefined}
+          key={`${worksheet.id}-${editedContent ? 'edited' : 'original'}`}
+          htmlContent={editedContent || worksheet.html_content}
+          initialMascots={editedMascots.length > 0 ? editedMascots : (worksheet.mascots as Mascot[] | undefined)}
           onSave={handleSave}
+          onReset={handleReset}
         />
 
         {/* Save Options */}

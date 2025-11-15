@@ -34,6 +34,9 @@ interface WorksheetEditorProps {
   htmlContent: string
   initialMascots?: Mascot[]
   onSave?: (content: string, mascots?: Mascot[]) => void
+  onReset?: () => void
+  originalHtmlContent?: string  // Optional: explicitly provide original content for reset
+  originalMascots?: Mascot[]     // Optional: explicitly provide original mascots for reset
 }
 
 interface EditorState {
@@ -42,7 +45,14 @@ interface EditorState {
   timestamp: number
 }
 
-export function WorksheetEditor({ htmlContent, initialMascots, onSave }: WorksheetEditorProps) {
+export function WorksheetEditor({
+  htmlContent,
+  initialMascots,
+  onSave,
+  onReset,
+  originalHtmlContent,
+  originalMascots: originalMascotsProp
+}: WorksheetEditorProps) {
   const contentRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [showSaved, setShowSaved] = useState(false)
@@ -51,16 +61,29 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
   const [selectedImageElement, setSelectedImageElement] = useState<HTMLImageElement | null>(null)
   const [replacementCount, setReplacementCount] = useState(0)
 
+  // Store original content for reset functionality
+  // Use explicitly provided original content if available, otherwise use initial htmlContent
+  const originalContentRef = useRef<string>(originalHtmlContent || htmlContent)
+  const originalMascotsRef = useRef<Mascot[]>(originalMascotsProp || initialMascots || [])
+
   // Mascot state - initialize with initialMascots if provided
   const [mascots, setMascots] = useState<Mascot[]>(initialMascots || [])
   const [showMascotLibrary, setShowMascotLibrary] = useState(false)
   const [selectedMascotId, setSelectedMascotId] = useState<string | null>(null)
+
+  // Image resize state
+  const [contextMenuImage, setContextMenuImage] = useState<HTMLImageElement | null>(null)
+  const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 })
+  const [showContextMenu, setShowContextMenu] = useState(false)
+  const [imageSize, setImageSize] = useState(100) // percentage
 
   // History state for undo/redo
   const [history, setHistory] = useState<EditorState[]>([])
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState(-1)
   const autosaveTimerRef = useRef<NodeJS.Timeout | null>(null)
   const isUndoingRef = useRef(false)
+  const isInternalUpdateRef = useRef(false)
+  const isSavingRef = useRef(false)
 
   const handleImageReplace = (newImagePath: string) => {
     if (!selectedImageElement || !contentRef.current) return
@@ -72,10 +95,26 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
     const images = contentRef.current.querySelectorAll('img')
     let count = 0
 
-    images.forEach((img) => {
+    images.forEach((img, index) => {
       const imgSrc = new URL(img.src).pathname
       if (imgSrc === oldImageSrc) {
+        // Preserve size settings before replacing
+        const currentWidth = img.style.width
+        const currentHeight = img.style.height
+        const baselineWidth = img.dataset.baselineWidth
+
+        // Replace the image source
         img.src = newImagePath
+
+        // Generate NEW image ID based on new src
+        const srcHash = newImagePath.split('/').pop()?.replace(/[^a-zA-Z0-9]/g, '') || 'img'
+        img.dataset.imageId = `${srcHash}-${index}`
+
+        // Restore size settings (new image inherits previous size)
+        if (currentWidth) img.style.width = currentWidth
+        if (currentHeight) img.style.height = currentHeight
+        if (baselineWidth) img.dataset.baselineWidth = baselineWidth
+
         count++
       }
     })
@@ -85,8 +124,16 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
     // Show toast notification
     showToast(`✓ Replaced ${count} image${count > 1 ? 's' : ''}`)
 
-    // Re-add click handlers to new images
-    setTimeout(() => addImageClickHandlers(), 100)
+    // Set flag to prevent innerHTML reset when autosave triggers
+    isInternalUpdateRef.current = true
+
+    // Save the changes
+    setTimeout(() => {
+      saveToHistory()
+      performAutosave()
+      // Re-add click handlers to new images
+      addImageClickHandlers()
+    }, 100)
   }
 
   const showToast = (message: string) => {
@@ -142,16 +189,37 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
   }
 
   const handleReset = () => {
-    if (contentRef.current) {
-      contentRef.current.innerHTML = htmlContent
-      contentRef.current.contentEditable = 'true' // Keep in edit mode
-      localStorage.removeItem('worksheet-editor-content')
-      localStorage.removeItem('worksheet-editor-mascots')
-      setMascots([])
-      setShowSaved(false)
-      // Clear history
-      setHistory([])
-      setCurrentHistoryIndex(-1)
+    if (!contentRef.current) return
+
+    // Reset to original content
+    contentRef.current.innerHTML = originalContentRef.current
+    setMascots(originalMascotsRef.current)
+
+    // Clear local storage
+    localStorage.removeItem('worksheet-editor-content')
+    localStorage.removeItem('worksheet-editor-mascots')
+
+    // Clear history
+    setHistory([{
+      html: originalContentRef.current,
+      mascots: originalMascotsRef.current,
+      timestamp: Date.now()
+    }])
+    setCurrentHistoryIndex(0)
+
+    // Re-add image handlers
+    setTimeout(() => addImageClickHandlers(), 100)
+
+    // Show toast notification
+    showToast('✓ Worksheet reset to original')
+
+    // If onReset callback provided, call it (for edit page to clear edited state)
+    if (onReset) {
+      onReset()
+    } else if (onSave) {
+      // For create page, update parent state with original content
+      // This ensures the parent's state reflects the reset
+      onSave(originalContentRef.current, originalMascotsRef.current)
     }
   }
 
@@ -164,6 +232,12 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
       mascots: [...mascots],
       timestamp: Date.now()
     }
+
+    console.log('📝 Saving to history:', {
+      htmlLength: currentState.html.length,
+      htmlSnippet: currentState.html.substring(0, 200),
+      hasStyleAttribute: currentState.html.includes('style=')
+    })
 
     setHistory(prev => {
       // Remove any "future" history if we're not at the end
@@ -179,8 +253,9 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
 
   // Autosave function
   const performAutosave = useCallback(() => {
-    if (!contentRef.current) return
+    if (!contentRef.current || isSavingRef.current) return
 
+    isSavingRef.current = true
     setIsSaving(true)
     const content = contentRef.current.innerHTML
 
@@ -200,7 +275,10 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
     setTimeout(() => {
       setIsSaving(false)
       setShowSaved(true)
-      setTimeout(() => setShowSaved(false), 2000)
+      setTimeout(() => {
+        setShowSaved(false)
+        isSavingRef.current = false // Reset flag after everything is done
+      }, 2000)
     }, 300)
   }, [mascots, onSave])
 
@@ -222,6 +300,87 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
     performAutosave()
   }, [saveToHistory, performAutosave])
 
+  // Handle image resize
+  const handleSizeChange = useCallback((newSize: number) => {
+    console.log('🎚️ handleSizeChange called:', { newSize })
+
+    if (!contextMenuImage || !contentRef.current) {
+      console.log('❌ No contextMenuImage or contentRef')
+      return
+    }
+
+    // Try to find current image by ID first, then by src as fallback
+    let currentImage: HTMLImageElement | null = null
+
+    const imageId = contextMenuImage.dataset.imageId
+    if (imageId) {
+      currentImage = contentRef.current.querySelector(`img[data-image-id="${imageId}"]`) as HTMLImageElement
+    }
+
+    // Fallback: find by src if no ID match
+    if (!currentImage) {
+      console.log('⚠️ No imageId, using src fallback:', contextMenuImage.src)
+      const images = contentRef.current.querySelectorAll('img')
+      currentImage = Array.from(images).find(img => img.src === contextMenuImage.src) as HTMLImageElement || null
+    }
+
+    if (!currentImage) {
+      console.log('❌ Could not find currentImage (tried ID and src)')
+      return
+    }
+
+    // Store baseline dimensions if not already stored (initial rendered size)
+    if (!currentImage.dataset.baselineWidth) {
+      const initialWidth = currentImage.getBoundingClientRect().width || currentImage.width
+      currentImage.dataset.baselineWidth = initialWidth.toString()
+      console.log('💾 Stored baseline width in resize:', initialWidth)
+    }
+
+    const baselineWidth = parseFloat(currentImage.dataset.baselineWidth || '200')
+    const newWidth = (baselineWidth * newSize) / 100
+
+    console.log('✅ Resizing image:', {
+      baselineWidth,
+      newSize: newSize + '%',
+      newWidth: newWidth + 'px'
+    })
+
+    // Apply size as regular inline styles (without !important)
+    // This allows them to be saved in the HTML
+    currentImage.style.width = `${newWidth}px`
+    currentImage.style.height = 'auto'
+    currentImage.style.maxWidth = 'none'
+    currentImage.style.maxHeight = 'none'
+    currentImage.style.minWidth = 'unset'
+    currentImage.style.minHeight = 'unset'
+    currentImage.style.objectFit = 'contain'
+
+    console.log('🎨 Applied styles to image:', {
+      width: currentImage.style.width,
+      height: currentImage.style.height,
+      objectFit: currentImage.style.objectFit
+    })
+
+    setImageSize(newSize)
+
+    // Close context menu after resizing
+    setShowContextMenu(false)
+
+    // CRITICAL: Manually save the HTML content immediately to persist the resize
+    // Set flag to prevent innerHTML reset when prop updates
+    isInternalUpdateRef.current = true
+
+    // Use setTimeout to ensure DOM has updated before reading innerHTML
+    setTimeout(() => {
+      console.log('💾 Saving resize after DOM update...')
+      saveToHistory()
+      performAutosave()
+      console.log('✅ Resize saved to history and autosave (internal update flagged)')
+    }, 0)
+
+    console.log('🎨 Resize styles applied, autosave scheduled')
+  }, [contextMenuImage, saveToHistory, performAutosave])
+
   // Image click handler
   const handleImageClick = (img: HTMLImageElement) => {
     setSelectedImageElement(img)
@@ -233,19 +392,86 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
     if (!contentRef.current) return
 
     const images = contentRef.current.querySelectorAll('img')
-    images.forEach((img) => {
+    console.log(`🔧 Adding handlers to ${images.length} images`)
+
+    images.forEach((img, index) => {
       img.contentEditable = 'false'
       img.style.cursor = 'pointer'
       img.classList.add('worksheet-image-replaceable')
 
-      img.addEventListener('click', (e) => {
+      // Add unique identifier
+      if (!img.dataset.imageId) {
+        const srcHash = img.src.split('/').pop()?.replace(/[^a-zA-Z0-9]/g, '') || 'img'
+        img.dataset.imageId = `${srcHash}-${index}`
+      }
+
+      // Remove old handlers before adding new ones to prevent duplicates
+      const oldClickHandler = (img as any)._clickHandler
+      const oldContextHandler = (img as any)._contextHandler
+
+      if (oldClickHandler) {
+        img.removeEventListener('click', oldClickHandler)
+      }
+      if (oldContextHandler) {
+        img.removeEventListener('contextmenu', oldContextHandler)
+      }
+
+      // Left click to replace image
+      const clickHandler = (e: Event) => {
+        console.log('🖱️ Image clicked!', img.src)
         e.stopPropagation()
         handleImageClick(img)
-      })
+      }
+      img.addEventListener('click', clickHandler)
+      ;(img as any)._clickHandler = clickHandler
 
-      img.title = 'Click to change image'
+      // Right click to show context menu
+      const contextHandler = (e: MouseEvent) => {
+        e.preventDefault()
+        e.stopPropagation()
+
+        // Store baseline width on first interaction
+        if (!img.dataset.baselineWidth) {
+          const currentWidth = img.getBoundingClientRect().width || img.width
+          img.dataset.baselineWidth = currentWidth.toString()
+        }
+
+        // Calculate current size
+        const baselineWidth = parseFloat(img.dataset.baselineWidth || '200')
+        const currentWidth = img.getBoundingClientRect().width || img.width
+        const currentSize = Math.round((currentWidth / baselineWidth) * 100)
+
+        setContextMenuImage(img)
+        setImageSize(currentSize)
+
+        // Smart positioning: adjust if near viewport edges
+        const viewportWidth = window.innerWidth
+        const viewportHeight = window.innerHeight
+        const menuWidth = 150 // Approximate menu width
+        const menuHeight = 150 // Approximate menu height
+
+        let x = e.clientX
+        let y = e.clientY
+
+        // Adjust X if too close to right edge
+        if (x + menuWidth > viewportWidth - 20) {
+          x = viewportWidth - menuWidth - 20
+        }
+
+        // Adjust Y if too close to bottom edge
+        if (y + menuHeight > viewportHeight - 20) {
+          y = viewportHeight - menuHeight - 20
+        }
+
+        setContextMenuPosition({ x, y })
+        setShowContextMenu(true)
+      }
+      img.addEventListener('contextmenu', contextHandler)
+      ;(img as any)._contextHandler = contextHandler
+
+      img.title = 'Click to replace | Right-click for size options'
     })
-  }, [])
+  }, [handleImageClick])
 
   // Undo function
   const handleUndo = useCallback(() => {
@@ -255,17 +481,29 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
     const newIndex = currentHistoryIndex - 1
     const previousState = history[newIndex]
 
+    console.log('⏮️ Undoing to state:', {
+      newIndex,
+      htmlLength: previousState?.html.length,
+      hasStyleAttribute: previousState?.html.includes('style=')
+    })
+
     if (previousState) {
       contentRef.current.innerHTML = previousState.html
       setMascots(previousState.mascots)
       setCurrentHistoryIndex(newIndex)
       addImageClickHandlers()
+
+      // Update parent with undone state
+      setTimeout(() => {
+        isInternalUpdateRef.current = true
+        performAutosave()
+      }, 50)
     }
 
     setTimeout(() => {
       isUndoingRef.current = false
     }, 100)
-  }, [currentHistoryIndex, history, addImageClickHandlers])
+  }, [currentHistoryIndex, history, addImageClickHandlers, performAutosave])
 
   // Redo function
   const handleRedo = useCallback(() => {
@@ -280,12 +518,18 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
       setMascots(nextState.mascots)
       setCurrentHistoryIndex(newIndex)
       addImageClickHandlers()
+
+      // Update parent with redone state
+      setTimeout(() => {
+        isInternalUpdateRef.current = true
+        performAutosave()
+      }, 50)
     }
 
     setTimeout(() => {
       isUndoingRef.current = false
     }, 100)
-  }, [currentHistoryIndex, history, addImageClickHandlers])
+  }, [currentHistoryIndex, history, addImageClickHandlers, performAutosave])
 
   // Add keyboard shortcuts for undo/redo
   useEffect(() => {
@@ -312,6 +556,37 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
   // Initialize content when component mounts or htmlContent changes
   useEffect(() => {
     if (contentRef.current) {
+      // Skip resetting innerHTML if this is an internal update (from our own autosave)
+      if (isInternalUpdateRef.current) {
+        console.log('⏭️ Skipping innerHTML reset (internal update)')
+        isInternalUpdateRef.current = false
+        // Still add handlers in case they're missing
+        setTimeout(() => addImageClickHandlers(), 50)
+        return
+      }
+
+      // Skip if the content is already the same (prevents unnecessary resets from parent re-renders)
+      const currentContent = contentRef.current.innerHTML
+
+      // Compare content, allowing for small differences in whitespace/formatting
+      const contentMatches = currentContent === htmlContent ||
+        Math.abs(currentContent.length - htmlContent.length) < 200 // Allow serialization differences (increased from 20)
+
+      if (contentMatches) {
+        console.log('⏭️ Skipping innerHTML reset (content unchanged or minor differences)')
+        // Still ensure handlers are attached
+        setTimeout(() => addImageClickHandlers(), 50)
+        return
+      }
+
+      // Log difference to debug
+      console.log('📊 Content comparison:', {
+        currentLength: currentContent.length,
+        propLength: htmlContent.length,
+        diff: Math.abs(currentContent.length - htmlContent.length)
+      })
+
+      console.log('🔄 Resetting innerHTML from prop')
       contentRef.current.innerHTML = htmlContent
       // Clear localStorage when new worksheet is loaded (prevents old cached worksheets from showing)
       localStorage.removeItem('worksheet-editor-content')
@@ -320,7 +595,7 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
       contentRef.current.contentEditable = 'true'
 
       // Add click handlers to all images
-      addImageClickHandlers()
+      setTimeout(() => addImageClickHandlers(), 50)
     }
   }, [htmlContent, addImageClickHandlers])
 
@@ -330,6 +605,16 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
       setMascots(initialMascots)
     }
   }, [initialMascots])
+
+  // Ensure handlers are attached on mount and when content changes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log('⏰ Timeout triggered, calling addImageClickHandlers')
+      addImageClickHandlers()
+    }, 100)
+
+    return () => clearTimeout(timer)
+  }, [htmlContent, addImageClickHandlers]) // Added htmlContent as dependency
 
   // Add input listener for text changes (debounced autosave)
   useEffect(() => {
@@ -421,6 +706,7 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
 
   const handleDeselectMascot = () => {
     setSelectedMascotId(null)
+    setShowContextMenu(false) // Close context menu when clicking outside
   }
 
   return (
@@ -622,6 +908,114 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
             />
           ))}
         </div>
+
+        {/* Context Menu for Image Resize */}
+        {showContextMenu && (
+          <div
+            className="image-context-menu"
+            style={{
+              position: 'fixed',
+              left: `${contextMenuPosition.x}px`,
+              top: `${contextMenuPosition.y}px`,
+              background: 'white',
+              padding: '8px',
+              borderRadius: '8px',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+              border: '1px solid #e5e7eb',
+              zIndex: 9999,
+              minWidth: '150px'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ fontSize: '13px', fontWeight: 500, color: '#6b7280', marginBottom: '8px', padding: '4px 8px' }}>
+              Image Size
+            </div>
+            <button
+              onClick={() => handleSizeChange(70)}
+              style={{
+                display: 'block',
+                width: '100%',
+                padding: '8px 16px',
+                fontSize: '13px',
+                textAlign: 'left',
+                border: 'none',
+                background: imageSize === 70 ? '#eff6ff' : 'transparent',
+                color: imageSize === 70 ? '#3b82f6' : '#374151',
+                cursor: 'pointer',
+                borderRadius: '4px',
+                fontWeight: imageSize === 70 ? 600 : 400
+              }}
+              onMouseEnter={(e) => {
+                if (imageSize !== 70) {
+                  e.currentTarget.style.background = '#f3f4f6'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (imageSize !== 70) {
+                  e.currentTarget.style.background = 'transparent'
+                }
+              }}
+            >
+              Small (70%)
+            </button>
+            <button
+              onClick={() => handleSizeChange(100)}
+              style={{
+                display: 'block',
+                width: '100%',
+                padding: '8px 16px',
+                fontSize: '13px',
+                textAlign: 'left',
+                border: 'none',
+                background: imageSize === 100 ? '#eff6ff' : 'transparent',
+                color: imageSize === 100 ? '#3b82f6' : '#374151',
+                cursor: 'pointer',
+                borderRadius: '4px',
+                fontWeight: imageSize === 100 ? 600 : 400
+              }}
+              onMouseEnter={(e) => {
+                if (imageSize !== 100) {
+                  e.currentTarget.style.background = '#f3f4f6'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (imageSize !== 100) {
+                  e.currentTarget.style.background = 'transparent'
+                }
+              }}
+            >
+              Medium (100%)
+            </button>
+            <button
+              onClick={() => handleSizeChange(150)}
+              style={{
+                display: 'block',
+                width: '100%',
+                padding: '8px 16px',
+                fontSize: '13px',
+                textAlign: 'left',
+                border: 'none',
+                background: imageSize === 150 ? '#eff6ff' : 'transparent',
+                color: imageSize === 150 ? '#3b82f6' : '#374151',
+                cursor: 'pointer',
+                borderRadius: '4px',
+                fontWeight: imageSize === 150 ? 600 : 400
+              }}
+              onMouseEnter={(e) => {
+                if (imageSize !== 150) {
+                  e.currentTarget.style.background = '#f3f4f6'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (imageSize !== 150) {
+                  e.currentTarget.style.background = 'transparent'
+                }
+              }}
+            >
+              Large (150%)
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Simple Instructions */}
@@ -631,6 +1025,7 @@ export function WorksheetEditor({ htmlContent, initialMascots, onSave }: Workshe
           <li>• Click anywhere in the worksheet and start typing</li>
           <li>• Select text and use the formatting buttons (Bold, Italic, etc.)</li>
           <li>• <strong>Click any image</strong> to replace it with a different one</li>
+          <li>• <strong>Right-click any image</strong> to resize it (Small 70%, Medium 100%, Large 150%)</li>
           <li>• <strong>Click mascot icon</strong> to add fun characters to your worksheet</li>
           <li>• <strong>Drag mascots</strong> to reposition, resize from corner, or use controls to rotate/delete</li>
           <li>• <strong>Undo/Redo:</strong> Use Ctrl+Z / Ctrl+Y or the toolbar buttons</li>

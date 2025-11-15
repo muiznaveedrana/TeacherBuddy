@@ -1,10 +1,24 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Mulish, Kalam } from "next/font/google";
 import "./globals.css";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 
-const inter = Inter({ subsets: ["latin"] });
+// Mulish (formerly Muli) for clean, modern body text
+const mulish = Mulish({
+  subsets: ["latin"],
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
+  variable: '--font-mulish',
+  display: 'swap',
+});
+
+// Kalam for playful, handwritten headers
+const kalam = Kalam({
+  subsets: ["latin"],
+  weight: ['300', '400', '700'],
+  variable: '--font-kalam',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: "Free Math Printables UK | FreeMathPrintable.com",
@@ -73,7 +87,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${mulish.variable} ${kalam.variable} font-sans antialiased`}>
         {children}
         <CookieConsentBanner />
       </body>
