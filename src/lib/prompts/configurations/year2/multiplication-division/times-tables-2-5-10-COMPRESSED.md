@@ -18,11 +18,6 @@ Generate EXACTLY {{questionCount}} Year 2 times tables (2, 5, 10) questions.
 **Q4:** Pattern recognition - complete sequences
 **Q5:** Word problem - multiplication context
 
-## TIMES TABLES
-
-**2×:** 2,4,6,8,10,12,14,16,18,20,22,24
-**5×:** 5,10,15,20,25,30,35,40,45,50,55,60
-**10×:** 10,20,30,40,50,60,70,80,90,100,110,120
 
 ## CSS
 
@@ -55,24 +50,19 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:15px;line-hei
 <div class="question" style="background: #FFF9C4;">
     <p class="question-text"><span class="question-number">1.</span> How many apples in total?</p>
     <div class="array-visual">
-        <!-- 4 rows of 5 apples -->
         <div class="array-row">🍎🍎🍎🍎🍎</div>
         <div class="array-row">🍎🍎🍎🍎🍎</div>
         <div class="array-row">🍎🍎🍎🍎🍎</div>
         <div class="array-row">🍎🍎🍎🍎🍎</div>
     </div>
-    <p class="working">4 rows of 5 = <span class="answer-line">___ × ___ = ___</span></p>
+    <p class="working">Answer: <span class="answer-line"></span></p>
 </div>
 ```
 
 **Q2 (Repeated Addition):**
 ```html
 <div class="question" style="background: #E3F2FD;">
-    <p class="question-text"><span class="question-number">2.</span> Write as multiplication.</p>
-    <div class="repeated-addition">
-        <p class="equation">2 + 2 + 2 + 2 + 2 = <span class="answer-box"></span></p>
-        <p class="multiply">This is the same as: <span class="answer-line">___ × ___ = ___</span></p>
-    </div>
+    <p class="question-text"><span class="question-number">2.</span> 2 + 2 + 2 + 2 + 2 = <span class="answer-box"></span></p>
 </div>
 ```
 
@@ -94,11 +84,11 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:15px;line-hei
 **Q4 (Patterns):**
 ```html
 <div class="question" style="background: #FFE0E0;">
-    <p class="question-text"><span class="question-number">4.</span> Complete the patterns.</p>
+    <p class="question-text"><span class="question-number">4.</span> Complete:</p>
     <div class="pattern-sequences">
-        <p>Count in 2s: 2, 4, 6, <span class="answer-box"></span>, <span class="answer-box"></span>, 12</p>
-        <p>Count in 5s: 15, 20, <span class="answer-box"></span>, 30, <span class="answer-box"></span></p>
-        <p>Count in 10s: 40, <span class="answer-box"></span>, 60, <span class="answer-box"></span>, 80</p>
+        <p>2, 4, 6, <span class="answer-box"></span>, <span class="answer-box"></span>, 12</p>
+        <p>15, 20, <span class="answer-box"></span>, 30, <span class="answer-box"></span></p>
+        <p>40, <span class="answer-box"></span>, 60, <span class="answer-box"></span>, 80</p>
     </div>
 </div>
 ```

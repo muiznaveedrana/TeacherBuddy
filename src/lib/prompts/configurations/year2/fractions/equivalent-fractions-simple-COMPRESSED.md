@@ -113,7 +113,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:8px;line-heig
 .matching-option:hover{background:#E3F2FD;border-color:#2196F3}
 .word-problem-visual{margin:5px 0;padding:8px;background:#FFF3E0;border:2px dashed #FF9800;border-radius:6px}
 .pizza-visual{text-align:center;margin:8px 0}
-.instruction-box{margin:8px 0;padding:8px;background:#FFF9C4;border:2px dashed #FF9800;border-radius:6px;font-size:15pt;font-weight:600;text-align:center}
 .answer-box{display:inline-block;min-width:60px;height:30px;border:2px solid #333;border-radius:4px;background:#FFF;vertical-align:middle;margin:0 4px}
 .answer-line{border:none;border-bottom:2px solid #333;display:inline-block;min-width:60px;margin:0 4px;background:transparent}
 .working-space{border:2px dashed #999;padding:8px;margin:5px 0;min-height:50px;background:#FAFAFA;border-radius:4px}
@@ -179,9 +178,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:8px;line-heig
 ```html
 <div class="question" style="background:#E3F2FD">
   <p class="question-text"><span class="question-number">2.</span> Which fraction is the same amount as 1/2?</p>
-  <div class="instruction-box">
-    Look carefully at how much is shaded.
-  </div>
   <div class="matching-options">
     <div class="matching-option">
       <div class="fraction-circle" style="width:100px;height:100px">
@@ -292,8 +288,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:8px;line-heig
         <div class="fraction-quarter-circle quarter-4 unshaded"></div>
         <div class="division-lines"></div>
       </div>
-      <p class="fraction-label">Pizza with 4 slices</p>
-      <p style="font-size:15pt;color:#666">Emma eats the green part</p>
     </div>
   </div>
   <p class="question-text">Emma ate <span class="answer-box"></span> slices.</p>

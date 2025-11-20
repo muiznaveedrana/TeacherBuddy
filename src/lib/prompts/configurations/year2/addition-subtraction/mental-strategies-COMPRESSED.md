@@ -10,13 +10,13 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 {{COIN_SPEC}}
 {{VISUAL_MODE}}
 
-## STRATEGIES
+## STRATEGIES (For Answer Key Only - DO NOT Show in Questions)
 
-**ND** (Near Doubles): 6+7→"6+6=12, +1=13" | 8+9, 7+8, 5+6
-**BR10** (Bridge 10): 8+5→"8+2=10, +3=13" | Show jump steps
-**NB** (Number Bonds): Part-whole, fact families | If 8+?=13, then ?=5
-**COMP** (Compensation): 29+15→"30+15-1=44" | 18+7→"20+7-2=25"
-**MIX** (Mixed): Multiple problems, choose strategy
+**ND** (Near Doubles): Use in answer key explanation only
+**BR10** (Bridge 10): Use in answer key explanation only
+**NB** (Number Bonds): Use in answer key explanation only
+**COMP** (Compensation): Use in answer key explanation only
+**MIX** (Mixed): Multiple problems, no hints given
 
 ## VISUAL MODES (Use {{VISUAL_MODE}}):
 
@@ -51,12 +51,10 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:20px;line-hei
 .question{margin:25px 0;padding:25px;border-radius:10px;border:2px solid #ddd}
 .question-number{display:inline-block;background:#4169E1;color:white;width:38px;height:38px;line-height:38px;text-align:center;border-radius:50%;margin-right:12px;font-weight:bold;font-size:15pt}
 .question-text{font-size:18pt;margin:10px 0;font-weight:600}
-.strategy-hint{font-size:15pt;font-style:italic;color:#7B1FA2;margin:15px 0;padding:10px;background:#F3E5F5;border-radius:6px}
 .answer-box-container{margin:20px 0;text-align:center}
 .answer-box{display:inline-block;width:80px;height:50px;border:3px solid #333;border-radius:8px;background:#FFF9C4}
 .near-doubles-visual{display:flex;gap:30px;justify-content:center;margin:20px 0}
 .double-group,.near-double-group{text-align:center}
-.group-label{font-size:15pt;font-weight:bold;margin-bottom:12px;color:#1976D2}
 .object-group{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:200px;margin:10px auto}
 .part-whole-diagram{text-align:center;margin:25px 0}
 .whole-circle{width:90px;height:90px;background:#FF9800;border:4px solid #F57C00;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 25px;box-shadow:0 3px 8px rgba(0,0,0,0.15)}
@@ -93,10 +91,12 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:20px;line-hei
 
 ## TEMPLATES (Match {{STRATEGY_SPEC}}):
 
-**Q1-ND-visual**: Show actual problem objects only (e.g., 7+8), NO double fact shown
-**Q1-ND-pure**: "Solve: 7+8 = ___" (no hints)
-**Q1-ND-css**: Empty frame structure only, NO pre-filled
-**Q1-ND-objects**: Objects for actual problem, NO scaffolding
+**CRITICAL - NO HINTS IN QUESTIONS:**
+- Show ONLY the problem to solve (e.g., "7 + 8 = ___")
+- NO strategy labels, NO hints, NO scaffolding
+- NO "near doubles", "bridge 10", or other strategy names
+- Students must figure out the strategy themselves
+- Strategy explanations go in ANSWER KEY ONLY
 
 **Q2-BR10-numberline**: Clean number line 0-20 with NO arrows, NO labels, NO hints. Just "Complete the calculation: 9 + 4 = ___"
 **Q2-BR10-pure**: "Complete the calculation: 9 + 4 = ___" (NO visuals, NO scaffolds, NO hints)
@@ -108,7 +108,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:20px;line-hei
 **Q3-NB-objects**: Missing number format: "9 + ___ = 15" and "15 - 9 = ___"
 **Q3-NB-pure**: Simple format: "9 + ___ = 15"
 
-**Q4-COMP-pure**: "29+15 = ___ (Think 30+15, adjust)"
+**Q4-COMP-pure**: "29+15 = ___"
 **Q4-COMP-visual**: Step boxes with adjustment
 **Q4-COMP-money**: Use coins {{COIN_SPEC}}
 **Q4-COMP-css**: Adjustment diagram

@@ -24,10 +24,6 @@ Generate EXACTLY {{questionCount}} Year 2 comparing numbers questions.
 - **<** (less than): 25 < 61
 - **=** (equal to): 50 = 50
 
-## PLACE VALUE STRATEGY
-
-1. Compare tens first (if different, that determines which is greater)
-2. If tens same, compare ones
 
 ## EXAMPLE OUTPUT
 

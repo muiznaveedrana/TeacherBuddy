@@ -10,16 +10,6 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 - **CPA Progression**: Start with base-10 blocks (concrete), use number lines (pictorial), then abstract
 - **Ages 6-7**: Visual support crucial, real-world contexts engaging
 
-## ROUNDING RULE (Ones Digit)
-- **0**: Already a ten (stays same)
-- **1-4**: Round DOWN (change ones to 0)
-- **5-9**: Round UP (add 1 to tens, change ones to 0)
-
-**Examples:**
-- 23 → 20 (ones=3, round down)
-- 47 → 50 (ones=7, round up)
-- 85 → 90 (ones=5, round up - key rule!)
-- 30 → 30 (already a ten)
 
 ## QUESTION TYPES (CPA Progression)
 
@@ -41,7 +31,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .question-text{font-size:15pt;margin:5px 0;font-weight:600}
 .base10-container{display:flex;justify-content:center;gap:15px;margin:15px 0;flex-wrap:wrap}
 .base10-group{text-align:center}
-.base10-label{font-size:13pt;font-weight:bold;margin-bottom:5px;color:#1976D2}
 .base10-blocks{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:280px}
 .block-ten{width:70px;height:22px;background:#FF9800;border:2px solid #F57C00;border-radius:3px;margin:2px}
 .block-one{width:18px;height:18px;background:#4CAF50;border:2px solid #2E7D32;border-radius:2px;margin:2px}
@@ -82,7 +71,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 4. Use base-10 blocks for Q1 (orange tens, green ones)
 5. Real-world contexts: money (pence), ages, heights, sports scores
 6. Avoid emojis that may not render - use text or reliable emojis (🪙💰⚽📏)
-7. **NO CLUES**: Remove all hint boxes, instruction boxes, ones digit highlighting, "(X tens and Y ones)" text, and "halfway" labels
+7. **NO CLUES**: Remove all hint boxes, instruction boxes, ones digit highlighting, "(X tens and Y ones)" text, "halfway" labels, and "closer to" prompts
 8. Answer key with clear explanations of rounding rule
 9. Colored backgrounds Q1-Q5
 10. **CRITICAL**: NO orange/colored text in questions that gives away answers
@@ -92,35 +81,23 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 ### Q1 Template (Concrete - Base-10 Blocks):
 ```html
 <div class="question" style="background:#FFF9C4">
-  <p class="question-text"><span class="question-number">1.</span> Look at the base-10 blocks showing 47.</p>
+  <p class="question-text"><span class="question-number">1.</span> Round 47 to the nearest 10.</p>
   <div class="base10-container">
-    <div class="base10-group">
-      <p class="base10-label">Tens</p>
-      <div class="base10-blocks">
-        <div class="block-ten"></div>
-        <div class="block-ten"></div>
-        <div class="block-ten"></div>
-        <div class="block-ten"></div>
-      </div>
-    </div>
-    <div class="base10-group">
-      <p class="base10-label">Ones</p>
-      <div class="base10-blocks">
-        <div class="block-one"></div>
-        <div class="block-one"></div>
-        <div class="block-one"></div>
-        <div class="block-one"></div>
-        <div class="block-one"></div>
-        <div class="block-one"></div>
-        <div class="block-one"></div>
-      </div>
+    <div class="base10-blocks">
+      <div class="block-ten"></div>
+      <div class="block-ten"></div>
+      <div class="block-ten"></div>
+      <div class="block-ten"></div>
+      <div class="block-one"></div>
+      <div class="block-one"></div>
+      <div class="block-one"></div>
+      <div class="block-one"></div>
+      <div class="block-one"></div>
+      <div class="block-one"></div>
+      <div class="block-one"></div>
     </div>
   </div>
-  <p class="question-text">Is 47 closer to 40 or 50? Circle your answer.</p>
-  <div class="rounding-choices">
-    <div class="choice-box">40</div>
-    <div class="choice-box">50</div>
-  </div>
+  <p class="question-text">Answer: <span class="answer-box"></span></p>
 </div>
 ```
 
@@ -202,7 +179,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 - [ ] Q2 uses number line with midpoint marked (pictorial)?
 - [ ] Q3 focuses on pattern recognition?
 - [ ] Q4 uses real-world context (money/age/height)?
-- [ ] All ones digits highlighted for pattern recognition?
+- [ ] NO hint text or labels on visuals?
 - [ ] Colored backgrounds Q1-Q5?
 - [ ] Answer key with explanations?
 

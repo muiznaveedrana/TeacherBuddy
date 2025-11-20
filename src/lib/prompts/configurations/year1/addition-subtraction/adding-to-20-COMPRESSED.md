@@ -75,7 +75,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px}
 .frame-cell{width:45px;height:45px;border:2px solid #333;border-radius:4px;background:white;position:relative}
 .frame-cell.filled{background:#4CAF50}
 .frame-cell.filled::after{content:'';width:28px;height:28px;background:#2E7D32;border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
-.strategy-hint{text-align:center;font-size:14pt;font-style:italic;color:#7B1FA2;margin-top:15px}
 .missing-addend-visual{margin:20px auto;max-width:400px}
 .part-whole-addition{text-align:center;padding:20px;background:#f8f9ff;border:3px solid #E91E63;border-radius:12px}
 .total-circle{width:100px;height:100px;background:#FF9800;border:4px solid #F57C00;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;margin:0 auto 20px}
@@ -181,7 +180,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px}
                 </div>
             </div>
         </div>
-        <p class="strategy-hint">8 + 2 = 10, then 10 + 4 = ?</p>
     </div>
     <div class="addition-equation">
         <span class="number">8</span>

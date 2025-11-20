@@ -35,7 +35,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .question-text{font-size:15pt;margin:5px 0;font-weight:600}
 .base10-container{display:flex;justify-content:center;gap:15px;margin:15px 0;flex-wrap:wrap}
 .base10-group{text-align:center}
-.base10-label{font-size:13pt;font-weight:bold;margin-bottom:5px;color:#1976D2}
 .base10-blocks{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:280px}
 .block-ten{width:70px;height:22px;background:#FF9800;border:2px solid #F57C00;border-radius:3px;margin:2px}
 .block-one{width:18px;height:18px;background:#4CAF50;border:2px solid #2E7D32;border-radius:2px;margin:2px}
@@ -58,7 +57,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .answer-box{display:inline-block;min-width:70px;height:35px;border:2px solid #333;border-radius:5px;background:#FFF;vertical-align:middle;margin:0 5px}
 .answer-line{border:none;border-bottom:3px solid #333;display:inline-block;min-width:80px;margin:0 5px;background:transparent}
 .working-space{border:2px dashed #999;padding:10px;margin:10px 0;min-height:60px;background:#FAFAFA;border-radius:6px}
-.instruction-box{margin:10px 0;padding:10px;background:#E8F5E9;border:2px dashed #4CAF50;border-radius:8px;font-size:15pt;font-style:italic;color:#2E7D32}
 .answer-key{margin-top:30px;padding:15px;background:#E8F4F8;border:2px solid #4169E1;border-radius:8px;page-break-before:always}
 .answer-key h2{font-size:15pt;color:#2c3e50;margin-bottom:10px;text-align:center}
 .answer-key p{font-size:13pt;line-height:1.6;margin:6px 0}
@@ -81,49 +79,29 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 ### Q1 Template (Base-10 Blocks):
 ```html
 <div class="question" style="background:#FFF9C4">
-  <p class="question-text"><span class="question-number">1.</span> What number is shown by these base-10 blocks?</p>
+  <p class="question-text"><span class="question-number">1.</span> What number is shown?</p>
   <div class="base10-container">
-    <div class="base10-group">
-      <p class="base10-label">Tens</p>
-      <div class="base10-blocks">
-        <div class="block-ten"></div>
-        <div class="block-ten"></div>
-        <div class="block-ten"></div>
-        <div class="block-ten"></div>
-      </div>
-    </div>
-    <div class="base10-group">
-      <p class="base10-label">Ones</p>
-      <div class="base10-blocks">
-        <div class="block-one"></div>
-        <div class="block-one"></div>
-        <div class="block-one"></div>
-        <div class="block-one"></div>
-        <div class="block-one"></div>
-        <div class="block-one"></div>
-      </div>
+    <div class="base10-blocks">
+      <div class="block-ten"></div>
+      <div class="block-ten"></div>
+      <div class="block-ten"></div>
+      <div class="block-ten"></div>
+      <div class="block-one"></div>
+      <div class="block-one"></div>
+      <div class="block-one"></div>
+      <div class="block-one"></div>
+      <div class="block-one"></div>
+      <div class="block-one"></div>
     </div>
   </div>
-  <p class="question-text">The number shown is <span class="answer-box"></span></p>
+  <p class="question-text">Answer: <span class="answer-box"></span></p>
 </div>
 ```
 
 ### Q2 Template (Place Value Chart):
 ```html
 <div class="question" style="background:#E3F2FD">
-  <p class="question-text"><span class="question-number">2.</span> Complete the place value chart for the number 87.</p>
-  <div style="text-align:center;margin:15px 0">
-    <table class="pv-chart">
-      <tr class="pv-row">
-        <td class="pv-cell pv-header">Tens</td>
-        <td class="pv-cell pv-header">Ones</td>
-      </tr>
-      <tr class="pv-row">
-        <td class="pv-cell answer-box"></td>
-        <td class="pv-cell answer-box"></td>
-      </tr>
-    </table>
-  </div>
+  <p class="question-text"><span class="question-number">2.</span> 87 = <span class="answer-box"></span> and <span class="answer-box"></span></p>
 </div>
 ```
 
@@ -159,15 +137,11 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 ### Q5 Template (Word Problem):
 ```html
 <div class="question" style="background:#FFF3E0">
-  <p class="question-text"><span class="question-number">5.</span> A baker has 7 boxes of 10 cakes and 8 single cakes.</p>
+  <p class="question-text"><span class="question-number">5.</span> How many cakes?</p>
   <div class="word-problem-visual">
     <p style="font-size:30pt;margin:10px 0">📦📦📦📦📦📦📦</p>
-    <p style="font-size:13pt;margin:5px 0">(7 boxes of 10)</p>
     <p style="font-size:30pt;margin:10px 0">🧁🧁🧁🧁🧁🧁🧁🧁</p>
-    <p style="font-size:13pt;margin:5px 0">(8 single cakes)</p>
   </div>
-  <p class="question-text">How many cakes are there altogether?</p>
-  <div class="working-space"></div>
   <p class="question-text">Answer: <span class="answer-box"></span> cakes</p>
 </div>
 ```

@@ -25,8 +25,11 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 4. **Match Shapes** - Draw lines connecting shape names to shapes (RANDOMIZE: shuffle right-side order)
 5. **Shape Properties** - Corners, sides, or roundness (RANDOMIZE: pick from question pool)
 
-## Q1 - Identify Giant Shape
-**RANDOMIZE**: Pick ONE question variation + ONE shape (circle/square/triangle/heart/star)
+## Q1 - Identify Giant Shape (Multiple Choice)
+**RANDOMIZE**: Pick ONE target shape + 3 answer choices + ONE question variation
+
+**Target Shapes Pool**: circle, square, triangle, heart, star
+**Answer Choices**: Show target + 2 other shapes (randomize order)
 
 **Question Variations** (pick ONE):
 - "What shape is this?"
@@ -38,41 +41,55 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 <div class="question" style="background: #FFF9C4;">
     <p class="question-text"><span class="question-number">1.</span> What shape is this?</p>
     <div style="text-align: center; margin: 20px 0;">
-        <img src="/images/2d-square.png" width="120" height="120" alt="Shape" />
+        <img src="/images/2d-star.png" width="120" height="120" alt="Shape" />
     </div>
-    <p class="answer-prompt">Write your answer here <span class="answer-line">___</span></p>
+    <div class="shape-choices">
+        <div class="choice-box">
+            <span class="choice-label">A</span>
+            <p class="shape-name">Circle</p>
+        </div>
+        <div class="choice-box">
+            <span class="choice-label">B</span>
+            <p class="shape-name">Star</p>
+        </div>
+        <div class="choice-box">
+            <span class="choice-label">C</span>
+            <p class="shape-name">Triangle</p>
+        </div>
+    </div>
 </div>
 ```
 
-## Q2 - Find Matching Shapes
+## Q2 - Count Matching Shapes (Input Box)
 **RANDOMIZE**: Pick ONE target shape + 2 different filler shapes + ONE question variation
 
 **Target Shapes Pool** (pick ONE): circle, square, triangle, heart, star
 **Filler Shapes**: Use 2 other different shapes from the pool
-**Grid**: 6-9 shapes total (4-6 target shapes mixed with fillers)
+**Grid**: 6-9 shapes total (3-5 target shapes mixed with fillers)
 
 **Question Variations** (pick ONE):
-- "Circle all the [shapes]."
-- "Put a tick (✓) on all the [shapes]."
-- "Find all the [shapes] and circle them."
-- "How many [shapes] can you find? Circle them."
+- "How many [shapes] can you see?"
+- "Count the [shapes]."
+- "How many [shapes] are there?"
+- "Find and count the [shapes]."
 
 **Example**:
 ```html
 <div class="question" style="background: #F1F8E9;">
-    <p class="question-text"><span class="question-number">2.</span> Circle all the circles.</p>
+    <p class="question-text"><span class="question-number">2.</span> How many hearts can you see?</p>
     <div class="shape-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 400px; margin: 20px auto;">
-        <img src="/images/2d-circle.png" width="60" height="60" alt="Circle" />
+        <img src="/images/2d-heart.png" width="60" height="60" alt="Heart" />
         <img src="/images/2d-square.png" width="60" height="60" alt="Square" />
+        <img src="/images/2d-heart.png" width="60" height="60" alt="Heart" />
         <img src="/images/2d-circle.png" width="60" height="60" alt="Circle" />
-        <img src="/images/2d-triangle.png" width="60" height="60" alt="Triangle" />
-        <img src="/images/2d-circle.png" width="60" height="60" alt="Circle" />
-        <img src="/images/2d-circle.png" width="60" height="60" alt="Circle" />
+        <img src="/images/2d-heart.png" width="60" height="60" alt="Heart" />
+        <img src="/images/2d-heart.png" width="60" height="60" alt="Heart" />
     </div>
+    <p class="answer-prompt">Answer: <span class="answer-box"></span></p>
 </div>
 ```
 
-## Q3 - Count Shapes
+## Q3 - Count Shapes (Input Box)
 **RANDOMIZE**: Pick ONE shape + ONE quantity (3-7) + ONE question variation
 
 **Shape Pool (Reception only)**: circle, square, triangle, heart, star
@@ -87,50 +104,55 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 **Example**:
 ```html
 <div class="question" style="background: #E3F2FD;">
-    <p class="question-text"><span class="question-number">3.</span> Count the triangles. How many are there?</p>
+    <p class="question-text"><span class="question-number">3.</span> How many squares can you see?</p>
     <div class="shape-scene" style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin: 20px 0;">
-        <img src="/images/2d-triangle.png" width="60" height="60" alt="Triangle" />
-        <img src="/images/2d-triangle.png" width="60" height="60" alt="Triangle" />
-        <img src="/images/2d-triangle.png" width="60" height="60" alt="Triangle" />
-        <img src="/images/2d-triangle.png" width="60" height="60" alt="Triangle" />
-        <img src="/images/2d-triangle.png" width="60" height="60" alt="Triangle" />
+        <img src="/images/2d-square.png" width="60" height="60" alt="Square" />
+        <img src="/images/2d-square.png" width="60" height="60" alt="Square" />
+        <img src="/images/2d-square.png" width="60" height="60" alt="Square" />
+        <img src="/images/2d-square.png" width="60" height="60" alt="Square" />
+        <img src="/images/2d-square.png" width="60" height="60" alt="Square" />
+        <img src="/images/2d-square.png" width="60" height="60" alt="Square" />
     </div>
-    <p class="answer-prompt">Write your answer here <span class="answer-line">___</span></p>
+    <p class="answer-prompt">Answer: <span class="answer-box"></span></p>
 </div>
 ```
 
-## Q4 - Match Shapes (Draw Lines)
-**RANDOMIZE**: Pick 3-4 shapes + shuffle right side + pick ONE question variation
+## Q4 - Match Shapes (Multiple Choice Series)
+**RANDOMIZE**: Pick 3 shapes + ONE question format
 
 **Shape Combinations** (pick ONE set - Reception appropriate only):
 - Basic: Circle, Square, Triangle
 - Fun 1: Circle, Star, Heart
 - Fun 2: Triangle, Star, Heart
 - Mixed: Square, Heart, Triangle
-- All Stars: Heart, Star, Circle, Square (4 shapes)
+
+**Format**: Ask "Which is the [shape name]?" showing 3 images with A/B/C labels
 
 **Question Variations** (pick ONE):
-- "Draw a line from each word to the matching shape."
-- "Match the shape names to the shapes."
-- "Draw lines to match the words to the shapes."
-- "Can you match these shapes to their names?"
-
-**CRITICAL**: ALWAYS shuffle the order on the right side (don't align them!)
+- "Which is the [shape]?"
+- "Find the [shape]."
+- "Which one is the [shape]?"
+- "Point to the [shape]."
 
 **Example**:
 ```html
 <div class="question" style="background: #FCE4EC;">
-    <p class="question-text"><span class="question-number">4.</span> Draw a line from each word to the matching shape.</p>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 500px; margin: 20px auto;">
-        <div style="text-align: right; display: flex; flex-direction: column; gap: 30px; justify-content: center;">
-            <p style="font-size: 16pt; font-weight: bold;">Circle</p>
-            <p style="font-size: 16pt; font-weight: bold;">Square</p>
-            <p style="font-size: 16pt; font-weight: bold;">Triangle</p>
+    <p class="question-text"><span class="question-number">4.</span> Which is the heart?</p>
+    <div class="shape-choices">
+        <div class="choice-box">
+            <span class="choice-label">A</span>
+            <img src="/images/2d-circle.png" width="60" height="60" alt="Circle" class="choice-shape" />
+            <p class="shape-name">Circle</p>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 30px; align-items: flex-start;">
-            <img src="/images/2d-triangle.png" width="60" height="60" alt="Triangle" />
-            <img src="/images/2d-circle.png" width="60" height="60" alt="Circle" />
-            <img src="/images/2d-square.png" width="60" height="60" alt="Square" />
+        <div class="choice-box">
+            <span class="choice-label">B</span>
+            <img src="/images/2d-star.png" width="60" height="60" alt="Star" class="choice-shape" />
+            <p class="shape-name">Star</p>
+        </div>
+        <div class="choice-box">
+            <span class="choice-label">C</span>
+            <img src="/images/2d-heart.png" width="60" height="60" alt="Heart" class="choice-shape" />
+            <p class="shape-name">Heart</p>
         </div>
     </div>
 </div>
@@ -204,6 +226,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 .shape-scene{display:flex;gap:15px;flex-wrap:wrap;justify-content:center;margin:20px 0;}
 .answer-prompt{font-size:15pt;margin:10px 0;text-align:center;}
 .answer-line{border-bottom:2px solid #333;display:inline-block;min-width:150px;margin-left:10px;}
+.answer-box{display:inline-block;min-width:60px;height:35px;border:2px solid #333;border-radius:5px;background:#FFF;vertical-align:middle;margin-left:10px;}
 .answer-key{margin-top:30px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px;}
 .answer-key-title{font-size:14pt;font-weight:bold;margin:0 0 10px 0;text-align:center;}
 .answer-key-content p{font-size:12pt;margin:6px 0;}
@@ -215,10 +238,10 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 <div class="answer-key">
     <h2 class="answer-key-title">Answer Key</h2>
     <div class="answer-key-content">
-        <p><strong>1.</strong> [Shape name shown, e.g., "Square"]</p>
-        <p><strong>2.</strong> [Shapes to circle, e.g., "All 4 circles"]</p>
-        <p><strong>3.</strong> [Count, e.g., "5 triangles"]</p>
-        <p><strong>4.</strong> [Matching pairs: Circle→Circle, Square→Square, Triangle→Triangle]</p>
+        <p><strong>1.</strong> [Letter of correct shape name, e.g., "B (Star)"]</p>
+        <p><strong>2.</strong> [Count of target shapes, e.g., "4 hearts"]</p>
+        <p><strong>3.</strong> [Count of shapes shown, e.g., "6 squares"]</p>
+        <p><strong>4.</strong> [Letter of correct shape, e.g., "C (Heart)"]</p>
         <p><strong>5.</strong> [Letter of correct shape, e.g., "B (Square)" for "Which has 4 corners?"]</p>
     </div>
 </div>

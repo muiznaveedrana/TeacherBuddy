@@ -13,13 +13,6 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
 <!-- DEBUG: Check injection above -->
 
-## PROBLEM TYPES
-
-**RESULT-UNKNOWN**: "Emma has 15 stickers. Gets 8 more. How many now?" (start+change=?)
-**PART-UNKNOWN**: "Tom had some marbles. Gave 12 away. Has 9 left. How many at start?" (?-change=result)
-**CHANGE-UNKNOWN**: "Sarah has 23 pencils. Needs 35 total. How many more?" (start+?=result)
-**COMPARISON**: "Class A: 28 books, Class B: 17 books. How many more?" (difference)
-**TWO-STEP**: "Shop had 45 apples. Sold 18 morning, 12 afternoon. How many left?" (18+12, then 45-30)
 
 ## Q SPECS (Use {{PROBLEM_TYPE_SPEC}}):
 
@@ -75,8 +68,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:20px;line-hei
 .comparison-amount{display:inline-block;vertical-align:middle;font-size:15pt;font-weight:bold}
 .two-step-container{margin:20px 0;padding:15px;background:#E3F2FD;border-radius:8px;border:2px dashed #1976D2}
 .step-box{margin:15px 0;padding:12px;background:white;border:2px solid #666;border-radius:6px}
-.step-number{display:inline-block;width:30px;height:30px;background:#FF9800;color:white;border-radius:50%;text-align:center;line-height:30px;font-weight:bold;margin-right:10px}
-.step-text{font-size:15pt;font-weight:600}
 .context-visual{margin:20px 0;padding:15px;background:#FFF9C4;border:3px dashed #FF9800;border-radius:10px;text-align:center}
 .object-group{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:15px 0}
 .object-group img{width:45px;height:45px}
@@ -85,7 +76,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:20px;line-hei
 .coin-group img{width:50px;height:50px}
 .money-label{font-size:15pt;font-weight:bold;margin:10px 0;color:#2E7D32}
 .working-space{border:2px dashed #999;padding:25px;margin:15px 0;min-height:100px;background:#FAFAFA;border-radius:8px}
-.working-space-label{font-size:15pt;font-style:italic;color:#666;margin-bottom:10px}
 .answer-box{display:inline-block;min-width:90px;height:50px;border:3px solid #333;border-radius:8px;background:#FFF;vertical-align:middle;margin:0 10px}
 .answer-line{border:none;border-bottom:3px solid #333;display:inline-block;min-width:80px;margin:0 5px;background:transparent}
 .part-whole-container{text-align:center;margin:25px 0}

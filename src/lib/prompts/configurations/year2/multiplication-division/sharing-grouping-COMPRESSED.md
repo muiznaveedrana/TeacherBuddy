@@ -18,10 +18,6 @@ Generate EXACTLY {{questionCount}} Year 2 sharing and grouping questions.
 **Q4:** Mixed division - 4 problems (sharing and grouping)
 **Q5:** Word problem (real-world division)
 
-## SHARING VS GROUPING
-
-**Sharing:** 20 stickers between 5 children → 20 ÷ 5 = 4 each
-**Grouping:** 20 stickers into groups of 4 → 20 ÷ 4 = 5 groups
 
 ## EXAMPLE OUTPUT
 
@@ -39,8 +35,7 @@ Generate EXACTLY {{questionCount}} Year 2 sharing and grouping questions.
             <div class="plate">Plate 3</div>
         </div>
     </div>
-    <p class="answer-prompt">Each plate gets <span class="answer-box"></span> apples</p>
-    <p>12 ÷ 3 = <span class="answer-box"></span></p>
+    <p class="answer-prompt">Answer: <span class="answer-box"></span> apples</p>
 </div>
 ```
 
@@ -51,25 +46,22 @@ Generate EXACTLY {{questionCount}} Year 2 sharing and grouping questions.
     <div class="grouping-visual">
         ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐
     </div>
-    <p class="answer-prompt">Number of groups: <span class="answer-box"></span></p>
-    <p>20 ÷ 5 = <span class="answer-box"></span> groups</p>
+    <p class="answer-prompt">Answer: <span class="answer-box"></span> groups</p>
 </div>
 ```
 
 **Q3 (Link to Multiplication):**
 ```html
 <div class="question" style="background: #F1F8E9;">
-    <p class="question-text"><span class="question-number">3.</span> Use multiplication to help with division.</p>
+    <p class="question-text"><span class="question-number">3.</span> Solve:</p>
     <div class="mult-div-link">
         <div class="fact-pair">
-            <p>If 4 × 5 = 20</p>
-            <p>Then 20 ÷ 4 = <span class="answer-box"></span></p>
-            <p>And 20 ÷ 5 = <span class="answer-box"></span></p>
+            <p>20 ÷ 4 = <span class="answer-box"></span></p>
+            <p>20 ÷ 5 = <span class="answer-box"></span></p>
         </div>
         <div class="fact-pair">
-            <p>If 6 × 2 = 12</p>
-            <p>Then 12 ÷ 6 = <span class="answer-box"></span></p>
-            <p>And 12 ÷ 2 = <span class="answer-box"></span></p>
+            <p>12 ÷ 6 = <span class="answer-box"></span></p>
+            <p>12 ÷ 2 = <span class="answer-box"></span></p>
         </div>
     </div>
 </div>
@@ -99,7 +91,7 @@ Generate EXACTLY {{questionCount}} Year 2 sharing and grouping questions.
             [5] [5] [5] [5] [5] [5]
         </div>
     </div>
-    <p class="working">30 ÷ 5 = <span class="answer-box"></span> teams</p>
+    <p class="working">Answer: <span class="answer-box"></span> teams</p>
 </div>
 ```
 

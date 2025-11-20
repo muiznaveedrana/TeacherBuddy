@@ -15,10 +15,6 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
 ## METHODS
 
-**PART**: Split tens/ones → (40+5)+(30+2)=(40+30)+(5+2)=77
-**COL**: Column method, add ones then tens, carry if needed
-**B10**: Base-10 blocks (CSS rectangles=10, squares=1)
-**NL**: Number line jumps
 
 ## Q SPECS (Use {{METHOD_SPEC}}):
 
@@ -62,7 +58,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .column-line{border-top:2px solid #000;margin:3px 0}
 .base10-container{display:flex;justify-content:center;gap:15px;margin:10px 0;flex-wrap:wrap}
 .base10-group{text-align:center}
-.base10-label{font-size:13pt;font-weight:bold;margin-bottom:5px;color:#1976D2}
 .base10-blocks{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:280px}
 .block-ten{width:70px;height:22px;background:#FF9800;border:2px solid #F57C00;border-radius:3px;margin:2px}
 .block-one{width:18px;height:18px;background:#4CAF50;border:2px solid #2E7D32;border-radius:2px;margin:2px}

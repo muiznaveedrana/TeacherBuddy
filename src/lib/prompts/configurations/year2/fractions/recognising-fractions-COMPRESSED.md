@@ -62,7 +62,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .fraction-option{margin:10px;padding:10px;border:2px solid #ddd;border-radius:8px;background:#FFF;cursor:pointer}
 .fraction-option:hover{background:#E3F2FD;border-color:#2196F3}
 .fraction-label{font-size:18pt;font-weight:bold;color:#1976D2;margin-top:10px}
-.instruction-box{margin:15px 0;padding:12px;background:#FFF9C4;border:2px dashed #FF9800;border-radius:8px;font-size:15pt;font-weight:600}
 .word-problem-visual{margin:10px 0;padding:12px;background:#FFF3E0;border:2px dashed #FF9800;border-radius:8px}
 .pizza-visual{display:inline-block;margin:15px}
 .answer-box{display:inline-block;min-width:70px;height:35px;border:2px solid #333;border-radius:5px;background:#FFF;vertical-align:middle;margin:0 5px}
@@ -141,10 +140,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 ### Q3 Template (Shade the Fraction):
 ```html
 <div class="question" style="background:#F1F8E9">
-  <p class="question-text"><span class="question-number">3.</span> Shade 1/4 (one quarter) of the rectangle.</p>
-  <div class="instruction-box">
-    Color in ONE of the four equal parts below.
-  </div>
+  <p class="question-text"><span class="question-number">3.</span> Shade 1/4 of the rectangle.</p>
   <div class="fraction-container">
     <div class="fraction-rect" style="width:200px;height:120px">
       <div class="fraction-rect-quarter unshaded" style="top:0"></div>
@@ -202,7 +198,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
         <div class="fraction-quarter-circle quarter-3 unshaded"></div>
         <div class="fraction-quarter-circle quarter-4 unshaded"></div>
       </div>
-      <p class="fraction-label">Pizza cut into 4 slices</p>
     </div>
   </div>
   <p class="question-text">Emma ate <span class="answer-box"></span> slice(s).</p>

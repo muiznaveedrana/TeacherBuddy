@@ -54,9 +54,7 @@ Generate EXACTLY {{questionCount}} Year 2 equal groups questions.
             <img src="/images/apple.png" width="30" />
         </div>
     </div>
-    <p class="question">How many groups? <span class="answer-box"></span></p>
-    <p class="question">How many in each group? <span class="answer-box"></span></p>
-    <p class="question">How many altogether? <span class="answer-line">___ × ___ = ___</span></p>
+    <p class="question">How many altogether? <span class="answer-box"></span></p>
 </div>
 ```
 
@@ -71,7 +69,7 @@ Generate EXACTLY {{questionCount}} Year 2 equal groups questions.
         <div class="draw-box"></div>
         <div class="draw-box"></div>
     </div>
-    <p class="answer-prompt">Total: <span class="answer-line">___ × ___ = ___</span></p>
+    <p class="answer-prompt">Total: <span class="answer-box"></span></p>
 </div>
 ```
 **CRITICAL: Q2 must use ONLY simple drawable shapes: stars ⭐, circles ●, hearts ♥, squares ■. NEVER animals, objects, or complex items.**
@@ -83,7 +81,7 @@ Generate EXACTLY {{questionCount}} Year 2 equal groups questions.
     <div class="group-visual">
         [🍌🍌🍌🍌🍌] [🍌🍌🍌🍌🍌] [🍌🍌🍌🍌🍌]
     </div>
-    <p class="answer-prompt"><span class="answer-line">___ groups of ___ = ___ × ___ = ___</span></p>
+    <p class="answer-prompt">Answer: <span class="answer-box"></span></p>
 </div>
 ```
 

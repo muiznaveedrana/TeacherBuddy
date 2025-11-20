@@ -46,9 +46,13 @@ export const CURRICULUM_MAPPING: YearGroupCurriculum = {
         subtopics: [
           { value: 'counting-to-10', label: 'Counting to 10' },
           { value: 'number-recognition', label: 'Number Recognition' },
-          { value: 'more-or-less', label: 'More or Less' }
+          { value: 'more-or-less', label: 'More or Less' },
+          { value: 'early-addition', label: 'Early Addition' },
+          { value: 'early-subtraction', label: 'Early Subtraction' },
+          { value: 'number-bonds', label: 'Number Bonds' },
+          { value: 'subitising', label: 'Subitising' }
         ],
-        learningObjectives: ['Count reliably to 10', 'Recognize numerals 1-10', 'Compare quantities'],
+        learningObjectives: ['Count reliably to 10', 'Recognize numerals 1-10', 'Compare quantities', 'Combine and separate quantities', 'Recognize bonds to 5 and 10', 'Instantly recognize quantities without counting'],
         complexity: 'Very simple, visual-heavy, hands-on activities'
       },
       'shape-space': {
@@ -56,10 +60,22 @@ export const CURRICULUM_MAPPING: YearGroupCurriculum = {
         subtopics: [
           { value: 'basic-shapes', label: 'Basic Shapes' },
           { value: 'patterns', label: 'Simple Patterns' },
-          { value: 'size-comparison', label: 'Size Comparison' }
+          { value: 'size-comparison', label: 'Size Comparison' },
+          { value: 'position-direction', label: 'Position and Direction' }
         ],
-        learningObjectives: ['Name basic 2D shapes', 'Create and continue patterns', 'Compare sizes'],
+        learningObjectives: ['Name basic 2D shapes', 'Create and continue patterns', 'Compare sizes', 'Use positional language'],
         complexity: 'Concrete examples with visual aids'
+      },
+      'measurement': {
+        label: 'Measurement',
+        subtopics: [
+          { value: 'length-comparison', label: 'Length Comparison' },
+          { value: 'weight-comparison', label: 'Weight Comparison' },
+          { value: 'capacity', label: 'Capacity' },
+          { value: 'time-concepts', label: 'Time Concepts' }
+        ],
+        learningObjectives: ['Compare lengths and heights', 'Understand heavy and light', 'Explore capacity (full, empty, half)', 'Sequence daily events'],
+        complexity: 'Practical experiences with everyday objects'
       }
     }
   },
@@ -92,10 +108,28 @@ export const CURRICULUM_MAPPING: YearGroupCurriculum = {
         subtopics: [
           { value: 'length-height', label: 'Length and Height' },
           { value: 'weight-capacity', label: 'Weight and Capacity' },
-          { value: 'time-days-months', label: 'Time - Days and Months' }
+          { value: 'time-days-months', label: 'Time - Days and Months' },
+          { value: 'coins-recognition', label: 'Money - Coins Recognition' }
         ],
         learningObjectives: ['Compare and measure length', 'Recognize coins and notes', 'Tell time to the hour'],
         complexity: 'Real-world contexts and practical activities'
+      },
+      'geometry-shapes': {
+        label: 'Geometry: Shapes',
+        subtopics: [
+          { value: '2d-shapes-basic', label: '2D Shapes (Basic)' },
+          { value: '3d-shapes-basic', label: '3D Shapes (Basic)' }
+        ],
+        learningObjectives: ['Name and identify 2D and 3D shapes', 'Count sides and corners', 'Recognize shapes in the environment'],
+        complexity: 'Visual-heavy, hands-on activities with real objects'
+      },
+      'fractions': {
+        label: 'Fractions',
+        subtopics: [
+          { value: 'halves-and-quarters', label: 'Halves and Quarters' }
+        ],
+        learningObjectives: ['Recognize and find halves and quarters', 'Share objects equally', 'Understand fractions of shapes and quantities'],
+        complexity: 'Concrete examples with visual representations'
       }
     }
   },

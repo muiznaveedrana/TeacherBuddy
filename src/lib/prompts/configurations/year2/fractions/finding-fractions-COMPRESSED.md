@@ -62,7 +62,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 .chocolate-piece:last-child{border-right:none}
 .chocolate-eaten{background:#8B4513;color:#FFF}
 .chocolate-left{background:#D2691E;color:#FFF}
-.instruction-box{margin:15px 0;padding:12px;background:#FFF9C4;border:2px dashed #FF9800;border-radius:8px;font-size:15pt;font-weight:600;text-align:center}
 .answer-box{display:inline-block;min-width:70px;height:35px;border:2px solid #333;border-radius:5px;background:#FFF;vertical-align:middle;margin:0 5px}
 .answer-line{border:none;border-bottom:3px solid #333;display:inline-block;min-width:70px;margin:0 5px;background:transparent}
 .working-space{border:2px dashed #999;padding:10px;margin:10px 0;min-height:60px;background:#FAFAFA;border-radius:6px}
@@ -83,21 +82,13 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 7. Colored backgrounds Q1-Q5
 8. Year 2 appropriate complexity
 
-## CALCULATION EXAMPLES
-- 1/2 of 8 = 8 ÷ 2 = 4
-- 1/4 of 12 = 12 ÷ 4 = 3
-- 2/4 of 12 = (12 ÷ 4) × 2 = 3 × 2 = 6
-- 3/4 of 16 = (16 ÷ 4) × 3 = 4 × 3 = 12
 
 ## EXAMPLES
 
 ### Q1 Template (Find Fraction of Shapes):
 ```html
 <div class="question" style="background:#FFF9C4">
-  <p class="question-text"><span class="question-number">1.</span> Find 1/2 of the circles.</p>
-  <div class="instruction-box">
-    Circle half (1/2) of the circles below.
-  </div>
+  <p class="question-text"><span class="question-number">1.</span> Find 1/2 of 8.</p>
   <div class="fraction-finding-container">
     <div class="object-array">
       <div class="count-circle"></div>
@@ -109,9 +100,8 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
       <div class="count-circle"></div>
       <div class="count-circle"></div>
     </div>
-    <p class="fraction-label">Total: 8 circles</p>
   </div>
-  <p class="question-text">1/2 of 8 = <span class="answer-box"></span></p>
+  <p class="question-text">Answer: <span class="answer-box"></span></p>
 </div>
 ```
 
@@ -134,7 +124,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
       <div class="count-square"></div>
       <div class="count-square"></div>
     </div>
-    <p class="fraction-equation">1/4 of 12 = 12 ÷ 4 = ?</p>
   </div>
   <div class="working-space"></div>
   <p class="question-text">Answer: <span class="answer-box"></span></p>
@@ -168,7 +157,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
       <img src="/images/apple.png" class="count-object" alt="apple">
       <img src="/images/apple.png" class="count-object" alt="apple">
     </div>
-    <p class="quantity-display">Total: 20 apples</p>
   </div>
   <div class="working-space"></div>
   <p class="question-text">Emma takes <span class="answer-box"></span> apples.</p>
@@ -190,7 +178,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
       <div class="chocolate-piece">7</div>
       <div class="chocolate-piece">8</div>
     </div>
-    <p class="fraction-label">3/4 of 8 pieces = ?</p>
   </div>
   <div class="working-space"></div>
   <p class="question-text">Tom ate <span class="answer-box"></span> pieces.</p>
