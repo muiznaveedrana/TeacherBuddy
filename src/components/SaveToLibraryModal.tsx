@@ -47,13 +47,15 @@ export function SaveToLibraryModal({
       const parser = new DOMParser()
       const doc = parser.parseFromString(cleanedHtml, 'text/html')
 
-      // Remove answer key if toggle is OFF
-      if (!showAnswers) {
-        const answerKeyElement = doc.querySelector('.answer-key')
-        if (answerKeyElement) {
-          answerKeyElement.remove()
-          console.log('🗑️ Removed answer key from library save (showAnswers = false)')
-        }
+      // IMPORTANT: ALWAYS keep answer key in html_content for interactive mode
+      // Just hide it with CSS in the display, but keep the data
+      const answerKeyElement = doc.querySelector('.answer-key')
+      if (answerKeyElement && !showAnswers) {
+        // Hide answer key in preview, but keep it in the HTML
+        answerKeyElement.setAttribute('style', 'display: none !important;')
+        console.log('👁️ Hidden answer key in preview (but kept in HTML for interactive mode)')
+      } else if (answerKeyElement && showAnswers) {
+        console.log('✅ Answer key will be visible in preview and available for interactive mode')
       }
 
       // Remove worksheet header (metrics) for cleaner library screenshots
@@ -89,9 +91,17 @@ export function SaveToLibraryModal({
         onSuccess(result.worksheet)
       }
 
-      // Auto-redirect to library after 1.5 seconds using client-side navigation
+      // Check if we should redirect to interactive mode
+      const redirectToInteractive = sessionStorage.getItem('redirectToInteractive') === 'true'
+      sessionStorage.removeItem('redirectToInteractive') // Clear the flag
+
+      // Auto-redirect after 1.5 seconds using client-side navigation
       setTimeout(() => {
-        router.push('/library')
+        if (redirectToInteractive && result.worksheet?.slug) {
+          router.push(`/library/${result.worksheet.slug}/interactive`)
+        } else {
+          router.push('/library')
+        }
       }, 1500)
 
     } catch (err) {

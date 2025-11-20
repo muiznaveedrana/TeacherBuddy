@@ -93,7 +93,7 @@ function DashboardContent() {
   const [difficulty, setDifficulty] = useState<DifficultyLevel>('easy')
   const [questionCount, setQuestionCount] = useState<number>(5)
   const [nameList, setNameList] = useState<string>('')
-  const [showAnswers, setShowAnswers] = useState<boolean>(false) // Default: hide answers
+  const [showAnswers, setShowAnswers] = useState<boolean>(true) // Default: ALWAYS include answers for interactive mode
   const [editMode, setEditMode] = useState<boolean>(false) // Toggle between view and edit modes
 
   // Enhanced configuration state (USP.2)
@@ -1445,6 +1445,35 @@ function DashboardContent() {
                     Download PDF
                   </>
                 )}
+              </Button>
+
+              <Button
+                variant="outline"
+                size="touch"
+                className="hidden w-full md:w-auto md:min-w-32 text-lg md:text-base bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none"
+                onClick={() => {
+                  if (generatedWorksheet) {
+                    // CRITICAL: For interactive mode, we must ALWAYS include the answer key in the HTML
+                    // The generatedWorksheet.html already contains the complete worksheet HTML
+                    // Just ensure answer key is visible (not hidden by CSS)
+                    const htmlToStore = generatedWorksheet.html
+
+                    console.log('📋 Storing worksheet HTML for interactive preview:', {
+                      htmlLength: htmlToStore.length,
+                      hasAnswerKey: htmlToStore.includes('answer-key'),
+                      hasAnswerKeyContent: htmlToStore.includes('answer-key-content')
+                    })
+
+                    // Store the worksheet HTML directly (it already has answer key)
+                    sessionStorage.setItem('previewWorksheetHtml', htmlToStore)
+
+                    // Navigate to interactive mode in same tab
+                    window.location.href = '/preview/interactive'
+                  }
+                }}
+              >
+                <Eye className="h-5 w-5 md:h-4 md:w-4 mr-2" />
+                🎮 Interactive Printable
               </Button>
 
               {isAdmin && (

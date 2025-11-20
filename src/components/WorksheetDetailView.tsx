@@ -308,6 +308,23 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
 
                 <Tooltip>
                   <TooltipTrigger asChild>
+                    <Link href={`/library/${worksheet.slug}/interactive`} className="block w-full">
+                      <Button
+                        variant="default"
+                        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
+                        size="lg"
+                      >
+                        🎮 Interactive Printable
+                      </Button>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Practice online with instant feedback and celebration! Perfect for tablets and computers.</p>
+                  </TooltipContent>
+                </Tooltip>
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
                     <Link href={`/library/${worksheet.slug}/edit`} className="block w-full">
                       <Button
                         variant="outline"

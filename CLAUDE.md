@@ -14,6 +14,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 -  rm -rf .next to clean trace file, which may have permission issue
 - before build or clean operation,make usre that already available ports starting from 3000 to 3005 are killed, if they are there
 - **E2E Tests Strategy**: NO screenshots in E2E tests - only functional testing. Videos are recorded automatically on failure. Focus on element visibility and functionality, not visual regression. E2E tests MUST test actual button functionality (clicks, navigation, state changes) - not just element visibility.
+- **Playwright Agent Workflow**: ALWAYS use the appropriate Playwright agents in this order:
+  1. **playwright-test-planner**: First, use this to explore the app and create comprehensive test scenarios/plans
+  2. **playwright-test-generator**: Then, use this to automatically generate and validate the test code from the plan
+  3. **playwright-test-healer**: If tests fail, use this to debug and fix the issues automatically
+  - DO NOT manually write test code when these agents can do it better and faster
+  - The agents understand the app structure, selectors, and patterns better than manual coding
 
 ## Core E2E Tests (Simplified Strategy)
 - Run all E2E tests: npx playwright test tests/e2e/

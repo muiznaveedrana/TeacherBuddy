@@ -243,14 +243,20 @@ Shapes: star,heart,circle,square
 <div class="answer-key">
     <h2 class="answer-key-title">Answer Key</h2>
     <div class="answer-key-content">
-        <p><strong>1.</strong> 8 apples</p>
+        <p><strong>1.</strong> 8</p>
         <p><strong>2.</strong> 15</p>
-        <p><strong>3.</strong> 13 blue circles</p>
-        <p><strong>4.</strong> One less: 13, One more: 15</p>
-        <p><strong>5.</strong> 11→eleven, 15→fifteen, 18→eighteen, 20→twenty</p>
+        <p><strong>3.</strong> 13</p>
+        <p><strong>4.</strong> 13, 15</p>
+        <p><strong>5.</strong> 11-eleven, 15-fifteen, 18-eighteen, 20-twenty</p>
     </div>
 </div>
 ```
+
+**CRITICAL - Answer Key Formatting Rules:**
+- Q1-Q3 (single input): Just the number (e.g., "8", NOT "8 apples")
+- Q4 (multi-input): Comma-separated values (e.g., "13, 15" or "less: 13, more: 15")
+- Q5 (matching): Use hyphens, not arrows (e.g., "11-eleven" works better than "11→eleven")
+- NEVER use format like "One less: 13" or "1 less: 13" - just use numbers!
 
 ## CSS
 ```css
