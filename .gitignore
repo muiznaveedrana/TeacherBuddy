@@ -1,7 +1,6 @@
 node_modules
 .bmad-core/
 .next/
-.claude/
 
 # Environment files
 .env.local
