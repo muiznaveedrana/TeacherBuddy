@@ -71,28 +71,14 @@ export default function LandingPage() {
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
-                  <a href="#worksheets" className="text-gray-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">
+                  <a href="#printables" className="text-gray-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">
                     Printables
                   </a>
                   <a href="#grades" className="text-gray-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">
                     Year Groups
                   </a>
-                  <Link href="/library" className="text-gray-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">
-                    Library
-                  </Link>
                 </div>
               </div>
-            </div>
-            <div className="hidden md:block">
-              <Link href="/library">
-                <Button
-                  size="lg"
-                  className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
-                >
-                  <Download className="mr-2 h-5 w-5" />
-                  Browse Free Library
-                </Button>
-              </Link>
             </div>
             <div className="md:hidden">
               <button className="text-gray-600 hover:text-gray-900">
@@ -114,16 +100,11 @@ export default function LandingPage() {
         </div>
 
         <div className="relative text-center">
-          {/* Trust Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 rounded-full mb-6">
-            <span className="text-green-700 font-semibold">✨ Trusted by 12,000+ UK Teachers</span>
-          </div>
-
           {/* Main Headline with Handwritten Style */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight mb-6">
-            <span className="block text-gray-900">Free Math Printables</span>
+            <span className="block text-gray-900">Free Math Printable Library</span>
             <span className="block mt-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent handwritten">
-              That Kids Actually Love!
+              Interactive & Editable, Print-Ready Resources
             </span>
           </h1>
 
@@ -132,16 +113,27 @@ export default function LandingPage() {
             1000+ printable resources • Reception to Year 6 • UK Curriculum
           </p>
 
-          {/* Single CTA */}
-          <Link href="/library">
-            <Button
-              size="touch"
-              className="text-xl px-10 py-8 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105"
-            >
-              <BookOpen className="mr-3 h-6 w-6" />
-              Browse Free Printables
-            </Button>
-          </Link>
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Link href="/create">
+              <Button
+                size="touch"
+                className="text-xl px-10 py-8 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105"
+              >
+                <Zap className="mr-3 h-6 w-6" />
+                Generate Printable
+              </Button>
+            </Link>
+            <Link href="/library">
+              <Button
+                size="touch"
+                className="text-xl px-10 py-8 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105"
+              >
+                <BookOpen className="mr-3 h-6 w-6" />
+                Browse Free Library
+              </Button>
+            </Link>
+          </div>
 
           {/* Free Badge */}
           <div className="mt-8 flex justify-center gap-4 flex-wrap">
@@ -162,8 +154,86 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Worksheet Showcase */}
-      <div id="worksheets">
+      {/* NEW: Interactive Printables Feature Highlight */}
+      <section className="py-12 bg-gradient-to-r from-purple-50 to-blue-50 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 text-[200px] -rotate-12">🎮</div>
+          <div className="absolute bottom-0 left-0 text-[150px] rotate-12">✨</div>
+        </div>
+
+        <div className="px-4 mx-auto max-w-7xl relative">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-full mb-4">
+              <span className="animate-pulse">🆕</span>
+              <span className="font-semibold">Exclusive Feature</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Interactive Printables - Practice Online!
+            </h2>
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+              Transform any worksheet into an interactive learning experience. Kids get instant feedback and celebrations - making learning fun and engaging!
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div className="bg-white rounded-xl shadow-lg p-6 border-2 border-purple-200 hover:border-purple-400 transition-all">
+              <div className="text-4xl mb-3">🎯</div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Instant Feedback</h3>
+              <p className="text-gray-600">
+                Children know immediately if they're on the right track with real-time corrections and hints.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg p-6 border-2 border-blue-200 hover:border-blue-400 transition-all">
+              <div className="text-4xl mb-3">🎉</div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Celebration Mode</h3>
+              <p className="text-gray-600">
+                Every correct answer triggers fun animations and celebrations to keep kids motivated!
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg p-6 border-2 border-green-200 hover:border-green-400 transition-all">
+              <div className="text-4xl mb-3">📱</div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Works Everywhere</h3>
+              <p className="text-gray-600">
+                Perfect for tablets, computers, and interactive whiteboards. No app downloads needed!
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-10 text-center">
+            <div className="inline-flex items-center gap-6 bg-white rounded-2xl shadow-xl p-6">
+              <div className="text-left">
+                <p className="text-sm text-gray-600 mb-1">What makes us different?</p>
+                <p className="text-lg font-bold text-gray-900">
+                  100% Free • No Login Required • No Ads
+                </p>
+                <p className="text-sm text-gray-600 mt-1">
+                  While others charge £9.99+/month for interactive features, ours are always free!
+                </p>
+              </div>
+              <Link href="/library">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+                >
+                  Try Interactive Printables
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+
+          <div className="mt-8 text-center">
+            <p className="text-sm text-gray-600">
+              💡 <strong>Teacher Tip:</strong> Perfect for whole-class activities on the interactive whiteboard or individual practice on tablets during computer time!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Printable Showcase */}
+      <div id="printables">
         <WorksheetShowcase />
       </div>
 
@@ -185,7 +255,7 @@ export default function LandingPage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {/* Library Worksheets Customization */}
+            {/* Library Printables Customization */}
             <div className="bg-white rounded-2xl shadow-lg p-8 relative overflow-hidden">
               <div className="absolute top-4 right-4 text-6xl opacity-10">📚</div>
               <h3 className="text-2xl font-bold text-purple-700 mb-4">
@@ -230,7 +300,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* AI-Generated Worksheets */}
+            {/* AI-Generated Printables */}
             <div className="bg-white rounded-2xl shadow-lg p-8 relative overflow-hidden">
               <div className="absolute top-4 right-4 text-6xl opacity-10">✨</div>
               <h3 className="text-2xl font-bold text-pink-700 mb-4">
@@ -295,8 +365,22 @@ export default function LandingPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            <Card className="text-center hover:shadow-xl transition-all duration-300 border-2 hover:border-blue-300">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+            <Card className="text-center hover:shadow-xl transition-all duration-300 border-2 hover:border-purple-300">
+              <CardHeader>
+                <div className="mx-auto p-4 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full">
+                  <span className="text-3xl">🎮</span>
+                </div>
+                <CardTitle className="mt-4 text-xl">Interactive Mode</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-base leading-relaxed">
+                  Every printable works online with instant feedback and celebrations!
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center hover:shadow-xl transition-all duration-300 border-2 hover:border-green-300">
               <CardHeader>
                 <div className="mx-auto p-4 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full">
                   <Zap className="w-10 h-10 text-green-600" />
@@ -305,7 +389,7 @@ export default function LandingPage() {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  No hidden costs, no premium tiers. Every worksheet is 100% free forever.
+                  No hidden costs, no premium tiers. Every feature is 100% free forever.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -319,7 +403,7 @@ export default function LandingPage() {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  Every worksheet aligned with National Curriculum standards.
+                  Every printable aligned with National Curriculum standards.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -369,7 +453,7 @@ export default function LandingPage() {
                 rotation={2}
                 className="font-bold text-lg shadow-xl"
               >
-                Create Custom Worksheet
+                Create Custom Printable
               </StickyNoteButton>
             </Link>
           </div>
@@ -384,7 +468,7 @@ export default function LandingPage() {
               <h3 className="text-lg font-semibold mb-4">Resources</h3>
               <ul className="space-y-2">
                 <li><Link href="/library" className="text-gray-300 hover:text-white">Browse Library</Link></li>
-                <li><Link href="/create" className="text-gray-300 hover:text-white">Create Worksheet</Link></li>
+                <li><Link href="/create" className="text-gray-300 hover:text-white">Create Printable</Link></li>
               </ul>
             </div>
             <div>
@@ -412,7 +496,7 @@ export default function LandingPage() {
           </div>
           <div className="mt-8 pt-8 border-t border-gray-800 text-center">
             <p className="text-gray-400">
-              © 2024 FreeMathPrintable.com. Free math worksheets for UK primary schools.
+              © 2024 FreeMathPrintable.com. Free math printables for UK primary schools.
             </p>
           </div>
         </div>
