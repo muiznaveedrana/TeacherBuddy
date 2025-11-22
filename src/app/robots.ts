@@ -8,7 +8,7 @@ import { MetadataRoute } from 'next'
  *
  * SEO Strategy:
  * - Allow public pages (/, /library, /privacy, /terms)
- * - Block protected pages (/admin, /name-lists, etc.)
+ * - Block protected pages (/admin, etc.)
  * - Block API routes
  * - Point to sitemap for better indexing
  */
@@ -29,8 +29,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           '/api/*',              // All API routes
           '/admin/*',            // Admin panel
-          '/name-lists/*',       // Student name lists (sensitive data)
-          '/subscription/*',     // Subscription management
           '/profile/*',          // User profiles
           '/create/*',           // Worksheet creation (requires auth)
           '/privacy-settings/*', // Privacy settings
@@ -69,7 +67,6 @@ export default function robots(): MetadataRoute.Robots {
  * Allow: /terms
  * Disallow: /api/*
  * Disallow: /admin/*
- * Disallow: /name-lists/*
  * ...
  * Crawl-delay: 1
  *

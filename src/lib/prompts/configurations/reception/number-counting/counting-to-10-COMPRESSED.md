@@ -14,7 +14,7 @@
 - "[Name] is counting [objects]. How many?"
 
 ## Objects
-apple,banana,orange,strawberry,grape,pear,lemon,watermelon,peach,pineapple,chicken,cow,sheep,pig,horse,duck,goat,goose,turkey,flower,butterfly,bee,bird,tree,leaf,mushroom,worm,acorn,book,pencil,eraser,crayon,marker,scissors,ruler,glue,backpack,carrot,tomato,broccoli,cucumber,pepper,potato,star,heart,ball,car,doll,kite,bus,bike,train,plane,football,basketball,tennis-ball,bat,medal,cookie,cupcake
+apple,banana,orange,strawberry,grape,pear,lemon,watermelon,peach,pineapple,blackberry,blueberry,cherries,raspberry,chicken,cow,sheep,pig,horse,duck,goat,goose,turkey,hen,rooster,cat,dog,puppy,kitten,lion,tiger,zebra,giraffe,elephant,monkey,bear,fox,flower,butterfly,bee,bird,tree,leaf,mushroom,worm,acorn,ant,ladybug,snail,book,pencil,eraser,crayon,marker,scissors,ruler,glue,backpack,calculator,carrot,tomato,broccoli,cucumber,pepper,potato,asparagus,bean,corn,pea,star,heart,circle,square,triangle,ball,car,doll,kite,teddy,teddy-bear,block,bus,bike,train,plane,boat,football,basketball,tennis-ball,baseball,soccer-ball,bat,medal,cookie,cupcake,burger,pizza,donut
 
 ## HTML
 ```html

@@ -28,12 +28,6 @@ import { trackWorksheetGeneration, trackPdfDownload } from '@/lib/analytics'
 
 export const dynamic = 'force-dynamic'
 
-const mockNameLists = [
-  { value: 'year3-class-a', label: 'Year 3 Class A (25 students)' },
-  { value: 'year4-maths-group', label: 'Year 4 Maths Group (18 students)' },
-  { value: 'reception-class', label: 'Reception Class (20 students)' }
-]
-
 type GenerationState = 'idle' | 'generating' | 'completed' | 'error'
 type DifficultyLevel = 'easy' | 'average' | 'hard'
 
@@ -92,7 +86,6 @@ function DashboardContent() {
   const [subtopic, setSubtopic] = useState<string>('')
   const [difficulty, setDifficulty] = useState<DifficultyLevel>('easy')
   const [questionCount, setQuestionCount] = useState<number>(5)
-  const [nameList, setNameList] = useState<string>('')
   const [showAnswers, setShowAnswers] = useState<boolean>(true) // Default: ALWAYS include answers for interactive mode
   const [editMode, setEditMode] = useState<boolean>(false) // Toggle between view and edit modes
 
@@ -373,7 +366,6 @@ function DashboardContent() {
         subtopic,
         difficulty,
         questionCount,
-        nameList: nameList === 'none' ? '' : nameList,
         yearGroup,
         ...(visualTheme && visualTheme !== 'none' && { visualTheme }),
         previousWorksheets: worksheetsToSend
@@ -1212,9 +1204,7 @@ function DashboardContent() {
                 topic={topic}
                 layout={layout}
                 visualTheme={visualTheme}
-                nameList={nameList}
                 onVisualThemeChange={setVisualTheme}
-                onNameListChange={(value) => { setNameList(value); handleConfigurationChange(); }}
               />
             </div>
           </div>

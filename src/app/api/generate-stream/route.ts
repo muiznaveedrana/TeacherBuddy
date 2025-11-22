@@ -4,13 +4,6 @@ import { WorksheetConfig, LayoutType, VisualTheme } from '@/lib/types/worksheet'
 import { validateWorksheetRequest, sanitizeWorksheetRequest } from '@/lib/utils/validation'
 import { checkMultipleRateLimits, RATE_LIMIT_PRESETS } from '@/lib/utils/simpleRateLimit'
 
-// Mock name lists data (same as generate-worksheet/route.ts)
-const mockNameLists: Record<string, string[]> = {
-  'year3-class-a': ['Emma', 'Oliver', 'Sophie', 'James', 'Lily', 'Thomas', 'Grace', 'Harry', 'Charlotte', 'William', 'Amelia', 'Jack', 'Isabella', 'George', 'Ava', 'Noah', 'Mia', 'Lucas', 'Evie', 'Oscar', 'Poppy', 'Leo', 'Freya', 'Max', 'Alice'],
-  'year4-maths-group': ['Alfie', 'Daisy', 'Charlie', 'Ruby', 'Jacob', 'Isla', 'Arthur', 'Emily', 'Henry', 'Ella', 'Freddie', 'Scarlett', 'Archie', 'Chloe', 'Theo', 'Maisie', 'Logan', 'Maya'],
-  'reception-class': ['Teddy', 'Luna', 'Finn', 'Ivy', 'Reuben', 'Willow', 'Jude', 'Aria', 'Ezra', 'Bonnie', 'Arlo', 'Delilah', 'Felix', 'Aurora', 'Jasper', 'Hazel', 'Casper', 'Iris', 'Rowan', 'Sage']
-}
-
 export async function POST(request: NextRequest) {
   const startTime = Date.now()
 
@@ -78,7 +71,6 @@ export async function POST(request: NextRequest) {
       subtopic,
       difficulty,
       questionCount,
-      nameList,
       yearGroup,
       visualTheme,
       previousWorksheets
@@ -88,7 +80,6 @@ export async function POST(request: NextRequest) {
       subtopic: string
       difficulty: 'easy' | 'average' | 'hard'
       questionCount: number
-      nameList: string
       yearGroup: string
       visualTheme?: VisualTheme
       previousWorksheets?: Array<{ questions: string[]; images: string[] }>
@@ -120,31 +111,8 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // Get student names
-    let studentNames: string[] = []
-    if (nameList && nameList.trim() !== '') {
-      studentNames = mockNameLists[nameList] || []
-      if (studentNames.length === 0) {
-        const encoder = new TextEncoder()
-        const errorData = JSON.stringify({
-          type: 'error',
-          error: 'Invalid name list',
-          message: 'The specified name list was not found or is empty',
-          timestamp: new Date().toISOString()
-        })
-
-        return new Response(encoder.encode(`data: ${errorData}\n\n`), {
-          status: 400,
-          headers: {
-            'Content-Type': 'text/event-stream',
-            'Cache-Control': 'no-cache',
-            'Connection': 'keep-alive'
-          }
-        })
-      }
-    } else {
-      studentNames = ['Emma', 'Oliver', 'Sophie', 'James', 'Lily', 'Thomas', 'Grace', 'Harry']
-    }
+    // Use default student names for personalization
+    const studentNames: string[] = ['Emma', 'Oliver', 'Sophie', 'James', 'Lily', 'Thomas', 'Grace', 'Harry']
 
     // Validate layout parameter
     if (!layout || typeof layout !== 'string') {

@@ -195,17 +195,9 @@ export function Navigation({
                     <Settings className="mr-2 h-4 w-4" />
                     Profile Settings
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleNavigation('/name-lists')}>
-                    <Users className="mr-2 h-4 w-4" />
-                    Name Lists
-                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => handleNavigation('/admin/library')}>
                     <Library className="mr-2 h-4 w-4" />
                     Library Admin
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleNavigation('/subscription')}>
-                    <CreditCard className="mr-2 h-4 w-4" />
-                    Subscription Management
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => handleNavigation('/analytics')}>
                     <BarChart3 className="mr-2 h-4 w-4" />
@@ -313,17 +305,6 @@ export function Navigation({
                   </Button>
                   <Button
                     variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => {
-                      handleNavigation('/subscription')
-                      setIsMobileMenuOpen(false)
-                    }}
-                  >
-                    <CreditCard className="mr-2 h-4 w-4" />
-                    Subscription Management
-                  </Button>
-                  <Button 
-                    variant="ghost" 
                     className="w-full justify-start"
                     onClick={() => {
                       handleNavigation('/analytics')

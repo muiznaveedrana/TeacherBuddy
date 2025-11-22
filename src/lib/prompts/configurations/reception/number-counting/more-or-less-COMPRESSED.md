@@ -3,16 +3,17 @@
 **{{questionCount}} questions (1-10 range). Use DIFFERENT object per question.**
 
 ## Objects & Assets
-**fruits**: apple,banana,orange,strawberry,grape,pear,lemon,watermelon,peach,pineapple
-**farm_animals**: chicken,cow,sheep,pig,horse,duck,goat,goose,turkey
-**garden**: flower,butterfly,bee,bird,tree,leaf,mushroom,worm,acorn
-**school**: book,pencil,eraser,crayon,marker,scissors,ruler,glue,backpack
-**vegetables**: carrot,tomato,broccoli,cucumber,pepper,potato
-**shapes**: star,heart,circle,square,diamond,sun,moon
-**toys**: ball,car,doll,kite,block
-**vehicles**: bus,bike,train,plane
-**sports**: football,basketball,tennis_ball,bat,medal
-**treats**: cookie,cupcake
+**fruits**: apple,banana,orange,strawberry,grape,pear,lemon,watermelon,peach,pineapple,blackberry,blueberry,cherries,raspberry
+**farm_animals**: chicken,cow,sheep,pig,horse,duck,goat,goose,turkey,hen,rooster,cat,dog,puppy,kitten,bull,calf,lamb,piglet,duckling,chick
+**wild_animals**: lion,tiger,zebra,giraffe,elephant,monkey,bear,fox,hippo,raccoon,squirrel,moose,skunk
+**garden**: flower,butterfly,bee,bird,tree,leaf,mushroom,worm,acorn,ant,ladybug,snail,sunflower
+**school**: book,pencil,eraser,crayon,marker,scissors,ruler,glue,backpack,calculator,globe
+**vegetables**: carrot,tomato,broccoli,cucumber,pepper,potato,asparagus,bean,celery,corn,lettuce,mushroom,onion,pea,radish,zucchini
+**shapes**: star,heart,circle,square,diamond,triangle
+**toys**: ball,car,doll,kite,block,teddy,teddy-bear,building-block,toy-car
+**vehicles**: bus,bike,train,plane,boat,car,school-bus
+**sports**: football,basketball,tennis-ball,baseball,soccer-ball,volleyball,bat,medal,racket
+**treats**: cookie,cupcake,burger,pizza,donut,icecream
 **Names**: Ben,Sam,Jack,Oliver,Emma,Lily,Sophie,Ava
 **Image**: `<img src="/images/{object}.png" width="30" height="30" alt="{Object}" />`
 

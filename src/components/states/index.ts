@@ -20,7 +20,6 @@ export {
 } from './SkeletonLoader'
 
 // Empty State Components
-export { EmptyNameLists } from './EmptyNameLists'
 export { EmptyWorksheets } from './EmptyWorksheets'
 export { EmptyUsageHistory } from './EmptyUsageHistory'
 export { EmptySearchResults } from './EmptySearchResults'

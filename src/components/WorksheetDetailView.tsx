@@ -319,7 +319,7 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
                     </Link>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Practice online with instant feedback and celebration! Perfect for tablets and computers.</p>
+                    <p>Practice online with feedback and celebration upon completion! Perfect for tablets and computers.</p>
                   </TooltipContent>
                 </Tooltip>
 

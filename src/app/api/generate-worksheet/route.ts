@@ -3,13 +3,6 @@ import { generateWorksheet, generateWorksheetStreaming } from '@/lib/services/ge
 import { WorksheetConfig, WorksheetGenerationResult, LayoutType, VisualTheme } from '@/lib/types/worksheet'
 import { validateWorksheetRequest, sanitizeWorksheetRequest } from '@/lib/utils/validation'
 
-// Mock name lists data (will eventually come from database)
-const mockNameLists: Record<string, string[]> = {
-  'year3-class-a': ['Emma', 'Oliver', 'Sophie', 'James', 'Lily', 'Thomas', 'Grace', 'Harry', 'Charlotte', 'William', 'Amelia', 'Jack', 'Isabella', 'George', 'Ava', 'Noah', 'Mia', 'Lucas', 'Evie', 'Oscar', 'Poppy', 'Leo', 'Freya', 'Max', 'Alice'],
-  'year4-maths-group': ['Alfie', 'Daisy', 'Charlie', 'Ruby', 'Jacob', 'Isla', 'Arthur', 'Emily', 'Henry', 'Ella', 'Freddie', 'Scarlett', 'Archie', 'Chloe', 'Theo', 'Maisie', 'Logan', 'Maya'],
-  'reception-class': ['Teddy', 'Luna', 'Finn', 'Ivy', 'Reuben', 'Willow', 'Jude', 'Aria', 'Ezra', 'Bonnie', 'Arlo', 'Delilah', 'Felix', 'Aurora', 'Jasper', 'Hazel', 'Casper', 'Iris', 'Rowan', 'Sage']
-}
-
 export async function POST(request: NextRequest): Promise<NextResponse<WorksheetGenerationResult>> {
   const startTime = Date.now()
   
@@ -36,7 +29,6 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       subtopic,
       difficulty,
       questionCount,
-      nameList,
       yearGroup,
       // Enhanced configuration options (USP.2)
       visualTheme,
@@ -48,7 +40,6 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       subtopic: string
       difficulty: 'easy' | 'average' | 'hard'
       questionCount: number
-      nameList: string
       yearGroup: string
       // Enhanced options (optional)
       visualTheme?: VisualTheme
@@ -75,23 +66,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<Worksheet
       }, { status: 400 })
     }
 
-    // Get student names from selected name list or use generic names when not specified
-    let studentNames: string[] = []
-    if (nameList && nameList.trim() !== '') {
-      studentNames = mockNameLists[nameList] || []
-      if (studentNames.length === 0) {
-        return NextResponse.json({
-          success: false,
-          error: 'Invalid name list',
-          message: 'The specified name list was not found or is empty',
-          generationTime: Date.now() - startTime,
-          timestamp: new Date().toISOString()
-        }, { status: 400 })
-      }
-    } else {
-      // No specific name list selected - use generic names for LLM to use
-      studentNames = ['Emma', 'Oliver', 'Sophie', 'James', 'Lily', 'Thomas', 'Grace', 'Harry']
-    }
+    // Use default student names for personalization
+    const studentNames: string[] = ['Emma', 'Oliver', 'Sophie', 'James', 'Lily', 'Thomas', 'Grace', 'Harry']
 
     // Validate layout parameter
     if (!layout || typeof layout !== 'string') {

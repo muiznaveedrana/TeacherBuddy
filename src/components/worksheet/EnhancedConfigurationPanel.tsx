@@ -22,9 +22,7 @@ interface EnhancedConfigurationPanelProps {
   topic: string
   layout: LayoutType
   visualTheme: VisualTheme | undefined
-  nameList: string
   onVisualThemeChange: (theme: VisualTheme) => void
-  onNameListChange: (nameList: string) => void
 }
 
 export function EnhancedConfigurationPanel({
@@ -32,9 +30,7 @@ export function EnhancedConfigurationPanel({
   topic,
   layout,
   visualTheme,
-  nameList,
-  onVisualThemeChange,
-  onNameListChange
+  onVisualThemeChange
 }: EnhancedConfigurationPanelProps) {
   const [suggestions, setSuggestions] = useState<ReturnType<typeof getContextualSuggestions> | null>(null)
 
@@ -121,40 +117,6 @@ export function EnhancedConfigurationPanel({
               ))}
             </SelectContent>
           </Select>
-        </div>
-
-
-        {/* Student Name List Selection - Hidden from UI */}
-        <div className="space-y-3" style={{ display: 'none' }}>
-          <div className="flex items-center gap-2">
-            <Label className="text-sm font-semibold">Student Name List (Optional)</Label>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <Info className="h-4 w-4 text-slate-400" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Student names will be used in word problems to personalize the worksheet</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-          <div className="flex flex-col md:flex-row gap-3 md:gap-2">
-            <Select value={nameList} onValueChange={onNameListChange}>
-              <SelectTrigger className="flex-1 h-12 md:h-10 text-base md:text-sm">
-                <SelectValue placeholder="Select a name list (optional)" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="none">No particular name list</SelectItem>
-                <SelectItem value="year3-class-a">Year 3 Class A (25 students)</SelectItem>
-                <SelectItem value="year4-maths-group">Year 4 Maths Group (18 students)</SelectItem>
-                <SelectItem value="reception-class">Reception Class (20 students)</SelectItem>
-              </SelectContent>
-            </Select>
-            <Button variant="outline" size="default" className="md:flex-shrink-0">
-              Create New
-            </Button>
-          </div>
         </div>
 
       </CardContent>

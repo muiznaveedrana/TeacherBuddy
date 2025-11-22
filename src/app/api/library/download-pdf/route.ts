@@ -40,6 +40,7 @@ export async function POST(request: NextRequest) {
           difficulty: worksheet.difficulty || 'average',
           questionCount: worksheet.question_count || 10,
           yearGroup: worksheet.year_group,
+          studentNames: ['Emma', 'Oliver', 'Sophie', 'James', 'Lily', 'Thomas', 'Grace', 'Harry'],
         },
         generatedContent: htmlContent,
         title: worksheet.title,

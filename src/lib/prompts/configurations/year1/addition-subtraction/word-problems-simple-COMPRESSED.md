@@ -34,11 +34,14 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 
 ## OBJECTS - `/images/{object}.png`
 
-**Toys**: car,ball,doll
-**Fruits**: apple,banana,orange,strawberry
-**School**: pencil,book,crayon
-**Farm Animals**: chicken,cow,sheep,pig,horse,goat,duck,goose,turkey
-**Names**: Ben,Emma,Sam,Lily,Jack,Sophie
+**Toys**: car,ball,doll,kite,teddy,teddy-bear,block,toy-car
+**Fruits**: apple,banana,orange,strawberry,grape,pear,lemon,watermelon,peach,pineapple
+**School**: pencil,book,crayon,eraser,marker,ruler,scissors,glue,backpack,calculator
+**Farm Animals**: chicken,cow,sheep,pig,horse,goat,duck,goose,turkey,hen,rooster,cat,dog
+**Wild Animals**: lion,tiger,zebra,giraffe,elephant,monkey,bear
+**Vegetables**: carrot,tomato,broccoli,cucumber,pepper,potato
+**Treats**: cookie,cupcake,burger,pizza
+**Names**: Ben,Emma,Sam,Lily,Jack,Sophie,Oliver,Ava
 
 ## EXAMPLE OUTPUT
 

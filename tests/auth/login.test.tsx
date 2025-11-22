@@ -44,7 +44,7 @@ describe('LoginPage', () => {
     fireEvent.click(signInButton)
     
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith('/auth/profile-setup')
+      expect(mockPush).toHaveBeenCalledWith('/create')
     }, { timeout: 3000 })
   })
 

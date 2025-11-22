@@ -136,99 +136,36 @@ export default function LandingPage() {
           </div>
 
           {/* Free Badge */}
-          <div className="mt-8 flex justify-center gap-4 flex-wrap">
-            <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
-              <Check className="w-5 h-5 text-green-600" />
-              <span className="text-gray-700 font-medium">100% Free</span>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
-              <Check className="w-5 h-5 text-green-600" />
-              <span className="text-gray-700 font-medium">No Sign-up</span>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
-              <Check className="w-5 h-5 text-green-600" />
-              <span className="text-gray-700 font-medium">Instant Download</span>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* NEW: Interactive Printables Feature Highlight */}
-      <section className="py-12 bg-gradient-to-r from-purple-50 to-blue-50 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 text-[200px] -rotate-12">🎮</div>
-          <div className="absolute bottom-0 left-0 text-[150px] rotate-12">✨</div>
-        </div>
-
-        <div className="px-4 mx-auto max-w-7xl relative">
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-full mb-4">
-              <span className="animate-pulse">🆕</span>
-              <span className="font-semibold">Exclusive Feature</span>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Interactive Printables - Practice Online!
-            </h2>
-            <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-              Transform any worksheet into an interactive learning experience. Kids get instant feedback and celebrations - making learning fun and engaging!
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <div className="bg-white rounded-xl shadow-lg p-6 border-2 border-purple-200 hover:border-purple-400 transition-all">
-              <div className="text-4xl mb-3">🎯</div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Instant Feedback</h3>
-              <p className="text-gray-600">
-                Children know immediately if they're on the right track with real-time corrections and hints.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-lg p-6 border-2 border-blue-200 hover:border-blue-400 transition-all">
-              <div className="text-4xl mb-3">🎉</div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Celebration Mode</h3>
-              <p className="text-gray-600">
-                Every correct answer triggers fun animations and celebrations to keep kids motivated!
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-lg p-6 border-2 border-green-200 hover:border-green-400 transition-all">
-              <div className="text-4xl mb-3">📱</div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Works Everywhere</h3>
-              <p className="text-gray-600">
-                Perfect for tablets, computers, and interactive whiteboards. No app downloads needed!
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-10 text-center">
-            <div className="inline-flex items-center gap-6 bg-white rounded-2xl shadow-xl p-6">
-              <div className="text-left">
-                <p className="text-sm text-gray-600 mb-1">What makes us different?</p>
-                <p className="text-lg font-bold text-gray-900">
-                  100% Free • No Login Required • No Ads
-                </p>
-                <p className="text-sm text-gray-600 mt-1">
-                  While others charge £9.99+/month for interactive features, ours are always free!
-                </p>
+          <div className="mt-8 flex flex-col gap-3 items-center">
+            {/* Row 1: Access-related badges */}
+            <div className="flex justify-center gap-4 flex-wrap">
+              <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
+                <Check className="w-5 h-5 text-green-600" />
+                <span className="text-gray-700 font-medium">100% Free</span>
               </div>
-              <Link href="/library">
-                <Button
-                  size="lg"
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
-                >
-                  Try Interactive Printables
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
+              <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
+                <Check className="w-5 h-5 text-green-600" />
+                <span className="text-gray-700 font-medium">No Sign-up</span>
+              </div>
+            </div>
+
+            {/* Row 2: Feature-related badges */}
+            <div className="flex justify-center gap-4 flex-wrap">
+              <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
+                <Check className="w-5 h-5 text-purple-600" />
+                <span className="text-gray-700 font-medium">Interactive Mode</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
+                <Check className="w-5 h-5 text-purple-600" />
+                <span className="text-gray-700 font-medium">Customize & Download</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
+                <Check className="w-5 h-5 text-purple-600" />
+                <span className="text-gray-700 font-medium">Instant Download</span>
+              </div>
             </div>
           </div>
 
-          <div className="mt-8 text-center">
-            <p className="text-sm text-gray-600">
-              💡 <strong>Teacher Tip:</strong> Perfect for whole-class activities on the interactive whiteboard or individual practice on tablets during computer time!
-            </p>
-          </div>
         </div>
       </section>
 
@@ -375,7 +312,7 @@ export default function LandingPage() {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  Every printable works online with instant feedback and celebrations!
+                  Every printable works online with feedback and celebration upon completion!
                 </CardDescription>
               </CardContent>
             </Card>

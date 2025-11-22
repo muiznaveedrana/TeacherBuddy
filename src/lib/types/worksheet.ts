@@ -30,7 +30,7 @@ export interface WorksheetConfig {
   difficulty: DifficultyLevel
   questionCount: number
   yearGroup: string // Mandatory for age-appropriate content
-  studentNames: string[]
+  studentNames?: string[] // Optional - default names used if not provided
 
   // Enhanced configuration options (USP.2)
   visualTheme?: VisualTheme

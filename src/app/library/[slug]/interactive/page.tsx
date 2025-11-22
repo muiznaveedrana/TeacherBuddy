@@ -55,6 +55,6 @@ export async function generateMetadata({ params }: PageProps) {
 
   return {
     title: worksheet?.seo_title || `${worksheet?.title} - Interactive Worksheet` || 'Interactive Worksheet',
-    description: worksheet?.seo_description || `Practice ${worksheet?.title} interactively with instant feedback!`
+    description: worksheet?.seo_description || `Practice ${worksheet?.title} interactively with feedback upon completion!`
   }
 }
