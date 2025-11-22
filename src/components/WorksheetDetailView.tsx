@@ -285,6 +285,23 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
               <div className="space-y-3">
                 <Tooltip>
                   <TooltipTrigger asChild>
+                    <Link href={`/library/${worksheet.slug}/interactive`} className="block w-full">
+                      <Button
+                        variant="default"
+                        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
+                        size="lg"
+                      >
+                        🎮 Interactive Mode
+                      </Button>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Practice online with feedback and celebration upon completion! Perfect for tablets and computers.</p>
+                  </TooltipContent>
+                </Tooltip>
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
                     <Button
                       onClick={handleDownloadPDF}
                       disabled={isGeneratingPDF}
@@ -297,29 +314,12 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
                           Generating PDF...
                         </>
                       ) : (
-                        <>📥 Download PDF (Free)</>
+                        <>📥 Download PDF</>
                       )}
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Download this worksheet as a ready-to-print PDF file</p>
-                  </TooltipContent>
-                </Tooltip>
-
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Link href={`/library/${worksheet.slug}/interactive`} className="block w-full">
-                      <Button
-                        variant="default"
-                        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
-                        size="lg"
-                      >
-                        🎮 Interactive Printable
-                      </Button>
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Practice online with feedback and celebration upon completion! Perfect for tablets and computers.</p>
                   </TooltipContent>
                 </Tooltip>
 
@@ -337,22 +337,6 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Customize this worksheet by editing questions and images, then download</p>
-                  </TooltipContent>
-                </Tooltip>
-
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className="w-full"
-                      size="lg"
-                      onClick={handleGenerateSimilar}
-                    >
-                      🔄 Generate Similar
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Create a new worksheet with the same topic and settings</p>
                   </TooltipContent>
                 </Tooltip>
               </div>

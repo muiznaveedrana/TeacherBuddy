@@ -114,16 +114,8 @@ export default function LandingPage() {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link href="/create">
-              <Button
-                size="touch"
-                className="text-xl px-10 py-8 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105"
-              >
-                <Zap className="mr-3 h-6 w-6" />
-                Generate Printable
-              </Button>
-            </Link>
+          <div className="flex flex-col gap-4 justify-center items-center">
+            {/* Primary CTA: Browse Library */}
             <Link href="/library">
               <Button
                 size="touch"
@@ -133,6 +125,21 @@ export default function LandingPage() {
                 Browse Free Library
               </Button>
             </Link>
+
+            {/* Secondary CTA: Generate Printable */}
+            <div className="flex flex-col items-center gap-2">
+              <Link href="/create">
+                <Button
+                  size="touch"
+                  variant="outline"
+                  className="text-lg px-8 py-6 border-2 border-purple-600 text-purple-700 hover:bg-purple-50 font-bold shadow-lg hover:shadow-xl transition-all"
+                >
+                  <Zap className="mr-2 h-5 w-5" />
+                  Generate Printable
+                </Button>
+              </Link>
+              <span className="text-sm text-gray-600">🎨 AI-powered • Ready in 20-30 seconds</span>
+            </div>
           </div>
 
           {/* Free Badge */}

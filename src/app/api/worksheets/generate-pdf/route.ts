@@ -124,14 +124,23 @@ export async function POST(request: NextRequest) {
     }
     
     const { config, generatedContent, title } = validation.data
-    
+
     // Since this is our own generated content, we can trust it for PDF generation
     // No sanitization needed as content comes from our own worksheet generation system
-    
+
+    // IMPORTANT: Always remove answer key from PDFs for download
+    // Answer keys should never be included in downloaded PDFs
+    let cleanedContent = generatedContent
+    cleanedContent = cleanedContent.replace(/<div class="answer-key">[\s\S]*?<\/div>(?=\s*<\/body>)/gi, '')
+    cleanedContent = cleanedContent.replace(/<h[1-6][^>]*>\s*(?:Answer Key|ANSWER KEY):?\s*<\/h[1-6]>/gi, '')
+    cleanedContent = cleanedContent.replace(/<p[^>]*>\s*\*\*Answer Key:\*\*\s*<\/p>/gi, '')
+
+    console.log('✂️ Answer key removed from PDF content')
+
     // Prepare PDF generation request
     const pdfRequest: PdfGenerationRequest = {
       config: config as WorksheetConfig,
-      generatedContent: generatedContent,
+      generatedContent: cleanedContent,
       title: title
     }
     

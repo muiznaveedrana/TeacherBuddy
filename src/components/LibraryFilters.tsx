@@ -111,7 +111,7 @@ export function LibraryFilters() {
     router.push('/library')
   }
 
-  const hasActiveFilters = currentYearGroup || currentTopic || currentSubtopic || currentVisualTheme || currentActivityType || currentSeasonalTheme
+  const hasActiveFilters = currentYearGroup || currentTopic || currentSubtopic
 
   return (
     <div className="bg-white rounded-lg border p-6 space-y-6">
@@ -196,71 +196,7 @@ export function LibraryFilters() {
         </Select>
       </div>
 
-      <div>
-        <Label htmlFor="visual_theme">Visual Theme</Label>
-        <Select
-          value={currentVisualTheme}
-          onValueChange={(value) => updateFilter('visual_theme', value)}
-          open={openDropdown === 'visual_theme'}
-          onOpenChange={(isOpen) => setOpenDropdown(isOpen ? 'visual_theme' : null)}
-        >
-          <SelectTrigger id="visual_theme" className="mt-1">
-            <SelectValue placeholder="All Themes" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Themes</SelectItem>
-            {VISUAL_THEMES.map((theme) => (
-              <SelectItem key={theme} value={theme}>
-                {theme.charAt(0).toUpperCase() + theme.slice(1)}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div>
-        <Label htmlFor="activity_type">Activity Type</Label>
-        <Select
-          value={currentActivityType}
-          onValueChange={(value) => updateFilter('activity_type', value)}
-          open={openDropdown === 'activity_type'}
-          onOpenChange={(isOpen) => setOpenDropdown(isOpen ? 'activity_type' : null)}
-        >
-          <SelectTrigger id="activity_type" className="mt-1">
-            <SelectValue placeholder="All Activities" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Activities</SelectItem>
-            {ACTIVITY_TYPES.map((activity) => (
-              <SelectItem key={activity} value={activity}>
-                {activity.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div>
-        <Label htmlFor="seasonal_theme">Seasonal Theme</Label>
-        <Select
-          value={currentSeasonalTheme}
-          onValueChange={(value) => updateFilter('seasonal_theme', value)}
-          open={openDropdown === 'seasonal_theme'}
-          onOpenChange={(isOpen) => setOpenDropdown(isOpen ? 'seasonal_theme' : null)}
-        >
-          <SelectTrigger id="seasonal_theme" className="mt-1">
-            <SelectValue placeholder="All Seasons" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Seasons</SelectItem>
-            {SEASONAL_THEMES.map((season) => (
-              <SelectItem key={season} value={season}>
-                {season.charAt(0).toUpperCase() + season.slice(1)}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      {/* Visual Theme, Activity Type, and Seasonal Theme filters hidden - keeping only Year Group, Topic, and Subtopic */}
     </div>
   )
 }

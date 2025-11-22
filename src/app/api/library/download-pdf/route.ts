@@ -28,7 +28,17 @@ export async function POST(request: NextRequest) {
     console.log('📄 Generating PDF for:', worksheet.title)
 
     // Use custom HTML if provided (from editor with mascots already injected), otherwise use library version
-    const htmlContent = customHtml || worksheet.html_content
+    let htmlContent = customHtml || worksheet.html_content
+
+    // IMPORTANT: Always remove answer key from PDFs for download
+    // Answer keys should never be included in downloaded PDFs
+    htmlContent = htmlContent.replace(/<div class="answer-key">[\s\S]*?<\/div>(?=\s*<\/body>)/gi, '')
+
+    // Also remove any "Answer Key:" headers that might be outside the div
+    htmlContent = htmlContent.replace(/<h[1-6][^>]*>\s*(?:Answer Key|ANSWER KEY):?\s*<\/h[1-6]>/gi, '')
+    htmlContent = htmlContent.replace(/<p[^>]*>\s*\*\*Answer Key:\*\*\s*<\/p>/gi, '')
+
+    console.log('✂️ Answer key removed from PDF content')
 
     // Use the proven PDF generation service (same as create/dashboard)
     const result = await generateWorksheetPdf(
