@@ -15,14 +15,12 @@ async function globalSetup(config: FullConfig) {
     // Navigate to the app to ensure it's ready
     await page.goto(baseURL!)
     await page.waitForSelector('body', { timeout: 30000 })
-    
-    // Clear any existing localStorage/sessionStorage
-    await page.evaluate(() => {
-      localStorage.clear()
-      sessionStorage.clear()
-    })
-    
-    console.log('✅ Global setup completed - App is ready for visual testing')
+
+    // Note: DO NOT clear localStorage/sessionStorage here
+    // Auth state persistence tests rely on storageState which includes localStorage
+    // Each test that needs clean state should handle it in beforeEach
+
+    console.log('✅ Global setup completed - App is ready for testing')
   } catch (error) {
     console.error('❌ Global setup failed:', error)
     throw error

@@ -87,3 +87,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Multi-Session Safe**: Can pause/resume at any of 7 checkpoints across multiple days
 - **Testing Strategy**: Test after every phase before moving forward
 - **Region Field**: All worksheets default to region='UK' for MVP (future-proof for US/AU expansion)
+
+ # Run ALL 54 configurations (complete library generation)- use playwright healer agent
+  npx playwright test tests/e2e/comprehensive-library-save.spec.ts
+
+  # Run SMOKE tests (3 quick tests - 1 per year group)
+  npx playwright test tests/e2e/comprehensive-library-save.spec.ts --grep "SMOKE"
+
+  # Run specific year group only
+  npx playwright test tests/e2e/comprehensive-library-save.spec.ts --grep "Reception"  # 15 tests
+  npx playwright test tests/e2e/comprehensive-library-save.spec.ts --grep "Year 1"    # 13 tests
+  npx playwright test tests/e2e/comprehensive-library-save.spec.ts --grep "Year 2"    # 26 tests
