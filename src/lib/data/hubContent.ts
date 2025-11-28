@@ -168,29 +168,59 @@ export function generateHubSEO(
   const subtopicLower = subtopicLabel.toLowerCase()
   const yearGroupLower = yearGroup.toLowerCase()
 
-  // Generate primary keyword variations
+  // Get US grade equivalent for dual terminology
+  const usGrade = getUSGradeLabel(yearGroup)
+  const usGradeLower = usGrade.toLowerCase()
+
+  // Generate primary keyword variations (US-first, then UK)
   const primaryKeywords = [
-    `${subtopicLower} worksheets ${yearGroupLower}`,
-    `free ${subtopicLower} worksheets`,
+    `${subtopicLower} printables ${usGradeLower}`,
+    `${subtopicLower} printables ${yearGroupLower}`,
+    `free ${subtopicLower} printables`,
+    `${usGradeLower} ${subtopicLower} printables`,
     `${yearGroupLower} ${subtopicLower} printables`,
     `${subtopicLower} worksheets free printable`,
   ]
 
-  // Generate secondary keywords
+  // Generate secondary keywords (both US and UK terms)
   const secondaryKeywords = [
-    `${ageRange} maths worksheets`,
-    'UK curriculum worksheets',
+    `${ageRange} math printables`,
+    `${ageRange} maths printables`,
+    'free math printables',
     'free maths printables',
+    `${usGradeLower} math resources`,
     `${yearGroupLower} maths resources`,
-    'primary maths worksheets',
+    'elementary math printables',
+    'primary maths printables',
   ]
 
+  // Dual label for SEO title (US-first)
+  const dualLabel = yearGroup === 'Reception'
+    ? 'Kindergarten / Reception'
+    : `${usGrade} / ${yearGroup}`
+
   return {
-    title: `Free ${subtopicLabel} Worksheets for ${yearGroup} | Printable UK Maths`,
-    description: `Download free ${subtopicLower} worksheets for ${yearGroup} (ages ${ageRange}). Curriculum-aligned, printable maths resources perfect for home learning and classroom use. No signup required.`,
+    title: `Free ${subtopicLabel} Printables for ${dualLabel} | Ages ${ageRange}`,
+    description: `Download free ${subtopicLower} printables for ${dualLabel} (ages ${ageRange}). Curriculum-aligned math resources perfect for home learning and classroom use. No signup required.`,
     keywords: [...primaryKeywords, ...secondaryKeywords],
     canonicalUrl: `${BASE_URL}/free-printables/${yearGroupSlug}/${subtopicSlug}`,
   }
+}
+
+/**
+ * Get US grade label for a UK year group
+ */
+function getUSGradeLabel(yearGroup: string): string {
+  const usLabels: Record<string, string> = {
+    Reception: 'Kindergarten',
+    'Year 1': 'Grade 1',
+    'Year 2': 'Grade 2',
+    'Year 3': 'Grade 3',
+    'Year 4': 'Grade 4',
+    'Year 5': 'Grade 5',
+    'Year 6': 'Grade 6',
+  }
+  return usLabels[yearGroup] || yearGroup
 }
 
 // ============================================================================

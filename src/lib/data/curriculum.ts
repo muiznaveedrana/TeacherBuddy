@@ -27,13 +27,13 @@ export interface YearGroupCurriculum {
 }
 
 export const YEAR_GROUPS = [
-  { value: 'Reception', label: 'Reception (Ages 4-5)', disabled: false },
-  { value: 'Year 1', label: 'Year 1 (Ages 5-6)', disabled: false },
-  { value: 'Year 2', label: 'Year 2 (Ages 6-7)', disabled: false },
-  { value: 'Year 3', label: 'Year 3 (Ages 7-8)', disabled: true },
-  { value: 'Year 4', label: 'Year 4 (Ages 8-9)', disabled: true },
-  { value: 'Year 5', label: 'Year 5 (Ages 9-10)', disabled: true },
-  { value: 'Year 6', label: 'Year 6 (Ages 10-11)', disabled: true }
+  { value: 'Reception', label: 'Kindergarten / Reception (Ages 4-5)', shortLabel: 'Kindergarten / Reception', usLabel: 'Kindergarten', ukLabel: 'Reception', disabled: false },
+  { value: 'Year 1', label: 'Grade 1 / Year 1 (Ages 5-6)', shortLabel: 'Grade 1 / Year 1', usLabel: 'Grade 1', ukLabel: 'Year 1', disabled: false },
+  { value: 'Year 2', label: 'Grade 2 / Year 2 (Ages 6-7)', shortLabel: 'Grade 2 / Year 2', usLabel: 'Grade 2', ukLabel: 'Year 2', disabled: false },
+  { value: 'Year 3', label: 'Grade 3 / Year 3 (Ages 7-8)', shortLabel: 'Grade 3 / Year 3', usLabel: 'Grade 3', ukLabel: 'Year 3', disabled: true },
+  { value: 'Year 4', label: 'Grade 4 / Year 4 (Ages 8-9)', shortLabel: 'Grade 4 / Year 4', usLabel: 'Grade 4', ukLabel: 'Year 4', disabled: true },
+  { value: 'Year 5', label: 'Grade 5 / Year 5 (Ages 9-10)', shortLabel: 'Grade 5 / Year 5', usLabel: 'Grade 5', ukLabel: 'Year 5', disabled: true },
+  { value: 'Year 6', label: 'Grade 6 / Year 6 (Ages 10-11)', shortLabel: 'Grade 6 / Year 6', usLabel: 'Grade 6', ukLabel: 'Year 6', disabled: true }
 ]
 
 export const CURRICULUM_MAPPING: YearGroupCurriculum = {

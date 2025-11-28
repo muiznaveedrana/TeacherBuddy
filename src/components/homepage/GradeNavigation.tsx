@@ -7,6 +7,7 @@ import { BookOpen, Palette, Shapes, Calculator, Rocket, Trophy, Star } from 'luc
 const gradeData = [
   {
     grade: 'Reception',
+    displayLabel: 'Kindergarten / Reception',
     ageRange: '4-5 years',
     icon: '🧸',
     color: 'from-purple-400 to-purple-500',
@@ -18,6 +19,7 @@ const gradeData = [
   },
   {
     grade: 'Year 1',
+    displayLabel: 'Grade 1 / Year 1',
     ageRange: '5-6 years',
     icon: '1️⃣',
     color: 'from-orange-400 to-orange-500',
@@ -29,6 +31,7 @@ const gradeData = [
   },
   {
     grade: 'Year 2',
+    displayLabel: 'Grade 2 / Year 2',
     ageRange: '6-7 years',
     icon: '2️⃣',
     color: 'from-green-400 to-green-500',
@@ -40,6 +43,7 @@ const gradeData = [
   },
   {
     grade: 'Year 3',
+    displayLabel: 'Grade 3 / Year 3',
     ageRange: '7-8 years',
     icon: '3️⃣',
     color: 'from-red-400 to-red-500',
@@ -51,6 +55,7 @@ const gradeData = [
   },
   {
     grade: 'Year 4',
+    displayLabel: 'Grade 4 / Year 4',
     ageRange: '8-9 years',
     icon: '4️⃣',
     color: 'from-blue-400 to-blue-500',
@@ -62,6 +67,7 @@ const gradeData = [
   },
   {
     grade: 'Year 5',
+    displayLabel: 'Grade 5 / Year 5',
     ageRange: '9-10 years',
     icon: '5️⃣',
     color: 'from-yellow-400 to-yellow-500',
@@ -73,6 +79,7 @@ const gradeData = [
   },
   {
     grade: 'Year 6',
+    displayLabel: 'Grade 6 / Year 6',
     ageRange: '10-11 years',
     icon: '6️⃣',
     color: 'from-indigo-400 to-indigo-500',
@@ -91,10 +98,10 @@ export default function GradeNavigation() {
         {/* Section Header */}
         <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-            Choose Your Year Group
+            Choose Your Grade Level
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Curriculum-aligned printables for every stage of primary school
+            Curriculum-aligned printables for every stage of elementary school
           </p>
         </div>
 
@@ -128,10 +135,10 @@ export default function GradeNavigation() {
                 </div>
 
                 {/* Grade Title */}
-                <h3 className="text-xl font-bold text-gray-900 mb-1">
-                  {grade.grade}
+                <h3 className="text-lg font-bold text-gray-900 mb-1">
+                  {grade.displayLabel}
                 </h3>
-                <p className="text-sm text-gray-600 mb-3">{grade.ageRange}</p>
+                <p className="text-sm text-gray-600 mb-3">Ages {grade.ageRange}</p>
 
                 {/* Printable Count Badge */}
                 <div className="inline-flex items-center gap-1 px-3 py-1 bg-white/80 rounded-full text-sm font-semibold text-gray-700 mb-3">

@@ -11,6 +11,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Home, PlusCircle, ArrowLeft, LogOut } from 'lucide-react'
 import type { LibraryWorksheet } from '@/lib/types/library'
 import { createBrowserClient } from '@supabase/ssr'
+import { yearGroupToDualLabel } from '@/lib/types/hub'
 
 interface WorksheetDetailViewProps {
   worksheet: LibraryWorksheet
@@ -203,7 +204,7 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <Breadcrumb items={[
           { label: 'Free Printables', href: '/free-printables' },
-          { label: worksheet.year_group, href: `/free-printables/${worksheet.year_group.toLowerCase().replace(/\s+/g, '-')}` },
+          { label: yearGroupToDualLabel(worksheet.year_group), href: `/free-printables/${worksheet.year_group.toLowerCase().replace(/\s+/g, '-')}` },
           { label: worksheet.subtopic.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '), href: `/free-printables/${worksheet.year_group.toLowerCase().replace(/\s+/g, '-')}/${worksheet.subtopic}` },
           { label: worksheet.title, current: true }
         ]} />
@@ -237,8 +238,8 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
 
             <div className="bg-gray-50 rounded-lg p-4 space-y-2">
               <div className="flex justify-between">
-                <span className="text-gray-600">Year Group:</span>
-                <span className="font-medium">{worksheet.year_group}</span>
+                <span className="text-gray-600">Grade Level:</span>
+                <span className="font-medium">{yearGroupToDualLabel(worksheet.year_group)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Topic:</span>

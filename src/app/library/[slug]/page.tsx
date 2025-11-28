@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getWorksheetBySlug } from '@/lib/services/libraryService'
 import { WorksheetDetailView } from '@/components/WorksheetDetailView'
+import { yearGroupToDualLabel, yearGroupToUSLabel } from '@/lib/types/hub'
 
 export const revalidate = 3600
 
@@ -60,9 +61,9 @@ export default async function WorksheetDetailPage({ params }: PageProps) {
     '@context': 'https://schema.org',
     '@type': 'LearningResource',
     name: worksheet.title,
-    description: worksheet.seo_description || `Free printable ${worksheet.year_group} ${worksheet.topic} worksheet`,
+    description: worksheet.seo_description || `Free printable ${yearGroupToDualLabel(worksheet.year_group)} ${worksheet.topic} printable`,
     learningResourceType: 'Worksheet',
-    educationalLevel: worksheet.year_group,
+    educationalLevel: [yearGroupToUSLabel(worksheet.year_group), worksheet.year_group],
     about: {
       '@type': 'Thing',
       name: worksheet.topic,

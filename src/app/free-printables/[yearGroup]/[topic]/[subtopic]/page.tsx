@@ -3,25 +3,27 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { ChevronRight, Download, Clock, BookOpen, CheckCircle, HelpCircle } from 'lucide-react'
-import { getSubtopicHubData, getAllSubtopicPaths } from '@/lib/services/hubService'
+import { getSubtopicHubDataWithTopic, getAllSubtopicPathsWithTopic } from '@/lib/services/hubService'
 import { LibraryNavigation } from '@/components/LibraryNavigation'
+import { yearGroupToDualLabel } from '@/lib/types/hub'
 
 export const revalidate = 3600
 
 interface PageProps {
   params: {
     yearGroup: string
+    topic: string
     subtopic: string
   }
 }
 
 export async function generateStaticParams() {
-  const paths = getAllSubtopicPaths()
+  const paths = getAllSubtopicPathsWithTopic()
   return paths
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const hubData = await getSubtopicHubData(params.yearGroup, params.subtopic)
+  const hubData = await getSubtopicHubDataWithTopic(params.yearGroup, params.topic, params.subtopic)
 
   if (!hubData) {
     return { title: 'Topic Not Found' }
@@ -46,7 +48,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function SubtopicHubPage({ params }: PageProps) {
-  const hubData = await getSubtopicHubData(params.yearGroup, params.subtopic)
+  const hubData = await getSubtopicHubDataWithTopic(params.yearGroup, params.topic, params.subtopic)
 
   if (!hubData) {
     notFound()
@@ -154,7 +156,7 @@ export default async function SubtopicHubPage({ params }: PageProps) {
 
             <div className="max-w-3xl">
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Free {hubData.label} Worksheets for {hubData.yearGroup}
+                Free {hubData.label} Printables for {yearGroupToDualLabel(hubData.yearGroup)}
               </h1>
               <p className="text-lg text-gray-600 mb-4">
                 {hubData.educationalContent.introduction}
@@ -162,11 +164,11 @@ export default async function SubtopicHubPage({ params }: PageProps) {
               <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
                 <span className="flex items-center gap-1">
                   <Download className="w-4 h-4" />
-                  {hubData.worksheetCount} Worksheets
+                  {hubData.worksheetCount} Printables
                 </span>
                 <span className="flex items-center gap-1">
                   <BookOpen className="w-4 h-4" />
-                  UK Curriculum
+                  US/UK Curriculum
                 </span>
                 <span className="flex items-center gap-1">
                   <Clock className="w-4 h-4" />
@@ -181,12 +183,12 @@ export default async function SubtopicHubPage({ params }: PageProps) {
           <div className="flex flex-col lg:flex-row gap-10">
             {/* Main Content */}
             <main className="flex-1">
-              {/* Worksheets Grid */}
+              {/* Printables Grid */}
               <section className="mb-12">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
                   {hasWorksheets
-                    ? `All ${hubData.label} Worksheets`
-                    : `${hubData.label} Worksheets Coming Soon`}
+                    ? `All ${hubData.label} Printables`
+                    : `${hubData.label} Printables Coming Soon`}
                 </h2>
 
                 {hasWorksheets ? (
@@ -232,8 +234,8 @@ export default async function SubtopicHubPage({ params }: PageProps) {
                     </div>
                     <h3 className="text-xl font-bold text-gray-900 mb-2">Coming Soon!</h3>
                     <p className="text-gray-600 mb-4">
-                      We&apos;re working on creating high-quality {hubData.label.toLowerCase()} worksheets
-                      for {hubData.yearGroup}. Check back soon!
+                      We&apos;re working on creating high-quality {hubData.label.toLowerCase()} printables
+                      for {yearGroupToDualLabel(hubData.yearGroup)}. Check back soon!
                     </p>
                     <Link
                       href="/create"
@@ -253,7 +255,7 @@ export default async function SubtopicHubPage({ params }: PageProps) {
                 </h2>
                 <p className="text-gray-600 mb-6">{hubData.educationalContent.whyImportant}</p>
 
-                <h3 className="text-lg font-bold text-gray-900 mb-3">How to Use These Worksheets</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-3">How to Use These Printables</h3>
                 <p className="text-gray-600 mb-6">{hubData.educationalContent.howToUse}</p>
 
                 <h3 className="text-lg font-bold text-gray-900 mb-3">Teaching Tips</h3>
@@ -328,18 +330,25 @@ export default async function SubtopicHubPage({ params }: PageProps) {
                   <h3 className="font-bold text-gray-900 mb-4">Quick Links</h3>
                   <div className="space-y-2">
                     <Link
+                      href={`/free-printables/${params.yearGroup}/${params.topic}`}
+                      className="flex items-center gap-2 text-blue-700 hover:text-blue-900"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                      All {hubData.topicLabel} Subtopics
+                    </Link>
+                    <Link
                       href={`/free-printables/${params.yearGroup}`}
                       className="flex items-center gap-2 text-blue-700 hover:text-blue-900"
                     >
                       <ChevronRight className="w-4 h-4" />
-                      All {hubData.yearGroup} Topics
+                      All {yearGroupToDualLabel(hubData.yearGroup)} Topics
                     </Link>
                     <Link
                       href="/free-printables"
                       className="flex items-center gap-2 text-blue-700 hover:text-blue-900"
                     >
                       <ChevronRight className="w-4 h-4" />
-                      All Year Groups
+                      All Grade Levels
                     </Link>
                     <Link
                       href="/library"
@@ -355,13 +364,13 @@ export default async function SubtopicHubPage({ params }: PageProps) {
                 <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-xl p-5 border border-green-200">
                   <h3 className="font-bold text-gray-900 mb-2">Need Something Different?</h3>
                   <p className="text-sm text-gray-600 mb-4">
-                    Create a custom {hubData.label.toLowerCase()} worksheet tailored to your needs.
+                    Create a custom {hubData.label.toLowerCase()} printable tailored to your needs.
                   </p>
                   <Link
                     href="/create"
                     className="inline-flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors w-full justify-center"
                   >
-                    Create Custom Worksheet
+                    Create Custom Printable
                     <ChevronRight className="w-4 h-4" />
                   </Link>
                 </div>

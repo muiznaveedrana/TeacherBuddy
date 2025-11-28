@@ -16,6 +16,7 @@ export interface YearGroupHub {
   description: string
   topics: TopicSummary[]
   worksheetCount: number
+  popularWorksheets: LibraryWorksheet[]
   seo: HubSEO
 }
 
@@ -32,6 +33,7 @@ export interface TopicHub {
   description: string
   subtopics: SubtopicSummary[]
   worksheetCount: number
+  popularWorksheets: LibraryWorksheet[]
   learningObjectives: string[]
   complexity: string
   seo: HubSEO
@@ -169,6 +171,42 @@ export interface SlugMapping {
  */
 export function yearGroupToSlug(yearGroup: string): string {
   return yearGroup.toLowerCase().replace(/\s+/g, '-')
+}
+
+/**
+ * Get US-first dual display label for year group
+ * "Reception" -> "Kindergarten / Reception"
+ * "Year 1" -> "Grade 1 / Year 1"
+ */
+export function yearGroupToDualLabel(yearGroup: string): string {
+  const dualLabels: Record<string, string> = {
+    Reception: 'Kindergarten / Reception',
+    'Year 1': 'Grade 1 / Year 1',
+    'Year 2': 'Grade 2 / Year 2',
+    'Year 3': 'Grade 3 / Year 3',
+    'Year 4': 'Grade 4 / Year 4',
+    'Year 5': 'Grade 5 / Year 5',
+    'Year 6': 'Grade 6 / Year 6',
+  }
+  return dualLabels[yearGroup] || yearGroup
+}
+
+/**
+ * Get US label only for year group
+ * "Reception" -> "Kindergarten"
+ * "Year 1" -> "Grade 1"
+ */
+export function yearGroupToUSLabel(yearGroup: string): string {
+  const usLabels: Record<string, string> = {
+    Reception: 'Kindergarten',
+    'Year 1': 'Grade 1',
+    'Year 2': 'Grade 2',
+    'Year 3': 'Grade 3',
+    'Year 4': 'Grade 4',
+    'Year 5': 'Grade 5',
+    'Year 6': 'Grade 6',
+  }
+  return usLabels[yearGroup] || yearGroup
 }
 
 /**

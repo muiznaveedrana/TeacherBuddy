@@ -34,6 +34,9 @@ export interface WorksheetConfig {
 
   // Enhanced configuration options (USP.2)
   visualTheme?: VisualTheme
+
+  // Region-specific content (for currency/measurement subtopics like money)
+  region?: 'UK' | 'US' | 'AU' | 'CA'
 }
 
 // Enhanced WorksheetConfig with required USP.2 fields

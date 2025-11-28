@@ -12,14 +12,15 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
+// Year groups with dual US/UK labels for display, value for database queries
 const YEAR_GROUPS = [
-  'Reception',
-  'Year 1',
-  'Year 2',
-  'Year 3',
-  'Year 4',
-  'Year 5',
-  'Year 6',
+  { value: 'Reception', label: 'Kindergarten / Reception' },
+  { value: 'Year 1', label: 'Grade 1 / Year 1' },
+  { value: 'Year 2', label: 'Grade 2 / Year 2' },
+  { value: 'Year 3', label: 'Grade 3 / Year 3' },
+  { value: 'Year 4', label: 'Grade 4 / Year 4' },
+  { value: 'Year 5', label: 'Grade 5 / Year 5' },
+  { value: 'Year 6', label: 'Grade 6 / Year 6' },
 ]
 
 const VISUAL_THEMES = ['animals', 'fruits', 'toys', 'vehicles', 'food', 'sports', 'space']
@@ -125,24 +126,24 @@ export function LibraryFilters() {
       </div>
 
       <div>
-        <Label htmlFor="year_group">Year Group</Label>
+        <Label htmlFor="year_group">Grade Level</Label>
         <Select
           value={currentYearGroup}
           onValueChange={(value) => updateFilter('year_group', value)}
           open={openDropdown === 'year_group'}
           onOpenChange={(isOpen) => {
             setOpenDropdown(isOpen ? 'year_group' : null)
-            console.log(`📅 Year Group dropdown ${isOpen ? 'OPENED' : 'CLOSED'}`)
+            console.log(`📅 Grade Level dropdown ${isOpen ? 'OPENED' : 'CLOSED'}`)
           }}
         >
           <SelectTrigger id="year_group" className="mt-1">
-            <SelectValue placeholder="All Years" />
+            <SelectValue placeholder="All Grade Levels" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Years</SelectItem>
+            <SelectItem value="all">All Grade Levels</SelectItem>
             {YEAR_GROUPS.map((year) => (
-              <SelectItem key={year} value={year}>
-                {year}
+              <SelectItem key={year.value} value={year.value}>
+                {year.label}
               </SelectItem>
             ))}
           </SelectContent>

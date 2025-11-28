@@ -3,28 +3,29 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { ChevronRight, BookOpen, FileText, Download } from 'lucide-react'
-import { getYearGroupHubData, getAllYearGroupSlugs } from '@/lib/services/hubService'
+import { getTopicHubData, getAllTopicPaths } from '@/lib/services/hubService'
 import { LibraryNavigation } from '@/components/LibraryNavigation'
-import { yearGroupToDualLabel, yearGroupToUSLabel } from '@/lib/types/hub'
+import { yearGroupToDualLabel } from '@/lib/types/hub'
 
 export const revalidate = 3600
 
 interface PageProps {
   params: {
     yearGroup: string
+    topic: string
   }
 }
 
 export async function generateStaticParams() {
-  const slugs = getAllYearGroupSlugs()
-  return slugs.map((yearGroup) => ({ yearGroup }))
+  const paths = getAllTopicPaths()
+  return paths
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const hubData = await getYearGroupHubData(params.yearGroup)
+  const hubData = await getTopicHubData(params.yearGroup, params.topic)
 
   if (!hubData) {
-    return { title: 'Year Group Not Found' }
+    return { title: 'Topic Not Found' }
   }
 
   return {
@@ -42,8 +43,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
-export default async function YearGroupHubPage({ params }: PageProps) {
-  const hubData = await getYearGroupHubData(params.yearGroup)
+export default async function TopicHubPage({ params }: PageProps) {
+  const hubData = await getTopicHubData(params.yearGroup, params.topic)
 
   if (!hubData) {
     notFound()
@@ -51,11 +52,7 @@ export default async function YearGroupHubPage({ params }: PageProps) {
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://freemathprintable.com'
 
-  // Get dual display label (US-first)
-  const dualLabel = yearGroupToDualLabel(hubData.yearGroup)
-  const usLabel = yearGroupToUSLabel(hubData.yearGroup)
-
-  // JSON-LD for year group hub
+  // JSON-LD for topic hub
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
@@ -69,13 +66,12 @@ export default async function YearGroupHubPage({ params }: PageProps) {
     },
     about: {
       '@type': 'Thing',
-      name: `${dualLabel} Mathematics`,
+      name: `${hubData.label} - ${hubData.yearGroup}`,
     },
     audience: {
       '@type': 'EducationalAudience',
       educationalRole: ['student', 'teacher', 'parent'],
     },
-    educationalLevel: [usLabel, hubData.yearGroup, `Ages ${hubData.ageRange}`],
     numberOfItems: hubData.worksheetCount,
     breadcrumb: {
       '@type': 'BreadcrumbList',
@@ -95,7 +91,13 @@ export default async function YearGroupHubPage({ params }: PageProps) {
         {
           '@type': 'ListItem',
           position: 3,
-          name: dualLabel,
+          name: yearGroupToDualLabel(hubData.yearGroup),
+          item: `${baseUrl}/free-printables/${params.yearGroup}`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 4,
+          name: hubData.label,
           item: hubData.seo.canonicalUrl,
         },
       ],
@@ -116,7 +118,7 @@ export default async function YearGroupHubPage({ params }: PageProps) {
         <div className="bg-gradient-to-br from-blue-50 via-green-50 to-white border-b">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             {/* Breadcrumbs */}
-            <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
+            <nav className="flex flex-wrap items-center gap-2 text-sm text-gray-600 mb-6">
               <Link href="/" className="hover:text-blue-700 transition-colors">
                 Home
               </Link>
@@ -125,59 +127,58 @@ export default async function YearGroupHubPage({ params }: PageProps) {
                 Free Printables
               </Link>
               <ChevronRight className="w-4 h-4" />
-              <span className="text-gray-900 font-medium">{dualLabel}</span>
+              <Link href={`/free-printables/${params.yearGroup}`} className="hover:text-blue-700 transition-colors">
+                {yearGroupToDualLabel(hubData.yearGroup)}
+              </Link>
+              <ChevronRight className="w-4 h-4" />
+              <span className="text-gray-900 font-medium">{hubData.label}</span>
             </nav>
 
             <div className="max-w-3xl">
               <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                Free {dualLabel} Math Printables
+                Free {hubData.label} Printables
               </h1>
               <p className="text-xl text-gray-600 mb-4">
                 {hubData.description}
               </p>
               <p className="text-gray-500">
-                Ages {hubData.ageRange} • {hubData.topics.length} Topics • {hubData.worksheetCount} Printables
+                {yearGroupToDualLabel(hubData.yearGroup)} • {hubData.subtopics.length} Subtopics • {hubData.worksheetCount} Printables
               </p>
             </div>
           </div>
         </div>
 
-        {/* Topics Grid */}
+        {/* Subtopics Grid */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-8">
-            Browse {dualLabel} Topics
+            Browse {hubData.label} Subtopics
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {hubData.topics.map((topic) => (
+            {hubData.subtopics.map((subtopic) => (
               <Link
-                key={topic.topic}
-                href={topic.href}
+                key={subtopic.subtopic}
+                href={`/free-printables/${params.yearGroup}/${params.topic}/${subtopic.subtopicSlug}`}
                 className="group bg-white rounded-xl border border-gray-200 p-6 hover:border-blue-300 hover:shadow-lg transition-all"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-blue-50 rounded-lg group-hover:bg-blue-100 transition-colors">
-                      <BookOpen className="w-5 h-5 text-blue-600" />
+                    <div className="p-2 bg-green-50 rounded-lg group-hover:bg-green-100 transition-colors">
+                      <BookOpen className="w-5 h-5 text-green-600" />
                     </div>
                     <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-700 transition-colors">
-                      {topic.label}
+                      {subtopic.label}
                     </h3>
                   </div>
                   <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors" />
                 </div>
 
-                <div className="space-y-2 text-sm">
-                  <p className="text-gray-600">
-                    {topic.subtopicCount} Subtopics
-                  </p>
-                  <p className="font-medium text-green-600 flex items-center gap-1">
-                    <FileText className="w-4 h-4" />
-                    {topic.worksheetCount > 0
-                      ? `${topic.worksheetCount} Printables`
-                      : 'Coming Soon'}
-                  </p>
-                </div>
+                <p className="font-medium text-green-600 flex items-center gap-1 text-sm">
+                  <FileText className="w-4 h-4" />
+                  {subtopic.worksheetCount > 0
+                    ? `${subtopic.worksheetCount} Printables`
+                    : 'Coming Soon'}
+                </p>
               </Link>
             ))}
           </div>
@@ -188,7 +189,7 @@ export default async function YearGroupHubPage({ params }: PageProps) {
           <div className="bg-white border-t border-b">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
               <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
-                Popular {dualLabel} Printables
+                Popular {hubData.label} Printables
               </h2>
 
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -227,10 +228,10 @@ export default async function YearGroupHubPage({ params }: PageProps) {
 
               <div className="text-center mt-8">
                 <Link
-                  href={`/library?yearGroup=${params.yearGroup}`}
+                  href={`/library?yearGroup=${params.yearGroup}&topic=${params.topic}`}
                   className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium"
                 >
-                  View All {dualLabel} Printables
+                  View All {hubData.label} Printables
                   <ChevronRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -238,41 +239,33 @@ export default async function YearGroupHubPage({ params }: PageProps) {
           </div>
         )}
 
-        {/* SEO Content */}
-        <div className="bg-gray-50 border-t">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="prose prose-gray max-w-none">
-              <h2>About {dualLabel} Math Printables</h2>
-              <p>
-                Our free {dualLabel} math printables are designed for children aged {hubData.ageRange}.
-                Each printable covers essential mathematical concepts appropriate for this age group,
-                suitable for both US and UK curriculum standards.
-              </p>
-
-              <h3>What Your Child Will Learn</h3>
-              <p>
-                At the {dualLabel} level, {hubData.description.toLowerCase()}. Our printables cover {hubData.topics.length} key topic areas, helping children build a strong foundation
-                in mathematics.
-              </p>
-
-              <h3>How to Use These Printables</h3>
-              <p>
-                Browse the topics above to find printables that match your child&apos;s learning needs.
-                Each topic page shows all available subtopics with free printables.
-                Simply download, print, and start learning!
-              </p>
+        {/* Learning Objectives */}
+        {hubData.learningObjectives && hubData.learningObjectives.length > 0 && (
+          <div className="bg-gray-50 border-t">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+              <div className="prose prose-gray max-w-none">
+                <h2>Learning Objectives</h2>
+                <p>
+                  Our {hubData.label.toLowerCase()} printables for {yearGroupToDualLabel(hubData.yearGroup)} help children develop key mathematical skills:
+                </p>
+                <ul>
+                  {hubData.learningObjectives.map((objective, index) => (
+                    <li key={index}>{objective}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Back Navigation */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Link
-            href="/free-printables"
+            href={`/free-printables/${params.yearGroup}`}
             className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium"
           >
             <ChevronRight className="w-4 h-4 rotate-180" />
-            Back to All Grade Levels
+            Back to {yearGroupToDualLabel(hubData.yearGroup)} Topics
           </Link>
         </div>
       </div>

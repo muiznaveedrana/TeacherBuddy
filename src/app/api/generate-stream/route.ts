@@ -73,6 +73,7 @@ export async function POST(request: NextRequest) {
       questionCount,
       yearGroup,
       visualTheme,
+      region,
       previousWorksheets
     } = sanitizedBody as {
       layout: string
@@ -82,6 +83,7 @@ export async function POST(request: NextRequest) {
       questionCount: number
       yearGroup: string
       visualTheme?: VisualTheme
+      region?: 'UK' | 'US' | 'AU' | 'CA'
       previousWorksheets?: Array<{ questions: string[]; images: string[] }>
     }
 
@@ -90,6 +92,9 @@ export async function POST(request: NextRequest) {
     if (previousWorksheets && previousWorksheets.length > 0) {
       console.log('🔍 [API] Previous worksheet data:', JSON.stringify(previousWorksheets, null, 2));
     }
+
+    // Debug: Check region value
+    console.log('🌍 [API] Region received:', region || 'undefined (will use default UK prompt)');
 
     // Validate yearGroup is provided
     if (!yearGroup) {
@@ -143,7 +148,13 @@ export async function POST(request: NextRequest) {
       questionCount,
       yearGroup,
       studentNames,
-      visualTheme: visualTheme || undefined
+      visualTheme: visualTheme || undefined,
+      region: region || undefined // For currency/measurement specific subtopics (money, coins)
+    }
+
+    // Debug: Check region value for currency-specific subtopics
+    if (region) {
+      console.log(`🌍 [API] Region-specific generation: ${region} for subtopic: ${subtopic}`);
     }
 
     // Create Server-Sent Events stream

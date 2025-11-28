@@ -14,11 +14,11 @@ export const dynamic = 'force-dynamic' // Required for searchParams
 
 // Static metadata (will be overridden client-side for different pages)
 export const metadata: Metadata = {
-  title: 'Free Math Printables Library | FreeMathPrintable.com',
-  description: 'Browse thousands of free printable math resources for UK primary schools (Reception to Year 6). Library always free.',
+  title: 'Free Math Printables Library | Kindergarten to Grade 6 | FreeMathPrintable.com',
+  description: 'Browse thousands of free printable math resources for elementary and primary schools. Kindergarten to Grade 6 (Reception to Year 6). Library always free.',
   openGraph: {
     title: 'Free Math Printables Library | FreeMathPrintable.com',
-    description: 'Browse thousands of free printable math resources for UK primary schools. Library always free.',
+    description: 'Browse thousands of free printable math resources for elementary and primary schools. Library always free.',
     type: 'website',
   },
 }

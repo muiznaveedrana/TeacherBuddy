@@ -25,6 +25,8 @@ import { generateLibraryMetadata } from '@/lib/helpers/metadataGenerator'
 import { createBrowserClient } from '@supabase/ssr'
 import { LibraryShowcase } from '@/components/LibraryShowcase'
 import { trackWorksheetGeneration, trackPdfDownload } from '@/lib/analytics'
+import { RegionToggle } from '@/components/RegionToggle'
+import { isRegionSpecificSubtopic, type Region } from '@/lib/types/library'
 
 export const dynamic = 'force-dynamic'
 
@@ -91,7 +93,30 @@ function DashboardContent() {
 
   // Enhanced configuration state (USP.2)
   const [visualTheme, setVisualTheme] = useState<VisualTheme | undefined>(undefined)
-  
+
+  // Region selection for currency/measurement specific content (US default)
+  const [region, setRegion] = useState<Region>('US')
+
+  // Helper to get region-aware subtopic label
+  const getRegionAwareLabel = (subtopicValue: string, label: string): string => {
+    // Map UK-specific labels to US equivalents when US is selected
+    const regionLabels: Record<string, Record<string, string>> = {
+      'money': {
+        'US': 'Money (dollars and cents)',
+        'UK': 'Money (pence and pounds)'
+      },
+      'coins-recognition': {
+        'US': 'Coins Recognition (US coins)',
+        'UK': 'Coins Recognition (UK coins)'
+      }
+    }
+
+    if (regionLabels[subtopicValue] && regionLabels[subtopicValue][region]) {
+      return regionLabels[subtopicValue][region]
+    }
+    return label
+  }
+
   // Generation state
   const [generationState, setGenerationState] = useState<GenerationState>('idle')
   const [progress, setProgress] = useState<number>(0)
@@ -344,6 +369,7 @@ function DashboardContent() {
       // 🔍 DEBUG: Log API request payload
       console.log('🔍 DASHBOARD: ========== STARTING GENERATION ==========')
       console.log('🔍 DASHBOARD: Current ref value:', previousWorksheetsRef.current)
+      console.log('🔍 DASHBOARD: Subtopic:', subtopic, '| isRegionSpecific:', isRegionSpecificSubtopic(subtopic), '| Region:', region)
       console.log('🔍 DASHBOARD: Sending streaming API request with previousWorksheets:', worksheetsToSend.length, 'worksheets')
       console.log('🔍 DASHBOARD: Full worksheets to send:', JSON.stringify(worksheetsToSend, null, 2))
       if (worksheetsToSend.length > 0) {
@@ -360,6 +386,7 @@ function DashboardContent() {
       console.log('🔍 DASHBOARD: ====================================================')
 
       // Call the streaming worksheet generation API using Server-Sent Events
+      // Always include region - it will only be used for region-specific subtopics (money, coins)
       const requestBody = JSON.stringify({
         layout,
         topic,
@@ -367,9 +394,11 @@ function DashboardContent() {
         difficulty,
         questionCount,
         yearGroup,
+        region, // Always send region - prompt loader will use it for money/coins subtopics
         ...(visualTheme && visualTheme !== 'none' && { visualTheme }),
         previousWorksheets: worksheetsToSend
       })
+      console.log('🔍 DASHBOARD: Request body (region=' + region + '):', requestBody)
 
       const response = await fetch('/api/generate-stream', {
         method: 'POST',
@@ -1048,12 +1077,23 @@ function DashboardContent() {
                     <SelectContent data-testid="subtopic-dropdown">
                       {availableSubtopics.map(sub => (
                         <SelectItem key={sub.value} value={sub.value} data-testid={`subtopic-option-${sub.value.toLowerCase().replace(/\s+/g, '-')}`}>
-                          {sub.label}
+                          {getRegionAwareLabel(sub.value, sub.label)}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
+
+                {/* Region Selection - Only show for region-specific subtopics */}
+                {subtopic && isRegionSpecificSubtopic(subtopic) && (
+                  <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+                    <RegionToggle
+                      value={region}
+                      onChange={(newRegion) => { setRegion(newRegion); handleConfigurationChange(); }}
+                      disabled={generationState === 'generating'}
+                    />
+                  </div>
+                )}
 
                 {/* Show Answers Toggle */}
                 <div className="space-y-2">

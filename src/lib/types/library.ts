@@ -102,6 +102,7 @@ export interface SaveToLibraryMetadata {
   topic: string
   subtopic: string
   layout_type: string
+  region?: 'UK' | 'US' | 'AU' | 'CA' // Region for currency/measurement specific content
   difficulty?: 'easy' | 'average' | 'hard'
   question_count?: number
   visual_theme?: string
@@ -114,4 +115,26 @@ export interface SaveToLibraryMetadata {
   seo_keywords?: string[]
   tags?: string[]
   slug?: string
+}
+
+// Subtopics that require region-specific prompts (different currency, coin images)
+export const REGION_SPECIFIC_SUBTOPICS = [
+  'money',
+  'coins-recognition',
+  'word-problems',
+  'two-digit-numbers',
+] as const
+
+// Check if a subtopic needs region selection
+export function isRegionSpecificSubtopic(subtopic: string): boolean {
+  return REGION_SPECIFIC_SUBTOPICS.includes(subtopic as typeof REGION_SPECIFIC_SUBTOPICS[number])
+}
+
+export type Region = 'UK' | 'US' | 'AU' | 'CA'
+
+export const REGION_CONFIG: Record<Region, { label: string; flag: string; currency: string }> = {
+  US: { label: 'United States', flag: '🇺🇸', currency: '$' },
+  UK: { label: 'United Kingdom', flag: '🇬🇧', currency: '£' },
+  AU: { label: 'Australia', flag: '🇦🇺', currency: 'A$' },
+  CA: { label: 'Canada', flag: '🇨🇦', currency: 'C$' },
 }

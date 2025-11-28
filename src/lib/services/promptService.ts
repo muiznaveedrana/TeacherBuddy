@@ -68,6 +68,44 @@ export class PromptService {
   private static readonly SERVICE_VERSION = '2.0.0-unified'
   private static readonly QUALITY_TARGET = 4.5 // Elevated target for competitive excellence
 
+  // UK to US terminology replacements for prompts without region-specific versions
+  private static readonly UK_TO_US_REPLACEMENTS: Record<string, string> = {
+    // Currency symbol
+    '£': '$',
+    // Spellings
+    'metres': 'meters',
+    'centimetres': 'centimeters',
+    'litres': 'liters',
+    'millilitres': 'milliliters',
+    'recognising': 'recognizing',
+    'organising': 'organizing',
+    'colour': 'color',
+    'favourite': 'favorite',
+    // Vocabulary
+    'Mum': 'Mom',
+    'mum': 'mom',
+    'sweets': 'candy',
+    'maths': 'math',
+  }
+
+  /**
+   * Apply UK to US terminology replacements to a prompt
+   * Used for prompts that don't have dedicated US versions
+   */
+  private static applyUSReplacements(prompt: string): string {
+    let result = prompt
+    for (const [uk, us] of Object.entries(this.UK_TO_US_REPLACEMENTS)) {
+      // Use word boundary regex for most replacements to avoid partial matches
+      // Exception: £ symbol doesn't need word boundary
+      if (uk === '£') {
+        result = result.replace(new RegExp(uk, 'g'), us)
+      } else {
+        result = result.replace(new RegExp(`\\b${uk}\\b`, 'g'), us)
+      }
+    }
+    return result
+  }
+
   // HOT-RELOAD MODE: Caching disabled for instant prompt updates
   // Prompts are now read fresh from disk on every request
   // (Caching can be re-enabled for production if needed)
@@ -110,6 +148,7 @@ export class PromptService {
    * Returns the complete prompt as a replacement for generic prompt
    *
    * PRODUCTION PATH: src/lib/prompts/configurations/{year}/{topic}/{subtopic}.md
+   * REGION-SPECIFIC PATH: src/lib/prompts/configurations/{year}/{topic}/{subtopic}-{region}.md
    * Uses /images/ directory for all worksheet images (proven 97.7% quality)
    */
   private static async loadConfigSpecificPrompt(
@@ -129,30 +168,50 @@ export class PromptService {
       // Normalize subtopic (e.g., "Counting to 10" → "counting-to-10")
       const normalizedSubtopic = config.subtopic.toLowerCase().replace(/\s+/g, '-')
 
-      // Check production location for config-specific .md file
-      // Always use compressed prompts
-      const promptPathToUse = path.join(
+      const baseDir = path.join(
         process.cwd(),
         'src',
         'lib',
         'prompts',
         'configurations',
         normalizedYear,
-        normalizedTopic,
-        `${normalizedSubtopic}-COMPRESSED.md`
+        normalizedTopic
       )
+
+      // REGION-SPECIFIC PROMPT LOADING:
+      // For region-specific subtopics (money, coins), check for region-specific prompt first
+      // Path pattern: {subtopic}-{region}-COMPRESSED.md (e.g., money-US-COMPRESSED.md)
+      let promptPathToUse: string | null = null
+      let isRegionSpecific = false
+
+      if (config.region) {
+        const regionPromptPath = path.join(baseDir, `${normalizedSubtopic}-${config.region}-COMPRESSED.md`)
+        if (fs.existsSync(regionPromptPath)) {
+          promptPathToUse = regionPromptPath
+          isRegionSpecific = true
+          console.log(`🌍 Region-specific prompt found: ${config.region}`)
+        }
+      }
+
+      // Fall back to generic prompt if no region-specific prompt exists
+      if (!promptPathToUse) {
+        const genericPromptPath = path.join(baseDir, `${normalizedSubtopic}-COMPRESSED.md`)
+        if (fs.existsSync(genericPromptPath)) {
+          promptPathToUse = genericPromptPath
+        }
+      }
+
+      if (!promptPathToUse) {
+        return null // No prompt file exists
+      }
 
       // HOT-RELOAD: Always read from disk for immediate prompt updates
       // No caching in development for instant feedback on prompt changes
       let rawPrompt: string;
 
-      if (fs.existsSync(promptPathToUse)) {
-        // Always read fresh from disk
-        rawPrompt = fs.readFileSync(promptPathToUse, 'utf-8');
-        console.log(`🔄 Prompt loaded fresh from disk: ${path.basename(promptPathToUse)}`);
-      } else {
-        return null; // File doesn't exist
-      }
+      // Always read fresh from disk
+      rawPrompt = fs.readFileSync(promptPathToUse, 'utf-8');
+      console.log(`🔄 Prompt loaded fresh from disk: ${path.basename(promptPathToUse)}${isRegionSpecific ? ` (${config.region})` : ''}`);
 
       // Process the raw prompt (freshness + placeholders)
       let configPrompt = rawPrompt;
@@ -182,6 +241,13 @@ export class PromptService {
       console.log(`   Location: src/lib/prompts/configurations/${normalizedYear}/${normalizedTopic}/`);
       console.log(`   Image system: /images/ directory (proven 97.7% quality)`)
       console.log(`   Freshness: ${freshnessInstructions ? 'ENABLED' : 'DISABLED'}`);
+
+      // Apply UK→US terminology replacements for US region when using generic (non-region-specific) prompts
+      // Region-specific prompts (e.g., money-US-COMPRESSED.md) already have US content
+      if (config.region === 'US' && !isRegionSpecific) {
+        configPrompt = this.applyUSReplacements(configPrompt);
+        console.log(`   🇺🇸 US terminology applied (£→$, metres→meters, etc.)`);
+      }
 
       return configPrompt;
     } catch (error) {

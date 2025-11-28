@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { LibraryWorksheet } from '@/lib/types/library'
+import { yearGroupToUSLabel } from '@/lib/types/hub'
 
 // Year group color system
 const YEAR_COLORS: Record<string, string> = {
@@ -213,7 +214,7 @@ export function WorksheetLibraryBrowser() {
   if (worksheets.length === 0) {
     return (
       <div className="bg-white rounded-lg border p-12 text-center">
-        <p className="text-gray-500 text-lg">No worksheets found</p>
+        <p className="text-gray-500 text-lg">No printables found</p>
         <p className="text-gray-400 text-sm mt-2">
           Try adjusting your filters
         </p>
@@ -226,7 +227,7 @@ export function WorksheetLibraryBrowser() {
       {/* Header with count and sort controls */}
       <div className="mb-4 flex items-center justify-between">
         <div className="text-sm text-gray-600">
-          Showing {worksheets.length} worksheet{worksheets.length !== 1 ? 's' : ''}
+          Showing {worksheets.length} printable{worksheets.length !== 1 ? 's' : ''}
         </div>
 
         {/* Sort Dropdown */}
@@ -270,9 +271,9 @@ export function WorksheetLibraryBrowser() {
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 />
 
-                {/* Year Group Badge - Top Right */}
+                {/* Year Group Badge - Top Right (US label for compact display) */}
                 <div className={`absolute top-2 right-2 ${yearColor} text-white px-2 py-0.5 rounded text-[10px] font-semibold shadow-lg transition-all duration-300 group-hover:opacity-0 group-hover:scale-0`}>
-                  {worksheet.year_group}
+                  {yearGroupToUSLabel(worksheet.year_group)}
                 </div>
 
                 {/* Status Badge - Top Left */}
@@ -347,8 +348,8 @@ export function WorksheetLibraryBrowser() {
       {/* End of results message */}
       {!hasMore && worksheets.length > 0 && (
         <div className="mt-8 text-center py-8 border-t">
-          <p className="text-sm text-gray-500">✓ You've viewed all worksheets</p>
-          <p className="text-xs text-gray-400 mt-1">Total: {worksheets.length} worksheets</p>
+          <p className="text-sm text-gray-500">✓ You've viewed all printables</p>
+          <p className="text-xs text-gray-400 mt-1">Total: {worksheets.length} printables</p>
         </div>
       )}
     </div>

@@ -255,6 +255,8 @@ export function sanitizeWorksheetRequest(body: unknown): unknown {
     yearGroup: typeof bodyData.yearGroup === 'string' ? bodyData.yearGroup.trim() : bodyData.yearGroup,
     // Enhanced configuration options (USP.2)
     visualTheme: typeof bodyData.visualTheme === 'string' ? bodyData.visualTheme.trim() : bodyData.visualTheme,
+    // Region for currency/measurement specific content (money, coins)
+    region: typeof bodyData.region === 'string' ? bodyData.region.trim().toUpperCase() : bodyData.region,
     // Cross-iteration freshness tracking
     previousWorksheets: Array.isArray(bodyData.previousWorksheets) ? bodyData.previousWorksheets : undefined
   }

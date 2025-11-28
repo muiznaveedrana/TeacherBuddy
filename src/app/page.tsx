@@ -10,16 +10,22 @@ import DoodleAnimations from "@/components/homepage/DoodleAnimations";
 import { StickyNoteButton } from "@/components/ui/sticky-note-button";
 
 export const metadata: Metadata = {
-  title: "Free Math Printables UK | Reception to Year 6 Printables",
-  description: "Download 1000+ free math printables for UK primary schools (Reception to Year 6). KS1 & KS2 printables aligned with UK National Curriculum. Library always free.",
+  title: "Free Math Printables | Kindergarten to Grade 6 / Reception to Year 6",
+  description: "Download 1000+ free math printables for elementary and primary schools. Kindergarten to Grade 6 (Reception to Year 6). Ages 4-11. Curriculum-aligned. Always free.",
   keywords: [
+    // US-first keywords
     "free math printables",
-    "free maths worksheets uk",
-    "printable worksheets UK",
-    "primary school printables",
-    "maths printables free",
-    "KS1 printables",
-    "KS2 printables",
+    "kindergarten math printables",
+    "grade 1 math printables",
+    "grade 2 math printables",
+    "grade 3 math printables",
+    "grade 4 math printables",
+    "grade 5 math printables",
+    "grade 6 math printables",
+    "elementary math printables",
+    "free printable math worksheets",
+    // UK keywords
+    "free maths printables uk",
     "reception worksheets",
     "year 1 worksheets",
     "year 2 worksheets",
@@ -27,23 +33,26 @@ export const metadata: Metadata = {
     "year 4 worksheets",
     "year 5 worksheets",
     "year 6 worksheets",
+    "KS1 printables",
+    "KS2 printables",
+    "primary maths resources",
+    // Universal
     "free printables",
-    "UK curriculum printables",
     "math worksheets free download",
-    "primary maths resources"
+    "printable worksheets"
   ],
   openGraph: {
-    title: "Free Math Printables UK | Reception to Year 6 Printables",
-    description: "1000+ free math printables. Reception to Year 6. KS1 & KS2. UK curriculum aligned. Library always free.",
+    title: "Free Math Printables | Kindergarten to Grade 6 / Reception to Year 6",
+    description: "1000+ free math printables. Kindergarten to Grade 6 (Reception to Year 6). Ages 4-11. Curriculum-aligned. Library always free.",
     url: "https://freemathprintable.com",
     siteName: "FreeMathPrintable.com",
     type: "website",
-    locale: "en_GB",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Math Printables UK | Reception to Year 6",
-    description: "Download 1000+ free math printables for primary schools. KS1 & KS2. UK curriculum aligned.",
+    title: "Free Math Printables | Kindergarten to Grade 6",
+    description: "Download 1000+ free math printables. Kindergarten to Grade 6 / Reception to Year 6. Ages 4-11.",
   },
   alternates: {
     canonical: "https://freemathprintable.com",

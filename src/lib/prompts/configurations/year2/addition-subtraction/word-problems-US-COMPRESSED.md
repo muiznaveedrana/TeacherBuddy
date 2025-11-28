@@ -1,0 +1,145 @@
+# Grade 2: Word Problems (US)
+
+**CRITICAL: EXACTLY {{questionCount}} questions.**
+
+BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
+
+## SPECS (Injected):
+{{PROBLEM_TYPE_SPEC}}
+{{CONTEXT}}
+{{VISUAL_SUPPORT}}
+{{OPERATIONS}}
+{{NUMBER_RANGE}}
+
+<!-- DEBUG: Check injection above -->
+
+
+## Q SPECS (Use {{PROBLEM_TYPE_SPEC}}):
+
+**Q1**: result-unknown-addition|result-unknown-objects|result-unknown-money|result-unknown-bar-model
+**Q2**: part-unknown-subtraction|change-unknown-addition|comparison-difference|result-unknown-subtraction
+**Q3**: comparison-bar-model|change-unknown-subtraction|part-unknown-addition|result-unknown-mixed
+**Q4**: two-step-add-subtract|two-step-subtract-add|two-step-add-add|two-step-comparison
+**Q5**: challenge-three-step|challenge-comparison-complex|challenge-money-change|challenge-open-ended
+
+## VISUAL SUPPORT (Use {{VISUAL_SUPPORT}}):
+bar-model-full | bar-model-simple | bar-model-blank | pictures-with-bar | pictures-only | pure-text
+
+## CONTEXTS (Use {{CONTEXT}}):
+**school**: `/images/[pencil|book|eraser|crayon].png`
+**toys**: `/images/[ball|car|doll|teddy].png`
+**food-fruits**: `/images/[apple|banana|orange].png`
+**food-treats**: `/images/[cookie|cupcake].png`
+**animals**: `/images/[chicken|cow|sheep|pig].png`
+
+**money-cents**: Use CSS-styled coins (no images needed):
+  - Penny (1¢): copper coin, 70px
+  - Nickel (5¢): silver coin, 75px
+  - Dime (10¢): silver coin, 60px (smallest)
+  - Quarter (25¢): silver coin, 85px (largest)
+
+## US COIN CSS CLASSES:
+```css
+.coin{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;border:3px solid #333;text-shadow:1px 1px 2px rgba(0,0,0,0.3)}
+.coin-penny{background:linear-gradient(135deg,#CD7F32,#B87333,#A0522D);color:white;width:70px;height:70px;font-size:14pt}
+.coin-nickel{background:linear-gradient(135deg,#E8E8E8,#C0C0C0,#A8A8A8);color:#333;width:75px;height:75px;font-size:14pt}
+.coin-dime{background:linear-gradient(135deg,#E8E8E8,#C0C0C0,#A8A8A8);color:#333;width:60px;height:60px;font-size:12pt}
+.coin-quarter{background:linear-gradient(135deg,#E8E8E8,#C0C0C0,#A8A8A8);color:#333;width:85px;height:85px;font-size:16pt}
+```
+
+## RANGES (Use {{NUMBER_RANGE}}):
+**Easy:10-30** | **Average:20-50** | **Hard:30-99**
+
+## CSS (Compact):
+```css
+body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:20px;line-height:1.8}
+.question{margin:25px 0;padding:25px;border-radius:10px;border:2px solid #ddd}
+.question-number{display:inline-block;background:#4169E1;color:white;width:38px;height:38px;line-height:38px;text-align:center;border-radius:50%;margin-right:12px;font-weight:bold;font-size:15pt}
+.question-text{font-size:18pt;margin:10px 0;font-weight:600;line-height:1.6}
+.bar-model-container{margin:25px 0;padding:20px;background:#F5F5F5;border-radius:10px;border:2px solid #ddd}
+.bar-model-title{font-size:15pt;font-weight:bold;margin-bottom:15px;color:#1976D2;text-align:center}
+.bar-full{display:flex;border:3px solid #333;border-radius:6px;overflow:hidden;margin:15px auto;max-width:500px}
+.bar-section{padding:20px 15px;font-size:18pt;font-weight:bold;text-align:center;border-right:3px solid #333;min-width:80px;display:flex;align-items:center;justify-content:center}
+.bar-section:last-child{border-right:none}
+.bar-section.known{background:#4CAF50;color:white}
+.bar-section.unknown{background:white;color:#333;border:3px dashed #FF5722}
+.bar-label{text-align:center;margin-top:10px;font-size:15pt;color:#555}
+.comparison-bars{margin:20px 0}
+.comparison-bar{margin:15px 0}
+.comparison-label{font-size:15pt;font-weight:bold;margin-bottom:8px;color:#1976D2}
+.comparison-bar-visual{display:inline-block;height:40px;background:#FF9800;border:3px solid #F57C00;border-radius:6px;vertical-align:middle;margin-right:10px}
+.comparison-amount{display:inline-block;vertical-align:middle;font-size:15pt;font-weight:bold}
+.two-step-container{margin:20px 0;padding:15px;background:#E3F2FD;border-radius:8px;border:2px dashed #1976D2}
+.step-box{margin:15px 0;padding:12px;background:white;border:2px solid #666;border-radius:6px}
+.context-visual{margin:20px 0;padding:15px;background:#FFF9C4;border:3px dashed #FF9800;border-radius:10px;text-align:center}
+.object-group{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:15px 0}
+.object-group img{width:45px;height:45px}
+.money-visual{margin:20px 0;padding:15px;background:#E8F5E9;border:2px solid #4CAF50;border-radius:8px;text-align:center}
+.coin-group{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:15px 0}
+.coin{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;border:3px solid #333;text-shadow:1px 1px 2px rgba(0,0,0,0.3)}
+.coin-penny{background:linear-gradient(135deg,#CD7F32,#B87333,#A0522D);color:white;width:70px;height:70px;font-size:14pt}
+.coin-nickel{background:linear-gradient(135deg,#E8E8E8,#C0C0C0,#A8A8A8);color:#333;width:75px;height:75px;font-size:14pt}
+.coin-dime{background:linear-gradient(135deg,#E8E8E8,#C0C0C0,#A8A8A8);color:#333;width:60px;height:60px;font-size:12pt}
+.coin-quarter{background:linear-gradient(135deg,#E8E8E8,#C0C0C0,#A8A8A8);color:#333;width:85px;height:85px;font-size:16pt}
+.money-label{font-size:15pt;font-weight:bold;margin:10px 0;color:#2E7D32}
+.working-space{border:2px dashed #999;padding:25px;margin:15px 0;min-height:100px;background:#FAFAFA;border-radius:8px}
+.answer-box{display:inline-block;min-width:90px;height:50px;border:3px solid #333;border-radius:8px;background:#FFF;vertical-align:middle;margin:0 10px}
+.answer-line{border:none;border-bottom:3px solid #333;display:inline-block;min-width:80px;margin:0 5px;background:transparent}
+.part-whole-container{text-align:center;margin:25px 0}
+.whole-box{width:120px;height:60px;background:#FF9800;border:4px solid #F57C00;border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 3px 8px rgba(0,0,0,0.15)}
+.whole-number{font-size:28pt;font-weight:bold;color:white}
+.whole-question{font-size:32pt;font-weight:bold;color:white}
+.parts-row{display:flex;justify-content:center;gap:30px;margin-top:20px}
+.part-box{width:100px;height:55px;border:3px solid #333;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.part-box.filled{background:#4CAF50;border-color:#2E7D32}
+.part-box.empty{background:white;border-style:dashed;border-color:#FF5722}
+.part-number{font-size:24pt;font-weight:bold;color:white}
+.part-box.empty .part-number{color:#FF5722}
+.answer-key{margin-top:50px;padding:25px;background:#E8F4F8;border:3px solid #4169E1;border-radius:10px;page-break-before:always}
+.answer-key h2{font-size:20pt;color:#2c3e50;margin-bottom:18px;text-align:center}
+.answer-key p{font-size:15pt;line-height:2;margin:12px 0}
+.answer-key .working{font-style:italic;color:#555;margin-left:15px;font-size:15pt}
+</style>
+```
+
+## RULES
+
+1. Follow {{PROBLEM_TYPE_SPEC}} exactly per Q
+2. Use {{NUMBER_RANGE}} for difficulty
+3. Apply {{VISUAL_SUPPORT}} mode
+4. Use {{CONTEXT}} for scenarios
+5. NO hints revealing problem type
+6. NO technical labels in questions (e.g., NO "Word Problem: Money", NO "result-unknown-addition")
+7. Natural story problems only
+8. Clear Grade 2 language (ages 7-8)
+9. US cents format (47¢) - use ¢ symbol
+10. Answer key with full working
+11. For money: use CSS coin divs (penny, nickel, dime, quarter)
+12. Colored backgrounds
+
+## MONEY EXAMPLE
+```html
+<div class="money-visual">
+  <div class="coin-group">
+    <div class="coin coin-quarter">25¢</div>
+    <div class="coin coin-dime">10¢</div>
+    <div class="coin coin-nickel">5¢</div>
+  </div>
+  <p class="money-label">Total: 40¢</p>
+</div>
+```
+
+## VALIDATION
+
+- [ ] {{questionCount}} questions?
+- [ ] {{PROBLEM_TYPE_SPEC}} followed?
+- [ ] {{NUMBER_RANGE}} correct?
+- [ ] {{VISUAL_SUPPORT}} applied?
+- [ ] {{CONTEXT}} used?
+- [ ] Backgrounds correct?
+- [ ] Answer key included?
+- [ ] No problem type hints?
+
+<!-- DEBUG-END: Check console -->
+
+Generate complete HTML. US Grade 2 aligned.
