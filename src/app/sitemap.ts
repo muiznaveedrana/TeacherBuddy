@@ -1,11 +1,13 @@
 import { MetadataRoute } from 'next'
 import { browseLibraryWorksheets } from '@/lib/services/libraryService'
+import { getAllYearGroupSlugs, getAllSubtopicPaths } from '@/lib/services/hubService'
 
 /**
  * Dynamic Sitemap for FreeMathPrintable.com
  *
  * SEO Optimized sitemap that:
  * - Includes all public pages
+ * - Includes all free-printables hub pages (year groups + subtopics)
  * - Dynamically lists all library worksheets
  * - Excludes protected/private pages
  * - Sets appropriate priorities and update frequencies
@@ -22,6 +24,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1.0, // Homepage - highest priority
+    },
+    {
+      url: `${baseUrl}/free-printables`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.95, // Main hub page - very high priority for SEO
     },
     {
       url: `${baseUrl}/library`,
@@ -44,6 +52,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
   // Note: /create is excluded (requires auth, not for public indexing)
 
+  // Generate hub pages (year groups)
+  const yearGroupSlugs = getAllYearGroupSlugs()
+  const yearGroupPages: MetadataRoute.Sitemap = yearGroupSlugs.map((slug) => ({
+    url: `${baseUrl}/free-printables/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.85, // Year group hub pages - high priority
+  }))
+
+  // Generate subtopic hub pages (the main blog pages)
+  const subtopicPaths = getAllSubtopicPaths()
+  const subtopicPages: MetadataRoute.Sitemap = subtopicPaths.map((path) => ({
+    url: `${baseUrl}/free-printables/${path.yearGroup}/${path.subtopic}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.8, // Subtopic hub pages - high priority for long-tail SEO
+  }))
+
   // Fetch all published worksheets
   try {
     const { worksheets } = await browseLibraryWorksheets({
@@ -54,13 +80,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const worksheetPages: MetadataRoute.Sitemap = worksheets.map((worksheet) => ({
       url: `${baseUrl}/library/${worksheet.slug}`,
       lastModified: worksheet.updated_at ? new Date(worksheet.updated_at) : new Date(worksheet.created_at),
-      changeFrequency: 'weekly',
+      changeFrequency: 'weekly' as const,
       priority: 0.7,
     }))
 
-    return [...staticPages, ...worksheetPages]
+    return [...staticPages, ...yearGroupPages, ...subtopicPages, ...worksheetPages]
   } catch (error) {
     console.error('Failed to generate sitemap:', error)
-    return staticPages
+    return [...staticPages, ...yearGroupPages, ...subtopicPages]
   }
 }

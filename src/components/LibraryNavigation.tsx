@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Home, Library, PlusCircle, LogOut } from 'lucide-react'
+import { Home, Library, PlusCircle, LogOut, FileText } from 'lucide-react'
 import { createBrowserClient } from '@supabase/ssr'
 
 interface LibraryNavigationProps {
-  currentPage?: 'home' | 'library' | 'create'
+  currentPage?: 'home' | 'library' | 'create' | 'free-printables'
   rightContent?: React.ReactNode
 }
 
@@ -64,18 +64,25 @@ export function LibraryNavigation({ currentPage = 'library', rightContent }: Lib
                 Home
               </Link>
               <Link
+                href="/free-printables"
+                className={`transition-colors ${currentPage === 'free-printables' ? 'text-blue-700 font-medium' : 'text-gray-600 hover:text-blue-700'}`}
+              >
+                <FileText className="w-4 h-4 inline mr-1" />
+                Free Printables
+              </Link>
+              <Link
                 href="/library"
                 className={`transition-colors ${currentPage === 'library' ? 'text-blue-700 font-medium' : 'text-gray-600 hover:text-blue-700'}`}
               >
                 <Library className="w-4 h-4 inline mr-1" />
-                Browse Library
+                Library
               </Link>
               <Link
                 href="/create"
                 className={`transition-colors ${currentPage === 'create' ? 'text-blue-700 font-medium' : 'text-gray-600 hover:text-blue-700'}`}
               >
                 <PlusCircle className="w-4 h-4 inline mr-1" />
-                Create Printable
+                Create
               </Link>
             </div>
           </div>

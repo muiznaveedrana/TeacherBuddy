@@ -199,12 +199,12 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
         </div>
       </nav>
 
-      {/* Breadcrumb Navigation */}
+      {/* Breadcrumb Navigation - Links to Hub Pages for SEO */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <Breadcrumb items={[
-          { label: 'Library', href: '/library' },
-          { label: worksheet.year_group, href: `/library?year_group=${encodeURIComponent(worksheet.year_group)}` },
-          { label: worksheet.topic, href: `/library?topic=${encodeURIComponent(worksheet.topic)}` },
+          { label: 'Free Printables', href: '/free-printables' },
+          { label: worksheet.year_group, href: `/free-printables/${worksheet.year_group.toLowerCase().replace(/\s+/g, '-')}` },
+          { label: worksheet.subtopic.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '), href: `/free-printables/${worksheet.year_group.toLowerCase().replace(/\s+/g, '-')}/${worksheet.subtopic}` },
           { label: worksheet.title, current: true }
         ]} />
       </div>
