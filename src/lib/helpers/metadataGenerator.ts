@@ -1,5 +1,60 @@
 import type { SaveToLibraryMetadata } from '@/lib/types/library'
 
+// US Grade level mapping for SEO
+const yearGroupToUSGrade: Record<string, string> = {
+  'Reception': 'Kindergarten',
+  'Year 1': 'Grade 1',
+  'Year 2': 'Grade 2',
+  'Year 3': 'Grade 3',
+  'Year 4': 'Grade 4',
+  'Year 5': 'Grade 5',
+  'Year 6': 'Grade 6',
+}
+
+/**
+ * Generates SEO-optimized alt text for worksheet images
+ * US-first terminology for primary market targeting
+ *
+ * @example
+ * generateImageAlt({
+ *   title: "Counting to 10",
+ *   yearGroup: "Reception",
+ *   subtopic: "counting-to-10",
+ *   visualTheme: "animals"
+ * })
+ * // Returns: "Free Kindergarten counting to 10 math worksheet - animals themed"
+ */
+export function generateImageAlt(config: {
+  title: string
+  yearGroup: string
+  subtopic: string
+  visualTheme?: string | null
+  topic?: string
+}): string {
+  const { title, yearGroup, subtopic, visualTheme, topic } = config
+
+  // Format subtopic for display (e.g., "counting-to-10" -> "counting to 10")
+  const formattedSubtopic = subtopic.replace(/-/g, ' ')
+
+  // Get US grade level (primary) with UK as fallback
+  const usGrade = yearGroupToUSGrade[yearGroup] || yearGroup
+
+  // Build alt text with US-first terminology
+  let altText = `Free ${usGrade} ${formattedSubtopic} math worksheet`
+
+  // Add visual theme if present
+  if (visualTheme && visualTheme.trim() !== '') {
+    altText += ` - ${visualTheme.toLowerCase()} themed`
+  }
+
+  // Ensure alt text isn't too long (max 125 chars recommended for accessibility)
+  if (altText.length > 125) {
+    altText = `Free ${usGrade} ${formattedSubtopic} worksheet`
+  }
+
+  return altText
+}
+
 /**
  * Generates auto-populated metadata for saving worksheets to library
  */

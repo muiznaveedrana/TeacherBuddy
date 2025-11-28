@@ -23,6 +23,7 @@ export interface LibraryWorksheet {
   seo_title: string | null
   seo_description: string | null
   seo_keywords: string[] | null
+  alt_text: string | null // SEO: Image alt text for thumbnails (US-first terminology)
   // Rich educational content fields
   learning_objectives: string[] | null
   how_to_use: string | null
@@ -62,6 +63,7 @@ export interface CreateLibraryWorksheetInput {
   seo_title?: string
   seo_description?: string
   seo_keywords?: string[]
+  alt_text?: string // SEO: Auto-generated image alt text
   // Rich educational content fields
   learning_objectives?: string[]
   how_to_use?: string

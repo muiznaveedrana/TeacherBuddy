@@ -49,14 +49,14 @@ function checkRateLimit(userId: string): boolean {
 
 /**
  * Generate secure filename without personal data
- * Format: Maths_{Topic}_{Layout}_{Timestamp}.pdf
+ * Format: Math_{Topic}_{Layout}_{Timestamp}.pdf
  */
 function generateFilename(config: WorksheetConfig): string {
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
   const layout = config.layout.charAt(0).toUpperCase() + config.layout.slice(1)
   const topic = config.topic.replace(/[^a-zA-Z0-9]/g, '')
-  
-  return `Maths_${topic}_${layout}_${timestamp}.pdf`
+
+  return `Math_${topic}_${layout}_${timestamp}.pdf`
 }
 
 /**

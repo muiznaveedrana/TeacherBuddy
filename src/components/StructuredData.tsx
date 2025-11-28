@@ -19,18 +19,19 @@ export function OrganizationSchema() {
     "name": "FreeMathPrintable.com",
     "url": "https://freemathprintable.com",
     "logo": "https://freemathprintable.com/logo.png",
-    "description": "Free math printables for primary and elementary schools. Thousands of worksheets for Kindergarten to Grade 6 (ages 4-11), age-appropriate and ready to print.",
+    "description": "Free printable math worksheets for elementary schools. Thousands of worksheets for Kindergarten through Grade 6 (ages 4-11). Common Core and UK Curriculum aligned.",
     "address": {
       "@type": "PostalAddress",
-      "addressCountry": "GB"
+      "addressCountry": "US"
     },
-    "areaServed": "GB",
-    "educationalCredentialAwarded": "Primary Education Resources",
+    "areaServed": ["US", "GB", "CA", "AU"],
+    "educationalCredentialAwarded": "Elementary Education Resources",
     "knowsAbout": [
       "Mathematics Education",
-      "Primary School Teaching",
-      "Elementary Math",
+      "Elementary School Teaching",
+      "Kindergarten Math",
       "Printable Worksheets",
+      "Common Core Math",
       "Educational Resources"
     ]
   }
@@ -48,10 +49,10 @@ export function WebSiteSchema() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "FreeMathPrintable.com",
-    "alternateName": "Free Math Printables UK",
+    "alternateName": ["Free Math Worksheets", "Free Math Printables"],
     "url": "https://freemathprintable.com",
-    "description": "Free printable math worksheets for UK primary schools",
-    "inLanguage": "en-GB",
+    "description": "Free printable math worksheets for Kindergarten through Grade 6. Common Core aligned.",
+    "inLanguage": "en-US",
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
@@ -77,7 +78,7 @@ export function FAQSchema() {
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Are the math printables really free?",
+        "name": "Are the math worksheets really free?",
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "Yes! All worksheets in our library are completely free to download and print. No credit card required, no hidden fees. Our library will always remain free for teachers and parents."
@@ -85,15 +86,15 @@ export function FAQSchema() {
       },
       {
         "@type": "Question",
-        "name": "What year groups do you cover?",
+        "name": "What grade levels do you cover?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "We cover Kindergarten through Grade 6 (Reception to Year 6), which covers ages 4-11. All worksheets are age-appropriate and developmentally suitable for each year group."
+          "text": "We cover Kindergarten through Grade 6 (ages 4-11). All worksheets are age-appropriate and aligned with Common Core standards. UK teachers can use them for Reception through Year 6."
         }
       },
       {
         "@type": "Question",
-        "name": "Do I need to create an account?",
+        "name": "Do I need to create an account to download?",
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "No account is required to browse and download worksheets from our free library. You can create an optional account if you want to use our AI-powered custom worksheet generator."
@@ -109,10 +110,10 @@ export function FAQSchema() {
       },
       {
         "@type": "Question",
-        "name": "Are the worksheets aligned with the UK curriculum?",
+        "name": "Are the worksheets aligned with Common Core?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, all our worksheets are carefully designed to be age-appropriate and match developmental milestones. We cover all key math topics for each age group."
+          "text": "Yes, all our worksheets are carefully designed to align with Common Core State Standards (US) and UK National Curriculum. We cover all key math topics for each grade level."
         }
       },
       {

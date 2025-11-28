@@ -21,9 +21,9 @@ const kalam = Kalam({
 });
 
 export const metadata: Metadata = {
-  title: "Free Math Printables | FreeMathPrintable.com",
-  description: "Download thousands of free math printables for ages 4-11 (Kindergarten to Grade 6 / Reception to Year 6). Age-appropriate worksheets for primary and elementary schools.",
-  keywords: "free math printables, printable worksheets, primary school printables, maths printables free, elementary math printables, free printables, ages 4-11",
+  title: "Free Math Worksheets | FreeMathPrintable.com",
+  description: "Download thousands of free printable math worksheets for Kindergarten through Grade 6 (ages 4-11). Common Core aligned. No signup required.",
+  keywords: "free math worksheets, printable worksheets, kindergarten worksheets, elementary math worksheets, free printables, math practice sheets, grade 1 worksheets, grade 2 worksheets",
   manifest: "/manifest.json",
   themeColor: "#1d4ed8",
   viewport: {
@@ -58,8 +58,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en-US">
       <head>
+        {/* SEO: hreflang tags for international targeting */}
+        <link rel="alternate" hrefLang="en-US" href="https://freemathprintable.com" />
+        <link rel="alternate" hrefLang="en-GB" href="https://freemathprintable.com" />
+        <link rel="alternate" hrefLang="x-default" href="https://freemathprintable.com" />
+
+        {/* Performance: Preconnect to CDN and external resources */}
+        <link rel="preconnect" href="https://ik.imagekit.io" />
+        <link rel="dns-prefetch" href="https://ik.imagekit.io" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
+        {/* Icons and PWA */}
         <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-192x192.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png" />

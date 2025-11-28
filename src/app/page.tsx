@@ -10,40 +10,39 @@ import DoodleAnimations from "@/components/homepage/DoodleAnimations";
 import { StickyNoteButton } from "@/components/ui/sticky-note-button";
 
 export const metadata: Metadata = {
-  title: "Free Math Printables | Kindergarten to Grade 6 / Reception to Year 6",
-  description: "Download 1000+ free math printables for elementary and primary schools. Kindergarten to Grade 6 (Reception to Year 6). Ages 4-11. Curriculum-aligned. Always free.",
+  title: "Free Math Worksheets | Kindergarten to Grade 6 | Printable PDF",
+  description: "Download 1000+ free printable math worksheets for Kindergarten through Grade 6. Common Core aligned. No signup required. Print instantly. Ages 4-11.",
   keywords: [
-    // US-first keywords
-    "free math printables",
-    "kindergarten math printables",
-    "grade 1 math printables",
-    "grade 2 math printables",
-    "grade 3 math printables",
-    "grade 4 math printables",
-    "grade 5 math printables",
-    "grade 6 math printables",
-    "elementary math printables",
+    // US Primary Keywords (highest priority)
+    "free math worksheets",
     "free printable math worksheets",
-    // UK keywords
-    "free maths printables uk",
-    "reception worksheets",
-    "year 1 worksheets",
-    "year 2 worksheets",
-    "year 3 worksheets",
-    "year 4 worksheets",
-    "year 5 worksheets",
-    "year 6 worksheets",
-    "ages 5-7 printables",
-    "ages 7-11 printables",
-    "primary maths resources",
-    // Universal
-    "free printables",
-    "math worksheets free download",
-    "printable worksheets"
+    "kindergarten math worksheets",
+    "first grade math worksheets",
+    "second grade math worksheets",
+    "third grade math worksheets",
+    "grade 1 math worksheets free",
+    "grade 2 math worksheets free",
+    "elementary math worksheets",
+    "printable math worksheets pdf",
+    "math worksheets for kids",
+    "free worksheets for kindergarten",
+    // UK Secondary Keywords
+    "reception maths worksheets",
+    "year 1 maths worksheets",
+    "year 2 maths worksheets",
+    "free maths worksheets uk",
+    "ks1 maths worksheets",
+    "eyfs maths resources",
+    "primary maths printables",
+    // Long-tail Keywords
+    "counting worksheets kindergarten free",
+    "addition worksheets first grade",
+    "number recognition worksheets",
+    "math practice sheets free download"
   ],
   openGraph: {
-    title: "Free Math Printables | Kindergarten to Grade 6 / Reception to Year 6",
-    description: "1000+ free math printables. Kindergarten to Grade 6 (Reception to Year 6). Ages 4-11. Curriculum-aligned. Library always free.",
+    title: "Free Math Worksheets | Kindergarten to Grade 6 | Printable PDF",
+    description: "1000+ free printable math worksheets for K-6. Common Core & UK Curriculum aligned. No signup. Print instantly!",
     url: "https://freemathprintable.com",
     siteName: "FreeMathPrintable.com",
     type: "website",
@@ -51,11 +50,15 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Math Printables | Kindergarten to Grade 6",
-    description: "Download 1000+ free math printables. Kindergarten to Grade 6 / Reception to Year 6. Ages 4-11.",
+    title: "Free Math Worksheets | Kindergarten to Grade 6",
+    description: "Download 1000+ free printable math worksheets. K-6. Common Core aligned. No signup required!",
   },
   alternates: {
     canonical: "https://freemathprintable.com",
+    languages: {
+      'en-US': 'https://freemathprintable.com',
+      'en-GB': 'https://freemathprintable.com',
+    },
   },
 };
 
@@ -111,15 +114,15 @@ export default function LandingPage() {
         <div className="relative text-center">
           {/* Main Headline with Handwritten Style */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight mb-6">
-            <span className="block text-gray-900">Free Math Printable Library</span>
+            <span className="block text-gray-900">Free Math Worksheet Library</span>
             <span className="block mt-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent handwritten">
-              Interactive & Editable, Print-Ready Resources
+              Interactive & Editable, Print-Ready PDFs
             </span>
           </h1>
 
-          {/* Simplified Description */}
+          {/* Simplified Description - US First */}
           <p className="max-w-2xl mx-auto text-xl text-gray-600 mb-8">
-            1000+ printable resources • Reception to Year 6 • UK Curriculum
+            1000+ free worksheets • Kindergarten to Grade 6 • Common Core Aligned
           </p>
 
           {/* CTA Buttons */}
@@ -352,11 +355,11 @@ export default function LandingPage() {
                 <div className="mx-auto p-4 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full">
                   <BookOpen className="w-10 h-10 text-purple-600" />
                 </div>
-                <CardTitle className="mt-4 text-xl">UK Curriculum</CardTitle>
+                <CardTitle className="mt-4 text-xl">Standards Aligned</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  Every printable aligned with National Curriculum standards.
+                  Every worksheet aligned with Common Core and UK Curriculum.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -413,25 +416,40 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Footer - SEO Optimized */}
       <footer className="py-12 bg-gray-900 text-white">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-5">
+            {/* Grade Levels - US First */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Grade Levels</h3>
+              <ul className="space-y-2">
+                <li><Link href="/free-printables/reception" className="text-gray-300 hover:text-white">Kindergarten</Link></li>
+                <li><Link href="/free-printables/year-1" className="text-gray-300 hover:text-white">Grade 1</Link></li>
+                <li><Link href="/free-printables/year-2" className="text-gray-300 hover:text-white">Grade 2</Link></li>
+                <li><Link href="/free-printables/year-3" className="text-gray-300 hover:text-white">Grade 3</Link></li>
+              </ul>
+            </div>
+            {/* Popular Topics */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Popular Topics</h3>
+              <ul className="space-y-2">
+                <li><Link href="/free-printables/reception/number-counting" className="text-gray-300 hover:text-white">Counting</Link></li>
+                <li><Link href="/free-printables/year-1/addition-subtraction" className="text-gray-300 hover:text-white">Addition</Link></li>
+                <li><Link href="/free-printables/reception/shape-space" className="text-gray-300 hover:text-white">Shapes</Link></li>
+                <li><Link href="/free-printables/year-2/multiplication-division" className="text-gray-300 hover:text-white">Multiplication</Link></li>
+              </ul>
+            </div>
+            {/* Resources */}
             <div>
               <h3 className="text-lg font-semibold mb-4">Resources</h3>
               <ul className="space-y-2">
                 <li><Link href="/library" className="text-gray-300 hover:text-white">Browse Library</Link></li>
-                <li><Link href="/create" className="text-gray-300 hover:text-white">Create Printable</Link></li>
+                <li><Link href="/free-printables" className="text-gray-300 hover:text-white">All Worksheets</Link></li>
+                <li><Link href="/create" className="text-gray-300 hover:text-white">Create Custom</Link></li>
               </ul>
             </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Year Groups</h3>
-              <ul className="space-y-2">
-                <li><Link href="/library?year_group=Reception" className="text-gray-300 hover:text-white">Reception</Link></li>
-                <li><Link href="/library?year_group=Year%201" className="text-gray-300 hover:text-white">Year 1-3</Link></li>
-                <li><Link href="/library?year_group=Year%204" className="text-gray-300 hover:text-white">Year 4-6</Link></li>
-              </ul>
-            </div>
+            {/* Support */}
             <div>
               <h3 className="text-lg font-semibold mb-4">Support</h3>
               <ul className="space-y-2">
@@ -439,6 +457,7 @@ export default function LandingPage() {
                 <li><Link href="/#how-it-works" className="text-gray-300 hover:text-white">How it Works</Link></li>
               </ul>
             </div>
+            {/* Legal */}
             <div>
               <h3 className="text-lg font-semibold mb-4">Legal</h3>
               <ul className="space-y-2">
@@ -447,9 +466,20 @@ export default function LandingPage() {
               </ul>
             </div>
           </div>
-          <div className="mt-8 pt-8 border-t border-gray-800 text-center">
+          {/* SEO: Additional keyword-rich links */}
+          <div className="mt-8 pt-6 border-t border-gray-800">
+            <p className="text-sm text-gray-500 mb-3">Free Math Worksheets:</p>
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+              <Link href="/free-printables/reception/number-counting/counting-to-10" className="text-gray-400 hover:text-white">Counting to 10</Link>
+              <Link href="/free-printables/reception/number-counting/number-recognition" className="text-gray-400 hover:text-white">Number Recognition</Link>
+              <Link href="/free-printables/year-1/addition-subtraction/addition-to-10" className="text-gray-400 hover:text-white">Addition to 10</Link>
+              <Link href="/free-printables/reception/shape-space/basic-shapes" className="text-gray-400 hover:text-white">Basic Shapes</Link>
+              <Link href="/free-printables/year-1/number-place-value/number-bonds" className="text-gray-400 hover:text-white">Number Bonds</Link>
+            </div>
+          </div>
+          <div className="mt-6 pt-6 border-t border-gray-800 text-center">
             <p className="text-gray-400">
-              © 2024 FreeMathPrintable.com. Free math printables for UK primary schools.
+              © 2024 FreeMathPrintable.com. Free printable math worksheets for Kindergarten through Grade 6.
             </p>
           </div>
         </div>

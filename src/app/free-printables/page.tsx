@@ -9,15 +9,15 @@ import { yearGroupToDualLabel } from '@/lib/types/hub'
 export const revalidate = 3600 // Revalidate every hour
 
 export const metadata: Metadata = {
-  title: 'Free Math Printables | Kindergarten to Grade 6 / Reception to Year 6',
+  title: 'Free Math Worksheets by Grade Level | K-6 Printable PDFs',
   description:
-    'Download free math printables for Kindergarten to Grade 6 (Reception to Year 6). Ages 4-11. Curriculum-aligned, ready to print. Perfect for home learning and classroom use.',
+    'Browse free printable math worksheets organized by grade level. Kindergarten through Grade 6. Common Core aligned. No signup required. Print instantly!',
   keywords:
-    'free math printables, kindergarten math printables, grade 1 math printables, grade 2 printables, elementary math printables, free maths printables, reception worksheets, year 1 maths printables, year 2 maths printables, primary maths resources, ages 4-11 math worksheets',
+    'free math worksheets, kindergarten math worksheets, first grade math worksheets, second grade worksheets, elementary math worksheets, printable math worksheets pdf, grade 1 worksheets free, grade 2 worksheets free, math practice sheets, common core math worksheets',
   openGraph: {
-    title: 'Free Math Printables | Kindergarten to Grade 6',
+    title: 'Free Math Worksheets by Grade Level | K-6',
     description:
-      'Download free math printables for elementary and primary schools. Curriculum-aligned and ready to print.',
+      'Browse free printable math worksheets for elementary schools. Common Core aligned, ready to print.',
     type: 'website',
   },
 }
