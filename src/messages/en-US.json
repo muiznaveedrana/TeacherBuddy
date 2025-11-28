@@ -1,0 +1,310 @@
+{
+  "common": {
+    "siteName": "FreeMathPrintable.com",
+    "tagline": "Free Math Printables US",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "download": "Download",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "apply": "Apply",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK"
+  },
+  "nav": {
+    "printables": "Printables",
+    "yearGroups": "Grade Levels",
+    "browseLibrary": "Browse Library",
+    "createPrintable": "Create Printable",
+    "resources": "Resources",
+    "support": "Support",
+    "contactUs": "Contact Us",
+    "howItWorks": "How it Works",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
+  },
+  "homepage": {
+    "hero": {
+      "title": "Free Math Printable Library",
+      "subtitle": "Interactive & Editable, Print-Ready Resources",
+      "description": "1000+ printable resources • Kindergarten to Grade 5 • Common Core Aligned",
+      "browseCta": "Browse Free Library",
+      "createCta": "Generate Printable",
+      "aiPowered": "AI-powered • Ready in 20-30 seconds"
+    },
+    "badges": {
+      "free": "100% Free",
+      "noSignup": "No Sign-up",
+      "interactive": "Interactive Mode",
+      "customise": "Customize & Download",
+      "instantDownload": "Instant Download"
+    },
+    "features": {
+      "title": "Why Teachers Love FreeMathPrintable",
+      "interactiveMode": {
+        "title": "Interactive Mode",
+        "description": "Every printable works online with feedback and celebration upon completion!"
+      },
+      "alwaysFree": {
+        "title": "Always Free",
+        "description": "No hidden costs, no premium tiers. Every feature is 100% free forever."
+      },
+      "curriculum": {
+        "title": "Common Core Aligned",
+        "description": "Every printable aligned with Common Core State Standards."
+      },
+      "saveTime": {
+        "title": "Save Time",
+        "description": "Find perfect resources in seconds, not hours. More time for teaching!"
+      }
+    },
+    "customisation": {
+      "title": "Make Every Printable Your Own",
+      "subtitle": "Don't just download - customize! Every printable can be personalized before you print.",
+      "library": {
+        "title": "Customize Library Printables",
+        "description": "Found the perfect printable in our library? Make it uniquely yours before downloading:",
+        "editText": "Edit Text:",
+        "editTextDesc": "Change names, numbers, and instructions to match your lesson",
+        "replaceImages": "Replace Images:",
+        "replaceImagesDesc": "Swap out pictures to match your students' interests",
+        "addElements": "Add Elements:",
+        "addElementsDesc": "Insert additional text, images, or problems",
+        "resize": "Resize & Rearrange:",
+        "resizeDesc": "Adjust image sizes and layout to fit your needs",
+        "cta": "Browse & Customize"
+      },
+      "ai": {
+        "title": "Create & Edit with AI",
+        "description": "Generate a brand new printable with AI, then perfect it with our editor:",
+        "generation": "AI Generation:",
+        "generationDesc": "Create printables tailored to your exact requirements",
+        "fullEditing": "Full Editing:",
+        "fullEditingDesc": "Modify any part of the AI-generated content",
+        "studentNames": "Student Names:",
+        "studentNamesDesc": "Personalize with your students' names for engagement",
+        "saveDownload": "Save & Download:",
+        "saveDownloadDesc": "Export as PDF when you're happy with the result",
+        "cta": "Create with AI"
+      },
+      "proTip": "Pro Tip: Every printable is fully editable - no locked content!"
+    },
+    "cta": {
+      "title": "Ready to Save Time on Lesson Planning?",
+      "subtitle": "Join thousands of teachers using our free resources every day",
+      "browseLibrary": "Browse Free Library",
+      "createCustom": "Create Custom Printable"
+    },
+    "footer": {
+      "copyright": "© 2024 FreeMathPrintable.com. Free math printables for US elementary schools.",
+      "yearGroups": {
+        "title": "Grade Levels",
+        "reception": "Kindergarten",
+        "year1to3": "Grades 1-2",
+        "year4to6": "Grades 3-5"
+      }
+    }
+  },
+  "create": {
+    "title": "Create Printable",
+    "yearGroup": {
+      "label": "Grade Level",
+      "placeholder": "Select grade level"
+    },
+    "topic": {
+      "label": "Topic",
+      "placeholder": "Select topic"
+    },
+    "subtopic": {
+      "label": "Subtopic",
+      "placeholder": "Select subtopic"
+    },
+    "difficulty": {
+      "label": "Difficulty",
+      "placeholder": "Select difficulty",
+      "easy": "Easy",
+      "standard": "Standard",
+      "challenge": "Challenge"
+    },
+    "layout": {
+      "label": "Layout",
+      "placeholder": "Select layout"
+    },
+    "questions": {
+      "label": "Number of Questions",
+      "placeholder": "Select number"
+    },
+    "generate": "Generate Printable",
+    "generating": "Generating your printable...",
+    "generatingDesc": "Creating standards-aligned worksheets",
+    "preview": "Preview",
+    "downloadPdf": "Download PDF",
+    "saveToLibrary": "Save to Library"
+  },
+  "library": {
+    "title": "Free Printable Library",
+    "subtitle": "Browse our collection of standards-aligned printables",
+    "filters": {
+      "yearGroup": "Grade Level",
+      "topic": "Topic",
+      "subtopic": "Subtopic",
+      "all": "All"
+    },
+    "noResults": "No printables found matching your criteria",
+    "loadMore": "Load More",
+    "viewPrintable": "View Printable",
+    "interactive": "Interactive Mode",
+    "edit": "Edit",
+    "download": "Download PDF"
+  },
+  "curriculum": {
+    "yearGroups": {
+      "reception": {
+        "value": "Kindergarten",
+        "label": "Kindergarten (Ages 5-6)",
+        "ageRange": "5-6 years",
+        "description": "Early childhood mathematics foundations"
+      },
+      "year1": {
+        "value": "Grade 1",
+        "label": "Grade 1 (Ages 6-7)",
+        "ageRange": "6-7 years",
+        "description": "Foundation number concepts and basic operations"
+      },
+      "year2": {
+        "value": "Grade 2",
+        "label": "Grade 2 (Ages 7-8)",
+        "ageRange": "7-8 years",
+        "description": "Extending number knowledge and introducing times tables"
+      },
+      "year3": {
+        "value": "Grade 3",
+        "label": "Grade 3 (Ages 8-9)",
+        "ageRange": "8-9 years",
+        "description": "Developing fluency in fundamental arithmetic"
+      },
+      "year4": {
+        "value": "Grade 4",
+        "label": "Grade 4 (Ages 9-10)",
+        "ageRange": "9-10 years",
+        "description": "Consolidating arithmetic and introducing decimal notation"
+      },
+      "year5": {
+        "value": "Grade 5",
+        "label": "Grade 5 (Ages 10-11)",
+        "ageRange": "10-11 years",
+        "description": "Advanced arithmetic and introduction to algebra concepts"
+      },
+      "year6": {
+        "value": "Grade 6",
+        "label": "Grade 6 (Ages 11-12)",
+        "ageRange": "11-12 years",
+        "description": "Mastery of elementary mathematics"
+      }
+    },
+    "topics": {
+      "number-counting": "Number and Counting",
+      "number-place-value": "Number and Place Value",
+      "addition-subtraction": "Addition and Subtraction",
+      "multiplication-division": "Multiplication and Division",
+      "fractions": "Fractions",
+      "fractions-decimals": "Fractions and Decimals",
+      "fractions-decimals-percentages": "Fractions, Decimals and Percentages",
+      "measurement": "Measurement",
+      "geometry-shapes": "Geometry: Shapes",
+      "geometry-position": "Geometry: Position and Direction",
+      "shape-space": "Shape and Space",
+      "statistics": "Statistics",
+      "algebra": "Algebra",
+      "ratio-proportion": "Ratio and Proportion"
+    },
+    "subtopics": {
+      "counting-to-10": "Counting to 10",
+      "number-recognition": "Number Recognition",
+      "more-or-less": "More or Less",
+      "early-addition": "Early Addition",
+      "early-subtraction": "Early Subtraction",
+      "number-bonds": "Number Bonds",
+      "subitising": "Subitizing",
+      "basic-shapes": "Basic Shapes",
+      "patterns": "Simple Patterns",
+      "size-comparison": "Size Comparison",
+      "position-direction": "Position and Direction",
+      "length-comparison": "Length Comparison",
+      "weight-comparison": "Weight Comparison",
+      "capacity": "Capacity",
+      "time-concepts": "Time Concepts",
+      "numbers-to-20": "Numbers to 20",
+      "counting-forwards-backwards": "Counting Forwards and Backwards",
+      "number-bonds-10": "Number Bonds to 10",
+      "adding-to-20": "Adding within 20",
+      "subtracting-within-20": "Subtracting within 20",
+      "word-problems-simple": "Simple Word Problems",
+      "length-height": "Length and Height",
+      "weight-capacity": "Weight and Capacity",
+      "time-days-months": "Time - Days and Months",
+      "coins-recognition": "Money - Coins Recognition",
+      "2d-shapes-basic": "2D Shapes (Basic)",
+      "3d-shapes-basic": "3D Shapes (Basic)",
+      "halves-and-quarters": "Halves and Quarters",
+      "numbers-to-100": "Numbers to 100",
+      "comparing-numbers": "Comparing Numbers",
+      "rounding-nearest-10": "Rounding to Nearest 10",
+      "two-digit-numbers": "Two-digit Number Operations",
+      "mental-strategies": "Mental Math Strategies",
+      "word-problems": "Word Problems",
+      "times-tables-2-5-10": "Times Tables 2, 5, 10",
+      "equal-groups": "Equal Groups",
+      "sharing-grouping": "Sharing and Grouping",
+      "recognising-fractions": "Recognizing Fractions",
+      "finding-fractions": "Finding Fractions",
+      "equivalent-fractions-simple": "Simple Equivalent Fractions",
+      "length-and-height": "Length and Height (in, ft)",
+      "mass-and-weight": "Mass and Weight (oz, lb)",
+      "capacity-and-volume": "Capacity and Volume (cups, fl oz)",
+      "money": "Money (cents and dollars)",
+      "time": "Time (o'clock, half past, quarter to/past)",
+      "pictograms": "Picture Graphs",
+      "tally-charts": "Tally Charts",
+      "block-diagrams-tables": "Bar Graphs and Tables",
+      "2d-shapes-properties": "2D Shapes and Properties",
+      "3d-shapes-properties": "3D Shapes and Properties",
+      "sorting-shapes": "Sorting and Classifying Shapes",
+      "movement": "Movement and Patterns",
+      "turns": "Turns (Full, Half, Quarter)"
+    }
+  },
+  "seo": {
+    "homepage": {
+      "title": "Free Math Printables | Kindergarten to Grade 5 Worksheets",
+      "description": "Download 1000+ free math printables for US elementary schools (Kindergarten to Grade 5). Common Core aligned worksheets. Library always free."
+    },
+    "library": {
+      "title": "Free Printable Library | Math Worksheets",
+      "description": "Browse our library of free, standards-aligned math printables for elementary schools."
+    },
+    "create": {
+      "title": "Create Custom Math Printables | AI-Powered Generator",
+      "description": "Generate custom math printables tailored to your lesson with our AI-powered worksheet creator."
+    }
+  },
+  "region": {
+    "name": "United States",
+    "flag": "US",
+    "curriculumName": "Common Core Standards",
+    "curriculumShort": "Common Core",
+    "standards": "CCSS"
+  }
+}

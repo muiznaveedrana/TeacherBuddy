@@ -3,6 +3,8 @@ import { Mulish, Kalam } from "next/font/google";
 import "./globals.css";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages, getLocale } from 'next-intl/server';
 
 // Mulish (formerly Muli) for clean, modern body text
 const mulish = Mulish({
@@ -52,13 +54,16 @@ export const metadata: Metadata = {
   }
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-192x192.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png" />
@@ -88,7 +93,9 @@ export default function RootLayout({
         />
       </head>
       <body className={`${mulish.variable} ${kalam.variable} font-sans antialiased`}>
-        {children}
+        <NextIntlClientProvider messages={messages}>
+          {children}
+        </NextIntlClientProvider>
         <CookieConsentBanner />
       </body>
     </html>

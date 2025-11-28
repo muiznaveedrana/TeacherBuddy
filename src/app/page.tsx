@@ -8,6 +8,8 @@ import WorksheetShowcase from "@/components/homepage/WorksheetShowcase";
 import GradeNavigation from "@/components/homepage/GradeNavigation";
 import DoodleAnimations from "@/components/homepage/DoodleAnimations";
 import { StickyNoteButton } from "@/components/ui/sticky-note-button";
+import { getTranslations, getLocale } from 'next-intl/server';
+import { RegionSelector } from "@/components/RegionSelector";
 
 export const metadata: Metadata = {
   title: "Free Math Printables UK | Reception to Year 6 Printables",
@@ -50,7 +52,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const t = await getTranslations('homepage');
+  const tNav = await getTranslations('nav');
+  const tRegion = await getTranslations('region');
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50/30 to-cyan-50/30">
       {/* Background Doodle Animations */}
@@ -72,18 +78,22 @@ export default function LandingPage() {
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
                   <a href="#printables" className="text-gray-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">
-                    Printables
+                    {tNav('printables')}
                   </a>
                   <a href="#grades" className="text-gray-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">
-                    Year Groups
+                    {tNav('yearGroups')}
                   </a>
                 </div>
               </div>
             </div>
-            <div className="md:hidden">
-              <button className="text-gray-600 hover:text-gray-900">
-                <Menu className="h-6 w-6" />
-              </button>
+            <div className="flex items-center gap-4">
+              {/* Region Selector */}
+              <RegionSelector variant="inline" className="hidden sm:flex" />
+              <div className="md:hidden">
+                <button className="text-gray-600 hover:text-gray-900">
+                  <Menu className="h-6 w-6" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -102,15 +112,15 @@ export default function LandingPage() {
         <div className="relative text-center">
           {/* Main Headline with Handwritten Style */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight mb-6">
-            <span className="block text-gray-900">Free Math Printable Library</span>
+            <span className="block text-gray-900">{t('hero.title')}</span>
             <span className="block mt-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent handwritten">
-              Interactive & Editable, Print-Ready Resources
+              {t('hero.subtitle')}
             </span>
           </h1>
 
           {/* Simplified Description */}
           <p className="max-w-2xl mx-auto text-xl text-gray-600 mb-8">
-            1000+ printable resources • Reception to Year 6 • UK Curriculum
+            {t('hero.description')}
           </p>
 
           {/* CTA Buttons */}
@@ -122,7 +132,7 @@ export default function LandingPage() {
                 className="text-xl px-10 py-8 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105"
               >
                 <BookOpen className="mr-3 h-6 w-6" />
-                Browse Free Library
+                {t('hero.browseCta')}
               </Button>
             </Link>
 
@@ -135,10 +145,10 @@ export default function LandingPage() {
                   className="text-lg px-8 py-6 border-2 border-purple-600 text-purple-700 hover:bg-purple-50 font-bold shadow-lg hover:shadow-xl transition-all"
                 >
                   <Zap className="mr-2 h-5 w-5" />
-                  Generate Printable
+                  {t('hero.createCta')}
                 </Button>
               </Link>
-              <span className="text-sm text-gray-600">🎨 AI-powered • Ready in 20-30 seconds</span>
+              <span className="text-sm text-gray-600">{t('hero.aiPowered')}</span>
             </div>
           </div>
 
@@ -148,11 +158,11 @@ export default function LandingPage() {
             <div className="flex justify-center gap-4 flex-wrap">
               <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
                 <Check className="w-5 h-5 text-green-600" />
-                <span className="text-gray-700 font-medium">100% Free</span>
+                <span className="text-gray-700 font-medium">{t('badges.free')}</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
                 <Check className="w-5 h-5 text-green-600" />
-                <span className="text-gray-700 font-medium">No Sign-up</span>
+                <span className="text-gray-700 font-medium">{t('badges.noSignup')}</span>
               </div>
             </div>
 
@@ -160,15 +170,15 @@ export default function LandingPage() {
             <div className="flex justify-center gap-4 flex-wrap">
               <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
                 <Check className="w-5 h-5 text-purple-600" />
-                <span className="text-gray-700 font-medium">Interactive Mode</span>
+                <span className="text-gray-700 font-medium">{t('badges.interactive')}</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
                 <Check className="w-5 h-5 text-purple-600" />
-                <span className="text-gray-700 font-medium">Customize & Download</span>
+                <span className="text-gray-700 font-medium">{t('badges.customise')}</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
                 <Check className="w-5 h-5 text-purple-600" />
-                <span className="text-gray-700 font-medium">Instant Download</span>
+                <span className="text-gray-700 font-medium">{t('badges.instantDownload')}</span>
               </div>
             </div>
           </div>
@@ -191,10 +201,10 @@ export default function LandingPage() {
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              Make Every Printable Your Own
+              {t('customisation.title')}
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Don't just download - customize! Every printable can be personalized before you print.
+              {t('customisation.subtitle')}
             </p>
           </div>
 
@@ -203,41 +213,41 @@ export default function LandingPage() {
             <div className="bg-white rounded-2xl shadow-lg p-8 relative overflow-hidden">
               <div className="absolute top-4 right-4 text-6xl opacity-10">📚</div>
               <h3 className="text-2xl font-bold text-purple-700 mb-4">
-                Customize Library Printables
+                {t('customisation.library.title')}
               </h3>
               <p className="text-gray-600 mb-6">
-                Found the perfect printable in our library? Make it uniquely yours before downloading:
+                {t('customisation.library.description')}
               </p>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <span className="text-green-500 mt-1">✓</span>
                   <span className="text-gray-700">
-                    <strong>Edit Text:</strong> Change names, numbers, and instructions to match your lesson
+                    <strong>{t('customisation.library.editText')}</strong> {t('customisation.library.editTextDesc')}
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-500 mt-1">✓</span>
                   <span className="text-gray-700">
-                    <strong>Replace Images:</strong> Swap out pictures to match your students' interests
+                    <strong>{t('customisation.library.replaceImages')}</strong> {t('customisation.library.replaceImagesDesc')}
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-500 mt-1">✓</span>
                   <span className="text-gray-700">
-                    <strong>Add Elements:</strong> Insert additional text, images, or problems
+                    <strong>{t('customisation.library.addElements')}</strong> {t('customisation.library.addElementsDesc')}
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-500 mt-1">✓</span>
                   <span className="text-gray-700">
-                    <strong>Resize & Rearrange:</strong> Adjust image sizes and layout to fit your needs
+                    <strong>{t('customisation.library.resize')}</strong> {t('customisation.library.resizeDesc')}
                   </span>
                 </li>
               </ul>
               <div className="mt-6">
                 <Link href="/library">
                   <Button className="bg-purple-600 hover:bg-purple-700 text-white">
-                    Browse & Customize
+                    {t('customisation.library.cta')}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
@@ -248,41 +258,41 @@ export default function LandingPage() {
             <div className="bg-white rounded-2xl shadow-lg p-8 relative overflow-hidden">
               <div className="absolute top-4 right-4 text-6xl opacity-10">✨</div>
               <h3 className="text-2xl font-bold text-pink-700 mb-4">
-                Create & Edit with AI
+                {t('customisation.ai.title')}
               </h3>
               <p className="text-gray-600 mb-6">
-                Generate a brand new printable with AI, then perfect it with our editor:
+                {t('customisation.ai.description')}
               </p>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <span className="text-green-500 mt-1">✓</span>
                   <span className="text-gray-700">
-                    <strong>AI Generation:</strong> Create printables tailored to your exact requirements
+                    <strong>{t('customisation.ai.generation')}</strong> {t('customisation.ai.generationDesc')}
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-500 mt-1">✓</span>
                   <span className="text-gray-700">
-                    <strong>Full Editing:</strong> Modify any part of the AI-generated content
+                    <strong>{t('customisation.ai.fullEditing')}</strong> {t('customisation.ai.fullEditingDesc')}
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-500 mt-1">✓</span>
                   <span className="text-gray-700">
-                    <strong>Student Names:</strong> Personalize with your students' names for engagement
+                    <strong>{t('customisation.ai.studentNames')}</strong> {t('customisation.ai.studentNamesDesc')}
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-green-500 mt-1">✓</span>
                   <span className="text-gray-700">
-                    <strong>Save & Download:</strong> Export as PDF when you're happy with the result
+                    <strong>{t('customisation.ai.saveDownload')}</strong> {t('customisation.ai.saveDownloadDesc')}
                   </span>
                 </li>
               </ul>
               <div className="mt-6">
                 <Link href="/create">
                   <Button className="bg-pink-600 hover:bg-pink-700 text-white">
-                    Create with AI
+                    {t('customisation.ai.cta')}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
@@ -293,7 +303,7 @@ export default function LandingPage() {
           <div className="mt-12 text-center">
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-yellow-100 rounded-full">
               <span className="text-yellow-800 font-semibold">
-                💡 Pro Tip: Every printable is fully editable - no locked content!
+                {t('customisation.proTip')}
               </span>
             </div>
           </div>
@@ -305,7 +315,7 @@ export default function LandingPage() {
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              Why Teachers Love FreeMathPrintable
+              {t('features.title')}
             </h2>
           </div>
 
@@ -315,11 +325,11 @@ export default function LandingPage() {
                 <div className="mx-auto p-4 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full">
                   <span className="text-3xl">🎮</span>
                 </div>
-                <CardTitle className="mt-4 text-xl">Interactive Mode</CardTitle>
+                <CardTitle className="mt-4 text-xl">{t('features.interactiveMode.title')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  Every printable works online with feedback and celebration upon completion!
+                  {t('features.interactiveMode.description')}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -329,11 +339,11 @@ export default function LandingPage() {
                 <div className="mx-auto p-4 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full">
                   <Zap className="w-10 h-10 text-green-600" />
                 </div>
-                <CardTitle className="mt-4 text-xl">Always Free</CardTitle>
+                <CardTitle className="mt-4 text-xl">{t('features.alwaysFree.title')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  No hidden costs, no premium tiers. Every feature is 100% free forever.
+                  {t('features.alwaysFree.description')}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -343,11 +353,11 @@ export default function LandingPage() {
                 <div className="mx-auto p-4 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full">
                   <BookOpen className="w-10 h-10 text-purple-600" />
                 </div>
-                <CardTitle className="mt-4 text-xl">UK Curriculum</CardTitle>
+                <CardTitle className="mt-4 text-xl">{t('features.curriculum.title')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  Every printable aligned with National Curriculum standards.
+                  {t('features.curriculum.description')}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -357,11 +367,11 @@ export default function LandingPage() {
                 <div className="mx-auto p-4 bg-gradient-to-br from-orange-100 to-yellow-100 rounded-full">
                   <Clock className="w-10 h-10 text-orange-600" />
                 </div>
-                <CardTitle className="mt-4 text-xl">Save Time</CardTitle>
+                <CardTitle className="mt-4 text-xl">{t('features.saveTime.title')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  Find perfect resources in seconds, not hours. More time for teaching!
+                  {t('features.saveTime.description')}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -373,10 +383,10 @@ export default function LandingPage() {
       <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="px-4 mx-auto max-w-4xl text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to Save Time on Lesson Planning?
+            {t('cta.title')}
           </h2>
           <p className="text-xl mb-8 opacity-90">
-            Join thousands of teachers using our free resources every day
+            {t('cta.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/library">
@@ -386,7 +396,7 @@ export default function LandingPage() {
                 rotation={-3}
                 className="font-bold text-lg shadow-xl"
               >
-                Browse Free Library
+                {t('cta.browseLibrary')}
                 <ArrowRight className="ml-2 h-5 w-5 inline" />
               </StickyNoteButton>
             </Link>
@@ -397,7 +407,7 @@ export default function LandingPage() {
                 rotation={2}
                 className="font-bold text-lg shadow-xl"
               >
-                Create Custom Printable
+                {t('cta.createCustom')}
               </StickyNoteButton>
             </Link>
           </div>
@@ -409,38 +419,38 @@ export default function LandingPage() {
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
             <div>
-              <h3 className="text-lg font-semibold mb-4">Resources</h3>
+              <h3 className="text-lg font-semibold mb-4">{tNav('resources')}</h3>
               <ul className="space-y-2">
-                <li><Link href="/library" className="text-gray-300 hover:text-white">Browse Library</Link></li>
-                <li><Link href="/create" className="text-gray-300 hover:text-white">Create Printable</Link></li>
+                <li><Link href="/library" className="text-gray-300 hover:text-white">{tNav('browseLibrary')}</Link></li>
+                <li><Link href="/create" className="text-gray-300 hover:text-white">{tNav('createPrintable')}</Link></li>
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold mb-4">Year Groups</h3>
+              <h3 className="text-lg font-semibold mb-4">{t('footer.yearGroups.title')}</h3>
               <ul className="space-y-2">
-                <li><Link href="/library?year_group=Reception" className="text-gray-300 hover:text-white">Reception</Link></li>
-                <li><Link href="/library?year_group=Year%201" className="text-gray-300 hover:text-white">Year 1-3</Link></li>
-                <li><Link href="/library?year_group=Year%204" className="text-gray-300 hover:text-white">Year 4-6</Link></li>
+                <li><Link href="/library?year_group=Reception" className="text-gray-300 hover:text-white">{t('footer.yearGroups.reception')}</Link></li>
+                <li><Link href="/library?year_group=Year%201" className="text-gray-300 hover:text-white">{t('footer.yearGroups.year1to3')}</Link></li>
+                <li><Link href="/library?year_group=Year%204" className="text-gray-300 hover:text-white">{t('footer.yearGroups.year4to6')}</Link></li>
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold mb-4">Support</h3>
+              <h3 className="text-lg font-semibold mb-4">{tNav('support')}</h3>
               <ul className="space-y-2">
-                <li><a href="mailto:support@freemathprintable.com" className="text-gray-300 hover:text-white">Contact Us</a></li>
-                <li><Link href="/#how-it-works" className="text-gray-300 hover:text-white">How it Works</Link></li>
+                <li><a href="mailto:support@freemathprintable.com" className="text-gray-300 hover:text-white">{tNav('contactUs')}</a></li>
+                <li><Link href="/#how-it-works" className="text-gray-300 hover:text-white">{tNav('howItWorks')}</Link></li>
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold mb-4">Legal</h3>
+              <h3 className="text-lg font-semibold mb-4">{tNav('legal')}</h3>
               <ul className="space-y-2">
-                <li><Link href="/privacy" className="text-gray-300 hover:text-white">Privacy Policy</Link></li>
-                <li><Link href="/terms" className="text-gray-300 hover:text-white">Terms of Service</Link></li>
+                <li><Link href="/privacy" className="text-gray-300 hover:text-white">{tNav('privacyPolicy')}</Link></li>
+                <li><Link href="/terms" className="text-gray-300 hover:text-white">{tNav('termsOfService')}</Link></li>
               </ul>
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-gray-800 text-center">
             <p className="text-gray-400">
-              © 2024 FreeMathPrintable.com. Free math printables for UK primary schools.
+              {t('footer.copyright')}
             </p>
           </div>
         </div>
