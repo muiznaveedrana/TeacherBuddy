@@ -1,21 +1,21 @@
-# Y6: Percentage Calculations ({{questionCount}}Q)
+# Ages 10-11: Percentage Calculations
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Solve problems involving percentages including finding percentages of amounts.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (SATs Level)
+## YEAR 6 FOCUS (Advanced Level)
 - **Find %**: Calculate percentage of amount (10%, 25%, 50% of...)
 - **Percentage increase/decrease**: Add/subtract percentages
 - **Reverse %**: Find original amount
-- **SATs**: Real-world percentage problems
+- **Challenge**: Real-world percentage problems
 
 ## QUESTION TYPES
 **Q1**: Find 50% of 240
 **Q2**: Find 25% of 180
 **Q3**: Find 10% then use to find other %
 **Q4**: Percentage increase (£200 + 15%)
-**Q5**: SATs reverse percentage problem
+**Q5**: Challenge reverse percentage problem
 
 ## KEY METHODS
 
@@ -71,6 +71,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 - [ ] Common percentages (10%, 25%, 50%)?
 - [ ] Increase and decrease?
 - [ ] Using 10% method?
-- [ ] Year 6 SATs appropriate?
+- [ ] Year 6 appropriate (ages 10-11)?
 
-Generate complete HTML. UK Year 6 aligned.
+Generate complete HTML. Year 6.

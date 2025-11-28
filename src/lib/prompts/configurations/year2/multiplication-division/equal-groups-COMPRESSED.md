@@ -1,4 +1,4 @@
-# Year 2: Equal Groups
+# Ages 6-7: Equal Groups
 
 Generate EXACTLY {{questionCount}} Year 2 equal groups questions.
 

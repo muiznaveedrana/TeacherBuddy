@@ -1,15 +1,15 @@
-# Y6: Negative Number Calculations ({{questionCount}}Q)
+# Ages 10-11: Negative Number Calculations
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Calculate intervals across zero and perform operations with negative numbers.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (Ages 10-11, SATs Level)
+## YEAR 6 FOCUS (Ages 10-11, Advanced Level)
 - **Range**: -1000 to +1000
 - **Operations**: Addition, subtraction crossing zero
 - **Intervals**: Calculate differences including negative numbers
 - **Contexts**: Temperature, altitude, time zones, money (overdraft)
-- **SATs reasoning**: Explain methods and answers
+- **Advanced reasoning**: Explain methods and answers
 
 ## QUESTION TYPES
 
@@ -21,7 +21,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
 **Q4**: Number line jumps. "Start at -23, add 56, then subtract 40. Where do you end?"
 
-**Q5**: SATs word problem. "Account: -£450 (overdrawn). Deposit £1,200. Withdraw £300. Final balance?"
+**Q5**: Challenge word problem. "Account: -£450 (overdrawn). Deposit £1,200. Withdraw £300. Final balance?"
 
 ## CALCULATING WITH NEGATIVES (Year 6)
 
@@ -63,7 +63,7 @@ Same as: 15 + 8 = 23
 
 **Answer**: 23
 
-## CALCULATING INTERVALS (SATs Focus)
+## CALCULATING INTERVALS (Key Skill)
 
 ### Temperature change
 
@@ -114,7 +114,7 @@ Step 2: +33 - 40 = -7
                            +33 <--40--- -7
 ```
 
-## REAL-WORLD CONTEXTS (SATs)
+## REAL-WORLD CONTEXTS (Challenge)
 
 ### Bank accounts (overdraft)
 
@@ -247,10 +247,10 @@ Step 2: 750 - 300 = 450
 4. Subtracting negative = adding positive
 5. Context helps understanding (temperature, money)
 6. Show working step-by-step
-7. SATs: explain reasoning
+7. Challenge: explain reasoning
 8. Answer key with number line diagrams
 9. Colored backgrounds Q1-Q5
-10. Year 6 SATs appropriate
+10. Year 6 appropriate (ages 10-11)
 
 ## VALIDATION
 
@@ -259,12 +259,12 @@ Step 2: 750 - 300 = 450
 - [ ] Q2: Subtraction crossing zero?
 - [ ] Q3: Calculate interval?
 - [ ] Q4: Multiple operations on number line?
-- [ ] Q5: Real-world SATs problem?
+- [ ] Q5: Real-world Challenge problem?
 - [ ] Range -1000 to +1000?
 - [ ] Number lines for working?
 - [ ] Multiple contexts (temp, money, altitude)?
 - [ ] Colored backgrounds Q1-Q5?
 - [ ] Answer key with diagrams?
-- [ ] Year 6 SATs appropriate?
+- [ ] Year 6 appropriate (ages 10-11)?
 
-Generate complete HTML. UK Year 6 aligned (ages 10-11, SATs level).
+Generate complete HTML. Year 6 (ages 10-11, advanced level).

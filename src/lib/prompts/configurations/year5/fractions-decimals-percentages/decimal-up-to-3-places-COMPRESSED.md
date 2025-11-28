@@ -1,4 +1,4 @@
-# Y5: Decimals up to 3 Places ({{questionCount}}Q)
+# Ages 9-10: Decimals up to 3 Places
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Read, write and understand decimals with up to 3 decimal places.**
 

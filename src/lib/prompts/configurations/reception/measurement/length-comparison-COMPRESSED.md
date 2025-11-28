@@ -1,4 +1,4 @@
-# Reception: Length Comparison - COMPRESSED
+# Ages 4-5: Length Comparison
 
 **Generate EXACTLY {{questionCount}} questions (ages 4-5)**
 

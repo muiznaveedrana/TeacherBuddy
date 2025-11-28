@@ -220,7 +220,7 @@ function getModel() {
   systemInstruction: {
     role: "system",
     parts: [{
-      text: `You are a UK National Curriculum worksheet generator. Your ONLY task is to generate complete HTML worksheets.
+      text: `You are an age-appropriate mathematics worksheet generator. Your ONLY task is to generate complete HTML worksheets.
 
 CRITICAL FORMAT REQUIREMENTS:
 - Your response MUST start with: <!DOCTYPE html>
@@ -420,7 +420,7 @@ export async function generateWorksheet(
           subtopic: config.subtopic,
           difficulty: config.difficulty,
           questionCount: config.questionCount,
-          curriculum: 'UK National Curriculum',
+          curriculum: 'Age-appropriate Mathematics',
           generatedAt: renderContext.generatedAt,
           promptTemplate: 'direct-template',
           qualityScore: 5.0,
@@ -514,7 +514,7 @@ export async function generateWorksheet(
 
 
 /**
- * Creates a sophisticated prompt for generating UK National Curriculum aligned worksheets
+ * Creates a sophisticated prompt for generating age-appropriate math worksheets
  * @deprecated This function has been replaced by PromptEngineeringService.generatePrompt
  */
 function createPrompt(config: WorksheetConfig): string {
@@ -531,7 +531,7 @@ function createPrompt(config: WorksheetConfig): string {
     ? studentNames 
     : ['Emma', 'Oliver', 'Sophie', 'James', 'Lily', 'Thomas', 'Grace', 'Harry', 'Charlotte', 'William']
   
-  const prompt = `You are a UK primary school mathematics teacher creating a professional worksheet that aligns with the UK National Curriculum. 
+  const prompt = `You are a primary school mathematics teacher creating a professional worksheet that is age-appropriate and developmentally suitable. 
 
 **CURRICULUM REQUIREMENTS:**
 - Topic: ${curriculumContext.topicName}
@@ -578,7 +578,7 @@ Generate exactly ${questionCount} mathematically sound, curriculum-aligned quest
 - Appropriate for ${layoutTemplate.name} layout style
 - Suitable for ${curriculumContext.yearGroup} students
 - Using student names from: ${namePool.join(', ')}
-- Following UK National Curriculum for ${curriculumContext.topicName} - ${curriculumContext.subtopicName}
+- Following age-appropriate learning objectives for ${curriculumContext.topicName} - ${curriculumContext.subtopicName}
 - Progressive in difficulty from ${difficulty} level
 
 Return only the JSON array of questions, no additional text or formatting.`
@@ -885,7 +885,7 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, improve
             subtopic: config.subtopic,
             difficulty: config.difficulty,
             questionCount: questionCount,
-            curriculum: 'UK National Curriculum',
+            curriculum: 'Age-appropriate Mathematics',
             generatedAt: new Date().toISOString(),
             promptTemplate: improvementMetadata?.templateVariation || 'unified-optimal',
             qualityScore: improvementMetadata?.qualityScore || 4.2,
@@ -928,7 +928,7 @@ function parseGeneratedContent(content: string, config: WorksheetConfig, improve
         subtopic: config.subtopic,
         difficulty: config.difficulty,
         questionCount: questionCount,
-        curriculum: 'UK National Curriculum',
+        curriculum: 'Age-appropriate Mathematics',
         generatedAt: new Date().toISOString(),
         promptTemplate: improvementMetadata?.templateVariation || 'unified-optimal',
         qualityScore: improvementMetadata?.qualityScore || 4.2,

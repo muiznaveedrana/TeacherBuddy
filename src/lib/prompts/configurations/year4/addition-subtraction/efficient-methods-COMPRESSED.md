@@ -1,4 +1,4 @@
-# Y4: Efficient Calculation Methods ({{questionCount}}Q)
+# Ages 8-9: Efficient Calculation Methods
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Mental strategies and efficient methods for add/subtract.**
 

@@ -1,4 +1,4 @@
-# Reception Counting (1-10)
+# Ages 4-5: Counting (1-10)
 
 **{{questionCount}} questions. Range: 1-10. RANDOMIZE (e.g., 3,7,2,9 NOT 1,2,3,4).**
 

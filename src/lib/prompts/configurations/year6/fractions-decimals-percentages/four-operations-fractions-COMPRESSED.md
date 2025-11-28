@@ -1,15 +1,15 @@
-# Y6: Four Operations with Fractions ({{questionCount}}Q)
+# Ages 10-11: Four Operations with Fractions
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Add, subtract, multiply and divide fractions including mixed numbers.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (SATs Level)
+## YEAR 6 FOCUS (Advanced Level)
 - **Add/Subtract**: With different denominators
 - **Multiply**: Fraction × fraction, fraction × whole
 - **Divide**: Fraction ÷ whole, simple fraction ÷ fraction
 - **Mixed numbers**: Convert and calculate
-- **SATs**: Multi-step fraction problems
+- **Challenge**: Multi-step fraction problems
 
 ## QUESTION TYPES
 **Q1**: Add fractions (2/3 + 3/4)
@@ -63,6 +63,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 - [ ] Different denominators?
 - [ ] Mixed numbers included?
 - [ ] Simplification required?
-- [ ] Year 6 SATs appropriate?
+- [ ] Year 6 appropriate (ages 10-11)?
 
-Generate complete HTML. UK Year 6 aligned.
+Generate complete HTML. Year 6.

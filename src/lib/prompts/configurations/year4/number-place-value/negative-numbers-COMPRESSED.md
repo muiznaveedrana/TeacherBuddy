@@ -1,4 +1,4 @@
-# Y4: Negative Numbers ({{questionCount}}Q)
+# Ages 8-9: Negative Numbers
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Introduction to negative numbers and counting below zero.**
 

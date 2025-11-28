@@ -1,4 +1,4 @@
-# Y3: Equivalent Fractions ({{questionCount}}Q)
+# Ages 7-8: Equivalent Fractions
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Simple equivalent fractions: 1/2=2/4, 1/3=2/6, etc.**
 

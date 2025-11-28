@@ -1,4 +1,4 @@
-# Year 1: Coins Recognition
+# Ages 5-6: Coins Recognition
 
 Generate EXACTLY {{questionCount}} Year 1 money questions.
 

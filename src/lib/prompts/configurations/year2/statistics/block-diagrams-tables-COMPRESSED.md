@@ -1,4 +1,4 @@
-# Year 2: Block Diagrams & Tables
+# Ages 6-7: Block Diagrams & Tables
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Read and interpret block diagrams and simple tables.**
 

@@ -1,4 +1,4 @@
-# Year 2: 3D Shapes Properties
+# Ages 6-7: 3D Shapes Properties
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Properties: faces, edges, vertices.**
 

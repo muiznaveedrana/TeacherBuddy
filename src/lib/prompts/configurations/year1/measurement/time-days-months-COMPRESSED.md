@@ -1,4 +1,4 @@
-# Year 1: Time - Days and Months
+# Ages 5-6: Time - Days and Months
 
 Gen {{questionCount}} Y1 time Qs. BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 

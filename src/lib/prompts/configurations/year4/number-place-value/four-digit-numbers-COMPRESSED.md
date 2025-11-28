@@ -1,4 +1,4 @@
-# Y4: Four-Digit Numbers ({{questionCount}}Q)
+# Ages 8-9: Four-Digit Numbers
 
 **CRITICAL: EXACTLY {{questionCount}} questions. 4-digit place value (1000-9999): Th|H|T|O.**
 

@@ -1,4 +1,4 @@
-# Year 2: Money
+# Ages 6-7: Money
 
 **CRITICAL: EXACTLY {{questionCount}} questions. UK pence (p) and pounds (£).**
 

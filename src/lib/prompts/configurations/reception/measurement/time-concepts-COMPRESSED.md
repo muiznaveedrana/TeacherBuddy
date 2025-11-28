@@ -1,4 +1,4 @@
-# Reception: Time Concepts - COMPRESSED
+# Ages 4-5: Time Concepts
 
 **Generate EXACTLY {{questionCount}} questions (ages 4-5)**
 

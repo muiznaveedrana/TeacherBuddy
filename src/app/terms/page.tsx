@@ -41,7 +41,7 @@ export default function TermsOfService() {
               FreeMathPrintable.com provides:
             </p>
             <ul className="list-disc pl-6 text-gray-700 space-y-2">
-              <li>A free library of downloadable math worksheets aligned with the UK National Curriculum</li>
+              <li>A free library of downloadable, age-appropriate math worksheets for ages 4-11</li>
               <li>AI-powered worksheet generation tools for custom printables</li>
               <li>Personalization features including student name integration</li>
               <li>Educational resources for Reception through Year 6</li>
@@ -173,7 +173,7 @@ export default function TermsOfService() {
 
             <h3 className="text-xl font-semibold text-gray-800 mb-3 mt-4">8.1 Educational Use</h3>
             <p className="text-gray-700 leading-relaxed">
-              Our worksheets are designed to align with the UK National Curriculum, but we do not guarantee
+              Our worksheets are designed to be age-appropriate for their intended audience, but we do not guarantee
               specific educational outcomes. Teachers should review all content before use.
             </p>
 

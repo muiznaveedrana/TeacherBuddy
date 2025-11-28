@@ -1,4 +1,4 @@
-# Y5: Factors, Multiples and Primes ({{questionCount}}Q)
+# Ages 9-10: Factors, Multiples and Primes
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Find factors, multiples, and identify prime numbers up to 19.**
 

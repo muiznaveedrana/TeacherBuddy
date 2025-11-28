@@ -1,4 +1,4 @@
-# Year 2: Word Problems
+# Ages 6-7: Word Problems
 
 **CRITICAL: EXACTLY {{questionCount}} questions.**
 

@@ -1,21 +1,21 @@
-# Y6: Multiply 4-digit by 2-digit ({{questionCount}}Q)
+# Ages 10-11: Multiply 4-digit by 2-digit
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Long multiplication: multiply up to 4 digits by 2 digits.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (SATs Level)
+## YEAR 6 FOCUS (Advanced Level)
 - **Format**: ThHTO × TO (e.g., 2,345 × 67)
 - **Method**: Long multiplication (grid or column)
 - **Estimation**: Check with rounding
-- **SATs**: Show full working
+- **Challenge**: Show full working
 
 ## QUESTION TYPES
 **Q1**: 3-digit × 2-digit (356 × 24)
 **Q2**: 4-digit × 2-digit (2,345 × 67)
 **Q3**: With zeros (3,040 × 58)
 **Q4**: Word problem
-**Q5**: SATs multi-step
+**Q5**: Challenge multi-step
 
 ## LONG MULTIPLICATION METHOD
 
@@ -62,6 +62,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 - [ ] Long multiplication method shown?
 - [ ] Grid method alternative?
 - [ ] Estimation for checking?
-- [ ] Year 6 SATs appropriate?
+- [ ] Year 6 appropriate (ages 10-11)?
 
-Generate complete HTML. UK Year 6 aligned.
+Generate complete HTML. Year 6.

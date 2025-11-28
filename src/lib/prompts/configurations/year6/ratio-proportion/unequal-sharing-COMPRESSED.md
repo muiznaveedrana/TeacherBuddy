@@ -1,22 +1,22 @@
-# Y6: Unequal Sharing and Grouping ({{questionCount}}Q)
+# Ages 10-11: Unequal Sharing and Grouping
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Solve problems involving unequal sharing and grouping using ratio.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (SATs Level, NEW TOPIC)
+## YEAR 6 FOCUS (Advanced Level, NEW TOPIC)
 - **Unequal sharing**: Divide amounts in ratios
 - **Ratio word problems**: Real-world contexts
 - **Multiple shares**: 3 or more parts
 - **Problem-solving**: Apply ratio concepts
-- **SATs**: Complex ratio applications
+- **Challenge**: Complex ratio applications
 
 ## QUESTION TYPES
 **Q1**: Share money (£24 shared 3:1 between two people)
 **Q2**: Recipe problems (Scale ingredients keeping ratio)
 **Q3**: Three-way share (45 sweets shared 2:3:4)
 **Q4**: Reverse ratio (Ratio 5:3, difference is 6, find amounts)
-**Q5**: SATs multi-step ratio problem
+**Q5**: Challenge multi-step ratio problem
 
 ## SHARING IN RATIOS
 
@@ -129,8 +129,8 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 - [ ] Two-part and three-part shares?
 - [ ] Recipe/scaling problems?
 - [ ] Reverse ratio problems?
-- [ ] Multi-step SATs problems?
+- [ ] Multi-step Challenge problems?
 - [ ] Real-world contexts?
 - [ ] Year 6 appropriate?
 
-Generate complete HTML. UK Year 6 aligned (NEW Ratio/Proportion topic).
+Generate complete HTML. Year 6 (NEW Ratio/Proportion topic).

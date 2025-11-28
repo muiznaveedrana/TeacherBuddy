@@ -452,7 +452,7 @@ export class ABTestingService {
         subtopic: config.subtopic,
         difficulty: config.difficulty,
         questionCount: 0,
-        curriculum: 'UK National Curriculum',
+        curriculum: 'Age-appropriate Mathematics',
         generatedAt: new Date().toISOString(),
         promptTemplate: 'error',
         qualityScore: 0,

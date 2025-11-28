@@ -1,4 +1,4 @@
-# Reception: Subitising - COMPRESSED
+# Ages 4-5: Subitising
 
 **Generate EXACTLY {{questionCount}} questions (ages 4-5)**
 

@@ -137,8 +137,8 @@ Generate the following content in valid JSON format:
   ],
   "estimated_time_minutes": 20 (single integer only, no ranges or text - estimate 15-30 based on complexity),
   "curriculum_standards": [
-    "UK National Curriculum code/objective 1",
-    "UK National Curriculum code/objective 2"
+    "Age-appropriate learning objective 1",
+    "Age-appropriate learning objective 2"
   ],
   "faq": [
     {
@@ -190,7 +190,7 @@ Common mistakes to watch for include misunderstanding the question format or rus
 }
 
 function generateDefaultBenefits(metadata: WorksheetMetadata): string {
-  return `This ${metadata.year_group} ${metadata.topic} worksheet provides essential practice in ${metadata.subtopic}, a key component of the UK National Curriculum for mathematics. Designed specifically for ${metadata.year_group} students, this worksheet helps build strong foundations in mathematical understanding through carefully structured questions that progress in difficulty.
+  return `This ${metadata.year_group} ${metadata.topic} worksheet provides essential practice in ${metadata.subtopic}, designed to be age-appropriate and developmentally suitable. Designed specifically for ${metadata.year_group} students, this worksheet helps build strong foundations in mathematical understanding through carefully structured questions that progress in difficulty.
 
 The worksheet develops core mathematical skills while also building transferable skills such as problem-solving, logical thinking, and attention to detail. Regular practice with worksheets like this helps students build confidence, develop fluency, and prepare for more advanced mathematical concepts.
 
@@ -218,7 +218,7 @@ function estimateTime(metadata: WorksheetMetadata): number {
 function generateDefaultStandards(metadata: WorksheetMetadata): string[] {
   // Map year groups to curriculum objectives (simplified)
   const yearMapping: Record<string, string[]> = {
-    'Reception': ['EYFS - Numbers', 'EYFS - Shape, Space and Measures'],
+    'Reception': ['Early Years - Numbers', 'Early Years - Shape, Space and Measures'],
     'Year 1': ['NC Year 1 - Number and Place Value', 'NC Year 1 - Addition and Subtraction'],
     'Year 2': ['NC Year 2 - Number and Place Value', 'NC Year 2 - Addition and Subtraction'],
     'Year 3': ['NC Year 3 - Number and Place Value', 'NC Year 3 - Addition, Subtraction, Multiplication and Division'],
@@ -227,7 +227,7 @@ function generateDefaultStandards(metadata: WorksheetMetadata): string[] {
     'Year 6': ['NC Year 6 - Number and Place Value', 'NC Year 6 - Ratio and Proportion']
   }
 
-  return yearMapping[metadata.year_group] || ['UK National Curriculum Mathematics']
+  return yearMapping[metadata.year_group] || ['Age-appropriate Mathematics']
 }
 
 function generateDefaultFAQ(metadata: WorksheetMetadata): Array<{question: string; answer: string}> {

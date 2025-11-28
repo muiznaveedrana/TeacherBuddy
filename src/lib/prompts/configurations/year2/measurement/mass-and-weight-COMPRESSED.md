@@ -1,4 +1,4 @@
-# Year 2: Mass/Weight
+# Ages 6-7: Mass/Weight
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Standard units (g, kg).**
 

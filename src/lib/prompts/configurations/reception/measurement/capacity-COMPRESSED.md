@@ -1,4 +1,4 @@
-# Reception: Capacity - COMPRESSED
+# Ages 4-5: Capacity
 
 **Generate EXACTLY {{questionCount}} questions (ages 4-5)**
 

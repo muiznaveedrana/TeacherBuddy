@@ -1,4 +1,4 @@
-# Year 2: Sorting & Classifying Shapes
+# Ages 6-7: Sorting & Classifying Shapes
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Sort by properties, Venn diagrams.**
 

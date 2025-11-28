@@ -1,4 +1,4 @@
-# Y4: Factor Pairs ({{questionCount}}Q)
+# Ages 8-9: Factor Pairs
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Find all factor pairs for numbers up to 100.**
 

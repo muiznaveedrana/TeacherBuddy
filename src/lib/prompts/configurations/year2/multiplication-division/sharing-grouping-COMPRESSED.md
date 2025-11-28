@@ -1,4 +1,4 @@
-# Year 2: Sharing and Grouping
+# Ages 6-7: Sharing and Grouping
 
 Generate EXACTLY {{questionCount}} Year 2 sharing and grouping questions.
 

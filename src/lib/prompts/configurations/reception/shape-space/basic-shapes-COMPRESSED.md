@@ -1,4 +1,4 @@
-# Reception: Basic Shapes - COMPRESSED
+# Ages 4-5: Basic Shapes
 
 **Generate EXACTLY {{questionCount}} questions (ages 4-5)**
 

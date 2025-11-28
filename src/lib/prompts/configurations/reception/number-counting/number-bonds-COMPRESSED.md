@@ -1,4 +1,4 @@
-# Reception: Number Bonds - COMPRESSED
+# Ages 4-5: Number Bonds
 
 **Generate EXACTLY {{questionCount}} questions (ages 4-5)**
 

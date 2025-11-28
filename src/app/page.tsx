@@ -33,8 +33,8 @@ export const metadata: Metadata = {
     "year 4 worksheets",
     "year 5 worksheets",
     "year 6 worksheets",
-    "KS1 printables",
-    "KS2 printables",
+    "ages 5-7 printables",
+    "ages 7-11 printables",
     "primary maths resources",
     // Universal
     "free printables",

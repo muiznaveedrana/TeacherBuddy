@@ -1,4 +1,4 @@
-# Y3: Comparing and Ordering Numbers ({{questionCount}}Q)
+# Ages 7-8: Comparing and Ordering Numbers
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Compare/order 0-1000 using <, >, =.**
 

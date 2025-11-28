@@ -1,4 +1,4 @@
-# Year 2: Tally Charts
+# Ages 6-7: Tally Charts
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Read, interpret, and create tally charts.**
 

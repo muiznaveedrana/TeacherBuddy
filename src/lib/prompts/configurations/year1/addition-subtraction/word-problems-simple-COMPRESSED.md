@@ -1,4 +1,4 @@
-# Year 1: Simple Word Problems (COMPRESSED)
+# Ages 5-6: Simple Word Problems
 
 Generate EXACTLY {{questionCount}} Year 1 simple word problems (addition/subtraction).
 

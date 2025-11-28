@@ -1,15 +1,15 @@
-# Y6: Use Estimation to Check Answers ({{questionCount}}Q)
+# Ages 10-11: Use Estimation to Check Answers
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Use estimation and approximation to check answers to calculations and solve problems.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (Ages 10-11, SATs Level)
+## YEAR 6 FOCUS (Ages 10-11, Advanced Level)
 - **Estimation first**: Always estimate before calculating
 - **Rounding strategies**: To 10, 100, 1000, 10000, 100000
 - **Checking**: Use estimation to verify answers
 - **Reasonableness**: Does the answer make sense?
-- **SATs**: Explain estimation choices
+- **Challenge**: Explain estimation choices
 
 ## QUESTION TYPES
 
@@ -21,7 +21,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
 **Q4**: Multiple estimation methods. Estimate 4,567 × 89 using two different rounding strategies.
 
-**Q5**: SATs problem. Use estimation to choose between options.
+**Q5**: Challenge problem. Use estimation to choose between options.
 
 ## ESTIMATION STRATEGIES (Year 6)
 
@@ -99,10 +99,10 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 - [ ] Q2: Check given answer?
 - [ ] Q3: Estimation to solve problem?
 - [ ] Q4: Multiple estimation methods?
-- [ ] Q5: SATs-style with options?
+- [ ] Q5: Challenge with options?
 - [ ] Different rounding strategies shown?
 - [ ] Comparison with actual answers?
 - [ ] Colored backgrounds Q1-Q5?
-- [ ] Year 6 SATs appropriate?
+- [ ] Year 6 appropriate (ages 10-11)?
 
-Generate complete HTML. UK Year 6 aligned (ages 10-11, SATs level).
+Generate complete HTML. Year 6 (ages 10-11, advanced level).

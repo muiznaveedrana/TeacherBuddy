@@ -1,4 +1,4 @@
-# Year 2: 2D Shapes Properties
+# Ages 6-7: 2D Shapes Properties
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Properties: sides, vertices (corners), lines of symmetry.**
 

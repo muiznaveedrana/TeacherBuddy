@@ -1,22 +1,22 @@
-# Y6: Linear Sequences ({{questionCount}}Q)
+# Ages 10-11: Linear Sequences
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Generate and describe linear number sequences, find nth term.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (SATs Level, NEW TOPIC)
+## YEAR 6 FOCUS (Advanced Level, NEW TOPIC)
 - **Linear sequences**: Common difference (constant increase/decrease)
 - **Generate terms**: Continue patterns using rules
 - **Describe**: Express rule in words and numbers
 - **nth term**: Introduction to n and nth term formula
-- **SATs**: Real-world sequence applications
+- **Challenge**: Real-world sequence applications
 
 ## QUESTION TYPES
 **Q1**: Continue sequence (3, 7, 11, 15, __, __)
 **Q2**: Find missing terms (5, __, 13, __, 21)
 **Q3**: Describe rule (What is the pattern? What comes next?)
 **Q4**: nth term introduction (If pattern is +4 starting at 3, what is 10th term?)
-**Q5**: SATs sequence problem
+**Q5**: Challenge sequence problem
 
 ## LINEAR SEQUENCES
 
@@ -91,6 +91,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 - [ ] Finding missing terms?
 - [ ] Describing rules clearly?
 - [ ] nth term introduction?
-- [ ] Year 6 SATs appropriate?
+- [ ] Year 6 appropriate (ages 10-11)?
 
-Generate complete HTML. UK Year 6 aligned (NEW Algebra topic).
+Generate complete HTML. Year 6 (NEW Algebra topic).

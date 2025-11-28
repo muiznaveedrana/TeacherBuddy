@@ -1,14 +1,14 @@
-# Y6: Rounding to Any Degree of Accuracy ({{questionCount}}Q)
+# Ages 10-11: Rounding to Any Degree of Accuracy
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Round any whole number to a required degree of accuracy.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (Ages 10-11, SATs Level)
+## YEAR 6 FOCUS (Ages 10-11, Advanced Level)
 - **Flexibility**: Round to nearest 10, 100, 1000, 10000, 100000, 1000000
 - **Any number**: Up to 10,000,000
 - **Decision making**: Choose appropriate degree of rounding
-- **SATs reasoning**: Explain rounding choices
+- **Advanced reasoning**: Explain rounding choices
 - **Applications**: Estimating, approximating, real-world contexts
 
 ## QUESTION TYPES
@@ -19,7 +19,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
 **Q3**: Choose appropriate rounding. "Population 3,456,789. Round appropriately for a newspaper headline."
 
-**Q4**: Reverse rounding (SATs). "Number rounds to 5,000 (nearest 1000). What could it be?"
+**Q4**: Reverse rounding (Challenge). "Number rounds to 5,000 (nearest 1000). What could it be?"
 
 **Q5**: Word problem. "Budget £4,567,890. Round to nearest £100,000 for presentation."
 
@@ -82,7 +82,7 @@ Look at **hundred thousands** digit: 4
 
 **Answer**: 3,000,000
 
-## CHOOSING APPROPRIATE ROUNDING (SATs Focus)
+## CHOOSING APPROPRIATE ROUNDING (Key Skill)
 
 ### When to round to nearest 10
 - Precise estimates needed
@@ -104,7 +104,7 @@ Look at **hundred thousands** digit: 4
 - Newspaper headlines
 - Example: "Country population: 5,678,900" → 5,700,000
 
-## REVERSE ROUNDING (SATs Reasoning)
+## REVERSE ROUNDING (Advanced Reasoning)
 
 ### Example: "Number rounds to 3,000 (nearest 1,000). What could it be?"
 
@@ -236,10 +236,10 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 4. Can round to any place value
 5. Choose appropriate degree for context
 6. Reverse rounding: find range of possibilities
-7. SATs: explain rounding choices
+7. Challenge: explain rounding choices
 8. Answer key with full working
 9. Colored backgrounds Q1-Q5
-10. Year 6 SATs appropriate
+10. Year 6 appropriate (ages 10-11)
 
 ## VALIDATION
 
@@ -247,13 +247,13 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 - [ ] Q1: Round to specified large place value?
 - [ ] Q2: Multiple roundings of same number?
 - [ ] Q3: Choose appropriate degree of rounding?
-- [ ] Q4: Reverse rounding (SATs reasoning)?
+- [ ] Q4: Reverse rounding (Advanced reasoning)?
 - [ ] Q5: Real-world application?
 - [ ] All place values covered (10 to 1,000,000)?
 - [ ] Rounding chains shown?
 - [ ] Number lines included?
 - [ ] Colored backgrounds Q1-Q5?
 - [ ] Answer key with explanations?
-- [ ] Year 6 SATs appropriate?
+- [ ] Year 6 appropriate (ages 10-11)?
 
-Generate complete HTML. UK Year 6 aligned (ages 10-11, SATs level).
+Generate complete HTML. Year 6 (ages 10-11, advanced level).

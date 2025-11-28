@@ -1,14 +1,14 @@
-# Y6: Solve Multi-step Problems ({{questionCount}}Q)
+# Ages 10-11: Solve Multi-step Problems
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Solve complex 3-4 step problems involving addition and subtraction with large numbers.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (Ages 10-11, SATs Level)
+## YEAR 6 FOCUS (Ages 10-11, Advanced Level)
 - **Complexity**: 3-4 step problems
 - **Numbers**: Up to 10,000,000
 - **Mixed operations**: Addition and subtraction combined
-- **SATs reasoning**: Show all working, explain choices
+- **Advanced reasoning**: Show all working, explain choices
 - **Problem-solving**: Identify information needed, plan solution
 
 ## QUESTION TYPES
@@ -21,9 +21,9 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
 **Q4**: Comparison across multiple steps. Multi-stage problem with final comparison.
 
-**Q5**: SATs-style complex scenario. Real-world context requiring careful reading and planning.
+**Q5**: Challenge complex scenario. Real-world context requiring careful reading and planning.
 
-## PROBLEM-SOLVING PROCESS (Year 6 SATs)
+## PROBLEM-SOLVING PROCESS (Year 6 Advanced)
 
 ### 1. READ CAREFULLY
 - Read twice
@@ -100,10 +100,10 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 - [ ] Q2: Working backwards problem?
 - [ ] Q3: Missing information problem?
 - [ ] Q4: Comparison problem?
-- [ ] Q5: SATs-style complex scenario?
+- [ ] Q5: Challenge complex scenario?
 - [ ] Large numbers (up to 10,000,000)?
 - [ ] Clear step structure shown?
 - [ ] Colored backgrounds Q1-Q5?
-- [ ] Year 6 SATs appropriate?
+- [ ] Year 6 appropriate (ages 10-11)?
 
-Generate complete HTML. UK Year 6 aligned (ages 10-11, SATs level).
+Generate complete HTML. Year 6 (ages 10-11, advanced level).

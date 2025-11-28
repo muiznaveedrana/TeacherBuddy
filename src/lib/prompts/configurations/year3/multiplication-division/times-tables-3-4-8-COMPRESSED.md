@@ -1,4 +1,4 @@
-# Y3: Times Tables 3, 4, 8 ({{questionCount}}Q)
+# Ages 7-8: Times Tables 3, 4, 8
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Times tables: 3, 4, 8 up to ×12.**
 

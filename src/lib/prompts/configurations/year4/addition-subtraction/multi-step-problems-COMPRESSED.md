@@ -1,4 +1,4 @@
-# Y4: Multi-Step Problems ({{questionCount}}Q)
+# Ages 8-9: Multi-Step Problems
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Two and three-step word problems with reasoning.**
 

@@ -1,22 +1,22 @@
-# Y6: Common Factors and Multiples ({{questionCount}}Q)
+# Ages 10-11: Common Factors and Multiples
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Identify common factors, common multiples, prime numbers, HCF and LCM.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (SATs Level)
+## YEAR 6 FOCUS (Advanced Level)
 - **HCF**: Highest Common Factor
 - **LCM**: Lowest Common Multiple
 - **Prime numbers**: Up to 100
 - **Prime factors**: Express numbers as products of primes
-- **SATs**: Apply to problem-solving
+- **Challenge**: Apply to problem-solving
 
 ## QUESTION TYPES
 **Q1**: Find HCF of two numbers (24 and 36)
 **Q2**: Find LCM of two numbers (6 and 8)
 **Q3**: Identify primes up to 100
 **Q4**: Prime factorization (express 60 as product of primes)
-**Q5**: SATs problem using HCF/LCM
+**Q5**: Challenge problem using HCF/LCM
 
 ## KEY CONCEPTS
 
@@ -72,7 +72,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 - [ ] HCF and LCM covered?
 - [ ] Prime numbers to 100?
 - [ ] Prime factorization?
-- [ ] SATs problem-solving application?
+- [ ] Challenge problem-solving application?
 - [ ] Year 6 appropriate?
 
-Generate complete HTML. UK Year 6 aligned.
+Generate complete HTML. Year 6.

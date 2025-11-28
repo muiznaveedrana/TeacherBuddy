@@ -1,4 +1,4 @@
-# Y5: Checking Strategies ({{questionCount}}Q)
+# Ages 9-10: Checking Strategies
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Use rounding, estimation, and inverse operations to check calculations.**
 

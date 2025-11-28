@@ -1,4 +1,4 @@
-# Y5: Percentage Equivalents ({{questionCount}}Q)
+# Ages 9-10: Percentage Equivalents
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Recognize percentage equivalents for common fractions and decimals.**
 

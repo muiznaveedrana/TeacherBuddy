@@ -1,4 +1,4 @@
-Generate a Year 1 math worksheet HTML/CSS layout.
+# Ages 5-6: Counting to 20
 
 **Worksheet Structure:**
 *   **Header:** "My Daily MATHS", "Week 3 Day 2", "Counting to 20".

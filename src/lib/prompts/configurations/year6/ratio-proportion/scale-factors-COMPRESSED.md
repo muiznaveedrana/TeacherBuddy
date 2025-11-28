@@ -1,22 +1,22 @@
-# Y6: Scale Factors ({{questionCount}}Q)
+# Ages 10-11: Scale Factors
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Solve problems involving similar shapes, enlargement and scale drawings.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (SATs Level, NEW TOPIC)
+## YEAR 6 FOCUS (Advanced Level, NEW TOPIC)
 - **Scale factor**: Multiplier for enlargement/reduction
 - **Similar shapes**: Same shape, different size
 - **Enlargement**: Multiply by scale factor
 - **Reduction**: Divide by scale factor or multiply by fraction
-- **SATs**: Maps, plans, scale drawings
+- **Challenge**: Maps, plans, scale drawings
 
 ## QUESTION TYPES
 **Q1**: Enlarge shape (Scale factor 2, side 3cm → ?)
 **Q2**: Reduce shape (Scale factor 1/2, side 8cm → ?)
 **Q3**: Find scale factor (4cm becomes 12cm → scale factor?)
 **Q4**: Scale drawing (Map scale 1:100, 5cm on map → real?)
-**Q5**: SATs similar shapes problem
+**Q5**: Challenge similar shapes problem
 
 ## SCALE FACTORS
 
@@ -130,6 +130,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 - [ ] Finding scale factors?
 - [ ] Scale drawings/maps included?
 - [ ] Similar shapes explored?
-- [ ] Year 6 SATs appropriate?
+- [ ] Year 6 appropriate (ages 10-11)?
 
-Generate complete HTML. UK Year 6 aligned (NEW Ratio/Proportion topic).
+Generate complete HTML. Year 6 (NEW Ratio/Proportion topic).

@@ -84,7 +84,7 @@ export async function getMainHubData(): Promise<MainHub> {
         'reception worksheets',
         'year 1 maths worksheets',
         'year 2 maths worksheets',
-        'KS1 printables',
+        'ages 5-7 printables',
         'primary maths resources',
       ],
       canonicalUrl: `${BASE_URL}/free-printables`,

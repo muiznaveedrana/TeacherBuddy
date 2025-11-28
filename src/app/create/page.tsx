@@ -473,7 +473,7 @@ function DashboardContent() {
                   subtopic: subtopic,
                   difficulty: difficulty,
                   questionCount: questionCount,
-                  curriculum: `UK National Curriculum - ${yearGroup}`,
+                  curriculum: `Age-appropriate Mathematics - ${yearGroup}`,
                   generatedAt: new Date().toISOString()
                 }
               }

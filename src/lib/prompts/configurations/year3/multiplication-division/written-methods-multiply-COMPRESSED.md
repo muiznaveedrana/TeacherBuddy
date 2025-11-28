@@ -1,4 +1,4 @@
-# Y3: Written Methods - Multiplication ({{questionCount}}Q)
+# Ages 7-8: Written Methods - Multiplication
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Grid method for TU×U multiplication.**
 

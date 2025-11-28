@@ -1,4 +1,4 @@
-# Y3: Three-Digit Addition & Subtraction ({{questionCount}}Q)
+# Ages 7-8: Three-Digit Addition & Subtraction
 
 **CRITICAL: EXACTLY {{questionCount}} questions. 3-digit add/sub with regrouping.**
 

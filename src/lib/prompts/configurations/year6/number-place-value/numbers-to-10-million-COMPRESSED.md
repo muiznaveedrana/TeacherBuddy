@@ -1,17 +1,17 @@
-# Y6: Numbers up to 10,000,000 ({{questionCount}}Q)
+# Ages 10-11: Numbers up to 10,000,000
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Read, write, order and compare numbers up to 10,000,000.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (Ages 10-11, SATs Level)
+## YEAR 6 FOCUS (Ages 10-11, Advanced Level)
 - **Number range**: Up to 10,000,000 (ten million)
 - **Place value**: M|HTh|TTh|Th|H|T|O (7-digit numbers)
 - **Reading**: Three million, four hundred and fifty-six thousand, seven hundred and eighty-nine
 - **Writing**: 3,456,789
 - **Comparing**: Use <, >, = with very large numbers
 - **Ordering**: Complex sequences with millions
-- **SATs readiness**: Multi-step reasoning with large numbers
+- **Challenge level**: Multi-step reasoning with large numbers
 
 ## QUESTION TYPES
 
@@ -23,7 +23,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
 **Q4**: Ordering numbers. Arrange 7-8 numbers from smallest to largest.
 
-**Q5**: SATs-style word problem. "Country A: 8,456,789 population. Country B: 789,456 more. Country C: 234,567 less than B. Order by population."
+**Q5**: Challenge word problem. "Country A: 8,456,789 population. Country B: 789,456 more. Country C: 234,567 less than B. Order by population."
 
 ## PLACE VALUE STRUCTURE (Year 6)
 
@@ -72,7 +72,7 @@ M | HTh | TTh | Th | H | T | O
 3. Ones: "forty-one" = 41
 4. Combine: 6,325,041
 
-### Dealing with Zeros (SATs Focus)
+### Dealing with Zeros (Key Skill)
 - "Five million and five" = 5,000,005 (zeros as placeholders)
 - "Eight million, three thousand" = 8,003,000
 - "Two million, forty" = 2,000,040
@@ -89,7 +89,7 @@ M | HTh | TTh | Th | H | T | O
 
 **Answer**: 4,567,890 < 4,576,890
 
-### SATs-style tricky comparisons
+### Tricky comparisons
 **Compare 9,999,999 and 10,000,000**
 
 - 9,999,999 is largest 7-digit number
@@ -97,7 +97,7 @@ M | HTh | TTh | Th | H | T | O
 
 **Answer**: 9,999,999 < 10,000,000
 
-## ORDERING NUMBERS (SATs Level)
+## ORDERING NUMBERS (Advanced Level)
 
 **Example**: Order 5,234,567 | 4,987,654 | 5,432,109 | 5,234,098 | 6,123,456
 
@@ -120,7 +120,7 @@ M | HTh | TTh | Th | H | T | O
 - + 80 (8 tens)
 - + 9 (9 ones)
 
-### Flexible partitioning (SATs strategy)
+### Flexible partitioning (advanced strategy)
 **3,456,789** could also be:
 - 3,400,000 + 56,789
 - 3,450,000 + 6,789
@@ -185,9 +185,9 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 .ordering-title-y6{font-size:20pt;font-weight:bold;color:#7B1FA2;margin-bottom:18px;text-align:center}
 .numbers-to-order-y6{display:flex;justify-content:center;gap:18px;margin:25px 0;flex-wrap:wrap}
 .order-number-y6{padding:18px 28px;background:#FFF;border:4px solid #9C27B0;border-radius:8px;font-size:30pt;font-weight:bold;color:#7B1FA2;font-family:'Courier New',monospace}
-.sats-problem{margin:20px 0;padding:20px;background:#E3F2FD;border:4px solid #2196F3;border-radius:8px}
-.sats-title{font-size:20pt;font-weight:bold;color:#1565C0;margin-bottom:18px;text-align:center}
-.sats-text{font-size:19pt;line-height:1.9;color:#0D47A1;background:#FFF;padding:20px;border:3px dashed #2196F3;border-radius:8px;margin-bottom:20px}
+.challenge-problem{margin:20px 0;padding:20px;background:#E3F2FD;border:4px solid #2196F3;border-radius:8px}
+.challenge-title{font-size:20pt;font-weight:bold;color:#1565C0;margin-bottom:18px;text-align:center}
+.challenge-text{font-size:19pt;line-height:1.9;color:#0D47A1;background:#FFF;padding:20px;border:3px dashed #2196F3;border-radius:8px;margin-bottom:20px}
 .instruction-box{margin:18px 0;padding:16px;background:#E8F4F8;border:3px dashed #2196F3;border-radius:8px;font-size:19pt;font-weight:600;color:#1565C0}
 .answer-box{display:inline-block;min-width:150px;height:65px;border:3px solid #333;border-radius:8px;background:#FFF;vertical-align:middle;margin:0 10px;font-size:28pt;line-height:65px;text-align:center}
 .working-space{border:3px dashed #999;padding:15px;margin:15px 0;min-height:120px;background:#FAFAFA;border-radius:8px}
@@ -222,7 +222,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 
 **Answer**: 4,567,890 < 4,576,890
 
-### SATs Problem: Country populations
+### Challenge Problem: Country populations
 - Country A: 8,456,789
 - Country B: 8,456,789 + 789,456 = 9,246,245
 - Country C: 9,246,245 - 234,567 = 9,011,678
@@ -230,7 +230,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 **Order**: A < C < B
 **Answer**: 8,456,789, 9,011,678, 9,246,245
 
-## KEY NUMBERS TO KNOW (Year 6, SATs)
+## KEY NUMBERS TO KNOW (Year 6, Ages 10-11)
 
 | Number | Words | Notes |
 |--------|-------|-------|
@@ -246,10 +246,10 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 3. Read in groups: millions | thousands | ones
 4. Compare digit by digit from left
 5. Zero is crucial placeholder
-6. SATs: multi-step reasoning with large numbers
+6. Challenge: multi-step reasoning with large numbers
 7. Answer key with full working
 8. Colored backgrounds Q1-Q5
-9. Year 6 appropriate (ages 10-11, SATs level)
+9. Year 6 appropriate (ages 10-11, advanced level)
 10. Use "and" when reading (UK style)
 
 ## VALIDATION
@@ -259,12 +259,12 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 - [ ] Q2: Converting words ↔ figures?
 - [ ] Q3: Comparing with <, >, =?
 - [ ] Q4: Ordering multiple very large numbers?
-- [ ] Q5: SATs-style multi-step problem?
+- [ ] Q5: Challenge multi-step problem?
 - [ ] Numbers up to 10,000,000?
 - [ ] Commas used correctly (4,567,890)?
 - [ ] Place value M|HTh|TTh|Th|H|T|O shown?
 - [ ] Colored backgrounds Q1-Q5?
 - [ ] Answer key with explanations?
-- [ ] Year 6 SATs appropriate?
+- [ ] Year 6 appropriate (ages 10-11)?
 
-Generate complete HTML. UK Year 6 aligned (ages 10-11, SATs level).
+Generate complete HTML. Year 6 (ages 10-11, advanced level).

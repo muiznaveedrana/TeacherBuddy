@@ -1,21 +1,21 @@
-# Y6: Divide 4-digit by 2-digit ({{questionCount}}Q)
+# Ages 10-11: Divide 4-digit by 2-digit
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Long division: divide up to 4 digits by 2 digits.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (SATs Level)
+## YEAR 6 FOCUS (Advanced Level)
 - **Format**: ThHTO ÷ TO (e.g., 2,436 ÷ 24)
 - **Method**: Long division (chunking or traditional)
 - **Remainders**: As whole numbers or interpret in context
-- **SATs**: Multi-step problems
+- **Challenge**: Multi-step problems
 
 ## QUESTION TYPES
 **Q1**: 3-digit ÷ 2-digit (432 ÷ 18)
 **Q2**: 4-digit ÷ 2-digit exact (2,436 ÷ 24)
 **Q3**: With remainder (2,567 ÷ 23)
 **Q4**: Interpret remainder in context
-**Q5**: SATs problem
+**Q5**: Challenge problem
 
 ## LONG DIVISION METHOD
 
@@ -66,6 +66,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 - [ ] Long division method shown?
 - [ ] Chunking alternative?
 - [ ] Remainder interpretation?
-- [ ] Year 6 SATs appropriate?
+- [ ] Year 6 appropriate (ages 10-11)?
 
-Generate complete HTML. UK Year 6 aligned.
+Generate complete HTML. Year 6.

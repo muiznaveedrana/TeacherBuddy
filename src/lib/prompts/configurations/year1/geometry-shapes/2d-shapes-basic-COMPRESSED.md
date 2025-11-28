@@ -1,4 +1,4 @@
-# Year 1: 2D Shapes - Basic
+# Ages 5-6: 2D Shapes - Basic
 
 Generate EXACTLY {{questionCount}} Year 1 2D shapes questions.
 

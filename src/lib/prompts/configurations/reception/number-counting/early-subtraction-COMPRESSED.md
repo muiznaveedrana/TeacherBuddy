@@ -1,4 +1,4 @@
-# Reception: Early Subtraction - COMPRESSED
+# Ages 4-5: Early Subtraction
 
 **Generate EXACTLY {{questionCount}} questions (ages 4-5)**
 

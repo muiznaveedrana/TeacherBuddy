@@ -1,4 +1,4 @@
-# Y4: Formal Written Methods (Mult/Div) ({{questionCount}}Q)
+# Ages 8-9: Formal Written Methods (Mult/Div)
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Short multiplication TU×U and short division TU÷U.**
 

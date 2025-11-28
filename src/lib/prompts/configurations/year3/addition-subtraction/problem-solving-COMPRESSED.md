@@ -1,4 +1,4 @@
-# Y3: Problem Solving ({{questionCount}}Q)
+# Ages 7-8: Problem Solving
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Real-world problem solving with reasoning.**
 

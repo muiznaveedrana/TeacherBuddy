@@ -1,4 +1,4 @@
-# Reception: Early Addition - COMPRESSED
+# Ages 4-5: Early Addition
 
 **Generate EXACTLY {{questionCount}} questions (ages 4-5)**
 

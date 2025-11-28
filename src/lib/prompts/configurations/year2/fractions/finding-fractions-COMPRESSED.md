@@ -1,4 +1,4 @@
-# Year 2: Finding Fractions
+# Ages 6-7: Finding Fractions
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Find fractions of shapes AND quantities.**
 

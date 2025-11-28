@@ -403,7 +403,7 @@ ${scrappingDoodleGuidance}
 ${this.getAgeBasedImageRules(config.yearGroup)}
 
 **CORE REQUIREMENTS:**
-- UK National Curriculum aligned for ${config.subtopic}
+- Age-appropriate content for ${config.subtopic}
 - Age-appropriate vocabulary for ${config.yearGroup}
 - Names: Emma, Oliver, Sophie, James, Lily, Thomas, Grace, Harry (vary order)${themeContext ? `\n- Theme: ${themeContext}` : ''}
 - Complete HTML document starting with <!DOCTYPE html>

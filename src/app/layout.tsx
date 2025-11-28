@@ -21,9 +21,9 @@ const kalam = Kalam({
 });
 
 export const metadata: Metadata = {
-  title: "Free Math Printables UK | FreeMathPrintable.com",
-  description: "Download thousands of free math printables for UK primary schools (Reception to Year 6). Free library aligned with UK National Curriculum.",
-  keywords: "free math printables, printable worksheets UK, primary school printables, maths printables free, KS1 printables, KS2 printables, free printables",
+  title: "Free Math Printables | FreeMathPrintable.com",
+  description: "Download thousands of free math printables for ages 4-11 (Kindergarten to Grade 6 / Reception to Year 6). Age-appropriate worksheets for primary and elementary schools.",
+  keywords: "free math printables, printable worksheets, primary school printables, maths printables free, elementary math printables, free printables, ages 4-11",
   manifest: "/manifest.json",
   themeColor: "#1d4ed8",
   viewport: {

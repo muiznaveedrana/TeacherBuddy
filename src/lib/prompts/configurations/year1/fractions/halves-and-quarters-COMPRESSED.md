@@ -1,4 +1,4 @@
-# Year 1: Halves and Quarters
+# Ages 5-6: Halves and Quarters
 
 Generate EXACTLY {{questionCount}} Year 1 fractions questions.
 

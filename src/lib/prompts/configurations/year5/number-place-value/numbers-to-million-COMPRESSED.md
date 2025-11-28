@@ -1,4 +1,4 @@
-# Y5: Numbers to 1,000,000 ({{questionCount}}Q)
+# Ages 9-10: Numbers to 1,000,000
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Read, write, order and compare numbers up to 1,000,000.**
 

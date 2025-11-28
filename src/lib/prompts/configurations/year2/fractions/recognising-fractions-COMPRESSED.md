@@ -1,4 +1,4 @@
-# Year 2: Recognising Fractions
+# Ages 6-7: Recognising Fractions
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Fractions: 1/2, 1/4, 2/4, 3/4.**
 

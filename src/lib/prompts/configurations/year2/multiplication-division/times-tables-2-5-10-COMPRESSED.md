@@ -1,4 +1,4 @@
-# Year 2: Times Tables 2, 5, 10
+# Ages 6-7: Times Tables 2, 5, 10
 
 Generate EXACTLY {{questionCount}} Year 2 times tables (2, 5, 10) questions.
 

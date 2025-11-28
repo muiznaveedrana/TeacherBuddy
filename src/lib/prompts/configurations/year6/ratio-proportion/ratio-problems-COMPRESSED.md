@@ -1,22 +1,22 @@
-# Y6: Ratio Problems ({{questionCount}}Q)
+# Ages 10-11: Ratio Problems
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Solve problems involving relative sizes using ratio notation.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (SATs Level, NEW TOPIC)
+## YEAR 6 FOCUS (Advanced Level, NEW TOPIC)
 - **Ratio notation**: 3:2 (3 to 2)
 - **Relative sizes**: Compare quantities
 - **Sharing**: Divide amounts in given ratios
 - **Simplifying**: Reduce ratios to simplest form
-- **SATs**: Real-world ratio applications
+- **Challenge**: Real-world ratio applications
 
 ## QUESTION TYPES
 **Q1**: Write ratio (6 red, 4 blue → ratio?)
 **Q2**: Simplify ratio (8:4 = ?)
 **Q3**: Share in ratio (Share £20 in ratio 3:2)
 **Q4**: Find quantities from ratio (Ratio 4:3, total 28, find each)
-**Q5**: SATs ratio problem
+**Q5**: Challenge ratio problem
 
 ## UNDERSTANDING RATIOS
 
@@ -121,6 +121,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 - [ ] Simplifying ratios included?
 - [ ] Sharing in ratios covered?
 - [ ] Finding quantities from ratios?
-- [ ] Year 6 SATs appropriate?
+- [ ] Year 6 appropriate (ages 10-11)?
 
-Generate complete HTML. UK Year 6 aligned (NEW Ratio/Proportion topic).
+Generate complete HTML. Year 6 (NEW Ratio/Proportion topic).

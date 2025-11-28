@@ -1,4 +1,4 @@
-# Year 1: Counting Forwards & Backwards Worksheet
+# Ages 5-6: Counting Forwards & Backwards Worksheet
 
 **Generate EXACTLY {{questionCount}} questions. Choose from the question types below.**
 

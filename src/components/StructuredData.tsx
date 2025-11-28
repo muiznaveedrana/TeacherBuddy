@@ -19,7 +19,7 @@ export function OrganizationSchema() {
     "name": "FreeMathPrintable.com",
     "url": "https://freemathprintable.com",
     "logo": "https://freemathprintable.com/logo.png",
-    "description": "Free math printables for UK primary schools. Thousands of worksheets for Reception to Year 6, aligned with the UK National Curriculum.",
+    "description": "Free math printables for primary and elementary schools. Thousands of worksheets for Kindergarten to Grade 6 (ages 4-11), age-appropriate and ready to print.",
     "address": {
       "@type": "PostalAddress",
       "addressCountry": "GB"
@@ -29,7 +29,7 @@ export function OrganizationSchema() {
     "knowsAbout": [
       "Mathematics Education",
       "Primary School Teaching",
-      "UK National Curriculum",
+      "Elementary Math",
       "Printable Worksheets",
       "Educational Resources"
     ]
@@ -88,7 +88,7 @@ export function FAQSchema() {
         "name": "What year groups do you cover?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "We cover Reception through Year 6 (ages 4-11), which includes EYFS, KS1 (Years 1-2), and KS2 (Years 3-6). All worksheets are aligned with the UK National Curriculum."
+          "text": "We cover Kindergarten through Grade 6 (Reception to Year 6), which covers ages 4-11. All worksheets are age-appropriate and developmentally suitable for each year group."
         }
       },
       {
@@ -112,7 +112,7 @@ export function FAQSchema() {
         "name": "Are the worksheets aligned with the UK curriculum?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, all our worksheets are carefully designed to align with the UK National Curriculum for Mathematics. We cover all key topics for each year group."
+          "text": "Yes, all our worksheets are carefully designed to be age-appropriate and match developmental milestones. We cover all key math topics for each age group."
         }
       },
       {

@@ -1,4 +1,4 @@
-# Reception: Simple Patterns - COMPRESSED
+# Ages 4-5: Simple Patterns
 
 **Generate EXACTLY {{questionCount}} questions (ages 4-5)**
 

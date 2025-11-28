@@ -1,4 +1,4 @@
-# Year 2: Mental Add/Sub Strategies
+# Ages 6-7: Mental Add/Sub Strategies
 
 **CRITICAL: EXACTLY {{questionCount}} questions.**
 

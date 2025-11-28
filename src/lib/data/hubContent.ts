@@ -32,7 +32,7 @@ export function generateHubContent(
 }
 
 function generateIntroduction(yearGroup: string, subtopicLabel: string, ageRange: string): string {
-  return `Welcome to our collection of free ${subtopicLabel.toLowerCase()} worksheets designed specifically for ${yearGroup} children (ages ${ageRange}). These printable resources are carefully crafted to align with the UK National Curriculum, making them perfect for classroom use, homework assignments, or home learning activities. Each worksheet is designed to build confidence and develop essential mathematical skills in a fun, engaging way.`
+  return `Welcome to our collection of free ${subtopicLabel.toLowerCase()} worksheets designed specifically for children ages ${ageRange}. These printable resources are carefully crafted to be age-appropriate and developmentally suitable, making them perfect for classroom use, homework assignments, or home learning activities. Each worksheet is designed to build confidence and develop essential mathematical skills in a fun, engaging way.`
 }
 
 function generateWhyImportant(subtopicLabel: string, yearGroup: string, skillLevel: string): string {
@@ -113,10 +113,14 @@ function generateSkillsDeveloped(subtopicLabel: string, learningObjectives: stri
 }
 
 function generateCurriculumAlignment(yearGroup: string, topicLabel: string, subtopicLabel: string): string {
-  const keyStage = yearGroup === 'Reception' ? 'Early Years Foundation Stage (EYFS)' :
-                   ['Year 1', 'Year 2'].includes(yearGroup) ? 'Key Stage 1 (KS1)' : 'Key Stage 2 (KS2)'
+  const ageRange = yearGroup === 'Reception' ? '4-5' :
+                   yearGroup === 'Year 1' ? '5-6' :
+                   yearGroup === 'Year 2' ? '6-7' :
+                   yearGroup === 'Year 3' ? '7-8' :
+                   yearGroup === 'Year 4' ? '8-9' :
+                   yearGroup === 'Year 5' ? '9-10' : '10-11'
 
-  return `These ${subtopicLabel.toLowerCase()} worksheets are aligned with the UK National Curriculum for ${yearGroup} (${keyStage}). They cover the ${topicLabel} objectives required at this level, ensuring your child develops the skills expected by the curriculum. All worksheets are created by experienced educators with deep understanding of primary mathematics education.`
+  return `These ${subtopicLabel.toLowerCase()} worksheets are designed for children ages ${ageRange}. They cover age-appropriate ${topicLabel} concepts, ensuring your child develops the skills expected at this developmental stage. All worksheets are created by experienced educators with deep understanding of primary mathematics education.`
 }
 
 function generateAgeAppropriate(yearGroup: string, ageRange: string, subtopicLabel: string): string {
@@ -137,15 +141,15 @@ export function generateHubFAQ(yearGroup: string, subtopicLabel: string, ageRang
     },
     {
       question: `What age group are these ${subtopicLower} worksheets suitable for?`,
-      answer: `These worksheets are designed for ${yearGroup} children, typically aged ${ageRange}. They align with the UK National Curriculum expectations for this year group and are appropriate for the developmental stage of children at this age.`,
+      answer: `These worksheets are designed for children aged ${ageRange}. They are developmentally appropriate and suitable for children at this age, whether used in school or at home.`,
     },
     {
       question: `How do I use these ${subtopicLower} worksheets?`,
       answer: `Simply download the PDF file, print it out, and your child can complete the worksheet with a pencil. We recommend working alongside younger children to provide support and discuss the concepts. Each worksheet includes clear instructions.`,
     },
     {
-      question: `Are these worksheets aligned with the UK curriculum?`,
-      answer: `Yes, all our worksheets are carefully designed to align with the UK National Curriculum objectives for ${yearGroup}. They cover the key learning objectives for ${subtopicLower} at this level.`,
+      question: `Are these worksheets aligned with learning standards?`,
+      answer: `Yes, all our worksheets are carefully designed to match age-appropriate learning objectives. They cover the key developmental milestones for ${subtopicLower} at this level.`,
     },
     {
       question: `Can I use these worksheets in my classroom?`,
@@ -243,13 +247,13 @@ function getAgeDescription(ageRange: string): string {
 
 function getSkillLevel(yearGroup: string): string {
   const levelMap: Record<string, string> = {
-    Reception: 'foundation',
-    'Year 1': 'early primary',
-    'Year 2': 'Key Stage 1',
-    'Year 3': 'lower Key Stage 2',
-    'Year 4': 'mid Key Stage 2',
-    'Year 5': 'upper Key Stage 2',
-    'Year 6': 'end of primary',
+    Reception: 'foundation (ages 4-5)',
+    'Year 1': 'early primary (ages 5-6)',
+    'Year 2': 'primary (ages 6-7)',
+    'Year 3': 'primary (ages 7-8)',
+    'Year 4': 'intermediate (ages 8-9)',
+    'Year 5': 'upper primary (ages 9-10)',
+    'Year 6': 'advanced primary (ages 10-11)',
   }
 
   return levelMap[yearGroup] || 'primary'

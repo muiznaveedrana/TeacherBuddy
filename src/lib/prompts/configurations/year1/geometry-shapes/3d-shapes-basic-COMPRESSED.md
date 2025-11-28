@@ -1,4 +1,4 @@
-# Year 1: 3D Shapes - Basic
+# Ages 5-6: 3D Shapes - Basic
 
 Generate EXACTLY {{questionCount}} Year 1 3D shapes questions.
 

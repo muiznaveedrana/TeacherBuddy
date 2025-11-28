@@ -1,4 +1,4 @@
-# Y4: Equivalent Fractions ({{questionCount}}Q)
+# Ages 8-9: Equivalent Fractions
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Find equivalent fractions by multiplying/dividing numerator and denominator.**
 

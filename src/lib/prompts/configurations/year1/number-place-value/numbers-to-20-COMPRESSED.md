@@ -1,4 +1,4 @@
-# Year 1: Numbers to 20
+# Ages 5-6: Numbers to 20
 
 Generate EXACTLY {{questionCount}} Year 1 numbers to 20 questions.
 

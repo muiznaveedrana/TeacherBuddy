@@ -29,12 +29,12 @@ export function generateLibraryMetadata(config: {
   const title = `${formattedTopic} - ${formattedSubtopic}`
 
   // Generate SEO title (max 60 chars)
-  const seoTitle = `Free ${yearGroup} ${formattedSubtopic} Worksheet | UK Curriculum`
+  const seoTitle = `Free ${yearGroup} ${formattedSubtopic} Worksheet | Math Printables`
 
   // Generate SEO description (max 160 chars)
   const difficultyText = difficulty ? ` (${difficulty} level)` : ''
   const questionText = questionCount ? ` with ${questionCount} questions` : ''
-  const seoDescription = `Download free ${yearGroup} ${formattedSubtopic} worksheet${difficultyText}${questionText}. Aligned with UK National Curriculum. Print-ready PDF format.`
+  const seoDescription = `Download free ${yearGroup} ${formattedSubtopic} worksheet${difficultyText}${questionText}. Age-appropriate and ready to print. PDF format.`
 
   // Generate tags (clean, curriculum-focused only)
   const tags = [

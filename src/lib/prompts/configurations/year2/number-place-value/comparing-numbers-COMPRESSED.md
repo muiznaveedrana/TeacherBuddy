@@ -1,4 +1,4 @@
-# Year 2: Comparing Numbers
+# Ages 6-7: Comparing Numbers
 
 Generate EXACTLY {{questionCount}} Year 2 comparing numbers questions.
 

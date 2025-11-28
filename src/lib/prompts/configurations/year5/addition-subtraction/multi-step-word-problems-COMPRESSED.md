@@ -1,4 +1,4 @@
-# Y5: Multi-step Word Problems ({{questionCount}}Q)
+# Ages 9-10: Multi-step Word Problems
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Solve complex addition/subtraction problems with 2-3 steps using large numbers.**
 

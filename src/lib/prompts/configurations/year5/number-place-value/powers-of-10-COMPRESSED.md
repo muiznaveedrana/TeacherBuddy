@@ -1,4 +1,4 @@
-# Y5: Powers of 10 ({{questionCount}}Q)
+# Ages 9-10: Powers of 10
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Count forwards/backwards in steps of powers of 10 for any number.**
 

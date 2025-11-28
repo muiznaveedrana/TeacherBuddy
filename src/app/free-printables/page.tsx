@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description:
     'Download free math printables for Kindergarten to Grade 6 (Reception to Year 6). Ages 4-11. Curriculum-aligned, ready to print. Perfect for home learning and classroom use.',
   keywords:
-    'free math printables, kindergarten math printables, grade 1 math printables, grade 2 printables, elementary math printables, free maths printables, reception worksheets, year 1 maths printables, year 2 maths printables, KS1 printables, primary maths resources',
+    'free math printables, kindergarten math printables, grade 1 math printables, grade 2 printables, elementary math printables, free maths printables, reception worksheets, year 1 maths printables, year 2 maths printables, primary maths resources, ages 4-11 math worksheets',
   openGraph: {
     title: 'Free Math Printables | Kindergarten to Grade 6',
     description:
@@ -198,8 +198,8 @@ export default async function FreePrintablesPage() {
 
             <h3>Why Choose Our Free Printables?</h3>
             <ul>
-              <li><strong>Curriculum-aligned:</strong> Every printable follows US Common Core and UK National Curriculum objectives</li>
-              <li><strong>Age-appropriate:</strong> Designed by experienced educators for each grade level</li>
+              <li><strong>Age-appropriate:</strong> Every printable is designed for specific developmental stages (ages 4-11)</li>
+              <li><strong>Expert-designed:</strong> Created by experienced educators for each grade level</li>
               <li><strong>Ready to print:</strong> High-quality PDFs that print perfectly every time</li>
               <li><strong>Completely free:</strong> No signup, no subscription, no hidden costs</li>
             </ul>

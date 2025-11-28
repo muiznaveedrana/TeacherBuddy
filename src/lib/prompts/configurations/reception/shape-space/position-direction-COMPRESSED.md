@@ -1,4 +1,4 @@
-# Reception: Position and Direction - COMPRESSED
+# Ages 4-5: Position and Direction
 
 **Generate EXACTLY {{questionCount}} questions (ages 4-5)**
 

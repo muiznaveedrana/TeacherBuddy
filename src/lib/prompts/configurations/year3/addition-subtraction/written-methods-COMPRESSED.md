@@ -1,4 +1,4 @@
-# Y3: Written Column Methods ({{questionCount}}Q)
+# Ages 7-8: Written Column Methods
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Formal written column addition & subtraction.**
 

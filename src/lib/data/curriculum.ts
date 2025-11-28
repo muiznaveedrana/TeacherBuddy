@@ -1,5 +1,5 @@
 /**
- * UK National Curriculum Year Group to Topic to Subtopic mapping
+ * Age-appropriate mathematics topics by year group
  * This data structure drives the curriculum-aligned UI flow
  */
 
@@ -39,7 +39,7 @@ export const YEAR_GROUPS = [
 export const CURRICULUM_MAPPING: YearGroupCurriculum = {
   'Reception': {
     ageRange: '4-5 years',
-    description: 'Early Years Foundation Stage mathematics',
+    description: 'Early mathematical foundations for ages 4-5',
     topics: {
       'number-counting': {
         label: 'Number and Counting',
@@ -81,7 +81,7 @@ export const CURRICULUM_MAPPING: YearGroupCurriculum = {
   },
   'Year 1': {
     ageRange: '5-6 years',
-    description: 'Foundation number concepts and basic operations',
+    description: 'Foundation number concepts and basic operations for ages 5-6',
     topics: {
       'number-place-value': {
         label: 'Number and Place Value',
@@ -135,7 +135,7 @@ export const CURRICULUM_MAPPING: YearGroupCurriculum = {
   },
   'Year 2': {
     ageRange: '6-7 years',
-    description: 'Extending number knowledge and introducing times tables',
+    description: 'Extending number knowledge and introducing times tables for ages 6-7',
     topics: {
       'number-place-value': {
         label: 'Number and Place Value',
@@ -223,7 +223,7 @@ export const CURRICULUM_MAPPING: YearGroupCurriculum = {
   },
   'Year 3': {
     ageRange: '7-8 years',
-    description: 'Developing fluency in fundamental arithmetic',
+    description: 'Developing fluency in fundamental arithmetic for ages 7-8',
     topics: {
       'number-place-value': {
         label: 'Number and Place Value',
@@ -269,7 +269,7 @@ export const CURRICULUM_MAPPING: YearGroupCurriculum = {
   },
   'Year 4': {
     ageRange: '8-9 years',
-    description: 'Consolidating arithmetic and introducing decimal notation',
+    description: 'Consolidating arithmetic and introducing decimal notation for ages 8-9',
     topics: {
       'number-place-value': {
         label: 'Number and Place Value',
@@ -315,7 +315,7 @@ export const CURRICULUM_MAPPING: YearGroupCurriculum = {
   },
   'Year 5': {
     ageRange: '9-10 years',
-    description: 'Advanced arithmetic and introduction to algebra concepts',
+    description: 'Advanced arithmetic and introduction to algebra concepts for ages 9-10',
     topics: {
       'number-place-value': {
         label: 'Number and Place Value',
@@ -361,7 +361,7 @@ export const CURRICULUM_MAPPING: YearGroupCurriculum = {
   },
   'Year 6': {
     ageRange: '10-11 years',
-    description: 'Mastery of primary mathematics and SATs preparation',
+    description: 'Mastery of primary mathematics for ages 10-11',
     topics: {
       'number-place-value': {
         label: 'Number and Place Value',

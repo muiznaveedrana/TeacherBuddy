@@ -1,4 +1,4 @@
-# Y4: Decimals (Tenths) ({{questionCount}}Q)
+# Ages 8-9: Decimals (Tenths)
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Understand decimal tenths as fractions: 0.1 = 1/10.**
 

@@ -1,14 +1,14 @@
-# Y6: Complex Mental Calculations ({{questionCount}}Q)
+# Ages 10-11: Complex Mental Calculations
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Perform mental calculations with large numbers using efficient strategies.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (Ages 10-11, SATs Level)
+## YEAR 6 FOCUS (Ages 10-11, Advanced Level)
 - **Numbers**: Multi-digit, decimals, fractions
 - **Strategies**: Compensation, partitioning, near-doubles, derived facts
 - **Efficiency**: Choose best method for the numbers
-- **SATs**: Explain choice of strategy
+- **Challenge**: Explain choice of strategy
 
 ## QUESTION TYPES
 
@@ -16,7 +16,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 **Q2**: Near-doubles. "4,800 + 4,850 = ?"
 **Q3**: Partition decimals. "3.45 + 2.67 = ?"
 **Q4**: Derived facts. "If 48 × 25 = 1,200, what is 48 × 24?"
-**Q5**: SATs multi-step. "Calculate 3,500 + 2,498 - 1,999"
+**Q5**: Challenge multi-step. "Calculate 3,500 + 2,498 - 1,999"
 
 ## KEY STRATEGIES (Year 6)
 
@@ -68,10 +68,10 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 ## VALIDATION
 - [ ] EXACTLY {{questionCount}} questions?
 - [ ] Q1-Q4: Different strategies demonstrated?
-- [ ] Q5: SATs multi-step problem?
+- [ ] Q5: Challenge multi-step problem?
 - [ ] Large numbers and decimals?
 - [ ] Strategy explanations?
 - [ ] Colored backgrounds Q1-Q5?
-- [ ] Year 6 SATs appropriate?
+- [ ] Year 6 appropriate (ages 10-11)?
 
-Generate complete HTML. UK Year 6 aligned (ages 10-11, SATs level).
+Generate complete HTML. Year 6 (ages 10-11, advanced level).

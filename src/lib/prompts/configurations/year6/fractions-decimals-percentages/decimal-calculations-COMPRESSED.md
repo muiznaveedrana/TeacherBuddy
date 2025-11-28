@@ -1,14 +1,14 @@
-# Y6: Decimal Calculations ({{questionCount}}Q)
+# Ages 10-11: Decimal Calculations
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Perform calculations with decimals up to 3 decimal places.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (SATs Level)
+## YEAR 6 FOCUS (Advanced Level)
 - **Operations**: Add, subtract, multiply, divide decimals
 - **Place value**: Up to 3 decimal places (0.001)
 - **Contexts**: Money, measurements, real-world
-- **SATs**: Problem-solving with decimals
+- **Challenge**: Problem-solving with decimals
 
 ## QUESTION TYPES
 **Q1**: Add decimals (3.456 + 2.789)
@@ -57,6 +57,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 - [ ] All operations covered?
 - [ ] Decimal points aligned?
 - [ ] Powers of 10?
-- [ ] Year 6 SATs appropriate?
+- [ ] Year 6 appropriate (ages 10-11)?
 
-Generate complete HTML. UK Year 6 aligned.
+Generate complete HTML. Year 6.

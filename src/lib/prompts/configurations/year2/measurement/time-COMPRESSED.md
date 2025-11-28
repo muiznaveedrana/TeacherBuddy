@@ -1,4 +1,4 @@
-# Year 2: Time
+# Ages 6-7: Time
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Time to 5 minutes.**
 

@@ -1,21 +1,21 @@
-# Y6: Simple Formulae ({{questionCount}}Q)
+# Ages 10-11: Simple Formulae
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Use simple formulae expressed in words and symbols.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (SATs Level, NEW TOPIC)
+## YEAR 6 FOCUS (Advanced Level, NEW TOPIC)
 - **Introduction to algebra**: Using letters for unknowns
 - **Formulae**: Express relationships (P = 4s for square perimeter)
 - **Substitution**: Replace letters with numbers
-- **SATs**: Real-world formula applications
+- **Challenge**: Real-world formula applications
 
 ## QUESTION TYPES
 **Q1**: Use given formula (P = 2l + 2w, find P when l=5, w=3)
 **Q2**: Write formula from words ("Perimeter of square = 4 × side")
 **Q3**: Substitute and calculate (A = l × w)
 **Q4**: Area and perimeter formulae
-**Q5**: SATs formula problem
+**Q5**: Challenge formula problem
 
 ## KEY FORMULAE (Year 6)
 
@@ -85,6 +85,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 - [ ] Writing formulae from words?
 - [ ] Substitution shown clearly?
 - [ ] Area and perimeter included?
-- [ ] Year 6 SATs appropriate?
+- [ ] Year 6 appropriate (ages 10-11)?
 
-Generate complete HTML. UK Year 6 aligned (NEW Algebra topic).
+Generate complete HTML. Year 6 (NEW Algebra topic).

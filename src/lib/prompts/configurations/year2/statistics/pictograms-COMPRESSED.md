@@ -1,4 +1,4 @@
-# Year 2: Pictograms
+# Ages 6-7: Pictograms
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Read and interpret pictograms.**
 

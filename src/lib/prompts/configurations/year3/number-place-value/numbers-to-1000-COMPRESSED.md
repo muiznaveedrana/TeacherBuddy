@@ -1,4 +1,4 @@
-# Y3: Numbers to 1000 ({{questionCount}}Q)
+# Ages 7-8: Numbers to 1000
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Place value: 0-1000 (H|T|O).**
 

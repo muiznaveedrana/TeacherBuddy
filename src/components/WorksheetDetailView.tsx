@@ -63,7 +63,7 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
         subtopic: worksheet.subtopic,
         difficulty: worksheet.difficulty || 'easy',
         questionCount: worksheet.question_count || 5,
-        curriculum: 'UK National Curriculum',
+        curriculum: 'Age-appropriate Mathematics',
         generatedAt: new Date().toISOString(),
       },
     }

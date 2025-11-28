@@ -1,4 +1,4 @@
-# Year 2: Simple Equivalent Fractions
+# Ages 6-7: Simple Equivalent Fractions
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Simple equivalence: 1/2 = 2/4 only.**
 

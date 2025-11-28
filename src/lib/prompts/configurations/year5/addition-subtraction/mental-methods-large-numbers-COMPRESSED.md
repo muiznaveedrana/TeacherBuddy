@@ -1,4 +1,4 @@
-# Y5: Mental Methods for Large Numbers ({{questionCount}}Q)
+# Ages 9-10: Mental Methods for Large Numbers
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Use mental strategies to add/subtract numbers with more than 4 digits.**
 

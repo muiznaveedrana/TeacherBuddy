@@ -1,4 +1,4 @@
-# Y4: Times Tables to 12 ({{questionCount}}Q)
+# Ages 8-9: Times Tables to 12
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Recall multiplication facts up to 12×12.**
 

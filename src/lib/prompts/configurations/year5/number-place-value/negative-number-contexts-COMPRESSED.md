@@ -1,4 +1,4 @@
-# Y5: Negative Numbers in Context ({{questionCount}}Q)
+# Ages 9-10: Negative Numbers in Context
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Interpret negative numbers in real-world contexts and count through zero.**
 

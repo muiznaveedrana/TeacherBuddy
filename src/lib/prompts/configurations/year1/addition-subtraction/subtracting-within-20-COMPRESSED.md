@@ -1,4 +1,4 @@
-# Year 1: Subtracting within 20 (COMPRESSED)
+# Ages 5-6: Subtracting within 20
 
 Generate EXACTLY {{questionCount}} Year 1 subtracting within 20 questions.
 

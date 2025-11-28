@@ -1,4 +1,4 @@
-# Y5: Multiply up to 4-digit by 1-digit ({{questionCount}}Q)
+# Ages 9-10: Multiply up to 4-digit by 1-digit
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Multiply numbers up to 4 digits by one-digit using formal written methods.**
 

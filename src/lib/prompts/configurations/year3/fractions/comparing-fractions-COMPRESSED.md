@@ -1,4 +1,4 @@
-# Y3: Comparing Fractions ({{questionCount}}Q)
+# Ages 7-8: Comparing Fractions
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Compare fractions with same/different denominators.**
 

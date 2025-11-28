@@ -1,4 +1,4 @@
-# Year 1: Number Bonds to 10
+# Ages 5-6: Number Bonds to 10
 
 **Generate EXACTLY {{questionCount}} questions following the 5 mandatory types below.**
 

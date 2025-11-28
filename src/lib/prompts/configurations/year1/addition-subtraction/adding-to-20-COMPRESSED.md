@@ -1,4 +1,4 @@
-# Year 1: Adding to 20
+# Ages 5-6: Adding to 20
 
 Generate EXACTLY {{questionCount}} questions for ages 5-6.
 

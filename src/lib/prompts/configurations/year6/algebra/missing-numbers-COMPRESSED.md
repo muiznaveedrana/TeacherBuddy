@@ -1,22 +1,22 @@
-# Y6: Missing Number Problems ({{questionCount}}Q)
+# Ages 10-11: Missing Number Problems
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Express missing number problems algebraically, solve simple equations.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 6 FOCUS (SATs Level, NEW TOPIC)
+## YEAR 6 FOCUS (Advanced Level, NEW TOPIC)
 - **Algebra**: Use letters to represent unknowns
 - **Equations**: Express problems as equations (e.g., x + 5 = 12)
 - **Solve**: Find value of unknown
 - **Inverse operations**: Use opposites to solve
-- **SATs**: Real-world equation problems
+- **Challenge**: Real-world equation problems
 
 ## QUESTION TYPES
 **Q1**: Simple equation (x + 7 = 15, find x)
 **Q2**: Subtraction equation (x - 8 = 14, find x)
 **Q3**: Multiplication equation (5x = 35, find x)
 **Q4**: Two-step equation (2x + 3 = 13, find x)
-**Q5**: SATs word problem as equation
+**Q5**: Challenge word problem as equation
 
 ## SIMPLE EQUATIONS
 
@@ -121,6 +121,6 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:19pt;padding:10px;line-hei
 - [ ] Inverse operations shown?
 - [ ] Two-step equations included?
 - [ ] Word problems converted to equations?
-- [ ] Year 6 SATs appropriate?
+- [ ] Year 6 appropriate (ages 10-11)?
 
-Generate complete HTML. UK Year 6 aligned (NEW Algebra topic).
+Generate complete HTML. Year 6 (NEW Algebra topic).

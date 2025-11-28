@@ -1,4 +1,4 @@
-# Year 2: Numbers to 100
+# Ages 6-7: Numbers to 100
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Numbers to 100, place value focus.**
 
