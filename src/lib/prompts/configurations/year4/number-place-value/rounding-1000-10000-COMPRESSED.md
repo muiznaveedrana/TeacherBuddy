@@ -1,200 +1,188 @@
-# Y4: Rounding to 1000 and 10,000 ({{questionCount}}Q)
+# Y4: Rounding to 10, 100 and 1000 ({{questionCount}}Q)
 
 **CRITICAL: EXACTLY {{questionCount}} questions. Round 4-digit numbers to nearest 10, 100, 1000.**
 
 BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
-## YEAR 4 FOCUS (Ages 8-9)
-- **Rounding to nearest 10**: Look at ones digit
-- **Rounding to nearest 100**: Look at tens digit
-- **Rounding to nearest 1000**: Look at hundreds digit
-- **Number range**: 1000-9999
-- **Rule**: 0-4 rounds DOWN, 5-9 rounds UP
-- **Application**: Estimation, real-world approximations
+## RANDOMIZATION RULES (MANDATORY)
 
-## QUESTION TYPES
+**NUMBERS**: Generate NEW random 4-digit numbers (1000-9999) each time. NEVER reuse examples.
+- Mix of round-up cases (decision digit 5-9) and round-down cases (decision digit 0-4)
+- Avoid obvious patterns like 1234, 5000, 5555
 
-**Q1**: Round to nearest 10. Show on number line between multiples of 10.
+**QUESTION TYPES**: Pick 5 different types from the pool below. Shuffle order each time.
 
-**Q2**: Round to nearest 100. Identify the two nearest hundreds.
+**CONTEXTS**: Rotate through different real-world scenarios (see list below).
 
-**Q3**: Round to nearest 1000. Show understanding of thousand boundaries.
+## QUESTION TYPE POOL (Pick 5, shuffle order)
 
-**Q4**: Mixed rounding practice. Round same number to 10, 100, and 1000.
+### Type A: Number Line
+Show number on a number line with boundaries and midpoint marked. Student identifies which boundary is closer.
+- Round to nearest 10, 100, OR 1000 (vary each time)
 
-**Q5**: Word problem. "A stadium has 4567 seats. About how many to the nearest thousand?"
+### Type B: Real-World Context
+Simple word problem with real-world data. NO extra facts or explanations - just the question.
+**Context options (rotate):**
+- River lengths (Thames 346km, Severn 354km, Trent 297km)
+- Stadium capacity (Wembley 90000, Old Trafford 74879)
+- Mountain heights (Ben Nevis 1345m, Snowdon 1085m)
+- City populations (Manchester 547627, Birmingham 1141816)
+- Distances (London to Edinburgh 647km, London to Paris 459km)
+- School pupils (various 4-digit numbers)
 
-## ROUNDING RULES (Year 4)
+### Type C: True or False
+Statement: "[Number] rounded to the nearest [10/100/1000] is [answer]"
+- Mix correct and incorrect statements
+- Student circles TRUE or FALSE
 
-### Rounding to nearest 10
-**Look at ONES digit**:
-- 0, 1, 2, 3, 4 → Round DOWN
-- 5, 6, 7, 8, 9 → Round UP
-- Example: 5678 → 5680 (8 ones rounds up)
+### Type D: Reverse/Detective
+"A number was rounded to the nearest [10/100/1000]. The answer was [X]. What could the original number have been?"
+- NO clues or hints
+- Accept any valid answer in range
 
-### Rounding to nearest 100
-**Look at TENS digit**:
-- 0, 1, 2, 3, 4 tens → Round DOWN
-- 5, 6, 7, 8, 9 tens → Round UP
-- Example: 5678 → 5700 (7 tens rounds up)
+### Type E: Estimation Problem
+Two numbers given. "Estimate the total/difference by rounding each to the nearest [1000] first."
+- Show calculation boxes: Number → Rounded → Total
 
-### Rounding to nearest 1000
-**Look at HUNDREDS digit**:
-- 0, 1, 2, 3, 4 hundreds → Round DOWN
-- 5, 6, 7, 8, 9 hundreds → Round UP
-- Example: 5678 → 6000 (6 hundreds rounds up)
+### Type F: What Place Value?
+"4,567 was rounded to give 4,600. What was it rounded to - nearest 10, 100, or 1000?"
 
-## COLOR SCHEME (Year 4 Enhanced)
-- **Decision digit**: #E91E63 (pink) - highlighted
-- **Round down**: #FF5722 (red-orange)
-- **Round up**: #4CAF50 (green)
-- **Nearest 10**: #03A9F4 (light blue)
-- **Nearest 100**: #FF9800 (orange)
-- **Nearest 1000**: #9C27B0 (purple)
-- **Midpoint**: #FFC107 (amber) - decision line
+### Type G: Spot the Error
+"Sam rounded 3,847 to the nearest 100 and got 3,900. Is Sam correct? Explain."
 
-## CSS:
+### Type H: Compare Rounded Values
+"Round both numbers to the nearest 1000. Which is larger: 4,567 or 4,489?"
+
+## CSS (Minimal - No hints, no decision highlighting)
 ```css
 body{font-family:'Comic Sans MS',sans-serif;font-size:17pt;padding:10px;line-height:1.6}
 .question{margin:12px 0;padding:16px;border-radius:8px;border:2px solid #ddd}
 .question-number{display:inline-block;background:#4169E1;color:white;width:34px;height:34px;line-height:34px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:16pt}
 .question-text{font-size:17pt;margin:8px 0;font-weight:600}
-.rounding-line-container{margin:25px 0;padding:25px;background:#FFF9C4;border-radius:8px}
-.number-line-rounding{position:relative;height:150px;margin:40px 25px;background:#FFF;border-radius:8px;padding:35px 20px}
-.rounding-track{position:absolute;top:75px;left:10%;right:10%;height:8px;background:linear-gradient(to right,#FF5722 0%,#FF5722 48%,#FFC107 48%,#FFC107 52%,#4CAF50 52%,#4CAF50 100%);border-radius:4px}
-.boundary-mark{position:absolute;top:55px;width:6px;height:50px;background:#333;border-radius:3px}
-.boundary-mark.start{left:10%}
-.boundary-mark.end{right:10%}
-.boundary-label{position:absolute;top:115px;font-size:20pt;font-weight:bold;color:#333;transform:translateX(-50%)}
-.boundary-label.start{left:10%}
-.boundary-label.end{right:10%}
-.midpoint-mark{position:absolute;top:60px;left:50%;transform:translateX(-50%);width:5px;height:40px;background:#FFC107;border-radius:2px}
-.midpoint-label{position:absolute;top:110px;left:50%;transform:translateX(-50%);font-size:17pt;font-weight:bold;color:#F57C00;white-space:nowrap}
-.number-to-round-marker{position:absolute;top:20px;transform:translateX(-50%);padding:12px 22px;background:#2196F3;color:#FFF;font-size:26pt;font-weight:bold;border-radius:8px;border:3px solid #1565C0;box-shadow:0 4px 8px rgba(0,0,0,0.2)}
-.rounding-arrow{position:absolute;top:52px;font-size:36pt;font-weight:bold;transform:translateX(-50%)}
-.arrow-up{color:#4CAF50}
-.arrow-down{color:#FF5722}
-.rounding-practice-container{margin:20px 0;padding:20px;background:#E3F2FD;border-radius:8px}
-.rounding-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin:25px 0}
-.rounding-item{padding:20px;background:#FFF;border:3px solid #2196F3;border-radius:8px}
-.number-display-large{font-size:40pt;font-weight:bold;color:#2196F3;text-align:center;margin:18px 0}
-.digit-breakdown-rounding{display:flex;justify-content:center;gap:10px;margin:25px 0}
-.digit-card-round{padding:22px 28px;border:4px solid #ddd;border-radius:8px;background:#FFF;font-size:52pt;font-weight:bold;text-align:center}
-.digit-card-round.decision{border-color:#E91E63;background:#FCE4EC;color:#E91E63;box-shadow:0 0 20px rgba(233,30,99,0.4);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 20px rgba(233,30,99,0.4)}50%{box-shadow:0 0 30px rgba(233,30,99,0.7)}}
-.rounding-rule-box{margin:25px 0;padding:20px;background:#FFE0F0;border:3px solid #E91E63;border-radius:8px}
-.rule-text-large{font-size:20pt;font-weight:bold;text-align:center;color:#C2185B;line-height:1.7}
-.rule-highlight{background:#E91E63;color:#FFF;padding:5px 15px;border-radius:6px;margin:0 6px}
-.decision-visual{display:flex;justify-content:space-around;margin:25px 0;flex-wrap:wrap}
-.decision-option{text-align:center;padding:20px;background:#FFF;border:4px solid;border-radius:8px;margin:15px;min-width:200px}
-.decision-option.down{border-color:#FF5722;box-shadow:0 4px 8px rgba(255,87,34,0.3)}
-.decision-option.up{border-color:#4CAF50;box-shadow:0 4px 8px rgba(76,175,80,0.3)}
-.option-label{font-size:18pt;font-weight:bold;margin-bottom:15px}
-.option-label.down{color:#FF5722}
-.option-label.up{color:#4CAF50}
-.option-value{font-size:48pt;font-weight:bold}
-.option-value.down{color:#FF5722}
-.option-value.up{color:#4CAF50}
-.mixed-rounding-container{margin:20px 0;padding:20px;background:#F1F8E9;border-radius:8px}
-.mixed-rounding-table{width:100%;max-width:700px;margin:25px auto;border-collapse:separate;border-spacing:0;border:3px solid #4CAF50;border-radius:8px;overflow:hidden}
-.mixed-table-header{background:#4CAF50;color:#FFF;font-size:18pt;font-weight:bold;padding:15px;text-align:center;border:2px solid #FFF}
-.mixed-table-row{display:table-row}
-.mixed-table-cell{display:table-cell;padding:18px 25px;text-align:center;font-size:22pt;font-weight:bold;border:2px solid #4CAF50}
-.mixed-table-cell.original{background:#E8F5E9;color:#2E7D32}
-.mixed-table-cell.answer{background:#FFF;min-width:150px}
-.estimation-container{margin:20px 0;padding:20px;background:#FCE4EC;border-radius:8px}
-.real-world-scenario{padding:20px;background:#FFF;border:3px dashed #E91E63;border-radius:8px;margin:18px 0}
-.scenario-text{font-size:18pt;line-height:1.8;margin:15px 0}
-.exact-value-display{display:inline-block;padding:10px 22px;background:#E3F2FD;border:3px solid #2196F3;border-radius:8px;font-weight:bold;color:#2196F3;margin:0 6px;font-size:22pt}
-.rounded-value-display{display:inline-block;padding:10px 22px;background:#FFF3E0;border:3px solid #FF9800;border-radius:8px;font-weight:bold;color:#FF9800;margin:0 6px;font-size:22pt}
-.step-by-step-rounding{margin:25px 0;padding:18px;background:#F5F5F5;border-radius:8px}
-.step-item-round{margin:15px 0;padding:15px;background:#FFF;border-left:6px solid #FF9800;border-radius:4px}
-.step-number-badge{display:inline-block;background:#FF9800;color:#FFF;width:35px;height:35px;line-height:35px;text-align:center;border-radius:50%;margin-right:15px;font-size:17pt;font-weight:bold}
-.step-text{font-size:18pt;display:inline}
-.instruction-box{margin:18px 0;padding:16px;background:#E8F4F8;border:3px dashed #2196F3;border-radius:8px;font-size:17pt;font-weight:600;color:#1565C0}
-.answer-box{display:inline-block;min-width:120px;height:55px;border:3px solid #333;border-radius:8px;background:#FFF;vertical-align:middle;margin:0 10px;font-size:24pt;line-height:55px;text-align:center}
-.answer-line{border:none;border-bottom:3px solid #333;display:inline-block;min-width:140px;margin:0 10px;background:transparent}
-.working-space{border:3px dashed #999;padding:15px;margin:15px 0;min-height:90px;background:#FAFAFA;border-radius:8px}
-.working-space-label{font-size:14pt;color:#666;font-style:italic;margin-bottom:10px}
-.answer-key{margin-top:40px;padding:20px;background:#E8F4F8;border:3px solid #4169E1;border-radius:8px;page-break-before:always}
-.answer-key h2{font-size:20pt;color:#2c3e50;margin-bottom:15px;text-align:center;font-weight:bold}
-.answer-key p{font-size:15pt;line-height:1.8;margin:10px 0}
-.answer-key strong{color:#1976D2}
-</style>
+.number-line-box{margin:20px 0;padding:25px;background:rgba(255,255,255,0.5);border-radius:8px;border:2px solid #ddd}
+.number-line-visual{position:relative;height:80px;margin:20px 40px}
+.number-line-track{position:absolute;top:40px;left:0;right:0;height:6px;background:#333;border-radius:3px}
+.boundary{position:absolute;top:25px;width:4px;height:36px;background:#333;border-radius:2px}
+.boundary.left{left:0}
+.boundary.right{right:0}
+.boundary-number{position:absolute;top:65px;font-size:16pt;font-weight:bold;color:#333}
+.boundary-number.left{left:0;transform:translateX(-50%)}
+.boundary-number.right{right:0;transform:translateX(50%)}
+.midpoint{position:absolute;left:50%;transform:translateX(-50%);top:30px;width:3px;height:26px;background:#FF9800;border-radius:2px}
+.midpoint-label{position:absolute;left:50%;transform:translateX(-50%);top:65px;font-size:14pt;color:#FF9800;font-weight:bold}
+.target-number{position:absolute;top:0;transform:translateX(-50%);padding:6px 14px;background:#2196F3;color:#FFF;font-size:18pt;font-weight:bold;border-radius:6px}
+.target-arrow{position:absolute;top:28px;transform:translateX(-50%);font-size:20pt;color:#2196F3}
+.inner-box{margin:15px 0;padding:18px;background:rgba(255,255,255,0.5);border-radius:8px;border:2px solid #ddd}
+.true-false-box{margin:15px 0;padding:18px;background:rgba(255,255,255,0.5);border:3px solid #9C27B0;border-radius:8px}
+.statement{font-size:18pt;font-weight:bold;color:#333;margin:10px 0;padding:15px;background:rgba(255,255,255,0.7);border-radius:6px;text-align:center}
+.tf-options{display:flex;justify-content:center;gap:40px;margin:15px 0}
+.tf-option{padding:12px 30px;border:3px solid #ddd;border-radius:8px;font-size:18pt;font-weight:bold;background:#FFF}
+.tf-option.true{border-color:#4CAF50;color:#4CAF50}
+.tf-option.false{border-color:#F44336;color:#F44336}
+.detective-box{margin:15px 0;padding:18px;background:rgba(255,255,255,0.5);border:2px dashed #FF9800;border-radius:8px;text-align:center}
+.mystery-number{display:inline-block;padding:10px 25px;background:#FF9800;color:#FFF;font-size:28pt;font-weight:bold;border-radius:8px;margin:10px}
+.estimation-box{margin:15px 0;padding:18px;background:rgba(255,255,255,0.5);border:2px solid #2196F3;border-radius:8px}
+.calculation-row{display:flex;align-items:center;justify-content:center;gap:15px;margin:15px 0;flex-wrap:wrap}
+.calc-number{padding:12px 20px;background:#FFF;border:3px solid #2196F3;border-radius:8px;font-size:24pt;font-weight:bold;color:#1976D2}
+.calc-symbol{font-size:28pt;font-weight:bold;color:#333}
+.calc-arrow{font-size:24pt;color:#FF9800}
+.rounded-box{padding:12px 20px;background:#FFF9C4;border:3px solid #FF9800;border-radius:8px;font-size:24pt;font-weight:bold;color:#F57C00;min-width:80px;text-align:center}
+.answer-line{font-size:14pt;margin:8px 0;padding-bottom:2px;border-bottom:2px solid #333;display:inline-block;min-width:120px}
+.answer-key{margin-top:35px;padding:18px;background:#E8F4F8;border:2px solid #4169E1;border-radius:8px}
+.answer-key h2{font-size:18pt;color:#2c3e50;margin-bottom:12px;text-align:center;font-weight:bold}
+.answer-key-content p{font-size:14pt;line-height:1.7;margin:8px 0}
 ```
 
-## WORKED EXAMPLES
+## CRITICAL RULES
 
-### Example 1: Round 5678 to nearest 10
-**Identify boundaries**: 5670 and 5680
-**Decision digit**: 8 ones
-**Rule**: 8 is ≥ 5 → Round UP
-**Answer**: 5680
+1. **NO HINTS OR CLUES** - Never show which digit to look at, never explain the rule
+2. **NO DECISION HIGHLIGHTING** - Don't highlight or color-code the decision digit
+3. **SINGLE ANSWER PER QUESTION** - Each question must have exactly one answer field
+4. **RANDOMIZE EVERYTHING** - Different numbers, contexts, and question order each generation
+5. **KEEP IT SIMPLE** - Question + visual (if needed) + answer line only
+6. Use `<p class="answer-line">Answer:</p>` for interactive mode compatibility
+7. Answer key: numbers only (e.g., "3800" not "3,800 because...")
 
-### Example 2: Round 5678 to nearest 100
-**Identify boundaries**: 5600 and 5700
-**Decision digit**: 7 tens
-**Rule**: 7 is ≥ 5 → Round UP
-**Answer**: 5700
+## EXAMPLE OUTPUT STRUCTURE
 
-### Example 3: Round 5678 to nearest 1000
-**Identify boundaries**: 5000 and 6000
-**Decision digit**: 6 hundreds
-**Rule**: 6 is ≥ 5 → Round UP
-**Answer**: 6000
+```html
+<!-- Type A: Number Line -->
+<div class="question" style="background:#FFF9C4">
+  <p class="question-text"><span class="question-number">1</span> Use the number line to round 2,847 to the nearest 100.</p>
+  <div class="number-line-box">
+    <div class="number-line-visual">
+      <div class="number-line-track"></div>
+      <div class="boundary left"></div>
+      <div class="boundary right"></div>
+      <div class="boundary-number left">2,800</div>
+      <div class="boundary-number right">2,900</div>
+      <div class="midpoint"></div>
+      <div class="midpoint-label">2,850</div>
+      <div class="target-number" style="left:47%">2,847</div>
+      <div class="target-arrow" style="left:47%">↓</div>
+    </div>
+  </div>
+  <p class="answer-line">Answer:</p>
+</div>
 
-### Example 4: Round 3425 (all three ways)
-- **To nearest 10**: 3425 → 3430 (5 ones rounds up)
-- **To nearest 100**: 3425 → 3400 (2 tens rounds down)
-- **To nearest 1000**: 3425 → 3000 (4 hundreds rounds down)
+<!-- Type B: Real-World (simple) -->
+<div class="question" style="background:#E3F2FD">
+  <p class="question-text"><span class="question-number">2</span> The River Severn is 354 km long. Round this to the nearest 100 km.</p>
+  <p class="answer-line">Answer:</p>
+</div>
 
-### Example 5: Stadium Seats
-**Problem**: A stadium has 4567 seats. About how many to the nearest thousand?
-**Solution**:
-- Boundaries: 4000 and 5000
-- Decision digit: 5 hundreds
-- 5 is the midpoint → rounds UP
-- **Answer**: 5000 seats (to nearest thousand)
+<!-- Type C: True/False -->
+<div class="question" style="background:#F1F8E9">
+  <p class="question-text"><span class="question-number">3</span> True or False? Circle the correct answer.</p>
+  <div class="true-false-box">
+    <p class="statement">6,482 rounded to the nearest 1000 is 6,000</p>
+    <div class="tf-options">
+      <div class="tf-option true">TRUE</div>
+      <div class="tf-option false">FALSE</div>
+    </div>
+  </div>
+  <p class="answer-line">Answer:</p>
+</div>
 
-## KEY UNDERSTANDING
+<!-- Type D: Detective (NO clues) -->
+<div class="question" style="background:#FCE4EC">
+  <p class="question-text"><span class="question-number">4</span> A number was rounded to the nearest 10. The answer was 3,280. What could the original number have been?</p>
+  <div class="detective-box">
+    <p><span class="mystery-number">3,280</span></p>
+  </div>
+  <p>Write one possible original number: <span class="answer-line"></span></p>
+</div>
 
-### Which digit to look at?
-- **Rounding to 10**: Look at ONES (last digit)
-- **Rounding to 100**: Look at TENS (second-last digit)
-- **Rounding to 1000**: Look at HUNDREDS (third-last digit)
-
-### Midpoint Rule
-- **0, 1, 2, 3, 4**: Always round DOWN
-- **5, 6, 7, 8, 9**: Always round UP
-- **5 is the cutoff**: Rounds UP (convention)
-
-## RULES
-
-1. All numbers 1000-9999 (four-digit range)
-2. Round to nearest 10, 100, AND 1000
-3. Show decision digit clearly highlighted
-4. Use number lines with boundaries marked
-5. Include step-by-step working
-6. Real-world estimation contexts
-7. Answer key with full explanations
-8. Colored backgrounds Q1-Q5
-9. Year 4 appropriate (ages 8-9)
-10. Color-code by rounding type (10=blue, 100=orange, 1000=purple)
+<!-- Type E: Estimation -->
+<div class="question" style="background:#FFF3E0">
+  <p class="question-text"><span class="question-number">5</span> A cinema sold 2,847 tickets on Saturday and 3,156 on Sunday. Estimate the total by rounding each to the nearest 1000.</p>
+  <div class="estimation-box">
+    <div class="calculation-row">
+      <span class="calc-number">2,847</span>
+      <span class="calc-arrow">→</span>
+      <span class="rounded-box">?</span>
+      <span class="calc-symbol">+</span>
+      <span class="calc-number">3,156</span>
+      <span class="calc-arrow">→</span>
+      <span class="rounded-box">?</span>
+      <span class="calc-symbol">=</span>
+      <span class="rounded-box">?</span>
+    </div>
+  </div>
+  <p>Estimated total: <span class="answer-line"></span></p>
+</div>
+```
 
 ## VALIDATION
 
 - [ ] EXACTLY {{questionCount}} questions?
-- [ ] Q1: Round to nearest 10 with number line?
-- [ ] Q2: Round to nearest 100 with boundaries shown?
-- [ ] Q3: Round to nearest 1000 with understanding?
-- [ ] Q4: Mixed rounding (same number all three ways)?
-- [ ] Q5: Real-world word problem with estimation?
-- [ ] All numbers 1000-9999 range?
-- [ ] Decision digits highlighted?
-- [ ] Number lines show midpoints?
-- [ ] Step-by-step working shown?
+- [ ] 5 DIFFERENT question types used?
+- [ ] All numbers RANDOMIZED (not from examples)?
+- [ ] NO hints, clues, or explanations in questions?
+- [ ] NO decision digit highlighting?
+- [ ] Single answer per question?
+- [ ] Real-world context varied?
 - [ ] Colored backgrounds Q1-Q5?
-- [ ] Answer key with full working?
-- [ ] Year 4 appropriate complexity?
+- [ ] Answer key with numbers only?
 
 Generate complete HTML. UK Year 4 aligned (ages 8-9).
