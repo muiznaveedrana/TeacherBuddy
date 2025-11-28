@@ -2,6 +2,9 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Skills
+- **Worksheet Generation**: See `.claude/skills/worksheet-generation.md` for generating worksheets from prompts, previewing, and saving to library
+
 ## Claude Memories
 
 - yolo

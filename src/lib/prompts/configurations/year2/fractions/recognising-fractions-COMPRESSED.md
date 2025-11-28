@@ -16,7 +16,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
 **Q2**: Match fraction to visual. "Which shape shows 1/2?" Show 3-4 options.
 
-**Q3**: Shade the fraction. "Shade 1/4 of the circle." Show empty divided shape.
+**Q3**: Fraction reasoning. Show empty divided shape and ask: "This rectangle/circle is divided into X equal parts. If you shade 1 part, what fraction would be shaded?" Answer: fraction (e.g., 1/4). **DO NOT use "Shade the fraction" instruction - must have a clear written answer.**
 
 **Q4**: Multiple representations. "Circle all shapes that show 1/2." Show various shapes (circles, rectangles, bars).
 
@@ -137,18 +137,19 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 </div>
 ```
 
-### Q3 Template (Shade the Fraction):
+### Q3 Template (Fraction Reasoning):
 ```html
 <div class="question" style="background:#F1F8E9">
-  <p class="question-text"><span class="question-number">3.</span> Shade 1/4 of the rectangle.</p>
+  <p class="question-text"><span class="question-number">3</span> This rectangle is divided into 4 equal parts. If you shade 1 part, what fraction would be shaded?</p>
   <div class="fraction-container">
     <div class="fraction-rect" style="width:200px;height:120px">
-      <div class="fraction-rect-quarter unshaded" style="top:0"></div>
-      <div class="fraction-rect-quarter unshaded" style="top:25%"></div>
-      <div class="fraction-rect-quarter unshaded" style="top:50%"></div>
+      <div class="fraction-rect-quarter unshaded" style="top:0;border-bottom:2px solid #333"></div>
+      <div class="fraction-rect-quarter unshaded" style="top:25%;border-bottom:2px solid #333"></div>
+      <div class="fraction-rect-quarter unshaded" style="top:50%;border-bottom:2px solid #333"></div>
       <div class="fraction-rect-quarter unshaded" style="top:75%"></div>
     </div>
   </div>
+  <p class="answer-line">Answer:</p>
 </div>
 ```
 
