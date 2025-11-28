@@ -3,6 +3,7 @@ import { createLibraryWorksheet } from '@/lib/services/libraryService'
 import { generateWorksheetThumbnail, generateSlugFromTitle } from '@/lib/services/thumbnailGenerationService'
 import { generateEducationalContent } from '@/lib/services/educationalContentService'
 import { normalizeTopicValue, normalizeSubtopicValue } from '@/lib/config/worksheetTaxonomy'
+import { yearGroupToUSLabel } from '@/lib/types/hub'
 import type { SaveToLibraryMetadata } from '@/lib/types/library'
 
 export const dynamic = 'force-dynamic'
@@ -71,18 +72,25 @@ export async function POST(request: NextRequest) {
       estimated_time: safeEstimatedTime,
     })
 
-    const seoTitle = metadata.seo_title ||
-      `${metadata.title} - Free Printable ${metadata.year_group} Worksheet`
+    // Get US grade equivalent for international SEO
+    const usGradeLabel = yearGroupToUSLabel(metadata.year_group)
 
+    // Enhanced SEO title with both UK and US terminology
+    const seoTitle = metadata.seo_title ||
+      `${metadata.title} - Free Printable ${metadata.year_group} (${usGradeLabel}) Worksheet`
+
+    // Enhanced SEO description with better structure
     const seoDescription = metadata.seo_description ||
-      `Download free ${metadata.year_group} ${metadata.topic} worksheet` +
+      `Download free ${metadata.year_group} (${usGradeLabel}) ${metadata.topic} worksheet` +
       (metadata.visual_theme ? ` featuring ${metadata.visual_theme}` : '') +
       (metadata.activity_type ? `. ${metadata.activity_type.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')} activity` : '') +
       (metadata.seasonal_theme ? ` - ${metadata.seasonal_theme.charAt(0).toUpperCase() + metadata.seasonal_theme.slice(1)} themed` : '') +
-      `. Perfect for classroom or home learning.`
+      `. Perfect for classroom or homeschool learning. Print-ready PDF.`
 
+    // Enhanced SEO keywords with US grade equivalents
     const seoKeywords = metadata.seo_keywords || [
       metadata.year_group.toLowerCase(),
+      usGradeLabel.toLowerCase(),
       metadata.topic.toLowerCase(),
       metadata.subtopic.toLowerCase(),
       ...(metadata.visual_theme ? [metadata.visual_theme.toLowerCase()] : []),
@@ -92,11 +100,17 @@ export async function POST(request: NextRequest) {
       'free',
       'printable',
       'educational',
+      'math worksheet',
+      'homeschool',
+      'classroom',
     ]
 
+    // Enhanced tags with better categorization
     const tags = metadata.tags || [
       metadata.year_group.toLowerCase().replace(/\s+/g, '-'),
+      usGradeLabel.toLowerCase().replace(/\s+/g, '-'),
       metadata.topic.toLowerCase().replace(/\s+/g, '-'),
+      metadata.subtopic.toLowerCase().replace(/\s+/g, '-'),
       ...(metadata.visual_theme ? [metadata.visual_theme.toLowerCase().replace(/\s+/g, '-')] : []),
       ...(metadata.activity_type ? [metadata.activity_type.toLowerCase().replace(/\s+/g, '-')] : []),
       ...(metadata.seasonal_theme ? [metadata.seasonal_theme.toLowerCase().replace(/\s+/g, '-')] : []),

@@ -4,8 +4,16 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import type { LibraryWorksheet } from '@/lib/types/library'
+import type { LibraryWorksheet, REGION_CONFIG } from '@/lib/types/library'
 import { yearGroupToUSLabel } from '@/lib/types/hub'
+
+// Region badge config
+const REGION_BADGES: Record<string, { flag: string; label: string }> = {
+  UK: { flag: '🇬🇧', label: 'UK' },
+  US: { flag: '🇺🇸', label: 'US' },
+  AU: { flag: '🇦🇺', label: 'AU' },
+  CA: { flag: '🇨🇦', label: 'CA' },
+}
 
 // Year group color system
 const YEAR_COLORS: Record<string, string> = {
@@ -29,25 +37,6 @@ function isNewWorksheet(publishedAt: string): boolean {
 // Check if worksheet is trending (high downloads recently)
 function isTrendingWorksheet(worksheet: LibraryWorksheet): boolean {
   return worksheet.download_count > 1000
-}
-
-// Extract version from slug (e.g., "reception-counting-v2" → "V2")
-function extractVersion(slug: string, title?: string): string | null {
-  // First try to extract from slug (format: -v2, -v3, etc.)
-  const slugMatch = slug.match(/-v(\d+)$/)
-  if (slugMatch) {
-    return `V${slugMatch[1]}`
-  }
-
-  // Then try to extract from title (format: (v2), (v3), etc.)
-  if (title) {
-    const titleMatch = title.match(/\(v(\d+)\)/i)
-    if (titleMatch) {
-      return `V${titleMatch[1]}`
-    }
-  }
-
-  return null // First version (no suffix)
 }
 
 export function WorksheetLibraryBrowser() {
@@ -253,7 +242,6 @@ export function WorksheetLibraryBrowser() {
           const isNew = worksheet.published_at ? isNewWorksheet(worksheet.published_at) : false
           const isTrending = isTrendingWorksheet(worksheet)
           const yearColor = YEAR_COLORS[worksheet.year_group] || 'bg-gray-600'
-          const version = extractVersion(worksheet.slug, worksheet.title)
 
           return (
             <Link
@@ -293,10 +281,10 @@ export function WorksheetLibraryBrowser() {
                   ⬇ {worksheet.download_count.toLocaleString()}
                 </div>
 
-                {/* Version Badge - Bottom Left (only show for versions 2+) */}
-                {version && (
-                  <div className="absolute bottom-2 left-2 bg-amber-500/90 backdrop-blur-sm text-white px-1.5 py-0.5 rounded text-[10px] font-bold shadow-lg transition-all duration-300 group-hover:opacity-0 group-hover:scale-0">
-                    📝 {version}
+                {/* Region Badge - Bottom Left */}
+                {worksheet.region && REGION_BADGES[worksheet.region] && (
+                  <div className="absolute bottom-2 left-2 bg-white/90 backdrop-blur-sm text-gray-800 px-1.5 py-0.5 rounded text-[10px] font-semibold shadow-lg transition-all duration-300 group-hover:opacity-0 group-hover:scale-0">
+                    {REGION_BADGES[worksheet.region].flag} {REGION_BADGES[worksheet.region].label}
                   </div>
                 )}
 

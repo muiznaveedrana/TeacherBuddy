@@ -4,15 +4,6 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import type { LibraryWorksheet } from '@/lib/types/library'
 
-// Extract version from slug (e.g., "reception-counting-v2" → "V2")
-function extractVersion(slug: string): string | null {
-  const versionMatch = slug.match(/-v(\d+)$/)
-  if (versionMatch) {
-    return `V${versionMatch[1]}`
-  }
-  return null // First version (no suffix)
-}
-
 export default function AdminLibraryPage() {
   const [worksheets, setWorksheets] = useState<LibraryWorksheet[]>([])
   const [loading, setLoading] = useState(true)
@@ -258,10 +249,7 @@ export default function AdminLibraryPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredWorksheets.map((worksheet) => {
-                  const version = extractVersion(worksheet.slug)
-
-                  return (
+                {filteredWorksheets.map((worksheet) => (
                   <tr key={worksheet.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <div className="flex items-center">
@@ -273,13 +261,8 @@ export default function AdminLibraryPage() {
                           />
                         )}
                         <div>
-                          <div className="text-sm font-medium text-gray-900 flex items-center gap-2">
-                            <span>{worksheet.title}</span>
-                            {version && (
-                              <span className="px-2 py-0.5 bg-amber-100 text-amber-800 text-xs font-semibold rounded">
-                                {version}
-                              </span>
-                            )}
+                          <div className="text-sm font-medium text-gray-900">
+                            {worksheet.title}
                           </div>
                           <div className="text-sm text-gray-500">
                             {worksheet.year_group} • {worksheet.topic}
@@ -338,8 +321,7 @@ export default function AdminLibraryPage() {
                       </div>
                     </td>
                   </tr>
-                  )
-                })}
+                ))}
               </tbody>
             </table>
           )}

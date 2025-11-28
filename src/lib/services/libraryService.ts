@@ -443,7 +443,7 @@ async function slugExists(slug: string): Promise<boolean> {
 }
 
 /**
- * Generate a unique slug with auto-versioning (-v2, -v3, etc.)
+ * Generate a unique slug using timestamps for duplicates (no version tags)
  */
 async function generateUniqueSlug(
   title: string,
@@ -463,28 +463,17 @@ async function generateUniqueSlug(
     return baseSlug
   }
 
-  // Base slug exists, try versioned slugs
-  console.log('⚠️ Slug already exists, trying versioned slugs:', baseSlug)
+  // Base slug exists, append timestamp for uniqueness
+  console.log('⚠️ Slug already exists, adding timestamp:', baseSlug)
 
-  let versionNumber = 2
-  let versionedSlug = `${baseSlug}-v${versionNumber}`
+  // Use compact timestamp format: YYMMDD-HHMMSS
+  const now = new Date()
+  const timestamp = now.toISOString().slice(2, 10).replace(/-/g, '') +
+    '-' + now.toISOString().slice(11, 19).replace(/:/g, '')
+  const timestampedSlug = `${baseSlug}-${timestamp}`
 
-  // Keep incrementing until we find an available slug
-  while (await slugExists(versionedSlug)) {
-    versionNumber++
-    versionedSlug = `${baseSlug}-v${versionNumber}`
-
-    // Safety check to prevent infinite loop
-    if (versionNumber > 100) {
-      // Fallback: add timestamp
-      const timestamp = Date.now()
-      versionedSlug = `${baseSlug}-${timestamp}`
-      break
-    }
-  }
-
-  console.log('✅ Generated versioned slug:', versionedSlug)
-  return versionedSlug
+  console.log('✅ Generated unique slug with timestamp:', timestampedSlug)
+  return timestampedSlug
 }
 
 function generateSlug(
