@@ -219,7 +219,7 @@ FULL paths: `/images/{object}.png` (30x30px)
 ```css
 <style>
 body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
-.question{margin:10px 0;padding:12px;border-radius:8px;}
+.question{margin:10px 0;padding:12px;border-radius:8px;display:flex;flex-direction:column;}
 .pattern-sequence,.pattern-sequence-objects{display:flex;gap:15px;justify-content:center;align-items:center;padding:20px;flex-wrap:wrap;}
 .pattern-item{display:block;}
 .pattern-next{width:60px;height:60px;border:3px dashed #FF6347;display:flex;align-items:center;justify-content:center;font-size:32pt;color:#FF6347;}

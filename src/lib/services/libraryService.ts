@@ -125,7 +125,14 @@ export async function browseLibraryWorksheets(
       .from('library_worksheets')
       .select('*', { count: 'exact' })
       .eq('status', 'published')
-      .eq('region', 'UK') // MVP: Hard-coded to UK. Future: Pass as parameter
+      // Region filter removed - show ALL worksheets to ALL users
+      // Region-specific worksheets (e.g., UK coins, US coins) will both appear
+      // Users can filter by region if needed via filters.region parameter
+
+    // Optional region filter (only apply if explicitly requested)
+    if (filters.region) {
+      query = query.eq('region', filters.region)
+    }
 
     if (filters.year_group) {
       query = query.eq('year_group', filters.year_group)

@@ -198,7 +198,7 @@ export function yearGroupToDualLabel(yearGroup: string): string {
  */
 export function yearGroupToUSLabel(yearGroup: string): string {
   const usLabels: Record<string, string> = {
-    Reception: 'Kindergarten',
+    Reception: 'Kindergarten / Reception',
     'Year 1': 'Grade 1',
     'Year 2': 'Grade 2',
     'Year 3': 'Grade 3',

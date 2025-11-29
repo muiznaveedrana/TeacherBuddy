@@ -249,19 +249,101 @@ function parseQuestionStructure(
 
   // Pattern 4: FALLBACK - If no patterns found
   if (inputs.length === 0) {
-    console.warn(`⚠️ No answer patterns found in question ${questionId}! Using fallback`)
+    console.warn(`⚠️ Q${questionId}: No answer patterns found! Using fallback`)
+    console.log(`⚠️ Q${questionId}: correctAnswer = "${correctAnswer}"`)
 
     // Check if this is a matching question
     const isMatchingQuestion = cleanedHTML.includes('Match') || cleanedHTML.includes('match') ||
                                (cleanedHTML.match(/<(?:div|p)[^>]*>\s*\d+\s*<\/(?:div|p)>/gi) || []).length >= 3
 
+    console.log(`⚠️ Q${questionId}: isMatchingQuestion = ${isMatchingQuestion}`)
+
     if (isMatchingQuestion) {
-      inputs.push({
-        subId: `${questionId}`,
-        placeholder: 'Example: 11-eleven, 14-fourteen, 16-sixteen, 20-twenty',
-        label: 'Your Answer (enter pairs like: 11-sixteen, 14-eleven):',
-        inputType: 'textarea'
-      })
+      // Parse the correct answer to find which items need inputs
+      // Format: "5-five, 10-ten" or "five, ten" (for items that need answers)
+      const answerPairs = correctAnswer.split(',').map(p => p.trim()).filter(p => p)
+
+      if (answerPairs.length > 0) {
+        // Create individual inputs for each answer needed
+        answerPairs.forEach((pair, idx) => {
+          const subId = answerPairs.length > 1 ? `${questionId}-${idx}` : `${questionId}`
+
+          // Extract number from pair if present (e.g., "5-five" -> "5")
+          const numMatch = pair.match(/^(\d+)[-:]/)
+          const numberLabel = numMatch ? numMatch[1] : `Item ${idx + 1}`
+
+          inputs.push({
+            subId,
+            placeholder: `Answer for ${numberLabel}`,
+            inputType: 'text',
+            style: {
+              width: '120px',
+              borderStyle: 'solid'
+            }
+          })
+        })
+
+        // Try to inject placeholders at answer positions
+        // Multiple patterns to match different HTML structures
+        let inputIdx = 0
+
+        // Pattern A: Empty match-answer divs (e.g., <div class="match-answer"></div>)
+        cleanedHTML = cleanedHTML.replace(/<div[^>]*class="[^"]*match-answer[^"]*"[^>]*><\/div>/gi, () => {
+          if (inputIdx < inputs.length) {
+            const subId = inputs[inputIdx].subId
+            inputIdx++
+            return `<div class="match-answer"><span data-input-placeholder="${subId}"></span></div>`
+          }
+          return '<div class="match-answer"></div>'
+        })
+
+        // Pattern B: Arrow followed by underscores (→ _____ or -> _____)
+        if (inputIdx === 0) {
+          cleanedHTML = cleanedHTML.replace(/(→|->|&#8594;)\s*(_{3,})/gi, (match, arrow) => {
+            if (inputIdx < inputs.length) {
+              const subId = inputs[inputIdx].subId
+              inputIdx++
+              return `${arrow} <span data-input-placeholder="${subId}"></span>`
+            }
+            return match
+          })
+        }
+
+        // Pattern C: Just underscores
+        if (inputIdx === 0) {
+          cleanedHTML = cleanedHTML.replace(/_{3,}/g, () => {
+            if (inputIdx < inputs.length) {
+              const subId = inputs[inputIdx].subId
+              inputIdx++
+              return `<span data-input-placeholder="${subId}"></span>`
+            }
+            return '_____'
+          })
+        }
+
+        // Pattern D: Blank spans
+        if (inputIdx === 0) {
+          cleanedHTML = cleanedHTML.replace(/<span[^>]*class="[^"]*blank[^"]*"[^>]*>[^<]*<\/span>/gi, () => {
+            if (inputIdx < inputs.length) {
+              const subId = inputs[inputIdx].subId
+              inputIdx++
+              return `<span data-input-placeholder="${subId}"></span>`
+            }
+            return ''
+          })
+        }
+
+        console.log(`✅ Q${questionId} Matching: created ${inputs.length} inputs, injected ${inputIdx} placeholders`)
+        console.log(`✅ Q${questionId} cleanedHTML has placeholder:`, cleanedHTML.includes('data-input-placeholder'))
+      } else {
+        // Fallback: single textarea if we can't parse answer pairs
+        inputs.push({
+          subId: `${questionId}`,
+          placeholder: 'Example: 11-eleven, 14-fourteen, 16-sixteen, 20-twenty',
+          label: 'Your Answer (enter pairs like: 11-sixteen, 14-eleven):',
+          inputType: 'textarea'
+        })
+      }
     } else {
       inputs.push({
         subId: `${questionId}`,
@@ -275,13 +357,15 @@ function parseQuestionStructure(
       })
     }
 
-    // Add placeholder at end of question
-    const lastContentMatch = cleanedHTML.match(/(<\/div>|<\/p>)(?![\s\S]*<\/div>)(?![\s\S]*<\/p>)/i)
-    if (lastContentMatch) {
-      const insertIndex = cleanedHTML.lastIndexOf(lastContentMatch[0])
-      cleanedHTML = cleanedHTML.slice(0, insertIndex + lastContentMatch[0].length) +
-        `<div data-input-placeholder="${questionId}"></div>` +
-        cleanedHTML.slice(insertIndex + lastContentMatch[0].length)
+    // Add placeholder at end of question if no inline placeholders were added
+    if (!cleanedHTML.includes('data-input-placeholder')) {
+      const lastContentMatch = cleanedHTML.match(/(<\/div>|<\/p>)(?![\s\S]*<\/div>)(?![\s\S]*<\/p>)/i)
+      if (lastContentMatch) {
+        const insertIndex = cleanedHTML.lastIndexOf(lastContentMatch[0])
+        cleanedHTML = cleanedHTML.slice(0, insertIndex + lastContentMatch[0].length) +
+          `<div data-input-placeholder="${questionId}"></div>` +
+          cleanedHTML.slice(insertIndex + lastContentMatch[0].length)
+      }
     }
   }
 
@@ -295,20 +379,33 @@ function parseQuestionStructure(
     // Split by comma and extract numbers from each part
     const parts = correctAnswer.split(',').map(a => a.trim())
 
-    // Extract numbers from patterns like "1 less: 14" or just "14"
-    answerArray = parts.map(part => {
-      // Check if there's a colon - if so, extract number AFTER the colon
-      if (part.includes(':')) {
-        const afterColon = part.split(':')[1].trim()
-        const numberMatch = afterColon.match(/^(\d+(?:[.\/]\d+)?)/)
-        return numberMatch ? numberMatch[1] : afterColon
-      }
-      // Otherwise, extract any number from the part
-      const numberMatch = part.match(/\b(\d+(?:[.\/]\d+)?)\b/)
-      return numberMatch ? numberMatch[1] : part
-    })
-
-    console.log(`🔢 Multi-input Q${questionId}: Split "${correctAnswer}" into:`, answerArray)
+    // For matching questions (e.g., "5-five, 10-ten"), extract just the word part
+    if (questionType === 'matching') {
+      answerArray = parts.map(part => {
+        // Pattern: "5-five" or "5:five" or "5 - five" -> extract "five"
+        const matchingMatch = part.match(/^\d+\s*[-:→]\s*(.+)$/)
+        if (matchingMatch) {
+          return matchingMatch[1].trim()
+        }
+        // If no number prefix, just return the word
+        return part
+      })
+      console.log(`🔤 Matching Q${questionId}: Extracted words from "${correctAnswer}":`, answerArray)
+    } else {
+      // For other multi-input questions, extract numbers
+      answerArray = parts.map(part => {
+        // Check if there's a colon - if so, extract number AFTER the colon
+        if (part.includes(':')) {
+          const afterColon = part.split(':')[1].trim()
+          const numberMatch = afterColon.match(/^(\d+(?:[.\/]\d+)?)/)
+          return numberMatch ? numberMatch[1] : afterColon
+        }
+        // Otherwise, extract any number from the part
+        const numberMatch = part.match(/\b(\d+(?:[.\/]\d+)?)\b/)
+        return numberMatch ? numberMatch[1] : part
+      })
+      console.log(`🔢 Multi-input Q${questionId}: Split "${correctAnswer}" into:`, answerArray)
+    }
   }
 
   return {

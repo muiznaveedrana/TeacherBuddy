@@ -1,4 +1,5 @@
 import { LayoutType } from '@/lib/types/worksheet'
+import { YEAR_GROUPS } from '@/lib/data/curriculum'
 
 /**
  * Layout template rendering system for worksheet generation
@@ -57,6 +58,15 @@ function createSeededRandom(seed: string) {
 function extractYearNumber(yearGroup: string): number {
   const match = yearGroup.match(/year\s*(\d+)/i)
   return match ? parseInt(match[1], 10) : 0
+}
+
+/**
+ * Get international label with ages for year group
+ * Converts internal value (e.g., "Reception") to international format (e.g., "Kindergarten / Reception (Ages 4-5)")
+ */
+function getInternationalYearLabel(yearGroup: string): string {
+  const yearGroupData = YEAR_GROUPS.find(yg => yg.value === yearGroup)
+  return yearGroupData?.label || yearGroup
 }
 
 /**
@@ -148,28 +158,6 @@ const baseLayoutTemplate = (content: string, context: LayoutRenderContext) => {
       margin: 5px 0;
     }
     
-    .student-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 12px 0;
-      padding: 8px 0;
-      border-top: 1px solid #ccc;
-      border-bottom: 1px solid #ccc;
-      font-size: ${fontSettings.instructionFontSize};
-      gap: 20px;
-    }
-    
-    .student-name {
-      border-bottom: 1px solid #333;
-      width: 150px;
-    }
-    
-    .date-field {
-      border-bottom: 1px solid #333;
-      width: 100px;
-    }
-    
     .worksheet-content {
       margin-top: 15px;
     }
@@ -187,17 +175,12 @@ const baseLayoutTemplate = (content: string, context: LayoutRenderContext) => {
 </head>
 <body>
   <div class="worksheet-header">
-    <h1 class="worksheet-title">${escapeHtml(context.topic.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()))} ${escapeHtml(context.subtopic.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()))}</h1>
+    <h1 class="worksheet-title">${escapeHtml(context.subtopic.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()))}</h1>
     <div class="worksheet-details">
-      ${escapeHtml(context.yearGroup)} • ${escapeHtml(context.difficulty.charAt(0).toUpperCase() + context.difficulty.slice(1))}
+      ${escapeHtml(getInternationalYearLabel(context.yearGroup))} • ${escapeHtml(context.topic.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()))}
     </div>
   </div>
-  
-  <div class="student-info">
-    <div>Name: <span class="student-name">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
-    <div>Date: <span class="date-field">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
-  </div>
-  
+
   <div class="worksheet-content">
     ${content}
   </div>
@@ -1032,7 +1015,7 @@ export const LAYOUT_CONTENT_TEMPLATES = {
     
     <div class="word-problem-container">
       <div class="word-problem-header">
-        <h1 class="word-problem-title">Word Problems: ${_context.topic.replace('-', ' ')}</h1>
+        <h1 class="word-problem-title">Word Problems: ${_context.subtopic.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())}</h1>
         <div class="word-problem-instructions">
           Carefully read each question. Identify the key information, show all of your work, and circle your final answer!
         </div>

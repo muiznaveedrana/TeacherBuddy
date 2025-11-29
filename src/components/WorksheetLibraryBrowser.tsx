@@ -4,16 +4,8 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import type { LibraryWorksheet, REGION_CONFIG } from '@/lib/types/library'
+import type { LibraryWorksheet } from '@/lib/types/library'
 import { yearGroupToUSLabel } from '@/lib/types/hub'
-
-// Region badge config
-const REGION_BADGES: Record<string, { flag: string; label: string }> = {
-  UK: { flag: '🇬🇧', label: 'UK' },
-  US: { flag: '🇺🇸', label: 'US' },
-  AU: { flag: '🇦🇺', label: 'AU' },
-  CA: { flag: '🇨🇦', label: 'CA' },
-}
 
 // Year group color system
 const YEAR_COLORS: Record<string, string> = {
@@ -259,8 +251,8 @@ export function WorksheetLibraryBrowser() {
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 />
 
-                {/* Year Group Badge - Top Right (US label for compact display) */}
-                <div className={`absolute top-2 right-2 ${yearColor} text-white px-2 py-0.5 rounded text-[10px] font-semibold shadow-lg transition-all duration-300 group-hover:opacity-0 group-hover:scale-0`}>
+                {/* Year Group Badge - Bottom Left (US label for compact display) */}
+                <div className={`absolute bottom-2 left-2 ${yearColor} text-white px-2 py-0.5 rounded text-[10px] font-semibold shadow-lg transition-all duration-300 group-hover:opacity-0 group-hover:scale-0`}>
                   {yearGroupToUSLabel(worksheet.year_group)}
                 </div>
 
@@ -281,12 +273,6 @@ export function WorksheetLibraryBrowser() {
                   ⬇ {worksheet.download_count.toLocaleString()}
                 </div>
 
-                {/* Region Badge - Bottom Left */}
-                {worksheet.region && REGION_BADGES[worksheet.region] && (
-                  <div className="absolute bottom-2 left-2 bg-white/90 backdrop-blur-sm text-gray-800 px-1.5 py-0.5 rounded text-[10px] font-semibold shadow-lg transition-all duration-300 group-hover:opacity-0 group-hover:scale-0">
-                    {REGION_BADGES[worksheet.region].flag} {REGION_BADGES[worksheet.region].label}
-                  </div>
-                )}
 
                 {/* Hover instruction overlay */}
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

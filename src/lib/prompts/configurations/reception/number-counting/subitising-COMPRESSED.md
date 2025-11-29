@@ -229,7 +229,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 .group-cluster{display:flex;gap:8px;flex-wrap:wrap;padding:10px;border:2px dashed #999;border-radius:8px;}
 .group-separator{width:2px;height:60px;background:#ccc;}
 .answer-prompt{font-size:15pt;margin:10px 0;text-align:center;}
-.answer-line{border-bottom:2px solid #333;display:inline-block;min-width:100px;margin-left:10px;}
+.answer-line{border-bottom:3px solid #333;display:inline-block;min-width:120px;height:28px;margin-left:10px;margin-top:8px;}
 .answer-key{margin-top:30px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px;}
 .answer-key-title{font-size:14pt;font-weight:bold;margin:0 0 10px 0;text-align:center;}
 .answer-key-content p{font-size:12pt;margin:6px 0;}

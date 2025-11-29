@@ -37,7 +37,7 @@ export async function getMainHubData(): Promise<MainHub> {
       .select('*', { count: 'exact', head: true })
       .eq('year_group', yg.value)
       .eq('status', 'published')
-      .eq('region', 'UK')
+      // Region filter removed - show ALL worksheets
 
     const curriculum = CURRICULUM_MAPPING[yg.value]
     const topicCount = curriculum ? Object.keys(curriculum.topics).length : 0
@@ -58,7 +58,7 @@ export async function getMainHubData(): Promise<MainHub> {
     .from('library_worksheets')
     .select('*')
     .eq('status', 'published')
-    .eq('region', 'UK')
+    // Region filter removed - show ALL worksheets
     .order('download_count', { ascending: false })
     .limit(6)
 
@@ -116,7 +116,7 @@ export async function getYearGroupHubData(yearGroupSlug: string): Promise<YearGr
       .eq('year_group', yearGroup)
       .eq('topic', topicId)
       .eq('status', 'published')
-      .eq('region', 'UK')
+      // Region filter removed - show ALL worksheets
 
     topicSummaries.push({
       topic: topicId,
@@ -136,7 +136,7 @@ export async function getYearGroupHubData(yearGroupSlug: string): Promise<YearGr
     .select('*')
     .eq('year_group', yearGroup)
     .eq('status', 'published')
-    .eq('region', 'UK')
+    // Region filter removed - show ALL worksheets
     .order('download_count', { ascending: false })
     .limit(6)
 
@@ -206,7 +206,7 @@ export async function getTopicHubData(
       .eq('year_group', yearGroup)
       .eq('subtopic', subtopic.value)
       .eq('status', 'published')
-      .eq('region', 'UK')
+      // Region filter removed - show ALL worksheets
 
     subtopicSummaries.push({
       subtopic: subtopic.value,
@@ -226,7 +226,7 @@ export async function getTopicHubData(
     .eq('year_group', yearGroup)
     .eq('topic', topicSlug)
     .eq('status', 'published')
-    .eq('region', 'UK')
+    // Region filter removed - show ALL worksheets
     .order('download_count', { ascending: false })
     .limit(6)
 
@@ -311,7 +311,7 @@ export async function getSubtopicHubData(
     .eq('year_group', yearGroup)
     .eq('subtopic', subtopicSlug)
     .eq('status', 'published')
-    .eq('region', 'UK')
+    // Region filter removed - show ALL worksheets
     .order('download_count', { ascending: false })
 
   // Get related subtopics (from same topic)
@@ -411,7 +411,7 @@ export async function getSubtopicHubDataWithTopic(
     .eq('year_group', yearGroup)
     .eq('subtopic', subtopicSlug)
     .eq('status', 'published')
-    .eq('region', 'UK')
+    // Region filter removed - show ALL worksheets
     .order('download_count', { ascending: false })
 
   // Get related subtopics (from same topic) with new URL structure

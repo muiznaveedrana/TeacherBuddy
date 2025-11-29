@@ -199,7 +199,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 ```css
 <style>
 body{font-family:'Comic Sans MS',sans-serif;font-size:12pt;padding:10px;}
-.question{margin:5px 0;padding:6px;border-radius:5px;}
+.question{margin:5px 0;padding:6px;border-radius:5px;display:flex;flex-direction:column;}
 .size-comparison-two,.size-comparison-three{display:flex;justify-content:center;align-items:flex-end;margin:8px auto;padding:10px;background:#f8f9ff;border:2px solid #4CAF50;border-radius:6px;max-width:300px;gap:20px;}
 .comparison-item{text-align:center;}
 .item-label{font-size:10pt;font-weight:bold;margin-bottom:4px;display:block;}
