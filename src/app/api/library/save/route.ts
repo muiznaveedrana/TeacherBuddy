@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createLibraryWorksheet } from '@/lib/services/libraryService'
-import { generateWorksheetThumbnail, generateSlugFromTitle } from '@/lib/services/thumbnailGenerationService'
 import { generateEducationalContent } from '@/lib/services/educationalContentService'
 import { normalizeTopicValue, normalizeSubtopicValue } from '@/lib/config/worksheetTaxonomy'
 import { yearGroupToUSLabel } from '@/lib/types/hub'
 import type { SaveToLibraryMetadata } from '@/lib/types/library'
+
+// Dynamic import to avoid bundling heavy puppeteer/sharp dependencies
+const getThumbnailService = () => import('@/lib/services/thumbnailGenerationService')
 
 export const dynamic = 'force-dynamic'
 
@@ -26,6 +28,9 @@ export async function POST(request: NextRequest) {
     }
 
     console.log('📝 Metadata:', metadata)
+
+    // Dynamic import to avoid bundling heavy dependencies
+    const { generateWorksheetThumbnail, generateSlugFromTitle } = await getThumbnailService()
 
     const slug = metadata.slug || generateSlugFromTitle(
       metadata.title,

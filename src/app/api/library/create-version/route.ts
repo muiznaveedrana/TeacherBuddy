@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { createLibraryWorksheet, getWorksheetById } from '@/lib/services/libraryService'
-import { generateWorksheetThumbnail, generateSlugFromTitle } from '@/lib/services/thumbnailGenerationService'
 import { addCacheBusting } from '@/lib/services/imageKitService'
+
+// Dynamic import to avoid bundling heavy puppeteer/sharp dependencies
+const getThumbnailService = () => import('@/lib/services/thumbnailGenerationService')
 
 export const dynamic = 'force-dynamic'
 
@@ -75,6 +77,9 @@ export async function POST(request: NextRequest) {
         { status: 404 }
       )
     }
+
+    // Dynamic import to avoid bundling heavy dependencies
+    const { generateWorksheetThumbnail, generateSlugFromTitle } = await getThumbnailService()
 
     // Generate slug for the new version
     const newTitle = title || `${originalWorksheet.title} (Edited)`

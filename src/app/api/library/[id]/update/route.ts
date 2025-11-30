@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { updateWorksheetMetadata, getWorksheetById } from '@/lib/services/libraryService'
-import { generateWorksheetThumbnail } from '@/lib/services/thumbnailGenerationService'
 import { deleteFromImageKit, addCacheBusting } from '@/lib/services/imageKitService'
+
+// Dynamic import to avoid bundling heavy puppeteer/sharp dependencies
+const getThumbnailService = () => import('@/lib/services/thumbnailGenerationService')
 
 export const dynamic = 'force-dynamic'
 
@@ -78,7 +80,8 @@ export async function POST(
     }
 
     console.log('📸 Regenerating thumbnail from updated HTML with mascots...')
-    // Generate new thumbnail from the updated HTML with mascots
+    // Generate new thumbnail from the updated HTML with mascots (dynamic import)
+    const { generateWorksheetThumbnail } = await getThumbnailService()
     let thumbnailUrl = await generateWorksheetThumbnail(
       html_content,
       existingWorksheet.slug,
