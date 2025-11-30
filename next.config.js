@@ -5,7 +5,10 @@ const nextConfig = {
     serverComponentsExternalPackages: [
       'puppeteer-core',
       '@sparticuz/chromium',
-      'puppeteer'
+      'puppeteer',
+      'sharp',
+      'jsdom',
+      'glob'
     ]
   },
 
@@ -48,7 +51,10 @@ const nextConfig = {
         ...(config.externals || []),
         'puppeteer',
         'puppeteer-core',
-        '@sparticuz/chromium'
+        '@sparticuz/chromium',
+        'sharp',
+        'jsdom',
+        'glob'
       ]
     }
 
