@@ -190,7 +190,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 .length-comparison,.three-way-length,.same-length-display{display:flex;flex-direction:column;gap:20px;margin:20px auto;max-width:400px;padding:20px;background:#fff;border:2px solid #ddd;border-radius:10px;}
 .comparison-item{display:flex;align-items:center;gap:15px;padding:10px;border:1px solid #eee;border-radius:6px;}
 .item-label{font-size:18pt;font-weight:bold;min-width:30px;text-align:center;}
-.answer-prompt{font-size:15pt;margin:10px 0;text-align:center;}
+.answer-prompt{margin-top:25px;font-size:15pt;font-weight:600;text-align:center}
 .answer-line{border-bottom:3px solid #333;display:inline-block;min-width:120px;height:28px;margin-left:10px;margin-top:8px;}
 .answer-key{margin-top:30px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px;}
 .answer-key-title{font-size:14pt;font-weight:bold;margin:0 0 10px 0;text-align:center;}

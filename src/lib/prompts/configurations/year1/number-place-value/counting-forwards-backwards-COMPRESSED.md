@@ -300,7 +300,7 @@ body{font-family:'Sassoon Primary','Century Gothic',sans-serif;font-size:16pt;ma
 .hundred-square-section{display:inline-grid;grid-template-columns:repeat(3,60px);gap:2px;margin:20px auto;padding:10px;background:#fff;border:3px solid #333;border-radius:8px}
 .hundred-cell{width:60px;height:60px;background:#E8F5E9;border:2px solid #4CAF50;display:flex;align-items:center;justify-content:center;font-size:18pt;font-weight:bold}
 .hundred-cell.empty{background:#fff;border-style:dashed;border-color:#FF5722}
-.answer-prompt{font-size:15pt;margin:15px 0;font-weight:600;text-align:center}
+.answer-prompt{margin-top:25px;font-size:15pt;font-weight:600;text-align:center}
 .answer-box{display:inline-block;min-width:60px;height:40px;border:3px solid #333;border-radius:6px;background:#fff;margin:0 8px;vertical-align:middle}
 .answer-key{margin-top:30px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px;page-break-before:always}
 .answer-key-title{font-size:14pt;font-weight:bold;color:#2c3e50;margin-bottom:10px;text-align:center}

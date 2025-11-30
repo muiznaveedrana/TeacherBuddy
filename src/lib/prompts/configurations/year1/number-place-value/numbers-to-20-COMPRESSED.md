@@ -287,7 +287,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 .option-row{font-size:16pt;display:flex;align-items:center;gap:8px;padding:8px 0;}
 .option-letter{font-weight:bold;color:#555;}
 .option-word{background:#FFF9C4;padding:8px 15px;border-radius:8px;}
-.answer-prompt{font-size:15pt;margin:22px 0 0 0;text-align:center;}
+.answer-prompt{margin-top:25px;font-size:15pt;font-weight:600;text-align:center}
 .answer-box{display:inline-block;border-bottom:3px solid #333;min-width:80px;height:28px;margin:0 5px;}
 .answer-box.small{min-width:40px;}
 .answer-key{margin-top:30px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px;}

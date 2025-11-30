@@ -150,7 +150,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px}
 .num{min-width:50px;text-align:center}
 .op{font-size:28pt;color:#FF9800}
 .answer-box{display:inline-block;min-width:60px;height:50px;border:3px solid #333;border-radius:8px;background:#FFF9C4}
-.answer-prompt{font-size:15pt;margin:15px 0;font-weight:600;text-align:center}
+.answer-prompt{margin-top:25px;font-size:15pt;font-weight:600;text-align:center}
 .answer-line{display:inline-block;min-width:50px;border-bottom:2px solid #333;margin:0 5px}
 .answer-key{margin-top:30px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px}
 .answer-key-title{font-size:14pt;font-weight:bold;margin:0 0 10px 0;text-align:center}

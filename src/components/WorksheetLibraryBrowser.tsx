@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { LibraryWorksheet } from '@/lib/types/library'
-import { yearGroupToUSLabel } from '@/lib/types/hub'
+import { yearGroupToDualLabel } from '@/lib/types/hub'
 
 // Year group color system
 const YEAR_COLORS: Record<string, string> = {
@@ -253,7 +253,7 @@ export function WorksheetLibraryBrowser() {
 
                 {/* Year Group Badge - Bottom Left (US label for compact display) */}
                 <div className={`absolute bottom-2 left-2 ${yearColor} text-white px-2 py-0.5 rounded text-[10px] font-semibold shadow-lg transition-all duration-300 group-hover:opacity-0 group-hover:scale-0`}>
-                  {yearGroupToUSLabel(worksheet.year_group)}
+                  {yearGroupToDualLabel(worksheet.year_group)}
                 </div>
 
                 {/* Status Badge - Top Left */}

@@ -210,7 +210,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:12pt;padding:10px;}
 .drawing-space{min-width:70px;height:130px;background:#fff;border:2px dashed #999;border-radius:5px;}
 .ice-cream-comparison{display:flex;justify-content:center;align-items:flex-end;margin:8px auto;padding:10px;background:#FFF3E0;border:2px solid #FF9800;border-radius:6px;max-width:280px;}
 .child-name{font-size:9pt;font-weight:bold;margin-bottom:3px;}
-.answer-prompt{font-size:11pt;margin:5px 0;font-weight:600;text-align:center;}
+.answer-prompt{margin-top:25px;font-size:15pt;font-weight:600;text-align:center}
 .answer-choices{display:flex;justify-content:center;gap:12px;margin-top:8px;}
 .choice-circle{width:45px;height:45px;border:2px solid #333;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9pt;font-weight:bold;background:#fff;}
 .answer-key{margin-top:30px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px;}

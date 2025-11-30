@@ -224,7 +224,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 .cup-outline,.glass-outline,.bottle-outline{width:60px;height:80px;border:3px solid #333;border-radius:5px 5px 8px 8px;position:relative;overflow:hidden;background:#fff;}
 .liquid-fill{position:absolute;bottom:0;left:0;right:0;transition:height 0.3s;}
 .counting-container{margin:20px auto;text-align:center;}
-.answer-prompt{font-size:15pt;margin:10px 0;text-align:center;}
+.answer-prompt{margin-top:25px;font-size:15pt;font-weight:600;text-align:center}
 .answer-line{border-bottom:3px solid #333;display:inline-block;min-width:120px;height:28px;margin-left:10px;margin-top:8px;}
 .answer-key{margin-top:30px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px;}
 .answer-key-title{font-size:14pt;font-weight:bold;margin:0 0 10px 0;text-align:center;}

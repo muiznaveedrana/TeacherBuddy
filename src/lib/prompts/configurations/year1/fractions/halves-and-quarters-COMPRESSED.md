@@ -226,7 +226,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 .group-label{font-weight:bold;margin-bottom:10px;}
 .cookie-icon{display:inline-block;font-size:32pt;margin:5px;}
 .fraction-visual{display:inline-block;vertical-align:middle;margin:0 10px;}
-.answer-prompt{font-weight:bold;margin-top:15px;text-align:center;font-size:15pt;}
+.answer-prompt{margin-top:25px;font-size:15pt;font-weight:600;text-align:center}
 .answer-box{display:inline-block;border-bottom:2px solid #333;min-width:80px;height:30px;vertical-align:middle;}
 .answer-line{display:inline-block;border-bottom:2px solid #333;min-width:200px;height:30px;vertical-align:middle;}
 .answer-key{margin-top:40px;padding:20px;background:#f5f5f5;border:2px solid #333;border-radius:8px;}
