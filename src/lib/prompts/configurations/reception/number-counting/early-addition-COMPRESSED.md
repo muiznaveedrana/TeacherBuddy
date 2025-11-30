@@ -8,7 +8,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 
 ## Objects & Assets
 **fruits**: apple,banana,orange,strawberry,grape,pear,lemon,watermelon,peach,pineapple
-**farm_animals**: chicken,cow,sheep,pig,horse,duck,goat,goose,turkey
+**farm_animals**: chicken,cow,sheep,horse,duck,goat,goose,turkey
 **garden**: flower,butterfly,bee,bird,tree,leaf,mushroom,worm,acorn
 **school**: book,pencil,eraser,crayon,marker,scissors,ruler,glue,backpack
 **vegetables**: carrot,tomato,broccoli,cucumber,pepper,potato
@@ -141,6 +141,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
             <img src="/images/car.png" width="30" height="30" alt="Car" />
             <img src="/images/car.png" width="30" height="30" alt="Car" />
         </div>
+        <div class="plus-sign">+</div>
         <div class="objects-display">
             <img src="/images/car.png" width="30" height="30" alt="Car" />
             <img src="/images/car.png" width="30" height="30" alt="Car" />
@@ -193,6 +194,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
             <p class="choice-number">8</p>
         </div>
     </div>
+    <p class="answer-prompt">Answer: <span class="answer-line"></span></p>
 </div>
 ```
 
@@ -203,11 +205,11 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 .question{margin:10px 0;padding:12px;border-radius:8px;}
 .question-number{font-size:18pt;font-weight:bold;margin-right:8px;}
 .question-text{font-size:16pt;font-weight:600;}
-.addition-groups,.story-images,.combining-display{display:flex;gap:20px;justify-content:center;align-items:center;margin:15px 0;flex-wrap:wrap;}
-.objects-display{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:150px;margin:10px auto;}
-.plus-sign{font-size:24pt;font-weight:bold;color:#FF6347;}
-.one-more-display{display:flex;gap:15px;justify-content:center;align-items:center;margin:15px 0;}
-.addition-visual{display:flex;gap:20px;justify-content:center;align-items:center;margin:15px 0;}
+.addition-groups,.story-images,.combining-display{display:flex;gap:15px;justify-content:center;align-items:center;margin:12px 0;}
+.objects-display{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;max-width:140px;}
+.plus-sign{font-size:35pt;font-weight:bold;color:#E53935;}
+.one-more-display{display:flex;gap:10px;justify-content:center;align-items:center;margin:12px 0;}
+.addition-visual{display:flex;gap:15px;justify-content:center;align-items:center;margin:12px 0;}
 .choice-boxes{display:flex;gap:20px;justify-content:center;margin-top:15px;}
 .choice-box{padding:15px;border:3px solid #ddd;border-radius:12px;text-align:center;min-width:60px;}
 .choice-label{font-size:16pt;font-weight:bold;margin-bottom:8px;display:block;}

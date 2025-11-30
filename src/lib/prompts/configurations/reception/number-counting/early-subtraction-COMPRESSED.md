@@ -8,7 +8,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 
 ## Objects & Assets
 **fruits**: apple,banana,orange,strawberry,grape,pear,lemon,watermelon,peach,pineapple
-**farm_animals**: chicken,cow,sheep,pig,horse,duck,goat,goose,turkey
+**farm_animals**: chicken,cow,sheep,horse,duck,goat,goose,turkey
 **garden**: flower,butterfly,bee,bird,tree,leaf,mushroom,worm,acorn
 **school**: book,pencil,eraser,crayon,marker,scissors,ruler,glue,backpack
 **vegetables**: carrot,tomato,broccoli,cucumber,pepper,potato
@@ -130,7 +130,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 - "Some {objects} are crossed out. How many remain?"
 - "How many {objects} do you see without an X?"
 
-**Visual**: Show objects with some already crossed out (use red X or strikethrough styling)
+**Visual**: Show objects with some already crossed out using wrapper div with X mark
 
 **Example**:
 ```html
@@ -138,9 +138,9 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
     <p class="question-text"><span class="question-number">4.</span> Count the cars that are NOT crossed out.</p>
     <div class="takeaway-display">
         <img src="/images/car.png" width="30" height="30" alt="Car" />
-        <img src="/images/car.png" width="30" height="30" alt="Car" class="crossed-out" />
+        <div class="crossed-item"><img src="/images/car.png" width="30" height="30" alt="Car" /><span class="cross-mark">✕</span></div>
         <img src="/images/car.png" width="30" height="30" alt="Car" />
-        <img src="/images/car.png" width="30" height="30" alt="Car" class="crossed-out" />
+        <div class="crossed-item"><img src="/images/car.png" width="30" height="30" alt="Car" /><span class="cross-mark">✕</span></div>
         <img src="/images/car.png" width="30" height="30" alt="Car" />
         <img src="/images/car.png" width="30" height="30" alt="Car" />
     </div>
@@ -186,6 +186,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
             <p class="choice-number">5</p>
         </div>
     </div>
+    <p class="answer-prompt">Answer: <span class="answer-line"></span></p>
 </div>
 ```
 
@@ -197,12 +198,14 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 .question-number{font-size:18pt;font-weight:bold;margin-right:8px;}
 .question-text{font-size:16pt;font-weight:600;}
 .crossout-display,.takeaway-display{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:15px 0;max-width:300px;margin-left:auto;margin-right:auto;}
-.story-subtraction{display:flex;gap:20px;justify-content:center;align-items:center;margin:15px 0;flex-wrap:wrap;}
-.objects-display{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:200px;margin:10px auto;}
-.one-less-display{display:flex;gap:15px;justify-content:center;align-items:center;margin:15px 0;}
-.subtraction-visual{text-align:center;margin:15px 0;}
-.crossed-out{opacity:0.3;position:relative;}
-.crossed-out::after{content:'❌';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:24pt;color:red;}
+.story-subtraction{display:flex;gap:15px;justify-content:center;align-items:center;margin:12px 0;}
+.objects-display{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;max-width:140px;}
+.minus-sign{font-size:35pt;font-weight:bold;color:#E53935;}
+.one-less-display{display:flex;gap:10px;justify-content:center;align-items:center;margin:12px 0;}
+.subtraction-visual{display:flex;gap:15px;justify-content:center;align-items:center;margin:12px 0;}
+.crossed-item{position:relative;display:inline-block;}
+.crossed-item img{opacity:0.4;}
+.cross-mark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:24px;color:#E53935;font-weight:bold;}
 .choice-boxes{display:flex;gap:20px;justify-content:center;margin-top:15px;}
 .choice-box{padding:15px;border:3px solid #ddd;border-radius:12px;text-align:center;min-width:60px;}
 .choice-label{font-size:16pt;font-weight:bold;margin-bottom:8px;display:block;}

@@ -57,5 +57,5 @@ All text: BLACK, 16pt base
 
 ## Answer Key
 ```html
-<div class="answer-key"><h2 class="answer-key-title">Answer Key</h2><div class="answer-key-content"><p><strong>1.</strong> [Number]</p><p><strong>2.</strong> [Count]</p><p><strong>3.</strong> [Count]</p><p><strong>4.</strong> [Only child's answers: 7-seven, 2-two]</p><p><strong>5.</strong> [Letter]</p></div></div>
+<div class="answer-key"><h2 class="answer-key-title">Answer Key</h2><div class="answer-key-content"><p><strong>1.</strong> [Number]</p><p><strong>2.</strong> [Count]</p><p><strong>3.</strong> [Count]</p><p><strong>4.</strong> [Only child's answers: 7-seven, 2-two]</p><p><strong>5.</strong> [Letter and target quantity, e.g., "B (5)" - must include the number being asked about in parentheses]</p></div></div>
 ```

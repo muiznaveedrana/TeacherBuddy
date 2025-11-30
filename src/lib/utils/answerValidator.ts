@@ -29,7 +29,20 @@ export function validateAnswer(
     correct: normalizeAnswer(correctAnswer, questionType)
   }
 
-  const isCorrect = normalized.student === normalized.correct
+  let isCorrect = normalized.student === normalized.correct
+
+  // Also accept just the letter for multiple choice (e.g., "B" matches "B (6)")
+  if (!isCorrect) {
+    const mcMatch = correctAnswer.trim().match(/^([a-d])\s*\((\d+)\)$/i)
+    if (mcMatch) {
+      const letter = mcMatch[1].toLowerCase()
+      const studentLower = studentAnswer.trim().toLowerCase()
+      // Accept if student entered just the letter
+      if (studentLower === letter) {
+        isCorrect = true
+      }
+    }
+  }
 
   return {
     isCorrect,
@@ -43,6 +56,14 @@ function normalizeAnswer(answer: string, type: string): string {
   if (!answer) return ''
 
   let normalized = answer.trim().toLowerCase()
+
+  // Handle multiple choice answers like "B (6)" or "A (5)" - extract just the number
+  // This allows both "B" and "6" to match "B (6)"
+  const multipleChoiceMatch = normalized.match(/^([a-d])\s*\((\d+)\)$/i)
+  if (multipleChoiceMatch) {
+    // Return just the number for comparison (e.g., "B (6)" → "6")
+    normalized = multipleChoiceMatch[2]
+  }
 
   // Remove currency symbols
   normalized = normalized.replace(/[£$€¥]/g, '')

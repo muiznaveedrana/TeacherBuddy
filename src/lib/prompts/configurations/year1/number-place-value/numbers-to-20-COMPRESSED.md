@@ -18,7 +18,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 **Q2:** Number line - missing number (show 6 consecutive numbers) - RANDOMIZE: starting number + question wording
 **Q3:** Ten-frame recognition (show 10-20) - RANDOMIZE: quantity + question wording
 **Q4:** One more, one less (given number 5-19) - RANDOMIZE: central number + question variation
-**Q5:** Number word matching (numerals to words) - RANDOMIZE: number set + question wording
+**Q5:** Number word matching (letter selection format) - RANDOMIZE: number set + shuffle options
 
 ## NUMBER WORDS (0-20)
 
@@ -113,8 +113,8 @@ Shapes: star,heart,circle,square
 - Standard: "One Less | [Number] | One More"
 - Alternative: "1 less than [number] is ____. 1 more than [number] is ____."
 
-## Q5 - Number Words Matching (RANDOMIZE!)
-**RANDOMIZE**: Pick ONE number set (4 numbers) + ONE question variation + shuffle word order
+## Q5 - Number Words Letter Matching (INTERACTIVE FORMAT)
+**RANDOMIZE**: Pick ONE number set (4 numbers) + shuffle the letter options
 
 **Number Sets** (pick ONE - always use 4 numbers):
 - **Set 1**: 11, 13, 16, 19
@@ -125,13 +125,25 @@ Shapes: star,heart,circle,square
 - **Set 6**: 10, 12, 16, 18
 - **Set 7**: 11, 15, 17, 20
 
-**Question Variations** (pick ONE):
-- "Draw lines to match the numbers to the words."
-- "Match the numbers with the correct words."
-- "Connect each number to its word."
-- "Match the numerals to the number words."
+**Question Text**: "Match each number to its letter."
 
-**CRITICAL**: Always shuffle the word column order (don't align them!)
+**FORMAT**: Two columns side by side:
+- LEFT: Numbers with answer boxes (e.g., "13 = ___")
+- RIGHT: Lettered word options (A, B, C, D) - SHUFFLED order
+
+**CRITICAL**: 
+- Shuffle the A, B, C, D options so they DON'T align with the numbers
+- Each letter is used exactly once
+- Child writes A, B, C, or D in each box
+
+**Example**:
+```
+13 = ___     A) nineteen
+16 = ___     B) eleven
+19 = ___     C) sixteen
+11 = ___     D) thirteen
+```
+Answer: D, C, A, B
 
 ## EXAMPLE OUTPUT
 
@@ -140,14 +152,8 @@ Shapes: star,heart,circle,square
 <div class="question" style="background: #FFF9C4;">
     <p class="question-text"><span class="question-number">1.</span> Count the apples. Write the number.</p>
     <div class="counting-array">
-        <img src="/images/apple.png" width="50" height="50" alt="Apple" />
-        <img src="/images/apple.png" width="50" height="50" alt="Apple" />
-        <img src="/images/apple.png" width="50" height="50" alt="Apple" />
-        <img src="/images/apple.png" width="50" height="50" alt="Apple" />
-        <img src="/images/apple.png" width="50" height="50" alt="Apple" />
-        <img src="/images/apple.png" width="50" height="50" alt="Apple" />
-        <img src="/images/apple.png" width="50" height="50" alt="Apple" />
-        <img src="/images/apple.png" width="50" height="50" alt="Apple" />
+        <img src="/images/apple.png" width="45" height="45" alt="Apple" />
+        <!-- repeat for total count -->
     </div>
     <p class="answer-prompt">There are <span class="answer-box"></span> apples.</p>
 </div>
@@ -155,7 +161,7 @@ Shapes: star,heart,circle,square
 
 **Q2 (Number Line):**
 ```html
-<div class="question" style="background: #E3F2FD;">
+<div class="question" style="background: #F1F8E9;">
     <p class="question-text"><span class="question-number">2.</span> What number is missing?</p>
     <div class="number-line-container">
         <div class="number-line">
@@ -173,23 +179,16 @@ Shapes: star,heart,circle,square
 
 **Q3 (Ten-Frame):**
 ```html
-<div class="question" style="background: #F1F8E9;">
+<div class="question" style="background: #E3F2FD;">
     <p class="question-text"><span class="question-number">3.</span> Count the blue circles.</p>
-    <div class="ten-frame">
-        <div class="frame-row">
-            <div class="frame-cell filled"></div>
-            <div class="frame-cell filled"></div>
-            <div class="frame-cell filled"></div>
-            <div class="frame-cell filled"></div>
-            <div class="frame-cell filled"></div>
+    <div class="ten-frame-container">
+        <div class="ten-frame">
+            <div class="frame-row">
+                <div class="frame-cell filled"></div>
+                <!-- 5 cells per row, 2 rows per frame -->
+            </div>
         </div>
-        <div class="frame-row">
-            <div class="frame-cell filled"></div>
-            <div class="frame-cell filled"></div>
-            <div class="frame-cell filled"></div>
-            <div class="frame-cell empty"></div>
-            <div class="frame-cell empty"></div>
-        </div>
+        <!-- Use 2 ten-frames for numbers 11-20 -->
     </div>
     <p class="answer-prompt">There are <span class="answer-box"></span> blue circles.</p>
 </div>
@@ -217,22 +216,22 @@ Shapes: star,heart,circle,square
 </div>
 ```
 
-**Q5 (Number Words):**
+**Q5 (Number Words - Letter Matching):**
 ```html
 <div class="question" style="background: #FFF3E0;">
-    <p class="question-text"><span class="question-number">5.</span> Draw lines to match the numbers to the words.</p>
-    <div class="matching-activity">
-        <div class="matching-column">
-            <div class="match-item number">11</div>
-            <div class="match-item number">15</div>
-            <div class="match-item number">18</div>
-            <div class="match-item number">20</div>
+    <p class="question-text"><span class="question-number">5.</span> Match each number to its letter.</p>
+    <div class="letter-matching">
+        <div class="matching-left">
+            <div class="match-row"><span class="match-number">13</span> = <span class="answer-box small"></span></div>
+            <div class="match-row"><span class="match-number">16</span> = <span class="answer-box small"></span></div>
+            <div class="match-row"><span class="match-number">19</span> = <span class="answer-box small"></span></div>
+            <div class="match-row"><span class="match-number">11</span> = <span class="answer-box small"></span></div>
         </div>
-        <div class="matching-column">
-            <div class="match-item word">twenty</div>
-            <div class="match-item word">eleven</div>
-            <div class="match-item word">eighteen</div>
-            <div class="match-item word">fifteen</div>
+        <div class="matching-right">
+            <div class="option-row"><span class="option-letter">A)</span> <span class="option-word">nineteen</span></div>
+            <div class="option-row"><span class="option-letter">B)</span> <span class="option-word">eleven</span></div>
+            <div class="option-row"><span class="option-letter">C)</span> <span class="option-word">sixteen</span></div>
+            <div class="option-row"><span class="option-letter">D)</span> <span class="option-word">thirteen</span></div>
         </div>
     </div>
 </div>
@@ -247,49 +246,52 @@ Shapes: star,heart,circle,square
         <p><strong>2.</strong> 15</p>
         <p><strong>3.</strong> 13</p>
         <p><strong>4.</strong> 13, 15</p>
-        <p><strong>5.</strong> 11-eleven, 15-fifteen, 18-eighteen, 20-twenty</p>
+        <p><strong>5.</strong> D, C, A, B</p>
     </div>
 </div>
 ```
 
 **CRITICAL - Answer Key Formatting Rules:**
 - Q1-Q3 (single input): Just the number (e.g., "8", NOT "8 apples")
-- Q4 (multi-input): Comma-separated values (e.g., "13, 15" or "less: 13, more: 15")
-- Q5 (matching): Use hyphens, not arrows (e.g., "11-eleven" works better than "11→eleven")
-- NEVER use format like "One less: 13" or "1 less: 13" - just use numbers!
+- Q4 (multi-input): Comma-separated values (e.g., "13, 15")
+- Q5 (letter matching): Comma-separated letters in order (e.g., "D, C, A, B")
 
 ## CSS
 ```css
 <style>
 body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 .question{margin:10px 0;padding:10px;border-radius:8px;}
-.counting-array{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:15px 0;}
-.number-line-container{margin:15px auto;max-width:400px;}
-.number-line{display:flex;justify-content:space-around;padding:10px;}
-.number-marker{width:40px;height:40px;border:2px solid #333;border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:bold;}
-.number-marker.missing{background:#ffffcc;font-size:20pt;}
-.ten-frame{display:flex;flex-direction:column;margin:15px auto;width:fit-content;}
-.frame-row{display:flex;}
-.frame-cell{width:40px;height:40px;border:2px solid #333;margin:2px;}
+.counting-array{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:15px 0;max-width:450px;margin-left:auto;margin-right:auto;}
+.number-line-container{margin:15px auto;max-width:500px;}
+.number-line{display:flex;justify-content:space-between;padding:10px 0;}
+.number-marker{width:50px;height:50px;border:2px solid #333;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18pt;background:#fff;}
+.number-marker.missing{background:#ffffcc;color:#999;}
+.ten-frame-container{display:flex;gap:20px;justify-content:center;margin:15px 0;flex-wrap:wrap;}
+.ten-frame{display:inline-block;padding:8px;background:#fff;border:3px solid #333;border-radius:8px;}
+.frame-row{display:flex;gap:4px;margin-bottom:4px;}
+.frame-row:last-child{margin-bottom:0;}
+.frame-cell{width:40px;height:40px;border:2px solid #333;border-radius:4px;display:flex;align-items:center;justify-content:center;}
 .frame-cell.filled{background:#4A90E2;border-radius:50%;}
-.frame-cell.empty{background:#fff;}
+.frame-cell.empty{background:#f5f5f5;}
 .number-relationships{display:flex;justify-content:center;margin:15px 0;}
-.relationship-row{display:flex;gap:15px;align-items:center;}
-.relationship-box{text-align:center;padding:10px;border:2px solid #ddd;border-radius:8px;min-width:80px;}
-.central-number{background:#FFF3E0;}
-.number-display{font-size:24pt;font-weight:bold;}
-.relationship-label{font-size:12pt;margin-bottom:5px;}
-.matching-activity{display:grid;grid-template-columns:1fr 1fr;gap:30px;max-width:400px;margin:15px auto;}
-.matching-column{display:flex;flex-direction:column;gap:15px;}
-.match-item{padding:12px;border:2px solid #333;border-radius:8px;text-align:center;font-weight:bold;font-size:14pt;}
-.match-item.number{background:#E3F2FD;}
-.match-item.word{background:#FFF9C4;}
-.answer-prompt{font-weight:bold;margin-top:10px;}
-.answer-box{display:inline-block;border-bottom:2px solid #333;min-width:60px;height:24px;vertical-align:middle;}
-.answer-key{margin-top:40px;padding:20px;background:#f5f5f5;border:2px solid #333;border-radius:8px;}
-.answer-key-title{font-size:18pt;margin-bottom:10px;}
-.answer-key-content p{margin:5px 0;}
+.relationship-row{display:flex;gap:20px;align-items:center;}
+.relationship-box{text-align:center;padding:15px;border:3px solid #ddd;border-radius:10px;min-width:90px;background:#fff;}
+.central-number{background:#FFF3E0;border-color:#FF9800;}
+.number-display{font-size:28pt;font-weight:bold;}
+.relationship-label{font-size:11pt;margin-bottom:8px;color:#666;}
+.letter-matching{display:flex;justify-content:center;gap:40px;margin:15px auto;}
+.matching-left{display:flex;flex-direction:column;gap:10px;}
+.matching-right{display:flex;flex-direction:column;gap:10px;}
+.match-row{font-size:16pt;font-weight:bold;display:flex;align-items:center;gap:8px;}
+.match-number{background:#E3F2FD;padding:8px 15px;border-radius:8px;min-width:40px;text-align:center;}
+.option-row{font-size:16pt;display:flex;align-items:center;gap:8px;padding:8px 0;}
+.option-letter{font-weight:bold;color:#555;}
+.option-word{background:#FFF9C4;padding:8px 15px;border-radius:8px;}
+.answer-prompt{font-size:15pt;margin:22px 0 0 0;text-align:center;}
+.answer-box{display:inline-block;border-bottom:3px solid #333;min-width:80px;height:28px;margin:0 5px;}
+.answer-box.small{min-width:40px;}
+.answer-key{margin-top:30px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px;}
+.answer-key-title{font-size:14pt;font-weight:bold;margin:0 0 10px 0;text-align:center;}
+.answer-key-content p{font-size:12pt;margin:6px 0;}
 </style>
 ```
-
-Replace {{topic}}, {{subtopic}}, {{yearGroup}}, {{difficulty}}, {{questionCount}} with actual values.

@@ -205,6 +205,18 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:15pt;padding:10px;line-hei
 </div>
 ```
 
+## ANSWER KEY FORMAT
+```html
+<div class="answer-key">
+    <h2>Answer Key</h2>
+    <p><strong>1.</strong> [Fraction shown, e.g., "1/4"]</p>
+    <p><strong>2.</strong> [Letter and fraction, e.g., "A (1/2)" - must include the target fraction in parentheses]</p>
+    <p><strong>3.</strong> [Fraction, e.g., "1/4"]</p>
+    <p><strong>4.</strong> [Letters showing 1/2, e.g., "A, B, D" or describe shapes]</p>
+    <p><strong>5.</strong> [Number, e.g., "1 slice"]</p>
+</div>
+```
+
 ## VALIDATION
 
 - [ ] EXACTLY {{questionCount}} questions?
