@@ -22,7 +22,31 @@ export interface StructuredQuestion {
   questionHTML: string // Cleaned HTML without input fields (for rendering static content)
   inputs: InputField[] // All input fields for this question
   correctAnswer: string | string[] // Single value or array for multi-input
-  questionType: 'counting' | 'number-line' | 'ten-frame' | 'one-more-less' | 'matching' | 'equation' | 'word-problem' | 'generic'
+  questionType: 'counting' | 'number-line' | 'ten-frame' | 'one-more-less' | 'matching' | 'equation' | 'word-problem' | 'number-sequence' | 'rainbow-bonds' | 'bond-grid' | 'generic'
+  // For number-sequence questions: parsed sequence data for inline input rendering
+  sequenceData?: {
+    type: 'number-sequence' | 'caterpillar'
+    direction: 'forward' | 'backward'
+    items: Array<{ value: string | null; isFilled: boolean; inputIndex?: number }>
+  }
+  // For rainbow-bonds questions: rainbow number sequence with missing numbers
+  rainbowData?: {
+    items: Array<{ value: string | null; isFilled: boolean; inputIndex?: number }>
+  }
+  // For bond-grid questions: equations like "3 + ○ = 10"
+  bondGridData?: {
+    equations: Array<{ num1: string; num2: string | null; result: string; inputIndex?: number }>
+  }
+  // For equation-row questions: single equation like "6 + ○ = 10" or "○ + ○ = 10"
+  equationRowData?: {
+    items: Array<{ value: string | null; type: 'num' | 'op' | 'answer'; inputIndex?: number }>
+  }
+  // For fact family questions: multiple related equations
+  factFamilyData?: {
+    equations: Array<{
+      items: Array<{ value: string | null; type: 'num' | 'op' | 'answer'; inputIndex?: number }>
+    }>
+  }
 }
 
 export interface StructuredWorksheet {
@@ -98,7 +122,13 @@ function extractAnswerKey(html: string): Record<number, string> {
     const answerKeyParent = doc.querySelector('.answer-key')
     if (answerKeyParent) {
       console.log('🔍 Found .answer-key parent, searching for content div...')
+      // First try to find inner content div
       answerKeyDiv = answerKeyParent.querySelector('div[class*="content"]')
+      // If no inner content div, use the .answer-key div directly (paragraphs might be direct children)
+      if (!answerKeyDiv) {
+        console.log('🔍 No inner content div, using .answer-key directly')
+        answerKeyDiv = answerKeyParent
+      }
     }
   }
 
@@ -107,7 +137,7 @@ function extractAnswerKey(html: string): Record<number, string> {
     const allDivs = doc.querySelectorAll('div')
     for (const div of Array.from(allDivs)) {
       const firstP = div.querySelector('p')
-      if (firstP && /^1\.\s*/.test(firstP.textContent || '')) {
+      if (firstP && /^(1\.|Q1|Answer\s*1)/i.test(firstP.textContent || '')) {
         console.log('🔍 Found potential answer key div by pattern matching')
         answerKeyDiv = div
         break
@@ -141,7 +171,27 @@ function extractAnswerKey(html: string): Record<number, string> {
       match = textContent.match(/^(\d+):\s*(.+)$/)
     }
 
-    // Pattern 3: "1 answer" (with space)
+    // Pattern 3: "1) answer" (with parenthesis)
+    if (!match) {
+      match = textContent.match(/^(\d+)\)\s*(.+)$/)
+    }
+
+    // Pattern 4: "Q1: answer" or "Q1. answer" or "Q1) answer"
+    if (!match) {
+      match = textContent.match(/^Q(\d+)[:.)\s]\s*(.+)$/i)
+    }
+
+    // Pattern 5: "Answer 1: value" or "Answer 1. value"
+    if (!match) {
+      match = textContent.match(/^Answer\s*(\d+)[:.)\s]\s*(.+)$/i)
+    }
+
+    // Pattern 6: "Question 1: answer"
+    if (!match) {
+      match = textContent.match(/^Question\s*(\d+)[:.)\s]\s*(.+)$/i)
+    }
+
+    // Pattern 7: "1 answer" (with space, last resort)
     if (!match) {
       match = textContent.match(/^(\d+)\s+(.+)$/)
     }
@@ -198,12 +248,101 @@ function parseQuestionStructure(
     console.log(`✅ Found ${answerLineMatches.length} answer-line pattern(s)`)
   }
 
-  // Pattern 2: Answer box (e.g., <div class="answer-box"></div> OR <span class="answer-box"></span>)
-  const answerBoxPattern = /<(div|span) class="answer-box"><\/\1>/gi
+  // IMPORTANT: Pattern order matters for input ordering!
+  // Patterns that appear FIRST in DOM should be detected FIRST
+  // For Q3 (symbol comparison): symbol-box appears before answer-box-small
+  // For Q4 (ordering): order-answer appears before other inputs
+
+  // Pattern 2a: Symbol box (for < > = comparison questions) - DETECT FIRST
+  const symbolBoxPattern = /<(div|span)[^>]*class="[^"]*symbol-box[^"]*"[^>]*>[\s\S]*?<\/\1>/gi
+  const symbolBoxMatches = cleanedHTML.match(symbolBoxPattern) || []
+  if (symbolBoxMatches.length > 0) {
+    const startIdx = inputs.length
+    const totalInputs = startIdx + symbolBoxMatches.length
+    symbolBoxMatches.forEach((match, idx) => {
+      const subId = totalInputs > 1 ? `${questionId}-${startIdx + idx}` : `${questionId}`
+      inputs.push({
+        subId,
+        placeholder: '<>=',
+        inputType: 'text',
+        style: {
+          width: '50px',
+          borderStyle: 'solid'
+        }
+      })
+    })
+    // Replace symbol-box with placeholder
+    let symbolCounter = 0
+    cleanedHTML = cleanedHTML.replace(symbolBoxPattern, () => {
+      const subId = totalInputs > 1 ? `${questionId}-${startIdx + symbolCounter++}` : `${questionId}`
+      return `<span data-input-placeholder="${subId}"></span>`
+    })
+    console.log(`✅ Found ${symbolBoxMatches.length} symbol-box pattern(s)`)
+  }
+
+  // Pattern 2b: Order answer (for ordering questions smallest to largest)
+  const orderAnswerPattern = /<(div|span)[^>]*class="[^"]*order-answer[^"]*"[^>]*>[\s\S]*?<\/\1>/gi
+  const orderAnswerMatches = cleanedHTML.match(orderAnswerPattern) || []
+  if (orderAnswerMatches.length > 0) {
+    const startIdx = inputs.length
+    const totalInputs = startIdx + orderAnswerMatches.length
+    orderAnswerMatches.forEach((match, idx) => {
+      const subId = totalInputs > 1 ? `${questionId}-${startIdx + idx}` : `${questionId}`
+      inputs.push({
+        subId,
+        placeholder: '?',
+        inputType: 'text',
+        style: {
+          width: '60px',
+          borderStyle: 'solid'
+        }
+      })
+    })
+    // Replace order-answer with placeholder
+    let orderCounter = 0
+    cleanedHTML = cleanedHTML.replace(orderAnswerPattern, () => {
+      const subId = totalInputs > 1 ? `${questionId}-${startIdx + orderCounter++}` : `${questionId}`
+      return `<span data-input-placeholder="${subId}"></span>`
+    })
+    console.log(`✅ Found ${orderAnswerMatches.length} order-answer pattern(s)`)
+  }
+
+  // Pattern 2c: Answer slot (for open-ended questions with multiple answers)
+  const answerSlotPattern = /<(div|span)[^>]*class="[^"]*answer-slot[^"]*"[^>]*>[\s\S]*?<\/\1>/gi
+  const answerSlotMatches = cleanedHTML.match(answerSlotPattern) || []
+  if (answerSlotMatches.length > 0) {
+    const startIdx = inputs.length
+    const totalInputs = startIdx + answerSlotMatches.length
+    answerSlotMatches.forEach((match, idx) => {
+      const subId = totalInputs > 1 ? `${questionId}-${startIdx + idx}` : `${questionId}`
+      inputs.push({
+        subId,
+        placeholder: `#${idx + 1}`,
+        inputType: 'text',
+        style: {
+          width: '60px',
+          borderStyle: 'solid'
+        }
+      })
+    })
+    // Replace answer-slot with placeholder
+    let slotCounter = 0
+    cleanedHTML = cleanedHTML.replace(answerSlotPattern, () => {
+      const subId = totalInputs > 1 ? `${questionId}-${startIdx + slotCounter++}` : `${questionId}`
+      return `<span data-input-placeholder="${subId}"></span>`
+    })
+    console.log(`✅ Found ${answerSlotMatches.length} answer-slot pattern(s)`)
+  }
+
+  // Pattern 2d: Answer box (e.g., <div class="answer-box"></div> OR <span class="answer-box"></span>)
+  // DETECT LAST - this catches answer-box and answer-box-small in reasoning boxes
+  const answerBoxPattern = /<(div|span)[^>]*class="[^"]*answer-box[^"]*"[^>]*>[\s\S]*?<\/\1>/gi
   const answerBoxMatches = cleanedHTML.match(answerBoxPattern) || []
   if (answerBoxMatches.length > 0) {
+    const startIdx = inputs.length
+    const totalInputs = startIdx + answerBoxMatches.length
     answerBoxMatches.forEach((match, idx) => {
-      const subId = answerBoxMatches.length > 1 ? `${questionId}-${idx}` : `${questionId}`
+      const subId = totalInputs > 1 ? `${questionId}-${startIdx + idx}` : `${questionId}`
       inputs.push({
         subId,
         placeholder: 'Answer',
@@ -217,7 +356,7 @@ function parseQuestionStructure(
     // Replace answer-box with placeholder
     let boxCounter = 0
     cleanedHTML = cleanedHTML.replace(answerBoxPattern, () => {
-      const subId = answerBoxMatches.length > 1 ? `${questionId}-${boxCounter++}` : `${questionId}`
+      const subId = totalInputs > 1 ? `${questionId}-${startIdx + boxCounter++}` : `${questionId}`
       return `<span data-input-placeholder="${subId}"></span>`
     })
     console.log(`✅ Found ${answerBoxMatches.length} answer-box pattern(s)`)
@@ -225,7 +364,7 @@ function parseQuestionStructure(
 
   // Pattern 3: Underscores (3 or more) - e.g., _________
   const underscoreMatches = cleanedHTML.match(/_{3,}/g) || []
-  if (underscoreMatches.length > 0) {
+  if (underscoreMatches.length > 0 && inputs.length === 0) {
     underscoreMatches.forEach((match, idx) => {
       const subId = underscoreMatches.length > 1 ? `${questionId}-${idx}` : `${questionId}`
       inputs.push({
@@ -372,39 +511,178 @@ function parseQuestionStructure(
   // Detect question type
   const questionType = detectQuestionType(cleanedHTML)
 
-  // Handle multi-input questions with array answers
+  // Parse sequence data for number-sequence questions
+  let sequenceData: StructuredQuestion['sequenceData'] = undefined
+  if (questionType === 'number-sequence') {
+    sequenceData = parseSequenceData(cleanedHTML, inputs)
+    console.log(`🔢 Q${questionId} Sequence data:`, sequenceData)
+  }
+
+  // Parse rainbow data for rainbow-bonds questions
+  let rainbowData: StructuredQuestion['rainbowData'] = undefined
+  if (questionType === 'rainbow-bonds') {
+    rainbowData = parseRainbowData(cleanedHTML, inputs)
+    console.log(`🌈 Q${questionId} Rainbow data:`, rainbowData)
+  }
+
+  // Parse bond grid data for bond-grid questions
+  let bondGridData: StructuredQuestion['bondGridData'] = undefined
+  if (questionType === 'bond-grid') {
+    bondGridData = parseBondGridData(cleanedHTML, inputs)
+    console.log(`🔗 Q${questionId} Bond grid data:`, bondGridData)
+  }
+
+  // Parse equation-row data for any question with equation-row, addition-equation, or subtraction-equation
+  // IMPORTANT: Use original questionHTML (not cleanedHTML) because answer-boxes get replaced with placeholders
+  let equationRowData: StructuredQuestion['equationRowData'] = undefined
+  let factFamilyData: StructuredQuestion['factFamilyData'] = undefined
+  const hasEquationRow = questionHTML.includes('equation-row') ||
+                         questionHTML.includes('addition-equation') ||
+                         questionHTML.includes('subtraction-equation')
+  const isFactFamily = questionHTML.toLowerCase().includes('fact family') ||
+                       questionHTML.includes('fact-family')
+
+  if (isFactFamily && inputs.length > 1) {
+    // Parse fact family with multiple equations
+    factFamilyData = parseFactFamilyData(questionHTML, inputs)
+    console.log(`👨‍👩‍👧‍👦 Q${questionId} Fact family data:`, factFamilyData)
+  } else if (hasEquationRow && questionType !== 'bond-grid' && inputs.length === 1) {
+    // Single equation with inline input
+    equationRowData = parseEquationRowData(questionHTML, inputs)
+    console.log(`➕ Q${questionId} Equation row data:`, equationRowData)
+  }
+
+  // Handle answers - extract just the number/value from answer text like "12 (6 + 6, doubles)"
   let answerArray: string | string[] = correctAnswer
 
-  if (inputs.length > 1) {
-    // Split by comma and extract numbers from each part
-    const parts = correctAnswer.split(',').map(a => a.trim())
+  // For single-input questions, extract just the number from the answer
+  if (inputs.length === 1 && correctAnswer) {
+    // Extract leading number from answer like "12 (6 + 6, doubles)" -> "12"
+    const numberMatch = correctAnswer.match(/^(\d+(?:[.\/]\d+)?)/)
+    if (numberMatch) {
+      answerArray = numberMatch[1]
+      console.log(`🔢 Single-input Q${questionId}: Extracted "${answerArray}" from "${correctAnswer}"`)
+    }
+  } else if (inputs.length > 1) {
+    // Simple extraction for "a) X b) Y c) Z d) W" format using individual regex matches
+    const abcdMatches: string[] = []
 
-    // For matching questions (e.g., "5-five, 10-ten"), extract just the word part
-    if (questionType === 'matching') {
-      answerArray = parts.map(part => {
-        // Pattern: "5-five" or "5:five" or "5 - five" -> extract "five"
-        const matchingMatch = part.match(/^\d+\s*[-:→]\s*(.+)$/)
-        if (matchingMatch) {
-          return matchingMatch[1].trim()
-        }
-        // If no number prefix, just return the word
-        return part
+    // Extract a) value - number or name
+    const aMatch = correctAnswer.match(/a\)\s*([^b\s][^\s]*(?:\s+[A-Z])?)/i)
+    if (aMatch) {
+      let val = aMatch[1].trim()
+      // Check for symbol pattern like "63 > 58"
+      const symMatch = val.match(/\d+\s*([<>=])\s*\d+/)
+      if (symMatch) val = symMatch[1]
+      else {
+        const numMatch = val.match(/^(\d+)/)
+        if (numMatch) val = numMatch[1]
+      }
+      abcdMatches.push(val)
+    }
+
+    // Extract b) value - number or symbol
+    const bMatch = correctAnswer.match(/b\)\s*(\d+(?:\s*[<>=]\s*\d+)?|\d+)/i)
+    if (bMatch) {
+      let val = bMatch[1].trim()
+      // Check for symbol pattern like "63 > 58"
+      const symMatch = val.match(/\d+\s*([<>=])\s*\d+/)
+      if (symMatch) val = symMatch[1]
+      else {
+        const numMatch = val.match(/^(\d+)/)
+        if (numMatch) val = numMatch[1]
+      }
+      abcdMatches.push(val)
+    }
+
+    // Extract c) value - Yes/No or number
+    const cMatch = correctAnswer.match(/c\)\s*(Yes|No|\d+)/i)
+    if (cMatch) {
+      abcdMatches.push(cMatch[1])
+    }
+
+    // Extract d) value - symbol or number
+    const dMatch = correctAnswer.match(/d\)\s*(\d+\s*[<>=]\s*\d+|\d+)/i)
+    if (dMatch) {
+      let val = dMatch[1].trim()
+      const symMatch = val.match(/\d+\s*([<>=])\s*\d+/)
+      if (symMatch) val = symMatch[1]
+      else {
+        const numMatch = val.match(/^(\d+)/)
+        if (numMatch) val = numMatch[1]
+      }
+      abcdMatches.push(val)
+    }
+
+    console.log(`🔤 Multi-input Q${questionId}: a/b/c/d extraction from "${correctAnswer}":`, abcdMatches)
+
+    if (abcdMatches.length >= inputs.length) {
+      answerArray = abcdMatches.slice(0, inputs.length)
+      console.log(`✅ Multi-input Q${questionId} (a/b/c/d format): Final answers:`, answerArray)
+    } else if (correctAnswer.includes('<') || correctAnswer.includes('>') || correctAnswer.includes('=')) {
+      // Special handling for comparison questions with format "63 > 48, 55 = 55, c) No d) 67 < 76"
+      const comparisonAnswers: string[] = []
+
+      // First extract symbols from "X > Y" or "X < Y" or "X = Y" patterns
+      const compPatterns = correctAnswer.match(/\d+\s*([<>=])\s*\d+/g) || []
+      compPatterns.forEach(pattern => {
+        const symbol = pattern.match(/[<>=]/)
+        if (symbol) comparisonAnswers.push(symbol[0])
       })
-      console.log(`🔤 Matching Q${questionId}: Extracted words from "${correctAnswer}":`, answerArray)
+
+      // Then extract c) Yes/No and d) symbol patterns
+      const cMatch = correctAnswer.match(/c\)\s*(Yes|No)/i)
+      if (cMatch) comparisonAnswers.push(cMatch[1])
+
+      const dMatch = correctAnswer.match(/d\)\s*\d+\s*([<>=])\s*\d+/)
+      if (dMatch) comparisonAnswers.push(dMatch[1])
+
+      if (comparisonAnswers.length >= inputs.length) {
+        answerArray = comparisonAnswers.slice(0, inputs.length)
+        console.log(`🔣 Multi-input Q${questionId} (comparison format): Extracted from "${correctAnswer}":`, answerArray)
+      }
     } else {
-      // For other multi-input questions, extract numbers
-      answerArray = parts.map(part => {
-        // Check if there's a colon - if so, extract number AFTER the colon
-        if (part.includes(':')) {
-          const afterColon = part.split(':')[1].trim()
-          const numberMatch = afterColon.match(/^(\d+(?:[.\/]\d+)?)/)
-          return numberMatch ? numberMatch[1] : afterColon
-        }
-        // Otherwise, extract any number from the part
-        const numberMatch = part.match(/\b(\d+(?:[.\/]\d+)?)\b/)
-        return numberMatch ? numberMatch[1] : part
-      })
-      console.log(`🔢 Multi-input Q${questionId}: Split "${correctAnswer}" into:`, answerArray)
+      // Fallback: Split by comma but remove parenthetical content first
+      const cleanedAnswer = correctAnswer.replace(/\([^)]*\)/g, '')
+      const parts = cleanedAnswer.split(',').map(a => a.trim()).filter(a => a)
+
+      // For matching questions (e.g., "5-five, 10-ten"), extract just the word part
+      if (questionType === 'matching') {
+        answerArray = parts.map(part => {
+          // Pattern: "5-five" or "5:five" or "5 - five" -> extract "five"
+          const matchingMatch = part.match(/^\d+\s*[-:→]\s*(.+)$/)
+          if (matchingMatch) {
+            return matchingMatch[1].trim()
+          }
+          // If no number prefix, just return the word
+          return part
+        })
+        console.log(`🔤 Matching Q${questionId}: Extracted words from "${correctAnswer}":`, answerArray)
+      } else {
+        // For other multi-input questions, extract numbers/symbols
+        answerArray = parts.map(part => {
+          // Check for symbols first (for comparison questions)
+          const symbolMatch = part.match(/([<>=])/)
+          if (symbolMatch) {
+            return symbolMatch[1]
+          }
+          // Check for Yes/No
+          const yesNoMatch = part.match(/\b(Yes|No)\b/i)
+          if (yesNoMatch) {
+            return yesNoMatch[1]
+          }
+          // Check if there's a colon - if so, extract value AFTER the colon
+          if (part.includes(':')) {
+            const afterColon = part.split(':')[1].trim()
+            const numberMatch = afterColon.match(/^(\d+(?:[.\/]\d+)?)/)
+            return numberMatch ? numberMatch[1] : afterColon
+          }
+          // Otherwise, extract any number from the part
+          const numberMatch = part.match(/\b(\d+(?:[.\/]\d+)?)\b/)
+          return numberMatch ? numberMatch[1] : part
+        })
+        console.log(`🔢 Multi-input Q${questionId}: Split "${correctAnswer}" into:`, answerArray)
+      }
     }
   }
 
@@ -413,11 +691,32 @@ function parseQuestionStructure(
     questionHTML: cleanedHTML,
     inputs,
     correctAnswer: answerArray,
-    questionType
+    questionType,
+    sequenceData,
+    rainbowData,
+    bondGridData,
+    equationRowData,
+    factFamilyData
   }
 }
 
 function detectQuestionType(questionHTML: string): StructuredQuestion['questionType'] {
+  // Rainbow bonds (rainbow with numbers 0-10) - check early
+  if (questionHTML.includes('rainbow-container') || questionHTML.includes('rainbow-num')) {
+    return 'rainbow-bonds'
+  }
+  // Bond grid (equations like "3 + ○ = 10" in a grid)
+  if (questionHTML.includes('bonds-grid') || questionHTML.includes('bond-row')) {
+    return 'bond-grid'
+  }
+  // Number sequence detection (stepping stones, caterpillar, river stones, etc.) - check FIRST
+  if (questionHTML.includes('number-sequence') ||
+      questionHTML.includes('sequence-box') ||
+      questionHTML.includes('caterpillar-segment') ||
+      questionHTML.includes('caterpillar-container') ||
+      (questionHTML.includes('river') && questionHTML.includes('stone'))) {
+    return 'number-sequence'
+  }
   if (questionHTML.includes('Match') || questionHTML.includes('match')) {
     return 'matching'
   }
@@ -440,4 +739,303 @@ function detectQuestionType(questionHTML: string): StructuredQuestion['questionT
     return 'counting'
   }
   return 'generic'
+}
+
+/**
+ * Parse sequence data from number-sequence questions
+ * Extracts items from sequence-box, caterpillar-segment, or stone elements
+ */
+function parseSequenceData(
+  questionHTML: string,
+  inputs: InputField[]
+): StructuredQuestion['sequenceData'] {
+  const isCaterpillar = questionHTML.includes('caterpillar')
+  const isRiverStone = questionHTML.includes('river') && questionHTML.includes('stone')
+  const isBackward = questionHTML.includes('backwards') || questionHTML.includes('backward')
+
+  const items: Array<{ value: string | null; isFilled: boolean; inputIndex?: number }> = []
+  let inputIndex = 0
+
+  // Determine which pattern to use based on question type
+  let regex: RegExp
+  if (isCaterpillar) {
+    regex = /<div[^>]*class="([^"]*caterpillar-segment[^"]*)"[^>]*>([^<]*)<\/div>/gi
+  } else if (isRiverStone) {
+    regex = /<div[^>]*class="([^"]*stone[^"]*)"[^>]*>([^<]*)<\/div>/gi
+  } else {
+    regex = /<div[^>]*class="([^"]*sequence-box[^"]*)"[^>]*>([^<]*)<\/div>/gi
+  }
+
+  // Find all sequence items
+  let match
+  while ((match = regex.exec(questionHTML)) !== null) {
+    const classNames = match[1]
+    const content = match[2].trim()
+
+    const isFilled = classNames.includes('filled')
+    const isEmpty = classNames.includes('empty')
+
+    if (isFilled) {
+      items.push({
+        value: content,
+        isFilled: true
+      })
+    } else if (isEmpty) {
+      items.push({
+        value: null,
+        isFilled: false,
+        inputIndex: inputIndex
+      })
+      inputIndex++
+    }
+  }
+
+  // Return undefined if no sequence items found
+  if (items.length === 0) {
+    return undefined
+  }
+
+  // Determine sequence type for styling
+  let sequenceType: 'number-sequence' | 'caterpillar' = 'number-sequence'
+  if (isCaterpillar) {
+    sequenceType = 'caterpillar'
+  }
+
+  return {
+    type: sequenceType,
+    direction: isBackward ? 'backward' : 'forward',
+    items
+  }
+}
+
+/**
+ * Parse rainbow data for rainbow-bonds questions
+ * Extracts numbers 0-10 from rainbow-num elements
+ */
+function parseRainbowData(
+  questionHTML: string,
+  inputs: InputField[]
+): StructuredQuestion['rainbowData'] {
+  const items: Array<{ value: string | null; isFilled: boolean; inputIndex?: number }> = []
+  let inputIndex = 0
+
+  // Find all rainbow-num elements
+  const regex = /<div[^>]*class="([^"]*rainbow-num[^"]*)"[^>]*>([^<]*)<\/div>/gi
+  let match
+
+  while ((match = regex.exec(questionHTML)) !== null) {
+    const classNames = match[1]
+    const content = match[2].trim()
+
+    // Check if this is an answer box (missing number)
+    const isAnswerBox = classNames.includes('answer-box-small') || classNames.includes('answer-box')
+
+    if (isAnswerBox || content === '') {
+      items.push({
+        value: null,
+        isFilled: false,
+        inputIndex: inputIndex
+      })
+      inputIndex++
+    } else {
+      items.push({
+        value: content,
+        isFilled: true
+      })
+    }
+  }
+
+  if (items.length === 0) {
+    return undefined
+  }
+
+  return { items }
+}
+
+/**
+ * Parse bond grid data for bond-grid questions
+ * Extracts equations like "3 + ○ = 10" from bond-row elements
+ */
+function parseBondGridData(
+  questionHTML: string,
+  inputs: InputField[]
+): StructuredQuestion['bondGridData'] {
+  const equations: Array<{ num1: string; num2: string | null; result: string; inputIndex?: number }> = []
+  let inputIndex = 0
+
+  // Find all bond-row elements
+  const rowRegex = /<div[^>]*class="[^"]*bond-row[^"]*"[^>]*>([\s\S]*?)<\/div>/gi
+  let rowMatch
+
+  while ((rowMatch = rowRegex.exec(questionHTML)) !== null) {
+    const rowContent = rowMatch[1]
+
+    // Extract bond-num (first number)
+    const num1Match = rowContent.match(/<span[^>]*class="[^"]*bond-num[^"]*"[^>]*>(\d+)<\/span>/i)
+    // Extract bond-ten or result (last number, usually 10)
+    const resultMatch = rowContent.match(/<span[^>]*class="[^"]*bond-ten[^"]*"[^>]*>(\d+)<\/span>/i)
+    // Check if there's a bond-answer (the missing number)
+    const hasAnswer = rowContent.includes('bond-answer')
+
+    if (num1Match && resultMatch) {
+      equations.push({
+        num1: num1Match[1],
+        num2: hasAnswer ? null : '?',
+        result: resultMatch[1],
+        inputIndex: hasAnswer ? inputIndex++ : undefined
+      })
+    }
+  }
+
+  if (equations.length === 0) {
+    return undefined
+  }
+
+  return { equations }
+}
+
+/**
+ * Parse equation-row data for inline equation rendering
+ * Extracts items like "6 + ○ = 10" from equation-row or addition-equation elements
+ * Supports two HTML patterns:
+ * 1. equation-row with .num, .op classes
+ * 2. addition-equation with .number, .operator classes
+ */
+function parseEquationRowData(
+  questionHTML: string,
+  inputs: InputField[]
+): StructuredQuestion['equationRowData'] {
+  const items: Array<{ value: string | null; type: 'num' | 'op' | 'answer'; inputIndex?: number }> = []
+  let inputIndex = 0
+
+  // Try to find equation-row, addition-equation, or subtraction-equation
+  let rowMatch = questionHTML.match(/<div[^>]*class="[^"]*equation-row[^"]*"[^>]*>([\s\S]*?)<\/div>/i)
+  if (!rowMatch) {
+    rowMatch = questionHTML.match(/<div[^>]*class="[^"]*addition-equation[^"]*"[^>]*>([\s\S]*?)<\/div>/i)
+  }
+  if (!rowMatch) {
+    rowMatch = questionHTML.match(/<div[^>]*class="[^"]*subtraction-equation[^"]*"[^>]*>([\s\S]*?)<\/div>/i)
+  }
+  if (!rowMatch) {
+    return undefined
+  }
+
+  const rowContent = rowMatch[1]
+
+  // We need to parse in order, so find all span elements and their positions
+  const allElements: Array<{ index: number; type: 'num' | 'op' | 'answer'; value: string | null }> = []
+
+  let match
+
+  // Find nums - support both .num and .number classes
+  const numPattern = /<span[^>]*class="[^"]*\b(?:num|number)\b[^"]*"[^>]*>(\d+)<\/span>/gi
+  while ((match = numPattern.exec(rowContent)) !== null) {
+    allElements.push({ index: match.index, type: 'num', value: match[1] })
+  }
+
+  // Find ops - support both .op and .operator classes
+  // Match: + - = × ÷ and Unicode variants (− minus sign, – en dash)
+  const opPattern = /<span[^>]*class="[^"]*\b(?:op|operator)\b[^"]*"[^>]*>([+\-−–=×÷])<\/span>/gi
+  while ((match = opPattern.exec(rowContent)) !== null) {
+    allElements.push({ index: match.index, type: 'op', value: match[1] })
+  }
+
+  // Find answer-boxes (both span and div)
+  const answerPattern = /<(?:span|div)[^>]*class="[^"]*answer-box[^"]*"[^>]*>/gi
+  while ((match = answerPattern.exec(rowContent)) !== null) {
+    allElements.push({ index: match.index, type: 'answer', value: null })
+  }
+
+  // Sort by position in HTML
+  allElements.sort((a, b) => a.index - b.index)
+
+  // Convert to items array with input indices
+  for (const el of allElements) {
+    if (el.type === 'answer') {
+      items.push({
+        value: null,
+        type: 'answer',
+        inputIndex: inputIndex++
+      })
+    } else {
+      items.push({
+        value: el.value,
+        type: el.type
+      })
+    }
+  }
+
+  if (items.length === 0) {
+    return undefined
+  }
+
+  return { items }
+}
+
+/**
+ * Parse fact family data for multi-equation questions
+ * Handles both structured spans AND plain text equations
+ */
+function parseFactFamilyData(
+  questionHTML: string,
+  inputs: InputField[]
+): StructuredQuestion['factFamilyData'] {
+  const equations: Array<{
+    items: Array<{ value: string | null; type: 'num' | 'op' | 'answer'; inputIndex?: number }>
+  }> = []
+  let globalInputIndex = 0
+
+  // Find fact-row divs (fact family style) or equation divs
+  const factRowPattern = /<div[^>]*class="[^"]*fact-row[^"]*"[^>]*>([\s\S]*?)<\/div>/gi
+  let rowMatch
+
+  while ((rowMatch = factRowPattern.exec(questionHTML)) !== null) {
+    const rowContent = rowMatch[1]
+    const items: Array<{ value: string | null; type: 'num' | 'op' | 'answer'; inputIndex?: number }> = []
+
+    // Get text content by stripping HTML tags (except answer boxes)
+    // First, mark answer boxes with a placeholder
+    const contentWithPlaceholders = rowContent.replace(
+      /<span[^>]*class="[^"]*answer-box[^"]*"[^>]*>[\s\S]*?<\/span>/gi,
+      '{{ANSWER_BOX}}'
+    )
+
+    // Strip remaining HTML tags to get plain text equation like "7 + 6 = {{ANSWER_BOX}}"
+    const textContent = contentWithPlaceholders
+      .replace(/<[^>]+>/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+
+    // Parse the text content to extract numbers, operators, and answer boxes
+    // Pattern: numbers, operators (+, -, −, –, =, ×, ÷), and answer placeholders
+    const tokenPattern = /(\d+)|([+\-−–=×÷])|(\{\{ANSWER_BOX\}\})/g
+    let tokenMatch
+
+    while ((tokenMatch = tokenPattern.exec(textContent)) !== null) {
+      if (tokenMatch[1]) {
+        // Number
+        items.push({ value: tokenMatch[1], type: 'num' })
+      } else if (tokenMatch[2]) {
+        // Operator
+        items.push({ value: tokenMatch[2], type: 'op' })
+      } else if (tokenMatch[3]) {
+        // Answer box
+        items.push({
+          value: null,
+          type: 'answer',
+          inputIndex: globalInputIndex++
+        })
+      }
+    }
+
+    if (items.length > 0) {
+      equations.push({ items })
+    }
+  }
+
+  if (equations.length === 0) {
+    return undefined
+  }
+
+  return { equations }
 }

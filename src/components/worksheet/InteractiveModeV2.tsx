@@ -79,6 +79,13 @@ export function InteractiveModeV2({ htmlContent, worksheet, onExit }: Interactiv
   const handleSubmit = () => {
     if (!parsed) return
 
+    console.log('🔴 handleSubmit called')
+    console.log('🔴 Questions:', parsed.questions.map(q => ({
+      id: q.id,
+      hasHTML: !!q.questionHTML,
+      htmlLength: q.questionHTML?.length || 0
+    })))
+
     const result = calculateScoreStructured(answers, parsed.questions)
     setScoreResult(result)
     setSubmitted(true)

@@ -247,6 +247,89 @@ Count in 2s, 5s, or 10s within 0-20.
 
 ---
 
+### Q12: Caterpillar Sequence (BG: #F1F8E9) ⭐ ENGAGING VISUAL
+A friendly caterpillar with numbered body segments. Children fill in missing numbers.
+**Range 0-20, 2-3 gaps. Can be forwards OR backwards.**
+
+```html
+<div class="question" style="background: #F1F8E9;">
+    <span class="question-number">X.</span>
+    <p class="question-text">Help the caterpillar! Fill in the missing numbers.</p>
+    <div class="caterpillar-container">
+        <div class="caterpillar">
+            <div class="caterpillar-head">
+                <span class="caterpillar-face">😊</span>
+                <div class="caterpillar-antenna left"></div>
+                <div class="caterpillar-antenna right"></div>
+            </div>
+            <div class="caterpillar-segment filled">5</div>
+            <div class="caterpillar-segment filled">6</div>
+            <div class="caterpillar-segment empty"></div>
+            <div class="caterpillar-segment filled">8</div>
+            <div class="caterpillar-segment empty"></div>
+            <div class="caterpillar-segment filled">10</div>
+        </div>
+    </div>
+    <p class="answer-prompt">Write the missing numbers</p>
+</div>
+```
+
+**Variations:**
+- Forward sequence: 3, 4, ___, 6, ___, 8
+- Backward sequence: 12, 11, ___, 9, ___, 7
+- Skip counting: 2, 4, ___, 8, ___, 12
+
+---
+
+### Q13: Stepping Stones (BG: #E3F2FD) ⭐ ENGAGING VISUAL
+Cross the river by filling in missing numbers on stepping stones.
+**Range 0-20, 2-3 gaps.**
+
+```html
+<div class="question" style="background: #E3F2FD;">
+    <span class="question-number">X.</span>
+    <p class="question-text">Help cross the river! Fill in the missing stones.</p>
+    <div class="river-container">
+        <div class="river">
+            <div class="stone filled">7</div>
+            <div class="stone filled">8</div>
+            <div class="stone empty"></div>
+            <div class="stone filled">10</div>
+            <div class="stone empty"></div>
+            <div class="stone filled">12</div>
+        </div>
+    </div>
+    <p class="answer-prompt">Write the missing numbers</p>
+</div>
+```
+
+---
+
+### Q14: Train Carriages (BG: #FFF3E0) ⭐ ENGAGING VISUAL
+Number train with engine and carriages. Fill in missing carriage numbers.
+**Range 0-20, 2-3 gaps.**
+
+```html
+<div class="question" style="background: #FFF3E0;">
+    <span class="question-number">X.</span>
+    <p class="question-text">Fill in the missing carriage numbers!</p>
+    <div class="train-container">
+        <div class="train">
+            <div class="engine">🚂</div>
+            <div class="carriage filled">11</div>
+            <div class="carriage empty"></div>
+            <div class="carriage filled">13</div>
+            <div class="carriage filled">14</div>
+            <div class="carriage empty"></div>
+        </div>
+        <div class="train-track"></div>
+    </div>
+    <p class="answer-prompt">Write the missing numbers</p>
+</div>
+```
+
+---
+
 ## ⚠️ CRITICAL STYLING REQUIREMENTS
 
 **For Number Lines (Q3, Q5):**
@@ -300,6 +383,34 @@ body{font-family:'Sassoon Primary','Century Gothic',sans-serif;font-size:16pt;ma
 .hundred-square-section{display:inline-grid;grid-template-columns:repeat(3,60px);gap:2px;margin:20px auto;padding:10px;background:#fff;border:3px solid #333;border-radius:8px}
 .hundred-cell{width:60px;height:60px;background:#E8F5E9;border:2px solid #4CAF50;display:flex;align-items:center;justify-content:center;font-size:18pt;font-weight:bold}
 .hundred-cell.empty{background:#fff;border-style:dashed;border-color:#FF5722}
+/* Caterpillar */
+.caterpillar-container{display:flex;justify-content:center;margin:20px auto;padding:20px;background:#f0fff0;border:3px solid #8BC34A;border-radius:12px}
+.caterpillar{display:flex;align-items:center;gap:5px}
+.caterpillar-head{width:60px;height:60px;background:#8BC34A;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center;border:3px solid #689F38}
+.caterpillar-face{font-size:30pt;line-height:1}
+.caterpillar-antenna{position:absolute;width:4px;height:20px;background:#689F38;top:-18px;border-radius:2px}
+.caterpillar-antenna.left{left:15px;transform:rotate(-20deg)}
+.caterpillar-antenna.right{right:15px;transform:rotate(20deg)}
+.caterpillar-antenna::after{content:'';position:absolute;top:-8px;left:-4px;width:12px;height:12px;background:#8BC34A;border-radius:50%;border:2px solid #689F38}
+.caterpillar-segment{width:55px;height:55px;background:#AED581;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20pt;font-weight:bold;border:3px solid #8BC34A;color:#2E7D32}
+.caterpillar-segment.filled{background:#AED581}
+.caterpillar-segment.empty{background:#fff;border-style:dashed;border-color:#FF5722}
+/* Stepping Stones */
+.river-container{margin:20px auto;padding:20px;background:linear-gradient(180deg,#E3F2FD 0%,#BBDEFB 50%,#90CAF9 100%);border:3px solid #2196F3;border-radius:12px}
+.river{display:flex;gap:15px;justify-content:center;padding:15px}
+.stone{width:60px;height:50px;background:linear-gradient(145deg,#9E9E9E,#757575);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20pt;font-weight:bold;color:#fff;box-shadow:2px 4px 8px rgba(0,0,0,0.3);border:2px solid #616161}
+.stone.filled{background:linear-gradient(145deg,#9E9E9E,#757575)}
+.stone.empty{background:#fff;color:#333;border-style:dashed;border-color:#FF5722;box-shadow:none}
+/* Train */
+.train-container{margin:20px auto;padding:20px;background:#f8f9ff;border:3px solid #795548;border-radius:12px}
+.train{display:flex;align-items:flex-end;justify-content:center;gap:8px;margin-bottom:10px}
+.engine{font-size:45pt;line-height:1}
+.carriage{width:60px;height:50px;background:#2196F3;border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:center;font-size:20pt;font-weight:bold;color:#fff;border:3px solid #1976D2;position:relative}
+.carriage::after{content:'';position:absolute;bottom:-8px;left:10px;width:12px;height:12px;background:#333;border-radius:50%}
+.carriage::before{content:'';position:absolute;bottom:-8px;right:10px;width:12px;height:12px;background:#333;border-radius:50%}
+.carriage.filled{background:#2196F3}
+.carriage.empty{background:#fff;color:#333;border-style:dashed;border-color:#FF5722}
+.train-track{height:6px;background:repeating-linear-gradient(90deg,#795548 0px,#795548 20px,#D7CCC8 20px,#D7CCC8 30px);border-radius:3px}
 .answer-prompt{margin-top:25px;font-size:15pt;font-weight:600;text-align:center}
 .answer-box{display:inline-block;min-width:60px;height:40px;border:3px solid #333;border-radius:6px;background:#fff;margin:0 8px;vertical-align:middle}
 .answer-key{margin-top:30px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px;page-break-before:always}

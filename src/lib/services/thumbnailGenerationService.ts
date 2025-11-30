@@ -227,6 +227,10 @@ export async function generateWorksheetThumbnail(
     const imageSrcRegex = /src="\/images\/([^"]+)"/g
     let match
 
+    // Transparent 1x1 pixel placeholder for missing images (prevents alt text display)
+    const PLACEHOLDER_DATA_URI = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
+    const missingImages: string[] = []
+
     while ((match = imageSrcRegex.exec(htmlWithMascots)) !== null) {
       const imagePath = `/images/${match[1]}`
       const dataUri = imageToDataUri(imagePath)
@@ -235,7 +239,18 @@ export async function generateWorksheetThumbnail(
           `src="${imagePath}"`,
           `src="${dataUri}"`
         )
+      } else {
+        // Image not found - use placeholder to prevent alt text showing
+        missingImages.push(imagePath)
+        htmlWithDataUris = htmlWithDataUris.replace(
+          `src="${imagePath}"`,
+          `src="${PLACEHOLDER_DATA_URI}"`
+        )
       }
+    }
+
+    if (missingImages.length > 0) {
+      console.warn(`⚠️ Missing images during thumbnail generation:`, missingImages)
     }
 
     // Use 'load' instead of 'networkidle0' since we're using data URIs (no network requests)
@@ -272,8 +287,8 @@ export async function generateWorksheetThumbnail(
     console.log('🎨 Optimizing image...')
     const optimizedBuffer = await sharp(screenshotBuffer)
       .resize(finalConfig.width!, finalConfig.height!, {
-        fit: 'inside',
-        withoutEnlargement: true,
+        fit: 'cover',        // Fill entire area (may crop bottom)
+        position: 'top',      // Keep top of worksheet visible, crop from bottom
       })
       .webp({ quality: finalConfig.quality })
       .toBuffer()

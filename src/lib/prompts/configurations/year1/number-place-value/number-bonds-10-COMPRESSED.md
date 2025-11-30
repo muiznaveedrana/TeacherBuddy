@@ -1,302 +1,335 @@
 # Ages 5-6: Number Bonds to 10
 
-**Generate EXACTLY {{questionCount}} questions following the 5 mandatory types below.**
+**Generate EXACTLY 5 questions following the mandatory types below.**
 
 ## Background Colors - MANDATORY
-Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
+Q1=#FFF9C4, Q2=#E8F5E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 
 ## Rules
 1. **All bonds sum to 10** (0+10, 1+9, 2+8, 3+7, 4+6, 5+5)
-2. **NO visual answer clues** - Answer boxes must NOT be colored differently
-3. **Fruit images**: `/images/{name}.png` - Available: apple, banana, grape, lemon, orange, peach, pear, pineapple, strawberry, watermelon
-4. **Q4 descriptive words only** (big, ripe, sweet) NOT colors
+2. **NO visual answer clues** - Answer boxes must NOT reveal answers
+3. **RANDOMIZE** each worksheet - different numbers, different missing values
 
-## 5 Questions (IN ORDER - VARY EACH WORKSHEET!)
+## 5 Questions (IN ORDER)
 
-**Q1: Ten Frame** (BG: #FFF9C4) - RANDOMIZE: filled amount + question wording
-**Q2: Part-Whole** (BG: #E3F2FD) - RANDOMIZE: shown part + question wording
-**Q3: Bond Family** (BG: #F1F8E9) - RANDOMIZE: starting bond pair + question wording
-**Q4: Real Objects** (BG: #FCE4EC) - RANDOMIZE: fruit + quantity + descriptive label
-**Q5: Quick Grid** (BG: #FFF3E0) - RANDOMIZE: which 6 bonds + arrangement
+**Q1: Ten Frame** (BG: #FFF9C4) - Count filled cells, find missing to make 10
+**Q2: Rainbow Bonds** (BG: #E8F5E9) - Fill missing numbers on rainbow (0-10 sequence)
+**Q3: Domino** (BG: #E3F2FD) - Count dots on each half, write equation
+**Q4: Butterfly** (BG: #FCE4EC) - Spots on wings must total 10
+**Q5: Quick Bonds** (BG: #FFF3E0) - 4 fill-in-blank equations in 2x2 grid
 
-## Q1 - Ten Frame (RANDOMIZE!)
-**RANDOMIZE**: Pick ONE filled amount + ONE question variation
+---
 
-**Filled Amounts** (pick ONE - other side is empty):
-- 1 filled, 9 empty
-- 2 filled, 8 empty
-- 3 filled, 7 empty
-- 4 filled, 6 empty
-- 5 filled, 5 empty
-- 6 filled, 4 empty
-- 7 filled, 3 empty
-- 8 filled, 2 empty
-- 9 filled, 1 empty
+## Q1 - Ten Frame
+Pick random filled amount (1-9). Question: "How many more to make 10?"
 
-**Question Variations** (pick ONE):
-- "Complete the number bond to 10."
-- "Fill in the missing number to make 10."
-- "What number makes 10?"
-- "How many more to make 10?"
-
-## Q2 - Part-Whole Diagram (RANDOMIZE!)
-**RANDOMIZE**: Pick ONE shown part + ONE question variation
-
-**Shown Parts** (pick ONE - whole is always 10):
-- Show 1, missing 9
-- Show 2, missing 8
-- Show 3, missing 7
-- Show 4, missing 6
-- Show 5, missing 5
-- Show 6, missing 4
-- Show 7, missing 3
-- Show 8, missing 2
-- Show 9, missing 1
-
-**Question Variations** (pick ONE):
-- "Fill in the missing number to make 10."
-- "What is the missing part?"
-- "Complete the part-whole diagram."
-- "What number is missing?"
-
-## Q3 - Number Bond Family (RANDOMIZE!)
-**RANDOMIZE**: Pick ONE starting bond + ONE question variation
-
-**Starting Bonds** (pick ONE - complete the other 3):
-- Start with 1+9=10 (complete: 9+1=__, 10-1=__, 10-9=__)
-- Start with 2+8=10 (complete: 8+2=__, 10-2=__, 10-8=__)
-- Start with 3+7=10 (complete: 7+3=__, 10-3=__, 10-7=__)
-- Start with 4+6=10 (complete: 6+4=__, 10-4=__, 10-6=__)
-- Start with 5+5=10 (complete: 5+5=__, 10-5=__, 10-5=__)
-
-**Question Variations** (pick ONE):
-- "Complete the number bond family."
-- "Fill in the missing numbers in the fact family."
-- "Complete the related number sentences."
-- "Finish the number bond family."
-
-## Q4 - Real Objects with Fruit (RANDOMIZE!)
-**RANDOMIZE**: Pick ONE fruit + ONE quantity pair + ONE descriptive word
-
-**Fruits** (pick ONE):
-- strawberry, apple, banana, orange, grape, lemon, peach, pear, pineapple, watermelon
-
-**Quantity Pairs** (pick ONE - must add to 10):
-- 1 and 9, 2 and 8, 3 and 7, 4 and 6, 5 and 5, 6 and 4, 7 and 3, 8 and 2, 9 and 1
-
-**Descriptive Words** (pick ONE - NO colors):
-- ripe, sweet, big, small, juicy, fresh, round, whole
-
-**Question Pattern Variations** (pick ONE):
-1. "There are 10 [fruits]. [quantity] [fruits] are [descriptive]. **How many [fruits] are NOT [descriptive]?**"
-2. "There are 10 [fruits] altogether. [quantity] are [descriptive]. **How many are NOT [descriptive]?**"
-3. "I have 10 [fruits]. [quantity] [fruits] are [descriptive]. **How many [fruits] are left?**"
-4. "There are 10 [fruits]. [quantity] are [descriptive]. **How many more [fruits] are there?**"
-
-**Examples**:
-- "There are 10 strawberries. 5 strawberries are ripe. **How many strawberries are NOT ripe?**"
-- "There are 10 apples altogether. 3 are big. **How many are NOT big?**"
-- "I have 10 bananas. 7 bananas are sweet. **How many bananas are left?**"
-- "There are 10 oranges. 4 are juicy. **How many more oranges are there?**"
-
-## Q5 - Quick Bonds Grid (RANDOMIZE!)
-**RANDOMIZE**: Pick 6 different bonds from the pool + shuffle order
-
-**Bond Pool** (pick any 6 - NO repeats):
-- 0 + __ = 10 (answer: 10)
-- 1 + __ = 10 (answer: 9)
-- 2 + __ = 10 (answer: 8)
-- 3 + __ = 10 (answer: 7)
-- 4 + __ = 10 (answer: 6)
-- 5 + __ = 10 (answer: 5)
-- 6 + __ = 10 (answer: 4)
-- 7 + __ = 10 (answer: 3)
-- 8 + __ = 10 (answer: 2)
-- 9 + __ = 10 (answer: 1)
-- __ + 0 = 10 (answer: 10)
-- __ + 1 = 10 (answer: 9)
-- __ + 2 = 10 (answer: 8)
-- __ + 3 = 10 (answer: 7)
-- __ + 4 = 10 (answer: 6)
-- __ + 5 = 10 (answer: 5)
-- __ + 6 = 10 (answer: 4)
-- __ + 7 = 10 (answer: 3)
-- __ + 8 = 10 (answer: 2)
-- __ + 9 = 10 (answer: 1)
-
-**Question Variations** (pick ONE):
-- "Fill in the missing numbers to make 10."
-- "Complete each number bond to 10."
-- "What numbers make 10?"
-- "Fill in the boxes to make 10."
-
-**CRITICAL**: Shuffle the grid order - don't show them in sequence!
-
-## Q1 Template
 ```html
 <div class="question" style="background: #FFF9C4;">
     <span class="question-number">1.</span>
-    <p class="question-text">Complete the number bond to 10.</p>
-    <div class="bond-visual">
+    <p class="question-text">Count the counters. What number makes 10?</p>
+    <div class="ten-frame-container">
         <div class="ten-frame">
             <div class="frame-row">
                 <div class="frame-cell filled"></div>
                 <div class="frame-cell filled"></div>
                 <div class="frame-cell filled"></div>
-                <div class="frame-cell filled"></div>
-                <div class="frame-cell filled"></div>
+                <div class="frame-cell empty"></div>
+                <div class="frame-cell empty"></div>
             </div>
             <div class="frame-row">
-                <div class="frame-cell filled"></div>
-                <div class="frame-cell filled"></div>
+                <div class="frame-cell empty"></div>
+                <div class="frame-cell empty"></div>
                 <div class="frame-cell empty"></div>
                 <div class="frame-cell empty"></div>
                 <div class="frame-cell empty"></div>
             </div>
         </div>
     </div>
-    <div class="bond-equation">
-        <span class="number-filled">7</span>
-        <span class="plus-sign">+</span>
+    <div class="equation-row">
+        <span class="num">3</span>
+        <span class="op">+</span>
         <span class="answer-box"></span>
-        <span class="equals-sign">=</span>
-        <span class="number-filled">10</span>
+        <span class="op">=</span>
+        <span class="num">10</span>
     </div>
 </div>
 ```
 
-## Q2 Template
+---
+
+## Q2 - Rainbow Bonds
+Shows 0-10 in sequence. Rainbow arcs connect bond pairs (0↔10, 1↔9, 2↔8, 3↔7, 4↔6, 5↔5). Pick 3 random numbers to be missing (as dashed boxes).
+
 ```html
-<div class="question" style="background: #E3F2FD;">
+<div class="question" style="background: #E8F5E9;">
     <span class="question-number">2.</span>
-    <p class="question-text">Fill in the missing number to make 10.</p>
-    <div class="part-whole-diagram">
-        <div class="whole-circle"><span class="whole-number">10</span></div>
-        <div class="connecting-lines"></div>
-        <div class="parts-row">
-            <div class="part-circle"><span class="part-number">6</span></div>
-            <div class="part-circle missing"><span class="part-number">?</span></div>
+    <p class="question-text">Complete the rainbow number bonds.</p>
+    <div class="rainbow-container">
+        <svg viewBox="0 0 440 160" class="rainbow-svg">
+            <path d="M 20 150 A 200 150 0 0 1 420 150" fill="none" stroke="#FF6B6B" stroke-width="8"/>
+            <path d="M 60 150 A 160 120 0 0 1 380 150" fill="none" stroke="#FFA94D" stroke-width="8"/>
+            <path d="M 100 150 A 130 95 0 0 1 340 150" fill="none" stroke="#FFE066" stroke-width="8"/>
+            <path d="M 140 150 A 100 70 0 0 1 300 150" fill="none" stroke="#69DB7C" stroke-width="8"/>
+            <path d="M 180 150 A 70 50 0 0 1 260 150" fill="none" stroke="#74C0FC" stroke-width="8"/>
+            <circle cx="220" cy="150" r="6" fill="#B197FC"/>
+        </svg>
+        <div class="rainbow-numbers">
+            <div class="rainbow-num">0</div>
+            <div class="rainbow-num answer-box-small"></div>
+            <div class="rainbow-num">2</div>
+            <div class="rainbow-num">3</div>
+            <div class="rainbow-num">4</div>
+            <div class="rainbow-num answer-box-small"></div>
+            <div class="rainbow-num">6</div>
+            <div class="rainbow-num">7</div>
+            <div class="rainbow-num">8</div>
+            <div class="rainbow-num answer-box-small"></div>
+            <div class="rainbow-num">10</div>
         </div>
     </div>
 </div>
 ```
 
-## Q3 Template
+---
+
+## Q3 - Domino
+3D black domino tile with white dots. Pick any bond pair (e.g., 3+7, 2+8). Child counts dots and writes equation.
+
 ```html
-<div class="question" style="background: #F1F8E9;">
+<div class="question" style="background: #E3F2FD;">
     <span class="question-number">3.</span>
-    <p class="question-text">Complete the number bond family.</p>
-    <div class="bond-family">
-        <div class="bond-pair"><span class="bond-equation">3 + 7 = 10</span></div>
-        <div class="bond-pair"><span class="bond-equation">7 + 3 = <span class="answer-box-small"></span></span></div>
-        <div class="bond-pair"><span class="bond-equation">10 - 3 = <span class="answer-box-small"></span></span></div>
-        <div class="bond-pair"><span class="bond-equation">10 - 7 = <span class="answer-box-small"></span></span></div>
+    <p class="question-text">Count the dots. Write the number bond.</p>
+    <div class="domino-container">
+        <div class="domino">
+            <div class="domino-half">
+                <!-- 3 dots example: diagonal pattern -->
+                <div class="dot" style="grid-area:1/1;"></div>
+                <div style="grid-area:1/2;"></div>
+                <div style="grid-area:1/3;"></div>
+                <div style="grid-area:2/1;"></div>
+                <div class="dot" style="grid-area:2/2;"></div>
+                <div style="grid-area:2/3;"></div>
+                <div style="grid-area:3/1;"></div>
+                <div style="grid-area:3/2;"></div>
+                <div class="dot" style="grid-area:3/3;"></div>
+            </div>
+            <div class="domino-divider"></div>
+            <div class="domino-half">
+                <!-- 7 dots -->
+                <div class="dot" style="grid-area:1/1;"></div>
+                <div class="dot" style="grid-area:1/2;"></div>
+                <div class="dot" style="grid-area:1/3;"></div>
+                <div class="dot" style="grid-area:2/1;"></div>
+                <div style="grid-area:2/2;"></div>
+                <div class="dot" style="grid-area:2/3;"></div>
+                <div class="dot" style="grid-area:3/1;"></div>
+                <div style="grid-area:3/2;"></div>
+                <div class="dot" style="grid-area:3/3;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="equation-row">
+        <span class="answer-box"></span>
+        <span class="op">+</span>
+        <span class="answer-box"></span>
+        <span class="op">=</span>
+        <span class="num">10</span>
     </div>
 </div>
 ```
 
-## Q4 Template
+**Dot patterns for domino (3x3 grid positions):**
+- 1 dot: center (2/2)
+- 2 dots: top-right (1/3), bottom-left (3/1)
+- 3 dots: diagonal (1/1, 2/2, 3/3)
+- 4 dots: corners (1/1, 1/3, 3/1, 3/3)
+- 5 dots: corners + center
+- 6 dots: left column + right column (1/1, 2/1, 3/1, 1/3, 2/3, 3/3)
+- 7 dots: 6 + center
+- 8 dots: all except center
+- 9 dots: all positions
+
+---
+
+## Q4 - Butterfly
+Left wing shows spots (solid border), right wing is answer (dashed border with "?"). Child calculates missing spots.
+
 ```html
 <div class="question" style="background: #FCE4EC;">
     <span class="question-number">4.</span>
-    <p class="question-text">There are 10 strawberries. 5 strawberries are ripe. How many strawberries are NOT ripe?</p>
-    <div class="object-bond-visual">
-        <div class="objects-group">
-            <img src="/images/strawberry.png" width="40" height="40" alt="Strawberry" />
-            <img src="/images/strawberry.png" width="40" height="40" alt="Strawberry" />
-            <img src="/images/strawberry.png" width="40" height="40" alt="Strawberry" />
-            <img src="/images/strawberry.png" width="40" height="40" alt="Strawberry" />
-            <img src="/images/strawberry.png" width="40" height="40" alt="Strawberry" />
-            <p class="object-label">5 ripe strawberries</p>
+    <p class="question-text">The butterfly needs 10 spots in total. How many spots on the other wing?</p>
+    <div class="butterfly-container">
+        <div class="butterfly">
+            <div class="wing left-wing">
+                <div class="spot"></div>
+                <div class="spot"></div>
+                <div class="spot"></div>
+                <div class="spot"></div>
+            </div>
+            <div class="butterfly-body">
+                <div class="antenna"></div>
+                <div class="body-segment head">🙂</div>
+                <div class="body-segment"></div>
+                <div class="body-segment"></div>
+            </div>
+            <div class="wing right-wing">
+                <div class="spot-placeholder">?</div>
+            </div>
         </div>
-        <div class="objects-group">
-            <div class="placeholder-box">?</div>
-            <p class="object-label">___ strawberries</p>
+        <div class="wing-labels">
+            <span class="wing-count">4 spots</span>
+            <span class="wing-count answer-label">___ spots</span>
         </div>
     </div>
-    <div class="bond-equation">
-        <span class="number-filled">5</span>
-        <span class="plus-sign">+</span>
+    <div class="equation-row">
+        <span class="num">4</span>
+        <span class="op">+</span>
         <span class="answer-box"></span>
-        <span class="equals-sign">=</span>
-        <span class="number-filled">10</span>
+        <span class="op">=</span>
+        <span class="num">10</span>
     </div>
 </div>
 ```
 
-## Q5 Template
+---
+
+## Q5 - Quick Bonds (2x2 Grid)
+4 equations in a 2-column grid. Each shows: number + ___ = 10. Interactive-friendly fill-in-blank.
+
 ```html
 <div class="question" style="background: #FFF3E0;">
     <span class="question-number">5.</span>
     <p class="question-text">Fill in the missing numbers to make 10.</p>
-    <div class="quick-bonds-grid">
-        <div class="bond-item"><span class="bond-mini">2 + <span class="answer-box-tiny"></span> = 10</span></div>
-        <div class="bond-item"><span class="bond-mini">5 + <span class="answer-box-tiny"></span> = 10</span></div>
-        <div class="bond-item"><span class="bond-mini">8 + <span class="answer-box-tiny"></span> = 10</span></div>
-        <div class="bond-item"><span class="bond-mini">1 + <span class="answer-box-tiny"></span> = 10</span></div>
-        <div class="bond-item"><span class="bond-mini"><span class="answer-box-tiny"></span> + 6 = 10</span></div>
-        <div class="bond-item"><span class="bond-mini"><span class="answer-box-tiny"></span> + 3 = 10</span></div>
+    <div class="bonds-grid">
+        <div class="bond-row">
+            <span class="bond-num">3</span>
+            <span class="bond-plus">+</span>
+            <span class="bond-answer" data-answer="7"></span>
+            <span class="bond-equals">=</span>
+            <span class="bond-ten">10</span>
+        </div>
+        <div class="bond-row">
+            <span class="bond-num">8</span>
+            <span class="bond-plus">+</span>
+            <span class="bond-answer" data-answer="2"></span>
+            <span class="bond-equals">=</span>
+            <span class="bond-ten">10</span>
+        </div>
+        <div class="bond-row">
+            <span class="bond-num">5</span>
+            <span class="bond-plus">+</span>
+            <span class="bond-answer" data-answer="5"></span>
+            <span class="bond-equals">=</span>
+            <span class="bond-ten">10</span>
+        </div>
+        <div class="bond-row">
+            <span class="bond-num">1</span>
+            <span class="bond-plus">+</span>
+            <span class="bond-answer" data-answer="9"></span>
+            <span class="bond-equals">=</span>
+            <span class="bond-ten">10</span>
+        </div>
     </div>
 </div>
 ```
 
-## CSS
+---
+
+## CSS (MANDATORY - Use exactly)
 ```css
 <style>
-body{font-family:'Sassoon Primary','Century Gothic',sans-serif;font-size:16pt;margin:0;padding:20px;}
-.question{margin:10px 0;padding:12px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.1);}
-.question-number,.question-text{font-size:16pt;font-weight:600;display:inline}
-.bond-visual{text-align:center;margin:20px auto;}
-.ten-frame{display:inline-block;padding:10px;background:#fff;border:4px solid #333;border-radius:8px;}
-.frame-row{display:flex;gap:5px;margin-bottom:5px;}
+body{font-family:'Sassoon Primary','Century Gothic',sans-serif;font-size:16pt;margin:0;padding:20px;background:#fff;}
+.worksheet-header{text-align:center;margin-bottom:20px;padding-bottom:15px;border-bottom:3px solid #333;}
+.worksheet-title{font-size:22pt;font-weight:bold;color:#2c3e50;margin:0 0 8px 0;}
+.worksheet-subtitle{font-size:14pt;color:#666;margin:0;}
+.question{margin:12px 0;padding:15px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.question-number{font-size:16pt;font-weight:700;margin-right:8px;}
+.question-text{font-size:16pt;font-weight:600;display:inline;margin:0;}
+
+/* Ten Frame */
+.ten-frame-container{text-align:center;margin:15px auto;}
+.ten-frame{display:inline-block;padding:8px;background:#fff;border:3px solid #333;border-radius:8px;}
+.frame-row{display:flex;gap:4px;margin-bottom:4px;}
 .frame-row:last-child{margin-bottom:0;}
-.frame-cell{width:50px;height:50px;border:2px solid #333;border-radius:4px;background:#fff;}
+.frame-cell{width:45px;height:45px;border:2px solid #333;border-radius:4px;background:#fff;}
 .frame-cell.filled{background:#4CAF50;position:relative;}
-.frame-cell.filled::after{content:'';width:30px;height:30px;background:#2E7D32;border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}
-.bond-equation{display:flex;align-items:center;justify-content:center;gap:15px;margin:20px auto;padding:20px;background:#f8f9ff;border:3px solid #2196F3;border-radius:12px;max-width:400px;font-size:24pt;font-weight:bold;}
-.number-filled{width:60px;height:60px;display:flex;align-items:center;justify-content:center;background:#4CAF50;color:#fff;border-radius:8px;border:3px solid #2E7D32;}
-.plus-sign,.equals-sign{font-size:28pt;color:#333;}
-.part-whole-diagram{margin:20px auto;max-width:300px;text-align:center;}
-.whole-circle{width:100px;height:100px;background:#FF9800;border:4px solid #F57C00;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
-.whole-number{font-size:36pt;font-weight:bold;color:#fff;}
-.connecting-lines{width:2px;height:40px;background:#333;margin:0 auto;position:relative;}
-.connecting-lines::before{content:'';position:absolute;bottom:0;left:-60px;width:60px;height:2px;background:#333;}
-.connecting-lines::after{content:'';position:absolute;bottom:0;right:-60px;width:60px;height:2px;background:#333;}
-.parts-row{display:flex;justify-content:space-around;margin-top:20px;}
-.part-circle{width:80px;height:80px;background:#4CAF50;border:4px solid #2E7D32;border-radius:50%;display:flex;align-items:center;justify-content:center;}
-.part-circle.missing{background:#fff;border-color:#FF5722;border-style:dashed;}
-.part-number{font-size:28pt;font-weight:bold;color:#fff;}
-.part-circle.missing .part-number{color:#FF5722;}
-.bond-family{margin:20px auto;padding:20px;background:#f8f9ff;border:3px solid #9C27B0;border-radius:12px;max-width:400px;}
-.bond-pair{margin:12px 0;padding:10px;background:#fff;border:2px solid #ddd;border-radius:8px;}
-.bond-equation{font-size:18pt;font-weight:bold;color:#2c3e50;}
-.answer-box-small{display:inline-block;min-width:40px;height:30px;border:2px solid #333;border-radius:4px;background:#FFF9C4;margin:0 5px;vertical-align:middle;}
-.object-bond-visual{display:flex;justify-content:space-around;margin:20px auto;padding:20px;background:#f8f9ff;border:3px solid #E91E63;border-radius:12px;max-width:500px;}
-.objects-group{text-align:center;flex:1;}
-.objects-group img{margin:5px;}
-.object-label{font-size:14pt;font-weight:bold;color:#2c3e50;margin-top:10px;}
-.placeholder-box{width:80px;height:80px;background:#fff;border:3px dashed #FF5722;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:32pt;font-weight:bold;color:#FF5722;margin:10px auto;}
-.quick-bonds-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin:20px auto;padding:20px;background:#f8f9ff;border:3px solid #FF5722;border-radius:12px;max-width:500px;}
-.bond-item{padding:12px;background:#fff;border:2px solid #ddd;border-radius:8px;text-align:center;}
-.bond-mini{font-size:16pt;font-weight:bold;color:#2c3e50;}
-.answer-box-tiny{display:inline-block;min-width:35px;height:35px;border:2px solid #333;border-radius:4px;background:#FFF9C4;margin:0 3px;vertical-align:middle;}
-.answer-box{display:inline-block;min-width:60px;height:60px;border:3px solid #333;border-radius:8px;background:#FFF9C4;margin:0 8px;vertical-align:middle;}
-.answer-key{margin-top:30px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px;}
-.answer-key-title{font-size:14pt;font-weight:bold;color:#2c3e50;margin-bottom:10px;text-align:center;}
-.answer-key-content p{font-size:12pt;margin:6px 0;}
+.frame-cell.filled::after{content:'';width:28px;height:28px;background:#2E7D32;border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}
+
+/* Equation Row */
+.equation-row{display:flex;align-items:center;justify-content:center;gap:12px;margin:15px auto;padding:15px;background:#f8f9ff;border:3px solid #2196F3;border-radius:10px;max-width:350px;font-size:22pt;font-weight:bold;}
+.num{width:50px;height:50px;display:flex;align-items:center;justify-content:center;background:#4CAF50;color:#fff;border-radius:8px;border:3px solid #2E7D32;}
+.op{font-size:24pt;color:#333;}
+.answer-box{display:inline-block;width:50px;height:50px;border:3px solid #333;border-radius:8px;background:#FFF9C4;}
+
+/* Rainbow Bonds */
+.rainbow-container{position:relative;margin:15px auto;max-width:440px;text-align:center;}
+.rainbow-svg{width:100%;height:140px;}
+.rainbow-numbers{display:flex;justify-content:space-between;padding:0;margin-top:-5px;}
+.rainbow-num{width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:15pt;font-weight:bold;background:#fff;border:2px solid #333;border-radius:50%;}
+.rainbow-num.answer-box-small{background:#FFF9C4;border:3px dashed #FF5722;}
+
+/* Domino */
+.domino-container{display:flex;justify-content:center;margin:15px auto;}
+.domino{display:flex;align-items:center;background:#1a1a1a;padding:15px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.4);}
+.domino-half{width:100px;height:100px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:3px;padding:5px;}
+.domino-divider{width:4px;height:100px;background:#444;margin:0 30px;border-radius:2px;}
+.dot{width:22px;height:22px;background:#fff;border-radius:50%;box-shadow:inset 0 2px 4px rgba(0,0,0,0.2);justify-self:center;align-self:center;}
+
+/* Butterfly */
+.butterfly-container{display:flex;flex-direction:column;align-items:center;margin:15px auto;}
+.butterfly{display:flex;align-items:center;justify-content:center;}
+.wing{width:110px;height:130px;border-radius:50%;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:8px;padding:15px;}
+.left-wing{background:linear-gradient(135deg,#FF9AA2 0%,#FFB7B2 50%,#FFDAC1 100%);border:3px solid #E91E63;}
+.right-wing{background:linear-gradient(225deg,#B5EAD7 0%,#C7CEEA 50%,#E2F0CB 100%);border:3px dashed #4CAF50;}
+.butterfly-body{display:flex;flex-direction:column;align-items:center;margin:0 8px;z-index:1;}
+.body-segment{width:28px;height:28px;background:#8B4513;border-radius:50%;margin:2px 0;}
+.body-segment.head{background:#D2691E;font-size:18pt;display:flex;align-items:center;justify-content:center;}
+.antenna{position:relative;width:40px;height:25px;}
+.antenna::before,.antenna::after{content:'';position:absolute;bottom:0;width:3px;height:20px;background:#8B4513;border-radius:3px;}
+.antenna::before{left:8px;transform:rotate(-30deg);}
+.antenna::after{right:8px;transform:rotate(30deg);}
+.spot{width:22px;height:22px;background:#E91E63;border-radius:50%;border:2px solid #C2185B;}
+.spot-placeholder{width:60px;height:60px;background:#fff;border:3px dashed #FF5722;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28pt;font-weight:bold;color:#FF5722;}
+.wing-labels{display:flex;justify-content:space-between;width:300px;margin-top:10px;}
+.wing-count{font-size:14pt;font-weight:bold;color:#333;}
+.answer-label{color:#FF5722;}
+
+/* Quick Bonds Grid */
+.bonds-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:15px auto;padding:12px;background:#fff;border:3px solid #FF9800;border-radius:12px;max-width:420px;}
+.bond-row{display:flex;align-items:center;justify-content:center;gap:5px;padding:8px 5px;background:#FFF8E1;border-radius:8px;}
+.bond-num{width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:16pt;font-weight:bold;background:#FFECB3;border:3px solid #FF9800;border-radius:50%;flex-shrink:0;}
+.bond-plus{font-size:16pt;font-weight:bold;color:#333;}
+.bond-answer{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:3px solid #333;border-radius:50%;background:#FFF9C4;font-size:16pt;flex-shrink:0;}
+.bond-equals{font-size:16pt;font-weight:bold;color:#333;}
+.bond-ten{width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:14pt;font-weight:bold;background:#4CAF50;color:#fff;border-radius:50%;border:3px solid #2E7D32;flex-shrink:0;}
+
+/* Answer Key */
+.answer-key{margin-top:25px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px;}
+.answer-key h2{font-size:14pt;font-weight:bold;color:#2c3e50;margin:0 0 10px 0;text-align:center;}
+.answer-key p{font-size:12pt;margin:5px 0;}
 </style>
 ```
 
-## Answer Key
+---
+
+## Answer Key Format
 ```html
 <div class="answer-key">
-    <h2 class="answer-key-title">Answer Key</h2>
-    <div class="answer-key-content">
-        <p><strong>1.</strong> [e.g., 3 for 7+3=10]</p>
-        <p><strong>2.</strong> [e.g., 4 for 6 and 4 make 10]</p>
-        <p><strong>3.</strong> [e.g., 10, 7, 3]</p>
-        <p><strong>4.</strong> [e.g., 5 strawberries are NOT ripe]</p>
-        <p><strong>5.</strong> [e.g., 8, 5, 2, 9, 4, 7]</p>
-    </div>
+    <h2>Answer Key</h2>
+    <p><strong>1.</strong> [Ten frame answer, e.g., 7 (3 + 7 = 10)]</p>
+    <p><strong>2.</strong> [Rainbow missing numbers, e.g., 1, 5, 9]</p>
+    <p><strong>3.</strong> [Domino equation, e.g., 3 + 7 = 10]</p>
+    <p><strong>4.</strong> [Butterfly spots, e.g., 6 spots (4 + 6 = 10)]</p>
+    <p><strong>5.</strong> [Quick bonds answers, e.g., 7, 2, 5, 9]</p>
 </div>
 ```
+
+---
+
+## RANDOMIZATION REQUIREMENTS
+Each worksheet MUST vary:
+- Q1: Different filled count (1-9)
+- Q2: Different 3 missing numbers from 0-10
+- Q3: Different domino pair (not always 3+7)
+- Q4: Different spot count on left wing (1-9)
+- Q5: Different 4 bonds (pick from 0-10 pairs, shuffle order)
