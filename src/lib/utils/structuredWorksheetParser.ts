@@ -334,7 +334,61 @@ function parseQuestionStructure(
     console.log(`✅ Found ${answerSlotMatches.length} answer-slot pattern(s)`)
   }
 
-  // Pattern 2d: Answer box (e.g., <div class="answer-box"></div> OR <span class="answer-box"></span>)
+  // Pattern 2d: Bond answer (e.g., <span class="bond-answer"></span> for number bonds grid)
+  const bondAnswerPattern = /<(div|span)[^>]*class="[^"]*bond-answer[^"]*"[^>]*>[\s\S]*?<\/\1>/gi
+  const bondAnswerMatches = cleanedHTML.match(bondAnswerPattern) || []
+  if (bondAnswerMatches.length > 0) {
+    const startIdx = inputs.length
+    const totalInputs = startIdx + bondAnswerMatches.length
+    bondAnswerMatches.forEach((match, idx) => {
+      const subId = totalInputs > 1 ? `${questionId}-${startIdx + idx}` : `${questionId}`
+      inputs.push({
+        subId,
+        placeholder: '?',
+        inputType: 'text',
+        style: {
+          width: '50px',
+          borderStyle: 'solid'
+        }
+      })
+    })
+    // Replace bond-answer with placeholder
+    let bondCounter = 0
+    cleanedHTML = cleanedHTML.replace(bondAnswerPattern, () => {
+      const subId = totalInputs > 1 ? `${questionId}-${startIdx + bondCounter++}` : `${questionId}`
+      return `<span data-input-placeholder="${subId}"></span>`
+    })
+    console.log(`✅ Found ${bondAnswerMatches.length} bond-answer pattern(s)`)
+  }
+
+  // Pattern 2e: Answer cell (for place value tables like "tens" and "ones")
+  const answerCellPattern = /<td[^>]*class="[^"]*answer-cell[^"]*"[^>]*>[\s\S]*?<\/td>/gi
+  const answerCellMatches = cleanedHTML.match(answerCellPattern) || []
+  if (answerCellMatches.length > 0) {
+    const startIdx = inputs.length
+    const totalInputs = startIdx + answerCellMatches.length
+    answerCellMatches.forEach((match, idx) => {
+      const subId = totalInputs > 1 ? `${questionId}-${startIdx + idx}` : `${questionId}`
+      inputs.push({
+        subId,
+        placeholder: '?',
+        inputType: 'text',
+        style: {
+          width: '50px',
+          borderStyle: 'solid'
+        }
+      })
+    })
+    // Replace answer-cell with placeholder
+    let cellCounter = 0
+    cleanedHTML = cleanedHTML.replace(answerCellPattern, () => {
+      const subId = totalInputs > 1 ? `${questionId}-${startIdx + cellCounter++}` : `${questionId}`
+      return `<td class="answer-cell"><span data-input-placeholder="${subId}"></span></td>`
+    })
+    console.log(`✅ Found ${answerCellMatches.length} answer-cell pattern(s)`)
+  }
+
+  // Pattern 2f: Answer box (e.g., <div class="answer-box"></div> OR <span class="answer-box"></span>)
   // DETECT LAST - this catches answer-box and answer-box-small in reasoning boxes
   const answerBoxPattern = /<(div|span)[^>]*class="[^"]*answer-box[^"]*"[^>]*>[\s\S]*?<\/\1>/gi
   const answerBoxMatches = cleanedHTML.match(answerBoxPattern) || []
@@ -521,7 +575,8 @@ function parseQuestionStructure(
   // Parse rainbow data for rainbow-bonds questions
   let rainbowData: StructuredQuestion['rainbowData'] = undefined
   if (questionType === 'rainbow-bonds') {
-    rainbowData = parseRainbowData(cleanedHTML, inputs)
+    // Use original questionHTML so rainbow-num elements are still intact (before answer-box replacement)
+    rainbowData = parseRainbowData(questionHTML, inputs)
     console.log(`🌈 Q${questionId} Rainbow data:`, rainbowData)
   }
 
@@ -564,6 +619,20 @@ function parseQuestionStructure(
       console.log(`🔢 Single-input Q${questionId}: Extracted "${answerArray}" from "${correctAnswer}"`)
     }
   } else if (inputs.length > 1) {
+    // First, check for "X tens and Y ones" format (place value questions)
+    const tensOnesMatch = correctAnswer.match(/(\d+)\s*tens?\s+and\s+(\d+)\s*ones?/i)
+    if (tensOnesMatch) {
+      answerArray = [tensOnesMatch[1], tensOnesMatch[2]]
+      console.log(`🔢 Multi-input Q${questionId} (tens/ones format): Extracted from "${correctAnswer}":`, answerArray)
+    }
+    // Check for equation format like "5 + 5 = 10" or "3 + 7 = 10"
+    // These need to extract the operands, not treat "=" as a comparison symbol
+    else {
+      const equationFormatMatch = correctAnswer.match(/^(\d+)\s*[+−\-]\s*(\d+)\s*=\s*\d+$/)
+      if (equationFormatMatch) {
+        answerArray = [equationFormatMatch[1], equationFormatMatch[2]]
+        console.log(`➕ Multi-input Q${questionId} (equation format): Extracted from "${correctAnswer}":`, answerArray)
+      } else {
     // Simple extraction for "a) X b) Y c) Z d) W" format using individual regex matches
     const abcdMatches: string[] = []
 
@@ -581,18 +650,26 @@ function parseQuestionStructure(
       abcdMatches.push(val)
     }
 
-    // Extract b) value - number or symbol
-    const bMatch = correctAnswer.match(/b\)\s*(\d+(?:\s*[<>=]\s*\d+)?|\d+)/i)
+    // Extract b) value - number, symbol, or expanded form "X + Y"
+    const bMatch = correctAnswer.match(/b\)\s*(\d+(?:\s*[+\-<>=]\s*\d+)?)/i)
     if (bMatch) {
       let val = bMatch[1].trim()
-      // Check for symbol pattern like "63 > 58"
-      const symMatch = val.match(/\d+\s*([<>=])\s*\d+/)
-      if (symMatch) val = symMatch[1]
-      else {
-        const numMatch = val.match(/^(\d+)/)
-        if (numMatch) val = numMatch[1]
+      // Check for expanded form "X + Y" (e.g., "90 + 5" -> ["90", "5"])
+      const expandedMatch = val.match(/^(\d+)\s*\+\s*(\d+)$/)
+      if (expandedMatch) {
+        abcdMatches.push(expandedMatch[1])
+        abcdMatches.push(expandedMatch[2])
       }
-      abcdMatches.push(val)
+      // Check for symbol pattern like "63 > 58"
+      else {
+        const symMatch = val.match(/\d+\s*([<>=])\s*\d+/)
+        if (symMatch) val = symMatch[1]
+        else {
+          const numMatch = val.match(/^(\d+)/)
+          if (numMatch) val = numMatch[1]
+        }
+        abcdMatches.push(val)
+      }
     }
 
     // Extract c) value - Yes/No or number
@@ -684,6 +761,8 @@ function parseQuestionStructure(
         console.log(`🔢 Multi-input Q${questionId}: Split "${correctAnswer}" into:`, answerArray)
       }
     }
+    } // Close the else block for equationFormatMatch check (line 635)
+    } // Close the else block for tensOnesMatch check (line 630)
   }
 
   return {
@@ -875,7 +954,8 @@ function parseBondGridData(
     // Extract bond-ten or result (last number, usually 10)
     const resultMatch = rowContent.match(/<span[^>]*class="[^"]*bond-ten[^"]*"[^>]*>(\d+)<\/span>/i)
     // Check if there's a bond-answer (the missing number)
-    const hasAnswer = rowContent.includes('bond-answer')
+    // Note: bond-answer elements are replaced with data-input-placeholder by the parser
+    const hasAnswer = rowContent.includes('bond-answer') || rowContent.includes('data-input-placeholder')
 
     if (num1Match && resultMatch) {
       equations.push({

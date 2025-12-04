@@ -31,6 +31,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Tests run only on chromium-desktop for speed and simplicity
 - Kill ports before testing: npx kill-port 3000 && npx kill-port 3001 and check untill 3010 and kill if availble
 
+## Interactive Worksheet Tests
+- **Prompt Guide**: See `.claude/prompts/interactive-worksheet-test-prompt.md` for comprehensive test generation instructions
+- **Test Command**: When user says "create interactive test for {url}", use the playwright-test-healer agent with the prompt guide
+- **Answer Extraction**: Parse answers from worksheet `html_content` field in Supabase using regex: `/<p><strong>(\d+)\.<\/strong>\s*(.+?)<\/p>/g`
+- **File Naming**: `tests/e2e/interactive-{worksheet-slug}.spec.ts`
+- **Success Criteria**: Test must achieve 100% score by filling correct answers
+- **Cookie Consent**: ALWAYS remove `.cookie-consent-container` before clicking buttons
+- **Input Filling**: Use `pressSequentially(answer, { delay: 50 })` for React controlled inputs
+- **Generic Test**: `tests/e2e/interactive-worksheet-generic.spec.ts` can be used with `WORKSHEET_SLUG` env var
+
 ## Prompt Engineering Automation (Story Engine 1.1-1.3)
 - **Complete automation available**: `npm run prompt-automation` (requires GEMINI_API_KEY). pick gemni api key from .env.local
 - **System implemented**: Full 6-phase workflow (Baseline → Golden Reference → Variant Testing → A/B Testing → Quality Gates → Reporting)

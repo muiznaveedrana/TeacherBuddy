@@ -864,14 +864,17 @@ export function StructuredQuestion({
       const num2 = parseInt(numberLabels[1])
       const greaterNum = Math.max(num1, num2)
       expectedGreater = String(greaterNum)
-      expectedTens = String(Math.floor(greaterNum / 10))
+      // Determine which place value differs - "tens" or "ones"
+      const tens1 = Math.floor(num1 / 10)
+      const tens2 = Math.floor(num2 / 10)
+      expectedTens = tens1 !== tens2 ? 'tens' : 'ones'
       console.log(`🔧 Q${question.id} Block Comparison: Expected answers:`, expectedGreater, expectedTens)
     }
 
     // Custom validation for Q1
     const validateQ1 = () => {
       const userA = (answers[inputA.subId] || '').trim()
-      const userB = (answers[inputB.subId] || '').trim()
+      const userB = (answers[inputB.subId] || '').trim().toLowerCase()
       return userA === expectedGreater && userB === expectedTens
     }
 
@@ -1563,7 +1566,7 @@ export function StructuredQuestion({
       const userB = (answers[inputB.subId] || '').trim()
       const userC = (answers[inputC.subId] || '').trim()
 
-      const nameCorrect = userA === expectedName.toLowerCase() || userA.includes(expectedName.toLowerCase())
+      const nameCorrect = userA === expectedName.toLowerCase() || (userA.length >= 3 && expectedName.toLowerCase().includes(userA))
       const symbolCorrect = userB === expectedSymbol
       const diffCorrect = userC === expectedDiff
 
@@ -1624,7 +1627,7 @@ export function StructuredQuestion({
         {/* Sub-question a) - Who collected more */}
         {inputA && (
           <div style={{ fontSize: '14pt', margin: '12px 0', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-            <span><strong>a)</strong> Which {groups[0]?.name?.includes('Class') ? 'class' : 'person'} collected <strong>more</strong>?</span>
+            <span><strong>a)</strong> Which {groups[0]?.name?.includes('Class') ? 'class' : groups[0]?.name?.includes('Team') ? 'team' : 'person'} collected <strong>more</strong>?</span>
             <input
               type="text"
               value={answers[inputA.subId] || ''}
@@ -1690,7 +1693,7 @@ export function StructuredQuestion({
         {/* Sub-question c) - How many more */}
         {inputC && (
           <div style={{ fontSize: '14pt', margin: '12px 0', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-            <span><strong>c)</strong> How many more did {groups[0]?.name} collect?</span>
+            <span><strong>c)</strong> How many more did {expectedName || groups[0]?.name} collect?</span>
             <input
               type="text"
               value={answers[inputC.subId] || ''}
@@ -1858,6 +1861,104 @@ export function StructuredQuestion({
     )
   }
 
+  // Special rendering for Place Value Table questions (Tens/Ones)
+  const renderPlaceValueTableQuestion = () => {
+    const html = question.questionHTML
+
+    // Check if this is a place-value table question (has pv-table class and answer-cell)
+    if (!html.includes('pv-table') || !html.includes('answer-cell')) {
+      return null
+    }
+
+    // Extract question number
+    const questionNumMatch = html.match(/<span[^>]*class="[^"]*question-number[^"]*"[^>]*>([^<]+)<\/span>/i)
+
+    // Extract the number being analyzed (e.g., "91" from "How many tens and ones are in 91?")
+    const numberMatch = html.match(/in\s+<strong>(\d+)<\/strong>/i) || html.match(/in\s+(\d+)/i)
+
+    // Extract question text (everything before the table)
+    const questionTextMatch = html.match(/<p[^>]*class="[^"]*question-text[^"]*"[^>]*>([\s\S]*?)<\/p>/i)
+    let questionTextContent = ''
+    if (questionTextMatch) {
+      // Remove the question number span and get just the text
+      questionTextContent = questionTextMatch[1]
+        .replace(/<span[^>]*class="[^"]*question-number[^"]*"[^>]*>[^<]*<\/span>/gi, '')
+        .replace(/<[^>]+>/g, ' ')
+        .trim()
+    }
+
+    // Extract table headers (could be "Tens/Ones" or "Hundreds/Tens/Ones")
+    const headerMatches = Array.from(html.matchAll(/<th[^>]*>([^<]+)<\/th>/gi))
+    const headers = headerMatches.map(m => m[1].trim())
+
+    // Get the inputs for this question (should match the number of answer cells)
+    const inputsForTable = question.inputs.filter(input =>
+      input.subId.startsWith(question.id)
+    )
+
+    // If we don't have matching inputs for headers, fall back
+    if (headers.length === 0 || inputsForTable.length < headers.length) {
+      return null
+    }
+
+    return (
+      <div className="p-4 rounded-lg" style={{ backgroundColor: '#fef9c3' }}>
+        <p className="text-lg mb-4">
+          <span className="font-bold">{questionNumMatch ? questionNumMatch[1] : `${question.id}.`}</span>{' '}
+          {questionTextContent || 'How many tens and ones?'}
+        </p>
+
+        {/* Place Value Table with inputs inside cells */}
+        <div className="flex justify-center">
+          <table className="border-collapse" style={{ minWidth: '200px' }}>
+            <thead>
+              <tr>
+                {headers.map((header, idx) => (
+                  <th
+                    key={idx}
+                    className="px-6 py-3 text-center font-bold text-white"
+                    style={{
+                      backgroundColor: idx === 0 ? '#3b82f6' : '#facc15',
+                      color: idx === 0 ? 'white' : '#1f2937',
+                      minWidth: '80px'
+                    }}
+                  >
+                    {header}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {headers.map((_, idx) => (
+                  <td
+                    key={idx}
+                    className="border-2 border-dashed border-yellow-400 p-2 text-center"
+                    style={{ backgroundColor: '#fefce8', minWidth: '80px', minHeight: '50px' }}
+                  >
+                    <QuestionInput
+                      field={inputsForTable[idx] || {
+                        subId: `${question.id}-${idx}`,
+                        placeholder: '?',
+                        inputType: 'text',
+                        style: { width: '50px', borderStyle: 'solid' }
+                      }}
+                      value={answers[inputsForTable[idx]?.subId || ''] || ''}
+                      onChange={onAnswerChange}
+                      disabled={submitted}
+                      isCorrect={isCorrect}
+                      showFeedback={submitted}
+                    />
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    )
+  }
+
   // Special rendering for One More/One Less questions (horizontal layout)
   const renderOneMoreLessQuestion = () => {
     const html = question.questionHTML
@@ -2003,6 +2104,7 @@ export function StructuredQuestion({
   const letterMatchingContent = question.questionType === 'matching' ? renderLetterMatchingQuestion() : null
   const matchingContent = question.questionType === 'matching' && !letterMatchingContent ? renderMatchingQuestion() : null
   const oneMoreLessContent = question.questionType === 'one-more-less' ? renderOneMoreLessQuestion() : null
+  const placeValueTableContent = renderPlaceValueTableQuestion()
 
   // Year 2 Comparing Numbers specialized renderers (these have custom validation)
   const blockComparisonContent = renderBlockComparisonQuestion()
@@ -2017,7 +2119,7 @@ export function StructuredQuestion({
 
   return (
     <div>
-      {rainbowBondsContent || bondGridContent || factFamilyContent || equationRowContent || numberSequenceContent || letterMatchingContent || matchingContent || oneMoreLessContent || blockComparisonContent || openEndedContent || symbolComparisonContent || wordProblemContent || orderingContent || renderQuestionWithInputs()}
+      {rainbowBondsContent || bondGridContent || factFamilyContent || equationRowContent || numberSequenceContent || letterMatchingContent || matchingContent || oneMoreLessContent || placeValueTableContent || blockComparisonContent || openEndedContent || symbolComparisonContent || wordProblemContent || orderingContent || renderQuestionWithInputs()}
 
       {/* Feedback after submission - only show if NOT using custom validation renderer */}
       {submitted && feedback && !usesCustomValidation && (

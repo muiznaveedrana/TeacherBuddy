@@ -266,7 +266,9 @@ function validateWithCustomLogic(
     htmlLength: html.length
   })
 
-  // Q1: Block Comparison (58 vs 43 - which is greater)
+  // Q1: Block Comparison (76 vs 79 - which is greater)
+  // Q1a: expects the greater number
+  // Q1b: expects "tens" or "ones" (which place value determined the answer)
   if (html.includes('number-label') && html.toLowerCase().includes('greater')) {
     const numberLabels: string[] = []
     const labelRegex = /<div[^>]*class="[^"]*number-label[^"]*"[^>]*>(\d+)<\/div>/gi
@@ -279,20 +281,28 @@ function validateWithCustomLogic(
       const num1 = parseInt(numberLabels[0])
       const num2 = parseInt(numberLabels[1])
       const greaterNum = Math.max(num1, num2)
-      const tensCount = Math.floor(greaterNum / 10)
+
+      // Determine which place value differs - tens or ones
+      const tens1 = Math.floor(num1 / 10)
+      const tens2 = Math.floor(num2 / 10)
+      const placeValueAnswer = tens1 !== tens2 ? 'tens' : 'ones'
+
+      console.log(`🔧 Q1 Block Comparison: Expected answers: ${greaterNum} ${placeValueAnswer}`)
 
       const inputA = question.inputs[0]
       const inputB = question.inputs[1]
 
       const userA = (answers[inputA?.subId] || '').trim()
-      const userB = (answers[inputB?.subId] || '').trim()
+      const userB = (answers[inputB?.subId] || '').trim().toLowerCase()
 
-      const isCorrect = userA === String(greaterNum) && userB === String(tensCount)
+      // Q1a: must match the greater number exactly
+      // Q1b: must be "tens" or "ones" (the place value that determined the answer)
+      const isCorrect = userA === String(greaterNum) && userB === placeValueAnswer
 
       return {
         isCorrect,
         studentAnswer: `${userA}, ${userB}`,
-        correctAnswer: `${greaterNum}, ${tensCount}`,
+        correctAnswer: `${greaterNum}, ${placeValueAnswer}`,
         validationType: 'Q1-BlockComparison'
       }
     }
@@ -317,11 +327,24 @@ function validateWithCustomLogic(
     const hasLessThan = html.includes('&lt;') || html.includes('<')
     const hasMysteryFirst = html.indexOf('mystery-box') < (html.indexOf('symbol') || html.length)
 
+    // Check for explicit "greater than" or "less than" text to determine direction
+    const hasGreaterThanText = html.toLowerCase().includes('greater than')
+    const hasLessThanText = html.toLowerCase().includes('less than')
+    const answersNeedToBeGreater = hasGreaterThanText || (!hasLessThanText && !hasMysteryFirst)
+
     // Find the comparison number from equation-display
     let compareNum = 0
     const numMatch = html.match(/equation-display[\s\S]*?>(\d+)</i)
     if (numMatch) {
       compareNum = parseInt(numMatch[1])
+    }
+
+    // Also try to extract number from "greater than X" or "less than X" text
+    if (compareNum === 0) {
+      const textNumMatch = html.match(/(greater|less)\s+than\s+(\d+)/i)
+      if (textNumMatch) {
+        compareNum = parseInt(textNumMatch[2])
+      }
     }
 
     if (compareNum > 0) {
@@ -333,10 +356,10 @@ function validateWithCustomLogic(
         if (isNaN(ans)) return false
         // For "? < 45", answers must be < 45
         // For "52 < ?", answers must be > 52
-        if (hasMysteryFirst) {
-          return ans < compareNum
-        } else {
+        if (answersNeedToBeGreater) {
           return ans > compareNum
+        } else {
+          return ans < compareNum
         }
       })
 
@@ -346,7 +369,7 @@ function validateWithCustomLogic(
       return {
         isCorrect,
         studentAnswer: question.inputs.map(f => answers[f.subId] || '').join(', '),
-        correctAnswer: `Any ${slotCount} numbers ${hasMysteryFirst ? '<' : '>'} ${compareNum}`,
+        correctAnswer: `Any ${slotCount} numbers ${answersNeedToBeGreater ? '>' : '<'} ${compareNum}`,
         validationType: 'Q2-OpenEnded'
       }
     }
@@ -392,14 +415,66 @@ function validateWithCustomLogic(
       expected.push(getSymbol(parseInt(symbolQMatch[1]), parseInt(symbolQMatch[2])))
     }
 
-    // Get user answers in order
-    const userAnswers = question.inputs.map(f => (answers[f.subId] || '').trim())
+    // Get user answers in correct order
+    // Note: question.inputs contains only text inputs, but Yes/No is a button
+    // We need to build userAnswers to match the expected order: [symbol1, symbol2, yesNo, symbol3]
+    const userAnswers: string[] = []
+
+    // Get symbol answers from text inputs
+    const symbolInputs = question.inputs.filter(f => !f.subId.includes('yesno'))
+    symbolRows.forEach((_, idx) => {
+      const input = symbolInputs[idx]
+      userAnswers.push(input ? (answers[input.subId] || '').trim() : '')
+    })
+
+    // Get Yes/No answer - match StructuredQuestion.tsx logic
+    // The Yes button stores answer at question.inputs[symbolRows.length].subId
+    if (tomMatch) {
+      const yesNoInputIdx = symbolRows.length
+      let yesNoAnswer = ''
+
+      // Try input at the expected index first (matches StructuredQuestion.tsx)
+      const yesNoInput = question.inputs[yesNoInputIdx]
+      if (yesNoInput && answers[yesNoInput.subId]) {
+        yesNoAnswer = answers[yesNoInput.subId]
+      }
+
+      // Fallback: try to find input with 'yesno' in subId
+      if (!yesNoAnswer) {
+        const yesNoByName = question.inputs.find(f => f.subId.includes('yesno'))
+        if (yesNoByName && answers[yesNoByName.subId]) {
+          yesNoAnswer = answers[yesNoByName.subId]
+        }
+      }
+
+      // Fallback: try standard patterns
+      if (!yesNoAnswer) {
+        yesNoAnswer = answers[`${question.id}-yesno`] || answers[`${question.id}-${yesNoInputIdx}`] || ''
+      }
+
+      userAnswers.push(yesNoAnswer.trim())
+    }
+
+    // Get final symbol answer
+    if (symbolQMatch) {
+      const finalIdx = symbolRows.length // After symbol rows, excluding yesNo
+      const finalInput = symbolInputs[finalIdx] || question.inputs[question.inputs.length - 1]
+      userAnswers.push(finalInput ? (answers[finalInput.subId] || '').trim() : '')
+    }
+
+    console.log(`🔍 Q${question.id} SymbolComparison validation:`, {
+      expected,
+      userAnswers,
+      inputCount: question.inputs.length,
+      symbolRowCount: symbolRows.length
+    })
 
     // Validate each
-    const isCorrect = userAnswers.every((ans, i) => {
-      if (!expected[i]) return true
-      return ans.toLowerCase() === expected[i].toLowerCase()
-    })
+    const isCorrect = expected.length === userAnswers.length &&
+      expected.every((exp, i) => {
+        const ans = userAnswers[i] || ''
+        return ans.toLowerCase() === exp.toLowerCase()
+      })
 
     return {
       isCorrect,
