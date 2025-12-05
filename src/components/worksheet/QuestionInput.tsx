@@ -34,8 +34,19 @@ export function QuestionInput({
     onChange(field.subId, e.target.value)
   }
 
-  // Base styles
-  const baseStyles = {
+  // Check if this is an answer-box style input
+  const isAnswerBoxStyle = field.style?.isAnswerBox || field.style?.isAnswerBoxSmall || field.style?.backgroundColor
+
+  // Base styles - use answer-box styling if specified
+  const baseStyles = isAnswerBoxStyle ? {
+    padding: '8px',
+    fontSize: field.style?.fontSize || '16pt',
+    fontWeight: field.style?.fontWeight || 'bold',
+    borderRadius: field.style?.borderRadius || '8px',
+    transition: 'all 0.2s ease',
+    fontFamily: 'inherit',
+    textAlign: (field.style?.textAlign || 'center') as 'left' | 'center' | 'right'
+  } : {
     padding: field.inputType === 'textarea' ? '10px' : '12px',
     fontSize: field.inputType === 'textarea' ? '14pt' : '18pt',
     borderRadius: '6px',
@@ -49,6 +60,13 @@ export function QuestionInput({
       return isCorrect
         ? '3px solid #22C55E' // Green for correct
         : '3px solid #EF4444' // Red for incorrect
+    }
+
+    // Use custom border if answer-box style
+    if (isAnswerBoxStyle && field.style?.border) {
+      return value
+        ? '3px solid #2196F3' // Blue when filled
+        : field.style.border // Original border when empty
     }
 
     if (field.style?.borderStyle === 'underline') {
@@ -71,14 +89,23 @@ export function QuestionInput({
     if (showFeedback) {
       return isCorrect ? '#F0FDF4' : '#FEF2F2' // Light green/red
     }
+    // Use custom background if answer-box style
+    if (isAnswerBoxStyle && field.style?.backgroundColor) {
+      return field.style.backgroundColor
+    }
     return disabled ? '#F3F4F6' : '#FFFFFF'
   }
 
+  const borderStyle = getBorderStyle()
+  const borderStyles = typeof borderStyle === 'object' ? borderStyle : {}
+  
   const inputStyles = {
     ...baseStyles,
-    width: field.style?.width || '100%',
-    border: typeof getBorderStyle() === 'string' ? getBorderStyle() : undefined,
-    ...(typeof getBorderStyle() === 'object' ? getBorderStyle() : {}),
+    width: field.style?.width || (isAnswerBoxStyle ? '120px' : '100%'),
+    minWidth: field.style?.minWidth || (isAnswerBoxStyle ? '120px' : undefined),
+    height: field.style?.height || (isAnswerBoxStyle ? '42px' : undefined),
+    border: typeof borderStyle === 'string' ? borderStyle : undefined,
+    ...borderStyles,
     backgroundColor: getBackgroundColor(),
     outline: 'none',
     display: field.inputType === 'textarea' ? 'block' : 'inline-block'

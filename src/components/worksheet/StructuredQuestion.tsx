@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useRef, useEffect, useMemo } from 'react'
 import { QuestionInput } from './QuestionInput'
 import type { StructuredQuestion as StructuredQuestionType } from '@/lib/utils/structuredWorksheetParser'
 
@@ -1893,7 +1893,7 @@ export function StructuredQuestion({
 
     // Get the inputs for this question (should match the number of answer cells)
     const inputsForTable = question.inputs.filter(input =>
-      input.subId.startsWith(question.id)
+      input.subId.startsWith(String(question.id))
     )
 
     // If we don't have matching inputs for headers, fall back
@@ -2035,52 +2035,184 @@ export function StructuredQuestion({
     // Simple approach: replace placeholder markers in HTML string
     let htmlContent = question.questionHTML
 
-    // Replace each placeholder with a unique marker
-    question.inputs.forEach(field => {
-      // Use non-greedy match (*?) to find placeholder spans correctly
-      const placeholderRegex = new RegExp(`<span[^>]*?data-input-placeholder="${field.subId}"[^>]*?>\\s*</span>`, 'gi')
-      htmlContent = htmlContent.replace(placeholderRegex, `___INPUT_PLACEHOLDER_${field.subId}___`)
+    // Note: We keep the original HTML structure intact here.
+    // The CSS in the container handles inline flow for inputs.
+
+    // Debug: Log what we're working with
+    console.log(`🔍 Q${question.id} renderQuestionWithInputs:`, {
+      inputCount: question.inputs.length,
+      inputSubIds: question.inputs.map(f => f.subId),
+      hasPlaceholderAttr: htmlContent.includes('data-input-placeholder'),
+      htmlSnippet: htmlContent.substring(0, 200)
     })
+
+    // Replace each placeholder with a unique marker
+    // Try multiple patterns to be robust against browser DOM normalization
+    question.inputs.forEach(field => {
+      // Pattern 1: Standard span placeholder (from parser)
+      const placeholderRegex1 = new RegExp(`<span[^>]*?data-input-placeholder="${field.subId}"[^>]*?>\\s*</span>`, 'gi')
+      // Pattern 2: Self-closing or with whitespace variations
+      const placeholderRegex2 = new RegExp(`<span[^>]*?data-input-placeholder="${field.subId}"[^>]*?>([^<]*)</span>`, 'gi')
+      // Pattern 3: Div placeholder (fallback)
+      const placeholderRegex3 = new RegExp(`<div[^>]*?data-input-placeholder="${field.subId}"[^>]*?>\\s*</div>`, 'gi')
+      
+      // Try each pattern
+      if (placeholderRegex1.test(htmlContent)) {
+        htmlContent = htmlContent.replace(new RegExp(`<span[^>]*?data-input-placeholder="${field.subId}"[^>]*?>\\s*</span>`, 'gi'), `___INPUT_PLACEHOLDER_${field.subId}___`)
+        console.log(`  ✅ Pattern 1 matched for ${field.subId}`)
+      } else if (placeholderRegex2.test(htmlContent)) {
+        htmlContent = htmlContent.replace(new RegExp(`<span[^>]*?data-input-placeholder="${field.subId}"[^>]*?>([^<]*)</span>`, 'gi'), `___INPUT_PLACEHOLDER_${field.subId}___`)
+        console.log(`  ✅ Pattern 2 matched for ${field.subId}`)
+      } else if (placeholderRegex3.test(htmlContent)) {
+        htmlContent = htmlContent.replace(new RegExp(`<div[^>]*?data-input-placeholder="${field.subId}"[^>]*?>\\s*</div>`, 'gi'), `___INPUT_PLACEHOLDER_${field.subId}___`)
+        console.log(`  ✅ Pattern 3 matched for ${field.subId}`)
+      } else {
+        console.log(`  ❌ No pattern matched for ${field.subId}`)
+      }
+    })
+    
+    const placeholdersInserted = htmlContent.includes('___INPUT_PLACEHOLDER_')
+    console.log(`  📊 Result: ${placeholdersInserted ? 'Placeholders found' : 'NO placeholders - trying answer-box fallback'}`)
+    
+    // FALLBACK: If no placeholders found, try to replace answer-box elements directly
+    if (!placeholdersInserted && question.inputs.length > 0) {
+      console.log(`  🔧 Fallback: Replacing answer-box elements directly`)
+      // Reset htmlContent
+      htmlContent = question.questionHTML
+      let inputIdx = 0
+      
+      // Replace answer-box and answer-box-small spans/divs with placeholders
+      const answerBoxPattern = /<(div|span)[^>]*class="[^"]*answer-box[^"]*"[^>]*>[\s\S]*?<\/\1>/gi
+      htmlContent = htmlContent.replace(answerBoxPattern, () => {
+        if (inputIdx < question.inputs.length) {
+          const subId = question.inputs[inputIdx].subId
+          inputIdx++
+          console.log(`    → Replaced answer-box with placeholder for ${subId}`)
+          return `___INPUT_PLACEHOLDER_${subId}___`
+        }
+        return '' // Remove extra answer-boxes
+      })
+      
+      console.log(`  📊 Fallback result: ${inputIdx} replacements made`)
+    }
 
     // Split by placeholders
     const parts = htmlContent.split(/___INPUT_PLACEHOLDER_([^_]+)___/)
 
+    // Build the content by replacing placeholders with input HTML markers
+    // Then render the entire thing with dangerouslySetInnerHTML for proper inline flow
+    // And use React portals or refs to inject actual inputs
+
+    // Handle case where no placeholders were replaced
+    const hasPlaceholders = question.inputs.length > 0 &&
+      question.inputs.some(f => htmlContent.includes(`___INPUT_PLACEHOLDER_${f.subId}___`))
+
+    // Use refs to render HTML only once and manage DOM directly
+    const containerRef = useRef<HTMLDivElement>(null)
+    const htmlContentRef = useRef<HTMLDivElement>(null)
+    const isInitializedRef = useRef(false)
+
+    // Build HTML with input elements
+    const buildInitialHTML = () => {
+      let html = htmlContent
+      question.inputs.forEach(field => {
+        const placeholder = `___INPUT_PLACEHOLDER_${field.subId}___`
+        // Use consistent sizing for all inline inputs - ignore parser widths
+        const inputHTML = `<input
+          type="text"
+          data-subid="${field.subId}"
+          placeholder="?"
+          style="
+            display: inline-block;
+            width: 60px;
+            min-width: 50px;
+            height: 37px;
+            padding: 4px;
+            font-size: 13pt;
+            font-weight: bold;
+            text-align: center;
+            border: 2px solid #333;
+            border-radius: 5px;
+            background-color: #FFF9C4;
+            vertical-align: middle;
+            margin: 0 2px;
+            outline: none;
+          "
+        />`
+        html = html.replace(placeholder, inputHTML)
+      })
+      return html
+    }
+
+    // Initialize HTML only once
+    useEffect(() => {
+      if (htmlContentRef.current && !isInitializedRef.current) {
+        htmlContentRef.current.innerHTML = buildInitialHTML()
+        isInitializedRef.current = true
+      }
+    }, []) // Empty deps - run only on mount
+
+    // Sync input styles when submission state changes
+    useEffect(() => {
+      if (!containerRef.current) return
+
+      const inputs = containerRef.current.querySelectorAll('input[data-subid]') as NodeListOf<HTMLInputElement>
+      inputs.forEach(input => {
+        if (submitted) {
+          input.disabled = true
+          input.style.backgroundColor = isCorrect ? '#F0FDF4' : '#FEF2F2'
+          input.style.borderColor = isCorrect ? '#22C55E' : '#EF4444'
+        }
+      })
+    }, [submitted, isCorrect])
+
+    // Handle input events via delegation - update React state
+    const handleContainerInput = (e: React.FormEvent<HTMLDivElement>) => {
+      const target = e.target as HTMLInputElement
+      if (target.tagName === 'INPUT' && target.dataset.subid) {
+        // Update border color immediately for visual feedback
+        target.style.borderColor = target.value ? '#2196F3' : '#333'
+        // Update React state
+        onAnswerChange(target.dataset.subid, target.value)
+      }
+    }
+
     return (
-      <>
-        {parts.map((part, idx) => {
-          // Even indices are HTML content, odd indices are input IDs
-          if (idx % 2 === 0) {
-            // HTML content
-            return part ? (
-              <span key={`html-${idx}`} dangerouslySetInnerHTML={{ __html: part }} />
-            ) : null
-          } else {
-            // Input placeholder
-            const field = inputMap.get(part)
-            if (field) {
-              return (
-                <QuestionInput
-                  key={`input-${part}`}
-                  field={field}
-                  value={answers[field.subId] || ''}
-                  onChange={onAnswerChange}
-                  disabled={submitted}
-                  isCorrect={isCorrect}
-                  showFeedback={submitted}
-                />
-              )
-            }
-            return null
+      <div
+        className="question-content-inline"
+        onInput={handleContainerInput}
+        ref={containerRef}
+      >
+        <style>{`
+          .question-content-inline {
+            line-height: 2;
           }
-        })}
+          .question-content-inline p {
+            margin: 6px 0;
+          }
+          .question-content-inline input:focus {
+            border-color: #2196F3 !important;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+          }
+        `}</style>
+
+        {/* Use ref to set HTML only once - prevents React from replacing DOM on re-render */}
+        <div ref={htmlContentRef} />
 
         {/* If no placeholders were found, render inputs at end */}
-        {!htmlContent.includes('___INPUT_PLACEHOLDER_') && question.inputs.length > 0 && (
+        {!hasPlaceholders && question.inputs.length > 0 && (
           <div style={{ marginTop: '15px' }}>
             {question.inputs.map((field) => (
               <QuestionInput
                 key={field.subId}
-                field={field}
+                field={{
+                  ...field,
+                  style: {
+                    ...field.style,
+                    isAnswerBox: true,
+                    backgroundColor: '#FFF9C4'
+                  }
+                }}
                 value={answers[field.subId] || ''}
                 onChange={onAnswerChange}
                 disabled={submitted}
@@ -2090,7 +2222,7 @@ export function StructuredQuestion({
             ))}
           </div>
         )}
-      </>
+      </div>
     )
   }
 

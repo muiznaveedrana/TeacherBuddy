@@ -13,7 +13,18 @@ export interface InputField {
   inputType: 'text' | 'textarea'
   style?: {
     width?: string
+    minWidth?: string
+    height?: string
     borderStyle?: 'solid' | 'underline'
+    border?: string
+    borderRadius?: string
+    backgroundColor?: string
+    textAlign?: 'left' | 'center' | 'right'
+    fontSize?: string
+    fontWeight?: string
+    // Flag to indicate this should look like the worksheet's answer-box
+    isAnswerBox?: boolean
+    isAnswerBoxSmall?: boolean
   }
 }
 
@@ -397,13 +408,27 @@ function parseQuestionStructure(
     const totalInputs = startIdx + answerBoxMatches.length
     answerBoxMatches.forEach((match, idx) => {
       const subId = totalInputs > 1 ? `${questionId}-${startIdx + idx}` : `${questionId}`
+      // Detect if this is answer-box-small or regular answer-box
+      const isSmall = match.includes('answer-box-small')
       inputs.push({
         subId,
-        placeholder: 'Answer',
+        placeholder: '?',
         inputType: 'text',
         style: {
-          width: '150px',
-          borderStyle: 'solid'
+          // Match the worksheet's .answer-box / .answer-box-small CSS exactly
+          // Regular answer-box: 120px min-width, small: 70px
+          minWidth: isSmall ? '70px' : '120px',
+          width: isSmall ? '70px' : '120px',
+          height: '42px',
+          border: '3px solid #333',
+          borderRadius: '8px',
+          backgroundColor: '#FFF9C4', // Yellow background from worksheet CSS
+          textAlign: 'center',
+          fontSize: '16pt',
+          fontWeight: 'bold',
+          borderStyle: 'solid',
+          isAnswerBox: !isSmall,
+          isAnswerBoxSmall: isSmall
         }
       })
     })
@@ -636,22 +661,34 @@ function parseQuestionStructure(
     // Simple extraction for "a) X b) Y c) Z d) W" format using individual regex matches
     const abcdMatches: string[] = []
 
-    // Extract a) value - number or name
-    const aMatch = correctAnswer.match(/a\)\s*([^b\s][^\s]*(?:\s+[A-Z])?)/i)
+    // Extract a) value - number, Yes/No, or "X and Y" patterns
+    const aMatch = correctAnswer.match(/a\)\s*(.+?)(?:\s+b\)|$)/i)
     if (aMatch) {
       let val = aMatch[1].trim()
-      // Check for symbol pattern like "63 > 58"
-      const symMatch = val.match(/\d+\s*([<>=])\s*\d+/)
-      if (symMatch) val = symMatch[1]
-      else {
-        const numMatch = val.match(/^(\d+)/)
-        if (numMatch) val = numMatch[1]
+      // Check for "X and Y" pattern (e.g., "30 and 40")
+      const andMatch = val.match(/^(\d+)\s+and\s+(\d+)/)
+      if (andMatch) {
+        abcdMatches.push(andMatch[1])
+        abcdMatches.push(andMatch[2])
       }
-      abcdMatches.push(val)
+      // Check for Yes/No (for reasoning questions)
+      else if (/^(Yes|No)$/i.test(val)) {
+        abcdMatches.push(val)
+      }
+      else {
+        // Check for symbol pattern like "63 > 58"
+        const symMatch = val.match(/\d+\s*([<>=])\s*\d+/)
+        if (symMatch) val = symMatch[1]
+        else {
+          const numMatch = val.match(/^(\d+)/)
+          if (numMatch) val = numMatch[1]
+        }
+        abcdMatches.push(val)
+      }
     }
 
-    // Extract b) value - number, symbol, or expanded form "X + Y"
-    const bMatch = correctAnswer.match(/b\)\s*(\d+(?:\s*[+\-<>=]\s*\d+)?)/i)
+    // Extract b) value - Yes/No, number, symbol, or expanded form "X + Y"
+    const bMatch = correctAnswer.match(/b\)\s*(Yes|No|\d+(?:\s*[+\-<>=]\s*\d+)?)/i)
     if (bMatch) {
       let val = bMatch[1].trim()
       // Check for expanded form "X + Y" (e.g., "90 + 5" -> ["90", "5"])
@@ -689,6 +726,18 @@ function parseQuestionStructure(
         if (numMatch) val = numMatch[1]
       }
       abcdMatches.push(val)
+    }
+
+    // Extract e) value - number
+    const eMatch = correctAnswer.match(/e\)\s*(\d+)/i)
+    if (eMatch) {
+      abcdMatches.push(eMatch[1])
+    }
+
+    // Extract f) value - number
+    const fMatch = correctAnswer.match(/f\)\s*(\d+)/i)
+    if (fMatch) {
+      abcdMatches.push(fMatch[1])
     }
 
     console.log(`🔤 Multi-input Q${questionId}: a/b/c/d extraction from "${correctAnswer}":`, abcdMatches)
