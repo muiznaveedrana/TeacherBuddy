@@ -491,6 +491,8 @@ function generateSlug(
   layoutType?: string,
   version?: string
 ): string {
+  const MAX_SLUG_LENGTH = 55 // Leave room for timestamp suffix if needed
+
   // Start with base slug from title
   let slug = title
     .toLowerCase()
@@ -499,22 +501,24 @@ function generateSlug(
     .replace(/-+/g, '-')
     .trim()
 
-  // Add differentiators for uniqueness
+  // Add differentiators for uniqueness (short form)
   if (visualTheme) {
-    slug = `${slug}-with-${visualTheme.toLowerCase().replace(/\s+/g, '-')}`
+    slug = `${slug}-${visualTheme.toLowerCase().replace(/\s+/g, '-')}`
   }
-  if (activityType) {
+  if (activityType && slug.length < MAX_SLUG_LENGTH - 10) {
     slug = `${slug}-${activityType.toLowerCase().replace(/\s+/g, '-')}`
   }
-  if (seasonalTheme) {
-    slug = `${slug}-${seasonalTheme.toLowerCase().replace(/\s+/g, '-')}-edition`
+  if (seasonalTheme && slug.length < MAX_SLUG_LENGTH - 10) {
+    slug = `${slug}-${seasonalTheme.toLowerCase().replace(/\s+/g, '-')}`
   }
-  // Layout is a PRIMARY differentiator - different LLM prompts = different content
-  if (layoutType && layoutType !== 'default') {
-    slug = `${slug}-${layoutType.toLowerCase().replace(/\s+/g, '-')}-layout`
+  // Skip layout suffix - not needed for uniqueness
+  if (version && !visualTheme && !activityType && !seasonalTheme) {
+    slug = `${slug}-v${version.toLowerCase()}`
   }
-  if (version && !visualTheme && !activityType && !seasonalTheme && !layoutType) {
-    slug = `${slug}-version-${version.toLowerCase()}`
+
+  // Truncate if still too long
+  if (slug.length > MAX_SLUG_LENGTH) {
+    slug = slug.substring(0, MAX_SLUG_LENGTH).replace(/-$/, '')
   }
 
   return slug

@@ -80,17 +80,33 @@ export async function POST(request: NextRequest) {
     // Get US grade equivalent for international SEO
     const usGradeLabel = yearGroupToUSLabel(metadata.year_group)
 
+    // Database field limits (from schema: VARCHAR sizes)
+    const MAX_TITLE_LENGTH = 150       // title: VARCHAR(255)
+    const MAX_SEO_TITLE_LENGTH = 57    // seo_title: VARCHAR(60) - leave room for "..."
+    const MAX_SEO_DESCRIPTION_LENGTH = 157 // seo_description: VARCHAR(160)
+
     // Enhanced SEO title with both UK and US terminology
-    const seoTitle = metadata.seo_title ||
+    let seoTitle = metadata.seo_title ||
       `${metadata.title} - Free Printable ${metadata.year_group} (${usGradeLabel}) Worksheet`
+    if (seoTitle.length > MAX_SEO_TITLE_LENGTH) {
+      seoTitle = seoTitle.substring(0, MAX_SEO_TITLE_LENGTH - 3) + '...'
+    }
 
     // Enhanced SEO description with better structure
-    const seoDescription = metadata.seo_description ||
+    let seoDescription = metadata.seo_description ||
       `Download free ${metadata.year_group} (${usGradeLabel}) ${metadata.topic} worksheet` +
       (metadata.visual_theme ? ` featuring ${metadata.visual_theme}` : '') +
       (metadata.activity_type ? `. ${metadata.activity_type.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')} activity` : '') +
       (metadata.seasonal_theme ? ` - ${metadata.seasonal_theme.charAt(0).toUpperCase() + metadata.seasonal_theme.slice(1)} themed` : '') +
       `. Perfect for classroom or homeschool learning. Print-ready PDF.`
+    if (seoDescription.length > MAX_SEO_DESCRIPTION_LENGTH) {
+      seoDescription = seoDescription.substring(0, MAX_SEO_DESCRIPTION_LENGTH - 3) + '...'
+    }
+
+    // Truncate title if needed
+    const safeTitle = metadata.title.length > MAX_TITLE_LENGTH
+      ? metadata.title.substring(0, MAX_TITLE_LENGTH - 3) + '...'
+      : metadata.title
 
     // Enhanced SEO keywords with US grade equivalents
     const seoKeywords = metadata.seo_keywords || [
@@ -140,7 +156,7 @@ export async function POST(request: NextRequest) {
     })
 
     const worksheet = await createLibraryWorksheet({
-      title: metadata.title,
+      title: safeTitle,
       html_content: worksheetHtml,
       year_group: metadata.year_group,
       topic: normalizedTopic,
