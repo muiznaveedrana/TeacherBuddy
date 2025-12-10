@@ -99,10 +99,11 @@ export function QuestionInput({
   const borderStyle = getBorderStyle()
   const borderStyles = typeof borderStyle === 'object' ? borderStyle : {}
   
+  // Answer-box style inputs get 140px width (+20px from original 120px)
   const inputStyles = {
     ...baseStyles,
-    width: field.style?.width || (isAnswerBoxStyle ? '120px' : '100%'),
-    minWidth: field.style?.minWidth || (isAnswerBoxStyle ? '120px' : undefined),
+    width: field.style?.width || (isAnswerBoxStyle ? '140px' : '100%'),
+    minWidth: field.style?.minWidth || (isAnswerBoxStyle ? '140px' : undefined),
     height: field.style?.height || (isAnswerBoxStyle ? '42px' : undefined),
     border: typeof borderStyle === 'string' ? borderStyle : undefined,
     ...borderStyles,

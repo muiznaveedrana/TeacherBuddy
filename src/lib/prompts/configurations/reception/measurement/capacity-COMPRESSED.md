@@ -1,32 +1,42 @@
-# Ages 4-5: Capacity
+# Ages 4-5: Capacity (INTERACTIVE-OPTIMISED)
 
 **Generate EXACTLY {{questionCount}} questions (ages 4-5)**
+
+**CRITICAL: Every answer uses text input via `<span class="answer-line"></span>` pattern.**
+
+## Research-Based Design (EYFS/NCETM Aligned)
+- **Visual clarity**: 90% full = full, 50% = half full, 0% = empty (OBVIOUS differences)
+- **Container shapes**: Test misconception that tall ≠ always holds more
+- **Hands-on vocabulary**: full, empty, half full, nearly full, nearly empty, pour, fill
+- **Comparative language**: holds more, holds less, most full, least full
+- **Q5 Misconception Test**: Tall narrow vs short wide container (shape ≠ capacity)
 
 ## Background Colors - MANDATORY
 Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 **CRITICAL**: ALL questions MUST have colored background.
 
 ## Capacity Vocabulary (Reception Level)
-**States**: full, empty, half full
-**Comparative**: more, less, holds more, holds less
+**States**: full, empty, half full, nearly full, nearly empty
+**Comparative**: more, less, holds more, holds less, most full, least full
 **Actions**: pour, fill, spill
+**Liquids**: water (blue), juice (orange), milk (cream/white)
 
-## Containers
-**Common**: cup, mug, glass, bottle, jug, bucket, bowl, jar, vase, pot, basket
-**Image**: Use visual fills to show capacity levels
+## Containers (Choose from these)
+**Common**: cup, mug, glass, bottle, jug, bucket, bowl, jar, vase, pot, watering can
+**Visual**: Use HTML/CSS liquid-fill divs to show capacity levels clearly
 
 ## Visual Requirements
 **CRITICAL**: Show liquid/content levels clearly
-- Use filled portions (shaded areas, water level, objects inside)
-- Make full/empty/half distinctions OBVIOUS
-- Color code: water=blue, juice=orange, milk=white/cream
+- Use filled portions (shaded areas, water level via height %)
+- Make full (90%), half full (50%), empty (0%) distinctions OBVIOUS
+- Color code liquids: water=#4FC3F7 (blue), juice=#FFA726 (orange), milk=#FFF9C4 (cream)
 
 ## 5 Question Types (EXACT ORDER)
-**Q1 - Full or Empty?**: Identify which container is full/empty
-**Q2 - Half Full**: Which container is half full?
-**Q3 - Which Holds More?**: Compare 2 container sizes
-**Q4 - Most/Least Full**: 3 containers at different levels
-**Q5 - How Many Fit?**: Count small objects inside container
+**Q1 - Full or Empty?**: Identify which container is full/empty (2 containers)
+**Q2 - Half Full**: Which container is half full? (3 containers at different levels)
+**Q3 - Which Holds More?**: Compare 2 container SIZES (capacity, not fill level)
+**Q4 - Most/Least Full**: 3 containers at different fill levels - find most/least full
+**Q5 - Misconception Test**: Tall narrow vs short wide - which REALLY holds more?
 
 ## Q1 - Full or Empty? (Identify)
 **RANDOMIZE**: Pick ONE container + ONE state (full/empty) + ONE question variation
@@ -182,27 +192,33 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 </div>
 ```
 
-## Q5 - How Many Fit? (Counting)
-**RANDOMIZE**: Pick ONE small object + container + quantity (3-8)
+## Q5 - Misconception Test: Tall ≠ More Capacity!
+**CRITICAL**: This tests the common misconception that tall containers always hold more.
 
-**Question Variations** (pick ONE):
-- "How many {objects} are in the {container}?"
-- "Count the {objects} in the {container}."
-- "How many {objects} fit inside?"
-- "How many can you see in the {container}?"
+**Show**: Container A (tall narrow) vs Container B (short wide) - SAME or LESS capacity despite height
+**Ask**: "Which container can hold more water?" or "Which holds more?"
+**Correct Answer**: B (the short wide one) - challenges height misconception
+
+**Visual Strategy**:
+- Container A: Tall narrow (width: 40px, height: 100px) - looks bigger
+- Container B: Short wide (width: 90px, height: 60px) - actually holds more
+- Use visual cues: Container B should LOOK wider/bigger in volume
 
 **Example**:
 ```html
 <div class="question" style="background: #FFF3E0;">
-    <p class="question-text"><span class="question-number">5.</span> How many apples are in the basket?</p>
-    <div class="counting-container">
-        <div class="basket-display" style="position:relative;width:150px;height:100px;border:3px solid #8B4513;border-radius:10px;background:#DEB887;margin:0 auto;">
-            <div style="display:flex;flex-wrap:wrap;gap:5px;padding:10px;justify-content:center;">
-                <img src="/images/apple.png" width="25" height="25" alt="Apple" />
-                <img src="/images/apple.png" width="25" height="25" alt="Apple" />
-                <img src="/images/apple.png" width="25" height="25" alt="Apple" />
-                <img src="/images/apple.png" width="25" height="25" alt="Apple" />
-                <img src="/images/apple.png" width="25" height="25" alt="Apple" />
+    <p class="question-text"><span class="question-number">5.</span> Look carefully! Which jar can hold more water?</p>
+    <div class="misconception-test">
+        <div class="container-item">
+            <span class="item-label">A</span>
+            <div class="tall-narrow-jar" style="width:40px;height:100px;border:3px solid #333;border-radius:5px;background:#E1F5FE;margin:0 auto;">
+                <p style="font-size:10pt;margin-top:35px;text-align:center;">Tall jar</p>
+            </div>
+        </div>
+        <div class="container-item">
+            <span class="item-label">B</span>
+            <div class="short-wide-jar" style="width:90px;height:60px;border:3px solid #333;border-radius:5px;background:#E1F5FE;margin:0 auto;">
+                <p style="font-size:10pt;margin-top:18px;text-align:center;">Wide jar</p>
             </div>
         </div>
     </div>
@@ -217,7 +233,7 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 .question{margin:10px 0;padding:12px;border-radius:8px;}
 .question-number{font-size:18pt;font-weight:bold;margin-right:8px;}
 .question-text{font-size:16pt;font-weight:600;}
-.capacity-comparison,.size-comparison{display:flex;gap:25px;justify-content:center;align-items:flex-end;margin:20px auto;flex-wrap:wrap;}
+.capacity-comparison,.size-comparison,.misconception-test{display:flex;gap:25px;justify-content:center;align-items:flex-end;margin:20px auto;flex-wrap:wrap;}
 .container-item{text-align:center;padding:10px;}
 .item-label{font-size:18pt;font-weight:bold;display:block;margin-bottom:10px;}
 .cup-display,.glass-display,.bottle-display{margin:0 auto;}
@@ -232,16 +248,66 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 </style>
 ```
 
-## Answer Key
+## Answer Key Format
 ```html
 <div class="answer-key">
     <h2 class="answer-key-title">Answer Key</h2>
     <div class="answer-key-content">
-        <p><strong>1.</strong> [Full/empty container, e.g., "A (Full cup)"]</p>
-        <p><strong>2.</strong> [Half full, e.g., "A"]</p>
-        <p><strong>3.</strong> [Holds more, e.g., "A (Bucket)"]</p>
-        <p><strong>4.</strong> [Most/least full, e.g., "C (Most full)"]</p>
-        <p><strong>5.</strong> [Count, e.g., "5 apples"]</p>
+        <p><strong>1.</strong> A</p>
+        <p><strong>2.</strong> B</p>
+        <p><strong>3.</strong> A</p>
+        <p><strong>4.</strong> C</p>
+        <p><strong>5.</strong> B</p>
     </div>
 </div>
 ```
+
+---
+
+## Theme Variations (Generate 3 different worksheets)
+
+### Worksheet 1 - Kitchen Theme (Easy)
+**Story**: Mum is making drinks for the family!
+- Q1: Which cup is full? - Cup A=90% blue water, Cup B=0% → **A**
+- Q2: Which glass is half full? - Glass A=85% orange juice, B=50% orange juice, C=20% orange juice → **B**
+- Q3: Which holds more? - Jug A (80px×70px) vs Cup B (40px×50px) → **A**
+- Q4: Which is the most full? - Bottle A=60% green, B=30% green, C=85% green → **C**
+- Q5: Which jar can hold more water? - Tall narrow jar A (40px×100px) vs Short wide jar B (90px×60px) → **B**
+
+### Worksheet 2 - Garden Theme (Average)
+**Story**: We are watering the plants!
+- Q1: Find the empty watering can! - Can A=0%, Can B=90% blue → **A**
+- Q2: Which bucket is half full? - Bucket A=25% water, B=50% water, C=75% water → **B**
+- Q3: Which holds more? - Bucket A (85px×75px) vs Mug B (45px×55px) → **A**
+- Q4: Which is the least full? - Jar A=70% blue, B=35% blue, C=80% blue → **B**
+- Q5: Which pot can hold more soil? - Tall thin pot A (35px×95px) vs Short wide pot B (85px×55px) → **B**
+
+### Worksheet 3 - Party Theme (Hard)
+**Story**: Get ready for the party!
+- Q1: Which bottle is full? - Bottle A=85%, Bottle B=0% → **A**
+- Q2: Find the half full jug! - Jug A=75% orange, B=35% orange, C=50% orange → **C**
+- Q3: Which holds more? - Bowl A (90px×65px) vs Glass B (50px×60px) → **A**
+- Q4: Which has the most juice? - Cup A=55% orange, B=90% orange, C=40% orange → **B**
+- Q5: Which bowl can hold more popcorn? - Tall narrow bowl A (38px×105px) vs Short wide bowl B (95px×58px) → **B**
+
+---
+
+## Validation Checklist
+- [ ] Exactly 5 questions with colored backgrounds
+- [ ] Q1: Full/empty identification (2 containers)
+- [ ] Q2: Half full identification (3 containers at 85%, 50%, 20%)
+- [ ] Q3: Size comparison (which holds more - capacity)
+- [ ] Q4: Fill level comparison (most/least full)
+- [ ] Q5: Misconception test (tall narrow vs short wide - answer is SHORT WIDE)
+- [ ] All answers use `<span class="answer-line"></span>` pattern
+- [ ] Answer key format matches exactly (simple letters: A, B, C)
+- [ ] Visual fills use proper height % (90%=full, 50%=half, 0%=empty)
+
+---
+
+## Research Sources
+- [NCETM - Sense of Measure: Capacity, Volume, Mass](https://www.ncetm.org.uk/classroom-resources/cp-year-2-unit-14-sense-of-measure-capacity-volume-mass/)
+- [Oak National Academy - EYFS Measures Lessons](https://www.thenational.academy/teachers/programmes/maths-foundation-early-years-foundation-stage-l/units/measures-1948/lessons)
+- [Maths Matters Resources - Volume & Capacity Misconceptions](https://mathsmattersresources.com/thinking-about-volume-capacity-in-the-primary-school/)
+- [TeachWire - Volume and Capacity Worksheets KS1](https://www.teachwire.net/news/volume-and-capacity-worksheets-and-resources-for-ks1-and-ks2-maths/)
+- [Kindergarten Kindergarten - Capacity Exploration](https://www.kindergartenkindergarten.com/2012/07/math-problem-solving-measurement-capacity.html)

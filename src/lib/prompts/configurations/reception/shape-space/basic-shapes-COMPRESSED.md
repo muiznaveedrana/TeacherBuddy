@@ -238,11 +238,11 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 <div class="answer-key">
     <h2 class="answer-key-title">Answer Key</h2>
     <div class="answer-key-content">
-        <p><strong>1.</strong> [Letter of correct shape name, e.g., "B (Star)"]</p>
-        <p><strong>2.</strong> [Count of target shapes, e.g., "4 hearts"]</p>
-        <p><strong>3.</strong> [Count of shapes shown, e.g., "6 squares"]</p>
-        <p><strong>4.</strong> [Letter of correct shape, e.g., "C (Heart)"]</p>
-        <p><strong>5.</strong> [Letter of correct shape, e.g., "B (Square)" for "Which has 4 corners?"]</p>
+        <p><strong>1.</strong> [Letter only, e.g., "B"]</p>
+        <p><strong>2.</strong> [Count only, e.g., "4"]</p>
+        <p><strong>3.</strong> [Count only, e.g., "6"]</p>
+        <p><strong>4.</strong> [Letter only, e.g., "C"]</p>
+        <p><strong>5.</strong> [Letter only, e.g., "B"]</p>
     </div>
 </div>
 ```

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Home, Library, PlusCircle, LogOut, FileText } from 'lucide-react'
+import { Home, PlusCircle, LogOut, FileText, Search } from 'lucide-react'
 import { createBrowserClient } from '@supabase/ssr'
 
 interface LibraryNavigationProps {
@@ -65,17 +65,10 @@ export function LibraryNavigation({ currentPage = 'library', rightContent }: Lib
               </Link>
               <Link
                 href="/free-printables"
-                className={`transition-colors ${currentPage === 'free-printables' ? 'text-blue-700 font-medium' : 'text-gray-600 hover:text-blue-700'}`}
+                className={`transition-colors ${currentPage === 'free-printables' || currentPage === 'library' ? 'text-blue-700 font-medium' : 'text-gray-600 hover:text-blue-700'}`}
               >
                 <FileText className="w-4 h-4 inline mr-1" />
                 Free Printables
-              </Link>
-              <Link
-                href="/library"
-                className={`transition-colors ${currentPage === 'library' ? 'text-blue-700 font-medium' : 'text-gray-600 hover:text-blue-700'}`}
-              >
-                <Library className="w-4 h-4 inline mr-1" />
-                Library
               </Link>
               <Link
                 href="/create"
@@ -83,6 +76,13 @@ export function LibraryNavigation({ currentPage = 'library', rightContent }: Lib
               >
                 <PlusCircle className="w-4 h-4 inline mr-1" />
                 Create
+              </Link>
+              <Link
+                href="/library"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-full transition-colors"
+              >
+                <Search className="w-4 h-4" />
+                Search & Browse
               </Link>
             </div>
           </div>

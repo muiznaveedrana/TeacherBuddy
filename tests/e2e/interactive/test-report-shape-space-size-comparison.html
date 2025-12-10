@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Interactive Worksheet Test Report - shape-space-size-comparison</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+  .container { max-width: 1600px; margin: 0 auto; }
+  h1 { color: #1a1a2e; margin-bottom: 10px; }
+  .timestamp { color: #666; font-size: 14px; margin-bottom: 20px; }
+  .summary { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-bottom: 30px; }
+  .summary-card { padding: 20px; border-radius: 10px; text-align: center; color: white; }
+  .summary-card.passed { background: linear-gradient(135deg, #10b981, #059669); }
+  .summary-card.failed { background: linear-gradient(135deg, #ef4444, #dc2626); }
+  .summary-card.error { background: linear-gradient(135deg, #f59e0b, #d97706); }
+  .summary-card.incomplete { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+  .summary-card.skipped { background: linear-gradient(135deg, #6b7280, #4b5563); }
+  .summary-card .count { font-size: 36px; font-weight: bold; }
+  .summary-card .label { font-size: 14px; opacity: 0.9; }
+
+  .worksheet-card { background: white; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden; }
+  .worksheet-header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+  .worksheet-header:hover { filter: brightness(0.98); }
+  .worksheet-header.passed { background: #d1fae5; border-left: 5px solid #10b981; }
+  .worksheet-header.failed { background: #fee2e2; border-left: 5px solid #ef4444; }
+  .worksheet-header.error { background: #fef3c7; border-left: 5px solid #f59e0b; }
+  .worksheet-header.incomplete { background: #e0e7ff; border-left: 5px solid #6366f1; }
+  .worksheet-header.skipped { background: #f3f4f6; border-left: 5px solid #6b7280; }
+  .worksheet-title { font-weight: 600; font-size: 16px; color: #1a1a2e; }
+  .worksheet-slug { font-size: 12px; color: #666; margin-top: 4px; font-family: monospace; }
+  .worksheet-meta { font-size: 12px; color: #666; margin-top: 4px; }
+  .score-badge { padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 18px; }
+  .score-badge.passed { background: #10b981; color: white; }
+  .score-badge.failed { background: #ef4444; color: white; }
+  .score-badge.na { background: #6b7280; color: white; }
+
+  .worksheet-body { padding: 20px; display: none; border-top: 1px solid #e5e7eb; }
+  .worksheet-body.expanded { display: block; }
+
+  .section { margin-bottom: 20px; }
+  .section-title { font-weight: 600; font-size: 14px; color: #374151; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .section-title::before { content: ''; display: block; width: 4px; height: 16px; border-radius: 2px; }
+  .section-title.errors::before { background: #ef4444; }
+  .section-title.diagnostics::before { background: #6366f1; }
+  .section-title.answers::before { background: #10b981; }
+  .section-title.raw::before { background: #f59e0b; }
+
+  .error-list { background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 15px; }
+  .error-item { color: #991b1b; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px; }
+  .error-item:last-child { margin-bottom: 0; }
+  .error-item::before { content: '❌'; }
+
+  .diagnostics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+  .diagnostic-item { background: #f3f4f6; padding: 10px; border-radius: 6px; }
+  .diagnostic-label { font-size: 11px; color: #6b7280; text-transform: uppercase; margin-bottom: 4px; }
+  .diagnostic-value { font-weight: 600; color: #1f2937; font-family: monospace; }
+  .diagnostic-value.warning { color: #d97706; }
+  .diagnostic-value.error { color: #dc2626; }
+  .diagnostic-value.success { color: #059669; }
+
+  .answers-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .answers-table th { background: #f9fafb; padding: 10px; text-align: left; border-bottom: 2px solid #e5e7eb; font-size: 12px; }
+  .answers-table td { padding: 10px; border-bottom: 1px solid #e5e7eb; }
+  .answers-table tr:hover { background: #f9fafb; }
+  .answer-cell { font-family: monospace; padding: 4px 8px; border-radius: 4px; display: inline-block; }
+  .answer-cell.correct { background: #d1fae5; color: #065f46; }
+  .answer-cell.wrong { background: #fee2e2; color: #991b1b; }
+  .answer-cell.fallback { background: #fef3c7; color: #92400e; }
+
+  .raw-answers { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px; padding: 15px; font-family: monospace; font-size: 13px; }
+  .raw-answer-item { margin-bottom: 8px; }
+  .raw-answer-item:last-child { margin-bottom: 0; }
+  .raw-q { color: #92400e; font-weight: 600; }
+  .raw-a { color: #1f2937; }
+
+  .filter-buttons { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .filter-btn { padding: 8px 16px; border: 2px solid transparent; border-radius: 6px; cursor: pointer; font-size: 14px; background: #e5e7eb; }
+  .filter-btn:hover { filter: brightness(0.95); }
+  .filter-btn.active { border-color: #1f2937; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+  .filter-btn.passed { background: #d1fae5; color: #065f46; }
+  .filter-btn.failed { background: #fee2e2; color: #991b1b; }
+  .filter-btn.incomplete { background: #e0e7ff; color: #3730a3; }
+
+  .expand-all { margin-left: auto; background: #f3f4f6; color: #374151; }
+
+  .legend { display: flex; gap: 20px; margin-bottom: 20px; padding: 15px; background: white; border-radius: 8px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .legend-dot { width: 16px; height: 16px; border-radius: 4px; }
+  .legend-dot.correct { background: #d1fae5; border: 1px solid #10b981; }
+  .legend-dot.wrong { background: #fee2e2; border: 1px solid #ef4444; }
+  .legend-dot.fallback { background: #fef3c7; border: 1px solid #f59e0b; }
+</style></head>
+<body><div class="container">
+  <h1>🧪 Interactive Worksheet Test Report - shape-space-size-comparison</h1>
+  <div class="timestamp">Generated: 08/12/2025, 23:29:35</div>
+
+  <div class="summary">
+    <div class="summary-card passed"><div class="count">0</div><div class="label">✅ Passed (100%)</div></div>
+    <div class="summary-card failed"><div class="count">1</div><div class="label">❌ Failed (&lt;100%)</div></div>
+    <div class="summary-card error"><div class="count">0</div><div class="label">💥 Errors</div></div>
+    <div class="summary-card incomplete"><div class="count">0</div><div class="label">⚠️ Incomplete</div></div>
+    <div class="summary-card skipped"><div class="count">0</div><div class="label">⏭️ Skipped</div></div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot correct"></div> Correct answer from answer key</div>
+    <div class="legend-item"><div class="legend-dot wrong"></div> Wrong answer (test failure cause)</div>
+    <div class="legend-item"><div class="legend-dot fallback"></div> Fallback value (no answer key entry)</div>
+  </div>
+
+  <div class="filter-buttons">
+    <button class="filter-btn active" onclick="filterResults('all')">All (1)</button>
+    <button class="filter-btn passed" onclick="filterResults('passed')">✅ Passed (0)</button>
+    <button class="filter-btn failed" onclick="filterResults('failed')">❌ Failed (1)</button>
+    <button class="filter-btn incomplete" onclick="filterResults('incomplete')">⚠️ Incomplete (0)</button>
+    <button class="filter-btn expand-all" onclick="toggleAllDetails()">📖 Expand/Collapse All</button>
+  </div>
+
+  <div id="results"><div class="worksheet-card" data-status="failed">
+    <div class="worksheet-header failed" onclick="toggleDetails(this)">
+      <div>
+        <div class="worksheet-title">Shape Space - Size Comparison</div>
+        <div class="worksheet-slug">shape-space-size-comparison</div>
+        <div class="worksheet-meta">Reception • shape-space • 5 questions, 5 inputs</div>
+      </div>
+      <div class="score-badge failed">60%</div>
+    </div>
+    <div class="worksheet-body expanded">
+      <div class="section">
+      <div class="section-title errors">Issues Found</div>
+      <div class="error-list"><div class="error-item">Score 60% is not 100%</div><div class="error-item">2 question(s) answered incorrectly</div></div>
+    </div>
+      <div class="section">
+      <div class="section-title diagnostics">Diagnostics</div>
+      <div class="diagnostics-grid">
+        <div class="diagnostic-item">
+          <div class="diagnostic-label">Questions Found</div>
+          <div class="diagnostic-value">5</div>
+        </div>
+        <div class="diagnostic-item">
+          <div class="diagnostic-label">Inputs Found</div>
+          <div class="diagnostic-value">5</div>
+        </div>
+        <div class="diagnostic-item">
+          <div class="diagnostic-label">Answers Parsed</div>
+          <div class="diagnostic-value warning">7</div>
+        </div>
+        <div class="diagnostic-item">
+          <div class="diagnostic-label">⚠️ Mismatch</div>
+          <div class="diagnostic-value error">Expected 7 answers but found 5 inputs</div>
+        </div>
+        
+        <div class="diagnostic-item">
+          <div class="diagnostic-label">Wrong Answers</div>
+          <div class="diagnostic-value error">2 of 5</div>
+        </div>
+        <div class="diagnostic-item">
+          <div class="diagnostic-label">Score</div>
+          <div class="diagnostic-value error">60%</div>
+        </div>
+      </div>
+    </div>
+      <div class="section">
+      <div class="section-title raw">Raw Answer Key (as parsed from HTML)</div>
+      <div class="raw-answers">
+        <div class="raw-answer-item"><span class="raw-q">Q1:</span> <span class="raw-a">Right</span></div><div class="raw-answer-item"><span class="raw-q">Q2:</span> <span class="raw-a">Right</span></div><div class="raw-answer-item"><span class="raw-q">Q3:</span> <span class="raw-a">Right</span></div><div class="raw-answer-item"><span class="raw-q">Q4:</span> <span class="raw-a">a) Jack b) Emma c) Ben</span></div><div class="raw-answer-item"><span class="raw-q">Q5:</span> <span class="raw-a">B</span></div>
+      </div>
+    </div>
+      <div class="section">
+      <div class="section-title answers">Answers Filled (5 inputs)</div>
+      <table class="answers-table">
+        <tr><th>Input #</th><th>Answer Filled</th><th>Expected (from key)</th><th>Match?</th><th>Notes</th></tr>
+        <tr>
+            <td><strong>1</strong></td>
+            <td><span class="answer-cell correct">Right</span></td>
+            <td>Right</td>
+            <td>✅</td>
+            <td style="font-size:12px;color:#666">Matched</td>
+          </tr><tr>
+            <td><strong>2</strong></td>
+            <td><span class="answer-cell correct">Right</span></td>
+            <td>Right</td>
+            <td>✅</td>
+            <td style="font-size:12px;color:#666">Matched</td>
+          </tr><tr>
+            <td><strong>3</strong></td>
+            <td><span class="answer-cell correct">Right</span></td>
+            <td>Right</td>
+            <td>✅</td>
+            <td style="font-size:12px;color:#666">Matched</td>
+          </tr><tr>
+            <td><strong>4</strong></td>
+            <td><span class="answer-cell correct">Jack</span></td>
+            <td>Jack</td>
+            <td>✅</td>
+            <td style="font-size:12px;color:#666">Matched</td>
+          </tr><tr>
+            <td><strong>5</strong></td>
+            <td><span class="answer-cell correct">Emma</span></td>
+            <td>Emma</td>
+            <td>✅</td>
+            <td style="font-size:12px;color:#666">Matched</td>
+          </tr>
+      </table>
+    </div>
+    </div>
+  </div></div>
+</div>
+<script>
+let allExpanded = false;
+function filterResults(f) {
+  document.querySelectorAll('.filter-btn:not(.expand-all)').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.worksheet-card').forEach(c => {
+    c.style.display = (f === 'all' || c.dataset.status === f) ? 'block' : 'none';
+  });
+}
+function toggleDetails(el) {
+  el.closest('.worksheet-card').querySelector('.worksheet-body').classList.toggle('expanded');
+}
+function toggleAllDetails() {
+  allExpanded = !allExpanded;
+  document.querySelectorAll('.worksheet-body').forEach(b => {
+    b.classList.toggle('expanded', allExpanded);
+  });
+}
+</script></body></html>

@@ -24,7 +24,7 @@ BGs: Q1=#FFF9C4 Q2=#E3F2FD Q3=#F1F8E9 Q4=#FCE4EC Q5=#FFF3E0
 
 ## CSS
 ```css
-body{font-family:'Comic Sans MS',cursive,sans-serif;font-size:15pt;padding:12px;line-height:1.4;max-width:800px;margin:0 auto}
+body{font-family:'Comic Sans MS',cursive,sans-serif;font-size:15pt;padding:12px;line-height:1.4}
 .worksheet-header{text-align:center;margin-bottom:15px;padding-bottom:10px;border-bottom:2px solid #4169E1}
 .worksheet-title{font-size:22pt;color:#2c3e50;margin:0}
 .worksheet-details{font-size:11pt;color:#666;margin-top:5px}

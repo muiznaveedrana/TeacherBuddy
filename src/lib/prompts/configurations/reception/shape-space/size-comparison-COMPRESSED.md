@@ -1,234 +1,281 @@
-# Ages 4-5: Size Comparison
+# Ages 4-5: Size Comparison (INTERACTIVE-OPTIMISED V2)
 
 **Generate EXACTLY {{questionCount}} questions (ages 4-5)**
 
+**CRITICAL: Every answer uses text input. Answers are Left, Right, Middle, or child names.**
+
+## Research-Based Design (NCETM/EYFS Aligned)
+- **Precise attribute language**: Use "taller", "shorter", "longer" - NOT generic "big/small"
+- **50%+ size difference**: OBVIOUS visual differences for 4-5 year olds
+- **Direct comparison**: Side-by-side objects (like Goldilocks' 3 bears)
+- **Misconception testing (Q5)**: "Bigger doesn't mean more" - tests size vs quantity confusion
+- **Key vocabulary**: tall, short, long, wide, narrow, thick, thin + comparatives (taller, shorter, longer)
+
 ## Background Colors - MANDATORY
 Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
-**CRITICAL**: ALL questions MUST have colored background.
 
 ## Rules
 - **50% size difference minimum** (OBVIOUS differences for ages 4-5)
-- **5 DIFFERENT categories** (NO repeats)
-- **Real images only** (NO CSS shapes)
-- **ALL questions**: Use SAME object type at different sizes (e.g., 3 apples NOT apple/banana/orange)
-- **Q3-Q5**: Items MUST be SCRAMBLED (NOT small→medium→large order)
-- **Answer areas**: Q1-Q3, Q5 use choice circles; Q4 uses drawing space for lines
-- **TEXT CASE**: Use normal sentence case (only capitalize first word). Do NOT capitalize size comparison words (bigger, smaller, tallest, shortest, longest, most) - they should be lowercase
+- **5 DIFFERENT object categories** (NO repeats across questions)
+- **Real images only** from `/images/{object}.png`
+- **ALL questions**: Use SAME object type at different sizes within each question
+- **Sizes SCRAMBLED**: Items NOT in small→medium→large order (mix them up!)
+- **Answer format**: ALL questions use `<span class="answer-line"></span>` for text input
+- **TEXT CASE**: Use lowercase for size words (bigger, smaller, tallest, shortest, longest)
 
-## Objects (67)
-**fruits**: strawberry, apple, watermelon, pineapple, banana, orange | **toys**: ball, bear, block, doll | **farm_animals**: chicken, cow, sheep, pig, horse, duck | **vegetables**: carrot, tomato, cucumber, pepper, potato | **sports**: football, basketball, tennis_ball | **food_treats**: cookie, cupcake, icecream | **shapes**: star, heart, circle, square, diamond | **garden**: flower, tree, mushroom, leaf, butterfly | **school_supplies**: book, pencil, eraser, crayon, backpack | **vehicles**: car, bus, bike
+## Objects (by category)
+**fruits**: strawberry, apple, watermelon, banana, orange, pear
+**toys**: ball, bear, block, doll, car
+**farm_animals**: chicken, cow, sheep, pig, duck
+**vegetables**: carrot, tomato, cucumber, pepper
+**food_treats**: cookie, cupcake, icecream
+**garden**: flower, tree, butterfly, leaf
+**school**: book, pencil, crayon, backpack
+**Names**: Emma, Jack, Ben, Lily, Oliver, Sophie, Noah, Ava, Mia, Sam
 
-**Path**: `/images/{object}.png`
+## 5 Question Types (EXACT ORDER)
 
-## 5 Questions (Pick 5 DIFFERENT categories - VARY EACH WORKSHEET!)
-1. **Which is bigger?** - RANDOMIZE: object + question wording
-2. **Which is shorter?** - RANDOMIZE: object + question wording
-3. **Which is longest?** - RANDOMIZE: object + question wording
-4. **Size ordering** - RANDOMIZE: object + question wording
-5. **Which is tallest/biggest?** - RANDOMIZE: object + question wording
+**Q1 - Which is taller?**: 2 items (Left/Right), tests height comparison
+**Q2 - Which is shorter?**: 2 items (Left/Right), tests height/length comparison
+**Q3 - Which is the longest?**: 3 items (Left/Middle/Right), tests length comparison
+**Q4 - Who has the biggest?**: 3 children with different sized objects, answer is child name
+**Q5 - Reasoning (misconception test)**: Tests "bigger ≠ more" - compares COUNT not size
 
-## Q1 - Which is Bigger? (RANDOMIZE!)
-**RANDOMIZE**: Pick ONE object + ONE question variation
+---
 
-**Object Pool** (pick ONE from different category each time):
-- **Fruits**: strawberry, apple, watermelon, banana, orange
-- **Toys**: ball, bear, block, doll
-- **Farm Animals**: chicken, cow, sheep, pig
-- **Vegetables**: carrot, tomato, cucumber
-- **Food Treats**: cookie, cupcake
-- **School**: book, pencil, crayon
-- **Garden**: flower, butterfly, leaf
+## Q1 - Which is taller? (2-way comparison)
 
-**Question Variations** (pick ONE):
-- "Which [object] is bigger?"
-- "Which is the bigger [object]?"
-- "Find the bigger [object]."
-- "Point to the bigger [object]."
+**Pick ONE object from a category. Show 2 sizes: small (50px) vs tall (100px). Randomize positions.**
 
-**Sizes**: 50px vs 100px (OBVIOUS 50% difference)
-
-## Q2 - Which is Shorter? (RANDOMIZE!)
-**RANDOMIZE**: Pick ONE object (DIFFERENT from Q1) + ONE question variation
-
-**Object Pool** (pick ONE from different category than Q1):
-- **Vegetables**: carrot, cucumber
-- **School**: pencil, crayon, book
-- **Garden**: flower, tree, leaf
-- **Toys**: doll, block, bear
-- **Farm Animals**: duck, chicken, sheep
-
-**Question Variations** (pick ONE):
-- "Which [object] is shorter?"
-- "Which is the shorter [object]?"
-- "Find the shorter [object]."
-- "Point to the shorter [object]."
-
-**Sizes**: 55px vs 105px (OBVIOUS difference)
-
-## Q3 - Which is Longest? (RANDOMIZE!)
-**RANDOMIZE**: Pick ONE object (DIFFERENT from Q1-Q2) + ONE question variation
-
-**Object Pool** (pick ONE from different category):
-- **Vegetables**: carrot, cucumber
-- **School**: pencil, crayon, ruler
-- **Farm Animals**: pig, cow, horse
-- **Vehicles**: car, bus, bike
-- **Food**: banana, carrot
-
-**Question Variations** (pick ONE):
-- "Which [object] is the longest?"
-- "Which is the longest [object]?"
-- "Find the longest [object]."
-- "Which [object] is longest?"
-
-**Sizes**: 3 objects SCRAMBLED (e.g., 70px/45px/95px) labeled Left/Middle/Right
-
-## Q4 - Size Ordering (RANDOMIZE!)
-**RANDOMIZE**: Pick ONE object (DIFFERENT from Q1-Q3) + ONE question variation
-
-**Object Pool** (pick ONE):
-- **Toys**: block, ball, bear, doll
-- **Fruits**: apple, strawberry, orange
-- **Farm Animals**: chicken, duck, sheep
-- **School**: book, pencil, eraser
-- **Food Treats**: cookie, cupcake
-
-**Question Variations** (pick ONE):
-- "Can you put these [objects] in order from smallest to biggest? Draw lines to match."
-- "Put these [objects] in order. Draw lines from smallest to biggest."
-- "Match these [objects] to put them in size order."
-- "Draw lines to show the [objects] from smallest to biggest."
-
-**Sizes**: 3 objects SCRAMBLED (50px/75px/100px) - labels: Smallest/Medium/Biggest
-
-## Q5 - Which is Tallest/Biggest? (RANDOMIZE!)
-**RANDOMIZE**: Pick ONE object (DIFFERENT from Q1-Q4) + ONE question variation
-
-**Object Pool** (pick ONE):
-- **Garden**: flower, tree, butterfly
-- **Farm Animals**: cow, horse, pig, sheep
-- **School**: book, backpack, pencil
-- **Toys**: bear, doll, block
-- **Fruits**: apple, banana, watermelon
-
-**Question Variations** (pick ONE):
-- "Which [object] is the tallest?"
-- "Which [object] is the biggest?"
-- "Find the tallest [object]."
-- "Find the biggest [object]."
-- "Which is the tallest [object]?"
-
-**Sizes**: 3 objects SCRAMBLED (e.g., 80px/55px/105px) labeled Left/Middle/Right
-
-## Templates
-
-### Q1 Template (50px vs 100px) - WITH ANSWER BOXES
 ```html
 <div class="question" style="background: #FFF9C4;">
-    <p class="question-text"><span class="question-number">1.</span> Which strawberry is bigger?</p>
-    <div class="size-comparison-two">
+    <p class="question-text"><span class="question-number">1.</span> Which tree is taller?</p>
+    <div class="size-comparison">
         <div class="comparison-item">
             <span class="item-label">Left</span>
-            <img src="/images/strawberry.png" width="50" height="50" alt="Small" />
+            <img src="/images/tree.png" width="50" height="50" alt="Short tree" />
         </div>
         <div class="comparison-item">
             <span class="item-label">Right</span>
-            <img src="/images/strawberry.png" width="100" height="100" alt="Big" />
+            <img src="/images/tree.png" width="100" height="100" alt="Tall tree" />
         </div>
     </div>
-    <div class="answer-choices">
-        <div class="choice-circle">Left</div>
-        <div class="choice-circle">Right</div>
-    </div>
+    <p class="answer-prompt">Answer: <span class="answer-line"></span></p>
 </div>
 ```
 
-## Q4 Template (Ordering) - WITH LINES TO DRAW
+---
+
+## Q2 - Which is shorter? (2-way comparison)
+
+**Pick DIFFERENT object from Q1. Show 2 sizes: short (55px) vs tall (105px). Randomize positions.**
+
 ```html
-<div class="question" style="background: #FCE4EC;">
-    <p class="question-text"><span class="question-number">4.</span> Can you put these blocks in order from smallest to biggest? Draw lines to match.</p>
-    <div class="ordering-activity">
-        <div class="animals-unsorted">
-            <div class="animal-box">
-                <img src="/images/block.png" width="75" height="75" alt="Medium" />
-            </div>
-            <div class="animal-box">
-                <img src="/images/block.png" width="50" height="50" alt="Small" />
-            </div>
-            <div class="animal-box">
-                <img src="/images/block.png" width="100" height="100" alt="Large" />
-            </div>
+<div class="question" style="background: #F1F8E9;">
+    <p class="question-text"><span class="question-number">2.</span> Which pencil is shorter?</p>
+    <div class="size-comparison">
+        <div class="comparison-item">
+            <span class="item-label">Left</span>
+            <img src="/images/pencil.png" width="105" height="105" alt="Long pencil" />
         </div>
-        <div class="drawing-space"></div>
-        <div class="size-labels">
-            <div class="size-box">Smallest</div>
-            <div class="size-box">Medium</div>
-            <div class="size-box">Biggest</div>
+        <div class="comparison-item">
+            <span class="item-label">Right</span>
+            <img src="/images/pencil.png" width="55" height="55" alt="Short pencil" />
         </div>
     </div>
+    <p class="answer-prompt">Answer: <span class="answer-line"></span></p>
 </div>
 ```
 
-## Q5 Template (3-way comparison) - WITH ANSWER BOXES
+---
+
+## Q3 - Which is the longest? (3-way comparison)
+
+**Pick DIFFERENT object from Q1-Q2. Show 3 sizes SCRAMBLED (e.g., 70px, 45px, 95px).**
+
 ```html
-<div class="question" style="background: #FFF3E0;">
-    <p class="question-text"><span class="question-number">5.</span> Which apple is the biggest?</p>
+<div class="question" style="background: #E3F2FD;">
+    <p class="question-text"><span class="question-number">3.</span> Which carrot is the longest?</p>
     <div class="size-comparison-three">
         <div class="comparison-item">
             <span class="item-label">Left</span>
-            <img src="/images/apple.png" width="80" height="80" alt="Medium" />
+            <img src="/images/carrot.png" width="70" height="70" alt="Medium carrot" />
         </div>
         <div class="comparison-item">
             <span class="item-label">Middle</span>
-            <img src="/images/apple.png" width="55" height="55" alt="Small" />
+            <img src="/images/carrot.png" width="45" height="45" alt="Short carrot" />
         </div>
         <div class="comparison-item">
             <span class="item-label">Right</span>
-            <img src="/images/apple.png" width="105" height="105" alt="Large" />
+            <img src="/images/carrot.png" width="95" height="95" alt="Long carrot" />
         </div>
     </div>
-    <div class="answer-choices">
-        <div class="choice-circle">Left</div>
-        <div class="choice-circle">Middle</div>
-        <div class="choice-circle">Right</div>
-    </div>
+    <p class="answer-prompt">Answer: <span class="answer-line"></span></p>
 </div>
 ```
 
+---
+
+## Q4 - Who has the biggest? (3-way comparison with names)
+
+**Pick DIFFERENT object from Q1-Q3. Show 3 children with different sized objects (like Goldilocks' 3 bears). Ask ONE question: who has the biggest?**
+
+**IMPORTANT**: Use 3 different child names. Sizes MUST be clearly different (50px, 75px, 100px) and SCRAMBLED. Answer is the child name with the biggest object.
+
+```html
+<div class="question" style="background: #FCE4EC;">
+    <p class="question-text"><span class="question-number">4.</span> Look at the flowers. Who has the biggest flower?</p>
+    <div class="three-way-comparison">
+        <div class="comparison-group">
+            <span class="group-label">Emma</span>
+            <div class="objects-display">
+                <img src="/images/flower.png" width="75" height="75" alt="Medium flower" />
+            </div>
+        </div>
+        <div class="comparison-group">
+            <span class="group-label">Jack</span>
+            <div class="objects-display">
+                <img src="/images/flower.png" width="50" height="50" alt="Small flower" />
+            </div>
+        </div>
+        <div class="comparison-group">
+            <span class="group-label">Ben</span>
+            <div class="objects-display">
+                <img src="/images/flower.png" width="100" height="100" alt="Big flower" />
+            </div>
+        </div>
+    </div>
+    <p class="answer-prompt">Answer: <span class="answer-line"></span></p>
+</div>
+```
+
+---
+
+## Q5 - Reasoning: Bigger Doesn't Mean More! (Misconception Test)
+
+**CRITICAL: This question tests the common misconception that bigger objects = more objects.**
+
+**Show TWO groups: Group A has FEWER but BIGGER objects. Group B has MORE but SMALLER objects.**
+**Ask "Which group has MORE?" - Answer is the group with more COUNT, not bigger size.**
+
+**Example**: Group A has 2 big apples (80px each). Group B has 5 small apples (35px each).
+**Correct answer**: B (because 5 > 2, even though A's apples are bigger)
+
+```html
+<div class="question" style="background: #FFF3E0;">
+    <p class="question-text"><span class="question-number">5.</span> Look carefully! Which group has MORE apples? (Count them!)</p>
+    <div class="comparison-container">
+        <div class="comparison-group">
+            <span class="group-label">A</span>
+            <div class="objects-display" style="gap: 10px;">
+                <img src="/images/apple.png" width="80" height="80" alt="Big apple" />
+                <img src="/images/apple.png" width="80" height="80" alt="Big apple" />
+            </div>
+            <p class="count-hint">(Big apples)</p>
+        </div>
+        <div class="comparison-group">
+            <span class="group-label">B</span>
+            <div class="objects-display" style="gap: 4px;">
+                <img src="/images/apple.png" width="35" height="35" alt="Small apple" />
+                <img src="/images/apple.png" width="35" height="35" alt="Small apple" />
+                <img src="/images/apple.png" width="35" height="35" alt="Small apple" />
+                <img src="/images/apple.png" width="35" height="35" alt="Small apple" />
+                <img src="/images/apple.png" width="35" height="35" alt="Small apple" />
+            </div>
+            <p class="count-hint">(Small apples)</p>
+        </div>
+    </div>
+    <p class="answer-prompt">Answer: <span class="answer-line"></span></p>
+</div>
+```
+
+---
+
 ## CSS (Include at worksheet start)
+
 ```css
 <style>
-body{font-family:'Comic Sans MS',sans-serif;font-size:12pt;padding:10px;}
-.question{margin:5px 0;padding:6px;border-radius:5px;display:flex;flex-direction:column;}
-.size-comparison-two,.size-comparison-three{display:flex;justify-content:center;align-items:flex-end;margin:8px auto;padding:10px;background:#f8f9ff;border:2px solid #4CAF50;border-radius:6px;max-width:300px;gap:20px;}
+body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
+.question{margin:10px 0;padding:12px;border-radius:8px;}
+.question-number{font-size:18pt;font-weight:bold;margin-right:8px;}
+.question-text{font-size:16pt;font-weight:600;}
+.size-comparison,.size-comparison-three{display:flex;gap:30px;justify-content:center;align-items:flex-end;margin:15px 0;padding:15px;background:#f8f9ff;border:2px solid #4CAF50;border-radius:8px;}
 .comparison-item{text-align:center;}
-.item-label{font-size:10pt;font-weight:bold;margin-bottom:4px;display:block;}
-.ordering-activity{display:flex;justify-content:center;align-items:center;margin:8px auto;max-width:380px;gap:10px;}
-.animals-unsorted,.size-labels{display:flex;flex-direction:column;gap:6px;}
-.animal-box,.size-box{padding:6px;background:#fff;border:2px solid #ddd;border-radius:5px;text-align:center;min-width:60px;}
-.size-box{font-weight:bold;background:#E3F2FD;padding:8px;font-size:9pt;}
-.drawing-space{min-width:70px;height:130px;background:#fff;border:2px dashed #999;border-radius:5px;}
-.ice-cream-comparison{display:flex;justify-content:center;align-items:flex-end;margin:8px auto;padding:10px;background:#FFF3E0;border:2px solid #FF9800;border-radius:6px;max-width:280px;}
-.child-name{font-size:9pt;font-weight:bold;margin-bottom:3px;}
-.answer-prompt{margin-top:25px;font-size:15pt;font-weight:600;text-align:center}
-.answer-choices{display:flex;justify-content:center;gap:12px;margin-top:8px;}
-.choice-circle{width:45px;height:45px;border:2px solid #333;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9pt;font-weight:bold;background:#fff;}
+.item-label{font-size:12pt;font-weight:bold;margin-bottom:8px;display:block;color:#333;}
+.comparison-container,.three-way-comparison{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:12px 0;}
+.comparison-group{padding:12px;border:2px solid #ddd;border-radius:8px;text-align:center;min-width:100px;}
+.group-label{font-size:14pt;font-weight:bold;margin-bottom:8px;display:block;}
+.objects-display{display:flex;flex-wrap:wrap;justify-content:center;margin:8px 0;gap:6px;}
+.count-hint{font-size:10pt;color:#666;margin-top:5px;font-style:italic;}
+.sub-questions{margin-top:15px;padding:10px;background:#fff;border-radius:6px;}
+.sub-question{font-size:14pt;margin:10px 0;}
+.answer-prompt{margin-top:20px;font-size:15pt;font-weight:600;text-align:center;}
+.answer-line{border-bottom:3px solid #333;display:inline-block;min-width:100px;height:28px;margin-left:10px;}
 .answer-key{margin-top:30px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px;}
 .answer-key-title{font-size:14pt;font-weight:bold;margin:0 0 10px 0;text-align:center;}
 .answer-key-content p{font-size:12pt;margin:6px 0;}
 </style>
 ```
 
-## Answer Key
+---
+
+## Answer Key Format
+
 ```html
 <div class="answer-key">
     <h2 class="answer-key-title">Answer Key</h2>
     <div class="answer-key-content">
-        <p><strong>1.</strong> [Position, e.g., "Right" (bigger object)]</p>
-        <p><strong>2.</strong> [Position, e.g., "Left" (shorter object)]</p>
-        <p><strong>3.</strong> [Position, e.g., "Middle" (longest object)]</p>
-        <p><strong>4.</strong> [Ordering, e.g., "Medium block → Smallest, Small block → Medium, Large block → Biggest"]</p>
-        <p><strong>5.</strong> [Position, e.g., "Right" (biggest/tallest object)]</p>
+        <p><strong>1.</strong> Right</p>
+        <p><strong>2.</strong> Right</p>
+        <p><strong>3.</strong> Right</p>
+        <p><strong>4.</strong> Ben</p>
+        <p><strong>5.</strong> B</p>
     </div>
 </div>
 ```
+
+---
+
+## Theme Variations (Generate 3 different worksheets)
+
+### Worksheet 1 - Garden & Fruits Theme
+- Q1: tree (taller) - Left=50px, Right=100px → Right
+- Q2: flower (shorter) - Left=105px, Right=55px → Right
+- Q3: carrot (longest) - Left=70px, Middle=45px, Right=95px → Right
+- Q4: strawberry with Emma/Jack/Ben (75px/50px/100px) → Ben (biggest)
+- Q5: apple - Group A: 2 big (80px), Group B: 5 small (35px) → B
+
+### Worksheet 2 - Farm Animals Theme
+- Q1: chicken (taller) - Left=100px, Right=50px → Left
+- Q2: duck (shorter) - Left=55px, Right=105px → Left
+- Q3: pig (longest) - Left=45px, Middle=95px, Right=70px → Middle
+- Q4: cow with Lily/Oliver/Sophie (50px/100px/75px) → Oliver (biggest)
+- Q5: sheep - Group A: 3 big (70px), Group B: 6 small (30px) → B
+
+### Worksheet 3 - School Theme
+- Q1: book (taller) - Left=50px, Right=100px → Right
+- Q2: pencil (shorter) - Left=105px, Right=55px → Right
+- Q3: crayon (longest) - Left=95px, Middle=70px, Right=45px → Left
+- Q4: backpack with Noah/Ava/Mia (100px/50px/75px) → Noah (biggest)
+- Q5: ball - Group A: 2 big (75px), Group B: 4 small (35px) → B
+
+---
+
+## Validation Checklist
+- [ ] Exactly 5 questions
+- [ ] Each question uses different object category
+- [ ] All sizes have 50%+ difference (OBVIOUS for 4-5 year olds)
+- [ ] Q1-Q2 use precise attribute words (taller, shorter) not generic "bigger"
+- [ ] Q4 asks "Who has the biggest?" with child name answer
+- [ ] Q5 tests "bigger ≠ more" misconception (fewer big vs more small)
+- [ ] All answer-line elements present (5 total: Q1, Q2, Q3, Q4, Q5)
+- [ ] Answer key matches question answers exactly
+- [ ] Sizes are SCRAMBLED (not in order small→big)
+
+---
+
+## Research Sources
+- [NCETM - Exploring comparison in Early Years](https://www.ncetm.org.uk/features/exploring-comparison-in-early-years/)
+- [NCETM - Measures](https://www.ncetm.org.uk/classroom-resources/ey-measures/)
+- [Nursery World - Mathematics in the EYFS: Measure](https://www.nurseryworld.co.uk/features/article/mathematics-in-the-eyfs-measure-in-comparison)
+- [Twinkl - Shorter or Taller Worksheets KS1](https://www.twinkl.com/resource/shorter-or-taller-activity-sheets-t-m-34519)

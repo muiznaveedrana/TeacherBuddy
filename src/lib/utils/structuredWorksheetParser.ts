@@ -239,9 +239,42 @@ function parseQuestionStructure(
 
   console.log(`🔍 Parsing question ${questionId}...`)
 
-  // Pattern 1: Answer line (e.g., <p class="answer-line">Answer:</p>)
+  // Pattern 1a: Inline answer-line SPAN (e.g., <span class="answer-line"></span>) - for inline inputs
+  const inlineAnswerLinePattern = /<span[^>]*class="[^"]*answer-line[^"]*"[^>]*>[\s\S]*?<\/span>/gi
+  const inlineAnswerLineMatches = cleanedHTML.match(inlineAnswerLinePattern) || []
+  if (inlineAnswerLineMatches.length > 0) {
+    let inlineCounter = 0
+    inlineAnswerLineMatches.forEach((match, idx) => {
+      const subId = inlineAnswerLineMatches.length > 1 ? `${questionId}-${idx}` : `${questionId}`
+      inputs.push({
+        subId,
+        placeholder: '?',
+        inputType: 'text',
+        style: {
+          width: '95px',
+          minWidth: '95px',
+          height: '37px',
+          border: '2px solid #333',
+          borderRadius: '5px',
+          backgroundColor: '#FFF9C4',
+          textAlign: 'center',
+          fontSize: '13pt',
+          fontWeight: 'bold',
+          borderStyle: 'solid'
+        }
+      })
+    })
+    // Replace inline answer-line spans with inline input placeholders
+    cleanedHTML = cleanedHTML.replace(inlineAnswerLinePattern, () => {
+      const subId = inlineAnswerLineMatches.length > 1 ? `${questionId}-${inlineCounter++}` : `${questionId}`
+      return `<span data-input-placeholder="${subId}"></span>`
+    })
+    console.log(`✅ Found ${inlineAnswerLineMatches.length} INLINE answer-line span(s)`)
+  }
+
+  // Pattern 1b: Answer line P tag (e.g., <p class="answer-line">Answer:</p>)
   const answerLineMatches = cleanedHTML.match(/<p class="answer-line">.*?<\/p>/gi) || []
-  if (answerLineMatches.length > 0) {
+  if (answerLineMatches.length > 0 && inputs.length === 0) {
     answerLineMatches.forEach((match, idx) => {
       const subId = answerLineMatches.length > 1 ? `${questionId}-${idx}` : `${questionId}`
       inputs.push({
@@ -256,7 +289,7 @@ function parseQuestionStructure(
     })
     // Remove answer-line elements from HTML
     cleanedHTML = cleanedHTML.replace(/<p class="answer-line">.*?<\/p>/gi, `<div data-input-placeholder="${questionId}"></div>`)
-    console.log(`✅ Found ${answerLineMatches.length} answer-line pattern(s)`)
+    console.log(`✅ Found ${answerLineMatches.length} answer-line P pattern(s)`)
   }
 
   // IMPORTANT: Pattern order matters for input ordering!
@@ -416,9 +449,9 @@ function parseQuestionStructure(
         inputType: 'text',
         style: {
           // Match the worksheet's .answer-box / .answer-box-small CSS exactly
-          // Regular answer-box: 120px min-width, small: 70px
-          minWidth: isSmall ? '70px' : '120px',
-          width: isSmall ? '70px' : '120px',
+          // Regular answer-box: 140px min-width (+20px from 120), small: 90px (+20px from 70)
+          minWidth: isSmall ? '90px' : '140px',
+          width: isSmall ? '90px' : '140px',
           height: '42px',
           border: '3px solid #333',
           borderRadius: '8px',
@@ -451,7 +484,7 @@ function parseQuestionStructure(
         placeholder: '...',
         inputType: 'text',
         style: {
-          width: `${Math.max(match.length * 12, 100)}px`,
+          width: `${Math.max(match.length * 12, 120)}px`,
           borderStyle: 'underline'
         }
       })
@@ -495,7 +528,7 @@ function parseQuestionStructure(
             placeholder: `Answer for ${numberLabel}`,
             inputType: 'text',
             style: {
-              width: '120px',
+              width: '140px',
               borderStyle: 'solid'
             }
           })

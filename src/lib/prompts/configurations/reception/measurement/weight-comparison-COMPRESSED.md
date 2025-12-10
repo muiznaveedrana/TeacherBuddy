@@ -1,6 +1,15 @@
-# Ages 4-5: Weight Comparison
+# Ages 4-5: Weight Comparison (INTERACTIVE-OPTIMISED)
 
 **Generate EXACTLY {{questionCount}} questions (ages 4-5)**
+
+**CRITICAL**: All answers use text input (A/B/C format). NO circle/select patterns.
+
+## Research-Based Design (EYFS/KS1 Aligned)
+- **Address size-weight misconception**: Larger objects are NOT always heavier
+- **Balance scale understanding**: Heavier side goes down, lighter side goes up
+- **Obvious weight differences**: Use common sense comparisons (elephant vs feather)
+- **Hands-on vocabulary**: heavier, lighter, heaviest, lightest (comparative language)
+- **Q5 misconception test**: Tests "bigger does NOT mean heavier" confusion
 
 ## Background Colors - MANDATORY
 Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
@@ -12,22 +21,24 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 **Equal**: same weight, as heavy as
 
 ## Objects for Weight Comparison
-**Heavy objects**: elephant, car, table, rock, book, watermelon, pig, cow
-**Light objects**: feather, balloon, butterfly, leaf, flower, apple, mouse, bird
-**Medium**: ball, doll, cat, dog, bag, box
+**Heavy objects**: elephant, car, rock, book, watermelon, cow, pumpkin, horse, goat
+**Light objects**: feather, balloon, butterfly, leaf, flower, mouse, bird, chick
+**Medium**: ball, doll, cat, dog, sheep, duck, chicken, apple, orange
+**AVOID (no image available)**: pig, table, bag, box, cotton
 **Image**: `<img src="/images/{object}.png" width="60" height="60" alt="{Object}" />`
 
 ## Visual Cues for Weight
 **Use balance scales** or tipping imagery to show weight difference
-**Obvious comparisons**: elephant vs feather, rock vs balloon
+**Obvious comparisons**: elephant vs feather, rock vs balloon, book vs leaf
 **NO ambiguous pairs**: Avoid similar-weight objects for Reception
+**Balance scale logic**: Heavier side goes DOWN (translateY positive), lighter side goes UP (translateY negative)
 
 ## 5 Question Types (EXACT ORDER)
-**Q1 - Which is heavier?**: 2 objects, common sense comparison
-**Q2 - Which is lighter?**: 2 objects, common sense comparison
-**Q3 - Heaviest of 3**: Multiple choice (A/B/C)
-**Q4 - Lightest of 3**: Multiple choice (A/B/C)
-**Q5 - Balance Scale**: Which side is heavier? Show scale tipping
+**Q1 - Which is heavier?**: 2 objects (A/B), common sense comparison
+**Q2 - Which is lighter?**: 2 objects (A/B), common sense comparison
+**Q3 - Heaviest of 3**: Multiple choice (A/B/C), clear weight hierarchy
+**Q4 - Lightest of 3**: Multiple choice (A/B/C), clear weight hierarchy
+**Q5 - Misconception Test**: "Bigger does NOT mean heavier" - tests size vs weight confusion
 
 ## Q1 - Which is Heavier? (2 Objects)
 **RANDOMIZE**: Pick 2 objects with OBVIOUS weight difference + ONE question variation
@@ -155,16 +166,22 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 </div>
 ```
 
-## Q5 - Balance Scale (Visual)
-**RANDOMIZE**: Pick 2 objects, show which side tips down + ONE question variation
+## Q5 - Misconception Test: Bigger Does NOT Mean Heavier!
+
+**CRITICAL**: This tests the common misconception that larger = heavier.
+
+**Show balance scale with:**
+- **Side A**: SMALLER object but HEAVIER (goes DOWN) - e.g., small rock (40px)
+- **Side B**: BIGGER object but LIGHTER (goes UP) - e.g., large balloon (70px)
 
 **Question Variations** (pick ONE):
 - "Which side is heavier?"
-- "Which object is making the scale go down?"
-- "Which is heavier?"
-- "What is heavier, A or B?"
+- "Which object is heavier, A or B?"
+- "What is heavier?"
 
-**Visual**: Show simple balance scale with one side lower (heavier)
+**Visual cues**:
+- Heavier (smaller) side: `translateY(20px)` goes DOWN
+- Lighter (bigger) side: `translateY(-20px)` goes UP
 
 **Example**:
 ```html
@@ -174,7 +191,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
         <div class="scale-display">
             <div class="scale-left" style="transform:translateY(20px);">
                 <div class="scale-pan">
-                    <img src="/images/rock.png" width="50" height="50" alt="Rock" />
+                    <img src="/images/rock.png" width="40" height="40" alt="Small rock" />
                     <p class="scale-label">A</p>
                 </div>
             </div>
@@ -184,7 +201,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
             </div>
             <div class="scale-right" style="transform:translateY(-20px);">
                 <div class="scale-pan">
-                    <img src="/images/flower.png" width="50" height="50" alt="Flower" />
+                    <img src="/images/balloon.png" width="70" height="70" alt="Big balloon" />
                     <p class="scale-label">B</p>
                 </div>
             </div>
@@ -193,6 +210,11 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
     <p class="answer-prompt">Answer: <span class="answer-line"></span></p>
 </div>
 ```
+
+**Good misconception pairs**:
+- Small rock (40px) vs Big balloon (70px) → rock heavier
+- Small book (45px) vs Big feather (65px) → book heavier
+- Small watermelon (50px) vs Big butterfly (75px) → watermelon heavier
 
 ## CSS (Include at worksheet start)
 ```css
@@ -221,16 +243,55 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 </style>
 ```
 
-## Answer Key
+## Answer Key Format
+
+**CRITICAL**: Answer format must be CLEAN letter only (A, B, or C) - NO parenthetical descriptions
+
 ```html
 <div class="answer-key">
     <h2 class="answer-key-title">Answer Key</h2>
     <div class="answer-key-content">
-        <p><strong>1.</strong> [Heavier item, e.g., "A (Elephant)"]</p>
-        <p><strong>2.</strong> [Lighter item, e.g., "B (Balloon)"]</p>
-        <p><strong>3.</strong> [Heaviest, e.g., "B (Car)"]</p>
-        <p><strong>4.</strong> [Lightest, e.g., "B (Butterfly)"]</p>
-        <p><strong>5.</strong> [Heavier side, e.g., "A (Rock)"]</p>
+        <p><strong>1.</strong> A</p>
+        <p><strong>2.</strong> B</p>
+        <p><strong>3.</strong> B</p>
+        <p><strong>4.</strong> B</p>
+        <p><strong>5.</strong> A</p>
     </div>
 </div>
 ```
+
+---
+
+## Theme Variations (Generate 3 different worksheets)
+
+### Worksheet 1 - Everyday Objects (EASY)
+- Q1: elephant (A, 80px) vs feather (B, 50px) → **A** (elephant heavier)
+- Q2: book (A, 60px) vs balloon (B, 60px) → **B** (balloon lighter)
+- Q3: apple (A, 50px), car (B, 70px), leaf (C, 45px) → **B** (car heaviest)
+- Q4: watermelon (A, 60px), butterfly (B, 50px), ball (C, 50px) → **B** (butterfly lightest)
+- Q5: MISCONCEPTION - Small rock (A, 40px) vs Big balloon (B, 70px) → **A** (rock heavier despite being smaller)
+
+### Worksheet 2 - Farm Animals (AVERAGE)
+- Q1: horse (A, 90px) vs chick (B, 55px) → **A** (horse heavier)
+- Q2: goat (A, 70px) vs feather (B, 50px) → **B** (feather lighter)
+- Q3: cow (A, 85px), duck (B, 65px), butterfly (C, 45px) → **A** (cow heaviest)
+- Q4: sheep (A, 75px), chicken (B, 60px), leaf (C, 45px) → **C** (leaf lightest)
+- Q5: MISCONCEPTION - Small rock (A, 45px) vs Big balloon (B, 75px) → **A** (rock heavier despite being smaller)
+
+### Worksheet 3 - Food & Nature (HARD)
+- Q1: pumpkin (A, 70px) vs cotton (B, 50px) → **A** (pumpkin heavier)
+- Q2: rock (A, 55px) vs leaf (B, 45px) → **B** (leaf lighter)
+- Q3: watermelon (A, 65px), orange (B, 50px), butterfly (C, 45px) → **A** (watermelon heaviest)
+- Q4: cow (A, 75px), apple (B, 50px), doll (C, 60px) → **B** (apple lightest)
+- Q5: MISCONCEPTION - Small watermelon (A, 50px) vs Big butterfly (B, 75px) → **A** (watermelon heavier despite being smaller)
+
+---
+
+## Validation Checklist
+- [ ] Exactly 5 questions with colored backgrounds
+- [ ] All questions use `<span class="answer-line"></span>` for text input
+- [ ] Q1-Q4 use obvious weight differences (common sense comparisons)
+- [ ] Q5 tests "bigger ≠ heavier" misconception (smaller object is heavier)
+- [ ] Answer key uses CLEAN format (A/B/C only, no parenthetical descriptions)
+- [ ] Balance scale shows correct tipping (heavier = translateY positive, lighter = negative)
+- [ ] No objects overlap with size-comparison/length-comparison subtopics

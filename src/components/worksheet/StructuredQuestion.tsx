@@ -2124,8 +2124,8 @@ export function StructuredQuestion({
           placeholder="?"
           style="
             display: inline-block;
-            width: 60px;
-            min-width: 50px;
+            width: 95px;
+            min-width: 95px;
             height: 37px;
             padding: 4px;
             font-size: 13pt;

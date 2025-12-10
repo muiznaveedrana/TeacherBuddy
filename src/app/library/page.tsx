@@ -5,8 +5,7 @@ import { LibraryFilters } from '@/components/LibraryFilters'
 import { LibrarySearch } from '@/components/LibrarySearch'
 import { LibraryPaginationMeta } from '@/components/LibraryPaginationMeta'
 import { LibraryNavigation } from '@/components/LibraryNavigation'
-import { Button } from '@/components/ui/button'
-import { Home, PlusCircle, Library, ChevronRight } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -43,7 +42,11 @@ export default function LibraryPage() {
               Home
             </Link>
             <ChevronRight className="w-4 h-4" />
-            <span className="text-gray-900 font-medium">Library</span>
+            <Link href="/free-printables" className="hover:text-blue-700 transition-colors">
+              Free Printables
+            </Link>
+            <ChevronRight className="w-4 h-4" />
+            <span className="text-gray-900 font-medium">Browse All</span>
           </nav>
 
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

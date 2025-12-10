@@ -1,37 +1,45 @@
-# Ages 4-5: Length Comparison
+# Ages 4-5: Length Comparison (INTERACTIVE-OPTIMISED V2)
 
 **Generate EXACTLY {{questionCount}} questions (ages 4-5)**
 
+**CRITICAL: Every answer uses text input with answer-line pattern.**
+
+## Research-Based Design (NCETM/EYFS Aligned)
+- **Precise comparative language**: longer, shorter, longest, shortest (NOT generic "big/small")
+- **40-50%+ length difference**: OBVIOUS visual differences for 4-5 year olds
+- **Direct comparison**: Side-by-side objects aligned at one end for fair comparison
+- **Misconception testing (Q5)**: Tests understanding that objects can be same length even if different
+- **Key vocabulary**: long, short, tall + comparatives (longer, shorter, taller) + superlatives (longest, shortest, tallest)
+
 ## Background Colors - MANDATORY
 Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
-**CRITICAL**: ALL questions MUST have colored background.
 
-## Length Vocabulary (Reception Level)
-**Comparative**: longer, shorter, taller, shorter (height)
-**Superlative**: longest, shortest, tallest
-**Equal**: same length, as long as
+## Rules
+- **40-50% length difference minimum** (OBVIOUS differences for ages 4-5)
+- **5 DIFFERENT object types** (NO repeats across questions)
+- **Real images only** from `/images/{object}.png`
+- **ALL questions**: Use answer-line pattern `<span class="answer-line"></span>`
+- **Answer format**: A, B, C (for labels) or "A and C" (for Q5 matching)
 
 ## Objects for Length Comparison
-**Long objects**: pencil, ruler, stick, ribbon, rope, snake, train, bus
-**Tall objects**: giraffe, tree, house, tower, building
-**Short objects**: eraser, crayon, worm, mouse
-**Everyday**: book, spoon, fork, carrot, cucumber, scarf
+**Long objects**: pencil, ruler, stick, ribbon, rope, snake, train, scarf
+**Tall objects**: tree, giraffe, tower, building
+**Short objects**: eraser, crayon, worm, mouse, spoon, fork
+**Vegetables**: carrot, cucumber, celery
 **Image**: `<img src="/images/{object}.png" alt="{Object}" />`
 
-## Visual Requirements
-**CRITICAL**: Length differences must be OBVIOUS (30-50%+ difference)
-- Show objects side-by-side or above-below for direct comparison
-- Use different sizes to make longer/shorter immediately visible
-- No ambiguous comparisons - must be clear to 4-year-olds
-
 ## 5 Question Types (EXACT ORDER)
+
 **Q1 - Which is longer?**: 2 objects (A/B), direct comparison
 **Q2 - Which is shorter?**: 2 objects (A/B), direct comparison
 **Q3 - Longest of 3**: 3 objects (A/B/C), find the longest
 **Q4 - Shortest of 3**: 3 objects (A/B/C), find the shortest
-**Q5 - Same Length**: Which 2 objects are the same length?
+**Q5 - Same Length**: Show 3-4 objects, identify 2 that are the same length
+
+---
 
 ## Q1 - Which is Longer? (2 Objects)
+
 **RANDOMIZE**: Pick 2 objects + ONE question variation
 
 **Question Variations** (pick ONE):
@@ -58,8 +66,11 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 </div>
 ```
 
+---
+
 ## Q2 - Which is Shorter? (2 Objects)
-**RANDOMIZE**: Pick 2 objects + ONE question variation
+
+**RANDOMIZE**: Pick DIFFERENT objects from Q1 + ONE question variation
 
 **Question Variations** (pick ONE):
 - "Which is shorter?"
@@ -85,8 +96,11 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 </div>
 ```
 
+---
+
 ## Q3 - Longest of 3 (Multiple Choice)
-**RANDOMIZE**: Pick 3 objects with CLEAR size differences + ONE question variation
+
+**RANDOMIZE**: Pick 3 objects DIFFERENT from Q1-Q2 with CLEAR size differences + ONE question variation
 
 **Question Variations** (pick ONE):
 - "Which is the longest?"
@@ -94,7 +108,7 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 - "Which one is longest?"
 - "Point to the longest."
 
-**Size differences**: Make it obvious (e.g., 60px, 100px, 140px)
+**Size differences**: Make it obvious (e.g., 60px, 100px, 140px) and SCRAMBLE the order
 
 **Example**:
 ```html
@@ -118,8 +132,11 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 </div>
 ```
 
+---
+
 ## Q4 - Shortest of 3 (Multiple Choice)
-**RANDOMIZE**: Pick 3 objects with CLEAR size differences + ONE question variation
+
+**RANDOMIZE**: Pick 3 objects DIFFERENT from Q1-Q3 with CLEAR size differences + ONE question variation
 
 **Question Variations** (pick ONE):
 - "Which is the shortest?"
@@ -149,14 +166,18 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 </div>
 ```
 
+---
+
 ## Q5 - Same Length (Matching)
-**RANDOMIZE**: Show 3-4 objects, 2 are the same length + ONE question variation
+
+**CRITICAL: This question tests understanding that different objects can be the same length**
+
+**RANDOMIZE**: Show 3 objects DIFFERENT from Q1-Q4, 2 are the same length + ONE question variation
 
 **Question Variations** (pick ONE):
 - "Which two are the same length?"
 - "Find two that are the same length."
 - "Which are as long as each other?"
-- "Circle two that are the same length."
 
 **Example**:
 ```html
@@ -180,7 +201,10 @@ Q1=#FFF9C4, Q2=#F1F8E9, Q3=#E3F2FD, Q4=#FCE4EC, Q5=#FFF3E0
 </div>
 ```
 
+---
+
 ## CSS (Include at worksheet start)
+
 ```css
 <style>
 body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
@@ -198,16 +222,62 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px;}
 </style>
 ```
 
-## Answer Key
+---
+
+## Answer Key Format
+
 ```html
 <div class="answer-key">
     <h2 class="answer-key-title">Answer Key</h2>
     <div class="answer-key-content">
-        <p><strong>1.</strong> [Longer item, e.g., "A (Pencil)"]</p>
-        <p><strong>2.</strong> [Shorter item, e.g., "B (Crayon)"]</p>
-        <p><strong>3.</strong> [Longest, e.g., "B (Ribbon)"]</p>
-        <p><strong>4.</strong> [Shortest, e.g., "B (Worm)"]</p>
-        <p><strong>5.</strong> [Same length pair, e.g., "A and C"]</p>
+        <p><strong>1.</strong> A</p>
+        <p><strong>2.</strong> B</p>
+        <p><strong>3.</strong> B</p>
+        <p><strong>4.</strong> B</p>
+        <p><strong>5.</strong> A and C</p>
     </div>
 </div>
 ```
+
+---
+
+## Theme Variations (Generate 3 different worksheets)
+
+### Worksheet 1 - Stationery & School Theme (EASY)
+- Q1: pencil (A=120px) vs eraser (B=60px) → A (longer)
+- Q2: ruler (A=140px) vs crayon (B=80px) → B (shorter)
+- Q3: stick (A=80px), ribbon (B=150px), rope (C=110px) → B (longest)
+- Q4: snake (A=130px), worm (B=60px), fork (C=100px) → B (shortest)
+- Q5: carrot (A=100px), cucumber (B=130px), spoon (C=100px) → A and C (same length)
+
+### Worksheet 2 - Garden & Nature Theme (AVERAGE)
+- Q1: tree (A=70px) vs mouse (B=120px) → B (longer)
+- Q2: scarf (A=150px) vs ribbon (B=90px) → B (shorter)
+- Q3: carrot (A=110px), cucumber (B=70px), celery (C=140px) → C (longest)
+- Q4: worm (A=95px), mouse (B=55px), snake (C=130px) → B (shortest)
+- Q5: pencil (A=110px), ruler (B=110px), stick (C=150px) → A and B (same length)
+
+### Worksheet 3 - Mixed Objects Theme (HARD)
+- Q1: rope (A=100px) vs crayon (B=65px) → A (longer)
+- Q2: train (A=140px) vs fork (B=85px) → B (shorter)
+- Q3: ribbon (A=65px), scarf (B=95px), rope (C=135px) → C (longest)
+- Q4: eraser (A=120px), worm (B=70px), spoon (C=105px) → B (shortest)
+- Q5: snake (A=115px), train (B=140px), stick (C=115px) → A and C (same length)
+
+---
+
+## Validation Checklist
+- [ ] Exactly 5 questions
+- [ ] Each question uses different objects
+- [ ] All lengths have 40-50%+ difference (OBVIOUS for 4-5 year olds)
+- [ ] Q1-Q4 use precise comparative words (longer, shorter, longest, shortest)
+- [ ] Q5 tests "same length" understanding with matching task
+- [ ] All answer-line elements present (5 total)
+- [ ] Answer key matches question answers exactly (A, B, C, or "A and C" format)
+
+---
+
+## Research Sources
+- [Oak National Academy - Comparing lengths KS1](https://www.thenational.academy/teachers/programmes/maths-primary-ks1/units/numbers-0-to-20-in-different-contexts/lessons/comparing-lengths)
+- [Primary Stars Education - Compare lengths worksheets](https://primarystarseducation.co.uk/resources/compare-lengths-worksheets/)
+- [Math Coach's Corner - Measurement Misconceptions](https://www.mathcoachscorner.com/2012/05/measurement-misconceptions/)

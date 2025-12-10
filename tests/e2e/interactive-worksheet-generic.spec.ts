@@ -35,7 +35,11 @@ test.describe('Interactive Worksheet - Generic Test', () => {
     // Get correct answers - extracted from worksheet HTML
     // For counting-to-10-v2: 7 bananas, 3 grapes, 10 flowers, 5 dogs, 8 strawberries
     const KNOWN_ANSWERS: Record<string, string[]> = {
-      'number-counting-counting-to-10-v2': ['7', '3', '10', '5', '8']
+      'number-counting-counting-to-10-v2': ['7', '3', '10', '5', '8'],
+      // Size Comparison worksheets
+      'shape-space-size-comparison-v2': ['Right', 'Right', 'Left', 'Noah', 'B'],
+      'size-comparison-farm-animals-farm-animals-comparison': ['Left', 'Left', 'Middle', 'Oliver', 'B'],
+      'size-comparison-school-treats-school-treats-comparison': ['Right', 'Right', 'Left', 'Noah', 'B']
     }
     const correctAnswers = KNOWN_ANSWERS[WORKSHEET_SLUG] || []
     console.log(`Using answers for ${WORKSHEET_SLUG}: ${JSON.stringify(correctAnswers)}`)
