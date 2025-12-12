@@ -12,7 +12,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Progress } from '@/components/ui/progress'
-import { BookOpen, Download, Info, Loader2, AlertCircle, Edit3, Eye, Home, Library, PlusCircle, LogOut } from 'lucide-react'
+import { BookOpen, Download, Info, Loader2, AlertCircle, Edit3, Eye } from 'lucide-react'
+import { LibraryNavigation } from '@/components/LibraryNavigation'
 import WelcomeTour from '@/components/WelcomeTour'
 import { PullToRefresh } from '@/components/mobile/PullToRefresh'
 import { YEAR_GROUPS } from '@/lib/data/curriculum'
@@ -855,46 +856,16 @@ function DashboardContent() {
   
   return (
     <PullToRefresh onRefresh={handleRefresh}>
-      <div className="min-h-screen bg-slate-50 flex flex-col">
+      <div className="min-h-screen bg-gradient-to-br from-[hsl(48,76%,96%)] to-[hsl(44,92%,95%)] flex flex-col">
       {/* Navigation Header */}
-      <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-8">
-              <Link href="/" className="flex items-center">
-                <h1 className="text-xl font-bold text-blue-700">FreeMathPrintable.com</h1>
-              </Link>
-              <div className="hidden md:flex items-center gap-6">
-                <Link href="/" className="text-gray-600 hover:text-blue-700 transition-colors">
-                  <Home className="w-4 h-4 inline mr-1" />
-                  Home
-                </Link>
-                <Link href="/library" className="text-gray-600 hover:text-blue-700 transition-colors">
-                  <Library className="w-4 h-4 inline mr-1" />
-                  Browse Library
-                </Link>
-                <Link href="/create" className="text-blue-700 font-medium">
-                  <PlusCircle className="w-4 h-4 inline mr-1" />
-                  Create Printable
-                </Link>
-                {fromLibrary && (
-                  <span className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-full">
-                    From Library
-                  </span>
-                )}
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              {isAdmin && (
-                <Button size="sm" variant="outline" onClick={handleLogout}>
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Logout
-                </Button>
-              )}
-            </div>
-          </div>
-        </div>
-      </nav>
+      <LibraryNavigation
+        currentPage="create"
+        rightContent={fromLibrary ? (
+          <span className="text-xs bg-[hsl(38,50%,92%)] text-blue-700 px-2 py-1 rounded-full">
+            From Library
+          </span>
+        ) : undefined}
+      />
 
       {/* Main Content - Mobile-First Responsive Layout */}
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-4 md:py-6">
@@ -1408,11 +1379,11 @@ function DashboardContent() {
                   </div>
                 ) : (
                   /* Initial State - No content generated yet */
-                  <div className="h-full flex items-center justify-center bg-slate-50 border-2 border-dashed border-slate-200 rounded-lg m-4">
+                  <div className="h-full flex items-center justify-center bg-[hsl(48,20%,99%)] border-2 border-dashed border-[hsl(38,30%,80%)] rounded-lg m-4">
                     <div className="text-center p-6">
-                      <BookOpen className="w-16 h-16 text-slate-400 mx-auto mb-3" />
-                      <h3 className="text-sm font-medium text-slate-600 mb-1">Ready to Generate</h3>
-                      <p className="text-xs text-slate-500">
+                      <BookOpen className="w-16 h-16 text-[hsl(38,30%,70%)] mx-auto mb-3" />
+                      <h3 className="text-sm font-medium text-gray-600 mb-1">Ready to Generate</h3>
+                      <p className="text-xs text-gray-500">
                         Configure your printable settings and click Generate
                       </p>
                     </div>
@@ -1558,10 +1529,10 @@ function DashboardContent() {
 export default function DashboardPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-[hsl(48,76%,96%)] to-[hsl(44,92%,95%)] flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-blue-600" />
-          <p className="text-slate-600">Loading worksheet generator...</p>
+          <p className="text-gray-600">Loading worksheet generator...</p>
         </div>
       </div>
     }>

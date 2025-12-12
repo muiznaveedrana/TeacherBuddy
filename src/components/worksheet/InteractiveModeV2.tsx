@@ -76,13 +76,13 @@ export function InteractiveModeV2({ htmlContent, worksheet, onExit }: Interactiv
     })
   }
 
-  // Count total answered questions
+  // Count total answered questions (ALL inputs must be filled)
   const countAnsweredQuestions = () => {
     if (!parsed) return 0
 
     return parsed.questions.filter(q => {
-      // Question is answered if ANY of its inputs has a value
-      return q.inputs.some(input => {
+      // Question is answered only if ALL of its inputs have values
+      return q.inputs.every(input => {
         const answer = answers[input.subId]
         return answer && answer.trim().length > 0
       })
@@ -218,8 +218,8 @@ export function InteractiveModeV2({ htmlContent, worksheet, onExit }: Interactiv
       {/* Questions - TABLET OPTIMIZED with responsive padding */}
       <div className="questions-container max-w-4xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6">
         {parsed.questions.map((q, index) => {
-          // Check if question has any answers
-          const isAnswered = q.inputs.some(input => {
+          // Check if ALL inputs for this question are filled (not just any)
+          const isAnswered = q.inputs.every(input => {
             const answer = answers[input.subId]
             return answer && answer.trim().length > 0
           })

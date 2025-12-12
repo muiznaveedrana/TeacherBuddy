@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Clock, Zap, BookOpen, Star, ArrowRight, Menu, Download, Users } from "lucide-react";
+import { Check, Clock, Zap, BookOpen, Star, ArrowRight, Download, Users } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
@@ -9,6 +9,7 @@ import WorksheetShowcase from "@/components/homepage/WorksheetShowcase";
 import GradeNavigation from "@/components/homepage/GradeNavigation";
 import DoodleAnimations from "@/components/homepage/DoodleAnimations";
 import { StickyNoteButton } from "@/components/ui/sticky-note-button";
+import { LibraryNavigation } from "@/components/LibraryNavigation";
 
 export const metadata: Metadata = {
   title: "Free Math Worksheets | Kindergarten to Grade 6 | Printable PDF",
@@ -73,34 +74,7 @@ export default function LandingPage() {
       <HomepageStructuredData />
 
       {/* Sticky Navigation */}
-      <nav className="sticky top-0 z-50 bg-[hsl(48,20%,99%)]/95 backdrop-blur-md border-b-2 border-[hsl(38,30%,85%)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <h1 className="text-2xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  FreeMathPrintable.com
-                </h1>
-              </div>
-              <div className="hidden md:block">
-                <div className="ml-10 flex items-baseline space-x-4">
-                  <a href="#printables" className="text-gray-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">
-                    Printables
-                  </a>
-                  <a href="#grades" className="text-gray-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">
-                    Year Groups
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="md:hidden">
-              <button className="text-gray-600 hover:text-gray-900">
-                <Menu className="h-6 w-6" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <LibraryNavigation currentPage="home" />
 
       {/* Simplified Hero Section */}
       <section className="relative px-4 py-12 mx-auto max-w-7xl md:py-16">

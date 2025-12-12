@@ -59,12 +59,12 @@ export default async function FreePrintablesPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gradient-to-br from-[hsl(48,76%,96%)] to-[hsl(44,92%,95%)]">
         {/* Navigation Header */}
         <LibraryNavigation currentPage="free-printables" />
 
         {/* Hero Section */}
-        <div className="bg-gradient-to-br from-green-50 via-blue-50 to-white border-b">
+        <div className="bg-gradient-to-br from-[hsl(48,76%,96%)] via-[hsl(44,92%,95%)] to-[hsl(48,20%,99%)] border-b-2 border-[hsl(38,30%,85%)]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             {/* Breadcrumbs */}
             <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
@@ -114,7 +114,7 @@ export default async function FreePrintablesPage() {
               <Link
                 key={yg.yearGroup}
                 href={yg.href}
-                className="group bg-white rounded-xl border border-gray-200 p-6 hover:border-blue-300 hover:shadow-lg transition-all"
+                className="group bg-[hsl(48,20%,99%)] rounded-xl border-2 border-[hsl(38,30%,88%)] p-6 hover:border-[hsl(38,50%,70%)] hover:shadow-lg hover:shadow-amber-100/50 transition-all"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div>
@@ -139,7 +139,7 @@ export default async function FreePrintablesPage() {
 
         {/* Popular Printables Section */}
         {hubData.popularWorksheets.length > 0 && (
-          <div className="bg-white border-t border-b">
+          <div className="bg-[hsl(48,20%,99%)] border-t-2 border-b-2 border-[hsl(38,30%,85%)]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
               <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
                 Popular Printables
@@ -150,9 +150,9 @@ export default async function FreePrintablesPage() {
                   <Link
                     key={worksheet.id}
                     href={`/library/${worksheet.slug}`}
-                    className="group bg-gray-50 rounded-lg border border-gray-200 overflow-hidden hover:border-blue-300 hover:shadow-md transition-all"
+                    className="group bg-[hsl(48,20%,99%)] rounded-lg border-2 border-[hsl(38,30%,88%)] overflow-hidden hover:border-[hsl(38,50%,70%)] hover:shadow-md hover:shadow-amber-100/50 transition-all"
                   >
-                    <div className="aspect-[4/5] relative bg-gray-100">
+                    <div className="aspect-[4/5] relative bg-[hsl(38,30%,90%)]">
                       {worksheet.thumbnail_url && (
                         <Image
                           src={worksheet.thumbnail_url}
@@ -215,7 +215,7 @@ export default async function FreePrintablesPage() {
         </div>
 
         {/* Footer CTA */}
-        <div className="bg-blue-50 border-t">
+        <div className="bg-gradient-to-r from-[hsl(48,76%,96%)] to-[hsl(44,92%,95%)] border-t-2 border-[hsl(38,30%,85%)]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
             <h2 className="text-xl font-bold text-gray-900 mb-2">
               Need a Custom Printable?
@@ -225,7 +225,7 @@ export default async function FreePrintablesPage() {
             </p>
             <Link
               href="/create"
-              className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl"
             >
               Create Custom Printable
               <ChevronRight className="w-4 h-4" />
