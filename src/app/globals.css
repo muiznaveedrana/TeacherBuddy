@@ -147,6 +147,67 @@
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
   }
+
+  /* TABLET/MOBILE UX IMPROVEMENTS */
+
+  /* Safe area insets for notched devices (iPhone X+) */
+  @supports (padding: env(safe-area-inset-top)) {
+    .safe-area-top {
+      padding-top: env(safe-area-inset-top);
+    }
+    .safe-area-bottom {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  }
+
+  /* Touch feedback for buttons - active state (mobile has no hover) */
+  @media (hover: none) and (pointer: coarse) {
+    button:active,
+    [role="button"]:active,
+    a:active {
+      transform: scale(0.97);
+      opacity: 0.9;
+    }
+
+    /* Input focus styles for tablet */
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: 3px solid #2196F3;
+      outline-offset: 2px;
+    }
+  }
+
+  /* Dynamic viewport height for keyboard handling */
+  .h-screen-dynamic {
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  /* Prevent iOS zoom on input focus (font-size >= 16px) */
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="search"],
+  textarea,
+  select {
+    font-size: 16px;
+  }
+
+  /* Minimum touch target size (Apple HIG: 44px) */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Larger touch target for tablets */
+  @media (min-width: 768px) and (hover: none) {
+    .touch-target-lg {
+      min-height: 48px;
+      min-width: 48px;
+    }
+  }
   
   /* Paper Texture Styles */
   .paper-texture {
@@ -235,6 +296,32 @@
     animation: float 20s infinite ease-in-out;
     opacity: 0.1;
     pointer-events: none;
+  }
+
+  /* Slow bounce for mascots */
+  @keyframes bounce-slow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-bounce-slow {
+    animation: bounce-slow 3s infinite ease-in-out;
+  }
+
+  /* Wiggle animation for CTAs */
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-2deg); }
+    25% { transform: rotate(2deg); }
+    50% { transform: rotate(-1deg); }
+    75% { transform: rotate(1deg); }
+  }
+
+  .animate-wiggle {
+    animation: wiggle 0.5s ease-in-out;
+  }
+
+  .hover-wiggle:hover {
+    animation: wiggle 0.4s ease-in-out;
   }
 
   @keyframes pencil-draw {

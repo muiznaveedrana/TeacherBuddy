@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Loader2 } from 'lucide-react'
 import type { LibraryWorksheet } from '@/lib/types/library'
 
 interface RelatedWorksheetsProps {
@@ -29,7 +30,10 @@ export function RelatedWorksheets({ worksheetId }: RelatedWorksheetsProps) {
   if (loading) {
     return (
       <div className="mt-12">
-        <h2 className="text-2xl font-bold mb-6">You may also like</h2>
+        <div className="flex items-center gap-3 mb-6">
+          <h2 className="text-2xl font-bold">You may also like</h2>
+          <Loader2 className="w-5 h-5 animate-spin text-blue-600" />
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="bg-white rounded-lg border overflow-hidden animate-pulse">

@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, Clock, Zap, BookOpen, Star, ArrowRight, Menu, Download, Users } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { Metadata } from "next";
 import { HomepageStructuredData } from "@/components/StructuredData";
 import WorksheetShowcase from "@/components/homepage/WorksheetShowcase";
@@ -64,7 +65,7 @@ export const metadata: Metadata = {
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50/30 to-cyan-50/30">
+    <div className="min-h-screen bg-gradient-to-br from-[hsl(48,76%,96%)] to-[hsl(44,92%,95%)]">
       {/* Background Doodle Animations */}
       <DoodleAnimations />
 
@@ -72,7 +73,7 @@ export default function LandingPage() {
       <HomepageStructuredData />
 
       {/* Sticky Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b-2 border-gray-200">
+      <nav className="sticky top-0 z-50 bg-[hsl(48,20%,99%)]/95 backdrop-blur-md border-b-2 border-[hsl(38,30%,85%)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
@@ -112,6 +113,19 @@ export default function LandingPage() {
         </div>
 
         <div className="relative text-center">
+          {/* Friendly Mascot - Floating on the side */}
+          <div className="hidden lg:block absolute -left-4 top-1/2 -translate-y-1/2 z-10">
+            <div className="relative w-32 h-32 animate-bounce-slow">
+              <Image
+                src="/images/mascot/WritingMonkey1.png"
+                alt="Friendly math helper mascot"
+                fill
+                className="object-contain drop-shadow-lg"
+                priority
+              />
+            </div>
+          </div>
+
           {/* Main Headline with Handwritten Style */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight mb-6">
             <span className="block text-gray-900">Free Math Worksheet Library</span>
@@ -125,44 +139,42 @@ export default function LandingPage() {
             1000+ free worksheets • Kindergarten to Grade 6 • Common Core Aligned
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col gap-4 justify-center items-center">
-            {/* Primary CTA: Browse Library */}
+          {/* Single Primary CTA - Reduces Decision Paralysis */}
+          <div className="flex flex-col gap-6 justify-center items-center">
+            {/* Primary CTA: Browse Library - Instant Gratification */}
             <Link href="/library">
               <Button
                 size="touch"
-                className="text-xl px-10 py-8 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105"
+                className="text-xl md:text-2xl px-12 py-8 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105 active:scale-95 hover-wiggle"
               >
-                <BookOpen className="mr-3 h-6 w-6" />
-                Browse Free Library
+                <BookOpen className="mr-3 h-7 w-7" />
+                Browse 1000+ Free Worksheets
+                <ArrowRight className="ml-3 h-6 w-6" />
               </Button>
             </Link>
 
-            {/* Secondary CTA: Generate Printable */}
-            <div className="flex flex-col items-center gap-2">
-              <Link href="/create">
-                <Button
-                  size="touch"
-                  variant="outline"
-                  className="text-lg px-8 py-6 border-2 border-purple-600 text-purple-700 hover:bg-purple-50 font-bold shadow-lg hover:shadow-xl transition-all"
-                >
-                  <Zap className="mr-2 h-5 w-5" />
-                  Generate Printable
-                </Button>
+            {/* Secondary: Text link only - Not competing for attention */}
+            <p className="text-gray-600 text-base">
+              Or{' '}
+              <Link
+                href="/create"
+                className="text-purple-600 hover:text-purple-800 font-semibold underline underline-offset-2 hover:no-underline transition-all"
+              >
+                create a custom worksheet with AI
               </Link>
-              <span className="text-sm text-gray-600">🎨 AI-powered • Ready in 20-30 seconds</span>
-            </div>
+              {' '}<span className="text-gray-500">(20-30 sec)</span>
+            </p>
           </div>
 
           {/* Free Badge */}
           <div className="mt-8 flex flex-col gap-3 items-center">
             {/* Row 1: Access-related badges */}
             <div className="flex justify-center gap-4 flex-wrap">
-              <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
+              <div className="flex items-center gap-2 px-4 py-2 bg-[hsl(48,20%,99%)] rounded-full shadow-md border border-[hsl(38,30%,88%)]">
                 <Check className="w-5 h-5 text-green-600" />
                 <span className="text-gray-700 font-medium">100% Free</span>
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
+              <div className="flex items-center gap-2 px-4 py-2 bg-[hsl(48,20%,99%)] rounded-full shadow-md border border-[hsl(38,30%,88%)]">
                 <Check className="w-5 h-5 text-green-600" />
                 <span className="text-gray-700 font-medium">No Sign-up</span>
               </div>
@@ -170,15 +182,15 @@ export default function LandingPage() {
 
             {/* Row 2: Feature-related badges */}
             <div className="flex justify-center gap-4 flex-wrap">
-              <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
+              <div className="flex items-center gap-2 px-4 py-2 bg-[hsl(48,20%,99%)] rounded-full shadow-md border border-[hsl(38,30%,88%)]">
                 <Check className="w-5 h-5 text-purple-600" />
                 <span className="text-gray-700 font-medium">Interactive Mode</span>
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
+              <div className="flex items-center gap-2 px-4 py-2 bg-[hsl(48,20%,99%)] rounded-full shadow-md border border-[hsl(38,30%,88%)]">
                 <Check className="w-5 h-5 text-purple-600" />
                 <span className="text-gray-700 font-medium">Customize & Download</span>
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md">
+              <div className="flex items-center gap-2 px-4 py-2 bg-[hsl(48,20%,99%)] rounded-full shadow-md border border-[hsl(38,30%,88%)]">
                 <Check className="w-5 h-5 text-purple-600" />
                 <span className="text-gray-700 font-medium">Instant Download</span>
               </div>
@@ -199,11 +211,11 @@ export default function LandingPage() {
       </div>
 
       {/* Customization Feature Section - Moved after Grade Navigation */}
-      <section className="py-10 bg-gradient-to-br from-purple-50 to-pink-50">
+      <section className="py-10 bg-gradient-to-br from-[hsl(48,60%,95%)] to-[hsl(38,50%,93%)]">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              Make Every Printable Your Own
+              Make Every Printable <span className="handwritten text-purple-600">Your Own</span>
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
               Don't just download - customize! Every printable can be personalized before you print.
@@ -212,7 +224,7 @@ export default function LandingPage() {
 
           <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
             {/* Library Printables Customization */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 relative overflow-hidden">
+            <div className="bg-[hsl(48,20%,99%)] rounded-2xl shadow-lg p-8 relative overflow-hidden border border-[hsl(38,30%,88%)]">
               <div className="absolute top-4 right-4 text-6xl opacity-10">📚</div>
               <h3 className="text-2xl font-bold text-purple-700 mb-4">
                 Customize Library Printables
@@ -257,7 +269,7 @@ export default function LandingPage() {
             </div>
 
             {/* AI-Generated Printables */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 relative overflow-hidden">
+            <div className="bg-[hsl(48,20%,99%)] rounded-2xl shadow-lg p-8 relative overflow-hidden border border-[hsl(38,30%,88%)]">
               <div className="absolute top-4 right-4 text-6xl opacity-10">✨</div>
               <h3 className="text-2xl font-bold text-pink-700 mb-4">
                 Create & Edit with AI
@@ -313,16 +325,16 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section - Simplified */}
-      <section className="py-10 md:py-12 bg-white">
+      <section className="py-10 md:py-12 bg-[hsl(48,20%,99%)]">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              Why Teachers Love FreeMathPrintable
+              Why Teachers <span className="handwritten text-pink-600">Love</span> FreeMathPrintable
             </h2>
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
-            <Card className="text-center hover:shadow-xl transition-all duration-300 border-2 hover:border-purple-300">
+            <Card className="text-center hover:shadow-xl hover:shadow-purple-100/50 transition-all duration-300 border-2 border-[hsl(38,30%,88%)] hover:border-purple-300 bg-[hsl(48,20%,99%)]">
               <CardHeader>
                 <div className="mx-auto p-4 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full">
                   <span className="text-3xl">🎮</span>
@@ -336,7 +348,7 @@ export default function LandingPage() {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-xl transition-all duration-300 border-2 hover:border-green-300">
+            <Card className="text-center hover:shadow-xl hover:shadow-green-100/50 transition-all duration-300 border-2 border-[hsl(38,30%,88%)] hover:border-green-300 bg-[hsl(48,20%,99%)]">
               <CardHeader>
                 <div className="mx-auto p-4 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full">
                   <Zap className="w-10 h-10 text-green-600" />
@@ -350,7 +362,7 @@ export default function LandingPage() {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-xl transition-all duration-300 border-2 hover:border-purple-300">
+            <Card className="text-center hover:shadow-xl hover:shadow-pink-100/50 transition-all duration-300 border-2 border-[hsl(38,30%,88%)] hover:border-purple-300 bg-[hsl(48,20%,99%)]">
               <CardHeader>
                 <div className="mx-auto p-4 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full">
                   <BookOpen className="w-10 h-10 text-purple-600" />
@@ -364,7 +376,7 @@ export default function LandingPage() {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-xl transition-all duration-300 border-2 hover:border-orange-300">
+            <Card className="text-center hover:shadow-xl hover:shadow-orange-100/50 transition-all duration-300 border-2 border-[hsl(38,30%,88%)] hover:border-orange-300 bg-[hsl(48,20%,99%)]">
               <CardHeader>
                 <div className="mx-auto p-4 bg-gradient-to-br from-orange-100 to-yellow-100 rounded-full">
                   <Clock className="w-10 h-10 text-orange-600" />
@@ -381,37 +393,36 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Simple CTA Section */}
+      {/* Simple CTA Section - Single Primary Focus */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="px-4 mx-auto max-w-4xl text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to Save Time on Lesson Planning?
+            Ready to <span className="handwritten">Save Time</span> on Lesson Planning?
           </h2>
           <p className="text-xl mb-8 opacity-90">
             Join thousands of teachers using our free resources every day
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col gap-4 justify-center items-center">
             <Link href="/library">
               <StickyNoteButton
                 size="lg"
                 variant="yellow"
-                rotation={-3}
-                className="font-bold text-lg shadow-xl"
+                rotation={-2}
+                className="font-bold text-xl shadow-xl px-8 py-4"
               >
                 Browse Free Library
                 <ArrowRight className="ml-2 h-5 w-5 inline" />
               </StickyNoteButton>
             </Link>
-            <Link href="/create">
-              <StickyNoteButton
-                size="lg"
-                variant="pink"
-                rotation={2}
-                className="font-bold text-lg shadow-xl"
+            <p className="text-white/80 text-base">
+              Or{' '}
+              <Link
+                href="/create"
+                className="text-yellow-200 hover:text-yellow-100 font-semibold underline underline-offset-2"
               >
-                Create Custom Printable
-              </StickyNoteButton>
-            </Link>
+                create a custom worksheet with AI
+              </Link>
+            </p>
           </div>
         </div>
       </section>

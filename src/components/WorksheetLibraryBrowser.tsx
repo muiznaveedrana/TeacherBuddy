@@ -4,8 +4,21 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Loader2 } from 'lucide-react'
 import type { LibraryWorksheet } from '@/lib/types/library'
 import { yearGroupToDualLabel } from '@/lib/types/hub'
+
+// Custom badge label for UK Money worksheets
+function getWorksheetBadgeLabel(worksheet: LibraryWorksheet): string {
+  // Check if it's a UK Money worksheet (coins or money subtopics)
+  const isUKMoney = worksheet.subtopic?.includes('coins') || worksheet.subtopic?.includes('money')
+  if (isUKMoney) {
+    const yearNum = worksheet.year_group.match(/Year (\d+)/)?.[1]
+    return yearNum ? `UK Money / Year ${yearNum}` : `UK Money / ${worksheet.year_group}`
+  }
+  return yearGroupToDualLabel(worksheet.year_group)
+}
+import { WorksheetPreviewPanel } from './WorksheetPreviewPanel'
 
 // Year group color system
 const YEAR_COLORS: Record<string, string> = {
@@ -41,6 +54,10 @@ export function WorksheetLibraryBrowser() {
   const [hasMore, setHasMore] = useState(true)
   const [page, setPage] = useState(0)
   const observerTarget = useRef<HTMLDivElement>(null)
+
+  // Preview panel state
+  const [selectedWorksheetIndex, setSelectedWorksheetIndex] = useState<number | null>(null)
+  const [isPanelOpen, setIsPanelOpen] = useState(false)
 
   // Get sort from URL or default to 'newest' (use optional chaining for safety)
   const sortBy = searchParams?.get('sort') || 'newest'
@@ -167,13 +184,39 @@ export function WorksheetLibraryBrowser() {
     router.push(`/library?${params.toString()}`)
   }
 
+  // Preview panel handlers
+  const handleCardClick = (index: number, e: React.MouseEvent) => {
+    e.preventDefault()
+    setSelectedWorksheetIndex(index)
+    setIsPanelOpen(true)
+  }
+
+  const handleClosePanel = () => {
+    setIsPanelOpen(false)
+    // Delay clearing the worksheet to allow close animation
+    setTimeout(() => setSelectedWorksheetIndex(null), 300)
+  }
+
+  const handleNavigate = (direction: 'prev' | 'next') => {
+    if (selectedWorksheetIndex === null) return
+
+    const newIndex = direction === 'prev'
+      ? selectedWorksheetIndex - 1
+      : selectedWorksheetIndex + 1
+
+    if (newIndex >= 0 && newIndex < worksheets.length) {
+      setSelectedWorksheetIndex(newIndex)
+    }
+  }
+
+  const selectedWorksheet = selectedWorksheetIndex !== null ? worksheets[selectedWorksheetIndex] : null
 
   if (loading) {
     return (
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-          <div key={i} className="bg-white rounded-lg border overflow-hidden animate-pulse">
-            <div className="aspect-[4/5] bg-gray-200" />
+          <div key={i} className="bg-[hsl(48,20%,99%)] rounded-lg border border-[hsl(38,30%,88%)] overflow-hidden animate-pulse">
+            <div className="aspect-[4/5] bg-[hsl(38,30%,90%)]" />
             <div className="px-2 py-1.5 space-y-0">
               <div className="h-3 bg-gray-200 rounded mb-1" />
               <div className="h-2 bg-gray-200 rounded w-3/4" />
@@ -194,7 +237,7 @@ export function WorksheetLibraryBrowser() {
 
   if (worksheets.length === 0) {
     return (
-      <div className="bg-white rounded-lg border p-12 text-center">
+      <div className="bg-[hsl(48,20%,99%)] rounded-lg border border-[hsl(38,30%,88%)] p-12 text-center">
         <p className="text-gray-500 text-lg">No printables found</p>
         <p className="text-gray-400 text-sm mt-2">
           Try adjusting your filters
@@ -230,16 +273,16 @@ export function WorksheetLibraryBrowser() {
 
       {/* 4-Column Responsive Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {worksheets.map((worksheet) => {
+        {worksheets.map((worksheet, index) => {
           const isNew = worksheet.published_at ? isNewWorksheet(worksheet.published_at) : false
           const isTrending = isTrendingWorksheet(worksheet)
           const yearColor = YEAR_COLORS[worksheet.year_group] || 'bg-gray-600'
 
           return (
-            <Link
+            <button
               key={worksheet.id}
-              href={`/library/${worksheet.slug}`}
-              className="group bg-white rounded-lg border hover:shadow-2xl transition-all duration-300 overflow-hidden relative"
+              onClick={(e) => handleCardClick(index, e)}
+              className="group bg-[hsl(48,20%,99%)] rounded-lg border border-[hsl(38,30%,88%)] hover:shadow-2xl hover:shadow-amber-100/50 transition-all duration-300 overflow-hidden relative text-left cursor-pointer active:scale-[0.98]"
             >
               {/* Image Container - Expands on hover to fill entire card */}
               <div className="relative aspect-[4/5] group-hover:aspect-[4/7] bg-gray-100 overflow-hidden transition-all duration-300">
@@ -253,7 +296,7 @@ export function WorksheetLibraryBrowser() {
 
                 {/* Year Group Badge - Bottom Left (US label for compact display) */}
                 <div className={`absolute bottom-2 left-2 ${yearColor} text-white px-2 py-0.5 rounded text-[10px] font-semibold shadow-lg transition-all duration-300 group-hover:opacity-0 group-hover:scale-0`}>
-                  {yearGroupToDualLabel(worksheet.year_group)}
+                  {getWorksheetBadgeLabel(worksheet)}
                 </div>
 
                 {/* Status Badge - Top Left */}
@@ -292,7 +335,7 @@ export function WorksheetLibraryBrowser() {
                   {worksheet.topic} • {worksheet.subtopic}
                 </p>
               </div>
-            </Link>
+            </button>
           )
         })}
       </div>
@@ -300,16 +343,24 @@ export function WorksheetLibraryBrowser() {
       {/* Infinite Scroll Trigger - Always render when hasMore, positioned AFTER grid */}
       <div ref={observerTarget} className="mt-8 min-h-[100px]">
         {loadingMore && hasMore && (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="bg-white rounded-lg border overflow-hidden animate-pulse">
-                <div className="aspect-[4/5] bg-gray-200" />
-                <div className="px-2 py-1.5 space-y-0">
-                  <div className="h-3 bg-gray-200 rounded mb-1" />
-                  <div className="h-2 bg-gray-200 rounded w-3/4" />
+          <div className="space-y-4">
+            {/* Spinner indicator above skeletons */}
+            <div className="flex items-center justify-center gap-2 py-2">
+              <Loader2 className="w-5 h-5 animate-spin text-blue-600" />
+              <span className="text-sm text-gray-600 font-medium">Loading more worksheets...</span>
+            </div>
+            {/* Skeleton cards */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="bg-[hsl(48,20%,99%)] rounded-lg border border-[hsl(38,30%,88%)] overflow-hidden animate-pulse">
+                  <div className="aspect-[4/5] bg-[hsl(38,30%,90%)]" />
+                  <div className="px-2 py-1.5 space-y-0">
+                    <div className="h-3 bg-[hsl(38,30%,85%)] rounded mb-1" />
+                    <div className="h-2 bg-[hsl(38,30%,85%)] rounded w-3/4" />
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )}
         {!loadingMore && hasMore && (
@@ -326,6 +377,16 @@ export function WorksheetLibraryBrowser() {
           <p className="text-xs text-gray-400 mt-1">Total: {worksheets.length} printables</p>
         </div>
       )}
+
+      {/* Slide-Out Preview Panel */}
+      <WorksheetPreviewPanel
+        worksheet={selectedWorksheet}
+        isOpen={isPanelOpen}
+        onClose={handleClosePanel}
+        onNavigate={handleNavigate}
+        hasPrev={selectedWorksheetIndex !== null && selectedWorksheetIndex > 0}
+        hasNext={selectedWorksheetIndex !== null && selectedWorksheetIndex < worksheets.length - 1}
+      />
     </div>
   )
 }

@@ -100,16 +100,20 @@ export function QuestionInput({
   const borderStyles = typeof borderStyle === 'object' ? borderStyle : {}
   
   // Answer-box style inputs get 140px width (+20px from original 120px)
+  // TABLET FIX: Increased height from 42px to 48px for better touch targets (Apple HIG: 44px min)
   const inputStyles = {
     ...baseStyles,
     width: field.style?.width || (isAnswerBoxStyle ? '140px' : '100%'),
     minWidth: field.style?.minWidth || (isAnswerBoxStyle ? '140px' : undefined),
-    height: field.style?.height || (isAnswerBoxStyle ? '42px' : undefined),
+    height: field.style?.height || (isAnswerBoxStyle ? '48px' : undefined), // TABLET: 48px for touch
+    minHeight: '48px', // TABLET: Ensure minimum touch target height
     border: typeof borderStyle === 'string' ? borderStyle : undefined,
     ...borderStyles,
     backgroundColor: getBackgroundColor(),
     outline: 'none',
-    display: field.inputType === 'textarea' ? 'block' : 'inline-block'
+    display: field.inputType === 'textarea' ? 'block' : 'inline-block',
+    // TABLET: Prevent zoom on iOS when input is focused (font-size >= 16px)
+    WebkitTextSizeAdjust: '100%'
   }
 
   const containerStyles = {
@@ -143,6 +147,9 @@ export function QuestionInput({
           onChange={handleChange}
           placeholder={field.placeholder}
           disabled={disabled}
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck={false}
           style={{
             ...inputStyles,
             minHeight: '80px',
@@ -160,6 +167,12 @@ export function QuestionInput({
           onChange={handleChange}
           placeholder={field.placeholder}
           disabled={disabled}
+          // TABLET: Numeric keyboard for number answers, text for word answers
+          inputMode={field.expectedAnswer && /^\d+$/.test(field.expectedAnswer) ? 'numeric' : 'text'}
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
           style={inputStyles}
           aria-label={field.label || field.placeholder}
         />

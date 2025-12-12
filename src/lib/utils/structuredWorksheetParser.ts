@@ -671,7 +671,8 @@ function parseQuestionStructure(
   // For single-input questions, extract just the number from the answer
   if (inputs.length === 1 && correctAnswer) {
     // Extract leading number from answer like "12 (6 + 6, doubles)" -> "12"
-    const numberMatch = correctAnswer.match(/^(\d+(?:[.\/]\d+)?)/)
+    // Also handles time format like "8:30" and fractions like "1/2"
+    const numberMatch = correctAnswer.match(/^(\d+(?:[:./]\d+)?)/)
     if (numberMatch) {
       answerArray = numberMatch[1]
       console.log(`🔢 Single-input Q${questionId}: Extracted "${answerArray}" from "${correctAnswer}"`)
@@ -713,15 +714,16 @@ function parseQuestionStructure(
         const symMatch = val.match(/\d+\s*([<>=])\s*\d+/)
         if (symMatch) val = symMatch[1]
         else {
-          const numMatch = val.match(/^(\d+)/)
+          // Support time format like "2:15", fractions like "3/4", and regular numbers
+          const numMatch = val.match(/^(\d+(?:[:/]\d+)?)/)
           if (numMatch) val = numMatch[1]
         }
         abcdMatches.push(val)
       }
     }
 
-    // Extract b) value - Yes/No, number, symbol, or expanded form "X + Y"
-    const bMatch = correctAnswer.match(/b\)\s*(Yes|No|\d+(?:\s*[+\-<>=]\s*\d+)?)/i)
+    // Extract b) value - Yes/No, number (including time/fractions), symbol, or expanded form "X + Y"
+    const bMatch = correctAnswer.match(/b\)\s*(Yes|No|\d+(?:[:/]\d+)?(?:\s*[+\-<>=]\s*\d+)?)/i)
     if (bMatch) {
       let val = bMatch[1].trim()
       // Check for expanded form "X + Y" (e.g., "90 + 5" -> ["90", "5"])
@@ -735,40 +737,42 @@ function parseQuestionStructure(
         const symMatch = val.match(/\d+\s*([<>=])\s*\d+/)
         if (symMatch) val = symMatch[1]
         else {
-          const numMatch = val.match(/^(\d+)/)
+          // Support time format like "2:15", fractions like "3/4", and regular numbers
+          const numMatch = val.match(/^(\d+(?:[:/]\d+)?)/)
           if (numMatch) val = numMatch[1]
         }
         abcdMatches.push(val)
       }
     }
 
-    // Extract c) value - Yes/No or number
-    const cMatch = correctAnswer.match(/c\)\s*(Yes|No|\d+)/i)
+    // Extract c) value - Yes/No or number (including time/fractions)
+    const cMatch = correctAnswer.match(/c\)\s*(Yes|No|\d+(?:[:/]\d+)?)/i)
     if (cMatch) {
       abcdMatches.push(cMatch[1])
     }
 
-    // Extract d) value - symbol or number
-    const dMatch = correctAnswer.match(/d\)\s*(\d+\s*[<>=]\s*\d+|\d+)/i)
+    // Extract d) value - symbol or number (including time/fractions)
+    const dMatch = correctAnswer.match(/d\)\s*(\d+\s*[<>=]\s*\d+|\d+(?:[:/]\d+)?)/i)
     if (dMatch) {
       let val = dMatch[1].trim()
       const symMatch = val.match(/\d+\s*([<>=])\s*\d+/)
       if (symMatch) val = symMatch[1]
       else {
-        const numMatch = val.match(/^(\d+)/)
+        // Support time format like "2:15", fractions like "3/4", and regular numbers
+        const numMatch = val.match(/^(\d+(?:[:/]\d+)?)/)
         if (numMatch) val = numMatch[1]
       }
       abcdMatches.push(val)
     }
 
-    // Extract e) value - number
-    const eMatch = correctAnswer.match(/e\)\s*(\d+)/i)
+    // Extract e) value - number (including time/fractions)
+    const eMatch = correctAnswer.match(/e\)\s*(\d+(?:[:/]\d+)?)/i)
     if (eMatch) {
       abcdMatches.push(eMatch[1])
     }
 
-    // Extract f) value - number
-    const fMatch = correctAnswer.match(/f\)\s*(\d+)/i)
+    // Extract f) value - number (including time/fractions)
+    const fMatch = correctAnswer.match(/f\)\s*(\d+(?:[:/]\d+)?)/i)
     if (fMatch) {
       abcdMatches.push(fMatch[1])
     }

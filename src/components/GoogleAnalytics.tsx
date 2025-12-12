@@ -93,6 +93,26 @@ export function GoogleAnalytics() {
               }
             });
 
+            // Track scroll depth (25%, 50%, 75%, 100%)
+            let scrollMarks = { 25: false, 50: false, 75: false, 100: false };
+            window.addEventListener('scroll', function() {
+              const scrollPercent = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+              [25, 50, 75, 100].forEach(function(mark) {
+                if (scrollPercent >= mark && !scrollMarks[mark]) {
+                  scrollMarks[mark] = true;
+                  gtag('event', 'scroll_depth', {
+                    percent_scrolled: mark,
+                    page_path: window.location.pathname
+                  });
+                }
+              });
+            });
+
+            // Global event tracking helper
+            window.trackEvent = function(eventName, params) {
+              gtag('event', eventName, params);
+            };
+
             // Track worksheet generation
             if (typeof window !== 'undefined') {
               const originalFetch = window.fetch;

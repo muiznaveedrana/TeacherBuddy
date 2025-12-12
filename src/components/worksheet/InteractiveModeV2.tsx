@@ -1,14 +1,16 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { parseWorksheetStructured } from '@/lib/utils/structuredWorksheetParser'
 import { calculateScoreStructured } from '@/lib/utils/answerValidator'
 import { Button } from '@/components/ui/button'
+import { Loader2 } from 'lucide-react'
 import { CelebrationOverlay } from './CelebrationOverlay'
 import { FullscreenController } from './FullscreenController'
 import { ScoreTracker } from './ScoreTracker'
 import { StructuredQuestion } from './StructuredQuestion'
 import type { LibraryWorksheet } from '@/lib/types/library'
+import { trackInteractiveStart, trackInteractiveSubmit, trackInteractiveExit } from '@/lib/utils/analytics'
 
 interface InteractiveModeV2Props {
   htmlContent: string
@@ -34,12 +36,23 @@ export function InteractiveModeV2({ htmlContent, worksheet, onExit }: Interactiv
   const [showCelebration, setShowCelebration] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [isLocked, setIsLocked] = useState(false)
+  const startTimeRef = useRef<number>(Date.now())
 
   useEffect(() => {
     const result = parseWorksheetStructured(htmlContent)
     setParsed(result)
     console.log('📋 Parsed structured worksheet:', result)
-  }, [htmlContent])
+
+    // Track interactive mode start
+    if (result) {
+      trackInteractiveStart({
+        id: worksheet.id,
+        title: worksheet.title,
+        yearGroup: worksheet.year_group,
+        questionCount: result.questions.length
+      })
+    }
+  }, [htmlContent, worksheet])
 
   // Handle answer change - fully controlled
   const handleAnswerChange = (subId: string, value: string) => {
@@ -91,6 +104,18 @@ export function InteractiveModeV2({ htmlContent, worksheet, onExit }: Interactiv
     setSubmitted(true)
     setShowCelebration(true)
 
+    // Calculate time spent
+    const timeSpentSeconds = Math.round((Date.now() - startTimeRef.current) / 1000)
+
+    // Track submission
+    trackInteractiveSubmit({
+      worksheetId: worksheet.id,
+      score: result.correct,
+      total: result.total,
+      percentage: result.percentage,
+      timeSpentSeconds
+    })
+
     console.log('📊 Score result:', result)
 
     // Auto-hide celebration after 5 seconds
@@ -102,13 +127,28 @@ export function InteractiveModeV2({ htmlContent, worksheet, onExit }: Interactiv
     setSubmitted(false)
     setScoreResult(null)
     setShowCelebration(false)
+    startTimeRef.current = Date.now() // Reset timer for retry
+  }
+
+  // Wrapper for exit that tracks the event
+  const handleExit = () => {
+    if (parsed) {
+      trackInteractiveExit({
+        id: worksheet.id,
+        completed: submitted,
+        questionsAnswered: countAnsweredQuestions(),
+        totalQuestions: parsed.questions.length
+      })
+    }
+    onExit()
   }
 
   if (!parsed) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="text-2xl font-bold mb-2">Loading interactive worksheet...</div>
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+        <div className="text-center space-y-4">
+          <Loader2 className="w-12 h-12 animate-spin text-blue-600 mx-auto" />
+          <div className="text-2xl font-bold text-gray-800">Loading interactive worksheet...</div>
           <div className="text-gray-600">Preparing your questions...</div>
         </div>
       </div>
@@ -125,7 +165,7 @@ export function InteractiveModeV2({ htmlContent, worksheet, onExit }: Interactiv
             This worksheet doesn&apos;t have an answer key, so we can&apos;t automatically check your answers.
             You can still practice, but you&apos;ll need to check your own work!
           </div>
-          <Button onClick={onExit} variant="outline">
+          <Button onClick={handleExit} variant="outline">
             Back to Worksheet
           </Button>
         </div>
@@ -148,14 +188,19 @@ export function InteractiveModeV2({ htmlContent, worksheet, onExit }: Interactiv
         onToggleLock={() => setIsLocked(!isLocked)}
       />
 
-      {/* Header */}
-      <div className="sticky top-0 z-30 bg-white border-b-4 border-blue-500 shadow-md">
-        <div className="max-w-4xl mx-auto p-4 flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-blue-700">{worksheet.title}</h1>
-            <p className="text-gray-600">Interactive Mode - Answer all questions below</p>
+      {/* Header - TABLET OPTIMIZED */}
+      <div className="sticky top-0 z-30 bg-white border-b-4 border-blue-500 shadow-md safe-area-top">
+        <div className="max-w-4xl mx-auto p-3 sm:p-4 flex justify-between items-center gap-2">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-blue-700 truncate">{worksheet.title}</h1>
+            <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">Interactive Mode - Answer all questions below</p>
           </div>
-          <Button onClick={onExit} variant="outline" size="sm">
+          <Button
+            onClick={handleExit}
+            variant="outline"
+            size="sm"
+            className="flex-shrink-0 min-h-[44px] min-w-[44px] touch-target"
+          >
             Exit
           </Button>
         </div>
@@ -170,8 +215,8 @@ export function InteractiveModeV2({ htmlContent, worksheet, onExit }: Interactiv
         />
       )}
 
-      {/* Questions */}
-      <div className="questions-container max-w-4xl mx-auto p-6">
+      {/* Questions - TABLET OPTIMIZED with responsive padding */}
+      <div className="questions-container max-w-4xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6">
         {parsed.questions.map((q, index) => {
           // Check if question has any answers
           const isAnswered = q.inputs.some(input => {
@@ -182,7 +227,7 @@ export function InteractiveModeV2({ htmlContent, worksheet, onExit }: Interactiv
           return (
             <div
               key={`q-${q.id}`}
-              className={`question-interactive mb-6 p-4 rounded-lg border-2 transition-all relative ${
+              className={`question-interactive mb-4 sm:mb-6 p-3 sm:p-4 rounded-lg border-2 transition-all relative ${
                 submitted
                   ? scoreResult.details[index]?.isCorrect
                     ? 'bg-green-50 border-green-500'
@@ -212,28 +257,38 @@ export function InteractiveModeV2({ htmlContent, worksheet, onExit }: Interactiv
         })}
       </div>
 
-      {/* Submit/Action Buttons */}
-      <div className="sticky bottom-0 bg-white border-t-4 border-blue-500 p-4 shadow-lg">
-        <div className="max-w-4xl mx-auto flex justify-center gap-4">
+      {/* Submit/Action Buttons - TABLET OPTIMIZED with safe area */}
+      <div className="sticky bottom-0 bg-white border-t-4 border-blue-500 p-3 sm:p-4 shadow-lg safe-area-bottom">
+        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row justify-center gap-2 sm:gap-4">
           {!submitted ? (
             <Button
               onClick={handleSubmit}
               size="lg"
-              className="text-xl px-12 py-6 bg-blue-600 hover:bg-blue-700"
+              className="text-base sm:text-lg md:text-xl px-6 sm:px-8 md:px-12 py-4 sm:py-5 md:py-6 bg-blue-600 hover:bg-blue-700 min-h-[52px] touch-target active:scale-[0.98] transition-transform"
               disabled={!areAllQuestionsAnswered()}
             >
               {areAllQuestionsAnswered()
                 ? 'Submit Answers 📝'
-                : `Answer all questions (${parsed.questions.length - countAnsweredQuestions()} remaining)`
+                : `Answer all (${parsed.questions.length - countAnsweredQuestions()} left)`
               }
             </Button>
           ) : (
             <>
-              <Button onClick={handleTryAgain} variant="outline" size="lg" className="text-lg px-8 py-4">
+              <Button
+                onClick={handleTryAgain}
+                variant="outline"
+                size="lg"
+                className="text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 min-h-[48px] touch-target active:scale-[0.98] transition-transform"
+              >
                 Try Again 🔄
               </Button>
-              <Button onClick={onExit} variant="default" size="lg" className="text-lg px-8 py-4">
-                Exit Interactive Mode 🚪
+              <Button
+                onClick={handleExit}
+                variant="default"
+                size="lg"
+                className="text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 min-h-[48px] touch-target active:scale-[0.98] transition-transform"
+              >
+                Exit 🚪
               </Button>
             </>
           )}

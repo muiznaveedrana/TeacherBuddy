@@ -5,6 +5,7 @@ import { LibraryFilters } from '@/components/LibraryFilters'
 import { LibrarySearch } from '@/components/LibrarySearch'
 import { LibraryPaginationMeta } from '@/components/LibraryPaginationMeta'
 import { LibraryNavigation } from '@/components/LibraryNavigation'
+import { MobileFilterSheet } from '@/components/MobileFilterSheet'
 import { ChevronRight } from 'lucide-react'
 import { Metadata } from 'next'
 
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
 
 export default function LibraryPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[hsl(48,76%,96%)]">
       {/* SEO: Add pagination link tags for better search engine crawling */}
       <Suspense fallback={null}>
         <LibraryPaginationMeta />
@@ -34,7 +35,7 @@ export default function LibraryPage() {
       <LibraryNavigation currentPage="library" />
 
       {/* Hero Section with Search */}
-      <div className="bg-gradient-to-br from-blue-50 to-white border-b">
+      <div className="bg-gradient-to-br from-[hsl(48,60%,95%)] to-[hsl(48,20%,99%)] border-b border-[hsl(38,30%,85%)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Breadcrumbs */}
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-4">
@@ -83,6 +84,11 @@ export default function LibraryPage() {
 
           {/* Worksheets Grid */}
           <main className="flex-1 min-w-0">
+            {/* Mobile Filter Pills and Bottom Sheet */}
+            <Suspense fallback={null}>
+              <MobileFilterSheet className="mb-4" />
+            </Suspense>
+
             <Suspense fallback={
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Search, X, Sparkles } from 'lucide-react'
+import { Search, X, Sparkles, Loader2 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { trackLibrarySearch } from '@/lib/analytics'
 
@@ -132,7 +132,10 @@ export function LibrarySearch() {
           disabled={isSearching}
         />
         {isSearching && (
-          <Sparkles className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-500 animate-pulse" />
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+            <Loader2 className="w-4 h-4 text-blue-500 animate-spin" />
+            <Sparkles className="w-4 h-4 text-purple-500 animate-pulse" />
+          </div>
         )}
         {query && !isSearching && (
           <button

@@ -1,7 +1,86 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { WORKSHEET_TAXONOMY, normalizeTopicValue, normalizeSubtopicValue } from '@/lib/config/worksheetTaxonomy'
+import { CURRICULUM_MAPPING } from '@/lib/data/curriculum'
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '')
+
+// Curriculum-aware topic mapping for invalid year_group + topic combinations
+// Maps user intent to valid curriculum topics
+// This ensures searches like "reception addition" return meaningful results
+// POC Phase: Only Reception, Year 1, Year 2 are available
+const TOPIC_REMAPPING: Record<string, Record<string, { topic: string; subtopic?: string }>> = {
+  // ============================================
+  // RECEPTION (Ages 4-5) - Has: number-counting, shape-space, measurement
+  // ============================================
+  'Reception': {
+    'addition-subtraction': { topic: 'number-counting', subtopic: 'early-addition' },
+    'number-place-value': { topic: 'number-counting' },
+    'geometry-shapes': { topic: 'shape-space' },
+    'geometry-position': { topic: 'shape-space', subtopic: 'position-direction' },
+    'multiplication-division': { topic: 'number-counting' },
+    'fractions': { topic: 'number-counting' },
+    'statistics': { topic: 'number-counting' },
+  },
+
+  // ============================================
+  // YEAR 1 (Ages 5-6) - Has: number-place-value, addition-subtraction, measurement, geometry-shapes, fractions
+  // ============================================
+  'Year 1': {
+    'number-counting': { topic: 'number-place-value' },
+    'shape-space': { topic: 'geometry-shapes' },
+    'geometry-position': { topic: 'geometry-shapes' },
+    'multiplication-division': { topic: 'addition-subtraction' },
+    'statistics': { topic: 'number-place-value' },
+  },
+
+  // ============================================
+  // YEAR 2 (Ages 6-7) - Has: number-place-value, addition-subtraction, multiplication-division,
+  //                          fractions, measurement, statistics, geometry-shapes, geometry-position
+  // Year 2 has the most complete topic coverage - minimal remapping needed
+  // ============================================
+  'Year 2': {
+    'number-counting': { topic: 'number-place-value' },
+    'shape-space': { topic: 'geometry-shapes' },
+  },
+}
+
+/**
+ * Validate and remap topic if the year_group + topic combination doesn't exist in curriculum
+ */
+function validateAndRemapTopic(parsed: ParsedSearchQuery): ParsedSearchQuery {
+  if (!parsed.year_group || !parsed.topic) {
+    return parsed
+  }
+
+  const yearData = CURRICULUM_MAPPING[parsed.year_group]
+  if (!yearData) {
+    return parsed // Unknown year group, let it pass
+  }
+
+  // Check if topic exists for this year group
+  const topicExists = Object.keys(yearData.topics).includes(parsed.topic)
+
+  if (topicExists) {
+    return parsed // Valid combination, no remapping needed
+  }
+
+  // Topic doesn't exist for this year group - try to remap
+  const remapping = TOPIC_REMAPPING[parsed.year_group]?.[parsed.topic]
+
+  if (remapping) {
+    console.log(`🔄 Remapping invalid combo: ${parsed.year_group} + ${parsed.topic} → ${remapping.topic}${remapping.subtopic ? ` (${remapping.subtopic})` : ''}`)
+    return {
+      ...parsed,
+      topic: remapping.topic,
+      subtopic: remapping.subtopic || parsed.subtopic,
+    }
+  }
+
+  // No remapping available - remove topic to show all results for year group
+  console.warn(`⚠️ No valid topic mapping for ${parsed.year_group} + ${parsed.topic}, showing all ${parsed.year_group} worksheets`)
+  const { topic: _, subtopic: __, ...rest } = parsed
+  return rest
+}
 
 export interface ParsedSearchQuery {
   year_group?: string
@@ -128,6 +207,9 @@ export async function parseSearchQuery(query: string): Promise<ParsedSearchQuery
         delete parsed.subtopic // Remove invalid subtopic
       }
     }
+
+    // CURRICULUM VALIDATION: Remap invalid year_group + topic combinations
+    parsed = validateAndRemapTopic(parsed)
 
     console.log('🔍 AI Search parsed & normalized:', { query, parsed })
 

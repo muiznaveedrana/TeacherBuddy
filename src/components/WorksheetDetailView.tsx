@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { RelatedWorksheets } from '@/components/RelatedWorksheets'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { Home, PlusCircle, ArrowLeft, LogOut } from 'lucide-react'
+import { Home, PlusCircle, ArrowLeft, LogOut, Loader2 } from 'lucide-react'
 import type { LibraryWorksheet } from '@/lib/types/library'
 import { createBrowserClient } from '@supabase/ssr'
 import { yearGroupToDualLabel } from '@/lib/types/hub'
@@ -311,7 +311,7 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
                     >
                       {isGeneratingPDF ? (
                         <>
-                          <span className="animate-spin mr-2">⏳</span>
+                          <Loader2 className="w-5 h-5 animate-spin mr-2" />
                           Generating PDF...
                         </>
                       ) : (

@@ -3,6 +3,7 @@ import { Mulish, Kalam } from "next/font/google";
 import "./globals.css";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
+import { NavigationProgressProvider } from "@/components/NavigationProgress";
 
 // Mulish (formerly Muli) for clean, modern body text
 const mulish = Mulish({
@@ -100,7 +101,9 @@ export default function RootLayout({
         />
       </head>
       <body className={`${mulish.variable} ${kalam.variable} font-sans antialiased`}>
-        {children}
+        <NavigationProgressProvider>
+          {children}
+        </NavigationProgressProvider>
         <CookieConsentBanner />
       </body>
     </html>

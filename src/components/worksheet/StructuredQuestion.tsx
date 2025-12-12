@@ -1525,7 +1525,9 @@ export function StructuredQuestion({
     const hasHowManyMore = html.toLowerCase().includes('how many more')
 
     // Need read problem + person names + multiple question parts
-    const isWordProblem = (hasWordProblemBox || hasComparisonVisual || hasPersonGroup) &&
+    // IMPORTANT: Only use this renderer when person groups are present
+    // Other word problems (like chocolate bar fractions) should use generic renderer
+    const isWordProblem = hasPersonGroup &&
                           (hasReadProblem || (hasWhoCollectedMore && hasHowManyMore))
 
     if (!isWordProblem) {
