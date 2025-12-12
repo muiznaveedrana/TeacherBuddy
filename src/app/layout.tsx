@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Mulish, Kalam } from "next/font/google";
 import "./globals.css";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
@@ -20,6 +20,14 @@ const kalam = Kalam({
   variable: '--font-kalam',
   display: 'swap',
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   title: "Free Math Worksheets | FreeMathPrintable.com",

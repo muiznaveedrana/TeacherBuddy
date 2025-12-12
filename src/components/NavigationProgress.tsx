@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback, createContext, useContext } from 'react'
+import { useEffect, useState, useCallback, createContext, useContext, Suspense } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 
 // Context for manual loading control
@@ -22,7 +22,7 @@ interface NavigationProgressProps {
   children: React.ReactNode
 }
 
-export function NavigationProgressProvider({ children }: NavigationProgressProps) {
+function NavigationProgressInner({ children }: NavigationProgressProps) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [isNavigating, setIsNavigating] = useState(false)
@@ -110,5 +110,14 @@ export function NavigationProgressProvider({ children }: NavigationProgressProps
       </div>
       {children}
     </LoadingContext.Provider>
+  )
+}
+
+// Wrapper component that provides Suspense boundary
+export function NavigationProgressProvider({ children }: NavigationProgressProps) {
+  return (
+    <Suspense fallback={<>{children}</>}>
+      <NavigationProgressInner>{children}</NavigationProgressInner>
+    </Suspense>
   )
 }
