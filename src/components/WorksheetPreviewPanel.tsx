@@ -296,15 +296,6 @@ export function WorksheetPreviewPanel({
           </Link>
         </div>
 
-        {/* Keyboard hint - shown on desktop */}
-        <div className="hidden lg:block absolute bottom-20 left-4 text-xs text-gray-400">
-          <kbd className="px-1.5 py-0.5 bg-gray-100 rounded border text-[10px]">←</kbd>
-          <kbd className="px-1.5 py-0.5 bg-gray-100 rounded border text-[10px] ml-1">→</kbd>
-          <span className="ml-2">to navigate</span>
-          <span className="mx-2">•</span>
-          <kbd className="px-1.5 py-0.5 bg-gray-100 rounded border text-[10px]">ESC</kbd>
-          <span className="ml-2">to close</span>
-        </div>
       </div>
     </>
   )

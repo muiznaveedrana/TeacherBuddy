@@ -226,7 +226,7 @@ export function LibraryShowcase({ className = '' }: LibraryShowcaseProps) {
         <div className="text-center">
           <Link href="/library">
             <Button variant="outline" size="sm" className="text-xs h-8 px-4">
-              Browse 1000+ More Worksheets →
+              Browse 100+ More Worksheets →
             </Button>
           </Link>
         </div>

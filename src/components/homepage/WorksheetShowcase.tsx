@@ -295,7 +295,7 @@ export default function WorksheetShowcase() {
             </svg>
           </Link>
           <p className="mt-3 text-sm text-gray-500">
-            1000+ printables available • No sign-up required
+            100+ printables available • No sign-up required
           </p>
         </div>
       </div>

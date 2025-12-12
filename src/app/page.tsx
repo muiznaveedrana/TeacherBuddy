@@ -12,7 +12,7 @@ import { StickyNoteButton } from "@/components/ui/sticky-note-button";
 
 export const metadata: Metadata = {
   title: "Free Math Worksheets | Kindergarten to Grade 6 | Printable PDF",
-  description: "Download 1000+ free printable math worksheets for Kindergarten through Grade 6. Common Core aligned. No signup required. Print instantly. Ages 4-11.",
+  description: "Download 100+ free printable math worksheets for Kindergarten through Grade 6. Common Core aligned. No signup required. Print instantly. Ages 4-11.",
   keywords: [
     // US Primary Keywords (highest priority)
     "free math worksheets",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Free Math Worksheets | Kindergarten to Grade 6 | Printable PDF",
-    description: "1000+ free printable math worksheets for K-6. Common Core & UK Curriculum aligned. No signup. Print instantly!",
+    description: "100+ free printable math worksheets for K-6. Common Core & UK Curriculum aligned. No signup. Print instantly!",
     url: "https://freemathprintable.com",
     siteName: "FreeMathPrintable.com",
     type: "website",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Free Math Worksheets | Kindergarten to Grade 6",
-    description: "Download 1000+ free printable math worksheets. K-6. Common Core aligned. No signup required!",
+    description: "Download 100+ free printable math worksheets. K-6. Common Core aligned. No signup required!",
   },
   alternates: {
     canonical: "https://freemathprintable.com",
@@ -136,7 +136,7 @@ export default function LandingPage() {
 
           {/* Simplified Description - US First */}
           <p className="max-w-2xl mx-auto text-xl text-gray-600 mb-8">
-            1000+ free worksheets • Kindergarten to Grade 6 • Common Core Aligned
+            100+ free worksheets • Kindergarten to Grade 6 • Common Core Aligned
           </p>
 
           {/* Single Primary CTA - Reduces Decision Paralysis */}
@@ -148,7 +148,7 @@ export default function LandingPage() {
                 className="text-xl md:text-2xl px-12 py-8 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105 active:scale-95 hover-wiggle"
               >
                 <BookOpen className="mr-3 h-7 w-7" />
-                Browse 1000+ Free Worksheets
+                Browse 100+ Free Worksheets
                 <ArrowRight className="ml-3 h-6 w-6" />
               </Button>
             </Link>

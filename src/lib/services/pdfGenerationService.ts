@@ -1,6 +1,54 @@
 import { LayoutType, WorksheetConfig } from '@/lib/types/worksheet'
 import svgInliningService from './svgInliningService'
 
+/**
+ * CSS styles to inject for proper PDF page break handling
+ * Prevents awkward content cuts (images/diagrams split across pages)
+ */
+const PDF_PAGE_BREAK_CSS = `
+  /* Prevent page breaks inside questions and visual elements */
+  .question, .question-block, .question-row, .question-item {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Prevent images and diagrams from being split */
+  img, svg, figure, .image-container, .counting-objects, .visual-container {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Prevent answer boxes from being split from their questions */
+  .answer-box, .answer-line, .fill-blank, input {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Keep question numbers with their content */
+  .question-number {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  /* Group elements that should stay together */
+  .question-group, .problem-set, .exercise-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Tables should not split across pages */
+  table, tr {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Orphan/widow control for text */
+  p, li {
+    orphans: 3;
+    widows: 3;
+  }
+`
+
 export interface PdfGenerationRequest {
   config: WorksheetConfig
   generatedContent: string
@@ -17,6 +65,37 @@ export interface PdfGenerationResult {
     processedImages: number
     errors: string[]
   }
+}
+
+/**
+ * Inject page break CSS into HTML content
+ * Adds styles to prevent awkward content cuts
+ */
+function injectPageBreakCSS(html: string): string {
+  const styleTag = `<style type="text/css">${PDF_PAGE_BREAK_CSS}</style>`
+
+  // Try to inject into <head> if present
+  if (html.includes('</head>')) {
+    return html.replace('</head>', `${styleTag}</head>`)
+  }
+
+  // Otherwise prepend to content
+  return styleTag + html
+}
+
+/**
+ * A4 page dimensions for calculations (in mm)
+ */
+const A4_HEIGHT_MM = 297
+const A4_WIDTH_MM = 210
+
+/**
+ * PDF margin configurations for optimization
+ */
+const PDF_MARGINS = {
+  default: { top: '10mm', bottom: '10mm', left: '12mm', right: '12mm' },
+  reduced: { top: '8mm', bottom: '8mm', left: '10mm', right: '10mm' },
+  minimal: { top: '6mm', bottom: '6mm', left: '8mm', right: '8mm' }
 }
 
 /**
@@ -113,7 +192,11 @@ export async function generateWorksheetPdf(
       console.log(`✅ Successfully inlined ${inliningResult.processedImages} static SVG images for PDF (${inliningTime}ms)`)
     }
 
-    const html = inliningResult.inlinedHtml
+    // Inject page break CSS to prevent awkward content cuts
+    const htmlWithPageBreaks = injectPageBreakCSS(inliningResult.inlinedHtml)
+    console.log('✅ Injected page break CSS for proper pagination')
+
+    const html = htmlWithPageBreaks
     
     // Configure Puppeteer for both development and serverless environments
     const isProduction = process.env.NODE_ENV === 'production'
@@ -223,25 +306,103 @@ export async function generateWorksheetPdf(
     // Ensure all fonts are loaded (important for math symbols)
     await page.evaluateHandle(() => document.fonts.ready)
     
-    // Generate PDF with optimized A4 formatting and enhanced quality settings
+    // PHASE 2: Dynamic scaling for smart space optimization
+    // Generate initial PDF with default settings
     const pdfStartTime = Date.now()
-    const pdfBuffer = await page.pdf({
+    let pdfBuffer = await page.pdf({
       format: 'A4',
       printBackground: true,
-      margin: {
-        top: '10mm',    // Minimal margins to maximize content area
-        bottom: '10mm',
-        left: '12mm',
-        right: '12mm'
-      },
+      margin: PDF_MARGINS.default,
       preferCSSPageSize: true,
       displayHeaderFooter: false,
       scale: 1.0,
-      // Optimize for print quality
       omitBackground: false
     })
+
+    // Check page count by parsing PDF structure
+    // PDF files use /Type /Page to indicate pages (not /Pages which is the parent)
+    // Convert buffer to string for regex matching
+    const pdfString = Buffer.from(pdfBuffer).toString('binary')
+    // Count page objects - match /Type /Page but not /Type /Pages
+    const pageMatches = pdfString.match(/\/Type\s*\/Page\b(?!s)/g) || []
+    const pageCount = pageMatches.length
+
+    console.log(`📄 Initial PDF: ${pageCount} page(s)`)
+
+    // If PDF is 3+ pages, check if we can optimize to fit in 2 pages
+    if (pageCount >= 3) {
+      // Calculate approximate content distribution
+      // If 3rd page would be ≤20% filled, try to optimize
+      const shouldOptimize = pageCount === 3 // Only optimize 3-page PDFs
+
+      if (shouldOptimize) {
+        console.log('📐 Attempting to optimize PDF to fit in 2 pages...')
+
+        // Strategy 1: Try with reduced margins
+        const pdfReducedMargins = await page.pdf({
+          format: 'A4',
+          printBackground: true,
+          margin: PDF_MARGINS.reduced,
+          preferCSSPageSize: true,
+          displayHeaderFooter: false,
+          scale: 1.0,
+          omitBackground: false
+        })
+
+        const reducedPdfString = Buffer.from(pdfReducedMargins).toString('binary')
+        const reducedPageCount = (reducedPdfString.match(/\/Type\s*\/Page\b(?!s)/g) || []).length
+
+        if (reducedPageCount <= 2) {
+          console.log(`✅ Optimized to ${reducedPageCount} pages with reduced margins`)
+          pdfBuffer = pdfReducedMargins
+        } else {
+          // Strategy 2: Try with scale reduction (95%)
+          const pdfScaled = await page.pdf({
+            format: 'A4',
+            printBackground: true,
+            margin: PDF_MARGINS.reduced,
+            preferCSSPageSize: true,
+            displayHeaderFooter: false,
+            scale: 0.95,
+            omitBackground: false
+          })
+
+          const scaledPdfString = Buffer.from(pdfScaled).toString('binary')
+          const scaledPageCount = (scaledPdfString.match(/\/Type\s*\/Page\b(?!s)/g) || []).length
+
+          if (scaledPageCount <= 2) {
+            console.log(`✅ Optimized to ${scaledPageCount} pages with 95% scale`)
+            pdfBuffer = pdfScaled
+          } else {
+            // Strategy 3: More aggressive - minimal margins + 92% scale
+            const pdfAggressive = await page.pdf({
+              format: 'A4',
+              printBackground: true,
+              margin: PDF_MARGINS.minimal,
+              preferCSSPageSize: true,
+              displayHeaderFooter: false,
+              scale: 0.92,
+              omitBackground: false
+            })
+
+            const aggressivePdfString = Buffer.from(pdfAggressive).toString('binary')
+            const aggressivePageCount = (aggressivePdfString.match(/\/Type\s*\/Page\b(?!s)/g) || []).length
+
+            if (aggressivePageCount <= 2) {
+              console.log(`✅ Optimized to ${aggressivePageCount} pages with aggressive settings`)
+              pdfBuffer = pdfAggressive
+            } else {
+              console.log(`ℹ️ Could not optimize below ${aggressivePageCount} pages, using original`)
+            }
+          }
+        }
+      }
+    }
+
     const pdfTime = Date.now() - pdfStartTime
-    console.log(`📄 PDF generation completed in ${pdfTime}ms`)
+    const finalPdfString = Buffer.from(pdfBuffer).toString('binary')
+    const finalPageCount = (finalPdfString.match(/\/Type\s*\/Page\b(?!s)/g) || []).length
+    console.log(`📄 PDF generation completed: ${finalPageCount} page(s) in ${pdfTime}ms`)
     
     // Convert to Buffer for proper typing
     const buffer = Buffer.from(pdfBuffer)
