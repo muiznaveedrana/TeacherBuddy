@@ -192,6 +192,42 @@ export function yearGroupToDualLabel(yearGroup: string): string {
 }
 
 /**
+ * Get US-first dual display label for year group WITH ages
+ * "Reception" -> "Kindergarten / Reception (Ages 4-5)"
+ * "Year 1" -> "Grade 1 / Year 1 (Ages 5-6)"
+ */
+export function yearGroupToDualLabelWithAges(yearGroup: string): string {
+  const dualLabelsWithAges: Record<string, string> = {
+    Reception: 'Kindergarten / Reception (Ages 4-5)',
+    'Year 1': 'Grade 1 / Year 1 (Ages 5-6)',
+    'Year 2': 'Grade 2 / Year 2 (Ages 6-7)',
+    'Year 3': 'Grade 3 / Year 3 (Ages 7-8)',
+    'Year 4': 'Grade 4 / Year 4 (Ages 8-9)',
+    'Year 5': 'Grade 5 / Year 5 (Ages 9-10)',
+    'Year 6': 'Grade 6 / Year 6 (Ages 10-11)',
+  }
+  return dualLabelsWithAges[yearGroup] || yearGroup
+}
+
+/**
+ * Get age range for year group
+ * "Reception" -> "4-5"
+ * "Year 1" -> "5-6"
+ */
+export function yearGroupToAgeRange(yearGroup: string): string {
+  const ageRanges: Record<string, string> = {
+    Reception: '4-5',
+    'Year 1': '5-6',
+    'Year 2': '6-7',
+    'Year 3': '7-8',
+    'Year 4': '8-9',
+    'Year 5': '9-10',
+    'Year 6': '10-11',
+  }
+  return ageRanges[yearGroup] || ''
+}
+
+/**
  * Get US label only for year group
  * "Reception" -> "Kindergarten"
  * "Year 1" -> "Grade 1"

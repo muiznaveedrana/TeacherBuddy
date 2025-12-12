@@ -24,6 +24,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - DO NOT manually write test code when these agents can do it better and faster
   - The agents understand the app structure, selectors, and patterns better than manual coding
 
+## Production Deployment (Two-Step Process)
+- **Step 1: Vercel Deployment** (`vercel --prod`) - Deploys the **code/app** to production (frontend, API routes)
+- **Step 2: Database Promotion** (`npm run db:promote`) - Copies **worksheet data** from DEV → PROD Supabase database
+- These are TWO SEPARATE things:
+  - **Vercel** = Application code (Next.js app, API routes, UI)
+  - **Supabase** = Database content (worksheets, user data)
+- Always run Vercel deployment first, then promote database data
+- The `db:promote` script backs up PROD before copying, asks for confirmation, and only copies NEW worksheets (by slug)
+
 ## Core E2E Tests (Simplified Strategy)
 - Run all E2E tests: npx playwright test tests/e2e/
 - Run core authentication flows: npx playwright test new-user-flow.spec.ts

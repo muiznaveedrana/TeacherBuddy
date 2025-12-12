@@ -3,9 +3,16 @@ node_modules
 .next/
 .claude/
 
-# Environment files
+# Environment files (NEVER commit production credentials!)
 .env.local
 .env*.local
+.env.production
+.env.production.local
+.env.prod
+
+# Database backups (contain sensitive data)
+backups/
+!backups/.gitkeep
 
 # Test results and reports
 test-results/

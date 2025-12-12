@@ -14,7 +14,11 @@
     "prompt-automation:bash": "bash scripts/prompt-engineering-automation.sh",
     "prompt-automation:powershell": "powershell -ExecutionPolicy Bypass -File scripts/prompt-engineering-automation.ps1",
     "catalog:vision": "node scripts/vision-catalog-generator.js",
-    "catalog:vision:update": "node scripts/vision-catalog-generator.js --update"
+    "catalog:vision:update": "node scripts/vision-catalog-generator.js --update",
+    "db:backup": "node scripts/backup-database.js",
+    "db:restore": "node scripts/restore-database.js",
+    "db:restore:latest": "node scripts/restore-database.js latest",
+    "db:promote": "node scripts/promote-to-production.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

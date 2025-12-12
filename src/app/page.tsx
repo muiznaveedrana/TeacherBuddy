@@ -12,8 +12,8 @@ import { StickyNoteButton } from "@/components/ui/sticky-note-button";
 import { LibraryNavigation } from "@/components/LibraryNavigation";
 
 export const metadata: Metadata = {
-  title: "Free Math Worksheets | Kindergarten to Grade 6 | Printable PDF",
-  description: "Download 100+ free printable math worksheets for Kindergarten through Grade 6. Common Core aligned. No signup required. Print instantly. Ages 4-11.",
+  title: "Free Math Worksheets | Kindergarten/Reception to Grade 6/Year 6 | Ages 4-11",
+  description: "Download 100+ free printable math worksheets for Kindergarten/Reception through Grade 6/Year 6. US & UK Standards aligned. No signup required. Ages 4-11.",
   keywords: [
     // US Primary Keywords (highest priority)
     "free math worksheets",
@@ -43,8 +43,8 @@ export const metadata: Metadata = {
     "math practice sheets free download"
   ],
   openGraph: {
-    title: "Free Math Worksheets | Kindergarten to Grade 6 | Printable PDF",
-    description: "100+ free printable math worksheets for K-6. Common Core & UK Curriculum aligned. No signup. Print instantly!",
+    title: "Free Math Worksheets | Kindergarten/Reception to Grade 6/Year 6 | Ages 4-11",
+    description: "100+ free printable math worksheets for K-6 / Reception-Year 6. US & UK Standards aligned. No signup. Print instantly!",
     url: "https://freemathprintable.com",
     siteName: "FreeMathPrintable.com",
     type: "website",
@@ -52,8 +52,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Math Worksheets | Kindergarten to Grade 6",
-    description: "Download 100+ free printable math worksheets. K-6. Common Core aligned. No signup required!",
+    title: "Free Math Worksheets | Kindergarten/Reception to Grade 6/Year 6",
+    description: "Download 100+ free printable math worksheets. Ages 4-11. US & UK Standards aligned. No signup required!",
   },
   alternates: {
     canonical: "https://freemathprintable.com",
@@ -108,9 +108,9 @@ export default function LandingPage() {
             </span>
           </h1>
 
-          {/* Simplified Description - US First */}
+          {/* Simplified Description - Region Neutral */}
           <p className="max-w-2xl mx-auto text-xl text-gray-600 mb-8">
-            100+ free worksheets • Kindergarten to Grade 6 • Common Core Aligned
+            100+ free worksheets • Kindergarten/Reception to Grade 6/Year 6 • Ages 4-11 • Standards Aligned
           </p>
 
           {/* Single Primary CTA - Reduces Decision Paralysis */}
@@ -327,11 +327,11 @@ export default function LandingPage() {
                 <div className="mx-auto p-4 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full">
                   <Zap className="w-10 h-10 text-green-600" />
                 </div>
-                <CardTitle className="mt-4 text-xl">Always Free</CardTitle>
+                <CardTitle className="mt-4 text-xl">Free to Use</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  No hidden costs, no premium tiers. Every feature is 100% free forever.
+                  Our library, PDF downloads, and interactive mode are free - no signup required.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -405,14 +405,14 @@ export default function LandingPage() {
       <footer className="py-12 bg-gray-900 text-white">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 gap-8 md:grid-cols-5">
-            {/* Grade Levels - US First */}
+            {/* Grade Levels - Dual US/UK Labels */}
             <div>
               <h3 className="text-lg font-semibold mb-4">Grade Levels</h3>
               <ul className="space-y-2">
-                <li><Link href="/free-printables/reception" className="text-gray-300 hover:text-white">Kindergarten</Link></li>
-                <li><Link href="/free-printables/year-1" className="text-gray-300 hover:text-white">Grade 1</Link></li>
-                <li><Link href="/free-printables/year-2" className="text-gray-300 hover:text-white">Grade 2</Link></li>
-                <li><Link href="/free-printables/year-3" className="text-gray-300 hover:text-white">Grade 3</Link></li>
+                <li><Link href="/free-printables/reception" className="text-gray-300 hover:text-white">Kindergarten / Reception</Link></li>
+                <li><Link href="/free-printables/year-1" className="text-gray-300 hover:text-white">Grade 1 / Year 1</Link></li>
+                <li><Link href="/free-printables/year-2" className="text-gray-300 hover:text-white">Grade 2 / Year 2</Link></li>
+                <li><Link href="/free-printables/year-3" className="text-gray-300 hover:text-white">Grade 3 / Year 3</Link></li>
               </ul>
             </div>
             {/* Popular Topics */}
@@ -464,7 +464,7 @@ export default function LandingPage() {
           </div>
           <div className="mt-6 pt-6 border-t border-gray-800 text-center">
             <p className="text-gray-400">
-              © 2024 FreeMathPrintable.com. Free printable math worksheets for Kindergarten through Grade 6.
+              © 2024 FreeMathPrintable.com. Free printable math worksheets for Kindergarten/Reception through Grade 6/Year 6. Ages 4-11.
             </p>
           </div>
         </div>

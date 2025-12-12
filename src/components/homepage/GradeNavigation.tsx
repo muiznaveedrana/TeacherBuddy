@@ -13,9 +13,9 @@ const gradeData = [
     color: 'from-purple-400 to-purple-500',
     borderColor: 'border-purple-300',
     bgPattern: 'bg-purple-50',
-    worksheetCount: '500+',
     topics: ['Counting', 'Shapes', 'Patterns'],
     IconComponent: Shapes,
+    comingSoon: false,
   },
   {
     grade: 'Year 1',
@@ -25,9 +25,9 @@ const gradeData = [
     color: 'from-orange-400 to-orange-500',
     borderColor: 'border-orange-300',
     bgPattern: 'bg-orange-50',
-    worksheetCount: '600+',
     topics: ['Addition to 20', 'Time', 'Money'],
     IconComponent: BookOpen,
+    comingSoon: false,
   },
   {
     grade: 'Year 2',
@@ -37,9 +37,9 @@ const gradeData = [
     color: 'from-green-400 to-green-500',
     borderColor: 'border-green-300',
     bgPattern: 'bg-green-50',
-    worksheetCount: '650+',
     topics: ['Times Tables', 'Fractions', 'Measurement'],
     IconComponent: Palette,
+    comingSoon: false,
   },
   {
     grade: 'Year 3',
@@ -49,9 +49,9 @@ const gradeData = [
     color: 'from-red-400 to-red-500',
     borderColor: 'border-red-300',
     bgPattern: 'bg-red-50',
-    worksheetCount: '700+',
     topics: ['Multiplication', 'Division', 'Perimeter'],
     IconComponent: Calculator,
+    comingSoon: true,
   },
   {
     grade: 'Year 4',
@@ -61,9 +61,9 @@ const gradeData = [
     color: 'from-blue-400 to-blue-500',
     borderColor: 'border-blue-300',
     bgPattern: 'bg-blue-50',
-    worksheetCount: '750+',
     topics: ['Decimals', 'Area', 'Roman Numerals'],
     IconComponent: Rocket,
+    comingSoon: true,
   },
   {
     grade: 'Year 5',
@@ -73,9 +73,9 @@ const gradeData = [
     color: 'from-yellow-400 to-yellow-500',
     borderColor: 'border-yellow-300',
     bgPattern: 'bg-yellow-50',
-    worksheetCount: '800+',
     topics: ['Percentages', 'Prime Numbers', 'Volume'],
     IconComponent: Star,
+    comingSoon: true,
   },
   {
     grade: 'Year 6',
@@ -85,9 +85,9 @@ const gradeData = [
     color: 'from-indigo-400 to-indigo-500',
     borderColor: 'border-indigo-300',
     bgPattern: 'bg-indigo-50',
-    worksheetCount: '850+',
     topics: ['Algebra', 'Ratio', 'Statistics'],
     IconComponent: Trophy,
+    comingSoon: true,
   },
 ];
 
@@ -107,75 +107,83 @@ export default function GradeNavigation() {
 
         {/* Grade Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {gradeData.map((grade, index) => (
-            <Link
-              key={grade.grade}
-              href={`/library?year_group=${encodeURIComponent(grade.grade)}`}
-              className="group relative"
-            >
-              <div
-                className={`
-                  relative overflow-hidden rounded-2xl border-2 ${grade.borderColor}
-                  ${grade.bgPattern} p-6 transition-all duration-300
-                  hover:scale-105 hover:shadow-xl cursor-pointer
-                `}
-                style={{
-                  transform: `rotate(${index % 2 === 0 ? '-1' : '1'}deg)`,
-                }}
-              >
-                {/* Decorative tape effect */}
-                <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-20 h-8 bg-yellow-100/80 rotate-3 opacity-70"></div>
+          {gradeData.map((grade, index) => {
+            const CardWrapper = grade.comingSoon ? 'div' : Link;
+            const wrapperProps = grade.comingSoon
+              ? { className: 'group relative cursor-not-allowed' }
+              : { href: `/library?year_group=${encodeURIComponent(grade.grade)}`, className: 'group relative' };
 
-                {/* Grade Icon & Number */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="text-4xl">{grade.icon}</div>
-                  <div className={`p-2 rounded-lg bg-gradient-to-br ${grade.color} text-white`}>
-                    <grade.IconComponent className="w-6 h-6" />
+            return (
+              <CardWrapper key={grade.grade} {...wrapperProps}>
+                <div
+                  className={`
+                    relative overflow-hidden rounded-2xl border-2 ${grade.borderColor}
+                    ${grade.bgPattern} p-6 transition-all duration-300
+                    ${grade.comingSoon
+                      ? 'opacity-60 grayscale-[30%]'
+                      : 'hover:scale-105 hover:shadow-xl cursor-pointer'}
+                  `}
+                  style={{
+                    transform: `rotate(${index % 2 === 0 ? '-1' : '1'}deg)`,
+                  }}
+                >
+                  {/* Coming Soon Badge */}
+                  {grade.comingSoon && (
+                    <div className="absolute top-3 right-3 z-10 px-3 py-1 bg-amber-500 text-white text-xs font-bold rounded-full shadow-md">
+                      Coming Soon
+                    </div>
+                  )}
+
+                  {/* Decorative tape effect */}
+                  <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-20 h-8 bg-yellow-100/80 rotate-3 opacity-70"></div>
+
+                  {/* Grade Icon & Number */}
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="text-4xl">{grade.icon}</div>
+                    <div className={`p-2 rounded-lg bg-gradient-to-br ${grade.color} text-white`}>
+                      <grade.IconComponent className="w-6 h-6" />
+                    </div>
                   </div>
-                </div>
 
-                {/* Grade Title */}
-                <h3 className="text-lg font-bold text-gray-900 mb-1">
-                  {grade.displayLabel}
-                </h3>
-                <p className="text-sm text-gray-600 mb-3">Ages {grade.ageRange}</p>
+                  {/* Grade Title */}
+                  <h3 className="text-lg font-bold text-gray-900 mb-1">
+                    {grade.displayLabel}
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">Ages {grade.ageRange}</p>
 
-                {/* Printable Count Badge */}
-                <div className="inline-flex items-center gap-1 px-3 py-1 bg-white/80 rounded-full text-sm font-semibold text-gray-700 mb-3">
-                  <span>{grade.worksheetCount}</span>
-                  <span className="text-gray-500">printables</span>
-                </div>
-
-                {/* Topics */}
-                <div className="space-y-1">
-                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Popular Topics:</p>
-                  <div className="flex flex-wrap gap-1">
-                    {grade.topics.map((topic) => (
-                      <span
-                        key={topic}
-                        className="text-xs px-2 py-1 bg-white/60 rounded-md text-gray-700"
-                      >
-                        {topic}
-                      </span>
-                    ))}
+                  {/* Topics */}
+                  <div className="space-y-1">
+                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Popular Topics:</p>
+                    <div className="flex flex-wrap gap-1">
+                      {grade.topics.map((topic) => (
+                        <span
+                          key={topic}
+                          className="text-xs px-2 py-1 bg-white/60 rounded-md text-gray-700"
+                        >
+                          {topic}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                {/* Hover Effect - Doodle */}
-                <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <svg className="w-12 h-12 text-gray-400/30" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M12 2L15 9L22 10L17 15L18 22L12 19L6 22L7 15L2 10L9 9L12 2Z"
-                      stroke="currentColor"
-                      strokeWidth="1"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  {/* Hover Effect - Doodle (only for active cards) */}
+                  {!grade.comingSoon && (
+                    <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <svg className="w-12 h-12 text-gray-400/30" viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M12 2L15 9L22 10L17 15L18 22L12 19L6 22L7 15L2 10L9 9L12 2Z"
+                          stroke="currentColor"
+                          strokeWidth="1"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                  )}
                 </div>
-              </div>
-            </Link>
-          ))}
+              </CardWrapper>
+            );
+          })}
         </div>
 
         {/* Bottom CTA */}
