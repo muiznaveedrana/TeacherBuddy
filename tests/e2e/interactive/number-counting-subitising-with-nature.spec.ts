@@ -10,7 +10,7 @@ import { test, expect } from '@playwright/test'
  */
 
 const WORKSHEET_SLUG = 'number-counting-subitising-with-nature'
-const WORKSHEET_ANSWERS = ["2", "4", "5", "2", "5"]
+const WORKSHEET_ANSWERS = ["2", "4", "5", "C", "5"]
 
 // Remove cookie consent overlay
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
@@ -39,7 +39,8 @@ test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
     for (let i = 0; i < inputCount; i++) {
       const input = inputs.nth(i)
       await input.scrollIntoViewIfNeeded()
-      await input.click()
+      await input.click({ force: true })
+      await input.fill('')
       const answer = WORKSHEET_ANSWERS[i] || String(i + 1)
       await input.pressSequentially(String(answer), { delay: 50 })
     }

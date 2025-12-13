@@ -247,7 +247,25 @@ function validateWithCustomLogic(
   answers: Record<string, string>,
   html: string
 ): { isCorrect: boolean; studentAnswer: string; correctAnswer: string; validationType: string } | null {
+  // Multi-step pattern detection (must be checked early for priority)
+  // Look for CSS classes used in multi-step worksheets, OR multiple equations with blanks
+  const hasStepBox = html.includes('step-box') || html.includes('two-step-container')
+  const hasStepPattern = hasStepBox || html.toLowerCase().includes('step 1') || html.toLowerCase().includes('step 2')
+  const hasMultipleInputs = question.inputs.length >= 3
+
+  // Also detect multi-step by looking for multiple equation patterns
+  const equationMatches = (html.match(/\d+\s*[+\-−]\s*\d+\s*=/g) || []).length
+  const hasMultipleEquations = equationMatches >= 2
+
   console.log(`🔍 Q${question.id} custom validation check:`, {
+    // Multi-step word problem patterns (check first!)
+    hasStepBox,
+    hasStepPattern,
+    hasMultipleInputs,
+    hasMultipleEquations,
+    equationCount: equationMatches,
+    inputCount: question.inputs.length,
+    // Other patterns
     hasNumberLabel: html.includes('number-label'),
     hasGreater: html.toLowerCase().includes('greater'),
     hasOpenEnded: html.includes('open-ended-box') || html.includes('mystery-box'),
@@ -265,6 +283,209 @@ function validateWithCustomLogic(
     hasReadProblem: html.toLowerCase().includes('read the problem'),
     htmlLength: html.length
   })
+
+  // PRIORITY: Multi-step word problem validation (Step 1, Step 2 patterns)
+  // Must be checked FIRST before other word problem patterns can match
+  // Trigger on: step-box CSS class, OR "step 1" text, OR multiple equations with 3+ inputs
+  if ((hasStepPattern || hasMultipleEquations) && hasMultipleInputs) {
+    console.log(`🔧 Q${question.id} Multi-step word problem detected (${question.inputs.length} inputs)`)
+
+    // Parse all equations - both complete (X op Y =) and partial ([?] op Y =)
+    const fullExpected: string[] = []
+
+    // First pass: find equations with both numbers to get initial values
+    // Handle money questions with 'p' suffix like "60p - 18p ="
+    const completeEquations: { num1: number; op: string; num2: number; result: number }[] = []
+    const completeRegex = /(\d+)p?\s*([+\-−])\s*(\d+)p?\s*=/g
+    let match
+
+    while ((match = completeRegex.exec(html)) !== null) {
+      const num1 = parseInt(match[1])
+      const op = match[2]
+      const num2 = parseInt(match[3])
+      const result = op === '+' ? num1 + num2 : num1 - num2
+      completeEquations.push({ num1, op, num2, result })
+      console.log(`  📐 Complete equation: ${num1} ${op} ${num2} = ${result}`)
+    }
+
+    // Second pass: find partial equations ([?] op Y =) where [?] is previous result
+    // Handle money questions with 'p' suffix like "[?]p - 25p ="
+    const partialRegex = /\[?\?\]?p?\s*([+\-−])\s*(\d+)p?\s*=/g
+    const partialEquations: { op: string; num2: number }[] = []
+
+    while ((match = partialRegex.exec(html)) !== null) {
+      const op = match[1]
+      const num2 = parseInt(match[2])
+      partialEquations.push({ op, num2 })
+      console.log(`  📐 Partial equation: [?] ${op} ${num2} = ?`)
+    }
+
+    // Build expected values based on input count and equation structure
+    // Common patterns:
+    // - 4 inputs (Q4-style): Step1 result, Step1 result repeated in Step2, Step2 result, Final answer
+    //   Example: 30-8=[22], [22]-5=[17], Final=[17] → [22, 22, 17, 17]
+    // - 3 inputs (Q5-style): Step1 result, Step2 result, Final answer
+    //   Example: 32-15=[17], 32+7=[39], Final=[39] → [17, 39, 39]
+
+    // Look for secondary operation in HTML (like "- 5 =" or "- 25p =" after an input box)
+    const secondOpMatch = html.match(/\s*([+\-−])\s*(\d+)p?\s*=\s*$/m) || html.match(/>\s*([+\-−])\s*(\d+)p?\s*=/)
+
+    if (question.inputs.length === 4 && completeEquations.length >= 1) {
+      const step1Result = completeEquations[0].result
+      let step2Result: number
+
+      // Detect pattern type:
+      // - Independent pattern (2 complete equations): [step1, step2, step1, step2]
+      //   Example: 19-14=5 AND 14+6=20 → [5, 20, 5, 20]
+      // - Sequential pattern (1 complete + 1 partial): [step1, step1, step2, step2]
+      //   Example: 30-8=22, [22]-5=17 → [22, 22, 17, 17]
+      const isIndependentPattern = completeEquations.length >= 2 && partialEquations.length === 0
+
+      if (isIndependentPattern) {
+        // Two independent equations with different results
+        step2Result = completeEquations[1].result
+
+        fullExpected.push(String(step1Result))  // Input 1: first equation result
+        fullExpected.push(String(step2Result))  // Input 2: second equation result
+        fullExpected.push(String(step1Result))  // Input 3: repeat first answer
+        fullExpected.push(String(step2Result))  // Input 4: repeat second answer
+
+        console.log(`  📋 4-input INDEPENDENT pattern: Step1=${step1Result}, Step2=${step2Result} → [${step1Result}, ${step2Result}, ${step1Result}, ${step2Result}]`)
+      } else {
+        // Sequential pattern: step 2 uses result from step 1
+        if (partialEquations.length >= 1) {
+          step2Result = step1Result + (partialEquations[0].op === '+' ? partialEquations[0].num2 : -partialEquations[0].num2)
+        } else if (secondOpMatch) {
+          // Parse from HTML like "- 5 ="
+          const op = secondOpMatch[1]
+          const num2 = parseInt(secondOpMatch[2])
+          step2Result = op === '+' ? step1Result + num2 : step1Result - num2
+          console.log(`  📐 Found secondary operation from HTML: ${step1Result} ${op} ${num2} = ${step2Result}`)
+        } else if (completeEquations.length >= 2) {
+          // Fallback to second complete equation
+          step2Result = completeEquations[1].result
+        } else {
+          // Last resort: use answer key to figure out step2
+          const ansArr = Array.isArray(question.correctAnswer) ? question.correctAnswer : [question.correctAnswer]
+          step2Result = parseInt(ansArr[0]) || step1Result
+        }
+
+        fullExpected.push(String(step1Result))  // Input 1: result of complete equation
+        fullExpected.push(String(step1Result))  // Input 2: step 1 result carried to step 2
+        fullExpected.push(String(step2Result))  // Input 3: result of partial equation
+        fullExpected.push(String(step2Result))  // Input 4: final answer (same as step 2 result)
+
+        console.log(`  📋 4-input SEQUENTIAL pattern: Step1=${step1Result}, Step2=${step2Result} → [${step1Result}, ${step1Result}, ${step2Result}, ${step2Result}]`)
+      }
+    } else if (question.inputs.length === 6 && completeEquations.length >= 2) {
+      // 6-input pattern: 3-step problem with final answers
+      // Example: 27-18=[9], 18+14=[32], [32]+27=[59], final1=[9], final2=[59]
+      // Pattern: [step1, step2, step2 (as input), step3, step1 (final), step3 (final)]
+      const step1Result = completeEquations[0].result
+      const step2Result = completeEquations[1].result
+
+      // Calculate step 3 - find the LAST "op num =" pattern after all complete equations
+      // Step 3 always comes AFTER step 2, so we need to find the addend that appears after step 2's equation
+      let step3Result: number
+
+      // Find all "op num =" patterns to get the last one (step 3's addend)
+      // Handle money questions with 'p' suffix like "+ 27p ="
+      const allOpNumMatches = [...html.matchAll(/([+\-−])\s*(\d+)p?\s*=/g)]
+      // The step 3 pattern should be AFTER the step 2 equation (18 + 14 =)
+      // So we need to find ops where the num is NOT part of a complete equation
+      const step3Addends = allOpNumMatches.filter(m => {
+        const num = parseInt(m[2])
+        // Exclude numbers that are part of complete equations
+        return !completeEquations.some(eq => eq.num2 === num)
+      })
+
+      if (step3Addends.length > 0) {
+        // Use the last matching addend (step 3)
+        const lastMatch = step3Addends[step3Addends.length - 1]
+        const op = lastMatch[1]
+        const addend = parseInt(lastMatch[2])
+        step3Result = op === '+' || op === '' ? step2Result + addend : step2Result - addend
+        console.log(`  📐 Step 3 equation found: ${step2Result} ${op} ${addend} = ${step3Result}`)
+      } else if (partialEquations.length >= 1) {
+        step3Result = step2Result + (partialEquations[0].op === '+' ? partialEquations[0].num2 : -partialEquations[0].num2)
+      } else if (completeEquations.length >= 3) {
+        step3Result = completeEquations[2].result
+      } else {
+        // Final fallback: look for any number near the end that could be step 3 addend
+        // Pattern like ">[num]=" which excludes numbers from complete equations
+        const fallbackMatch = html.match(/>(\d+)\s*=\s*</)
+        if (fallbackMatch) {
+          const addend = parseInt(fallbackMatch[1])
+          if (!completeEquations.some(eq => eq.num2 === addend)) {
+            step3Result = step2Result + addend
+          } else {
+            step3Result = step2Result
+          }
+        } else {
+          step3Result = step2Result
+        }
+      }
+
+      fullExpected.push(String(step1Result))  // Input 1: step 1 result (e.g., 9)
+      fullExpected.push(String(step2Result))  // Input 2: step 2 result (e.g., 32)
+      fullExpected.push(String(step2Result))  // Input 3: step 2 as input to step 3 (e.g., 32)
+      fullExpected.push(String(step3Result))  // Input 4: step 3 result (e.g., 59)
+      fullExpected.push(String(step1Result))  // Input 5: final answer 1 (difference) (e.g., 9)
+      fullExpected.push(String(step3Result))  // Input 6: final answer 2 (total) (e.g., 59)
+
+      console.log(`  📋 6-input pattern: Step1=${step1Result}, Step2=${step2Result}, Step3=${step3Result} → [${fullExpected.join(', ')}]`)
+    } else if (question.inputs.length === 3 && completeEquations.length >= 2) {
+      // Pattern: [step1Result, step2Result, finalAnswer]
+      const step1Result = completeEquations[0].result
+      const step2Result = completeEquations[1].result
+
+      fullExpected.push(String(step1Result))  // Input 1: first equation result
+      fullExpected.push(String(step2Result))  // Input 2: second equation result
+      fullExpected.push(String(step2Result))  // Input 3: final answer (same as step 2 result)
+
+      console.log(`  📋 3-input pattern: Step1=${step1Result}, Step2=${step2Result}`)
+    } else {
+      // Fallback: distribute equation results across inputs
+      for (const eq of completeEquations) {
+        fullExpected.push(String(eq.result))
+      }
+
+      // Fill remaining with last result or final answer from answer key
+      const finalAnswerMatch = (Array.isArray(question.correctAnswer)
+        ? question.correctAnswer[0]
+        : question.correctAnswer)?.match(/^(\d+)/)
+      const lastValue = fullExpected.length > 0
+        ? fullExpected[fullExpected.length - 1]
+        : (finalAnswerMatch ? finalAnswerMatch[1] : '')
+
+      while (fullExpected.length < question.inputs.length) {
+        fullExpected.push(lastValue)
+      }
+
+      console.log(`  📋 Fallback pattern: ${fullExpected.join(', ')}`)
+    }
+
+    if (fullExpected.length > 0) {
+      console.log(`  📋 Expected values for ${question.inputs.length} inputs:`, fullExpected)
+
+      // Validate each input
+      const userAnswers = question.inputs.map(f => (answers[f.subId] || '').trim())
+
+      const allCorrect = fullExpected.every((exp, idx) => {
+        const userVal = userAnswers[idx]
+        const isMatch = userVal === exp
+        console.log(`    Input ${idx}: user="${userVal}" expected="${exp}" -> ${isMatch ? '✅' : '❌'}`)
+        return isMatch
+      })
+
+      return {
+        isCorrect: allCorrect,
+        studentAnswer: userAnswers.join(', '),
+        correctAnswer: fullExpected.join(', '),
+        validationType: 'MultiStepWordProblem'
+      }
+    }
+  }
 
   // Q1: Block Comparison (76 vs 79 - which is greater)
   // Q1a: expects the greater number

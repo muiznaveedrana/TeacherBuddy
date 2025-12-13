@@ -208,9 +208,29 @@ function extractAnswerKey(html: string): Record<number, string> {
     }
 
     if (match) {
-      const [, questionId, answer] = match
-      answers[parseInt(questionId)] = answer.trim()
-      console.log(`  ✅ Extracted Q${questionId}: "${answer.trim()}"`)
+      const [, questionId, rawAnswer] = match
+      let answer = rawAnswer.trim()
+
+      // Check if paragraph contains answer-line span - extract just the value from it
+      // This handles cases like "The missing day is <span class="answer-line">Sunday</span>"
+      let answerLineSpan = p.querySelector('.answer-line, span[class*="answer-line"]')
+
+      // Also check for styled spans (font-weight:normal or font-weight:bold)
+      // This handles V1/V3 format: <span style="font-weight:normal;">Tuesday</span>
+      if (!answerLineSpan) {
+        answerLineSpan = p.querySelector('span[style*="font-weight"]')
+      }
+
+      if (answerLineSpan) {
+        const spanValue = answerLineSpan.textContent?.trim()
+        if (spanValue) {
+          answer = spanValue
+          console.log(`  📍 Extracted value from span: "${answer}"`)
+        }
+      }
+
+      answers[parseInt(questionId)] = answer
+      console.log(`  ✅ Extracted Q${questionId}: "${answer}"`)
     } else {
       console.warn(`  ⚠️ Could not extract answer from: "${textContent}"`)
     }
@@ -668,8 +688,23 @@ function parseQuestionStructure(
   // Handle answers - extract just the number/value from answer text like "12 (6 + 6, doubles)"
   let answerArray: string | string[] = correctAnswer
 
+  // Special handling for word-problem questions with 2 inputs but 1 answer
+  // These have answer-box (for equation result) and answer-line (for sentence completion)
+  // Both expect the SAME numeric answer (e.g., "14" for both "8 + 6 = 14" and "Ben has 14 teddy-bears")
+  // Detect by: answer-box AND answer-line in HTML (works for both word-problem-visual and comparison-visual)
+  const hasAnswerBox = questionHTML.includes('answer-box')
+  const hasAnswerLine = questionHTML.includes('answer-line')
+  if (hasAnswerBox && hasAnswerLine && inputs.length === 2 && correctAnswer) {
+    // Extract just the leading number from answer like "14 teddy-bears (8 + 6 = 14)"
+    const numberMatch = correctAnswer.match(/^(\d+)/)
+    if (numberMatch) {
+      const numAnswer = numberMatch[1]
+      answerArray = [numAnswer, numAnswer] // Both inputs get the same answer
+      console.log(`📝 Word-problem Q${questionId}: Duplicated answer "${numAnswer}" for 2 inputs from "${correctAnswer}"`)
+    }
+  }
   // For single-input questions, extract just the number from the answer
-  if (inputs.length === 1 && correctAnswer) {
+  else if (inputs.length === 1 && correctAnswer) {
     // Extract leading number from answer like "12 (6 + 6, doubles)" -> "12"
     // Also handles time format like "8:30" and fractions like "1/2"
     const numberMatch = correctAnswer.match(/^(\d+(?:[:./]\d+)?)/)
@@ -677,7 +712,44 @@ function parseQuestionStructure(
       answerArray = numberMatch[1]
       console.log(`🔢 Single-input Q${questionId}: Extracted "${answerArray}" from "${correctAnswer}"`)
     }
-  } else if (inputs.length > 1) {
+  }
+  // Special handling for multi-step word problems with "Working:" section
+  // Format: "17 erasers Working: 30 - 8 = 22, then 22 - 5 = 17"
+  // Extract all equation results from the Working section to fill multiple inputs
+  else if (!hasAnswerBox && hasAnswerLine && inputs.length > 2 && correctAnswer && correctAnswer.includes('Working:')) {
+    const workingMatch = correctAnswer.match(/Working:\s*(.+)$/i)
+    if (workingMatch) {
+      const workingText = workingMatch[1]
+      // Extract all "= X" results from the working section (e.g., "30 - 8 = 22, then 22 - 5 = 17")
+      const equationResults: string[] = []
+      const resultMatches = workingText.matchAll(/=\s*(\d+)/g)
+      for (const m of resultMatches) {
+        equationResults.push(m[1])
+      }
+      // Also extract the final answer (first number in the answer text)
+      const finalAnswerMatch = correctAnswer.match(/^(\d+)/)
+      const finalAnswer = finalAnswerMatch ? finalAnswerMatch[1] : ''
+
+      // Build answer array: intermediate results followed by final answer (repeated as needed)
+      // For multi-step problems, inputs are typically:
+      // - Step 1 result(s)
+      // - Step 2 result(s)
+      // - Final answer sentence (may appear multiple times)
+      if (equationResults.length > 0 && finalAnswer) {
+        // Start with equation results, then repeat final answer to fill remaining inputs
+        answerArray = []
+        for (const result of equationResults) {
+          answerArray.push(result)
+        }
+        // Fill remaining inputs with the final answer
+        while (answerArray.length < inputs.length) {
+          answerArray.push(finalAnswer)
+        }
+        console.log(`📝 Multi-step Q${questionId}: Extracted working values from "${workingText}":`, answerArray)
+      }
+    }
+  }
+  else if (inputs.length > 1) {
     // First, check for "X tens and Y ones" format (place value questions)
     const tensOnesMatch = correctAnswer.match(/(\d+)\s*tens?\s+and\s+(\d+)\s*ones?/i)
     if (tensOnesMatch) {

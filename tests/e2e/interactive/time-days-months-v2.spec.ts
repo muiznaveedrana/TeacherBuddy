@@ -16,60 +16,61 @@ test.describe('Interactive Worksheet: measurement-time-days-months-v2 (V2 - Easy
   })
 
   test('should complete worksheet and achieve 100% score', async ({ page }) => {
-    // Answer key from V2 - full text format as extracted by parser
+    // Answer key from V2 - 5 inputs (Q1 duplicate removed from database)
+    // Q1: Sunday (missing day in sequence)
+    // Q2: Tuesday (yesterday)
+    // Q3: May (month after April)
+    // Q4: Winter (season for December)
+    // Q5: September (Tom's birthday - 2 months after July)
     const answers = [
-      'The missing day is Sunday',
-      'Yesterday was Tuesday',
-      'The missing month is May',
-      'December is in the Winter season.',
-      "Tom's birthday is in September"
+      'Sunday',
+      'Tuesday',
+      'May',
+      'Winter',
+      'September'
     ]
 
     // Wait for interactive worksheet to fully load (React hydration)
     await page.waitForTimeout(5000)
 
-    // Wait for input fields to be ready
-    await page.waitForSelector('input[type="text"]', { timeout: 15000 })
+    // Wait for interactive worksheet container
+    await page.waitForSelector('.interactive-worksheet-container', { timeout: 15000 })
 
-    // Get all input fields
-    const inputs = await page.locator('input[type="text"]').all()
-    console.log(`Found ${inputs.length} input fields`)
+    // Get ALL text inputs in the worksheet
+    const inputs = await page.locator('.interactive-worksheet-container input[type="text"]:not([disabled])').all()
+    console.log(`Found ${inputs.length} inputs`)
 
     // Fill in all answers
     for (let i = 0; i < Math.min(answers.length, inputs.length); i++) {
       const answer = answers[i]
       const input = inputs[i]
 
-      // Wait for input to be visible
-      await input.waitFor({ state: 'visible', timeout: 5000 })
-
-      // Fill the answer
+      await input.scrollIntoViewIfNeeded()
+      await input.click({ force: true })
       await input.fill('')
       await input.pressSequentially(answer, { delay: 50 })
 
       console.log(`Q${i + 1}: Filled "${answer}"`)
     }
 
-    // Scroll to find submit button
-    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
-    await page.waitForTimeout(500)
+    // Remove cookie consent again before clicking submit
+    await page.evaluate(() => {
+      document.querySelector('.cookie-consent-container')?.remove()
+    })
 
     // Click Submit button
-    const submitButton = page.locator('button:has-text("Submit Answers"), button:has-text("Check Answers"), button:has-text("Submit")')
-    await submitButton.waitFor({ state: 'visible', timeout: 10000 })
-    await submitButton.click()
+    const submitButton = page.locator('.sticky.bottom-0 button').first()
+    await submitButton.waitFor({ state: 'visible', timeout: 5000 })
+    await submitButton.click({ force: true })
 
-    // Wait for results to appear
-    await page.waitForTimeout(2000)
+    // Wait for celebration overlay
+    const celebrationOverlay = page.locator('.fixed.inset-0.z-50')
+    await expect(celebrationOverlay).toBeVisible({ timeout: 10000 })
 
-    // Look for score text - it might be in different formats
-    const scoreElement = page.locator('text=/Score:|Your Score|\\d+\\/5|\\d+%/').first()
-    await scoreElement.waitFor({ state: 'visible', timeout: 10000 })
-
-    const scoreText = await scoreElement.textContent()
+    const scoreText = await page.locator('text=/\\d+%/').first().textContent()
     console.log('Score:', scoreText)
 
-    // Verify 100% score (5/5 or 100%)
-    expect(scoreText).toMatch(/5\/5|100%|5 out of 5/)
+    // Verify 100% score
+    expect(scoreText).toBe('100%')
   })
 })

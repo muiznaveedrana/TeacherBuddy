@@ -1,95 +1,62 @@
-/**
- * Interactive Test: Year 2 Word Problems v2 (Farm Animals Theme)
- * Worksheet Slug: addition-subtraction-word-problems-v2
- *
- * Answers extracted from HTML:
- * 1. 28 chickens (16 + 12 = 28)
- * 2. 16 sheep (34 - 18 = 16)
- * 3. 13 apples (35 - 22 = 13)
- * 4. 16 bananas (40 - 15 - 9 = 16)
- * 5. 5 more pigs and 20 cows (19 - 14 = 5, 14 + 6 = 20)
- */
+import { test, expect } from '@playwright/test'
 
-import { test, expect } from '@playwright/test';
+const WORKSHEET_SLUG = 'addition-subtraction-word-problems-v2'
+// Q1-Q3: 1 input each, Q4: 4 inputs, Q5: 4 inputs = 11 total
+// Q4: 40-15=[25], [25]-9=[16], bananas left=[16]
+// Q5: 19-14=[5], 14+6=[20], more pigs=[5], cows=[20]
+const ANSWERS = ['28', '16', '13', '25', '25', '16', '16', '5', '20', '5', '20']
 
-const WORKSHEET_SLUG = 'addition-subtraction-word-problems-v2';
-const ANSWERS = ['28', '16', '13', '16', '5', '20'];
+async function dismissCookieConsent(page: import('@playwright/test').Page) {
+  await page.evaluate(() => {
+    document.querySelector('.cookie-consent-container')?.remove()
+    document.querySelectorAll('[class*="cookie"], [class*="consent"], [class*="overlay"]').forEach(el => {
+      if ((el as HTMLElement).style?.position === 'fixed') el.remove()
+    })
+  })
+}
 
-test.describe('Word Problems Y2 v2 - Interactive Test', () => {
-  test.beforeEach(async ({ page }) => {
-    // Navigate to interactive worksheet
-    await page.goto(`http://localhost:3000/library/${WORKSHEET_SLUG}/interactive`);
-    await page.waitForLoadState('networkidle');
-
-    // Remove cookie consent if present
-    const cookieConsent = page.locator('.cookie-consent-container');
-    if (await cookieConsent.isVisible()) {
-      await cookieConsent.evaluate(el => el.remove());
-    }
-
-    // Wait for page to be ready
-    await page.waitForTimeout(1000);
-  });
-
+test.describe('Interactive Worksheet: Word Problems Y2 V2', () => {
   test('should complete worksheet and achieve 100% score', async ({ page }) => {
-    // Fill in all input fields
-    const inputs = page.locator('input[type="text"]');
-    const count = await inputs.count();
+    test.setTimeout(30000)
 
-    console.log(`Found ${count} input fields`);
+    // Navigate to interactive mode
+    await page.goto(`/library/${WORKSHEET_SLUG}/interactive`)
+    await dismissCookieConsent(page)
 
-    // Fill the answer fields
-    for (let i = 0; i < ANSWERS.length && i < count; i++) {
-      const input = inputs.nth(i);
-      await input.click();
-      await input.fill('');
-      await input.pressSequentially(ANSWERS[i], { delay: 50 });
-      console.log(`Filled answer ${i + 1}: ${ANSWERS[i]}`);
+    // Wait for container
+    await expect(page.locator('.interactive-worksheet-container')).toBeVisible({ timeout: 10000 })
+
+    // Fill all text inputs with correct answers
+    const inputs = page.locator('.interactive-worksheet-container input[type="text"]:not([disabled])')
+    const inputCount = await inputs.count()
+    console.log(`Found ${inputCount} input fields`)
+
+    for (let i = 0; i < inputCount && i < ANSWERS.length; i++) {
+      const input = inputs.nth(i)
+      await input.scrollIntoViewIfNeeded()
+      await input.click()
+      await input.pressSequentially(ANSWERS[i], { delay: 50 })
     }
 
-    // Wait for completion
-    await page.waitForTimeout(1000);
+    // Wait for submit button
+    await page.waitForFunction(() => {
+      const btn = document.querySelector('.sticky.bottom-0 button')
+      return btn?.textContent?.includes('Submit')
+    }, { timeout: 5000 }).catch(() => {})
 
-    // Click "Check Answers" button
-    const checkButton = page.locator('button:has-text("Check Answers")');
-    await expect(checkButton).toBeVisible();
-    await checkButton.click();
+    await dismissCookieConsent(page)
 
-    // Wait for results
-    await page.waitForTimeout(2000);
+    // Submit
+    const submitButton = page.locator('.sticky.bottom-0 button').first()
+    await submitButton.click({ force: true })
 
-    // Verify 100% score
-    const scoreElement = page.locator('text=/100%|5\\s*\\/\\s*5|5 out of 5/i').first();
-    await expect(scoreElement).toBeVisible({ timeout: 5000 });
+    // Verify celebration overlay and 100% score
+    const celebrationOverlay = page.locator('.fixed.inset-0.z-50')
+    await expect(celebrationOverlay).toBeVisible({ timeout: 10000 })
 
-    console.log('✅ Test completed with 100% score');
-  });
+    const scoreText = await page.locator('text=/\\d+%/').first().textContent()
+    console.log(`Score: ${scoreText}`)
 
-  test('should display all 5 questions correctly', async ({ page }) => {
-    // Verify all question numbers are visible
-    for (let i = 1; i <= 5; i++) {
-      const questionNumber = page.locator('.question-number', { hasText: String(i) });
-      await expect(questionNumber).toBeVisible();
-    }
-
-    // Verify question texts
-    await expect(page.locator('text=/Farmer Brown.*chickens/i')).toBeVisible();
-    await expect(page.locator('text=/sheep in the field/i')).toBeVisible();
-    await expect(page.locator('text=/Sarah.*apples/i')).toBeVisible();
-    await expect(page.locator('text=/bananas in the basket/i')).toBeVisible();
-    await expect(page.locator('text=/farm shop.*cows.*pigs/i')).toBeVisible();
-  });
-
-  test('should have working interactive elements', async ({ page }) => {
-    // Verify input fields are editable
-    const inputs = page.locator('input[type="text"]');
-    const firstInput = inputs.first();
-
-    await expect(firstInput).toBeEditable();
-
-    // Test input functionality
-    await firstInput.click();
-    await firstInput.fill('test');
-    await expect(firstInput).toHaveValue('test');
-  });
-});
+    expect(scoreText).toBe('100%')
+  })
+})

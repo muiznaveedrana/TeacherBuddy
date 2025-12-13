@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 test.describe('Interactive Worksheet: number-counting-more-or-less-v3 (Garden & Fruits)', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the interactive worksheet
-    await page.goto('http://localhost:3000/worksheets/number-counting-more-or-less-v3')
+    await page.goto('http://localhost:3000/library/number-counting-more-or-less-v3/interactive')
 
     // Wait for page to load
     await page.waitForLoadState('networkidle')
@@ -41,16 +41,21 @@ test.describe('Interactive Worksheet: number-counting-more-or-less-v3 (Garden & 
       console.log(`Q${i + 1}: Filled "${answer}"`)
     }
 
+    // Remove cookie consent again before clicking submit
+    await page.evaluate(() => {
+      document.querySelector('.cookie-consent-container')?.remove()
+    })
+
     // Click Submit button
     const submitButton = page.locator('button:has-text("Submit Answers"), button:has-text("Check Answers")')
     await submitButton.waitFor({ state: 'visible', timeout: 5000 })
-    await submitButton.click()
+    await submitButton.click({ force: true })
 
-    // Wait for results
-    await page.waitForSelector('.score-display, [class*="score"], text=/Score:|Your Score/', { timeout: 10000 })
+    // Wait for results - celebration overlay appears with score
+    await page.waitForSelector('.fixed.inset-0.z-50', { timeout: 10000 })
 
-    // Check score
-    const scoreText = await page.locator('.score-display, [class*="score"], text=/Score:|Your Score/').first().textContent()
+    // Check score from celebration overlay
+    const scoreText = await page.locator('text=/\\d+%/').first().textContent()
     console.log('Score:', scoreText)
 
     // Verify 100% score

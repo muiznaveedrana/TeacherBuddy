@@ -1,68 +1,60 @@
-import { test, expect } from '@playwright/test';
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import { test, expect } from '@playwright/test'
 
-test.describe('Interactive Worksheet: word-problems-simple v3', () => {
-  test('should complete worksheet with 100% score (via HTML file)', async ({ page }) => {
-    // Load the HTML file directly (since /worksheets/[slug] route doesn't exist yet)
-    const htmlPath = join(process.cwd(), 'public', 'preview-worksheet-word-problems-simple-3.html');
-    const htmlContent = readFileSync(htmlPath, 'utf8');
+const WORKSHEET_SLUG = 'addition-subtraction-word-problems-simple-v3'
+// Each question has TWO inputs: equation result + sentence completion (both same answer)
+const ANSWERS = ['14', '14', '8', '8', '7', '7', '5', '5', '9', '9']
 
-    // Navigate to the HTML content
-    await page.setContent(htmlContent);
+async function dismissCookieConsent(page: import('@playwright/test').Page) {
+  await page.evaluate(() => {
+    document.querySelector('.cookie-consent-container')?.remove()
+    document.querySelectorAll('[class*="cookie"], [class*="consent"], [class*="overlay"]').forEach(el => {
+      if ((el as HTMLElement).style?.position === 'fixed') el.remove()
+    })
+  })
+}
 
-    // Wait for page to load
-    await page.waitForLoadState('domcontentloaded');
+test.describe('Interactive Worksheet: Word Problems Simple V3', () => {
+  test('should complete worksheet and achieve 100% score', async ({ page }) => {
+    test.setTimeout(30000)
 
-    // Verify all 5 questions are visible
-    const questions = page.locator('.question');
-    await expect(questions).toHaveCount(5);
+    // Navigate to interactive mode
+    await page.goto(`/library/${WORKSHEET_SLUG}/interactive`)
+    await dismissCookieConsent(page)
 
-    // Verify answer-line inputs are present for interactive mode
-    const answerLines = page.locator('.answer-line');
-    await expect(answerLines).toHaveCount(5);
+    // Wait for container
+    await expect(page.locator('.interactive-worksheet-container')).toBeVisible({ timeout: 10000 })
 
-    console.log('✓ Worksheet v3 loaded successfully with 5 questions');
-    console.log('✓ All answer input fields present');
-    console.log('✓ Ready for interactive testing once /worksheets/[slug] route is implemented');
-  });
+    // Fill all text inputs with correct answers
+    const inputs = page.locator('.interactive-worksheet-container input[type="text"]:not([disabled])')
+    const inputCount = await inputs.count()
+    console.log(`Found ${inputCount} input fields`)
 
-  test.skip('should complete worksheet with 100% score (requires /worksheets route)', async ({ page }) => {
-    // This test will be enabled once /worksheets/[slug] route is implemented
-    await page.goto('http://localhost:3000/worksheets/addition-subtraction-word-problems-simple-v3');
-
-    // Remove cookie consent if present
-    const cookieConsent = page.locator('.cookie-consent-container');
-    if (await cookieConsent.isVisible()) {
-      await cookieConsent.evaluate(el => el.remove());
+    for (let i = 0; i < inputCount && i < ANSWERS.length; i++) {
+      const input = inputs.nth(i)
+      await input.scrollIntoViewIfNeeded()
+      await input.click()
+      await input.pressSequentially(ANSWERS[i], { delay: 50 })
     }
 
-    // Click "Start Interactive Mode" button
-    await page.locator('button:has-text("Start Interactive Mode")').click();
+    // Wait for submit button
+    await page.waitForFunction(() => {
+      const btn = document.querySelector('.sticky.bottom-0 button')
+      return btn?.textContent?.includes('Submit')
+    }, { timeout: 5000 }).catch(() => {})
 
-    // Wait for interactive mode to load
-    await page.waitForSelector('.answer-line', { timeout: 10000 });
+    await dismissCookieConsent(page)
 
-    // Answer the questions based on the answer key
-    const answers = ['14', '8', '7', '5', '9'];
+    // Submit
+    const submitButton = page.locator('.sticky.bottom-0 button').first()
+    await submitButton.click({ force: true })
 
-    for (let i = 0; i < answers.length; i++) {
-      const answerInput = page.locator('.answer-line').nth(i);
-      await answerInput.click();
-      await answerInput.pressSequentially(answers[i], { delay: 50 });
-    }
+    // Verify celebration overlay and 100% score
+    const celebrationOverlay = page.locator('.fixed.inset-0.z-50')
+    await expect(celebrationOverlay).toBeVisible({ timeout: 10000 })
 
-    // Click "Check Answers" button
-    await page.locator('button:has-text("Check Answers")').click();
+    const scoreText = await page.locator('text=/\\d+%/').first().textContent()
+    console.log(`Score: ${scoreText}`)
 
-    // Wait for results
-    await page.waitForSelector('.score-display', { timeout: 5000 });
-
-    // Verify 100% score
-    const scoreText = await page.locator('.score-display').textContent();
-    expect(scoreText).toContain('5/5');
-    expect(scoreText).toContain('100%');
-
-    console.log('✓ Test passed: 100% score achieved');
-  });
-});
+    expect(scoreText).toBe('100%')
+  })
+})
