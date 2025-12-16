@@ -2119,22 +2119,30 @@ export function StructuredQuestion({
       let html = htmlContent
       question.inputs.forEach(field => {
         const placeholder = `___INPUT_PLACEHOLDER_${field.subId}___`
-        // Use consistent sizing for all inline inputs - ignore parser widths
+        // Use field's custom style if provided, otherwise use defaults
+        const fieldStyle = field.style || {}
+        const inputWidth = fieldStyle.width || '95px'
+        const inputMinWidth = fieldStyle.minWidth || '95px'
+        const inputHeight = fieldStyle.height || '37px'
+        const inputFontSize = fieldStyle.fontSize || '13pt'
+        const inputBorder = fieldStyle.border || '2px solid #333'
+        const inputBorderRadius = fieldStyle.borderRadius || '5px'
+
         const inputHTML = `<input
           type="text"
           data-subid="${field.subId}"
           placeholder="?"
           style="
             display: inline-block;
-            width: 95px;
-            min-width: 95px;
-            height: 37px;
+            width: ${inputWidth};
+            min-width: ${inputMinWidth};
+            height: ${inputHeight};
             padding: 4px;
-            font-size: 13pt;
+            font-size: ${inputFontSize};
             font-weight: bold;
             text-align: center;
-            border: 2px solid #333;
-            border-radius: 5px;
+            border: ${inputBorder};
+            border-radius: ${inputBorderRadius};
             background-color: #FFF9C4;
             vertical-align: middle;
             margin: 0 2px;

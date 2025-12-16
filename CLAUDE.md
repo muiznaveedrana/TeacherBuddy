@@ -121,3 +121,37 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   npx playwright test tests/e2e/comprehensive-library-save.spec.ts --grep "Year 1"    # 13 tests
   npx playwright test tests/e2e/comprehensive-library-save.spec.ts --grep "Year 2"    # 26 tests
 use worksheet-population-plan.md to populate library. Continue worksheet population from the plan
+
+## Marketing Automation System
+
+### Slash Commands (Claude Code)
+- `/generate-weekly-content` - Generate 7 days of Facebook posts
+- `/generate-facebook-post` - Create single Facebook post (worksheet share, engagement, tips, testimonial)
+- `/generate-video-script` - Create short video scripts (15-60 sec for Reels/TikTok)
+- `/generate-blog-post` - SEO-optimized blog posts for TheMumEducates.com
+- `/respond-to-comments` - Generate friendly responses to Facebook comments
+- `/marketing-ideas` - Fresh marketing ideas for organic growth
+
+### Quick Start
+```bash
+# Generate content plan for the week
+node scripts/marketing/generate-content-batch.js
+
+# List video script types
+node scripts/marketing/video-generator-prompts.js
+```
+
+### Brands
+- **TheMumEducates.com** - Community hub, blog, newsletter (trust building)
+- **FreeMathPrintable.com** - Product focus, worksheet generator (AdSense revenue)
+
+### Documentation
+- Full guide: `MARKETING-AUTOMATION-GUIDE.md`
+- Slash commands: `.claude/commands/` folder
+- Scripts: `scripts/marketing/` folder
+
+### Beta Launch Campaign
+- **Main Document**: `marketing-assets/campaigns/BETA-LAUNCH-CAMPAIGN.md`
+- **Google Forms**: `marketing-assets/campaigns/GOOGLE-FORMS-TEMPLATES.md`
+- **Email Templates**: `marketing-assets/campaigns/EMAIL-TEMPLATES.md`
+- **Launch Day Checklist**: `marketing-assets/campaigns/LAUNCH-DAY-CHECKLIST.md`

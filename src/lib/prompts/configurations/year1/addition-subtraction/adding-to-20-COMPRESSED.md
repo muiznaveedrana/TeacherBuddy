@@ -60,11 +60,12 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px}
 .group-label{font-size:14pt;font-weight:bold;margin-top:10px}
 .plus-symbol{font-size:48pt;font-weight:bold;color:#FF9800}
 .number-line-addition{margin:20px auto;padding:20px;background:#f8f9ff;border:3px solid #2196F3;border-radius:12px;max-width:700px}
-.number-line-visual{display:flex;justify-content:space-between;padding:30px 10px 10px;position:relative}
-.number-line-visual::before{content:'';position:absolute;bottom:10px;left:3%;right:3%;height:4px;background:#333}
+.number-line-visual{display:flex;justify-content:space-around;padding:30px 15px 10px;position:relative}
+/* Line touches BOTTOM of boxes (bottom:8px), NOT through middle (bottom:20px is WRONG) */
+.number-line-visual::before{content:'';position:absolute;bottom:8px;left:3%;right:3%;height:4px;background:#333}
 .number-tick{width:40px;height:40px;background:#E0E0E0;border:2px solid #999;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13pt;font-weight:bold;z-index:1}
 .number-tick.start-point{background:#4CAF50;color:white;border-width:3px}
-.number-tick.end-point{background:#FF9800;color:white;border-width:3px}
+/* ❌ NEVER highlight answer: .number-tick.end-point - REMOVED */
 .jump-label{text-align:center;font-size:15pt;font-weight:bold;color:#1976D2}
 .ten-frame-addition{margin:20px auto;max-width:600px}
 .double-ten-frame{display:flex;gap:30px;justify-content:center;padding:20px;background:#f8f9ff;border:3px solid #9C27B0;border-radius:12px}
@@ -98,6 +99,34 @@ body{font-family:'Comic Sans MS',sans-serif;font-size:16pt;padding:20px}
 .answer-key{margin-top:30px;padding:15px;background:#f0f8ff;border:2px solid #4169E1;border-radius:10px}
 .answer-key-title{font-size:14pt;font-weight:bold;margin:0 0 10px 0;text-align:center}
 </style>
+```
+
+## Q2 Number Line Example (ONLY start highlighted, NOT end!)
+```html
+<div class="question" style="background: #F1F8E9;">
+    <p class="question-text"><span class="question-number">2.</span> Use the number line. Start at 7, jump +4.</p>
+    <div class="number-line-addition">
+        <p class="jump-label">Start at 7, count on 4</p>
+        <div class="number-line-visual">
+            <div class="number-tick">5</div>
+            <div class="number-tick">6</div>
+            <div class="number-tick start-point">7</div>  <!-- ✅ ONLY start is green -->
+            <div class="number-tick">8</div>
+            <div class="number-tick">9</div>
+            <div class="number-tick">10</div>
+            <div class="number-tick">11</div>             <!-- ✅ Answer NOT highlighted -->
+            <div class="number-tick">12</div>
+            <div class="number-tick">13</div>
+        </div>
+    </div>
+    <div class="addition-equation">
+        <span class="number">7</span>
+        <span class="operator">+</span>
+        <span class="number">4</span>
+        <span class="operator">=</span>
+        <span class="answer-box"></span>
+    </div>
+</div>
 ```
 
 ## Q1 Example

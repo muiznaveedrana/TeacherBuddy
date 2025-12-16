@@ -452,6 +452,45 @@ function parseQuestionStructure(
     console.log(`✅ Found ${answerCellMatches.length} answer-cell pattern(s)`)
   }
 
+  // Pattern 2f-special: Answer box inside bond-part (number bond diagrams) - needs smaller size
+  const bondPartAnswerPattern = /<div[^>]*class="[^"]*bond-part[^"]*"[^>]*>[\s\S]*?<span[^>]*class="[^"]*answer-box-small[^"]*"[^>]*>[\s\S]*?<\/span>[\s\S]*?<\/div>/gi
+  const bondPartAnswerMatches = cleanedHTML.match(bondPartAnswerPattern) || []
+  if (bondPartAnswerMatches.length > 0) {
+    const startIdx = inputs.length
+    const totalInputs = startIdx + bondPartAnswerMatches.length
+    bondPartAnswerMatches.forEach((match, idx) => {
+      const subId = totalInputs > 1 ? `${questionId}-${startIdx + idx}` : `${questionId}`
+      inputs.push({
+        subId,
+        placeholder: '?',
+        inputType: 'text',
+        style: {
+          // Smaller size for bond-part circles
+          minWidth: '36px',
+          width: '36px',
+          height: '28px',
+          border: '2px solid #333',
+          borderRadius: '6px',
+          backgroundColor: '#FFF9C4',
+          textAlign: 'center',
+          fontSize: '14pt',
+          fontWeight: 'bold',
+          borderStyle: 'solid',
+          isAnswerBoxSmall: true
+        }
+      })
+    })
+    // Replace bond-part answer boxes with placeholder
+    let bondPartCounter = 0
+    cleanedHTML = cleanedHTML.replace(bondPartAnswerPattern, (match) => {
+      const subId = totalInputs > 1 ? `${questionId}-${startIdx + bondPartCounter++}` : `${questionId}`
+      // Keep the bond-part div structure but replace inner answer-box with placeholder
+      return match.replace(/<span[^>]*class="[^"]*answer-box-small[^"]*"[^>]*>[\s\S]*?<\/span>/i,
+        `<span data-input-placeholder="${subId}"></span>`)
+    })
+    console.log(`✅ Found ${bondPartAnswerMatches.length} bond-part answer-box pattern(s)`)
+  }
+
   // Pattern 2f: Answer box (e.g., <div class="answer-box"></div> OR <span class="answer-box"></span>)
   // DETECT LAST - this catches answer-box and answer-box-small in reasoning boxes
   const answerBoxPattern = /<(div|span)[^>]*class="[^"]*answer-box[^"]*"[^>]*>[\s\S]*?<\/\1>/gi

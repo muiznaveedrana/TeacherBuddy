@@ -30,7 +30,7 @@ async function dismissCookieConsent(page: import('@playwright/test').Page) {
 
 test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
   test('should complete with 100% score', async ({ page }) => {
-    test.setTimeout(60000)
+    test.setTimeout(30000)
 
     // Navigate to interactive mode
     await page.goto(`/library/${WORKSHEET_SLUG}/interactive`)

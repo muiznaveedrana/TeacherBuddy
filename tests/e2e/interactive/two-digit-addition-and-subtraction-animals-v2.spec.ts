@@ -11,11 +11,11 @@ import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'two-digit-addition-and-subtraction-animals-v2'
 const WORKSHEET_ANSWERS = [
-  "50", "13", "13",   // Q1: partition (tens, ones, ones again - system bug)
+  "50", "13", "63",   // Q1: partition (tens=50, ones=13, total=63)
   "83",               // Q2: column addition (with regrouping)
   "35",               // Q3: number line subtraction
   "34",               // Q4: column subtraction (with borrowing)
-  "27", "3", "3"      // Q5: word problem (system expects 27, 3, 3 per error-context)
+  "27", "No", "27"    // Q5: word problem (answer=27, Monkey Max wrong=No, correct=27)
 ]
 
 // Remove cookie consent overlay
@@ -30,7 +30,7 @@ async function dismissCookieConsent(page: import('@playwright/test').Page) {
 
 test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
   test('should complete with 100% score', async ({ page }) => {
-    test.setTimeout(60000)
+    test.setTimeout(30000)
 
     // Navigate to interactive mode
     await page.goto(`/library/${WORKSHEET_SLUG}/interactive`)

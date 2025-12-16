@@ -11,11 +11,11 @@ import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'two-digit-addition-and-subtraction-school'
 const WORKSHEET_ANSWERS = [
-  "30", "8", "8",     // Q1: partition (tens, ones, ones again - system bug expects 8 for total)
+  "30", "8", "38",    // Q1: partition (tens=30, ones=8, total=38)
   "55",               // Q2: column addition
   "26",               // Q3: number line subtraction
   "22",               // Q4: column subtraction
-  "46", "40", "40"    // Q5: word problem (system expects 46, 40, 40)
+  "46", "No", "46"    // Q5: word problem (answer=46, Leo wrong=No, correct=46)
 ]
 
 // Remove cookie consent overlay
@@ -30,7 +30,7 @@ async function dismissCookieConsent(page: import('@playwright/test').Page) {
 
 test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
   test('should complete with 100% score', async ({ page }) => {
-    test.setTimeout(60000)
+    test.setTimeout(30000)
 
     // Navigate to interactive mode
     await page.goto(`/library/${WORKSHEET_SLUG}/interactive`)

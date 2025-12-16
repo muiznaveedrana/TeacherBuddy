@@ -11,11 +11,11 @@ import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'two-digit-addition-and-subtraction-space-v3'
 const WORKSHEET_ANSWERS = [
-  "80", "14", "14",   // Q1: partition (tens, ones, ones again - system bug)
+  "80", "14", "94",   // Q1: partition (tens=80, ones=14, total=94)
   "95",               // Q2: column addition (with regrouping)
   "46",               // Q3: number line subtraction
   "36",               // Q4: column subtraction (with borrowing)
-  "54", "4", "4"      // Q5: word problem (system expects 54, 4, 4 per error-context)
+  "54", "No", "54"    // Q5: word problem (answer=54, Robot Rex wrong=No, correct=54)
 ]
 
 // Remove cookie consent overlay
@@ -30,7 +30,7 @@ async function dismissCookieConsent(page: import('@playwright/test').Page) {
 
 test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
   test('should complete with 100% score', async ({ page }) => {
-    test.setTimeout(60000)
+    test.setTimeout(30000)
 
     // Navigate to interactive mode
     await page.goto(`/library/${WORKSHEET_SLUG}/interactive`)

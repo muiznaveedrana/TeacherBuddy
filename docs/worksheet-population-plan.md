@@ -998,7 +998,7 @@ Legend:
 
 | Subtopic | Prompt File | Prompt Refined | WS 1 | WS 2 | WS 3 |
 |----------|-------------|----------------|------|------|------|
-| length-comparison | `reception\measurement\length-comparison-COMPRESSED.md` | ⬜ | ⬜ | ⬜ | ⬜ |
+| length-comparison | `reception\measurement\length-comparison-COMPRESSED.md` | ✅ | ✅ | ✅ | ✅ |
 | weight-comparison | `reception\measurement\weight-comparison-COMPRESSED.md` | ✅ | ✅ | ✅ | ✅ |
 | capacity | `reception\measurement\capacity-COMPRESSED.md` | ✅ | ✅ | ✅ | ✅ |
 | time-concepts | `reception\measurement\time-concepts-COMPRESSED.md` | ⬜ | ⬜ | ⬜ | ⬜ |
@@ -1019,7 +1019,7 @@ Legend:
 
 | Subtopic | Prompt File | Prompt Refined | WS 1 | WS 2 | WS 3 |
 |----------|-------------|----------------|------|------|------|
-| adding-to-20 | `year1\addition-subtraction\adding-to-20-COMPRESSED.md` | ⬜ | ⬜ | ⬜ | ⬜ |
+| adding-to-20 | `year1\addition-subtraction\adding-to-20-COMPRESSED.md` | ✅ | ✅ | ✅ | ✅ |
 | subtracting-within-20 | `year1\addition-subtraction\subtracting-within-20-COMPRESSED.md` | ⬜ | ⬜ | ⬜ | ⬜ |
 | word-problems-simple | `year1\addition-subtraction\word-problems-simple-COMPRESSED.md` | ⬜ | ⬜ | ⬜ | ⬜ |
 
@@ -1146,6 +1146,8 @@ Legend:
 | 2025-12-05 | Year 2 | equal-groups | Complete | 3 worksheets saved (Food/Farm/School themes), all interactive tests pass 100%. |
 | 2025-12-05 | Year 2 | sharing-grouping | Complete | 3 worksheets saved (Party/Garden/Sports themes), partitive vs quotitive division, Q5a Yes/No text input (not button), all interactive tests pass 100%. Fixed DB field length limits (seo_title max 57 chars). |
 | 2025-12-08 | Reception | more-or-less | Fix | v3 worksheet was not saved (404 error). Saved as v4, all 4 interactive tests pass 100%. Fixed duplicate `filters` variable in run-interactive-tests.js. |
+| 2025-12-15 | Year 1 | adding-to-20 | Complete | 3 worksheets saved (Foundation/Doubles/Challenge), all interactive tests pass 100%. Fixed answerValidator to exclude sub-question grids from multi-step validation. |
+| 2025-12-15 | Reception | length-comparison | Complete | 3 worksheets saved (School/Garden/Mixed), all interactive tests pass 100%. Uses answer-line pattern for A/B/C answers and "A and C" for same-length matching. |
 
 ---
 
@@ -1418,7 +1420,7 @@ Complex formats, expect prompt refinement before validation passes.
 | 16 | Reception | more-or-less | ✅ | ✅ | ✅ | ✅ | ✅ DONE |
 | 17 | Reception | basic-shapes | ✅ | ✅ | ✅ | ✅ | ✅ DONE |
 | 18 | Reception | size-comparison | ✅ | ✅ | ✅ | ✅ | ✅ DONE |
-| 19 | Reception | length-comparison | ⬜ | ⬜ | ⬜ | ⬜ | |
+| 19 | Reception | length-comparison | ✅ | ✅ | ✅ | ✅ | ✅ DONE |
 | 20 | Reception | weight-comparison | ✅ | ✅ | ✅ | ✅ | ✅ DONE |
 | 21 | Reception | capacity | ✅ | ✅ | ✅ | ✅ | ✅ DONE |
 | 22 | Year 1 | word-problems-simple | ✅ | ✅ | ✅ | ✅ | ✅ DONE |
@@ -1632,5 +1634,167 @@ value too long for type character varying(60)
 **Bad examples (too long):**
 - `Understanding Sharing and Grouping with Division Problems: Party Time Fun!` ❌
 - `Learning Equal Groups Through Multiplication and Division Practice` ❌
+
+---
+
+## Thumbnail Generation (CRITICAL)
+
+**Thumbnails are required for worksheets to display properly in the library.**
+
+### How Thumbnails Are Generated
+
+1. **Via `/api/library/save` API route** (Recommended):
+   - Automatically generates thumbnail using Puppeteer
+   - Uploads to ImageKit CDN
+   - Stores full URL in `thumbnail_url` field
+
+2. **Manual regeneration** (When thumbnails are missing):
+   ```powershell
+   node scripts/regenerate-thumbnail.js <worksheet-id>
+   ```
+
+### Common Issue: Broken/Missing Thumbnails
+
+**Symptom:** Library cards show broken image icons (📷) instead of thumbnails
+
+**Cause:** Worksheets saved directly to database (bypassing the API route) get local paths like `/thumbnails/example.png` instead of ImageKit URLs.
+
+**Fix:**
+```powershell
+# 1. Get worksheet IDs with broken thumbnails
+node -e "
+const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config({ path: '.env.local' });
+const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+supabase.from('library_worksheets')
+  .select('id, slug, thumbnail_url')
+  .not('thumbnail_url', 'ilike', 'https://ik.imagekit.io%')
+  .then(({data}) => data.forEach(ws => console.log(ws.id, ws.slug)));
+"
+
+# 2. Regenerate each thumbnail
+node scripts/regenerate-thumbnail.js <worksheet-id>
+```
+
+### Prevention
+
+Always use the proper save workflow:
+- **Phase 3 (Save to Library):** Use `node scripts/save-worksheet.js` which calls the API route
+- **API Route:** `/api/library/save` handles thumbnail generation automatically
+- **Never:** Insert directly to database without thumbnail generation
+
+### Thumbnail Requirements
+
+- **Format:** WebP (85% quality)
+- **Dimensions:** 1200×1500px
+- **CDN:** ImageKit (`ik.imagekit.io/4m3l6zvgx/worksheets/thumbnails/`)
+- **Naming:** `{slug}-{timestamp}-thumb.webp`
+- **Cache busting:** URL includes `?v={timestamp}` query param
+
+---
+
+## Number Line Design (Pedagogical Best Practice)
+
+**Based on research from [Math Learning Center](https://www.mathlearningcenter.org/sites/default/files/pdfs/LTM_Numberline.pdf) and [Math Salamanders](https://www.math-salamanders.com/adding-on-a-number-line.html).**
+
+### Core Principle: Don't Give Away the Answer
+
+Number lines teach "counting on" - the child must:
+1. Start at the first number (highlighted in green)
+2. Count on by the second number
+3. **Discover** where they land (the answer)
+
+**Pre-highlighting the answer defeats the learning objective.**
+
+### CSS Classes for Number Lines
+
+```css
+/* START position - highlight in green (child starts here) */
+.tick.start{background:#4CAF50;color:white}
+
+/* Regular ticks - neutral gray (child counts through these) */
+.tick{background:#E0E0E0;border:2px solid #999}
+
+/* ❌ NEVER use .tick.end to highlight the answer */
+/* .tick.end{background:#FF9800;color:white}  <-- REMOVE THIS */
+```
+
+### HTML Structure (Correct)
+
+```html
+<div class="number-line">
+  <div class="tick">6</div>
+  <div class="tick">7</div>
+  <div class="tick start">8</div>  <!-- ✅ Only START is highlighted -->
+  <div class="tick">9</div>
+  <div class="tick">10</div>
+  <div class="tick">11</div>
+  <div class="tick">12</div>
+  <div class="tick">13</div>       <!-- ✅ Answer is NOT highlighted -->
+  <div class="tick">14</div>
+</div>
+```
+
+### Common Mistakes to Avoid
+
+| Mistake | Problem | Fix |
+|---------|---------|-----|
+| `<div class="tick end">13</div>` | Gives away the answer | Remove `end` class |
+| Insufficient padding | Numbers cut off at edges | Use `padding: 15px 20px` |
+| `justify-content: space-between` | Edge numbers too close to border | Use `space-around` |
+| Narrow container | Cramped layout | Use `max-width: 520px` minimum |
+| `bottom: 20px` for line | Line cuts through middle of boxes | Use `bottom: 8px` (line touches bottom) |
+
+### Recommended CSS for Number Line Box
+
+```css
+.number-line-box{
+  margin: 12px auto;
+  padding: 15px 20px;        /* Extra horizontal padding */
+  background: #f8f9ff;
+  border-radius: 10px;
+  max-width: 520px;          /* Wider to fit all numbers */
+}
+
+.number-line{
+  display: flex;
+  justify-content: space-around;  /* Not space-between */
+  position: relative;
+  padding: 25px 15px 10px;        /* Extra left/right padding */
+}
+
+/* The horizontal line - MUST touch bottom of boxes, not cut through middle */
+.number-line::before{
+  content: '';
+  position: absolute;
+  bottom: 8px;               /* ✅ Line touches bottom of boxes */
+  /* bottom: 20px;           ❌ Line cuts through middle - WRONG */
+  left: 5%;
+  right: 5%;
+  height: 3px;
+  background: #333;
+}
+
+.tick{
+  width: 32px;
+  height: 32px;
+  background: #E0E0E0;
+  border: 2px solid #999;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12pt;
+  font-weight: bold;
+  z-index: 1;                /* Boxes appear above the line */
+}
+```
+
+### When to Update Number Line Prompts
+
+If creating worksheets with number lines, ensure the prompt specifies:
+1. Only START position gets `.start` class
+2. Answer position gets NO special class
+3. Adequate padding for all numbers to be visible
 
 ---

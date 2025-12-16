@@ -1,22 +1,16 @@
 import { test, expect } from '@playwright/test'
 
 /**
- * Interactive Worksheet Test: Rounding to Nearest 10 - Sports
+ * Interactive Worksheet Test: Measurement - Time Weekend
  * Year Group: Year 2
- * Topic: number-place-value
- * Subtopic: rounding-nearest-10
+ * Topic: measurement
+ * Subtopic: time-weekend
  *
  * Auto-generated test that verifies 100% score
  */
 
-const WORKSHEET_SLUG = 'number-place-value-rounding-nearest-10'
-const WORKSHEET_ANSWERS = [
-  "30", "40", "30",    // Q1: between 30-40, rounds to 30
-  "40", "40",          // Q2: closer to 40, rounds to 40
-  "20", "40", "40", "30", "40", "40",  // Q3: six roundings
-  "50",                // Q4: about 50 goals
-  "No", "40"           // Q5: a) No (Mia is wrong), b) 40
-]
+const WORKSHEET_SLUG = 'measurement-time-weekend'
+const WORKSHEET_ANSWERS = ["10:15", "8", "30", "1", "45", "5", "00", "3:45", "2", "3", "1", "11:30", "No"]
 
 // Remove cookie consent overlay
 async function dismissCookieConsent(page: import('@playwright/test').Page) {

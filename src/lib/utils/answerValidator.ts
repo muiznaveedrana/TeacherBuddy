@@ -257,6 +257,15 @@ function validateWithCustomLogic(
   const equationMatches = (html.match(/\d+\s*[+\-−]\s*\d+\s*=/g) || []).length
   const hasMultipleEquations = equationMatches >= 2
 
+  // Detect sub-question pattern early for logging
+  // This includes: sub-question class, grid patterns (doubles-grid, missing-grid), and a)/b)/c) format
+  const hasSubQuestionPattern = html.includes('sub-question') ||
+                                html.includes('doubles-grid') ||
+                                html.includes('doubles-item') ||
+                                html.includes('missing-grid') ||
+                                html.includes('missing-item') ||
+                                /[a-f]\)\s*\d+\s*[+\-−]\s*\d+\s*=/.test(html)
+
   console.log(`🔍 Q${question.id} custom validation check:`, {
     // Multi-step word problem patterns (check first!)
     hasStepBox,
@@ -265,6 +274,7 @@ function validateWithCustomLogic(
     hasMultipleEquations,
     equationCount: equationMatches,
     inputCount: question.inputs.length,
+    hasSubQuestions: hasSubQuestionPattern, // Independent sub-questions (a), b), etc.)
     // Other patterns
     hasNumberLabel: html.includes('number-label'),
     hasGreater: html.toLowerCase().includes('greater'),
@@ -284,10 +294,17 @@ function validateWithCustomLogic(
     htmlLength: html.length
   })
 
+  // Skip multi-step validation for True/False questions (they have equations but expect True/False answers)
+  const isTrueFalseQuestion = html.toLowerCase().includes('true or false') ||
+                               html.toLowerCase().includes('(true/false)') ||
+                               html.toLowerCase().includes('true, false')
+
   // PRIORITY: Multi-step word problem validation (Step 1, Step 2 patterns)
   // Must be checked FIRST before other word problem patterns can match
   // Trigger on: step-box CSS class, OR "step 1" text, OR multiple equations with 3+ inputs
-  if ((hasStepPattern || hasMultipleEquations) && hasMultipleInputs) {
+  // But NOT for True/False questions which contain equations but expect True/False answers
+  // But NOT for sub-question grids where each equation is independent (a), b), c) format)
+  if ((hasStepPattern || hasMultipleEquations) && hasMultipleInputs && !isTrueFalseQuestion && !hasSubQuestionPattern) {
     console.log(`🔧 Q${question.id} Multi-step word problem detected (${question.inputs.length} inputs)`)
 
     // Parse all equations - both complete (X op Y =) and partial ([?] op Y =)
