@@ -10,9 +10,8 @@ import { test, expect } from '@playwright/test'
  */
 
 const WORKSHEET_SLUG = 'addition-subtraction-subtracting-within-20'
-// Q1: 8, Q2: 9, Q3: 6, Q4 (fact family - system expects): 13, 13, 13, Q5: 8
-// Note: System data-answer expects all 13s for fact family (bug in worksheet)
-const WORKSHEET_ANSWERS = ["8", "9", "6", "13", "13", "13", "8"]
+// Q1: 8, Q2: 9, Q3: 6, Q4 (fact family): 13, 7, 6, Q5: 8
+const WORKSHEET_ANSWERS = ["8", "9", "6", "13", "7", "6", "8"]
 
 // Remove cookie consent overlay
 async function dismissCookieConsent(page: import('@playwright/test').Page) {

@@ -10,9 +10,8 @@ import { test, expect } from '@playwright/test'
  */
 
 const WORKSHEET_SLUG = 'addition-subtraction-subtracting-within-20-v3'
-// Q1: 5, Q2: 8, Q3: 5, Q4 (doubles fact family): 18, 9, 9, Q5: 8
-// Note: First box expects 18 (the sum), next two expect 9
-const WORKSHEET_ANSWERS = ["5", "8", "5", "18", "9", "9", "8"]
+// Q1: 5, Q2: 8, Q3: 5, Q4 (doubles fact family): 9, 9, 9, Q5: 8
+const WORKSHEET_ANSWERS = ["5", "8", "5", "9", "9", "9", "8"]
 
 // Remove cookie consent overlay
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
