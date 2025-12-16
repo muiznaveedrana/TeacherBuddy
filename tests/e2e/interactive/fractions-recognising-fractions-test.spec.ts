@@ -8,6 +8,11 @@ import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'fractions-recognising-fractions-test'
 // Same structure as fractions-recognising-fractions
+// Q1: 1/2 (one half of the circle is shaded)
+// Q2: A (Shape A shows 1/2)
+// Q3: a) 2  b) 1 (Rectangle has 2 equal parts, 1 is shaded)
+// Q4: a) 1/2  b) 1/2  c) 1/4  d) 3/4
+// Q5: a) 1  b) 1/4 (Emma ate 1 slice out of 4, which is 1/4 of the pizza)
 const WORKSHEET_ANSWERS = [
   "1/2",
   "A",

@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'times-tables-2-5-10-challenge-mixed-problem-solving-251215-213319'
-// Same as times-tables-2-5-10-challenge-mixed-problem-solving
+// Q3 asks "A, B, or same" not comparison symbols (different variant)
 const WORKSHEET_ANSWERS = [
   "20", "20", "5", "4",
   "12", "6", "40", "8", "70", "7",
-  "=", ">",
+  "same", "A",
   "30", "20", "Emma", "10",
   "Always", "Sometimes"
 ]

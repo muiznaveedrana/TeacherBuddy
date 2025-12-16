@@ -962,6 +962,29 @@ function parseQuestionStructure(
     } // Close the else block for tensOnesMatch check (line 630)
   }
 
+  // Fallback: if there are multiple inputs but only a single answer string,
+  // duplicate the answer for all inputs (e.g., Q2 has 2 inputs both expecting "Sunday")
+  // But NOT if the answer already contains commas (indicating multiple values like "C, 19")
+  if (inputs.length > 1 && typeof answerArray === 'string' && !Array.isArray(answerArray)) {
+    // Extract just the main answer (before any parenthetical explanation)
+    const mainAnswer = answerArray.split('(')[0].trim()
+    // Check if the answer already has multiple comma-separated values
+    const commaSeparatedValues = mainAnswer.split(',').map(v => v.trim()).filter(v => v.length > 0)
+    if (commaSeparatedValues.length >= inputs.length) {
+      // Answer already has enough comma-separated values, use them as-is
+      answerArray = commaSeparatedValues.slice(0, inputs.length)
+      console.log(`📋 Q${questionId} Using comma-separated values: ${answerArray.join(', ')}`)
+    } else if (commaSeparatedValues.length === 1) {
+      // Truly a single value - duplicate for all inputs
+      answerArray = Array(inputs.length).fill(mainAnswer)
+      console.log(`📋 Q${questionId} Fallback: Duplicated "${mainAnswer}" for ${inputs.length} inputs`)
+    } else {
+      // Partial match - use what we have and warn
+      answerArray = commaSeparatedValues
+      console.log(`⚠️ Q${questionId} Partial match: ${commaSeparatedValues.length} values for ${inputs.length} inputs`)
+    }
+  }
+
   return {
     id: questionId,
     questionHTML: cleanedHTML,

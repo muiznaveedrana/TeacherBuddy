@@ -11,7 +11,7 @@ const WORKSHEET_SLUG = 'fractions-recognising-fractions-v2'
 // Q2: B (Shape B shows 1/4)
 // Q3: a) 4  b) 3 (Circle has 4 equal parts, 3 are shaded)
 // Q4: a) 1/2  b) 2/4  c) 1/4  d) 3/4
-// Q5: No (1/2 is bigger than 1/4 - more pieces means smaller parts)
+// Q5: a) No  b) 1/2 (1/2 is bigger than 1/4 - more pieces means smaller parts)
 const WORKSHEET_ANSWERS = [
   "2/4",
   "B",

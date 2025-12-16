@@ -11,7 +11,7 @@ const WORKSHEET_SLUG = 'fractions-recognising-fractions'
 // Q2: A (Shape A shows 1/2)
 // Q3: a) 2  b) 1 (Rectangle has 2 equal parts, 1 is shaded)
 // Q4: a) 1/2  b) 1/2  c) 1/4  d) 1/4
-// Q5: 1 (Emma ate 1 slice out of 4, which is 1/4 of the pizza)
+// Q5: a) 1  b) 1/4 (Emma ate 1 slice out of 4, which is 1/4 of the pizza)
 const WORKSHEET_ANSWERS = [
   "1/2",
   "A",

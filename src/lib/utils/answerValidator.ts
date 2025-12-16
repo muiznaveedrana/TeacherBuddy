@@ -33,14 +33,27 @@ export function validateAnswer(
 
   let isCorrect = normalized.student === normalized.correct
 
-  // Also accept just the letter for multiple choice (e.g., "B" matches "B (6)")
+  // Also accept just the letter for multiple choice (e.g., "B" matches "B (6)" or "A (Shape A shows 1/2)")
   if (!isCorrect) {
-    const mcMatch = correctAnswer.trim().match(/^([a-d])\s*\((\d+)\)$/i)
+    // Match letter followed by any text in parentheses
+    const mcMatch = correctAnswer.trim().match(/^([a-d])\s*\((.+)\)$/i)
     if (mcMatch) {
       const letter = mcMatch[1].toLowerCase()
       const studentLower = studentAnswer.trim().toLowerCase()
       // Accept if student entered just the letter
       if (studentLower === letter) {
+        isCorrect = true
+      }
+    }
+  }
+
+  // Also accept Yes/No without the explanation (e.g., "No" matches "No (1/2 is bigger...)")
+  if (!isCorrect) {
+    const yesNoMatch = correctAnswer.trim().match(/^(Yes|No)\s*\((.+)\)$/i)
+    if (yesNoMatch) {
+      const expectedYesNo = yesNoMatch[1].toLowerCase()
+      const studentLower = studentAnswer.trim().toLowerCase()
+      if (studentLower === expectedYesNo) {
         isCorrect = true
       }
     }
@@ -305,8 +318,14 @@ function validateWithCustomLogic(
   // But NOT for True/False questions which contain equations but expect True/False answers
   // But NOT for sub-question grids where each equation is independent (a), b), c) format)
   // But NOT for fluency grids (independent equations meant to be solved separately)
+  // But NOT for doubles visual (independent equations like 5+5=, 7+7=, 9+9=)
+  // But NOT for near-doubles (independent equations like 6+7=, 8+9=)
+  // But NOT for fact-family (related but independent equations like 7+8=, 8+7=, 15-7=, 15-8=)
   const isFluencyGrid = html.includes('fluency-grid') || html.includes('fluency-item')
-  if ((hasStepPattern || hasMultipleEquations) && hasMultipleInputs && !isTrueFalseQuestion && !hasSubQuestionPattern && !isFluencyGrid) {
+  const isDoublesVisual = html.includes('doubles-visual') || html.includes('double-group')
+  const isNearDoubles = html.includes('near-doubles') || html.includes('near-double')
+  const isFactFamily = html.includes('fact-family') || html.includes('fact-row')
+  if ((hasStepPattern || hasMultipleEquations) && hasMultipleInputs && !isTrueFalseQuestion && !hasSubQuestionPattern && !isFluencyGrid && !isDoublesVisual && !isNearDoubles && !isFactFamily) {
     console.log(`🔧 Q${question.id} Multi-step word problem detected (${question.inputs.length} inputs)`)
 
     // Parse all equations - both complete (X op Y =) and partial ([?] op Y =)

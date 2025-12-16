@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 const WORKSHEET_SLUG = 'times-tables-2-5-10-challenge-mixed-problem-solving'
 // Q1: 20, 20, 5, 4
 // Q2: 12, 6, 40, 8, 70, 7
-// Q3: =, >
+// Q3: =, > (9x2=18 > 3x5=15)
 // Q4: 30, 20, Emma, 10
 // Q5: Always, Sometimes
 const WORKSHEET_ANSWERS = [

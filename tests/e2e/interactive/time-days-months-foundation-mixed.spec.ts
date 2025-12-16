@@ -7,7 +7,7 @@ import { test, expect } from '@playwright/test'
  */
 
 const WORKSHEET_SLUG = 'time-days-and-months-foundation-vfoundation'
-const WORKSHEET_ANSWERS = ["Wednesday", "Sunday", "April", "Winter", "Tomorrow"]
+const WORKSHEET_ANSWERS = ["Wednesday", "Sunday", "Sunday", "April", "Winter", "Tomorrow"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {
