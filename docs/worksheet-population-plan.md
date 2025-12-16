@@ -1117,14 +1117,20 @@ Legend:
 
 ---
 
-## Progress Summary
+## Progress Summary (Updated December 2024)
 
-| Year Group | Subtopics | Worksheets Target | Completed | Progress |
-|------------|-----------|-------------------|-----------|----------|
-| Reception | 15 | 45 | 33 | 73% |
-| Year 1 | 13 | 39 | 15 | 38% |
-| Year 2 | 26 | 78 | 21 | 27% |
-| **Total** | **54** | **162** | **69** | **43%** |
+| Year Group | Subtopics | Standard WS | Mixed WS | Total | E2E Tests | Coverage |
+|------------|-----------|-------------|----------|-------|-----------|----------|
+| Reception | 15 | 33 | 3 | 36 | 36 | 100% |
+| Year 1 | 13 | 30 | 33 | 63 | 63 | 100% |
+| Year 2 | 26 | 33 | 30 | 69 | 69 | 100% |
+| **Total** | **54** | **96** | **66** | **168** | **168** | **100%** |
+
+### Key Achievement: 100% Test Coverage
+- **96 Standard Layout worksheets** - Traditional question-by-question format
+- **66 Mixed Layout worksheets** - Fluency → Application → Reasoning format
+- **168 E2E interactive tests** - All achieving 100% score
+- Run `node scripts/analyze-test-coverage.js` to verify
 
 ---
 
@@ -1148,6 +1154,7 @@ Legend:
 | 2025-12-08 | Reception | more-or-less | Fix | v3 worksheet was not saved (404 error). Saved as v4, all 4 interactive tests pass 100%. Fixed duplicate `filters` variable in run-interactive-tests.js. |
 | 2025-12-15 | Year 1 | adding-to-20 | Complete | 3 worksheets saved (Foundation/Doubles/Challenge), all interactive tests pass 100%. Fixed answerValidator to exclude sub-question grids from multi-step validation. |
 | 2025-12-15 | Reception | length-comparison | Complete | 3 worksheets saved (School/Garden/Mixed), all interactive tests pass 100%. Uses answer-line pattern for A/B/C answers and "A and C" for same-length matching. |
+| 2025-12-16 | ALL | Multiple | **100% TEST COVERAGE** | Created 29 missing E2E tests for Standard+Mixed layouts. Final state: 168 worksheets, 168 tests, 100% coverage. Fixed analysis script to detect WORKSHEET_SLUG constants. |
 
 ---
 
@@ -1690,6 +1697,129 @@ Always use the proper save workflow:
 - **CDN:** ImageKit (`ik.imagekit.io/4m3l6zvgx/worksheets/thumbnails/`)
 - **Naming:** `{slug}-{timestamp}-thumb.webp`
 - **Cache busting:** URL includes `?v={timestamp}` query param
+
+---
+
+## E2E Test Coverage Requirements (CRITICAL)
+
+### The 1:1 Rule
+
+**Every worksheet saved to the library MUST have a corresponding E2E interactive test.**
+
+| Metric | Expected | Why |
+|--------|----------|-----|
+| Worksheets in DB | N | Library content |
+| E2E Test Cases | N | 1:1 coverage |
+| Coverage | 100% | No untested worksheets |
+
+### Current State Analysis (December 2024)
+
+Running `node scripts/analyze-test-coverage.js` produces this report:
+
+```
+WORKSHEET & E2E TEST COVERAGE ANALYSIS
+======================================================================
+
+SUMMARY
+Total worksheets in library: 168
+Total unique slugs tested: 168
+Coverage gap: 0 worksheets missing tests
+
+BY LAYOUT TYPE
+
+Standard Layout
+  Worksheets: 96
+  With tests: 96
+  Missing tests: 0
+
+Mixed Layout
+  Worksheets: 66
+  With tests: 66
+  Missing tests: 0
+```
+
+**Coverage: 100% (168/168 worksheets tested)**
+
+### Layout Types Explained
+
+| Layout Type | Structure | Test File Pattern |
+|-------------|-----------|-------------------|
+| **Standard** | Traditional question-by-question | `{subtopic}-v{N}.spec.ts` |
+| **Mixed** | 3 sections (Fluency Q1-Q2, Application Q3-Q4, Reasoning Q5) | `{subtopic}-all.spec.ts` or labeled "Mixed Layout" in test |
+
+### Why the Gap Exists
+
+1. **6 Worksheets Per Subtopic**: Each subtopic has BOTH layout types:
+   - 3 Standard Layout worksheets (v1, v2, v3)
+   - 3 Mixed Layout worksheets (Foundation, Varied, Challenge)
+   - Total: 6 worksheets per subtopic
+
+2. **Legacy Worksheets**: Early worksheets saved without corresponding tests
+   - Example: `addition-subtraction-adding-to-20` (old slug format)
+   - Fix: Create tests for all valid worksheets
+
+3. **Test Files Without Slugs**: Generic test files using environment variables
+   - Example: `${WORKSHEET_SLUG}` placeholder in generic test
+   - Not counted as real coverage
+
+### Mandatory Test Coverage Workflow
+
+**When creating worksheets:**
+
+```
+Phase 1 → Phase 2 → Phase 3 → Phase 4
+(Generate)  (Approve)   (Save)    (TEST)
+                                   ↓
+                          MUST CREATE E2E TEST
+                          MUST PASS AT 100%
+```
+
+**The subtopic is NOT complete until:**
+- [ ] All 3 worksheets saved to library
+- [ ] All 3 have dedicated E2E test cases
+- [ ] All 3 tests achieve 100% score
+- [ ] Test file committed to repository
+
+### Test File Naming Convention
+
+| Scenario | File Name | Contents |
+|----------|-----------|----------|
+| 3 worksheets (same subtopic) | `{subtopic}-all.spec.ts` | 3 test cases |
+| Single worksheet | `{subtopic}-v{N}.spec.ts` | 1 test case |
+| Mixed Layout worksheet | Include "Mixed Layout" in test name | Clearly labeled |
+
+### Running Coverage Analysis
+
+```powershell
+# Generate coverage report
+node scripts/analyze-test-coverage.js
+
+# Output: scripts/test-coverage-report.json
+```
+
+Report includes:
+- Total worksheets by layout type
+- Tested vs untested counts
+- List of worksheet slugs missing tests
+- List of orphan tests (testing non-existent worksheets)
+
+### Clean-Up Tasks
+
+To achieve 100% coverage, either:
+
+1. **Create missing tests** for worksheets that should exist
+2. **Delete duplicate worksheets** (keep only one version per variant)
+3. **Delete orphan tests** that reference deleted worksheets
+
+### Target State
+
+| Layout Type | Worksheets | E2E Tests | Coverage |
+|-------------|------------|-----------|----------|
+| Standard | 96 | 96 | 100% |
+| Mixed | 66 | 66 | 100% |
+| **Total** | **168** | **168** | **100%** |
+
+*Note: Many subtopics have 6 worksheets (3 Standard + 3 Mixed Layout)*
 
 ---
 

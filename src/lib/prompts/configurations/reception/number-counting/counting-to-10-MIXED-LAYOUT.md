@@ -1,0 +1,192 @@
+# Reception Counting to 10 - Mixed Layout (3-Section Format)
+
+Generate EXACTLY 5 Reception counting questions using the 3-section mixed layout format.
+
+## CRITICAL STRUCTURE - 3 SECTIONS
+
+**Section A: FLUENCY (Q1-Q2)** - Count objects, identify quantities
+**Section B: APPLICATION (Q3-Q4)** - Count in context, real-world scenarios
+**Section C: REASONING (Q5)** - True/False about counting
+
+## DIFFICULTY LEVELS
+
+**Foundation (Easy):** Numbers 1-5, simple familiar objects
+**Varied (Average):** Numbers 1-10, varied objects and contexts
+**Challenge (Hard):** Numbers 5-10, larger groups requiring careful counting
+
+## MANDATORY HTML PATTERNS
+
+### Answer Key Format (CRITICAL)
+```html
+<div class="answer-key">
+  <h2>Answer Key</h2>
+  <p><strong>1.</strong> X, Y</p>
+  <p><strong>2.</strong> A, B</p>
+  <p><strong>3.</strong> M, N</p>
+  <p><strong>4.</strong> P, Q</p>
+  <p><strong>5.</strong> Yes/No, Z</p>
+</div>
+```
+
+### Counting Objects Display
+```html
+<div class="counting-box">
+  <p class="counting-items">🍎🍎🍎</p>
+  <p class="counting-label">apples</p>
+</div>
+```
+
+## QUESTION TEMPLATES
+
+### Q1: Count Simple Objects (2 groups)
+```html
+<div class="question q-fluency">
+  <p class="question-text"><span class="question-number">1</span>How many? Count and write.</p>
+  <div class="counting-box">
+    <p class="counting-items">🍎🍎🍎</p>
+    <p class="counting-label">a) apples</p>
+  </div>
+  <p class="sub-question">a) <span class="answer-box-small"></span> apples</p>
+  <div class="counting-box">
+    <p class="counting-items">⭐⭐⭐⭐⭐</p>
+    <p class="counting-label">b) stars</p>
+  </div>
+  <p class="sub-question">b) <span class="answer-box-small"></span> stars</p>
+</div>
+```
+**Answer:** 3, 5 (count the emojis)
+
+### Q2: Count Different Objects (2 groups)
+```html
+<div class="question q-fluency">
+  <p class="question-text"><span class="question-number">2</span>Count each group.</p>
+  <div class="counting-box">
+    <p class="counting-items">🐶🐶🐶🐶</p>
+    <p class="counting-label">a) dogs</p>
+  </div>
+  <p class="sub-question">a) <span class="answer-box-small"></span> dogs</p>
+  <div class="counting-box">
+    <p class="counting-items">🎈🎈</p>
+    <p class="counting-label">b) balloons</p>
+  </div>
+  <p class="sub-question">b) <span class="answer-box-small"></span> balloons</p>
+</div>
+```
+**Answer:** 4, 2
+
+### Q3: Count in Context (2 stories)
+```html
+<div class="question q-application">
+  <p class="question-text"><span class="question-number">3</span>Count and write the number.</p>
+  <div class="word-problem-box">
+    <span class="character-icon">👧</span>
+    <span class="story-text"><strong>Amy</strong> has some cookies.</span>
+  </div>
+  <div class="counting-box">
+    <p class="counting-items">🍪🍪🍪🍪🍪🍪</p>
+  </div>
+  <p class="sub-question">a) Amy has <span class="answer-box-small"></span> cookies.</p>
+  <div class="word-problem-box" style="margin-top:15px">
+    <span class="character-icon">👦</span>
+    <span class="story-text"><strong>Ben</strong> has some cars.</span>
+  </div>
+  <div class="counting-box">
+    <p class="counting-items">🚗🚗🚗</p>
+  </div>
+  <p class="sub-question">b) Ben has <span class="answer-box-small"></span> cars.</p>
+</div>
+```
+**Answer:** 6, 3
+
+### Q4: Look and Count (2 scenes)
+```html
+<div class="question q-application">
+  <p class="question-text"><span class="question-number">4</span>Look and count.</p>
+  <div class="counting-box">
+    <p class="counting-items">🐦🐦🐦🐦🐦🐦🐦</p>
+    <p class="counting-label">birds in the tree</p>
+  </div>
+  <p class="sub-question">a) How many birds? <span class="answer-box-small"></span></p>
+  <div class="counting-box" style="margin-top:15px">
+    <p class="counting-items">🌸🌸🌸🌸🌸🌸🌸🌸</p>
+    <p class="counting-label">flowers in the garden</p>
+  </div>
+  <p class="sub-question">b) How many flowers? <span class="answer-box-small"></span></p>
+</div>
+```
+**Answer:** 7, 8
+
+### Q5: Reasoning (True/False + Count)
+```html
+<div class="question q-reasoning">
+  <p class="question-text"><span class="question-number">5</span>True or False?</p>
+  <div class="reasoning-box">
+    <div class="speech-bubble">
+      <span class="character-icon">👦</span>
+      <strong>Tom says:</strong> "There are 5 fish."
+    </div>
+    <div class="counting-box">
+      <p class="counting-items">🐟🐟🐟🐟🐟</p>
+    </div>
+  </div>
+  <p class="sub-question">a) Is Tom correct? <span class="answer-box-word"></span> (Yes / No)</p>
+  <p class="sub-question">b) Count these cats: 🐱🐱🐱🐱 = <span class="answer-box-small"></span></p>
+</div>
+```
+**Answer:** Yes, 4
+
+## CSS (REQUIRED)
+```css
+<style>
+body{font-family:'Comic Sans MS',cursive,sans-serif;font-size:14pt;padding:15px 20px;line-height:1.4;margin:0;background:#fff}
+.worksheet-header{text-align:center;margin-bottom:15px;padding-bottom:10px;border-bottom:3px solid #4169E1}
+.worksheet-title{font-size:20pt;color:#2c3e50;margin:0}
+.worksheet-details{font-size:10pt;color:#666;margin-top:5px}
+.layout-badge{display:inline-block;background:#9C27B0;color:white;padding:2px 8px;border-radius:10px;font-size:9pt;margin-left:10px}
+.section-header{display:flex;align-items:center;gap:10px;margin:15px 0 8px 0;padding:6px 10px;border-radius:6px;font-weight:bold}
+.section-letter{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;color:white;font-size:12pt}
+.section-title{font-size:12pt}
+.section-fluency{background:#E3F2FD;border-left:4px solid #2196F3}
+.section-fluency .section-letter{background:#2196F3}
+.section-application{background:#F3E5F5;border-left:4px solid #9C27B0}
+.section-application .section-letter{background:#9C27B0}
+.section-reasoning{background:#FFF3E0;border-left:4px solid #FF9800}
+.section-reasoning .section-letter{background:#FF9800}
+.question{margin:10px 0;padding:12px;border-radius:8px}
+.q-fluency{background:#E3F2FD}
+.q-application{background:#F3E5F5}
+.q-reasoning{background:#FFF3E0}
+.question-number{display:inline-block;background:#4169E1;color:white;width:24px;height:24px;line-height:24px;text-align:center;border-radius:50%;margin-right:8px;font-weight:bold;font-size:12pt}
+.question-text{font-size:14pt;margin:5px 0;font-weight:600}
+.sub-question{font-size:13pt;margin:8px 0 8px 10px}
+.counting-box{background:#FAFAFA;border-radius:8px;padding:15px;margin:10px 0;text-align:center}
+.counting-items{font-size:36pt;letter-spacing:8px}
+.counting-label{font-size:11pt;color:#666;margin-top:5px}
+.word-problem-box{background:#FFF8E1;border:2px solid #FFB300;border-radius:8px;padding:10px;margin:10px 0}
+.character-icon{font-size:28pt;margin-right:8px}
+.story-text{font-size:13pt;color:#333;line-height:1.5}
+.reasoning-box{background:#E8F5E9;border:2px solid #66BB6A;border-radius:8px;padding:10px;margin:10px 0}
+.speech-bubble{background:white;border:2px solid #81C784;border-radius:10px;padding:10px;margin:8px 0}
+.answer-box-small{display:inline-block;min-width:50px;height:28px;border:2px solid #333;border-radius:5px;background:#FFF9C4;vertical-align:middle;margin:0 3px}
+.answer-box-word{display:inline-block;min-width:90px;height:32px;border:2px solid #333;border-radius:5px;background:#FFF9C4;vertical-align:middle;margin:0 5px}
+.answer-key{margin-top:25px;padding:12px;background:#f0f8ff;border:2px solid #4169E1;border-radius:8px;page-break-before:always}
+.answer-key h2{font-size:13pt;font-weight:bold;color:#2c3e50;margin:0 0 8px 0;text-align:center}
+.answer-key p{font-size:11pt;margin:4px 0;line-height:1.5}
+</style>
+```
+
+## EMOJI OPTIONS FOR COUNTING
+
+**Animals:** 🐶 🐱 🐟 🐦 🦋 🐢 🐝 🦆 🐸 🐞 🐰 🐻
+**Food:** 🍎 🍪 🍓 🍊 🍇 🧁
+**Objects:** ⭐ 🎈 🚗 ✏️ 🖍️ 🐚 🎁 💎 🚀 ❤️ 🌸 🌻 🌈
+
+## COUNTING GUIDELINES
+
+- **Foundation:** Use 1-5 objects per group
+- **Varied:** Use 4-10 objects per group
+- **Challenge:** Use 7-10 objects per group (test careful counting)
+- Emojis should be large (36pt) with good spacing (8px letter-spacing)
+- Always have exactly 10 input fields total (2 per question)
+
+Generate worksheet NOW with correct answers matching emoji counts.

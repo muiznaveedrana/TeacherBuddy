@@ -105,4 +105,75 @@ test.describe('Mental Strategies - All 3 Worksheets', () => {
     const score = await fillAndSubmit(page, answers)
     expect(score).toBe('100%')
   })
+
+  // NEW Mixed Layout Worksheets (December 2024)
+
+  // WS4: Foundation Mixed Layout
+  // Q1: 10, 14, 18
+  // Q2: 27, 55, 48, 82, 19, 74
+  // Q3: 12, 8, 12, 8, 20
+  // Q4: 39, 39
+  // Q5: True, False, True
+  test('WS4 Foundation Mixed Layout - should achieve 100%', async ({ page }) => {
+    await page.goto('/library/mental-strategies-foundation-vfoundation/interactive')
+    await dismissCookieConsent(page)
+    await expect(page.locator('.interactive-worksheet-container')).toBeVisible({ timeout: 30000 })
+
+    const answers = [
+      "10", "14", "18",                         // Q1
+      "27", "55", "48", "82", "19", "74",       // Q2
+      "12", "8", "12", "8", "20",               // Q3
+      "39", "39",                               // Q4
+      "True", "False", "True"                   // Q5
+    ]
+
+    const score = await fillAndSubmit(page, answers)
+    expect(score).toBe('100%')
+  })
+
+  // WS5: Practice Mixed Layout
+  // Q1: 6, 7, 7, 7
+  // Q2: 43, 38, 68, 45, 59, 64
+  // Q3: 15, 6, 15, 6, 9
+  // Q4: 57, 57, 52
+  // Q5: C, 29
+  test('WS5 Practice Mixed Layout - should achieve 100%', async ({ page }) => {
+    await page.goto('/library/mental-strategies-practice-vpractice/interactive')
+    await dismissCookieConsent(page)
+    await expect(page.locator('.interactive-worksheet-container')).toBeVisible({ timeout: 30000 })
+
+    const answers = [
+      "6", "7", "7", "7",                       // Q1
+      "43", "38", "68", "45", "59", "64",       // Q2
+      "15", "6", "15", "6", "9",                // Q3
+      "57", "57", "52",                         // Q4
+      "C", "29"                                 // Q5
+    ]
+
+    const score = await fillAndSubmit(page, answers)
+    expect(score).toBe('100%')
+  })
+
+  // WS6: Challenge Mixed Layout
+  // Q1: 13, 17, 31
+  // Q2: 64, 63, 78, 41, 72, 56
+  // Q3: 15, 15, 7, 8
+  // Q4: 68, 45
+  // Q5: Never, 45, 5
+  test('WS6 Challenge Mixed Layout - should achieve 100%', async ({ page }) => {
+    await page.goto('/library/mental-strategies-challenge-vchallenge/interactive')
+    await dismissCookieConsent(page)
+    await expect(page.locator('.interactive-worksheet-container')).toBeVisible({ timeout: 30000 })
+
+    const answers = [
+      "13", "17", "31",                         // Q1
+      "64", "63", "78", "41", "72", "56",       // Q2
+      "15", "15", "7", "8",                     // Q3
+      "68", "45",                               // Q4
+      "Never", "45", "5"                        // Q5
+    ]
+
+    const score = await fillAndSubmit(page, answers)
+    expect(score).toBe('100%')
+  })
 })

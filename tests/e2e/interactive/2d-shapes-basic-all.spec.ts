@@ -108,4 +108,78 @@ test.describe('2D Shapes Basic - All 3 Worksheets', () => {
     const score = await fillAndSubmit(page, answers)
     expect(score).toBe('100%')
   })
+
+  // NEW Mixed Layout Worksheets (December 2024)
+
+  // WS4: Foundation Mixed Layout
+  // Q1: circle, triangle, square, rectangle
+  // Q2: 0, 3, 4, 4
+  // Q3: circle, triangle, square
+  // Q4: 3, 3, 3, 6
+  // Q5: Yes, 0
+  test('WS4 Foundation Mixed Layout - should achieve 100%', async ({ page }, testInfo) => {
+    testInfo.setTimeout(60000)
+    await page.goto('/library/2d-shapes-basic-foundation-vfoundation/interactive')
+    await dismissCookieConsent(page)
+    await expect(page.locator('.interactive-worksheet-container')).toBeVisible({ timeout: 30000 })
+
+    const answers = [
+      "circle", "triangle", "square", "rectangle",  // Q1
+      "0", "3", "4", "4",                           // Q2
+      "circle", "triangle", "square",               // Q3
+      "3", "3", "3", "6",                           // Q4
+      "Yes", "0"                                    // Q5
+    ]
+
+    const score = await fillAndSubmit(page, answers)
+    expect(score).toBe('100%')
+  })
+
+  // WS5: Varied Mixed Layout
+  // Q1: square, circle, rectangle, triangle
+  // Q2: 3, 4, 4, 0
+  // Q3: rectangle, circle, rectangle
+  // Q4: 4, 4, 4, 4, 12
+  // Q5: A, 0
+  test('WS5 Varied Mixed Layout - should achieve 100%', async ({ page }, testInfo) => {
+    testInfo.setTimeout(60000)
+    await page.goto('/library/2d-shapes-basic-varied-vvaried/interactive')
+    await dismissCookieConsent(page)
+    await expect(page.locator('.interactive-worksheet-container')).toBeVisible({ timeout: 30000 })
+
+    const answers = [
+      "square", "circle", "rectangle", "triangle",  // Q1
+      "3", "4", "4", "0",                           // Q2
+      "rectangle", "circle", "rectangle",           // Q3
+      "4", "4", "4", "4", "12",                     // Q4
+      "A", "0"                                      // Q5
+    ]
+
+    const score = await fillAndSubmit(page, answers)
+    expect(score).toBe('100%')
+  })
+
+  // WS6: Challenge Mixed Layout
+  // Q1: rectangle, triangle, circle, square
+  // Q2: 3, 3, 4, 4
+  // Q3: 0, 3, 4
+  // Q4: 3, 3, 6, 4, Yes
+  // Q5: No, 4, 4
+  test('WS6 Challenge Mixed Layout - should achieve 100%', async ({ page }, testInfo) => {
+    testInfo.setTimeout(60000)
+    await page.goto('/library/2d-shapes-basic-challenge-vchallenge/interactive')
+    await dismissCookieConsent(page)
+    await expect(page.locator('.interactive-worksheet-container')).toBeVisible({ timeout: 30000 })
+
+    const answers = [
+      "rectangle", "triangle", "circle", "square",  // Q1
+      "3", "3", "4", "4",                           // Q2
+      "0", "3", "4",                                // Q3
+      "3", "3", "6", "4", "Yes",                    // Q4
+      "No", "4", "4"                                // Q5
+    ]
+
+    const score = await fillAndSubmit(page, answers)
+    expect(score).toBe('100%')
+  })
 })

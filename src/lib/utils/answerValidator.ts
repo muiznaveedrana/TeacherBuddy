@@ -304,7 +304,9 @@ function validateWithCustomLogic(
   // Trigger on: step-box CSS class, OR "step 1" text, OR multiple equations with 3+ inputs
   // But NOT for True/False questions which contain equations but expect True/False answers
   // But NOT for sub-question grids where each equation is independent (a), b), c) format)
-  if ((hasStepPattern || hasMultipleEquations) && hasMultipleInputs && !isTrueFalseQuestion && !hasSubQuestionPattern) {
+  // But NOT for fluency grids (independent equations meant to be solved separately)
+  const isFluencyGrid = html.includes('fluency-grid') || html.includes('fluency-item')
+  if ((hasStepPattern || hasMultipleEquations) && hasMultipleInputs && !isTrueFalseQuestion && !hasSubQuestionPattern && !isFluencyGrid) {
     console.log(`🔧 Q${question.id} Multi-step word problem detected (${question.inputs.length} inputs)`)
 
     // Parse all equations - both complete (X op Y =) and partial ([?] op Y =)

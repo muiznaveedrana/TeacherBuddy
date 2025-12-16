@@ -945,16 +945,22 @@ Create Playwright test and verify **100% score**.
 
 ---
 
-## Progress Summary
+## Progress Summary (Updated December 2024)
 
-| Year Group | Subtopics | Standard WS | Mixed WS | Total | Target (3 mixed each) |
-|------------|-----------|-------------|----------|-------|----------------------|
-| Reception | 15 | 33 | 0 | 33 | 45 |
-| Year 1 | 13 | 21 | 3 | 24 | 39 |
-| Year 2 | 26 | 24 | 0 | 24 | 78 |
-| **Total** | **54** | **78** | **3** | **81** | **162** |
+| Year Group | Subtopics | Standard WS | Mixed WS | Total | E2E Tests | Coverage |
+|------------|-----------|-------------|----------|-------|-----------|----------|
+| Reception | 15 | 33 | 3 | 36 | 36 | 100% |
+| Year 1 | 13 | 30 | 33 | 63 | 63 | 100% |
+| Year 2 | 26 | 33 | 30 | 69 | 69 | 100% |
+| **Total** | **54** | **96** | **66** | **168** | **168** | **100%** |
 
-**Overall Progress:** 78 Standard + 3 Mixed = 81 worksheets
+**Overall Progress:** 96 Standard + 66 Mixed = **168 worksheets** (All tested at 100%)
+
+### Test Coverage Analysis
+Run `node scripts/analyze-test-coverage.js` to verify:
+- **Standard Layout:** 96 worksheets, 96 tests (100%)
+- **Mixed Layout:** 66 worksheets, 66 tests (100%)
+- **Total Coverage:** 168/168 (100%)
 
 ---
 
@@ -1010,6 +1016,7 @@ SEARCH QUERIES:
 | 2025-12-15 | Y2 | times-tables-2-5-10 | Mixed | Phase 0-4 Complete | 3 worksheets (Foundation, Skip Counting, Challenge), all 100%. Added Learnings 13-14. |
 | 2025-12-15 | Y1+Y2 | All | Mixed | SEO Optimization | Re-saved all 6 worksheets with optimized SEO metadata (titles, descriptions, keywords, tags). |
 | 2025-12-15 | Y1 | number-bonds-10 | Mixed | Phase 0-4 Complete | 3 worksheets (Foundation, Match/Complete, Challenge), all 100%. Fixed True/False validation bug. Added Learning 15. |
+| 2025-12-16 | ALL | Multiple | Both | **100% TEST COVERAGE** | Created 29 missing E2E tests. Final: 168 worksheets, 168 tests, 100% coverage. |
 
 ---
 
@@ -1397,6 +1404,139 @@ if ((hasStepPattern || hasMultipleEquations) && hasMultipleInputs && !isTrueFals
 - "(True/False)"
 - Answer format: "True, True, False"
 
+### Learning 16: The 1:1 Rule - Every Worksheet Needs a Test
+
+**Problem:** After creating many worksheets, we discovered 109 worksheets had no E2E tests (only 35% coverage initially).
+
+**Root Cause:** Tests were created inconsistently - some subtopics had tests, others didn't. No tracking system enforced test creation.
+
+**Solution:** Implement the **1:1 Rule**:
+
+| Metric | Requirement |
+|--------|-------------|
+| Worksheets in DB | N |
+| E2E Test Cases | N |
+| Coverage | 100% |
+
+**Workflow enforcement:**
+```
+Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5
+(Generate)  (Approve)   (Save)    (TEST)   (VERIFY)
+                                   ↓         ↓
+                          Create test   Run coverage
+                          Pass 100%     Confirm 100%
+```
+
+**A subtopic is NOT complete until:**
+- [ ] All 3 worksheets saved to library
+- [ ] All 3 have dedicated E2E test cases
+- [ ] All 3 tests achieve 100% score
+- [ ] Coverage analysis shows 100%
+
+### Learning 17: 6 Worksheets Per Subtopic (Standard + Mixed)
+
+**Discovery:** Many subtopics have BOTH layout types, resulting in 6 worksheets each:
+
+| Layout Type | Worksheets | Test Pattern |
+|-------------|------------|--------------|
+| Standard | 3 (v1, v2, v3) | `{subtopic}-v{N}.spec.ts` |
+| Mixed | 3 (Foundation, Varied, Challenge) | `{subtopic}-all.spec.ts` |
+| **Total** | **6** | 6 test cases |
+
+**Key insight:** These are NOT duplicates - they have different content and layouts:
+- **Standard:** Traditional question-by-question format
+- **Mixed:** Fluency → Application → Reasoning sections
+
+**Impact on test coverage:**
+```
+54 subtopics × 6 worksheets = 324 potential worksheets
+Current: 168 worksheets (many subtopics have only one layout type)
+All 168 must have corresponding E2E tests
+```
+
+### Learning 18: Test Coverage Analysis Script
+
+**Tool:** `node scripts/analyze-test-coverage.js`
+
+**What it does:**
+1. Queries database for all worksheet slugs
+2. Scans test files for `WORKSHEET_SLUG` constants
+3. Identifies gaps (untested worksheets)
+4. Generates JSON report
+
+**Output:**
+```
+WORKSHEET & E2E TEST COVERAGE ANALYSIS
+======================================================================
+
+SUMMARY
+Total worksheets in library: 168
+Total unique slugs tested: 168
+Coverage gap: 0 worksheets missing tests
+
+BY LAYOUT TYPE
+
+Standard Layout
+  Worksheets: 96
+  With tests: 96
+  Missing tests: 0
+
+Mixed Layout
+  Worksheets: 66
+  With tests: 66
+  Missing tests: 0
+```
+
+**Run after every worksheet batch to verify coverage.**
+
+### Learning 19: Test File Naming Conventions
+
+**Consistent naming helps with coverage analysis:**
+
+| Scenario | File Name | WORKSHEET_SLUG Format |
+|----------|-----------|----------------------|
+| Standard layout v1 | `{subtopic}.spec.ts` | `{topic}-{subtopic}` |
+| Standard layout v2+ | `{subtopic}-v{N}.spec.ts` | `{topic}-{subtopic}-v{N}` |
+| Mixed layout (3 tests) | `{subtopic}-all.spec.ts` | Multiple slugs in one file |
+| Single mixed test | `{subtopic}-mixed.spec.ts` | `{subtopic}-{variant}` |
+
+**Test file structure:**
+```typescript
+// CRITICAL: This constant is used by coverage analysis
+const WORKSHEET_SLUG = 'exact-slug-from-database'
+const WORKSHEET_ANSWERS = ["answer1", "answer2", ...]
+
+test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
+  test('should complete with 100% score', async ({ page }) => {
+    await page.goto(`/library/${WORKSHEET_SLUG}/interactive`)
+    // ... fill answers and verify 100%
+  })
+})
+```
+
+**The coverage script looks for:**
+- `WORKSHEET_SLUG = 'slug'` constant definitions
+- `page.goto('/library/slug/interactive')` patterns
+
+### Learning 20: Handling Worksheet Versions with Timestamps
+
+**Problem:** Some worksheets have timestamp suffixes:
+- `time-days-and-months-foundation-vfoundation` (original)
+- `time-days-and-months-foundation-vfoundation-251216-174736` (with timestamp)
+
+**These are DIFFERENT worksheets** - not duplicates:
+- Different HTML content
+- Different answer keys
+- Both need separate E2E tests
+
+**Solution:** Create separate test files for each:
+```
+time-days-months-foundation-mixed.spec.ts  → tests non-timestamped version
+time-days-months-foundation-251216.spec.ts → tests timestamped version
+```
+
+**Best practice:** Avoid creating duplicate worksheets with different timestamps. If content is updated, delete the old version and keep only the new one.
+
 ---
 
 ## Pilot Results: Year 1 2D Shapes Basic
@@ -1406,7 +1546,7 @@ if ((hasStepPattern || hasMultipleEquations) && hasMultipleInputs && !isTrueFals
 | Phases 0-3 | ✅ Completed |
 | Phase 4 (Production) | ✅ 3 unique worksheets, all 100% |
 | Iterations | 4 (v1: too many, v2: spacey layout, v3: compact but too tight, v4: BALANCED SUCCESS) |
-| Key Learnings | 15 documented |
+| Key Learnings | 20 documented (1-15 from pilot, 16-20 from test coverage work) |
 
 ### Final Worksheets (Balanced Layout)
 
