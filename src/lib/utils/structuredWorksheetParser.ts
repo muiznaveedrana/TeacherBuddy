@@ -803,6 +803,16 @@ function parseQuestionStructure(
         answerArray = [equationFormatMatch[1], equationFormatMatch[2]]
         console.log(`➕ Multi-input Q${questionId} (equation format): Extracted from "${correctAnswer}":`, answerArray)
       } else {
+    // EARLY CHECK: Simple comma-separated word answers without a), b), c) prefixes
+    // Handles answers like "up, right, down" or "forwards, backwards" for movement/direction questions
+    const hasAbcPrefix = /[a-f]\)\s*/i.test(correctAnswer)
+    const commaParts = correctAnswer.split(',').map(p => p.trim()).filter(p => p.length > 0)
+    const allWordsNoNumbers = commaParts.every(part => /^[a-zA-Z]+$/.test(part))
+
+    if (!hasAbcPrefix && commaParts.length >= inputs.length && allWordsNoNumbers) {
+      answerArray = commaParts.slice(0, inputs.length)
+      console.log(`🔤 Multi-input Q${questionId} (word list): Direct split from "${correctAnswer}":`, answerArray)
+    } else {
     // Simple extraction for "a) X b) Y c) Z d) W" format using individual regex matches
     const abcdMatches: string[] = []
 
@@ -833,8 +843,8 @@ function parseQuestionStructure(
       }
     }
 
-    // Extract b) value - Yes/No, number (including time/fractions), symbol, or expanded form "X + Y"
-    const bMatch = correctAnswer.match(/b\)\s*(Yes|No|\d+(?:[:/]\d+)?(?:\s*[+\-<>=]\s*\d+)?)/i)
+    // Extract b) value - Yes/No, number (including time/fractions), symbol, expanded form "X + Y", or direction words
+    const bMatch = correctAnswer.match(/b\)\s*(Yes|No|\d+(?:[:/]\d+)?(?:\s*[+\-<>=]\s*\d+)?|[a-zA-Z]+)(?:\s+c\)|$)/i)
     if (bMatch) {
       let val = bMatch[1].trim()
       // Check for expanded form "X + Y" (e.g., "90 + 5" -> ["90", "5"])
@@ -856,8 +866,8 @@ function parseQuestionStructure(
       }
     }
 
-    // Extract c) value - Yes/No or number (including time/fractions)
-    const cMatch = correctAnswer.match(/c\)\s*(Yes|No|\d+(?:[:/]\d+)?)/i)
+    // Extract c) value - Yes/No, number (including time/fractions), or direction words
+    const cMatch = correctAnswer.match(/c\)\s*(Yes|No|\d+(?:[:/]\d+)?|[a-zA-Z]+)(?:\s+d\)|$)/i)
     if (cMatch) {
       abcdMatches.push(cMatch[1])
     }
@@ -933,31 +943,41 @@ function parseQuestionStructure(
         })
         console.log(`🔤 Matching Q${questionId}: Extracted words from "${correctAnswer}":`, answerArray)
       } else {
-        // For other multi-input questions, extract numbers/symbols
+        // For other multi-input questions, extract numbers/symbols/words
+        // Common direction/position words that should be kept as-is
+        const directionWords = /^(up|down|left|right|forwards?|backwards?|above|below|behind|beside|between|inside|outside|over|under|north|south|east|west|n|s|e|w|tree|school|house|park|shop|hospital|library|treasure|box|circle|square|triangle)$/i
+
         answerArray = parts.map(part => {
-          // Check for symbols first (for comparison questions)
-          const symbolMatch = part.match(/([<>=])/)
+          const trimmedPart = part.trim()
+
+          // Check for direction/position words first - return as-is
+          if (directionWords.test(trimmedPart)) {
+            return trimmedPart
+          }
+          // Check for symbols (for comparison questions)
+          const symbolMatch = trimmedPart.match(/([<>=])/)
           if (symbolMatch) {
             return symbolMatch[1]
           }
           // Check for Yes/No
-          const yesNoMatch = part.match(/\b(Yes|No)\b/i)
+          const yesNoMatch = trimmedPart.match(/\b(Yes|No)\b/i)
           if (yesNoMatch) {
             return yesNoMatch[1]
           }
           // Check if there's a colon - if so, extract value AFTER the colon
-          if (part.includes(':')) {
-            const afterColon = part.split(':')[1].trim()
+          if (trimmedPart.includes(':')) {
+            const afterColon = trimmedPart.split(':')[1].trim()
             const numberMatch = afterColon.match(/^(\d+(?:[.\/]\d+)?)/)
             return numberMatch ? numberMatch[1] : afterColon
           }
-          // Otherwise, extract any number from the part
-          const numberMatch = part.match(/\b(\d+(?:[.\/]\d+)?)\b/)
-          return numberMatch ? numberMatch[1] : part
+          // Otherwise, extract any number from the part, or return as-is if no number
+          const numberMatch = trimmedPart.match(/\b(\d+(?:[.\/]\d+)?)\b/)
+          return numberMatch ? numberMatch[1] : trimmedPart
         })
         console.log(`🔢 Multi-input Q${questionId}: Split "${correctAnswer}" into:`, answerArray)
       }
     }
+    } // Close the else block for early word list check
     } // Close the else block for equationFormatMatch check (line 635)
     } // Close the else block for tensOnesMatch check (line 630)
   }

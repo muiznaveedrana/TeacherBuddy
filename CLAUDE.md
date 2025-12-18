@@ -86,6 +86,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Always check**: Can a 4-year-old answer this question by LOOKING at the images?
 - **When in doubt**: FAIL it. Quality > Quantity.
 
+## Worksheet Auto Assessment Agent (Two-Stage Quality Scanner)
+- **TRIGGER PHRASES**:
+  - `auto assessment reception` - Scan all Reception mixed layout worksheets
+  - `auto assessment year1` - Scan all Year 1 mixed layout worksheets
+  - `auto assessment year2` - Scan all Year 2 mixed layout worksheets
+  - `approve fixes` - Proceed to Stage 2 (fix identified issues)
+  - `export learnings` - Export learnings to worksheet-population-from-scratch.md
+- **Two-Stage Workflow**:
+  - **Stage 1**: Scan → Assess → Generate Report (Pass/Fail with issues) → Request Approval
+  - **Stage 2**: Fix issues (only after approval)
+- **Assessment Criteria**:
+  - AUTO-FAIL: Broken images, empty answer keys, mismatched question counts
+  - CRITICAL: Cross-out marks (any X marks), answer clues, split visual representations
+  - DIFFICULTY: Q5 complexity check (Reception: 2 steps max with guidance)
+  - VISUAL: Image size, layout clarity, contrast
+- **Child Simulation**: Each question tested from age-appropriate child perspective
+- **Key Learnings**: Stored in `worksheet-quality-learnings.json`, accumulated across sessions
+- **Post-Assessment**: Show learnings summary, ask permission before exporting to documentation
+- **Prompt Location**: See full assessment criteria in this conversation or `.claude/prompts/worksheet-quality-assessment-prompt.md`
+
 ## Worksheet Library Implementation (AUTONOMOUS STRATEGY)
 - **TRIGGER PHRASE**: When user types `execute complete implementation guide`, Claude Code autonomously implements COMPLETE-IMPLEMENTATION-GUIDE.md
 - **Strategy Document**: LIBRARY-IMPLEMENTATION-STRATEGY.md (comprehensive autonomous workflow)

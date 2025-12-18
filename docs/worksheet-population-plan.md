@@ -1928,3 +1928,83 @@ If creating worksheets with number lines, ensure the prompt specifies:
 3. Adequate padding for all numbers to be visible
 
 ---
+
+## Quality Patterns to Avoid (Auto-Generated from Assessment Agent)
+
+> Last updated: 2025-12-18 | Source: Reception assessment cycle (19 worksheets scanned)
+
+### Critical Pattern: Subtraction Visual Representation
+
+| ID | Pattern | Why It Fails | Correct Approach |
+|----|---------|--------------|------------------|
+| L001 | Cross-out marks (✕, ❌, X) used to show subtraction | Confuses young children - they don't understand which items to count | **Show ALL items**, let child mentally subtract |
+
+**Correct Subtraction Approach:**
+```
+Question: "There are 7 apples. 3 are eaten. How many are left?"
+
+✅ CORRECT: Show all 7 apples visually
+   → Child counts 7, subtracts 3 in head, writes "4"
+   → This teaches mental math
+
+❌ WRONG: Show 7 apples with 3 crossed out (✕)
+   → Child confusion: "Which ones do I count?"
+   → Cross marks are visually confusing for 4-5 year olds
+
+❌ WRONG: Show only 4 remaining apples
+   → Gives away the answer
+   → Removes the mental math challenge
+```
+
+**Implementation:**
+- Show the FULL starting amount visually (all images displayed)
+- Question text describes what is taken away ("3 are eaten")
+- Child must count total, subtract mentally, and write the answer
+- NO visual indicators of removal (no X marks, no faded images, no separate rows)
+
+### Image Asset Requirements
+
+| ID | Pattern | Why It Fails | Correct Approach |
+|----|---------|--------------|------------------|
+| L002 | Using images that don't exist in /images/ folder | Broken image placeholders - child can't complete worksheet | Verify ALL images exist before saving |
+
+**Before creating worksheets, verify these images exist:**
+- Daily routine: sleeping.png, sunrise.png, breakfast.png, bath.png, lunch.png
+- Seasons: snowman.png, flower.png (spring), sun.png (summer), leaf.png (autumn)
+- School: school-bus.png, backpack.png, book.png
+
+**Check available images:**
+```powershell
+ls public/images/ | Select-String "keyword"
+```
+
+### Visual Sizing Guidelines
+
+| ID | Pattern | Why It Fails | Correct Approach |
+|----|---------|--------------|------------------|
+| L003 | Images smaller than 30px | Hard to see for young children | Minimum 30px for Reception |
+
+**Minimum Image Sizes by Year Group:**
+
+| Year Group | Min Size | Reason |
+|------------|----------|--------|
+| Reception (4-5) | 30px | Young children need larger visuals |
+| Year 1 (5-6) | 28px | Slightly smaller acceptable |
+| Year 2 (6-7) | 25px | Can handle smaller images |
+
+**For subitising/dot patterns:** Even dice-like patterns need minimum 30px per dot for Reception.
+
+### Assessment Agent Integration
+
+These learnings are stored in `worksheet-quality-learnings.json` and updated after each assessment cycle.
+
+**To run quality assessment:**
+```
+auto assessment reception
+auto assessment year1
+auto assessment year2
+```
+
+**To export new learnings:** Type `export learnings` after assessment completes.
+
+---
