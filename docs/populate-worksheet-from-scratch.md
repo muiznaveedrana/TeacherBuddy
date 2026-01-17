@@ -741,45 +741,191 @@ If validation fails:
 
 ---
 
-## Phase 4: Production (1 Unique Worksheet)
+## Phase 4: Production (6 Unique Worksheets)
 
-> **IMPORTANT:** Claude Code generates the worksheet HTML directly (see Learning 8). Do NOT use Gemini API.
+> **IMPORTANT:** Claude Code generates ALL worksheet HTML directly (see Learning 8). Do NOT use Gemini API.
 
-### Step 4a: Generate Production Worksheet
+### 6 Worksheet Structure (2 Foundation + 4 Practice)
 
-**Claude Code creates the HTML directly:**
-1. Read the prompt template from `src/lib/prompts/configurations/`
-2. Generate worksheet HTML with DIFFERENT questions from test worksheet (see Learning 10)
-3. Save to: `public/preview-worksheet-{subtopic}-mixed-prod.html`
+| # | Worksheet Type | Difficulty | Focus | Target User |
+|---|----------------|------------|-------|-------------|
+| **1** | Foundation 1 | ⭐ Easy | Core concept introduction, heavy visual support | Struggling learners, SEN |
+| **2** | Foundation 2 | ⭐ Easy | Alternative approach, scaffolded practice | Reinforcement, building confidence |
+| **3** | Practice 1 | ⭐⭐ Average | Standard curriculum practice | Typical classroom use |
+| **4** | Practice 2 | ⭐⭐ Average | Real-world application focus | Homework, independent work |
+| **5** | Practice 3 | ⭐⭐ Average | Word problems, varied formats | Extra practice |
+| **6** | Practice 4 | ⭐⭐ Average | Mixed question styles, consolidation | Mastery through repetition |
 
-**Key requirements:**
-- ALL 5 questions must differ from test worksheet
-- Same learning objectives, different formats
-- Use varied visuals, numbers, scenarios
+**Pedagogical Rationale:**
+- **2 Foundation (Easy):** Accessible entry points for struggling learners and SEN support
+- **4 Practice (Average):** Targets 80-90% of mainstream learners with varied contexts
+- **No Challenge level:** Focus on mainstream population, not gifted/higher ability extension
 
-### Step 4b: Visual Review
+### Step 4a: Generate All 6 Worksheets
 
-```powershell
-# Open in browser to review
-Start-Process "http://localhost:3000" -ArgumentList "public/preview-worksheet-{subtopic}-mixed-prod.html"
+**Claude Code creates HTML directly for each worksheet:**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ WORKSHEET GENERATION SEQUENCE (2 Foundation + 4 Practice)        │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  WS1: Foundation 1 (⭐ Easy)                                     │
+│  ├── Read prompt template                                        │
+│  ├── Core concept with HEAVY visual support                      │
+│  ├── Simpler numbers, more scaffolding                           │
+│  └── Save: public/preview-{subtopic}-foundation-1.html           │
+│                                                                  │
+│  WS2: Foundation 2 (⭐ Easy)                                     │
+│  ├── DIFFERENT theme/context from WS1                            │
+│  ├── Same easy level, alternative approach                       │
+│  └── Save: public/preview-{subtopic}-foundation-2.html           │
+│                                                                  │
+│  WS3: Practice 1 (⭐⭐ Average)                                   │
+│  ├── Standard curriculum-aligned difficulty                      │
+│  ├── Balanced visual/abstract mix                                │
+│  └── Save: public/preview-{subtopic}-practice-1.html             │
+│                                                                  │
+│  WS4: Practice 2 (⭐⭐ Average)                                   │
+│  ├── Real-world application focus                                │
+│  ├── DIFFERENT formats from WS3                                  │
+│  └── Save: public/preview-{subtopic}-practice-2.html             │
+│                                                                  │
+│  WS5: Practice 3 (⭐⭐ Average)                                   │
+│  ├── Word problems, varied contexts                              │
+│  ├── Extra practice for reinforcement                            │
+│  └── Save: public/preview-{subtopic}-practice-3.html             │
+│                                                                  │
+│  WS6: Practice 4 (⭐⭐ Average)                                   │
+│  ├── Mixed question styles                                       │
+│  ├── Consolidation and mastery                                   │
+│  └── Save: public/preview-{subtopic}-practice-4.html             │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-Verify:
-- [ ] All 5 questions are DIFFERENT from test worksheet
-- [ ] Layout is clean and age-appropriate
-- [ ] Answer key format is correct (comma-separated)
+**Key Requirements for ALL 6:**
+- ALL 5 questions must be UNIQUE across worksheets (30 unique questions total)
+- Foundation (1-2): Easy difficulty for struggling learners
+- Practice (3-6): Average difficulty for 80-90% mainstream
+- Each worksheet must stand alone as complete practice
+- Variety comes from context/format, NOT difficulty
+- Comma-separated answer key format (see Learning 4)
 
-### Step 4c: Save to Library
+### Step 4b: Visual Review (All 6)
 
 ```powershell
-node scripts/save-worksheet.js public/preview-worksheet-{subtopic}-mixed-prod.html "{YearGroup}" {topic} {subtopic} average 5
+# Open all 6 in browser for side-by-side comparison
+$subtopic = "{subtopic}"
+@("foundation-1","foundation-2","practice-1","practice-2","practice-3","practice-4") | ForEach-Object {
+  Start-Process "public/preview-$subtopic-$_.html"
+}
 ```
 
-Record generated slug.
+**Visual Checklist (for EACH worksheet):**
+- [ ] Layout badge shows "Mixed Layout"
+- [ ] Section headers visible (A: Fluency, B: Application, C: Reasoning)
+- [ ] Q2 grid displays correctly (2×3 or 3×2)
+- [ ] All 5 question backgrounds correct colors
+- [ ] Answer boxes visible, yellow, properly sized (min-width 70px)
+- [ ] Questions are DIFFERENT from other worksheets (unique contexts/formats)
+- [ ] Foundation (1-2): Easy difficulty with scaffolding
+- [ ] Practice (3-6): Average difficulty for mainstream learners
+- [ ] No broken images or layout issues
+- [ ] Full-width layout (no side margins in thumbnail)
 
-### Step 4d: Interactive Test
+### Step 4c: Save All 6 to Library
 
-Create Playwright test and verify **100% score**.
+```powershell
+$yearGroup = "Year 3"
+$topic = "{topic}"
+$subtopic = "{subtopic}"
+
+# Foundation worksheets (EASY difficulty)
+node scripts/save-worksheet.js "public/preview-$subtopic-foundation-1.html" "$yearGroup" $topic $subtopic easy 5
+node scripts/save-worksheet.js "public/preview-$subtopic-foundation-2.html" "$yearGroup" $topic $subtopic easy 5
+
+# Practice worksheets (AVERAGE difficulty)
+node scripts/save-worksheet.js "public/preview-$subtopic-practice-1.html" "$yearGroup" $topic $subtopic average 5
+node scripts/save-worksheet.js "public/preview-$subtopic-practice-2.html" "$yearGroup" $topic $subtopic average 5
+node scripts/save-worksheet.js "public/preview-$subtopic-practice-3.html" "$yearGroup" $topic $subtopic average 5
+node scripts/save-worksheet.js "public/preview-$subtopic-practice-4.html" "$yearGroup" $topic $subtopic average 5
+```
+
+Record all 6 generated slugs.
+
+### Step 4d: Interactive Tests (All 6 Must Pass 100%)
+
+**Create Playwright test file:** `tests/e2e/interactive-{subtopic}-all.spec.ts`
+
+```typescript
+import { test, expect } from '@playwright/test'
+
+// 2 Foundation (Easy) + 4 Practice (Average) worksheets
+const WORKSHEETS = [
+  { slug: '{subtopic}-foundation-1', answers: ['...'] },  // Easy
+  { slug: '{subtopic}-foundation-2', answers: ['...'] },  // Easy
+  { slug: '{subtopic}-practice-1', answers: ['...'] },    // Average
+  { slug: '{subtopic}-practice-2', answers: ['...'] },    // Average
+  { slug: '{subtopic}-practice-3', answers: ['...'] },    // Average
+  { slug: '{subtopic}-practice-4', answers: ['...'] },    // Average
+]
+
+test.describe('Interactive: {Subtopic} (6 worksheets)', () => {
+  for (const ws of WORKSHEETS) {
+    test(`${ws.slug} should complete with 100% score`, async ({ page }) => {
+      await page.goto(`/library/${ws.slug}/interactive`)
+
+      // Remove cookie consent
+      await page.evaluate(() => {
+        document.querySelector('.cookie-consent-container')?.remove()
+      })
+
+      // Fill all answers
+      const inputs = page.locator('input[type="text"]')
+      const count = await inputs.count()
+
+      for (let i = 0; i < count; i++) {
+        await inputs.nth(i).pressSequentially(ws.answers[i], { delay: 50 })
+      }
+
+      // Submit and verify 100%
+      await page.getByRole('button', { name: /check answers/i }).click()
+      await expect(page.getByText('100%')).toBeVisible()
+    })
+  }
+})
+```
+
+**Run tests:**
+```powershell
+npx playwright test tests/e2e/interactive-{subtopic}-all.spec.ts --project=chromium
+```
+
+**All 6 tests MUST pass with 100% score before subtopic is considered complete.**
+
+### Step 4e: Quality Assurance Checklist
+
+Before marking subtopic complete, verify:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ QUALITY GATE CHECKLIST (2 Foundation + 4 Practice)               │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│ ☐ All 6 worksheets generated with unique questions              │
+│ ☐ Foundation (1-2): Easy difficulty, heavy scaffolding          │
+│ ☐ Practice (1-4): Average difficulty for 80-90% of learners     │
+│ ☐ Variety achieved through context/format within each level     │
+│ ☐ Visual review passed for all 6                                │
+│ ☐ All 6 saved to library with correct metadata                  │
+│ ☐ Interactive tests pass 100% for all 6                         │
+│ ☐ SEO metadata added (title, description, keywords)             │
+│ ☐ Answer keys are comma-separated format                        │
+│ ☐ No duplicate questions across the 6 worksheets                │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -788,8 +934,9 @@ Create Playwright test and verify **100% score**.
 ### Legend
 - ⬜ = Not started (no worksheets)
 - 🔷 = Standard layout only (existing)
-- 🟣 = Mixed layout complete (2 worksheets: 1 test + 1 prod)
-- ✅ = Both layouts complete
+- 🟡 = Mixed layout partial (1-5 worksheets)
+- 🟣 = Mixed layout complete (6 worksheets: 2 Foundation + 4 Practice)
+- ✅ = Both layouts complete (6+ worksheets)
 
 ---
 
@@ -945,22 +1092,778 @@ Create Playwright test and verify **100% score**.
 
 ---
 
+## Year 3 (Ages 7-8) — 60 subtopics (COMPREHENSIVE - Updated Dec 2024)
+
+> **Research Sources:** [Gov.uk National Curriculum](https://www.gov.uk/government/publications/national-curriculum-in-england-mathematics-programmes-of-study), [NCETM Year 3 Curriculum Map](https://www.ncetm.org.uk/classroom-resources/cp-year-3-curriculum-map/), [White Rose Maths Year 3](https://thirdspacelearning.com/blog/white-rose-maths-year-3/), [Twinkl Year 3 Curriculum](https://www.twinkl.co.uk/teaching-wiki/national-curriculum-for-maths-for-year-3)
+
+### Number and Place Value (8 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| hundreds-tens-ones | ⬜ 0 | ✅ 6 | 6 | 🟣 |
+| representing-to-1000 | ⬜ 0 | ✅ 6 | 6 | 🟣 |
+| reading-writing-to-1000 | ⬜ 0 | ✅ 6 | 6 | 🟣 |
+| counting-4s-8s-50s-100s | ⬜ 0 | ✅ 6 | 6 | 🟣 |
+| 10-100-more-less | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| comparing-to-1000 | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| ordering-numbers | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| estimating-rounding | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Addition and Subtraction (9 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| mental-addition-strategies | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| mental-subtraction-strategies | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| column-addition-no-exchange | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| column-addition-with-exchange | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| column-subtraction-no-exchange | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| column-subtraction-with-exchange | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| inverse-operations-checking | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| add-subtract-word-problems | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| missing-number-problems | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Multiplication and Division (8 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| 3-times-table | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| 4-times-table | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| 8-times-table | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| multiplication-division-facts | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| multiplying-2digit-by-1digit | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| division-with-remainders | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| scaling-problems | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| missing-number-multiplication | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Fractions (8 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| understanding-tenths | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| unit-fractions | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| non-unit-fractions | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| fractions-of-amounts | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| fractions-number-lines | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| equivalent-fractions | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| comparing-unit-fractions | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| adding-subtracting-fractions | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Length and Perimeter (4 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| measuring-mm-cm-m | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| converting-length | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| comparing-adding-lengths | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| perimeter-2d-shapes | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Mass and Capacity (4 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| measuring-mass-g-kg | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| converting-mass | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| measuring-capacity-ml-l | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| converting-capacity | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Money (2 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| adding-subtracting-money | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| giving-change | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Time (6 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| time-nearest-minute | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| 12-24-hour-clocks | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| roman-numerals-clocks | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| seconds-minutes-hours | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| days-months-years | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| duration-of-events | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Geometry: Properties of Shapes (8 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| draw-2d-shapes | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| 2d-shape-properties | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| make-3d-shapes | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| 3d-shape-properties | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| angles-turns | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| right-angles | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| comparing-angles | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| lines-types | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Statistics (3 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| bar-charts | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| pictograms-scaled | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| tables-two-step-questions | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+**Year 3 Total:** 0 Standard + 24 Mixed = 24 worksheets
+**Subtopics with worksheets:** 4 of 60 (7%)
+**Remaining to generate:** 56 subtopics × 6 worksheets = 336 worksheets
+
+### Year 3 Priority Order (Based on White Rose Maths Sequence)
+
+| Priority | Topic | Subtopic | Reason | Status |
+|----------|-------|----------|--------|--------|
+| ✅ 1 | number-place-value | hundreds-tens-ones | Foundation for Year 3 | 🟣 Complete |
+| ✅ 2 | number-place-value | representing-to-1000 | Representations essential | 🟣 Complete |
+| ✅ 3 | number-place-value | reading-writing-to-1000 | Core literacy | 🟣 Complete |
+| ✅ 4 | number-place-value | counting-4s-8s-50s-100s | Prepares for times tables | 🟣 Complete |
+| 🔴 5 | number-place-value | 10-100-more-less | Key mental maths | ⬜ Next |
+| 🔴 6 | number-place-value | comparing-to-1000 | Ordering skills | ⬜ |
+| 🔴 7 | addition-subtraction | mental-addition-strategies | Mental fluency first | ⬜ |
+| 🔴 8 | addition-subtraction | column-addition-no-exchange | Written methods | ⬜ |
+| 🟠 9 | multiplication-division | 3-times-table | New table for Year 3 | ⬜ |
+| 🟠 10 | multiplication-division | 4-times-table | New table for Year 3 | ⬜ |
+| 🟠 11 | multiplication-division | 8-times-table | New table for Year 3 | ⬜ |
+| 🟡 12+ | All remaining | Continue through topics | Complete curriculum | ⬜ |
+
+---
+
+## Year 4 (Ages 8-9) — 68 subtopics (COMPREHENSIVE - Updated Dec 2024)
+
+> **Research Sources:** [Gov.uk National Curriculum](https://www.gov.uk/government/publications/national-curriculum-in-england-mathematics-programmes-of-study), [NCETM Year 4 Curriculum Map](https://www.ncetm.org.uk/classroom-resources/cp-year-4-curriculum-map/), [White Rose Maths Year 4](https://thirdspacelearning.com/blog/white-rose-maths-year-4/), [MTC Guidance](https://www.gov.uk/government/collections/multiplication-tables-check)
+
+### Number and Place Value (7 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| four-digit-numbers | ✅ Prompt | ✅ 6 | 6 | **✅ COMPLETE** |
+| find-1000-more-less | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| comparing-ordering-4-digit | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| counting-multiples-6-7-9-25-1000 | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| negative-numbers | ✅ Prompt | ⬜ 0 | 0 | 🔷 Prompt Ready |
+| rounding-10-100-1000 | ✅ Prompt | ⬜ 0 | 0 | 🔷 Prompt Ready |
+| roman-numerals-to-100 | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Addition and Subtraction (4 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| column-addition-4-digit | ✅ Prompt | ✅ 6 | 6 | **✅ COMPLETE** |
+| column-subtraction-4-digit | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| estimate-inverse-check | ✅ Prompt | ⬜ 0 | 0 | 🔷 Prompt Ready |
+| two-step-problems | ✅ Prompt | ⬜ 0 | 0 | 🔷 Prompt Ready |
+
+### Multiplication and Division - MTC FOCUS (13 subtopics) 🔴
+
+> **CRITICAL:** Year 4 students sit the statutory Multiplication Tables Check (MTC) in June. 25 questions, 6 seconds each. Focus on 6×, 7×, 8×, 9×, 11×, 12× tables.
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| times-tables-3-6-9 | ⬜ 0 | ✅ 6 | 6 | **✅ COMPLETE** (NCETM Unit 4) |
+| times-tables-7 | ⬜ 0 | ✅ 6 | 6 | **✅ COMPLETE** (NCETM Unit 5) |
+| times-tables-11-12 | ⬜ 0 | ✅ 6 | 6 | **✅ COMPLETE** |
+| **times-tables-to-12** | ✅ Prompt | ✅ 6 | 6 | **✅ COMPLETE** |
+| division-facts-to-12 | ⬜ 0 | ✅ 6 | 6 | **✅ COMPLETE** |
+| factor-pairs-commutativity | ✅ Prompt | ✅ 6 | 6 | **✅ COMPLETE** |
+| multiply-by-0-and-1 | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| multiply-three-numbers | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| multiply-2-3-digit-by-1-digit | ✅ Prompt | ⬜ 0 | 0 | 🔷 Prompt Ready |
+| division-2-digit-by-1-digit | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| division-with-remainders | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW (NCETM Unit 12) |
+| mental-multiplication-division | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| scaling-correspondence | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Fractions (5 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| equivalent-fractions | ✅ Prompt | ⬜ 0 | 0 | 🔷 Prompt Ready |
+| fractions-greater-than-1 | ⬜ 0 | ✅ 6 | 6 | **✅ COMPLETE** (NCETM Unit 9) |
+| hundredths | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| add-subtract-same-denominator | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| fractions-of-amounts | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+
+### Decimals (7 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| decimal-tenths | ✅ Prompt | ⬜ 0 | 0 | 🔷 Prompt Ready |
+| decimal-hundredths | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| divide-by-10-100 | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| decimal-equivalents | ✅ Prompt | ⬜ 0 | 0 | 🔷 Prompt Ready |
+| compare-order-decimals | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| rounding-decimals | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| decimal-money-measures | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+
+### Length and Perimeter (4 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| convert-length-units | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| perimeter-rectangles | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| perimeter-rectilinear | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| find-missing-lengths | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+
+### Area (3 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| area-counting-squares | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| area-rectangles | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| compare-areas | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+
+### Mass and Capacity (3 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| convert-mass-units | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| convert-capacity-units | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| estimate-mass-capacity | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+
+### Money (4 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| money-pounds-pence | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| convert-money | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| money-calculations | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| money-word-problems | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+
+### Time (5 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| time-12-hour | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| time-24-hour | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| time-analogue-digital | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| time-conversions | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| time-duration | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+
+### Geometry: Properties of Shapes (6 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| classify-triangles | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| classify-quadrilaterals | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| acute-obtuse-angles | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| compare-order-angles | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| lines-of-symmetry | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| complete-symmetric-figures | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Geometry: Position and Direction (3 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| coordinates-first-quadrant | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| translations | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| plot-points-polygons | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Statistics (4 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| bar-charts | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| time-graphs | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| pictograms-tables | ⬜ 0 | ⬜ 0 | 0 | ⬜ NEW |
+| comparison-sum-difference | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+**Year 4 Total:** 54 Worksheets (9 PRIORITIES COMPLETE), 53 subtopics pending
+
+### Year 4 Priority Order (MTC Focus + Core Curriculum)
+
+| Priority | Subtopic | Reason | Status |
+|----------|----------|--------|--------|
+| ✅ **1** | **times-tables-to-12** | MTC statutory test (June) | ✅ COMPLETE (6 WS) |
+| ✅ **2** | **division-facts-to-12** | MTC inverse operations | ✅ COMPLETE (6 WS) |
+| ✅ **3** | **times-tables-7** | Hardest table (NCETM focus) | ✅ COMPLETE (6 WS) |
+| ✅ **4** | **times-tables-3-6-9** | 6 weeks NCETM focus | ✅ COMPLETE (6 WS) |
+| ✅ **5** | **factor-pairs-commutativity** | MTC support - fluency | ✅ COMPLETE (6 WS) |
+| ✅ **6** | **times-tables-11-12** | Complete MTC coverage | ✅ COMPLETE (6 WS) |
+| ✅ **7** | **fractions-greater-than-1** | NCETM Unit 9 (5 weeks!) | ✅ COMPLETE (6 WS) |
+| ✅ **8** | **four-digit-numbers** | Core place value | ✅ COMPLETE (6 WS) |
+| ✅ **9** | **column-addition-4-digit** | Core calculation | ✅ COMPLETE (6 WS) |
+| 🟠 10 | equivalent-fractions | Key fractions concept | 🔷 Prompt Ready |
+| 🟡 11 | decimal-tenths | Year 4 decimals intro | 🔷 Prompt Ready |
+| 🟡 12 | negative-numbers | New concept for Y4 | 🔷 Prompt Ready |
+| 🟡 13+ | All remaining (56 subtopics) | Complete curriculum | ⬜ Not Started |
+
+### MTC Preparation Focus (Statutory June Test)
+
+> **Key Stats:** 25 questions, 6 seconds each, focus on 6×7×8×9×11×12 tables
+> **Most Difficult Facts:** 7×8=56, 7×9=63, 8×9=72, 6×7=42, 6×8=48, 12×12=144
+
+| MTC Subtopic | Worksheets | Status |
+|--------------|------------|--------|
+| times-tables-to-12 (mixed) | ✅ 6 | ✅ COMPLETE |
+| division-facts-to-12 | ✅ 6 | ✅ COMPLETE |
+| times-tables-7 (focused) | ✅ 6 | ✅ COMPLETE |
+| times-tables-3-6-9 | ✅ 6 | ✅ COMPLETE |
+| times-tables-11-12 | ✅ 6 | ✅ COMPLETE |
+| factor-pairs-commutativity | ✅ 6 | ✅ COMPLETE |
+| **MTC Total** | **36 worksheets** | **🎉 ALL COMPLETE** |
+
+---
+
+## Year 5 (Ages 9-10) — 62 subtopics (COMPREHENSIVE - Updated Dec 2024)
+
+> **Research Sources:** [Gov.uk National Curriculum](https://www.gov.uk/government/publications/national-curriculum-in-england-mathematics-programmes-of-study), [NCETM Year 5 Curriculum Map](https://www.ncetm.org.uk/classroom-resources/cp-year-5-curriculum-map/), [White Rose Maths Year 5](https://thirdspacelearning.com/blog/white-rose-maths-year-5/)
+
+### Number and Place Value (5 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| numbers-to-1000000 | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| powers-of-10 | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| rounding-large-numbers | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| negative-numbers-context | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| roman-numerals-to-1000 | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Addition and Subtraction (5 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| column-add-large-numbers | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| column-subtract-large-numbers | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| mental-add-subtract-large | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| inverse-operations-checking | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| multi-step-add-subtract | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Multiplication and Division (12 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| multiples-common-multiples | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| factors-common-factors | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| prime-numbers | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| prime-numbers-to-100 | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| square-cube-numbers | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| multiply-4digit-by-1digit | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| multiply-4digit-by-2digit | ✅ 2 | ✅ 4 | 6 | ✅ |
+| short-division | ✅ 2 | ✅ 4 | 6 | ✅ |
+| division-with-remainders | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| multiply-divide-by-10-100-1000 | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| mental-multiply-divide | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| order-of-operations-intro | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Fractions (8 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| compare-order-fractions | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| equivalent-fractions-visual | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| improper-fractions-mixed-numbers | ✅ 2 | ✅ 4 | 6 | ✅ |
+| add-fractions-same-denominator | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| subtract-fractions-same-denominator | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| add-subtract-fractions-related | ✅ 2 | ✅ 4 | 6 | ✅ |
+| multiply-fractions-by-integers | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| fractions-of-amounts | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Decimals (7 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| thousandths | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| read-write-decimals-3dp | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| compare-order-decimals-3dp | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| round-decimals | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| add-subtract-decimals | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| multiply-decimals-by-integers | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| decimal-problems-3dp | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Percentages (3 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| understand-percentages | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| percentage-fraction-equivalents | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| percentage-decimal-equivalents | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Measurement (8 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| convert-metric-units | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| metric-imperial-approximations | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| perimeter-composite-shapes | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| area-rectangles | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| area-compound-shapes | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| volume-capacity-cubes | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| time-conversions | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| problem-solving-measures | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Geometry: Properties of Shapes (8 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| 3d-from-2d-representations | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| angles-in-degrees | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| measure-draw-angles | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| angles-at-point-360 | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| angles-on-line-180 | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| angles-multiples-90 | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| rectangle-properties | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| regular-irregular-polygons | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Geometry: Position and Direction (3 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| reflection | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| translation | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| first-quadrant-coordinates | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Statistics (3 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| line-graphs | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| timetables | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| two-way-tables | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+**Year 5 Total:** 0 Worksheets (62 subtopics × 6 = 372 target)
+
+### Year 5 Priority Order (Based on NCETM Curriculum Map)
+
+> **NCETM Unit Allocation:** Decimal fractions (5wk), Money (2wk), Negative numbers (2wk), Short multiplication/division (6wk), Area/scaling (5wk), Calculating with decimals (3wk), Factors/multiples/primes (4wk), Fractions (7wk), Converting units (2wk), Angles (3wk)
+
+| Priority | Topic | Subtopic | Reason | Status |
+|----------|-------|----------|--------|--------|
+| 🔴 1 | multiplication-division | multiply-4digit-by-2digit | NCETM 6-week focus | ✅ |
+| 🔴 2 | multiplication-division | short-division | Formal written method | ✅ |
+| 🔴 3 | fractions | improper-fractions-mixed-numbers | NCETM 7-week fractions unit | ✅ |
+| 🔴 4 | fractions | add-subtract-fractions-related | Key Year 5 skill | ✅ |
+| 🔴 5 | decimals | thousandths | New concept | ⬜ |
+| 🟠 6 | multiplication-division | prime-numbers | Vocabulary and identification | ⬜ |
+| 🟠 7 | multiplication-division | square-cube-numbers | New notation (², ³) | ⬜ |
+| 🟠 8 | percentages | understand-percentages | New topic introduction | ⬜ |
+| 🟠 9 | geometry-shapes | angles-in-degrees | NCETM 3-week focus | ⬜ |
+| 🟡 10+ | All remaining | Complete curriculum | 50 subtopics | ⬜ |
+
+### Year 5 Implementation Session Status
+
+> **Last Updated:** 2024-12-21
+> **Session Continuity:** This section tracks progress across sessions. Update after each subtopic completion.
+
+| Subtopic | Research | Prompt | Worksheets | E2E Tests | Status |
+|----------|----------|--------|------------|-----------|--------|
+| 1. multiply-4digit-by-2digit | ✅ | ✅ | 6/6 | 6/6 | ✅ Complete |
+| 2. short-division | ✅ | ✅ | 6/6 | 6/6 | ✅ Complete |
+| 3. improper-fractions-mixed-numbers | ✅ | ✅ | 6/6 | 6/6 | ✅ Complete |
+| 4. add-subtract-fractions-related | ✅ | ✅ | 6/6 | 6/6 | ✅ Complete |
+| 5. thousandths | ⬜ | ⬜ | 0/6 | 0/6 | ⬜ Pending |
+| 6. prime-numbers | ⬜ | ⬜ | 0/6 | 0/6 | ⬜ Pending |
+| 7. square-cube-numbers | ⬜ | ⬜ | 0/6 | 0/6 | ⬜ Pending |
+| 8. understand-percentages | ⬜ | ⬜ | 0/6 | 0/6 | ⬜ Pending |
+| 9. angles-in-degrees | ⬜ | ⬜ | 0/6 | 0/6 | ⬜ Pending |
+| 10. numbers-to-1000000 | ⬜ | ⬜ | 0/6 | 0/6 | ⬜ Pending |
+
+**Legend:**
+- ⬜ = Not started
+- 🔄 = In progress
+- ✅ = Complete
+- ❌ = Blocked/Issue
+
+**Current Progress:** 2/10 priority subtopics complete (12/60 worksheets)
+
+**Total Year 5 Progress:** 2/62 subtopics complete (12/372 worksheets)
+
+---
+
+## Year 6 (Ages 10-11) — 66 subtopics (COMPREHENSIVE - SATs Focus - Updated Dec 2024)
+
+> **Research Sources:** [Gov.uk National Curriculum](https://www.gov.uk/government/publications/national-curriculum-in-england-mathematics-programmes-of-study), [NCETM Year 6 Curriculum Map](https://www.ncetm.org.uk/classroom-resources/cp-year-6-curriculum-map/), [White Rose Maths Year 6](https://thirdspacelearning.com/blog/white-rose-maths-year-6/), [KS2 SATs 2024 Analysis](https://thirdspacelearning.com/blog/ks2-sats-papers-2024-maths-question-breakdown/)
+
+> **SATs 2024 Analysis:** 35% Calculations, 26% Fractions/Decimals/Percentages, 10% Number/Place Value = 71% from these three domains. Algebra and Ratio are growing areas.
+
+### Number and Place Value (5 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| numbers-to-10-million | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| place-value-digits | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| rounding-any-degree | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| negative-numbers-context | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| negative-number-calculations | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Four Operations (11 subtopics) 🔴 SATs Focus
+
+> **SATs 2024:** 35% of marks from calculations domain (highest ever). Long multiplication and long division are essential.
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| long-multiplication | ⬜ 0 | ⬜ 0 | 0 | ⬜ SATs Critical |
+| long-division | ⬜ 0 | ⬜ 0 | 0 | ⬜ SATs Critical |
+| short-division-2-digit-divisor | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| remainders-interpretation | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| mental-calculations-large | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| common-factors | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| common-multiples | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| prime-numbers-identification | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| order-of-operations | ⬜ 0 | ⬜ 0 | 0 | ⬜ BIDMAS |
+| multi-step-problems | ⬜ 0 | ⬜ 0 | 0 | ⬜ SATs Critical |
+| estimation-checking | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Fractions (8 subtopics) 🔴 SATs Focus
+
+> **SATs 2024:** 26% of marks from FDP domain. All four fraction operations tested.
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| simplify-fractions | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| common-denominators | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| compare-order-fractions | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| add-subtract-different-denominators | ⬜ 0 | ⬜ 0 | 0 | ⬜ SATs Critical |
+| multiply-fractions | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| divide-fractions-by-integers | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| fractions-as-division | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| fractions-of-amounts | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Decimals (5 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| decimal-place-value-3dp | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| multiply-divide-by-10-100-1000 | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| multiply-decimals | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| divide-decimals | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| rounding-specified-accuracy | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Percentages (3 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| percentage-of-amounts | ⬜ 0 | ⬜ 0 | 0 | ⬜ SATs Regular |
+| percentage-comparisons | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| fraction-decimal-percentage-equivalence | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Ratio and Proportion (6 subtopics) 🟠 Growing SATs Area
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| ratio-language-notation | ⬜ 0 | ⬜ 0 | 0 | ⬜ New for Y6 |
+| ratio-and-fractions | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| scale-factors | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| unequal-sharing | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| percentage-change | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| proportional-reasoning | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Algebra (6 subtopics) 🟠 New for Year 6
+
+> **SATs Note:** Algebra questions often disguised as ratio problems. Bar modelling is essential pre-cursor.
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| function-machines | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| simple-formulae | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| linear-sequences | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| missing-number-problems | ⬜ 0 | ⬜ 0 | 0 | ⬜ SATs Regular |
+| two-unknowns-equations | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| enumerate-combinations | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Measurement (7 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| convert-metric-units-3dp | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| miles-kilometres | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| perimeter-area-relationship | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| area-triangles | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| area-parallelograms | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| volume-cuboids | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| formulae-area-volume | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Geometry: Properties of Shapes (9 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| draw-2d-shapes | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| build-3d-shapes | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| classify-shapes | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| angles-in-triangles | ⬜ 0 | ⬜ 0 | 0 | ⬜ SATs Regular |
+| angles-in-quadrilaterals | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| angles-in-regular-polygons | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| circles-radius-diameter | ⬜ 0 | ⬜ 0 | 0 | ⬜ New for Y6 |
+| angles-at-point-line | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| vertically-opposite-angles | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Geometry: Position and Direction (3 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| four-quadrant-coordinates | ⬜ 0 | ⬜ 0 | 0 | ⬜ New: all 4 quadrants |
+| translate-shapes | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| reflect-shapes-axes | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+
+### Statistics (3 subtopics)
+
+| Subtopic | Standard | Mixed | Total WS | Status |
+|----------|----------|-------|----------|--------|
+| pie-charts | ⬜ 0 | ⬜ 0 | 0 | ⬜ New for Y6 |
+| line-graphs-interpret | ⬜ 0 | ⬜ 0 | 0 | ⬜ |
+| mean-average | ⬜ 0 | ⬜ 0 | 0 | ⬜ New for Y6 |
+
+**Year 6 Total:** 0 Worksheets (66 subtopics × 6 = 396 target)
+
+### Year 6 Priority Order (SATs Focus + NCETM Allocation)
+
+> **NCETM Unit Allocation:** Calculating (6wk + 1wk), Numbers to 10M (6wk), Shapes (2wk), Multiplication/Division (4wk), Perimeter/Area/Position (2wk), Fractions/Percentages (6wk), Statistics (1wk), Ratio/Proportion (2wk), Two Unknowns (2wk), Order of Operations (1wk), Mean (1wk)
+
+| Priority | Topic | Subtopic | Reason | Status |
+|----------|-------|----------|--------|--------|
+| 🔴 1 | four-operations | long-multiplication | SATs 35% calculations | ⬜ |
+| 🔴 2 | four-operations | long-division | SATs critical | ⬜ |
+| 🔴 3 | fractions | add-subtract-different-denominators | SATs 26% FDP | ⬜ |
+| 🔴 4 | four-operations | multi-step-problems | SATs reasoning | ⬜ |
+| 🔴 5 | four-operations | order-of-operations | BIDMAS essential | ⬜ |
+| 🔴 6 | percentages | percentage-of-amounts | SATs regular | ⬜ |
+| 🟠 7 | ratio-proportion | ratio-language-notation | New topic | ⬜ |
+| 🟠 8 | algebra | missing-number-problems | SATs regular | ⬜ |
+| 🟠 9 | geometry-shapes | angles-in-triangles | Geometry reasoning | ⬜ |
+| 🟠 10 | statistics | mean-average | New concept | ⬜ |
+| 🟡 11+ | All remaining | Complete curriculum | 54 subtopics | ⬜ |
+
+### SATs Preparation Focus
+
+> **Key Stats:** 3 papers (1 Arithmetic + 2 Reasoning), 110 marks total, May test window
+> **2024 Analysis:** 48% Year 6 content, 26% Year 5 content, 26% Years 3-4 content
+
+| SATs Domain | Subtopics | Worksheets Needed | Priority |
+|-------------|-----------|-------------------|----------|
+| Calculations (35%) | long-multiplication, long-division, multi-step | 18 | 🔴 CRITICAL |
+| FDP (26%) | all fractions + decimals + percentages | 42 | 🔴 CRITICAL |
+| Number (10%) | place value, rounding, negative | 18 | 🔴 HIGH |
+| Ratio/Algebra (10%) | all ratio + algebra subtopics | 36 | 🟠 HIGH |
+| Geometry (12%) | angles, shapes, position | 45 | 🟠 MEDIUM |
+| Statistics (5%) | pie charts, line graphs, mean | 18 | 🟡 MEDIUM |
+| Measurement (2%) | all measurement subtopics | 27 | 🟡 LOWER |
+| **Total** | **64 subtopics** | **384 worksheets** | - |
+
+---
+
 ## Progress Summary (Updated December 2024)
 
-| Year Group | Subtopics | Standard WS | Mixed WS | Total | E2E Tests | Coverage |
-|------------|-----------|-------------|----------|-------|-----------|----------|
-| Reception | 15 | 33 | 3 | 36 | 36 | 100% |
-| Year 1 | 13 | 30 | 33 | 63 | 63 | 100% |
-| Year 2 | 26 | 33 | 30 | 69 | 69 | 100% |
-| **Total** | **54** | **96** | **66** | **168** | **168** | **100%** |
+| Year Group | Topics | Subtopics | Standard WS | Mixed WS | Total | E2E Tests |
+|------------|--------|-----------|-------------|----------|-------|-----------|
+| Reception | 3 | 15 | 33 | 3 | 36 | 36 (100%) |
+| Year 1 | 5 | 13 | 30 | 33 | 63 | 63 (100%) |
+| Year 2 | 8 | 26 | 33 | 30 | 69 | 69 (100%) |
+| **Year 3** | **10** | **60** | **0** | **24** | **24** | Pending |
+| **Year 4** | **13** | **68** | **0** | **6** | **6** | **6** |
+| **Year 5** | **10** | **62** | **0** | **0** | **0** | Pending |
+| **Year 6** | **11** | **66** | **0** | **0** | **0** | Pending |
+| **Total** | **60** | **310** | **96** | **96** | **198** | **174** |
 
-**Overall Progress:** 96 Standard + 66 Mixed = **168 worksheets** (All tested at 100%)
+**Current Focus:** Year 3 Worksheet Population (56 subtopics × 6 worksheets = 336 worksheets remaining)
+
+### Year 3 Comprehensive Update (December 2024)
+
+**Research-backed restructuring:**
+- Increased from 31 → **60 subtopics** (94% increase)
+- Split Measurement into: Length/Perimeter, Mass/Capacity, Money, Time
+- Added dedicated Fractions subtopic: `fractions-of-amounts`
+- Expanded Time from 3 → 6 subtopics (Roman numerals, time conversions)
+- Expanded Geometry from 5 → 8 subtopics (drawing, making 3D, angles as turns)
+- Added word problems and missing number problems to Addition/Subtraction
+
+**Sources:**
+- [Gov.uk National Curriculum](https://www.gov.uk/government/publications/national-curriculum-in-england-mathematics-programmes-of-study)
+- [NCETM Year 3 Curriculum Map](https://www.ncetm.org.uk/classroom-resources/cp-year-3-curriculum-map/)
+- [White Rose Maths Year 3](https://thirdspacelearning.com/blog/white-rose-maths-year-3/)
+- [Twinkl Year 3 Curriculum](https://www.twinkl.co.uk/teaching-wiki/national-curriculum-for-maths-for-year-3)
+
+### Year 4 Comprehensive Update (December 2024)
+
+**Research-backed restructuring:**
+- Increased from 38 → **68 subtopics** (80% increase)
+- Split Fractions and Decimals into separate topics
+- Added dedicated Money, Length/Perimeter, Area, Mass/Capacity topics
+- **13 multiplication/division subtopics** for MTC focus
+- Added 30 NEW subtopics based on NCETM, White Rose, and official curriculum
+
+**Sources:**
+- [Gov.uk National Curriculum](https://www.gov.uk/government/publications/national-curriculum-in-england-mathematics-programmes-of-study)
+- [NCETM Year 4 Curriculum Map](https://www.ncetm.org.uk/classroom-resources/cp-year-4-curriculum-map/)
+- [White Rose Maths Year 4](https://thirdspacelearning.com/blog/white-rose-maths-year-4/)
+- [MTC Guidance](https://www.gov.uk/government/collections/multiplication-tables-check)
+
+### Year 5 Comprehensive Update (December 2024)
+
+**Research-backed restructuring:**
+- Comprehensive **62 subtopics** across 10 topics
+- **Multiplication/Division:** 12 subtopics (square/cube numbers, formal methods, multi-step)
+- **Fractions:** 8 subtopics (improper fractions, adding/subtracting same denominator, multiplying)
+- **Decimals:** 7 subtopics (thousandths, rounding, decimal-fraction equivalence)
+- **NEW Percentages topic:** 3 subtopics (link to fractions/decimals, common equivalents)
+- **Measurement:** 8 subtopics (metric conversions, imperial units, volume, perimeter/area)
+- **Geometry-Shapes:** 8 subtopics (3D properties, angles, reflection/translation)
+
+**Key Year 5 Skills:**
+- Formal written methods for all operations (including long division)
+- Mental calculation strategies for large numbers
+- Understanding decimals to 3 places
+- Fraction-decimal-percentage equivalence
+- Area and perimeter of irregular shapes
+
+**Sources:**
+- [Gov.uk National Curriculum](https://www.gov.uk/government/publications/national-curriculum-in-england-mathematics-programmes-of-study)
+- [NCETM Year 5 Curriculum Map](https://www.ncetm.org.uk/classroom-resources/cp-year-5-curriculum-map/)
+- [White Rose Maths Year 5](https://thirdspacelearning.com/blog/white-rose-maths-year-5/)
+
+### Year 6 Comprehensive Update (December 2024)
+
+**Research-backed restructuring (SATs Focus):**
+- Comprehensive **66 subtopics** across 11 topics
+- **Four Operations:** 11 subtopics (BIDMAS, multi-step problems, estimation)
+- **Fractions:** 8 subtopics (all operations with mixed numbers, FDP conversion)
+- **NEW Ratio & Proportion topic:** 6 subtopics (scaling, percentages, unequal sharing)
+- **NEW Algebra topic:** 6 subtopics (expressions, equations, sequences, formulae)
+- **Geometry-Shapes:** 9 subtopics (circle properties, nets, angle rules, coordinates)
+
+**SATs Focus Areas (2024 Analysis):**
+- 35% Calculations (four operations, multi-step)
+- 26% Fractions, Decimals, Percentages
+- 10% Number (place value, rounding)
+- 8% Measurement
+- 8% Geometry
+- 7% Algebra
+- 6% Ratio/Proportion
+
+**Key Year 6 Skills:**
+- Long division with remainders as fractions/decimals
+- All fraction operations including division
+- Percentage increase/decrease problems
+- Simple algebraic equations
+- Area/volume of complex shapes
+- Angle sum rules (triangles, quadrilaterals, around a point)
+
+**Sources:**
+- [Gov.uk National Curriculum](https://www.gov.uk/government/publications/national-curriculum-in-england-mathematics-programmes-of-study)
+- [NCETM Year 6 Curriculum Map](https://www.ncetm.org.uk/classroom-resources/cp-year-6-curriculum-map/)
+- [White Rose Maths Year 6](https://thirdspacelearning.com/blog/white-rose-maths-year-6/)
+- [KS2 SATs 2024 Analysis](https://thirdspacelearning.com/blog/ks2-sats-papers-2024-maths-question-breakdown/)
+
+### Worksheet Generation Status
+
+| Year Group | Status | Next Steps |
+|------------|--------|------------|
+| Reception | ✅ Complete (36 WS, 100% tested) | Maintain quality |
+| Year 1 | ✅ Complete (63 WS, 100% tested) | Maintain quality |
+| Year 2 | ✅ Complete (69 WS, 100% tested) | Maintain quality |
+| **Year 3** | **🟣 In Progress (24 WS = 4 subtopics)** | **56 subtopics × 6 WS each = 336 remaining. Priority: place value, addition, times tables** |
+| **Year 4** | **🟣 In Progress (6 WS = 1 subtopic)** | **67 subtopics × 6 WS each = 402 remaining. MTC priority: times-tables, factor-pairs** |
+| **Year 5** | **🟣 In Progress (0 WS = 0 subtopics)** | **62 subtopics × 6 WS each = 372 target. Started Dec 2024. Priority: formal methods, FDP** |
+| **Year 6** | **⬜ Not Started** | **66 subtopics × 6 WS each = 396 target. SATs priority: calculations, FDP, algebra** |
 
 ### Test Coverage Analysis
 Run `node scripts/analyze-test-coverage.js` to verify:
-- **Standard Layout:** 96 worksheets, 96 tests (100%)
-- **Mixed Layout:** 66 worksheets, 66 tests (100%)
-- **Total Coverage:** 168/168 (100%)
+- **Existing Layout:** 198 worksheets across Reception, Y1, Y2
+- **New 6-Worksheet Target:**
+  - Year 3: 60 subtopics × 6 WS = 360 target (24 complete = 7%)
+  - Year 4: 68 subtopics × 6 WS = 408 target (6 complete = 1%)
+  - Year 5: 62 subtopics × 6 WS = 372 target (0 complete = 0%)
+  - Year 6: 66 subtopics × 6 WS = 396 target (0 complete = 0%)
+- **Total Target:** 198 existing + 1,536 new = 1,734 worksheets
 
 ---
 
@@ -1063,22 +1966,30 @@ node scripts/run-interactive-tests.js --subtopic={subtopic}
 A subtopic is **COMPLETE** when:
 
 ```
-✅ Phase 0: Research documented
-✅ Phase 1: Layout designed for year group
-✅ Phase 2: Prompt created from scratch
-✅ Phase 3: Test worksheet validated (extraction + interactive)
-✅ Phase 4a: 3 themed worksheets generated
-✅ Phase 4b: All 3 visually approved
-✅ Phase 4c: All 3 saved to library
-✅ Phase 4d: All 3 pass interactive tests (100%)
+✅ Phase 0: Research documented (curriculum, competitors, misconceptions)
+✅ Phase 1: Layout designed for year group (age-appropriate)
+✅ Phase 2: Prompt created from scratch (with all key learnings applied)
+✅ Phase 3: Test worksheet validated (extraction + interactive 100%)
+✅ Phase 4a: 6 worksheets generated (2 Foundation + 4 Practice)
+    - 2 Foundation (⭐ Easy): For struggling learners, heavy scaffolding
+    - 4 Practice (⭐⭐ Average): For 80-90% mainstream learners
+✅ Phase 4b: All 6 visually approved (unique questions, correct difficulty)
+✅ Phase 4c: All 6 saved to library with SEO metadata
+✅ Phase 4d: All 6 pass interactive tests (100% score)
+✅ Phase 4e: Quality gate checklist completed
 ```
 
+**Total per subtopic:** 6 worksheets × 5 questions = 30 unique questions
+
 **Worksheet Quality Indicators:**
-- Teachers would want to download/print it
-- Children would enjoy completing it
-- Answers are unambiguous
-- Interactive mode works flawlessly
+- Teachers would want to download/print ALL 6 for classroom differentiation
+- Foundation worksheets provide accessible entry for struggling learners
+- Practice worksheets appropriate for 80-90% of mainstream learners
+- Variety achieved through different contexts, themes, and formats
+- Answers are unambiguous across all worksheets
+- Interactive mode works flawlessly for all 6
 - Visual design is clean and age-appropriate
+- Questions are genuinely different (not just number swaps)
 
 ---
 
@@ -1226,43 +2137,64 @@ IMPORTANT: Use COMMA-SEPARATED answers. No a), b), c) prefixes for text.
 
 **Reason:** Claude Code has context of the entire codebase, understands the CSS patterns, knows the answer key format requirements, and produces consistently high-quality output.
 
-### Learning 9: Exactly 3 Worksheets Per Subtopic
+### Learning 9: Exactly 6 Worksheets Per Subtopic (Differentiated)
 
-**Solution:** Generate exactly **3 worksheets per subtopic**:
+**Solution:** Generate exactly **6 worksheets per subtopic** with research-backed differentiation:
 
-| Worksheet | Purpose | Focus |
-|-----------|---------|-------|
-| **Worksheet 1** | Foundation practice | Core skill introduction |
-| **Worksheet 2** | Varied practice | Different question formats |
-| **Worksheet 3** | Challenge/Extension | Higher complexity or reasoning focus |
+| # | Worksheet Type | Difficulty | Focus | Target User |
+|---|----------------|------------|-------|-------------|
+| **1** | Foundation A | ⭐ Easy | Heavy scaffolding, simple numbers | SEN, struggling learners |
+| **2** | Foundation B | ⭐ Easy | Alternative approach, same level | Reinforcement |
+| **3** | Practice A | ⭐⭐ Average | Standard curriculum difficulty | Typical classroom |
+| **4** | Practice B | ⭐⭐ Average | Real-world contexts, word problems | Homework |
+| **5** | Challenge A | ⭐⭐⭐ Hard | Multi-step, larger numbers | Higher ability |
+| **6** | Challenge B | ⭐⭐⭐ Hard | Problem-solving, open-ended | Gifted & Talented |
 
-**Total per subtopic:** 3 worksheets
+**Total per subtopic:** 6 worksheets (30 unique questions)
+
+**Why 6 instead of 3?**
+- **Better differentiation:** Teachers need worksheets for ALL ability levels
+- **SEN support:** Foundation worksheets provide accessible entry points
+- **No ceiling effect:** Challenge worksheets extend higher achievers
+- **More variety:** Prevents worksheet fatigue in classroom
+- **Professional quality:** Matches commercial worksheet packs (typically 4-8 per topic)
 
 **Requirements:**
-- ALL 5 questions must be DIFFERENT across worksheets
-- Same learning objectives, different formats
-- Teachers get genuine variety for differentiation
+- ALL 5 questions must be UNIQUE across all 6 worksheets
+- Same learning objectives, varied difficulty and format
+- Clear difficulty progression (Foundation → Practice → Challenge)
+- Teachers would want ALL 6 for complete differentiation
+- Interactive tests MUST pass 100% for all 6
 
-### Learning 10: Both Worksheets Must Be Unique
+### Learning 10: All 6 Worksheets Must Be Genuinely Unique
 
-**Problem:** When creating multiple worksheets, Q1, Q2, Q5 were identical - only Q3-Q4 varied. This provides nearly identical experience.
+**Problem:** When creating multiple worksheets, questions were nearly identical - only numbers changed. This provides repetitive experience.
 
-**Solution:** The 2 worksheets MUST have genuinely different questions:
+**Solution:** All 6 worksheets MUST have genuinely different questions with difficulty progression:
 
-| Question | Test Worksheet | Production Worksheet |
-|----------|----------------|----------------------|
-| Q1 | Format A (e.g., name shapes) | Format B (e.g., match shape to description) |
-| Q2 | Grid format (e.g., count sides) | Different grid (e.g., count corners) |
-| Q3 | Scene A (e.g., playground) | Scene B (e.g., classroom) |
-| Q4 | Word problem A | Word problem B (different numbers, context) |
-| Q5 | Reasoning type A (e.g., True/False) | Reasoning type B (e.g., Which doesn't belong?) |
+| Question | Foundation A/B | Practice A/B | Challenge A/B |
+|----------|----------------|--------------|---------------|
+| **Q1 (Fluency)** | Simple visual counting, heavy scaffolding | Standard format, balanced visual/abstract | Abstract, larger numbers |
+| **Q2 (Grid)** | 2×3 grid, single-digit, visual support | 2×3 grid, two-digit or mixed | 3×3 grid, multi-digit, inverse operations |
+| **Q3 (Application)** | Simple scene, one-step | Real-world context, one-step | Multi-step problem |
+| **Q4 (Word Problem)** | Short sentence, single operation | Full paragraph, clear operation | Multi-sentence, choose operation |
+| **Q5 (Reasoning)** | "True or False?" with guidance | "Spot the error" | "Always/Sometimes/Never" + explain |
+
+**Differentiation Examples (Year 3 Addition):**
+
+| Level | Q1 Example | Numbers Used |
+|-------|------------|--------------|
+| Foundation | "Add: 125 + 34 = ___" (with base-10 blocks shown) | 2-digit + 2-digit, no regrouping |
+| Practice | "Complete: 347 + ___ = 582" (bar model shown) | 3-digit, some regrouping |
+| Challenge | "Find two 3-digit numbers that add to exactly 1000" | Open-ended, multiple solutions |
 
 **Rules:**
-1. Same learning objective, different question formats
-2. No copy-paste between worksheets
-3. Different visual layouts where possible
-4. Different numbers/scenarios in word problems
-5. Teacher should want ALL 3 worksheets for varied practice
+1. Same learning objective, DIFFERENT difficulty and format
+2. No copy-paste between ANY of the 6 worksheets
+3. Foundation: More visuals, simpler language, smaller numbers
+4. Practice: Standard curriculum expectations
+5. Challenge: Extended reasoning, open-ended where possible
+6. Teacher should want ALL 6 worksheets for complete differentiation
 
 ### Learning 11: Compact Layout - No Block-Within-Block
 
@@ -1428,30 +2360,35 @@ Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5
 ```
 
 **A subtopic is NOT complete until:**
-- [ ] All 3 worksheets saved to library
-- [ ] All 3 have dedicated E2E test cases
-- [ ] All 3 tests achieve 100% score
+- [ ] All 6 worksheets saved to library (2 Foundation + 4 Practice)
+- [ ] All 6 have dedicated E2E test cases
+- [ ] All 6 tests achieve 100% score
 - [ ] Coverage analysis shows 100%
 
-### Learning 17: 6 Worksheets Per Subtopic (Standard + Mixed)
+### Learning 17: 6 Worksheets Per Subtopic (2 Foundation + 4 Practice)
 
-**Discovery:** Many subtopics have BOTH layout types, resulting in 6 worksheets each:
+**Discovery:** Each subtopic requires 6 worksheets targeting mainstream learners:
 
-| Layout Type | Worksheets | Test Pattern |
-|-------------|------------|--------------|
-| Standard | 3 (v1, v2, v3) | `{subtopic}-v{N}.spec.ts` |
-| Mixed | 3 (Foundation, Varied, Challenge) | `{subtopic}-all.spec.ts` |
-| **Total** | **6** | 6 test cases |
+| Difficulty Level | Worksheets | Target Users | Test Pattern |
+|-----------------|------------|--------------|--------------|
+| Foundation | 2 (1, 2) | Struggling learners, SEN support | `{subtopic}-foundation-{1,2}.spec.ts` |
+| Practice | 4 (1-4) | 80-90% mainstream learners | `{subtopic}-practice-{1-4}.spec.ts` |
+| **Total** | **6** | Mainstream + struggling | 6 test cases |
 
-**Key insight:** These are NOT duplicates - they have different content and layouts:
-- **Standard:** Traditional question-by-question format
-- **Mixed:** Fluency → Application → Reasoning sections
+**Key insight:** No Challenge level - focus is on mainstream population:
+- **Foundation 1-2 (⭐ Easy):** Heavy scaffolding, simple visuals, accessible entry points
+- **Practice 1-4 (⭐⭐ Average):** Standard curriculum difficulty, varied contexts and formats
+
+**Rationale:**
+- Focus on 80-90% of mainstream learners (not gifted/higher ability extension)
+- Foundation provides support for struggling learners without being too easy
+- Extra practice worksheets (3-4) for reinforcement, not increased difficulty
 
 **Impact on test coverage:**
 ```
-54 subtopics × 6 worksheets = 324 potential worksheets
-Current: 168 worksheets (many subtopics have only one layout type)
-All 168 must have corresponding E2E tests
+60 Year 3 subtopics × 6 worksheets = 360 worksheets
+68 Year 4 subtopics × 6 worksheets = 408 worksheets
+Total new worksheets needed: 768 (Year 3 + Year 4)
 ```
 
 ### Learning 18: Test Coverage Analysis Script

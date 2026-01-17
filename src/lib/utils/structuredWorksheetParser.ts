@@ -11,6 +11,7 @@ export interface InputField {
   placeholder: string
   label?: string
   inputType: 'text' | 'textarea'
+  expectedAnswer?: string // For inputs with data-answer attribute - used for validation
   style?: {
     width?: string
     minWidth?: string
@@ -25,6 +26,8 @@ export interface InputField {
     // Flag to indicate this should look like the worksheet's answer-box
     isAnswerBox?: boolean
     isAnswerBoxSmall?: boolean
+    // Flag to indicate this came from an existing <input data-answer> in the HTML
+    isExistingInput?: boolean
   }
 }
 
@@ -174,8 +177,13 @@ function extractAnswerKey(html: string): Record<number, string> {
     console.log(`🔍 Paragraph ${index + 1}: "${textContent}"`)
 
     // Try different patterns to extract answers
+    // Pattern 0: "1a. answer" or "1b. answer" (with letter suffix) - most specific first
+    let match = textContent.match(/^(\d+[a-z])\.\s*(.+)$/i)
+
     // Pattern 1: "1. answer" (with period)
-    let match = textContent.match(/^(\d+)\.\s*(.+)$/)
+    if (!match) {
+      match = textContent.match(/^(\d+)\.\s*(.+)$/)
+    }
 
     // Pattern 2: "1: answer" (with colon)
     if (!match) {
@@ -258,6 +266,46 @@ function parseQuestionStructure(
   let cleanedHTML = questionHTML
 
   console.log(`🔍 Parsing question ${questionId}...`)
+
+  // Pattern 0: Detect existing <input> elements with data-answer attribute
+  // These are already interactive inputs embedded in the HTML - we should use them directly
+  // and NOT create additional mystery box inputs
+  const existingInputPattern = /<input[^>]*data-answer="([^"]*)"[^>]*>/gi
+  const existingInputMatches = cleanedHTML.match(existingInputPattern) || []
+  if (existingInputMatches.length > 0) {
+    console.log(`✅ Q${questionId}: Found ${existingInputMatches.length} existing <input data-answer> element(s) - using directly`)
+    // Parse each existing input and register it
+    existingInputMatches.forEach((match, idx) => {
+      const dataAnswer = match.match(/data-answer="([^"]*)"/)?.[1] || ''
+      const subId = existingInputMatches.length > 1 ? `${questionId}-${idx}` : `${questionId}`
+      inputs.push({
+        subId,
+        placeholder: '?',
+        inputType: 'text',
+        expectedAnswer: dataAnswer, // Store expected answer for validation
+        style: {
+          width: '95px',
+          minWidth: '95px',
+          height: '37px',
+          border: '2px solid #333',
+          borderRadius: '5px',
+          backgroundColor: '#FFF9C4',
+          textAlign: 'center',
+          fontSize: '13pt',
+          fontWeight: 'bold',
+          borderStyle: 'solid',
+          isExistingInput: true // Flag that this is an existing input
+        }
+      })
+    })
+    // Replace existing inputs with placeholders so we can inject React-controlled inputs
+    let inputCounter = 0
+    cleanedHTML = cleanedHTML.replace(existingInputPattern, () => {
+      const subId = existingInputMatches.length > 1 ? `${questionId}-${inputCounter++}` : `${questionId}`
+      return `<span data-input-placeholder="${subId}"></span>`
+    })
+    console.log(`✅ Found ${existingInputMatches.length} existing input element(s)`)
+  }
 
   // Pattern 1a: Inline answer-line SPAN (e.g., <span class="answer-line"></span>) - for inline inputs
   const inlineAnswerLinePattern = /<span[^>]*class="[^"]*answer-line[^"]*"[^>]*>[\s\S]*?<\/span>/gi
@@ -982,10 +1030,19 @@ function parseQuestionStructure(
     } // Close the else block for tensOnesMatch check (line 630)
   }
 
+  // PRIORITY CHECK: If inputs have expectedAnswer from data-answer attributes, use those directly
+  // This handles worksheets that have embedded <input data-answer="x"> elements
+  const inputsWithExpectedAnswer = inputs.filter(inp => inp.expectedAnswer !== undefined)
+  if (inputsWithExpectedAnswer.length > 0 && inputsWithExpectedAnswer.length === inputs.length) {
+    // All inputs have expectedAnswer - use these values directly
+    answerArray = inputs.map(inp => inp.expectedAnswer || '')
+    console.log(`✅ Q${questionId}: Using expectedAnswer from data-answer attributes:`, answerArray)
+  }
+
   // Fallback: if there are multiple inputs but only a single answer string,
   // duplicate the answer for all inputs (e.g., Q2 has 2 inputs both expecting "Sunday")
   // But NOT if the answer already contains commas (indicating multiple values like "C, 19")
-  if (inputs.length > 1 && typeof answerArray === 'string' && !Array.isArray(answerArray)) {
+  else if (inputs.length > 1 && typeof answerArray === 'string' && !Array.isArray(answerArray)) {
     // Extract just the main answer (before any parenthetical explanation)
     const mainAnswer = answerArray.split('(')[0].trim()
     // Check if the answer already has multiple comma-separated values

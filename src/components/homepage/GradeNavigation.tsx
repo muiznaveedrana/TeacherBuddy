@@ -51,7 +51,7 @@ const gradeData = [
     bgPattern: 'bg-red-50',
     topics: ['Multiplication', 'Division', 'Perimeter'],
     IconComponent: Calculator,
-    comingSoon: true,
+    comingSoon: false,
   },
   {
     grade: 'Year 4',
@@ -63,7 +63,7 @@ const gradeData = [
     bgPattern: 'bg-blue-50',
     topics: ['Decimals', 'Area', 'Roman Numerals'],
     IconComponent: Rocket,
-    comingSoon: true,
+    comingSoon: false,
   },
   {
     grade: 'Year 5',

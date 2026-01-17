@@ -1,0 +1,61 @@
+{
+  "lastUpdated": "2025-12-18",
+  "totalAssessments": 54,
+  "yearGroupsAssessed": ["Reception", "Year 1"],
+  "learnings": [
+    {
+      "id": "L001",
+      "category": "visual-representation",
+      "pattern": "Cross-out marks (✕, ❌, X) used to show subtraction or removal",
+      "recommendation": "NEVER use cross marks or strikethrough. Show ALL items and let child mentally subtract. For '7 apples, 3 eaten' show all 7 apples - child figures out 7-3=4 in their head.",
+      "correctApproach": "Show full starting amount visually. Question describes what is taken away. Child counts total, subtracts mentally, writes answer.",
+      "wrongApproach": "Showing crossed-out items OR showing only remaining items (both remove the mental math challenge)",
+      "affectedSubtopics": ["early-subtraction", "subtracting-within-20"],
+      "frequency": 3,
+      "severity": "CRITICAL",
+      "childFeedback": "Why are there X marks? Which ones do I count? This is confusing."
+    },
+    {
+      "id": "L002",
+      "category": "image-assets",
+      "pattern": "Daily routine and seasonal images missing from library",
+      "recommendation": "Create or source these images: sleeping.png, sunrise.png, breakfast.png, bath.png, lunch.png, snowman.png, pajamas.png, dinner.png, sunset.png",
+      "affectedSubtopics": ["time-concepts"],
+      "frequency": 1,
+      "severity": "AUTO-FAIL",
+      "childFeedback": "I can't see the pictures - there are empty boxes."
+    },
+    {
+      "id": "L003",
+      "category": "visual-sizing",
+      "pattern": "Subitising dot patterns using images smaller than 30px",
+      "recommendation": "Minimum image size for Reception is 30px, even for dice-like subitising patterns. 24px is too small for 4-5 year olds.",
+      "affectedSubtopics": ["subitising"],
+      "frequency": 1,
+      "severity": "VISUAL",
+      "childFeedback": "The pictures are really tiny and hard to see."
+    }
+  ],
+  "assessmentHistory": [
+    {
+      "date": "2025-12-18",
+      "yearGroup": "Reception",
+      "total": 19,
+      "passed": 16,
+      "failed": 2,
+      "review": 1,
+      "fixed": 3,
+      "postFixPassed": 19
+    },
+    {
+      "date": "2025-12-18",
+      "yearGroup": "Year 1",
+      "total": 35,
+      "passed": 33,
+      "failed": 2,
+      "review": 0,
+      "fixed": 2,
+      "postFixPassed": 35
+    }
+  ]
+}

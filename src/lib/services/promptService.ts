@@ -201,6 +201,16 @@ export class PromptService {
         }
       }
 
+      // Fall back to MIXED-LAYOUT prompt if no COMPRESSED prompt exists
+      // MIXED-LAYOUT prompts use the three-section structure (Fluency/Application/Reasoning)
+      if (!promptPathToUse) {
+        const mixedLayoutPath = path.join(baseDir, `${normalizedSubtopic}-MIXED-LAYOUT.md`)
+        if (fs.existsSync(mixedLayoutPath)) {
+          promptPathToUse = mixedLayoutPath
+          console.log(`📐 Using MIXED-LAYOUT prompt (3-section structure)`)
+        }
+      }
+
       if (!promptPathToUse) {
         return null // No prompt file exists
       }

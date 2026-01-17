@@ -321,11 +321,18 @@ function validateWithCustomLogic(
   // But NOT for doubles visual (independent equations like 5+5=, 7+7=, 9+9=)
   // But NOT for near-doubles (independent equations like 6+7=, 8+9=)
   // But NOT for fact-family (related but independent equations like 7+8=, 8+7=, 15-7=, 15-8=)
+  // But NOT for reasoning/explain-method questions (q-reasoning class or text answers like "Multiply", "Add")
   const isFluencyGrid = html.includes('fluency-grid') || html.includes('fluency-item')
   const isDoublesVisual = html.includes('doubles-visual') || html.includes('double-group')
   const isNearDoubles = html.includes('near-doubles') || html.includes('near-double')
   const isFactFamily = html.includes('fact-family') || html.includes('fact-row')
-  if ((hasStepPattern || hasMultipleEquations) && hasMultipleInputs && !isTrueFalseQuestion && !hasSubQuestionPattern && !isFluencyGrid && !isDoublesVisual && !isNearDoubles && !isFactFamily) {
+  const isReasoningQuestion = html.includes('q-reasoning') || html.includes('reasoning-box') ||
+                              html.toLowerCase().includes('explain') || html.toLowerCase().includes('in your own words')
+  // Check if expected answers contain non-numeric text (like "Multiply", "Add", "numerator")
+  const correctAnswerStr = Array.isArray(question.correctAnswer) ? question.correctAnswer.join(',') : question.correctAnswer
+  const hasTextAnswers = correctAnswerStr && /[a-zA-Z]{3,}/.test(correctAnswerStr) &&
+                         !/^\d+$/.test(correctAnswerStr.replace(/[,\s\/]/g, ''))
+  if ((hasStepPattern || hasMultipleEquations) && hasMultipleInputs && !isTrueFalseQuestion && !hasSubQuestionPattern && !isFluencyGrid && !isDoublesVisual && !isNearDoubles && !isFactFamily && !isReasoningQuestion && !hasTextAnswers) {
     console.log(`🔧 Q${question.id} Multi-step word problem detected (${question.inputs.length} inputs)`)
 
     // Parse all equations - both complete (X op Y =) and partial ([?] op Y =)
