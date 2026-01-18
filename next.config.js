@@ -58,12 +58,6 @@ const nextConfig = {
       ]
     }
 
-    // Optimize bundle size
-    config.optimization = {
-      ...config.optimization,
-      moduleIds: 'deterministic',
-    }
-
     return config
   },
 

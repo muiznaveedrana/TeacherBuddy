@@ -27,6 +27,7 @@ export const viewport: Viewport = {
   maximumScale: 5,
   userScalable: true,
   viewportFit: "cover",
+  themeColor: "#1d4ed8",
 };
 
 export const metadata: Metadata = {
@@ -34,14 +35,7 @@ export const metadata: Metadata = {
   description: "Download thousands of free printable math worksheets for Kindergarten through Grade 6 (ages 4-11). Common Core aligned. No signup required.",
   keywords: "free math worksheets, printable worksheets, kindergarten worksheets, elementary math worksheets, free printables, math practice sheets, grade 1 worksheets, grade 2 worksheets",
   manifest: "/manifest.json",
-  themeColor: "#1d4ed8",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-    viewportFit: "cover"
-  },
+  // Note: themeColor and viewport moved to separate viewport export (Next.js 14+ requirement)
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",

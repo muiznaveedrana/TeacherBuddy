@@ -1,0 +1,110 @@
+{
+  "generated": "2026-01-17T12:00:00.000Z",
+  "summary": {
+    "totalWorksheets": 579,
+    "totalTested": 564,
+    "totalTestFiles": 491,
+    "coveragePercent": "97.4"
+  },
+  "byYear": {
+    "Reception": {
+      "total": 54,
+      "tested": 54,
+      "testFiles": "tests/e2e/interactive/*.spec.ts (subset)",
+      "coverage": "100%",
+      "status": "COMPLETE",
+      "missing": []
+    },
+    "Year 1": {
+      "total": 78,
+      "tested": 78,
+      "testFiles": "tests/e2e/interactive/*.spec.ts (subset)",
+      "coverage": "100%",
+      "status": "COMPLETE",
+      "missing": []
+    },
+    "Year 2": {
+      "total": 134,
+      "tested": 124,
+      "testFiles": "tests/e2e/interactive/*.spec.ts (subset)",
+      "coverage": "92.5%",
+      "status": "DATA_QUALITY_ISSUES",
+      "missing": [
+        "movement-which-way-basic-practice-251218-220008",
+        "movement-which-way-basic-practice-251218-214625",
+        "movement-which-way-basic-practice-251218-213659",
+        "movement-which-way-basic-practice",
+        "time-sports-day-251218-200107",
+        "time-weekend-fun-251218-200054",
+        "time-school-day-251218-200041",
+        "time-sports-day",
+        "time-weekend-fun",
+        "time-school-day"
+      ],
+      "dataIssues": {
+        "timeWorksheets": "Answer key shows '00' instead of proper time format (e.g., '2:00')",
+        "movementWorksheets": "Answer key format uses 'a) b)' instead of individual input values"
+      }
+    },
+    "Year 3": {
+      "total": 222,
+      "tested": 217,
+      "testFiles": "tests/e2e/interactive/year3/*.spec.ts",
+      "testFileCount": 217,
+      "coverage": "97.7%",
+      "status": "NEARLY_COMPLETE",
+      "missing": ["Run node scripts/analyze-test-coverage.js to identify specific missing slugs"]
+    },
+    "Year 4": {
+      "total": 61,
+      "tested": 61,
+      "testFiles": "tests/e2e/interactive/year4/*.spec.ts",
+      "testFileCount": 61,
+      "coverage": "100%",
+      "status": "COMPLETE",
+      "missing": []
+    },
+    "Year 5": {
+      "total": 30,
+      "tested": 30,
+      "testFiles": "tests/e2e/interactive/year5/*.spec.ts",
+      "testFileCount": 30,
+      "coverage": "100%",
+      "status": "COMPLETE",
+      "missing": []
+    }
+  },
+  "testFileLocations": {
+    "root": {
+      "path": "tests/e2e/interactive/*.spec.ts",
+      "count": 183,
+      "covers": ["Reception", "Year 1", "Year 2"]
+    },
+    "year3": {
+      "path": "tests/e2e/interactive/year3/*.spec.ts",
+      "count": 217
+    },
+    "year4": {
+      "path": "tests/e2e/interactive/year4/*.spec.ts",
+      "count": 61
+    },
+    "year5": {
+      "path": "tests/e2e/interactive/year5/*.spec.ts",
+      "count": 30
+    }
+  },
+  "actionRequired": [
+    {
+      "priority": 1,
+      "yearGroup": "Year 2",
+      "count": 10,
+      "action": "Fix answer key format in database for time and movement worksheets"
+    },
+    {
+      "priority": 2,
+      "yearGroup": "Year 3",
+      "count": 5,
+      "action": "Identify and create tests for remaining worksheets"
+    }
+  ]
+}

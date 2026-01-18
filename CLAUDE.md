@@ -2,6 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Key Documents (Single Source of Truth)
+| Document | Purpose |
+|----------|---------|
+| `docs/interactive-test-coverage-plan.md` | E2E test coverage tracking for all year groups |
+| `docs/populate-worksheet-from-scratch.md` | Worksheet population guide and progress |
+
 ## Skills
 - **Worksheet Generation**: See `.claude/skills/worksheet-generation.md` for generating worksheets from prompts, previewing, and saving to library
 
@@ -41,6 +47,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Kill ports before testing: npx kill-port 3000 && npx kill-port 3001 and check untill 3010 and kill if availble
 
 ## Interactive Worksheet Tests
+- **Test Coverage Tracking**: See `docs/interactive-test-coverage-plan.md` - SINGLE SOURCE OF TRUTH for test progress across all year groups
 - **Prompt Guide**: See `.claude/prompts/interactive-worksheet-test-prompt.md` for comprehensive test generation instructions
 - **Test Command**: When user says "create interactive test for {url}", use the playwright-test-healer agent with the prompt guide
 - **Answer Extraction**: Parse answers from worksheet `html_content` field in Supabase using regex: `/<p><strong>(\d+)\.<\/strong>\s*(.+?)<\/p>/g`

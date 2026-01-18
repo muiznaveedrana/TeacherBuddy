@@ -1,6 +1,6 @@
-const CACHE_NAME = 'worksheetgen-v1.0.0'
-const STATIC_CACHE_NAME = 'static-v1.0.0'
-const DYNAMIC_CACHE_NAME = 'dynamic-v1.0.0'
+const CACHE_NAME = 'worksheetgen-v1.1.0'
+const STATIC_CACHE_NAME = 'static-v1.1.0'
+const DYNAMIC_CACHE_NAME = 'dynamic-v1.1.0'
 
 // Files to cache on install
 const STATIC_FILES = [
@@ -17,16 +17,18 @@ const NETWORK_FIRST = [
   '/api/',
   '/auth/',
   '/subscription',
-  '/usage'
+  '/usage',
+  '/_next/static/chunks/',  // CRITICAL: Always fetch fresh webpack chunks to avoid "call" errors
+  '/_next/static/webpack'   // CRITICAL: Always fetch fresh webpack runtime
 ]
 
 // Files that can be served from cache with network fallback
+// NOTE: Excludes webpack chunks - those must be network-first to prevent stale module errors
 const CACHE_FIRST = [
   '/icons/',
   '/images/',
-  '/_next/static/',
-  '.css',
-  '.js',
+  '/_next/static/css/',     // CSS can be cached safely
+  '/_next/static/media/',   // Media/fonts can be cached safely
   '.woff2',
   '.woff'
 ]

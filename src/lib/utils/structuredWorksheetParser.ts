@@ -1012,14 +1012,20 @@ function parseQuestionStructure(
           if (yesNoMatch) {
             return yesNoMatch[1]
           }
-          // Check if there's a colon - if so, extract value AFTER the colon
-          if (trimmedPart.includes(':')) {
+          // Check for time format first (e.g., "2:00", "11:30") - keep the full time
+          const timeMatch = trimmedPart.match(/^(\d{1,2}:\d{2})$/)
+          if (timeMatch) {
+            return timeMatch[1] // Return full time like "2:00"
+          }
+          // Check if there's a colon that's a label separator (e.g., "Answer: 5")
+          // Only split if colon is followed by space and non-digit, or colon is not between digits
+          if (trimmedPart.includes(':') && !trimmedPart.match(/^\d{1,2}:\d{2}/)) {
             const afterColon = trimmedPart.split(':')[1].trim()
             const numberMatch = afterColon.match(/^(\d+(?:[.\/]\d+)?)/)
             return numberMatch ? numberMatch[1] : afterColon
           }
-          // Otherwise, extract any number from the part, or return as-is if no number
-          const numberMatch = trimmedPart.match(/\b(\d+(?:[.\/]\d+)?)\b/)
+          // Otherwise, extract any number (including time format) from the part, or return as-is if no number
+          const numberMatch = trimmedPart.match(/\b(\d+(?:[:.\/]\d+)?)\b/)
           return numberMatch ? numberMatch[1] : trimmedPart
         })
         console.log(`🔢 Multi-input Q${questionId}: Split "${correctAnswer}" into:`, answerArray)
