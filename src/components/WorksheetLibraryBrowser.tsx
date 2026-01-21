@@ -54,6 +54,8 @@ export function WorksheetLibraryBrowser() {
   const [hasMore, setHasMore] = useState(true)
   const [page, setPage] = useState(0)
   const observerTarget = useRef<HTMLDivElement>(null)
+  // Store initial page from URL (read once on mount, not on every searchParams change)
+  const initialPageRef = useRef(parseInt(searchParams?.get('page') || '0'))
 
   // Preview panel state
   const [selectedWorksheetIndex, setSelectedWorksheetIndex] = useState<number | null>(null)
@@ -71,7 +73,7 @@ export function WorksheetLibraryBrowser() {
 
       try {
         // If URL has page parameter (e.g., /library?page=2), load all pages up to that point
-        const targetPage = Math.max(0, initialPage)
+        const targetPage = Math.max(0, initialPageRef.current)
         const allWorksheets: LibraryWorksheet[] = []
         let lastHasMore = true
 
@@ -113,7 +115,7 @@ export function WorksheetLibraryBrowser() {
     }
 
     loadWorksheets()
-  }, [searchParams, initialPage])
+  }, [sortBy])  // Only reload when sort changes, not on page URL updates
 
   const loadMore = useCallback(async () => {
     if (loadingMore || !hasMore) return
@@ -138,10 +140,10 @@ export function WorksheetLibraryBrowser() {
       setPage(nextPage)
       setHasMore(data.has_more) // Use backend's has_more flag
 
-      // Update URL for SEO and shareability using Next.js router (prevents hydration errors)
+      // Update URL for SEO and shareability (using History API to avoid scroll reset)
       const newParams = new URLSearchParams(searchParams?.toString() || '')
       newParams.set('page', nextPage.toString())
-      router.replace(`/library?${newParams.toString()}`, { scroll: false })
+      window.history.replaceState(null, '', `/library?${newParams.toString()}`)
 
     } catch (err) {
       console.error('Failed to load more:', err)
