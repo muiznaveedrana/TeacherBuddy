@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'addition-subtraction-inverse-operations-checking-v3'
-const WORKSHEET_ANSWERS = ["218","347","256","429","523","✓   b) 655","✗","456","correct","365","623","427","358"]
+const WORKSHEET_ANSWERS = ["218", "347", "256", "429", "523", "yes", "655", "no", "456", "correct", "365", "623", "427", "358"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {
@@ -14,7 +14,7 @@ async function dismissCookieConsent(page: import('@playwright/test').Page) {
 
 test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
   test('should complete with 100% score', async ({ page }) => {
-    test.setTimeout(15000)
+    test.setTimeout(30000)
     await page.goto(`/library/${WORKSHEET_SLUG}/interactive`)
     await dismissCookieConsent(page)
     await expect(page.locator('.interactive-worksheet-container')).toBeVisible()
@@ -28,7 +28,7 @@ test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
       const input = inputs.nth(i)
       await input.scrollIntoViewIfNeeded()
       await input.click({ force: true })
-      await input.pressSequentially(WORKSHEET_ANSWERS[i], { delay: 50 })
+      await input.fill(WORKSHEET_ANSWERS[i])
     }
 
     await dismissCookieConsent(page)

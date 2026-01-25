@@ -5,7 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Key Documents (Single Source of Truth)
 | Document | Purpose |
 |----------|---------|
-| `docs/interactive-test-coverage-plan.md` | E2E test coverage tracking for all year groups |
+| `docs/interactive-test-coverage-plan.md` | E2E test coverage tracking for all year groups (SINGLE SOURCE OF TRUTH) |
+| `docs/test-execution-plan.md` | Test execution strategy, commands, and result tracking for ALL year groups |
 | `docs/populate-worksheet-from-scratch.md` | Worksheet population guide and progress |
 
 ## Skills
@@ -46,16 +47,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Tests run only on chromium-desktop for speed and simplicity
 - Kill ports before testing: npx kill-port 3000 && npx kill-port 3001 and check untill 3010 and kill if availble
 
-## Interactive Worksheet Tests
-- **Test Coverage Tracking**: See `docs/interactive-test-coverage-plan.md` - SINGLE SOURCE OF TRUTH for test progress across all year groups
-- **Prompt Guide**: See `.claude/prompts/interactive-worksheet-test-prompt.md` for comprehensive test generation instructions
-- **Test Command**: When user says "create interactive test for {url}", use the playwright-test-healer agent with the prompt guide
-- **Answer Extraction**: Parse answers from worksheet `html_content` field in Supabase using regex: `/<p><strong>(\d+)\.<\/strong>\s*(.+?)<\/p>/g`
-- **File Naming**: `tests/e2e/interactive-{worksheet-slug}.spec.ts`
+## Interactive Worksheet Tests (STANDARDIZED 2026-01-22)
+- **Test Structure**: ALL year groups in subdirectories: `tests/e2e/interactive/{reception,year1,year2,year3,year4,year5}/`
+- **Total Tests**: 491 tests in 456 files (Reception: 51, Year 1: 62, Year 2: 70, Year 3: 217, Year 4: 61, Year 5: 30)
+- **Standard Command**: `npx playwright test tests/e2e/interactive/{year-group}/ --project=chromium-desktop --workers=4 --timeout=30000`
+- **Test Coverage Tracking**: See `docs/interactive-test-coverage-plan.md` - SINGLE SOURCE OF TRUTH
+- **Prompt Guide**: See `.claude/prompts/interactive-worksheet-test-prompt.md` for test generation
+- **File Naming**: `tests/e2e/interactive/{year-group}/{worksheet-slug}.spec.ts`
 - **Success Criteria**: Test must achieve 100% score by filling correct answers
 - **Cookie Consent**: ALWAYS remove `.cookie-consent-container` before clicking buttons
-- **Input Filling**: Use `pressSequentially(answer, { delay: 50 })` for React controlled inputs
-- **Generic Test**: `tests/e2e/interactive-worksheet-generic.spec.ts` can be used with `WORKSHEET_SLUG` env var
+- **Input Filling**: Use `fill(answer)` (fast) instead of `pressSequentially()` (slow)
 
 ## Prompt Engineering Automation (Story Engine 1.1-1.3)
 - **Complete automation available**: `npm run prompt-automation` (requires GEMINI_API_KEY). pick gemni api key from .env.local

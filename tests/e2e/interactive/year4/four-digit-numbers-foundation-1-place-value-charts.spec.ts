@@ -1,7 +1,13 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'four-digit-numbers-foundation-1-place-value-charts'
-const WORKSHEET_ANSWERS = ["3456: Th=3","H=4","T=5","O=6. 7829: Th=7","H=8","T=2","O=9","2547 = 2000 + 500 + 40 + 7. b) 6081 = 6000 + 0 + 80 + 1","4 in 4732 = 4000 (4 thousands). 9 in 5916 = 900 (9 hundreds)","4325,","8017,","6509","3×1000 + 5×100 + 4×10 + 7 = 3000 + 500 + 40 + 7 = 3547 books"]
+// Q1: 3456 (Th,H,T,O) + 7829 (Th,H,T,O) = 8 inputs
+// Q2: 2547 partitioned + 6081 partitioned = 8 inputs
+// Q3: value of 4 in 4732, value of 9 in 5916 = 2 inputs
+// Q4: 4325, 8017, 6509 = 3 inputs
+// Q5: 3547 books = 1 input
+// Total: 22 inputs
+const WORKSHEET_ANSWERS = ["3", "4", "5", "6", "7", "8", "2", "9", "2000", "500", "40", "7", "6000", "0", "80", "1", "4000", "900", "4325", "8017", "6509", "3547"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

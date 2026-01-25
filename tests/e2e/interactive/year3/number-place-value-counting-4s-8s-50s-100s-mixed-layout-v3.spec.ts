@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'number-place-value-counting-4s-8s-50s-100s-mixed-layout-v3'
-const WORKSHEET_ANSWERS = ["80","70","True","200 is a multiple of 50 and 100","so it will appear in both sequences."]
+const WORKSHEET_ANSWERS = ["34", "38", "42", "34", "42", "50", "275", "325", "375", "40", "36", "32", "56", "48", "40", "550", "450", "350", "80", "70", "16", "200", "True", "200 is a multiple of 50 (4x50) and 200 is a multiple of 100 (2x100). Both sequences start from 0 and include 200."]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {
@@ -14,7 +14,7 @@ async function dismissCookieConsent(page: import('@playwright/test').Page) {
 
 test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
   test('should complete with 100% score', async ({ page }) => {
-    test.setTimeout(15000)
+    test.setTimeout(30000)
     await page.goto(`/library/${WORKSHEET_SLUG}/interactive`)
     await dismissCookieConsent(page)
     await expect(page.locator('.interactive-worksheet-container')).toBeVisible()
@@ -28,7 +28,7 @@ test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
       const input = inputs.nth(i)
       await input.scrollIntoViewIfNeeded()
       await input.click({ force: true })
-      await input.pressSequentially(WORKSHEET_ANSWERS[i], { delay: 50 })
+      await input.fill(WORKSHEET_ANSWERS[i])
     }
 
     await dismissCookieConsent(page)

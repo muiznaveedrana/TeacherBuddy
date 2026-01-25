@@ -1,7 +1,13 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'four-digit-numbers-practice-1-digit-values-ordering'
-const WORKSHEET_ANSWERS = ["6=6000","3=300","4=40","9=9","4567 < 4576 < 4657 < 4675","three thousand and forty-two","b) seven thousand","eight hundred and nine","4456,","6890,","9999","Th=5","H=8 (5+3)","T=6 (8-2)","O=6 (same as tens). Number: 5866"]
+// Q1: digit values (6000,300,40,9) = 4 inputs
+// Q2: order (4567,4576,4657,4675) = 4 inputs
+// Q3: words (two text answers) = 2 inputs
+// Q4: 1000 more/less (4456,6890,9999) = 3 inputs
+// Q5: puzzle (5,8,6,6,5866) = 5 inputs
+// Total: 18 inputs
+const WORKSHEET_ANSWERS = ["6000", "300", "40", "9", "4567", "4576", "4657", "4675", "three thousand and forty-two", "seven thousand eight hundred and nine", "4456", "6890", "9999", "5", "8", "6", "6", "5866"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

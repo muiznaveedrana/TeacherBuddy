@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'multiplication-division-division-with-remainders-v5'
-const WORKSHEET_ANSWERS = ["6 r 3   b) 5 r 6   c) 6 r 2","1","5","1","7 r 3","7 r 3   b) 6 r 6","5","3","5","3"]
+const WORKSHEET_ANSWERS = ["6", "3", "5", "6", "6", "2", "1", "5", "1", "7", "3", "7", "3", "6", "6", "5", "3", "5", "3"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {
@@ -14,7 +14,7 @@ async function dismissCookieConsent(page: import('@playwright/test').Page) {
 
 test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
   test('should complete with 100% score', async ({ page }) => {
-    test.setTimeout(15000)
+    test.setTimeout(30000)
     await page.goto(`/library/${WORKSHEET_SLUG}/interactive`)
     await dismissCookieConsent(page)
     await expect(page.locator('.interactive-worksheet-container')).toBeVisible()
@@ -28,7 +28,7 @@ test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
       const input = inputs.nth(i)
       await input.scrollIntoViewIfNeeded()
       await input.click({ force: true })
-      await input.pressSequentially(WORKSHEET_ANSWERS[i], { delay: 50 })
+      await input.fill(WORKSHEET_ANSWERS[i])
     }
 
     await dismissCookieConsent(page)

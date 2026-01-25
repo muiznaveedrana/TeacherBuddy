@@ -1,7 +1,13 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'four-digit-numbers-practice-4-advanced-reasoning'
-const WORKSHEET_ANSWERS = ["5688,","4202,","9999,","2990","7823 > 7328 > 7283 > 7238","Row 1: 4432","6432. Row 2: 7789","8789. Row 3: 2000","1000","2500 + 345 = 2845 items","Largest: 9753","Smallest: 3579. Difference: 9753 - 3579 = 6174"]
+// Q1: 10/100/1000 more/less (5688,4202,9999,2990) = 4 inputs
+// Q2: order largest to smallest (7823,7328,7283,7238) = 4 inputs
+// Q3: table with 1000 less/more (4432,6432,7789,8789,2000,1000) = 6 inputs
+// Q4: word problem (2845) = 1 input
+// Q5: investigation (9753,3579,9753,3579,6174) = 5 inputs
+// Total: 20 inputs
+const WORKSHEET_ANSWERS = ["5688", "4202", "9999", "2990", "7823", "7328", "7283", "7238", "4432", "6432", "7789", "8789", "2000", "4000", "2845", "9753", "3579", "9753", "3579", "6174"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

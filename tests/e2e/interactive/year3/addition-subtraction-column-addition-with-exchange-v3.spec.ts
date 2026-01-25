@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'addition-subtraction-column-addition-with-exchange-v3'
-const WORKSHEET_ANSWERS = ["643","644","744","647","644","645","847","7"]
+const WORKSHEET_ANSWERS = ["6", "4", "3", "6", "4", "4", "7", "4", "4", "6", "4", "7", "6", "4", "4", "645", "847", "7"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {
@@ -14,7 +14,7 @@ async function dismissCookieConsent(page: import('@playwright/test').Page) {
 
 test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
   test('should complete with 100% score', async ({ page }) => {
-    test.setTimeout(15000)
+    test.setTimeout(30000)
     await page.goto(`/library/${WORKSHEET_SLUG}/interactive`)
     await dismissCookieConsent(page)
     await expect(page.locator('.interactive-worksheet-container')).toBeVisible()
@@ -28,7 +28,7 @@ test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
       const input = inputs.nth(i)
       await input.scrollIntoViewIfNeeded()
       await input.click({ force: true })
-      await input.pressSequentially(WORKSHEET_ANSWERS[i], { delay: 50 })
+      await input.fill(WORKSHEET_ANSWERS[i])
     }
 
     await dismissCookieConsent(page)

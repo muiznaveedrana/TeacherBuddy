@@ -1,7 +1,13 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'fractions-greater-than-1-foundation-1-visual-introducti'
-const WORKSHEET_ANSWERS = ["Improper fraction: 3/2","Mixed number: 1 1/2","5/4 = 1 1/4","b) 7/4 = 1 3/4","c) 9/4 = 2 1/4","5/3 = 2 (1⅔)","7/3 = 1 (2⅓)","8/3 = 3 (2⅔)","7/4 = 1 3/4. Sam has 1 whole pizza and 3 quarters left over.","Mia is correct. 9 ÷ 4 = 2 remainder 1","so 9/4 = 2 1/4 (2 wholes and 1 quarter)"]
+// Q1: Improper 3/2, Mixed 1 1/2 → 5 inputs (num,den,whole,num,den)
+// Q2: 5/4=1 1/4, 7/4=1 3/4, 9/4=2 1/4 → 9 inputs (3 x whole,num,den)
+// Q3: Match letters (5/3→2, 7/3→1, 8/3→3) → 3 inputs
+// Q4: 7/4=1 3/4, 1 whole, 3 quarters → 5 inputs
+// Q5: correct, 2 remainder 1, 2 1/4 → 5 inputs
+// Total: 27 inputs
+const WORKSHEET_ANSWERS = ["3", "2", "1", "1", "2", "1", "1", "4", "1", "3", "4", "2", "1", "4", "2", "1", "3", "1", "3", "4", "1", "3", "correct", "2", "1", "2", "1"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

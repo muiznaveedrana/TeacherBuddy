@@ -272,12 +272,20 @@ function validateWithCustomLogic(
 
   // Detect sub-question pattern early for logging
   // This includes: sub-question class, grid patterns (doubles-grid, missing-grid), and a)/b)/c) format
+  // Also detect partitioning questions (multi-addend equations like 4000 + 700 + 30 + 6 =)
   const hasSubQuestionPattern = html.includes('sub-question') ||
                                 html.includes('doubles-grid') ||
                                 html.includes('doubles-item') ||
                                 html.includes('missing-grid') ||
                                 html.includes('missing-item') ||
-                                /[a-f]\)\s*\d+\s*[+\-−]\s*\d+\s*=/.test(html)
+                                /[a-f]\)\s*\d+\s*[+\-−]\s*\d+\s*=/.test(html) ||
+                                // Partitioning: a) b) c) followed by multi-addend equations
+                                (html.match(/[a-f]\)/gi)?.length ?? 0) >= 2 ||
+                                // Multi-addend partitioning equations (3+ addends like X + Y + Z =)
+                                /\d+\s*\+\s*\d+\s*\+\s*\d+\s*=/.test(html) ||
+                                // Fill in missing digit patterns (like ?000 + 300)
+                                html.toLowerCase().includes('missing digit') ||
+                                html.toLowerCase().includes('fill in')
 
   console.log(`🔍 Q${question.id} custom validation check:`, {
     // Multi-step word problem patterns (check first!)
@@ -332,7 +340,15 @@ function validateWithCustomLogic(
   const correctAnswerStr = Array.isArray(question.correctAnswer) ? question.correctAnswer.join(',') : question.correctAnswer
   const hasTextAnswers = correctAnswerStr && /[a-zA-Z]{3,}/.test(correctAnswerStr) &&
                          !/^\d+$/.test(correctAnswerStr.replace(/[,\s\/]/g, ''))
-  if ((hasStepPattern || hasMultipleEquations) && hasMultipleInputs && !isTrueFalseQuestion && !hasSubQuestionPattern && !isFluencyGrid && !isDoublesVisual && !isNearDoubles && !isFactFamily && !isReasoningQuestion && !hasTextAnswers) {
+  // Skip multi-step for column addition (inputs are digit-by-digit, not calculation results)
+  const isColumnAddition = html.includes('column-container') || html.includes('column-answer')
+  // Skip multi-step for inverse operations (questions ask to write inverse, not calculate sums)
+  const isInverseOperations = html.includes('inverse-pair') || html.toLowerCase().includes('write the inverse') || html.toLowerCase().includes('inverse operation')
+  // Skip multi-step for multiplication/division fact checking (Think/Check patterns with ×, ÷)
+  const isFactChecking = (html.toLowerCase().includes('think:') && html.toLowerCase().includes('check:')) ||
+                         html.includes('fact-family') || html.includes('fact family') ||
+                         (html.includes('×') && html.includes('÷') && html.includes('□'))
+  if ((hasStepPattern || hasMultipleEquations) && hasMultipleInputs && !isTrueFalseQuestion && !hasSubQuestionPattern && !isFluencyGrid && !isDoublesVisual && !isNearDoubles && !isFactFamily && !isReasoningQuestion && !hasTextAnswers && !isColumnAddition && !isInverseOperations && !isFactChecking) {
     console.log(`🔧 Q${question.id} Multi-step word problem detected (${question.inputs.length} inputs)`)
 
     // Parse all equations - both complete (X op Y =) and partial ([?] op Y =)
@@ -353,6 +369,11 @@ function validateWithCustomLogic(
       console.log(`  📐 Complete equation: ${num1} ${op} ${num2} = ${result}`)
     }
 
+    // If no complete equations found, skip multi-step validation and use standard validation
+    if (completeEquations.length === 0) {
+      console.log(`  ⚠️ No complete equations found, skipping multi-step validation`)
+      // Don't apply multi-step validation - fall through to return null below
+    } else {
     // Second pass: find partial equations ([?] op Y =) where [?] is previous result
     // Handle money questions with 'p' suffix like "[?]p - 25p ="
     const partialRegex = /\[?\?\]?p?\s*([+\-−])\s*(\d+)p?\s*=/g
@@ -530,6 +551,7 @@ function validateWithCustomLogic(
         validationType: 'MultiStepWordProblem'
       }
     }
+    } // Close the else block for completeEquations.length check
   }
 
   // Q1: Block Comparison (76 vs 79 - which is greater)
@@ -802,7 +824,16 @@ function validateWithCustomLogic(
   const hasPersonAmount = html.includes('person-amount')
   const hasReadProblem = html.toLowerCase().includes('read the problem')
 
-  const isWordProblem = hasWordProblemBox || hasComparisonVisual || hasPersonGroup || (hasPersonName && hasPersonAmount) || hasReadProblem
+  // GUARD: Don't apply word problem comparison validation to calculation problems
+  // Calculation problems have equations like "8 × 6 =" or "48 + 56 =" that should use standard validation
+  // Also detect equations with placeholders like "10 × □ = 50" or "Think:" / "Check:" patterns
+  const hasCalculationEquations = /\d+\s*[×x÷+\-−]\s*\d+\s*=/.test(html)
+  const hasPlaceholderEquations = html.includes('×') && html.includes('□')  // Equations with mystery box
+  const hasThinkCheckPattern = html.toLowerCase().includes('think:') && html.toLowerCase().includes('check:')
+  const hasDivisionPattern = html.includes('÷')  // Division questions use ÷
+
+  const isWordProblem = (hasWordProblemBox || hasComparisonVisual || hasPersonGroup || (hasPersonName && hasPersonAmount) || hasReadProblem) &&
+                        !hasCalculationEquations && !hasPlaceholderEquations && !hasThinkCheckPattern && !hasDivisionPattern
 
   if (isWordProblem) {
     const groups: Array<{ name: string; amount: string }> = []

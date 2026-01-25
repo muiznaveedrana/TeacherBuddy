@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'y5-mult-4x2-p2'
-const WORKSHEET_ANSWERS = ["79488","132064","87856","2584","33350","75250","75750","No","forgot zero placeholder","23400"]
+// Q1: 2 inputs (79488, 132064) | Q2: 3 inputs (87856, 87856, 2584) | Q3: 1 input (33350) | Q4: 3 inputs (75250, 75250, 75750) | Q5: 3 inputs (No, forgot zero placeholder, 23400) = 12 inputs total
+const WORKSHEET_ANSWERS = ["79488", "132064", "87856", "87856", "2584", "33350", "75250", "75250", "75750", "No", "forgot zero placeholder", "23400"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

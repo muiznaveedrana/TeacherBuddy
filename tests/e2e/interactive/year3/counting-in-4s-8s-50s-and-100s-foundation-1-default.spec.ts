@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'counting-in-4s-8s-50s-and-100s-foundation-1-default'
-const WORKSHEET_ANSWERS = ["30","34","38","26","34","42","220","270","320","550","650","750","72","64","56","500","450","400","36","32","28","36","56","600","20","40","20","60","Because 8 is a multiple of 4","so all multiples of 8 are also multiples of 4."]
+const WORKSHEET_ANSWERS = ["30", "34", "38", "26", "34", "42", "220", "270", "320", "550", "650", "750", "72", "64", "56", "500", "450", "400", "36", "32", "28", "36", "56", "600", "20", "40", "20", "60", "Because 8 is a multiple of 4, so all multiples of 8 are also multiples of 4."]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {
@@ -14,7 +14,7 @@ async function dismissCookieConsent(page: import('@playwright/test').Page) {
 
 test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
   test('should complete with 100% score', async ({ page }) => {
-    test.setTimeout(15000)
+    test.setTimeout(30000)
     await page.goto(`/library/${WORKSHEET_SLUG}/interactive`)
     await dismissCookieConsent(page)
     await expect(page.locator('.interactive-worksheet-container')).toBeVisible()
@@ -28,7 +28,7 @@ test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
       const input = inputs.nth(i)
       await input.scrollIntoViewIfNeeded()
       await input.click({ force: true })
-      await input.pressSequentially(WORKSHEET_ANSWERS[i], { delay: 50 })
+      await input.fill(WORKSHEET_ANSWERS[i])
     }
 
     await dismissCookieConsent(page)

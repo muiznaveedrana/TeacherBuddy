@@ -1,7 +1,13 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'fractions-greater-than-1-practice-3-number-lines-orderi'
-const WORKSHEET_ANSWERS = ["5/3 = 1 2/3","7/4 = 1 3/4","11/6 = 1 5/6. Order: 5/3 < 7/4 < 11/6 < 2","Missing numbers: 1½","2 (between 1 and 2). 1½ = 3/2","2 = 4/2","5/8 + 7/8 = 12/8 = 1 4/8 (or 1½)","b) 5/6 + 5/6 = 10/6 = 1 4/6 (or 1⅔)","3/4 + 5/4 = 8/4 = 2 litres. b) He met his target exactly (0 more/less)","11/4 is the odd one out. It equals 2 3/4","while 9/4","2¼ and 2.25 all equal 2 1/4"]
+// Q1: Convert and order (5/3=1 2/3, 7/4=1 3/4, 11/6=1 5/6, order 5/3<7/4<11/6<2) → 10 inputs
+// Q2: Number line (1½, 2) + equivalents (3/2, 4/2) → 4 inputs
+// Q3: Add fractions (12/8=1 4/8, 10/6=1 4/6) → 6 inputs
+// Q4: Word problem (8/4=2, 2 drunk, 0 diff) → 5 inputs
+// Q5: Odd one out (9/4=2 1/4, 2¼=9/4, 11/4=2 3/4, odd=11/4, explanation) → 10 inputs
+// Total: 35 inputs
+const WORKSHEET_ANSWERS = ["1", "2", "1", "3", "1", "5", "5/3", "7/4", "11/6", "2", "1", "2", "3", "4", "12", "1", "4", "10", "1", "4", "8", "2", "2", "0", "0", "2", "1", "9", "2", "3", "11/4", "2", "3", "2", "1"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

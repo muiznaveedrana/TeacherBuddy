@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'column-addition-4-digit-practice-2-inverse-operations'
-const WORKSHEET_ANSWERS = ["1234 + 2345 + 1111 = 4690","4876 + 3589 = 8465","b) 5997 + 2468 = 8465","6245 - 2789 = 3456. Yes","the calculation is correct.","4589 + 3876 = 8465 tickets. b) 9000 - 8465 = 535 empty seats","Sam's answer is wrong. Correct answer: 6245. Sam forgot to carry from the tens column."]
+// Q1: 4690 (4 digits), Q2a: 8465 (4 digits), Q2b: 8465 (4 digits), Q3: 3456+Yes (2), Q4: 8465+535 (2), Q5: wrong+6245+carry+tens (4) = 20 inputs
+const WORKSHEET_ANSWERS = ["4", "6", "9", "0", "8", "4", "6", "5", "8", "4", "6", "5", "3456", "Yes", "8465", "535", "wrong", "6245", "carry", "tens"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

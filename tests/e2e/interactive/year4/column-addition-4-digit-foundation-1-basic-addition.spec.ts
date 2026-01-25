@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'column-addition-4-digit-foundation-1-basic-addition'
-const WORKSHEET_ANSWERS = ["2345 + 1234 = 3579","b) 4567 + 2321 = 6888","3456 + 2789 = 6245 (with carrying)","b) 5678 + 2845 = 8523 (with carrying)","Estimate: 5000 + 3000 = 8000. Actual: 4567 + 3298 = 7865","3456 + 2789 = 6245 books","2999 + 1 = 3000. Amy is incorrect because carrying IS needed (9+1=10","carry 1 to tens","etc.)"]
+const WORKSHEET_ANSWERS = ["3", "5", "7", "9", "6", "8", "8", "8", "6", "2", "4", "5", "8", "5", "2", "3", "5000", "3000", "8000", "7", "8", "6", "5", "6245", "3000", "No", "carrying"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

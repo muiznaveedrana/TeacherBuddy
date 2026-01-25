@@ -541,7 +541,8 @@ function parseQuestionStructure(
 
   // Pattern 2f: Answer box (e.g., <div class="answer-box"></div> OR <span class="answer-box"></span>)
   // DETECT LAST - this catches answer-box and answer-box-small in reasoning boxes
-  const answerBoxPattern = /<(div|span)[^>]*class="[^"]*answer-box[^"]*"[^>]*>[\s\S]*?<\/\1>/gi
+  // EXCLUDE answer-box-word - these are for open-ended explanations, not graded inputs
+  const answerBoxPattern = /<(div|span)[^>]*class="[^"]*answer-box(?!-word)[^"]*"[^>]*>[\s\S]*?<\/\1>/gi
   const answerBoxMatches = cleanedHTML.match(answerBoxPattern) || []
   if (answerBoxMatches.length > 0) {
     const startIdx = inputs.length
@@ -852,10 +853,11 @@ function parseQuestionStructure(
         console.log(`➕ Multi-input Q${questionId} (equation format): Extracted from "${correctAnswer}":`, answerArray)
       } else {
     // EARLY CHECK: Simple comma-separated word answers without a), b), c) prefixes
-    // Handles answers like "up, right, down" or "forwards, backwards" for movement/direction questions
+    // Handles answers like "up, right, down" or "three thousand and forty-two, seven thousand eight hundred and nine"
     const hasAbcPrefix = /[a-f]\)\s*/i.test(correctAnswer)
     const commaParts = correctAnswer.split(',').map(p => p.trim()).filter(p => p.length > 0)
-    const allWordsNoNumbers = commaParts.every(part => /^[a-zA-Z]+$/.test(part))
+    // Allow letters, spaces, and hyphens (for multi-word text answers)
+    const allWordsNoNumbers = commaParts.every(part => /^[a-zA-Z][a-zA-Z\s-]*$/.test(part))
 
     if (!hasAbcPrefix && commaParts.length >= inputs.length && allWordsNoNumbers) {
       answerArray = commaParts.slice(0, inputs.length)
@@ -934,14 +936,14 @@ function parseQuestionStructure(
       abcdMatches.push(val)
     }
 
-    // Extract e) value - number (including time/fractions)
-    const eMatch = correctAnswer.match(/e\)\s*(\d+(?:[:/]\d+)?)/i)
+    // Extract e) value - number (including time/fractions) or text (like "always")
+    const eMatch = correctAnswer.match(/e\)\s*(\d+(?:[:/]\d+)?|[a-zA-Z]+)(?:\s+f\)|$)/i)
     if (eMatch) {
       abcdMatches.push(eMatch[1])
     }
 
-    // Extract f) value - number (including time/fractions)
-    const fMatch = correctAnswer.match(/f\)\s*(\d+(?:[:/]\d+)?)/i)
+    // Extract f) value - number (including time/fractions) or text (like "always")
+    const fMatch = correctAnswer.match(/f\)\s*(\d+(?:[:/]\d+)?|[a-zA-Z]+)/i)
     if (fMatch) {
       abcdMatches.push(fMatch[1])
     }

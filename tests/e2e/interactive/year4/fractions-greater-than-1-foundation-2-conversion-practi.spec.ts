@@ -1,7 +1,13 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'fractions-greater-than-1-foundation-2-conversion-practi'
-const WORKSHEET_ANSWERS = ["Improper fraction: 5/3","Mixed number: 1 2/3","1⅓ = 4/3","b) 2⅕ = 11/5","c) 1¾ = 7/4","5/4 is between 1 and 1½ (or 1 and 6/4). 7/4 is between 1½ and 2 (or 6/4 and 2)","3/5 + 4/5 = 7/5 = 1 2/5","11/4 = 2 3/4. 2½ = 2 2/4 = 10/4. 11/4 (2¾) is greater than 2½ (10/4)"]
+// Q1: Count thirds (improper 5/3, mixed 1 2/3) → 5 inputs
+// Q2: Convert mixed to improper (4/3, 11/5, 7/4) → 3 numerators
+// Q3: Number line (5/4 between 1,1; 7/4 between 1,2) → 4 inputs
+// Q4: Word problem (3/5+4/5=7/5=1 2/5) → 5 inputs
+// Q5: Compare (11÷4=2r3, 2 3/4, 2 2/4=10/4, 11/4 greater) → 7 inputs
+// Total: 24 inputs
+const WORKSHEET_ANSWERS = ["5", "3", "1", "2", "3", "4", "11", "7", "1", "1", "1", "2", "3", "4", "7", "1", "2", "2", "3", "2", "3", "2", "10", "11/4"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

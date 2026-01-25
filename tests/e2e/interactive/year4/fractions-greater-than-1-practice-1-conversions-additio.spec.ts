@@ -1,7 +1,13 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'fractions-greater-than-1-practice-1-conversions-additio'
-const WORKSHEET_ANSWERS = ["8/3 = 2 2/3","b) 11/5 = 2 1/5","c) 13/6 = 2 1/6","2⅓ = 7/3","b) 3¼ = 13/4","c) 2⅗ = 13/5","3/4 + 3/4 = 6/4 = 1 2/4 (or 1½)","b) 4/5 + 3/5 = 7/5 = 1 2/5","5/4 + 3/4 = 8/4 = 2 km (or 2 0/4 km)","True. When numerator > denominator","the fraction is greater than 1. Example: 5/4 = 1.25 which is greater than 1"]
+// Q1: Convert improper to mixed (8/3=2 2/3, 11/5=2 1/5, 13/6=2 1/6) → 9 inputs
+// Q2: Convert mixed to improper (2⅓=7/3, 3¼=13/4, 2⅗=13/5) → 3 numerators
+// Q3: Add fractions (3/4+3/4=6/4=1 2/4, 4/5+3/5=7/5=1 2/5) → 6 inputs
+// Q4: Word problem (5/4+3/4=8/4=2 km) → 3 inputs
+// Q5: True/False with example (True, 5/4=1.25 greater) → 5 inputs
+// Total: 26 inputs
+const WORKSHEET_ANSWERS = ["2", "2", "3", "2", "1", "5", "2", "1", "6", "7", "13", "13", "6", "1", "2", "7", "1", "2", "8", "2", "0", "True", "5", "4", "1.25", "greater"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

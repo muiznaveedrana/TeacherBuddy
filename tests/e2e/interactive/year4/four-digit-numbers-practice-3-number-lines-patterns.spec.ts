@@ -1,7 +1,19 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'four-digit-numbers-practice-3-number-lines-patterns'
-const WORKSHEET_ANSWERS = ["4000","6000 (counting in 1000s). 3500","4500 (counting in 1000s from 1500)","4000","6000 (number line divided into quarters: 3000","4000","5000","6000","7000)","6485 (6000-7000","H=4","T=8","O=5)","4532≈5000","3687≈4000. Total: 5000+4000=9000","Always true. Smallest 4-digit=1000","Largest 3-digit=999. 1000>999","proving always true"]
+// Q1: 4 boxes, Q2: 2 boxes, Q3: 1 box, Q4: 5 boxes, Q5: 6 boxes = 18 total
+const WORKSHEET_ANSWERS = [
+  // Q1: sequence numbers (2000, 3000, [4000], 5000, [6000], 7000) and (1500, 2500, [3500], [4500], 5500)
+  "4000", "6000", "3500", "4500",
+  // Q2: number line points
+  "4000", "6000",
+  // Q3: number from clues
+  "6485",
+  // Q4: rounding (4532≈5000, 3687≈4000) and total (5000+4000=9000)
+  "5000", "4000", "5000", "4000", "9000",
+  // Q5: "This statement is [always] true", 1000, 999, 1000>999, "[always] true"
+  "always", "1000", "999", "1000", "999", "always"
+]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

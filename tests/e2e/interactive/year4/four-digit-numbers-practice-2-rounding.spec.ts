@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'four-digit-numbers-practice-2-rounding'
-const WORKSHEET_ANSWERS = ["3000,","8000,","5000","2400,","5800,","6200","Yes (3000+2000=5000","close to 6000)","b) No (9000-3000=6000","not 2000)","Smallest: 4500","Largest: 5499","2847 rounds to 3000. Head teacher is correct because 2847 is closer to 3000 than 2000"]
+// Q1: 3000, 8000, 5000 (3), Q2: 2400, 5800, 6200 (3), Q3: Yes, No (2), Q4: 4500, 5499 (2), Q5: 3000, correct, closer to 3000 (3) = 13 inputs
+const WORKSHEET_ANSWERS = ["3000", "8000", "5000", "2400", "5800", "6200", "Yes", "No", "4500", "5499", "3000", "correct", "3000"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

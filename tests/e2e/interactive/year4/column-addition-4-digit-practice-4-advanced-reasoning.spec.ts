@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'column-addition-4-digit-practice-4-advanced-reasoning'
-const WORKSHEET_ANSWERS = ["8765 + 1357 = 10122","b) 9876 + 1234 = 11110","Missing digit: 6 (4667 + 3218 = 7885)","b) Missing digit: 5 (5432 + 2589 = 8021)","Estimate: £4000 + £5000 = £9000. Exact: £3876 + £4589 = £8465","Total: 4567 + 3898 = 8465. Team A scored more by 669 points (4567 - 3898)","Emma's way: 6000 + 6000 = 12000","subtract 2","gives 11998. Column: 5999 + 5999 = 11998. Emma is correct."]
+// Q1: 10122+11110 (10 digits), Q2: 6+5 (2), Q3: estimate+column+total (8), Q4: total+team+diff (3), Q5: Emma's method+column+result (10) = 33 inputs
+const WORKSHEET_ANSWERS = ["1", "0", "1", "2", "2", "1", "1", "1", "1", "0", "6", "5", "4000", "5000", "9000", "8", "4", "6", "5", "8465", "8465", "A", "669", "12000", "2", "11998", "1", "1", "9", "9", "8", "correct", "11998"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

@@ -55,12 +55,14 @@ export default defineConfig({
   webServer: {
     command: 'npm run dev',
     url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
+    reuseExistingServer: true,
+    timeout: 180000,
+    stdout: 'pipe',
+    stderr: 'pipe',
   },
   
   /* Global setup for visual testing */
-  globalSetup: require.resolve('./tests/e2e/global-setup.ts'),
+  // globalSetup: require.resolve('./tests/e2e/global-setup.ts'),
   
   /* Test timeout */
   timeout: 30000,

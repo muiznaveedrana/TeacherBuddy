@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'column-addition-4-digit-practice-3-number-pyramids'
-const WORKSHEET_ANSWERS = ["2998 + 1567 = 4565","b) 4005 + 2997 = 7002","6789 + 2456 = 9245","b) 7654 + 1879 = 9533","Bottom row: 2345","1234","2111. Middle row: 3579","3345. Top: 6924","2345 + 3456 + 1234 = 7035 cupcakes","5-digit example: 6000 + 5000 = 11000. Not 5-digit: 1234 + 2345 = 3579. Statement is SOMETIMES true."]
+// Q1: 4565+7002 (8 digits), Q2: 9245+9533 (8 digits), Q3: pyramid (3), Q4: total (1), Q5: examples+statement (7) = 27 inputs
+const WORKSHEET_ANSWERS = ["4", "5", "6", "5", "7", "0", "0", "2", "9", "2", "4", "5", "9", "5", "3", "3", "3579", "3345", "6924", "7035", "9999", "1", "10000", "1000", "1000", "2000", "sometimes"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

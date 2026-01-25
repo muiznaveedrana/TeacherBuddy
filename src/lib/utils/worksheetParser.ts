@@ -1,7 +1,7 @@
 export interface ParsedQuestion {
   id: number
   questionHTML: string // Original HTML with input field injected
-  correctAnswer: string
+  correctAnswer: string | string[] // Can be array for multi-part answers like "a) 3 b) 2 c) 1"
   questionType: 'numeric' | 'text' | 'equation' | 'mixed'
 }
 
@@ -26,12 +26,15 @@ export function parseWorksheet(html: string): ParsedWorksheet {
   const questionDivs = extractQuestions(html)
 
   // 4. Match questions with answers
-  const questions = questionDivs.map((qDiv, index) => ({
-    id: index + 1,
-    questionHTML: injectInputField(qDiv, index + 1),
-    correctAnswer: answerKey[index + 1] || '',
-    questionType: detectQuestionType(qDiv)
-  }))
+  const questions = questionDivs.map((qDiv, index) => {
+    const answer = answerKey[index + 1]
+    return {
+      id: index + 1,
+      questionHTML: injectInputField(qDiv, index + 1),
+      correctAnswer: answer !== undefined ? answer : '',
+      questionType: detectQuestionType(qDiv)
+    }
+  })
 
   return {
     questions,
@@ -59,21 +62,37 @@ function extractStylesheet(html: string): string {
   return combinedStyles
 }
 
-function extractAnswerKey(html: string): Record<number, string> {
+function extractAnswerKey(html: string): Record<number, string | string[]> {
   const parser = new DOMParser()
   const doc = parser.parseFromString(html, 'text/html')
-  const answerKeyDiv = doc.querySelector('.answer-key-content')
+  // Try both class names - some worksheets use .answer-key-content, others use .answer-key
+  const answerKeyDiv = doc.querySelector('.answer-key-content') || doc.querySelector('.answer-key')
 
   if (!answerKeyDiv) return {}
 
-  const answers: Record<number, string> = {}
+  const answers: Record<number, string | string[]> = {}
   const paragraphs = answerKeyDiv.querySelectorAll('p')
 
   paragraphs.forEach(p => {
     const match = p.textContent?.match(/^(\d+)\.\s*(.+)$/)
     if (match) {
-      const [, questionId, answer] = match
-      answers[parseInt(questionId)] = answer.trim()
+      const [, questionId, answerText] = match
+      const answer = answerText.trim()
+
+      // Check if this is a multi-part answer like "a) 3 b) 2 c) 1" or "a) Yes b) 15 c) 15"
+      const multiPartMatch = answer.match(/^[a-f]\)\s*.+(?:\s+[a-f]\)\s*.+)+$/i)
+      if (multiPartMatch) {
+        // Split multi-part answers into array
+        const parts = answer.split(/\s+(?=[a-f]\))/i)
+        const values = parts.map(part => {
+          // Extract just the value after "X) "
+          const valueMatch = part.match(/^[a-f]\)\s*(.+)$/i)
+          return valueMatch ? valueMatch[1].trim() : part.trim()
+        })
+        answers[parseInt(questionId)] = values
+      } else {
+        answers[parseInt(questionId)] = answer
+      }
     }
   })
 
@@ -104,7 +123,8 @@ function injectInputField(questionHTML: string, questionId: number): string {
   if (answerLineCount > 0) console.log(`✅ Replaced ${answerLineCount} answer-line patterns`)
 
   // Pattern 2: Answer box (e.g., <div class="answer-box"></div> OR <span class="answer-box"></span>)
-  const answerBoxPattern = /<(div|span) class="answer-box"><\/(div|span)>/gi
+  // Also matches answer-box-small for Year 4+ worksheets with digit-by-digit entry
+  const answerBoxPattern = /<(div|span) class="answer-box(?:-small)?"><\/(div|span)>/gi
   const answerBoxCount = (html.match(answerBoxPattern) || []).length
   let boxCounter = 0
   html = html.replace(

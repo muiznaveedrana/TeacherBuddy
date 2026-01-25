@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'column-addition-4-digit-practice-1-multiple-carrying'
-const WORKSHEET_ANSWERS = ["2789 + 4356 = 7145","b) 5678 + 2897 = 8575","3999 + 4567 = 8566","b) 6785 + 1999 = 8784","Missing digit: 4 (3446 + 2187 = 5653)","b) Missing digit: 3 (4567 + 3234 = 7801)","Step 1: 2456 + 3789 = 6245. Step 2: 6245 + 1234 = 7479. Total: 7479 sheep","4999 + 1 = 5000. Adding 1 to 9 makes 10","carry repeats 3 times (ones→tens→hundreds→thousands)"]
+// Q1: 7145, 8575 (8), Q2: 8566, 8784 (8), Q3: 4, 3 (2), Q4: 2456,3789,6245,6245,1234,7479,7479 (7), Q5: 5,0,0,0,5000,9,3 (7) = 32 inputs
+const WORKSHEET_ANSWERS = ["7", "1", "4", "5", "8", "5", "7", "5", "8", "5", "6", "6", "8", "7", "8", "4", "4", "3", "2456", "3789", "6245", "6245", "1234", "7479", "7479", "5", "0", "0", "0", "5000", "9", "3"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

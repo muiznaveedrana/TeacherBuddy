@@ -1,34 +1,48 @@
 # Interactive Worksheet Test Coverage Plan
 
-**Last Updated**: 2026-01-17
-**Current Coverage**: 97.1% (575/592 worksheets tested)
+**Last Updated**: 2026-01-22
+**Total Tests**: 491 tests in 456 files (organized by year group)
 
 ## Summary by Year Group
 
-| Year Group | Total Worksheets | Tests Created | Missing | Coverage | Status |
-|------------|------------------|---------------|---------|----------|--------|
-| Reception  | 54               | 54            | 0       | 100%     | Complete |
-| Year 1     | 78               | 78            | 0       | 100%     | Complete |
-| Year 2     | 134              | 124           | 10      | 92.5%    | Data Issues |
-| Year 3     | 222              | 217           | 5       | 97.7%    | Nearly Complete |
-| Year 4     | 61               | 61            | 0       | 100%     | Complete |
-| Year 5     | 30               | 30            | 0       | 100%     | Complete |
-| **TOTAL**  | **579**          | **564**       | **15**  | **97.4%**| |
+| Year Group | Tests | Files | Location |
+|------------|-------|-------|----------|
+| Reception  | 51    | 47    | `tests/e2e/interactive/reception/` |
+| Year 1     | 62    | 42    | `tests/e2e/interactive/year1/` |
+| Year 2     | 70    | 59    | `tests/e2e/interactive/year2/` |
+| Year 3     | 217   | 217   | `tests/e2e/interactive/year3/` |
+| Year 4     | 61    | 61    | `tests/e2e/interactive/year4/` |
+| Year 5     | 30    | 30    | `tests/e2e/interactive/year5/` |
+| **TOTAL**  | **491** | **456** | |
 
-## Test File Organization
+**Note**: Reorganized 2026-01-22 (35 unmapped tests deleted, all year groups in subdirectories).
+
+## Test File Organization (STANDARDIZED 2026-01-22)
 
 ```
-tests/e2e/interactive/
-├── *.spec.ts           # 183 files (Reception, Year 1, Year 2)
-├── year3/              # 217 files
-│   └── *.spec.ts
-├── year4/              # 61 files
-│   └── *.spec.ts
-└── year5/              # 30 files
-    └── *.spec.ts
+tests/e2e/
+├── interactive-*.spec.ts    # 14 legacy files (coins, fractions, money, time, etc.)
+└── interactive/
+    ├── reception/           # 51 tests (47 files)
+    │   └── *.spec.ts
+    ├── year1/               # 62 tests (42 files)
+    │   └── *.spec.ts
+    ├── year2/               # 70 tests (59 files)
+    │   └── *.spec.ts
+    ├── year3/               # 217 tests (217 files)
+    │   └── *.spec.ts
+    ├── year4/               # 61 tests (61 files)
+    │   └── *.spec.ts
+    └── year5/               # 30 tests (30 files)
+        └── *.spec.ts
 ```
 
-**Total Test Files: 491**
+**Total: 491 tests in 456 files** (+ 14 legacy files)
+
+**Changes made 2026-01-22:**
+- Moved Reception, Year 1, Year 2 tests into dedicated subdirectories
+- Deleted 35 unmapped/orphan tests
+- All year groups now use identical directory structure
 
 ## Test File Convention
 
@@ -116,33 +130,56 @@ await expect(celebrationOverlay).toBeVisible({ timeout: 10000 })
 ### 6. Playwright Project
 Always use `--project=chromium-desktop` (not just `chromium`)
 
-## Missing Tests by Priority
+## Missing Tests - Detailed List
 
-### Priority 1: Year 2 (10 missing) - DATA QUALITY ISSUES
-**⚠️ These worksheets have broken answer keys and need database fixes before tests can be created:**
+### Priority 1: Year 2 (6 missing) - DATA QUALITY ISSUES
+**These worksheets have broken answer keys and need database fixes before tests can be created:**
 
 **Time worksheets** (answer key has "00" instead of proper time format):
-- `time-sports-day`, `time-sports-day-251218-200107`
-- `time-weekend-fun`, `time-weekend-fun-251218-200054`
-- `time-school-day`, `time-school-day-251218-200041`
+- `time-sports-day-251218-200107`
+- `time-weekend-fun-251218-200054`
+- `time-school-day-251218-200041`
 - **Issue**: Q5a answer key shows "00" but should be proper time like "2:00"
 
-**Movement worksheets** (some have "a) b)" format instead of individual values):
-- `movement-which-way-basic-practice`, variants with timestamps
-- **Issue**: Answer key not split into individual input values
+**Movement worksheets** (duplicate variants with timestamp suffixes):
+- `movement-which-way-basic-practice-251218-220008`
+- `movement-which-way-basic-practice-251218-214625`
+- `movement-which-way-basic-practice-251218-213659`
+- **Issue**: These appear to be duplicate/variant worksheets with timestamp suffixes
 
-**ACTION REQUIRED**: Fix worksheet answer keys in database before creating tests
+**ACTION REQUIRED**: Review and potentially delete duplicate worksheets, fix answer key format
 
-### Priority 2: Year 3 (5 missing) - NEARLY COMPLETE
-217/222 tests created. Missing tests:
-- 5 worksheets with potential data quality or slug issues
-- Run `node scripts/analyze-test-coverage.js` to identify specific missing slugs
+### Priority 2: Year 3 (5 missing) - SPECIFIC WORKSHEETS
+These specific worksheets need tests created:
 
-### ~~Priority 3: Year 4~~ - COMPLETE
-**All 61 tests created**
+1. `number-place-value-counting-4s-8s-50s-100s-mixed-layout-v6`
+   - Topic: number-place-value > counting-4s-8s-50s-100s
+   - Note: v1-v5 tests exist, only v6 missing
 
-### ~~Priority 4: Year 5~~ - COMPLETE
-**All 30 tests created**
+2. `hundreds-tens-and-ones-practice-4-default-practice`
+   - Topic: number-place-value > hundreds-tens-ones
+
+3. `hundreds-tens-and-ones-practice-1-default-practice`
+   - Topic: number-place-value > hundreds-tens-ones
+
+4. `representing-numbers-to-1000-challenge-default`
+   - Topic: number-place-value > representing-to-1000
+
+5. `representing-numbers-to-1000-practice-3-default`
+   - Topic: number-place-value > representing-to-1000
+
+### Priority 3: year4 (6 missing) - NEW WORKSHEETS
+**Note**: These are in a separate `year4` (lowercase) category, NOT the main `Year 4` group:
+
+1. `factor-pairs-challenge-practice-4-mixed-mixed`
+2. `factor-pairs-practice-3-sports-theme-sports`
+3. `factor-pairs-and-arrays-practice-2-party-theme-party`
+4. `factor-pairs-practice-1-bakery-theme-bakery`
+5. `commutativity-foundation-2-classroom-theme-classroom`
+6. `factor-pairs-foundation-1-garden-theme-garden`
+
+- Topic: multiplication-division > factor-pairs-commutativity
+- **ACTION REQUIRED**: Create tests OR fix year_group categorization to `Year 4`
 
 ## Test Generation Workflow
 
@@ -155,61 +192,79 @@ Always use `--project=chromium-desktop` (not just `chromium`)
 
 ## Key Test Learnings
 
-1. **Use 15-second test timeouts** - Long timeouts waste time when debugging. 15s is enough for most interactive worksheets.
-2. **Run with `--workers=1`** for reliability - Multiple parallel workers can cause resource contention and timeouts.
+1. **Use 30-second test timeouts** - Allows complex worksheets with many inputs to complete.
+2. **Run with `--workers=4`** for speed - Parallel execution is fast and reliable for most worksheets.
 3. **Use `--headed`** to see browser - Helps debug visually when tests fail.
 4. **Always verify answers** - Extract from HTML carefully and split comma-separated values.
+5. **Standardized directory structure** - All year groups in `tests/e2e/interactive/{year-group}/` subdirectories.
 
 ## Running Tests
 
 ```bash
-# All interactive tests (recommended)
-npx playwright test tests/e2e/interactive/ --project=chromium-desktop --workers=1
+# All interactive tests
+npx playwright test tests/e2e/interactive/ --project=chromium-desktop --workers=4 --timeout=30000
 
-# Specific year group
-npx playwright test tests/e2e/interactive/ --grep "Reception" --project=chromium-desktop
+# By year group (STANDARDIZED - all use same pattern)
+npx playwright test tests/e2e/interactive/reception/ --project=chromium-desktop --workers=4 --timeout=30000
+npx playwright test tests/e2e/interactive/year1/ --project=chromium-desktop --workers=4 --timeout=30000
+npx playwright test tests/e2e/interactive/year2/ --project=chromium-desktop --workers=4 --timeout=30000
+npx playwright test tests/e2e/interactive/year3/ --project=chromium-desktop --workers=4 --timeout=30000
+npx playwright test tests/e2e/interactive/year4/ --project=chromium-desktop --workers=4 --timeout=30000
+npx playwright test tests/e2e/interactive/year5/ --project=chromium-desktop --workers=4 --timeout=30000
 
 # Specific worksheet
-npx playwright test tests/e2e/interactive/worksheet-slug.spec.ts --project=chromium-desktop
-
-# Update coverage report
-node scripts/analyze-test-coverage.js
+npx playwright test tests/e2e/interactive/year3/worksheet-slug.spec.ts --project=chromium-desktop
 ```
 
 ## Scripts
 
-- `scripts/analyze-test-coverage.js` - Generate coverage report
+- `scripts/analyze-test-coverage.js` - Generate coverage report (Note: needs fix to scan subdirectories)
 - `scripts/generate-interactive-tests.js` - Auto-generate test files (basic)
 
 ## Progress Tracking
 
 - [x] Reception: 54/54 (100%) - COMPLETE
 - [x] Year 1: 78/78 (100%) - COMPLETE
-- [ ] Year 2: 124/134 (92.5%) - 10 remaining (data quality issues)
+- [ ] Year 2: 128/134 (95.5%) - 6 remaining (data quality issues)
 - [ ] Year 3: 217/222 (97.7%) - 5 remaining
 - [x] Year 4: 61/61 (100%) - COMPLETE
 - [x] Year 5: 30/30 (100%) - COMPLETE
+- [ ] year4 (misc): 0/6 (0%) - 6 new worksheets need tests
 
 ## Remaining Work Summary
 
 | Issue Type | Count | Action Required |
 |------------|-------|-----------------|
-| Data quality (Year 2 Time) | 6 | Fix answer key format in database |
-| Data quality (Year 2 Movement) | 4 | Split answer key into individual values |
-| Missing tests (Year 3) | 5 | Create tests or fix data |
-| **Total Remaining** | **15** | |
+| Data quality (Year 2 Time) | 3 | Fix answer key format in database |
+| Duplicate worksheets (Year 2 Movement) | 3 | Review and potentially delete |
+| Missing tests (Year 3) | 5 | Create tests |
+| New worksheets (year4 misc) | 6 | Create tests OR fix categorization |
+| **Total Remaining** | **17** | |
 
 ## Quick Commands
 
 ```bash
 # Run all interactive tests
-npx playwright test tests/e2e/interactive/ --project=chromium-desktop --workers=1
+npx playwright test tests/e2e/interactive/ --project=chromium-desktop --workers=4 --timeout=30000
 
-# Run specific year group
-npx playwright test tests/e2e/interactive/year3/ --project=chromium-desktop
-npx playwright test tests/e2e/interactive/year4/ --project=chromium-desktop
-npx playwright test tests/e2e/interactive/year5/ --project=chromium-desktop
+# Run specific year group (ALL use same pattern)
+npx playwright test tests/e2e/interactive/reception/ --project=chromium-desktop --workers=4 --timeout=30000
+npx playwright test tests/e2e/interactive/year1/ --project=chromium-desktop --workers=4 --timeout=30000
+npx playwright test tests/e2e/interactive/year2/ --project=chromium-desktop --workers=4 --timeout=30000
+npx playwright test tests/e2e/interactive/year3/ --project=chromium-desktop --workers=4 --timeout=30000
+npx playwright test tests/e2e/interactive/year4/ --project=chromium-desktop --workers=4 --timeout=30000
+npx playwright test tests/e2e/interactive/year5/ --project=chromium-desktop --workers=4 --timeout=30000
 
-# Update coverage report (regenerate JSON)
-node scripts/analyze-test-coverage.js
+# Count test files by directory
+find tests/e2e/interactive -name "*.spec.ts" | sed 's/\/[^\/]*$//' | sort | uniq -c
+```
+
+## Get Test Slug List
+
+```bash
+# List all test slugs
+find tests/e2e/interactive -name "*.spec.ts" -exec basename {} .spec.ts \; | sort > test-slugs.txt
+
+# Count by year group
+find tests/e2e/interactive -type d -mindepth 1 -maxdepth 1 -exec sh -c 'echo "$(basename "$1"): $(find "$1" -name "*.spec.ts" | wc -l)"' _ {} \;
 ```

@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'four-digit-numbers-foundation-2-reading-writing'
-const WORKSHEET_ANSWERS = ["5238","8041","4736,","9205,","1862","7,","6,","4","(6500 > 6050)","Sam is incorrect. The first 5 = 5000 (5 thousands)","the second 5 = 50 (5 tens)"]
+// Q1: 5238,8041 (2), Q2: 4736,9205,1862 (3), Q3: 7,6,4 (3), Q4: <,=,> (3), Q5: incorrect,5000,5000 (3) = 14 inputs
+const WORKSHEET_ANSWERS = ["5238", "8041", "4736", "9205", "1862", "7", "6", "4", "<", "=", ">", "incorrect", "5000", "5000"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

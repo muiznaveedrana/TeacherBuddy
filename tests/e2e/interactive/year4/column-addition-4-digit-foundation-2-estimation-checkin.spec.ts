@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'column-addition-4-digit-foundation-2-estimation-checkin'
-const WORKSHEET_ANSWERS = ["1234 + 2345 = 3579","b) 3142 + 4536 = 7678","1876 + 2345 = 4221 (with carrying)","b) 4589 + 3276 = 7865 (with carrying)","Estimate: 3000 + 3000 = 6000. Actual: 2847 + 3156 = 6003","2568 + 3487 = 6055 bottle caps","Estimate: 3000 + 3000 = 6000. Correct: 3456 + 2567 = 6023. Ben is incorrect (5913 ≠ 6023)"]
+// Q1: 3579, 7678 (8 digits), Q2: 4221, 7865 (8 digits), Q3: estimate + 6003 (7), Q4: 6055 (1), Q5: estimate + answer + reasoning (6)
+const WORKSHEET_ANSWERS = ["3", "5", "7", "9", "7", "6", "7", "8", "4", "2", "2", "1", "7", "8", "6", "5", "3000", "3000", "6000", "6", "0", "0", "3", "6055", "3000", "3000", "6000", "6023", "incorrect", "is not"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

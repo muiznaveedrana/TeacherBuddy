@@ -1,7 +1,13 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'fractions-greater-than-1-practice-4-advanced-reasoning'
-const WORKSHEET_ANSWERS = ["14 ÷ 5 = 2 remainder 4 = 2 4/5","b) (3 × 3) + 2 = 11/3","c) 19/6 = 3 1/6","1½ = 6/4 = 9/6","b) 2⅓ = 7/3 = 14/6","c) 1¾ = 7/4 = 14/8","5/4 + 3/4 = 8/4 = 2","b) 7/3 + 2/3 = 9/3 = 3","c) 7/5 + 4/5 = 11/5 = 2 1/5","7/4 + 9/4 + 5/4 = 21/4 boxes","b) 21/4 = 5 1/4 boxes","Examples: 3/2 + 2/2 = 5/2","6/4 + 4/4 = 10/4","1 + 1½ = 2½ (or 9/6 + 6/6","etc.)"]
+// Q1: Division to mixed (14÷5=2r4=2 4/5, (3×3)+2=11/3, 19/6=3 1/6) → 9 inputs
+// Q2: Equivalents (1½=6/4=9/6, 2⅓=7/3=14/6, 1¾=7/4=14/8) → 6 inputs
+// Q3: Add fractions (8/4=2, 9/3=3, 11/5=2 1/5) → 7 inputs
+// Q4: Word problem (21/4, 21/4, 5 1/4) → 4 inputs
+// Q5: Create equations (3/2+2/2, 6/4+4/4, 9/6+6/6) → 8 inputs
+// Total: 34 inputs
+const WORKSHEET_ANSWERS = ["2", "4", "2", "4", "3", "2", "11", "3", "1", "6", "9", "7", "14", "7", "14", "8", "2", "9", "3", "11", "2", "1", "21", "21", "5", "1", "3", "2", "6", "4", "9", "6", "6", "6"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

@@ -2084,7 +2084,8 @@ export function StructuredQuestion({
       let inputIdx = 0
       
       // Replace answer-box and answer-box-small spans/divs with placeholders
-      const answerBoxPattern = /<(div|span)[^>]*class="[^"]*answer-box[^"]*"[^>]*>[\s\S]*?<\/\1>/gi
+      // EXCLUDE answer-box-word - these are for open-ended explanations, not graded inputs
+      const answerBoxPattern = /<(div|span)[^>]*class="[^"]*answer-box(?!-word)[^"]*"[^>]*>[\s\S]*?<\/\1>/gi
       htmlContent = htmlContent.replace(answerBoxPattern, () => {
         if (inputIdx < question.inputs.length) {
           const subId = question.inputs[inputIdx].subId

@@ -1,0 +1,74 @@
+import { test, expect } from '@playwright/test'
+
+/**
+ * Interactive Worksheet Test: Number Place Value - Comparing Numbers
+ * Year Group: Year 2
+ * Topic: number-place-value
+ * Subtopic: comparing-numbers
+ *
+ * This worksheet has Yes/No button that needs to be clicked for Q3
+ */
+
+const WORKSHEET_SLUG = 'number-place-value-comparing-numbers-v3'
+// Simplified answers - 15 text inputs + Yes button click
+const WORKSHEET_ANSWERS = ["79", "ones", "86", "90", "99", ">", "=", ">", "78", "81", "89", "92", "Blue Team", "<", "6"]
+const YES_NO_BUTTON = "Yes" // Which button to click for Q3
+
+// Remove cookie consent overlay
+async function dismissCookieConsent(page: import('@playwright/test').Page) {
+  await page.evaluate(() => {
+    document.querySelector('.cookie-consent-container')?.remove()
+    document.querySelectorAll('[class*="cookie"], [class*="consent"], [class*="overlay"]').forEach(el => {
+      if ((el as HTMLElement).style?.position === 'fixed') el.remove()
+    })
+  })
+}
+
+test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
+  // FIXME: Times out due to cookie consent blocking clicks
+  // Cookie consent element intercepts pointer events even after dismissCookieConsent()
+  // Needs more robust cookie consent removal or force: true on all clicks
+  test('should complete with 100% score', async ({ page }) => {
+    // Navigate to interactive mode
+    await page.goto(`/library/${WORKSHEET_SLUG}/interactive`)
+    await dismissCookieConsent(page)
+
+    // Wait for container
+    await expect(page.locator('.interactive-worksheet-container')).toBeVisible()
+
+    // Fill all text inputs with correct answers
+    const inputs = page.locator('.interactive-worksheet-container input[type="text"]:not([disabled])')
+    const inputCount = await inputs.count()
+    console.log(`Found ${inputCount} input fields`)
+
+    for (let i = 0; i < inputCount && i < WORKSHEET_ANSWERS.length; i++) {
+      const input = inputs.nth(i)
+      await input.scrollIntoViewIfNeeded()
+      await input.click()
+      await input.fill(WORKSHEET_ANSWERS[i])
+    }
+
+    // Click Yes or No button for Q3
+    const yesNoBtn = page.locator(`button:has-text("${YES_NO_BUTTON}")`).first()
+    if (await yesNoBtn.count() > 0) {
+      console.log(`Clicking ${YES_NO_BUTTON} button`)
+      await yesNoBtn.click({ force: true })
+    }
+
+    await dismissCookieConsent(page)
+
+    // Submit
+    const submitButton = page.locator('.sticky.bottom-0 button').first()
+    await submitButton.click({ force: true })
+
+    // Verify celebration overlay and 100% score
+    const celebrationOverlay = page.locator('.fixed.inset-0.z-50')
+    await expect(celebrationOverlay).toBeVisible({ timeout: 10000 })
+
+    const scoreText = await page.locator('text=/\\d+%/').first().textContent()
+    console.log(`Score: ${scoreText}`)
+
+    // FAIL if not 100%
+    expect(scoreText).toBe('100%')
+  })
+})
