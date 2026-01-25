@@ -490,6 +490,42 @@ await dismissCookieConsent(page)
 
 ---
 
+## Lessons Learned
+
+### Lesson 1: E2E Tests Can Mask Database Bugs (2026-01-25)
+
+**Problem:** Interactive worksheets in production marked correct answers as wrong. Users entering `<` or `>` for comparison questions got marked incorrect even when the answer was correct.
+
+**Root Cause:** Answer keys in database stored HTML entities (`&lt;`, `&gt;`) instead of actual characters (`<`, `>`). The interactive mode compared user input `<` against expected `&lt;` and failed.
+
+**Why E2E Tests Didn't Catch It:**
+- Test answer arrays were extracted FROM the database using `scripts/extract-answers.js`
+- Database had `&lt;` → Test expected `&lt;`
+- Worksheet stored `&lt;` → Input compared to `&lt;`
+- Tests passed because both sides had the SAME bug!
+
+**Affected Worksheets (9 total):**
+- number-place-value-comparing-to-1000-* (6 variants)
+- number-place-value-ordering-numbers-* (2 variants)
+- y5-thousandths-f1
+
+**Solution Applied:**
+1. Fixed database answer keys (replaced HTML entities with actual characters)
+2. Fixed test files (replaced `&lt;`/`&gt;` with `<`/`>`)
+3. Created `scripts/scan-answer-keys.js` to detect future issues
+
+**Prevention:**
+1. **NEVER trust auto-extracted test data** - Always validate answer keys independently
+2. **Run answer key scan before deploying** - `node scripts/scan-answer-keys.js`
+3. **Manual verification** - Preview worksheet and verify answers visually before creating tests
+
+**Answer Key Scan Results (2026-01-25):**
+- 113 worksheets with `&nbsp;` (non-breaking spaces) - May need review
+- 16 worksheets with long parenthetical explanations - May need review
+- 12 worksheets with multiple fractions without separators - May need review
+
+---
+
 ## Checklist Before Running Tests
 
 - [ ] Dev server running on port 3000

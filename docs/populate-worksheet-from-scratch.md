@@ -2474,6 +2474,42 @@ time-days-months-foundation-251216.spec.ts → tests timestamped version
 
 **Best practice:** Avoid creating duplicate worksheets with different timestamps. If content is updated, delete the old version and keep only the new one.
 
+### Learning 21: HTML Entities in Answer Keys WILL Break Interactive Mode
+
+**Problem (2026-01-25):** Interactive worksheets marked correct answers as wrong. Visual inspection showed `&lt;` and `&gt;` displayed as literal text instead of `<` and `>` symbols.
+
+**Root Cause:** Answer keys stored HTML entities (`&lt;`, `&gt;`, `&nbsp;`, `&amp;`) instead of actual characters (`<`, `>`, space, `&`). When rendered, the browser shows the entities as-is in text comparison.
+
+**Example:**
+```html
+<!-- ❌ WRONG - HTML entities in answer key -->
+<p><strong>5.</strong> &lt;, =, &gt;</p>
+
+<!-- ✅ CORRECT - Actual symbols -->
+<p><strong>5.</strong> <, =, ></p>
+```
+
+**Impact:** 9 worksheets were affected (mostly comparison and fraction worksheets).
+
+**Why E2E Tests Didn't Catch It:**
+- Tests were created by extracting answers FROM the database
+- Database had same HTML entities
+- Test expected `&lt;` and worksheet stored `&lt;`
+- Tests passed because both sides had the same bug!
+
+**Solution:**
+1. Scan answer keys for HTML entities: `&lt;`, `&gt;`, `&nbsp;`, `&amp;`, `&quot;`
+2. Replace with actual characters BEFORE saving to database
+3. Validate answer keys independently of test extraction
+4. Use `scripts/scan-answer-keys.js` to detect potential issues
+
+**Validation Script:**
+```bash
+node scripts/scan-answer-keys.js
+```
+
+**Critical Rule:** Never trust E2E test passes when test data was extracted from the same source being tested. Always validate answer keys independently using the actual worksheet preview.
+
 ---
 
 ## Pilot Results: Year 1 2D Shapes Basic
@@ -2483,7 +2519,7 @@ time-days-months-foundation-251216.spec.ts → tests timestamped version
 | Phases 0-3 | ✅ Completed |
 | Phase 4 (Production) | ✅ 3 unique worksheets, all 100% |
 | Iterations | 4 (v1: too many, v2: spacey layout, v3: compact but too tight, v4: BALANCED SUCCESS) |
-| Key Learnings | 20 documented (1-15 from pilot, 16-20 from test coverage work) |
+| Key Learnings | 21 documented (1-15 from pilot, 16-20 from test coverage, 21 from production bug) |
 
 ### Final Worksheets (Balanced Layout)
 

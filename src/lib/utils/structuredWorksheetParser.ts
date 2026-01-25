@@ -6,6 +6,19 @@
  * dangerouslySetInnerHTML and preventing all focus/flash issues.
  */
 
+/**
+ * Decode HTML entities in a string
+ * When extracting data-answer values from outerHTML, browsers encode < and > to &lt; and &gt;
+ */
+function decodeHtmlEntities(str: string): string {
+  return str
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+}
+
 export interface InputField {
   subId: string // e.g., "1" or "4-0", "4-1" for multi-input questions
   placeholder: string
@@ -74,6 +87,13 @@ export interface StructuredWorksheet {
 }
 
 export function parseWorksheetStructured(html: string): StructuredWorksheet {
+  // DEBUG: Check for HTML entities in data-answer
+  const dataAnswerMatches = html.match(/data-answer="([^"]*)"/g) || []
+  console.log('🔍 DEBUG: First 5 data-answer values in HTML:', dataAnswerMatches.slice(0, 5))
+  if (html.includes('&lt;') || html.includes('&gt;')) {
+    console.log('⚠️ DEBUG: HTML contains &lt; or &gt; entities!')
+  }
+
   // 1. Extract stylesheet
   const stylesheet = extractStylesheet(html)
 
@@ -276,7 +296,8 @@ function parseQuestionStructure(
     console.log(`✅ Q${questionId}: Found ${existingInputMatches.length} existing <input data-answer> element(s) - using directly`)
     // Parse each existing input and register it
     existingInputMatches.forEach((match, idx) => {
-      const dataAnswer = match.match(/data-answer="([^"]*)"/)?.[1] || ''
+      const rawDataAnswer = match.match(/data-answer="([^"]*)"/)?.[1] || ''
+      const dataAnswer = decodeHtmlEntities(rawDataAnswer)
       const subId = existingInputMatches.length > 1 ? `${questionId}-${idx}` : `${questionId}`
       inputs.push({
         subId,
@@ -1041,10 +1062,13 @@ function parseQuestionStructure(
   // PRIORITY CHECK: If inputs have expectedAnswer from data-answer attributes, use those directly
   // This handles worksheets that have embedded <input data-answer="x"> elements
   const inputsWithExpectedAnswer = inputs.filter(inp => inp.expectedAnswer !== undefined)
+  console.log(`🔍 Q${questionId} DEBUG: inputs count=${inputs.length}, inputsWithExpectedAnswer count=${inputsWithExpectedAnswer.length}`)
+  console.log(`🔍 Q${questionId} DEBUG: expectedAnswers=`, inputs.map(i => i.expectedAnswer))
   if (inputsWithExpectedAnswer.length > 0 && inputsWithExpectedAnswer.length === inputs.length) {
     // All inputs have expectedAnswer - use these values directly
     answerArray = inputs.map(inp => inp.expectedAnswer || '')
     console.log(`✅ Q${questionId}: Using expectedAnswer from data-answer attributes:`, answerArray)
+    console.log(`🔍 Q${questionId} DEBUG: answerArray charCodes=`, answerArray.map(a => a.charCodeAt(0)))
   }
 
   // Fallback: if there are multiple inputs but only a single answer string,
