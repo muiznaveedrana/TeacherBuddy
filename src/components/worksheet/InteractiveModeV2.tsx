@@ -43,13 +43,17 @@ export function InteractiveModeV2({ htmlContent, worksheet, onExit }: Interactiv
     setParsed(result)
     console.log('📋 Parsed structured worksheet:', result)
 
-    // Track interactive mode start
+    // Track interactive mode start with enhanced parameters
     if (result) {
       trackInteractiveStart({
         id: worksheet.id,
         title: worksheet.title,
         yearGroup: worksheet.year_group,
-        questionCount: result.questions.length
+        questionCount: result.questions.length,
+        // Enhanced tracking fields
+        topic: worksheet.topic,
+        subtopic: worksheet.subtopic,
+        difficulty: worksheet.difficulty
       })
     }
   }, [htmlContent, worksheet])
@@ -107,13 +111,19 @@ export function InteractiveModeV2({ htmlContent, worksheet, onExit }: Interactiv
     // Calculate time spent
     const timeSpentSeconds = Math.round((Date.now() - startTimeRef.current) / 1000)
 
-    // Track submission
+    // Track submission with enhanced parameters
     trackInteractiveSubmit({
       worksheetId: worksheet.id,
       score: result.correct,
       total: result.total,
       percentage: result.percentage,
-      timeSpentSeconds
+      timeSpentSeconds,
+      // Enhanced tracking fields
+      worksheetTitle: worksheet.title,
+      yearGroup: worksheet.year_group,
+      topic: worksheet.topic,
+      subtopic: worksheet.subtopic,
+      difficulty: worksheet.difficulty
     })
 
     console.log('📊 Score result:', result)
@@ -130,14 +140,19 @@ export function InteractiveModeV2({ htmlContent, worksheet, onExit }: Interactiv
     startTimeRef.current = Date.now() // Reset timer for retry
   }
 
-  // Wrapper for exit that tracks the event
+  // Wrapper for exit that tracks the event with enhanced parameters
   const handleExit = () => {
     if (parsed) {
       trackInteractiveExit({
         id: worksheet.id,
         completed: submitted,
         questionsAnswered: countAnsweredQuestions(),
-        totalQuestions: parsed.questions.length
+        totalQuestions: parsed.questions.length,
+        // Enhanced tracking fields
+        title: worksheet.title,
+        yearGroup: worksheet.year_group,
+        topic: worksheet.topic,
+        subtopic: worksheet.subtopic
       })
     }
     onExit()

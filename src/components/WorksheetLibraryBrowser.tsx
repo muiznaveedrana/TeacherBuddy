@@ -61,8 +61,11 @@ export function WorksheetLibraryBrowser() {
   const [selectedWorksheetIndex, setSelectedWorksheetIndex] = useState<number | null>(null)
   const [isPanelOpen, setIsPanelOpen] = useState(false)
 
-  // Get sort from URL or default to 'newest' (use optional chaining for safety)
+  // Get sort and filter values from URL
   const sortBy = searchParams?.get('sort') || 'newest'
+  const yearGroup = searchParams?.get('year_group') || ''
+  const topic = searchParams?.get('topic') || ''
+  const subtopic = searchParams?.get('subtopic') || ''
   const initialPage = parseInt(searchParams?.get('page') || '0')
 
   useEffect(() => {
@@ -72,39 +75,32 @@ export function WorksheetLibraryBrowser() {
       setHasMore(true)
 
       try {
-        // If URL has page parameter (e.g., /library?page=2), load all pages up to that point
-        const targetPage = Math.max(0, initialPageRef.current)
+        // Reset to page 0 when filters change
+        const targetPage = 0
+        initialPageRef.current = 0
         const allWorksheets: LibraryWorksheet[] = []
         let lastHasMore = true
 
-        // Load all pages from 0 to targetPage
-        for (let pageNum = 0; pageNum <= targetPage; pageNum++) {
-          const params = new URLSearchParams(searchParams?.toString() || '')
-          if (!params.has('sort')) {
-            params.set('sort', 'newest')
-          }
-          params.set('page', pageNum.toString())
-          params.set('limit', '20')
-
-          const response = await fetch(`/api/library/browse?${params.toString()}`)
-
-          if (!response.ok) {
-            throw new Error('Failed to load worksheets')
-          }
-
-          const data = await response.json()
-          allWorksheets.push(...data.worksheets)
-          lastHasMore = data.has_more
-
-          // Stop if backend says no more results
-          if (!data.has_more) {
-            break
-          }
+        // Load first page with current filters
+        const params = new URLSearchParams(searchParams?.toString() || '')
+        if (!params.has('sort')) {
+          params.set('sort', 'newest')
         }
+        params.set('page', '0')
+        params.set('limit', '20')
+
+        const response = await fetch(`/api/library/browse?${params.toString()}`)
+
+        if (!response.ok) {
+          throw new Error('Failed to load worksheets')
+        }
+
+        const data = await response.json()
+        allWorksheets.push(...data.worksheets)
+        lastHasMore = data.has_more
 
         setWorksheets(allWorksheets)
         setPage(targetPage)
-        // Use the last page's has_more flag from backend
         setHasMore(lastHasMore)
 
       } catch (err) {
@@ -115,7 +111,7 @@ export function WorksheetLibraryBrowser() {
     }
 
     loadWorksheets()
-  }, [sortBy])  // Only reload when sort changes, not on page URL updates
+  }, [sortBy, yearGroup, topic, subtopic, searchParams])  // Reload when sort OR filters change
 
   const loadMore = useCallback(async () => {
     if (loadingMore || !hasMore) return
