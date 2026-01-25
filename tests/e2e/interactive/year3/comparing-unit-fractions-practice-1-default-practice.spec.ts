@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'comparing-unit-fractions-practice-1-default-practice'
-const WORKSHEET_ANSWERS = ["&gt;", "&lt;", "=", "1/8", "1/6", "1/4", "1/2", "Ruby", "5", "3", "fewer", "bigger"]
+const WORKSHEET_ANSWERS = [">", "<", "=", "1/8", "1/6", "1/4", "1/2", "Ruby", "5", "3", "fewer", "bigger"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

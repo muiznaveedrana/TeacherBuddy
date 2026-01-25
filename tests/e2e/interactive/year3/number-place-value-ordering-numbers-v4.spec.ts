@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'number-place-value-ordering-numbers-v4'
-const WORKSHEET_ANSWERS = ["555","550","515","505","500","637","Chocolate","Vanilla","Lemon","Tart","Scone","Pie","same","same","&lt;"]
+const WORKSHEET_ANSWERS = ["555","550","515","505","500","637","Chocolate","Vanilla","Lemon","Tart","Scone","Pie","same","same","<"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'number-place-value-comparing-to-1000-v2'
-const WORKSHEET_ANSWERS = ["&lt;","&lt;","=","156","165","516","561","615","Hamsters","Puppy","No","305"]
+const WORKSHEET_ANSWERS = ["<","<","=","156","165","516","561","615","Hamsters","Puppy","No","305"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {
