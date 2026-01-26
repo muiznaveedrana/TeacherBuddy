@@ -17,6 +17,7 @@ backups/
 # Test results and reports
 test-results/
 playwright-report/
+playwright-report-prod/
 coverage/
 *.log
 
