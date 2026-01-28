@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'y5-add-fractions-p2'
-const WORKSHEET_ANSWERS = ["2","3","2","3","2","1","2","3","2","3","3","2","Maya","No","common","3"]
+const WORKSHEET_ANSWERS = ["2","3","2","3","2","1","2","3","3","2","5","5","4","Ava","No","common","5"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {
