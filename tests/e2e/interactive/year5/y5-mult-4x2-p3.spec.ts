@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'y5-mult-4x2-p3'
-const WORKSHEET_ANSWERS = ["76473","133490","88704","88704","1584","78750","76500","76500","77100","3000","40","3000","40","120000","Yes"]
+const WORKSHEET_ANSWERS = ["225664","241536","3502","5","157500","161500","146500","2500","40","100000","close"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

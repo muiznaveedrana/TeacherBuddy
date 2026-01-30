@@ -1,13 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'y5-fractions-p2'
-// Q1: 6 inputs | Q2: 10 inputs | Q3: 3 inputs | Q4: 3 inputs | Q5: 6 inputs = 28 inputs total
-// Q1: 3, 1, 3¼, 3, 2, 3⅔ (Unicode fractions required!)
-// Q2: 3, 4, 3, 15, 15, 2, 8, 5, 21, 21
-// Q3: 3, 2, 3⅖ (different calculation than expected)
-// Q4: 7, 14, 4⅔ (Unicode fraction required!)
-// Q5: Amy, subtracted, dividing, 2, 3, 2¾
-const WORKSHEET_ANSWERS = ["3", "1", "3¼", "3", "2", "3⅔", "3", "4", "3", "15", "15", "2", "8", "5", "21", "21", "3", "2", "3⅖", "7", "14", "4⅔", "Amy", "subtracted", "dividing", "2", "3", "2¾"]
+const WORKSHEET_ANSWERS = ["3¾","3⅙","2⅝","3⅕","13","21","same","11","4","15","14","15/4","Sometimes","4/4","1"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

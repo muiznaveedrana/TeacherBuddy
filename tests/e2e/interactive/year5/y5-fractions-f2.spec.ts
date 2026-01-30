@@ -1,8 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'y5-fractions-f2'
-// Q1: 4 inputs | Q2: 4 inputs | Q3: 3 inputs | Q4: 5 inputs | Q5: 3 inputs = 19 total
-const WORKSHEET_ANSWERS = ["1½","1⅔","2¼","3⅓","4","9","4","7","2","3","2¾","7","7","greater","5","Tom","No","multiply","7/3"]
+const WORKSHEET_ANSWERS = ["1¾","2½","2⅔","2⅗","5","7","11","quarters","9","5","Cake B","7÷4","1","3","1¾"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

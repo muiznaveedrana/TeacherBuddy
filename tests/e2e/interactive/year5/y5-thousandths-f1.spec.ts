@@ -1,9 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'y5-thousandths-f1'
-// Q1: 3 inputs | Q2: 4 inputs | Q3: 3 inputs | Q4: 2 inputs | Q5: 2 inputs = 14 total
-// Q5 answer split: part a) "No", part b) full explanation (without "No, " prefix)
-const WORKSHEET_ANSWERS = ["0.6", "0.05", "0.004", "0.001", "0.005", "0.010", "0.025", "10.345", "10.354", "10.4", ">", "=", "No", "0.5 is equivalent to 0.500. Comparing 0.500 and 0.456, 500 thousandths is greater than 456 thousandths. So, 0.5 > 0.456."]
+const WORKSHEET_ANSWERS = ["2","3","4","5","0.5","0.06","0.007","undefined","12.345","hundredths","4","5","1.234","1.243","1.324","No","0.003"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

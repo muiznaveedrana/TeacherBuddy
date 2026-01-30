@@ -832,8 +832,21 @@ function validateWithCustomLogic(
   const hasThinkCheckPattern = html.toLowerCase().includes('think:') && html.toLowerCase().includes('check:')
   const hasDivisionPattern = html.includes('÷')  // Division questions use ÷
 
+  // GUARD: Don't apply word problem comparison validation to FRACTION questions
+  // Fraction questions have "/" (like 9/4) or fraction symbols (½, ¼, ¾) and ask about converting/comparing fractions
+  // These questions should use the data-answer attributes directly, not the word problem validation
+  const hasFractionNotation = /\d+\/\d+/.test(html) || /[½¼¾⅓⅔⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞]/.test(html)
+  const isFractionQuestion = hasFractionNotation && (
+    html.toLowerCase().includes('convert') ||
+    html.toLowerCase().includes('fraction') ||
+    html.toLowerCase().includes('improper') ||
+    html.toLowerCase().includes('mixed number') ||
+    html.toLowerCase().includes('slices') ||  // Common in fraction word problems
+    html.toLowerCase().includes('quarters')   // Common in fraction word problems
+  )
+
   const isWordProblem = (hasWordProblemBox || hasComparisonVisual || hasPersonGroup || (hasPersonName && hasPersonAmount) || hasReadProblem) &&
-                        !hasCalculationEquations && !hasPlaceholderEquations && !hasThinkCheckPattern && !hasDivisionPattern
+                        !hasCalculationEquations && !hasPlaceholderEquations && !hasThinkCheckPattern && !hasDivisionPattern && !isFractionQuestion
 
   if (isWordProblem) {
     const groups: Array<{ name: string; amount: string }> = []

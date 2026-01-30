@@ -34,16 +34,43 @@ const imagekit = new ImageKit({
   urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT || process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT,
 })
 
-// Worksheets that need thumbnail regeneration (de-duplicated content)
+// All Year 5 worksheets that need thumbnail regeneration (content updated)
 const WORKSHEETS_TO_REGENERATE = [
+  // Add & Subtract Fractions (6)
+  'y5-add-fractions-f1',
+  'y5-add-fractions-f2',
   'y5-add-fractions-p1',
   'y5-add-fractions-p2',
   'y5-add-fractions-p3',
+  'y5-add-fractions-p4',
+  // Improper Fractions & Mixed Numbers (6)
+  'y5-fractions-f1',
+  'y5-fractions-f2',
+  'y5-fractions-p1',
+  'y5-fractions-p2',
+  'y5-fractions-p3',
+  'y5-fractions-p4',
+  // Long Multiplication (6)
+  'y5-mult-4x2-f1',
+  'y5-mult-4x2-f2',
   'y5-mult-4x2-p1',
   'y5-mult-4x2-p2',
   'y5-mult-4x2-p3',
   'y5-mult-4x2-p4',
-  'y5-short-div-p3'
+  // Short Division (6)
+  'y5-short-div-f1',
+  'y5-short-div-f2',
+  'y5-short-div-p1',
+  'y5-short-div-p2',
+  'y5-short-div-p3',
+  'y5-short-div-p4',
+  // Thousandths (6)
+  'y5-thousandths-f1',
+  'y5-thousandths-f2',
+  'y5-thousandths-p1',
+  'y5-thousandths-p2',
+  'y5-thousandths-p3',
+  'y5-thousandths-p4'
 ]
 
 /**
