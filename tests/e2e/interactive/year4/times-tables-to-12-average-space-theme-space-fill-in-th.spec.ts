@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'times-tables-to-12-average-space-theme-space-fill-in-th'
-const WORKSHEET_ANSWERS = ["21","28","35","42","56","63","6","8","9","4","7","5","77","56","No","56","multiplication","addition"]
+// Q1: 21,28,35,42,56,63 | Q2: 6,8,9,4,7,5 | Q3: 77 | Q4: 56 | Q5b: 56 (word boxes excluded)
+const WORKSHEET_ANSWERS = ["21","28","35","42","56","63","6","8","9","4","7","5","77","56","56"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

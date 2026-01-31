@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'division-facts-to-12-foundation-sports-theme-sports'
-const WORKSHEET_ANSWERS = ["3","4","5","6","7","8","8","7","56","9","7","No","9","division","subtraction"]
+// Q1: 3,4,5,6,7,8 | Q2: 8,7,56 | Q3: 9 | Q4: 7 | Q5b: 9 (word boxes excluded)
+const WORKSHEET_ANSWERS = ["3","4","5","6","7","8","8","7","56","9","7","9"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {

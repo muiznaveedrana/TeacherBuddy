@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test'
 
 const WORKSHEET_SLUG = 'multiplication-division-times-tables-to-12'
-const WORKSHEET_ANSWERS = ["24","30","42","33","55","66","6","7","9","8","48","48","77","No","42","multiplication","addition"]
+// Q1: 24,30,42,33,55,66 | Q2: 6,7,9,8 | Q3: 48,48 | Q4: 77 | Q5b: 42 (word boxes excluded)
+const WORKSHEET_ANSWERS = ["24","30","42","33","55","66","6","7","9","8","48","48","77","42"]
 
 async function dismissCookieConsent(page: import('@playwright/test').Page) {
   await page.evaluate(() => {
