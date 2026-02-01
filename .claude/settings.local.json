@@ -1,0 +1,140 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npm run lint -- --fix 2>nul || exit 0"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npm run lint -- --fix 2>nul || exit 0"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -Command \"[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('Task completed', 'Claude Code')\""
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"console.log(require(''path'').join(''/images/SCRAPPING DOODLE/Fruit_by_ScrappinDoodles'', ''apple.png''))\")",
+      "Bash(node:*)",
+      "Bash(npm run catalog:vision:*)",
+      "Bash(GEMINI_API_KEY=AIzaSyC1XvJ_6kbBeHF9Znh5BbDIDki08ogS1x4 node scripts/vision-catalog-generator.js)",
+      "Bash(npx kill-port:*)",
+      "Bash(GEMINI_API_KEY=AIzaSyC1XvJ_6kbBeHF9Znh5BbDIDki08ogS1x4 node scripts/vision-catalog-generator.js batch-003)",
+      "Bash(GEMINI_API_KEY=AIzaSyC1XvJ_6kbBeHF9Znh5BbDIDki08ogS1x4 node scripts/vision-catalog-claude.js batch-003)",
+      "Bash(GEMINI_API_KEY=AIzaSyC1XvJ_6kbBeHF9Znh5BbDIDki08ogS1x4 node scripts/vision-catalog-claude.js batch-019)",
+      "Bash(dir:*)",
+      "Bash(findstr:*)",
+      "Bash(for i in {036..037})",
+      "Bash(do if [ ! -f \"batch-$i-catalog.json\" ])",
+      "Bash(then echo \"Missing: batch-$i-catalog.json\")",
+      "Bash(fi)",
+      "Bash(done)",
+      "Bash(test:*)",
+      "Bash(npm run dev:*)",
+      "Bash(mkdir:*)",
+      "Bash(npx playwright codegen:*)",
+      "Bash(curl -s \"http://localhost:3000/api/curriculum/topics?yearGroup=Reception\")",
+      "Bash(curl -s \"http://localhost:3000/api/curriculum/subtopics?yearGroup=Reception&topic=number-counting\")",
+      "Read(//c/Users/amara/.claude/**)",
+      "Bash(curl:*)",
+      "WebSearch",
+      "WebFetch(domain:starworksheets.co.uk)",
+      "Bash(cat:*)",
+      "Bash(for i in 1 2 3 4 5)",
+      "Bash(do echo \"=== ITERATION $i ===\")",
+      "Bash(timeout:*)",
+      "Bash(git log:*)",
+      "Bash(/dev/null)",
+      "Bash(cmd.exe:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Read(//m/**)",
+      "Bash(tee:*)",
+      "Bash(git restore:*)",
+      "Bash(if exist .next rmdir /s /q .next)",
+      "Bash(powershell:*)",
+      "Bash(cd:*)",
+      "Bash(netstat:*)",
+      "Bash(code --list-extensions)",
+      "Bash(code:*)",
+      "Bash(where claude)",
+      "Bash(claude --version:*)",
+      "Bash(claude auth status:*)",
+      "Bash(claude auth login:*)",
+      "Bash(claude auth logout:*)",
+      "Bash(lsof:*)",
+      "Bash(for file in src/lib/prompts/configurations/reception/number-counting/*.md)",
+      "Bash(for file in src/lib/prompts/configurations/reception/number-counting/number-recognition*.md)",
+      "Bash(del basic-shapes-COMPRESSED.md patterns-COMPRESSED.md size-comparison-COMPRESSED.md)",
+      "Bash(ren:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(del update-pattern-selection.js)",
+      "Bash(nul)",
+      "Bash(start chrome \"M:\\ClaudeCodeProjects\\worksheetgenerator-ai\\worksheet-quality-reports\\multi-batch-sessions\\multi-batch-all-reception-2025-10-31T15-15-59-588Z\\comprehensive-vision-report.html\")",
+      "Bash(for i in {1..9})",
+      "Bash(do echo \"=== Batch $i ===\")",
+      "Bash(ls:*)",
+      "Bash(start chrome \"M:\\ClaudeCodeProjects\\worksheetgenerator-ai\\worksheet-quality-reports\\multi-batch-sessions\\multi-batch-all-year2-2025-10-31T16-20-37-389Z\\year2-comprehensive-report.html\")",
+      "Bash(start chrome \"M:/ClaudeCodeProjects/worksheetgenerator-ai/worksheet-quality-reports/multi-batch-sessions/multi-batch-all-year3-2025-10-31T17-17-42-884Z/year3-comprehensive-report.html\")",
+      "Bash(vercel:*)",
+      "Bash(for port in {3000..3005})",
+      "Bash(do npx kill-port $port)",
+      "Bash(echo:*)",
+      "Bash(if [ -d \".next\" ])",
+      "Bash(then rm -rf .next)",
+      "Bash(else echo \".next directory doesn''t exist\")",
+      "Bash(npm run build:*)",
+      "Bash(start:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(find:*)",
+      "Bash(if [ -d \"node_modules/.cache\" ])",
+      "Bash(then rm -rf node_modules/.cache)",
+      "Bash(else echo \"No cache directory\")",
+      "Bash(for file in */*.md)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(wc:*)",
+      "Bash(printf:*)",
+      "Bash(rm:*)",
+      "Bash(npx tsc --noEmit)",
+      "Bash(GEMINI_API_KEY=AIzaSyC1XvJ_6kbBeHF9Znh5BbDIDki08ogS1x4 node scripts/year1-prompt-engineer-multi-model.js)",
+      "Bash(set GEMINI_API_KEY=AIzaSyC1XvJ_6kbBeHF9Znh5BbDIDki08ogS1x4)",
+      "Bash(for port in 3000 3001 3002 3003 3004 3005)",
+      "Bash(npx playwright test:*)",
+      "Bash(git count-objects:*)",
+      "Bash(git gc:*)",
+      "Bash(taskkill:*)",
+      "Bash(./run-smoke-reception-test.bat)",
+      "Bash(else echo \"No .next directory\")",
+      "Bash(npx supabase db execute:*)",
+      "mcp__playwright-test__planner_setup_page",
+      "mcp__playwright-test__browser_navigate",
+      "mcp__playwright-test__browser_wait_for",
+      "Bash(xargs npx playwright test:*)"
+    ],
+    "deny": [],
+    "ask": [],
+    "additionalDirectories": [
+      "M:\\ClaudeCodeProjects"
+    ]
+  }
+}
