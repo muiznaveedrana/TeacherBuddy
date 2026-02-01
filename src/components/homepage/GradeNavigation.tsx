@@ -75,7 +75,7 @@ const gradeData = [
     bgPattern: 'bg-yellow-50',
     topics: ['Percentages', 'Prime Numbers', 'Volume'],
     IconComponent: Star,
-    comingSoon: true,
+    comingSoon: false,
   },
   {
     grade: 'Year 6',

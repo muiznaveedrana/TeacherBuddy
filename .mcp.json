@@ -6,6 +6,13 @@
         "playwright",
         "run-test-mcp-server"
       ]
+    },
+    "notebooklm": {
+      "command": "C:\\Python311\\Scripts\\notebooklm-mcp.exe",
+      "args": [],
+      "env": {
+        "PYTHONIOENCODING": "utf-8"
+      }
     }
   }
 }
