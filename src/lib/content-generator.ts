@@ -4,6 +4,13 @@
  * Generates unique, SEO-friendly educational content for worksheets
  * displayed on freemathprintable.com. This is a deterministic generator
  * that creates consistent, high-quality content based on worksheet metadata.
+ *
+ * Use this for:
+ * - Fallback when AI content generation fails
+ * - Quick preview content before AI generation completes
+ * - Offline/testing scenarios
+ *
+ * For production, prefer educationalContentService.ts which uses AI.
  */
 
 export interface WorksheetInput {
@@ -12,14 +19,26 @@ export interface WorksheetInput {
   subtopic: string
   year_group: string
   skills?: string[]
+  // Optional fields that enhance content quality
+  difficulty?: 'easy' | 'average' | 'hard'
+  question_count?: number
+  visual_theme?: string
+  activity_type?: string
+  seasonal_theme?: string
 }
 
 export interface WorksheetContent {
-  description: string
-  learningObjectives: string[]
-  howToUse: string
-  suggestedFor: {
-    ageRange: string
+  // Maps to LibraryWorksheet fields (snake_case for DB compatibility)
+  description: string                    // Short description (2-3 sentences)
+  educational_benefits: string           // Long-form SEO content (200-300 words)
+  learning_objectives: string[]          // 3-4 specific objectives
+  how_to_use: string                     // Teacher guidance paragraph
+  skills_developed: string[]             // Skills tags
+  estimated_time_minutes: number         // Completion time estimate
+  curriculum_standards: string[]         // UK National Curriculum alignment
+  faq: Array<{ question: string; answer: string }>  // Common questions
+  suggested_for: {                       // Audience info (for display, not DB)
+    age_range: string
     settings: string[]
   }
 }
@@ -29,13 +48,31 @@ export interface WorksheetContent {
  * Creates unique descriptions, learning objectives, usage guidance, and audience info
  */
 export function generateWorksheetContent(worksheet: WorksheetInput): WorksheetContent {
-  const { title, topic, subtopic, year_group, skills = [] } = worksheet
+  const {
+    title,
+    topic,
+    subtopic,
+    year_group,
+    skills = [],
+    difficulty = 'average',
+    question_count = 5,
+    visual_theme,
+    activity_type,
+    seasonal_theme,
+  } = worksheet
+
+  const learningObjectives = generateLearningObjectives(topic, subtopic, year_group, skills)
 
   return {
     description: generateDescription(title, topic, subtopic, year_group, skills),
-    learningObjectives: generateLearningObjectives(topic, subtopic, year_group, skills),
-    howToUse: generateHowToUse(title, topic, subtopic, year_group),
-    suggestedFor: generateSuggestedFor(year_group),
+    educational_benefits: generateEducationalBenefits(title, topic, subtopic, year_group, visual_theme, activity_type),
+    learning_objectives: learningObjectives,
+    how_to_use: generateHowToUse(title, topic, subtopic, year_group),
+    skills_developed: generateSkillsDeveloped(topic, subtopic, skills),
+    estimated_time_minutes: estimateCompletionTime(question_count, difficulty, year_group),
+    curriculum_standards: generateCurriculumStandards(topic, subtopic, year_group),
+    faq: generateFAQ(title, topic, subtopic, year_group, question_count),
+    suggested_for: generateSuggestedFor(year_group),
   }
 }
 
@@ -233,7 +270,7 @@ function getAgeAppropriateGuidance(yearGroup: string): string {
 /**
  * Generate suggested audience information
  */
-function generateSuggestedFor(yearGroup: string): { ageRange: string; settings: string[] } {
+function generateSuggestedFor(yearGroup: string): { age_range: string; settings: string[] } {
   const ageRanges: Record<string, string> = {
     'Reception': '4-5 years',
     'Year 1': '5-6 years',
@@ -263,9 +300,213 @@ function generateSuggestedFor(yearGroup: string): { ageRange: string; settings: 
   const specificSettings = yearSpecificSettings[yearGroup] || ['Additional practice', 'Extension activities']
 
   return {
-    ageRange: ageRanges[yearGroup] || '5-11 years',
+    age_range: ageRanges[yearGroup] || '5-11 years',
     settings: [...baseSettings, ...specificSettings.slice(0, 2)],
   }
+}
+
+/**
+ * Generate SEO-optimized educational benefits (200-300 words)
+ */
+function generateEducationalBenefits(
+  title: string,
+  topic: string,
+  subtopic: string,
+  yearGroup: string,
+  visualTheme?: string,
+  activityType?: string
+): string {
+  const ageRange = getAgeRange(yearGroup)
+  const themeText = visualTheme ? ` featuring engaging ${visualTheme} visuals` : ''
+  const activityText = activityType
+    ? ` The ${activityType.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ').toLowerCase()} format`
+    : ' The carefully structured format'
+
+  return `This ${yearGroup} ${subtopic.split('-').join(' ')} worksheet provides essential practice aligned with the UK National Curriculum${themeText}. ` +
+    `Designed specifically for ${ageRange}, the worksheet builds strong mathematical foundations through age-appropriate questions that develop both procedural fluency and conceptual understanding.\n\n` +
+    `${activityText} helps children develop confidence in ${topic.toLowerCase()} while building transferable skills including problem-solving, logical reasoning, and mathematical communication. ` +
+    `Regular practice with worksheets like this supports the development of number sense and mathematical fluency that students need for success in later years.\n\n` +
+    `Teachers value this resource for its clear layout, appropriate challenge level, and direct alignment with curriculum objectives. ` +
+    `The worksheet works equally well for whole-class teaching, small group intervention, or independent practice. ` +
+    `Parents find it useful for supporting learning at home, providing meaningful practice without requiring specialist mathematical knowledge. ` +
+    `Whether used in school or at home, this worksheet helps ${yearGroup} students build the skills and confidence they need to succeed in mathematics.`
+}
+
+/**
+ * Generate skills developed list
+ */
+function generateSkillsDeveloped(topic: string, subtopic: string, inputSkills: string[]): string[] {
+  const coreSkills: Record<string, string[]> = {
+    'Number': ['Number recognition', 'Counting skills', 'Number sense'],
+    'Addition': ['Mental addition', 'Written calculation', 'Number bonds'],
+    'Subtraction': ['Mental subtraction', 'Written calculation', 'Inverse operations'],
+    'Multiplication': ['Times table recall', 'Multiplication strategies', 'Pattern recognition'],
+    'Division': ['Division facts', 'Sharing equally', 'Remainders understanding'],
+    'Fractions': ['Fraction recognition', 'Part-whole relationships', 'Fraction comparison'],
+    'Geometry': ['Shape recognition', 'Spatial reasoning', 'Mathematical vocabulary'],
+    'Measurement': ['Measuring skills', 'Unit conversion', 'Estimation'],
+    'Counting': ['One-to-one correspondence', 'Cardinality', 'Number sequence'],
+  }
+
+  const transferableSkills = [
+    'Problem-solving',
+    'Logical thinking',
+    'Concentration',
+    'Independent working',
+  ]
+
+  const topicSkills = coreSkills[topic] || [`${topic} understanding`]
+
+  // Combine input skills, topic skills, and transferable skills
+  const allSkills = [...new Set([...inputSkills, ...topicSkills, ...transferableSkills])]
+  return allSkills.slice(0, 6)
+}
+
+/**
+ * Estimate completion time based on question count, difficulty, and year group
+ */
+function estimateCompletionTime(
+  questionCount: number,
+  difficulty: 'easy' | 'average' | 'hard',
+  yearGroup: string
+): number {
+  // Base time per question varies by year group (younger = slower)
+  const baseTimePerQuestion: Record<string, number> = {
+    'Reception': 3,
+    'Year 1': 2.5,
+    'Year 2': 2,
+    'Year 3': 2,
+    'Year 4': 1.5,
+    'Year 5': 1.5,
+    'Year 6': 1.5,
+  }
+
+  const difficultyMultiplier: Record<string, number> = {
+    'easy': 0.8,
+    'average': 1,
+    'hard': 1.3,
+  }
+
+  const baseTime = baseTimePerQuestion[yearGroup] || 2
+  const multiplier = difficultyMultiplier[difficulty] || 1
+
+  // Calculate and round to nearest 5 minutes
+  const rawTime = questionCount * baseTime * multiplier
+  return Math.max(5, Math.round(rawTime / 5) * 5)
+}
+
+/**
+ * Generate UK National Curriculum standards alignment
+ */
+function generateCurriculumStandards(topic: string, subtopic: string, yearGroup: string): string[] {
+  const standards: Record<string, Record<string, string[]>> = {
+    'Reception': {
+      'default': [
+        'ELG Number: Children count reliably with numbers from 1 to 20',
+        'ELG Number: Children say which number is one more or one less than a given number',
+      ],
+      'counting': [
+        'ELG Number: Children count reliably with numbers from 1 to 20',
+        'ELG Number: Children place numbers in order and say which is more or less',
+      ],
+      'number-bonds': [
+        'ELG Number: Children use quantities and objects to add and subtract two single-digit numbers',
+        'Development Matters: Explore the composition of numbers to 10',
+      ],
+    },
+    'Year 1': {
+      'default': [
+        'NC Year 1: Count to and across 100 forwards and backwards',
+        'NC Year 1: Read and write numbers from 1 to 20 in numerals and words',
+      ],
+      'addition': [
+        'NC Year 1: Add one-digit and two-digit numbers to 20, including zero',
+        'NC Year 1: Represent and use number bonds within 20',
+      ],
+      'subtraction': [
+        'NC Year 1: Subtract one-digit and two-digit numbers to 20, including zero',
+        'NC Year 1: Solve one-step problems involving addition and subtraction',
+      ],
+    },
+    'Year 2': {
+      'default': [
+        'NC Year 2: Count in steps of 2, 3, and 5 from 0, and in tens from any number',
+        'NC Year 2: Recognise the place value of each digit in a two-digit number',
+      ],
+      'addition': [
+        'NC Year 2: Add numbers using concrete objects, pictorial representations, and mentally',
+        'NC Year 2: Recall and use addition facts to 20 fluently',
+      ],
+    },
+    'Year 3': {
+      'default': [
+        'NC Year 3: Count from 0 in multiples of 4, 8, 50 and 100',
+        'NC Year 3: Recognise the place value of each digit in a three-digit number',
+      ],
+    },
+    'Year 4': {
+      'default': [
+        'NC Year 4: Count in multiples of 6, 7, 9, 25 and 1000',
+        'NC Year 4: Recognise the place value of each digit in a four-digit number',
+      ],
+    },
+    'Year 5': {
+      'default': [
+        'NC Year 5: Read, write, order and compare numbers to at least 1,000,000',
+        'NC Year 5: Determine the value of each digit in numbers up to 1,000,000',
+      ],
+    },
+    'Year 6': {
+      'default': [
+        'NC Year 6: Read, write, order and compare numbers up to 10,000,000',
+        'NC Year 6: Use negative numbers in context and calculate intervals across zero',
+      ],
+    },
+  }
+
+  const yearStandards = standards[yearGroup] || {}
+  const subtopicKey = subtopic.toLowerCase().replace(/\s+/g, '-')
+
+  return yearStandards[subtopicKey] || yearStandards['default'] || [
+    `${yearGroup} Mathematics: ${topic} - ${subtopic}`,
+  ]
+}
+
+/**
+ * Generate FAQ section
+ */
+function generateFAQ(
+  title: string,
+  topic: string,
+  subtopic: string,
+  yearGroup: string,
+  questionCount: number
+): Array<{ question: string; answer: string }> {
+  const ageRange = getAgeRange(yearGroup)
+  const estimatedTime = estimateCompletionTime(questionCount, 'average', yearGroup)
+
+  return [
+    {
+      question: `What age is this ${subtopic.split('-').join(' ')} worksheet suitable for?`,
+      answer: `This worksheet is designed for ${yearGroup} students, typically ${ageRange} in UK primary schools. The content and difficulty level are carefully matched to the National Curriculum expectations for this age group.`,
+    },
+    {
+      question: `How long does this worksheet take to complete?`,
+      answer: `Most ${yearGroup} students complete this ${questionCount}-question worksheet in approximately ${estimatedTime} minutes. However, this varies based on individual ability and whether students are working independently or with support.`,
+    },
+    {
+      question: `What skills does this worksheet help develop?`,
+      answer: `This worksheet develops ${topic.toLowerCase()} skills, particularly ${subtopic.split('-').join(' ')}. It also builds transferable skills including problem-solving, concentration, and mathematical reasoning.`,
+    },
+    {
+      question: `Can I use this worksheet for homework?`,
+      answer: `Yes, this worksheet is ideal for homework as it provides focused practice that reinforces classroom learning. The clear layout means children can work independently, though younger students may benefit from adult support.`,
+    },
+    {
+      question: `Is there an answer sheet included?`,
+      answer: `Yes, answers are provided to help parents and teachers quickly check work. The interactive online version also provides immediate feedback for self-marking.`,
+    },
+  ]
 }
 
 /**
