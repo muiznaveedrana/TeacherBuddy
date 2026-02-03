@@ -40,12 +40,12 @@ export function ScoreTracker({ current, total, showPercentage = true }: ScoreTra
         {/* Encouragement Message */}
         {current === 0 && (
           <p className="text-sm mt-2 text-blue-100 text-center">
-            Let's get started! Answer the questions below. 📝
+            Fill in all answers, then submit to see your score! 📝
           </p>
         )}
         {current > 0 && current < total && (
           <p className="text-sm mt-2 text-blue-100 text-center">
-            Great progress! Keep going! 💪
+            Keep going! Submit when done to check your answers. 💪
           </p>
         )}
         {current === total && (

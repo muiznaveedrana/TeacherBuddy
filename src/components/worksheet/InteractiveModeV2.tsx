@@ -283,8 +283,8 @@ export function InteractiveModeV2({ htmlContent, worksheet, onExit }: Interactiv
               disabled={!areAllQuestionsAnswered()}
             >
               {areAllQuestionsAnswered()
-                ? 'Submit Answers 📝'
-                : `Answer all (${parsed.questions.length - countAnsweredQuestions()} left)`
+                ? 'Submit to Check Answers ✓'
+                : `Fill all to submit (${parsed.questions.length - countAnsweredQuestions()} left)`
               }
             </Button>
           ) : (
