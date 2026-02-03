@@ -54,6 +54,8 @@ export function WorksheetLibraryBrowser() {
   const [hasMore, setHasMore] = useState(true)
   const [page, setPage] = useState(0)
   const observerTarget = useRef<HTMLDivElement>(null)
+  // Ref for synchronous loading check (prevents race condition on fast scroll)
+  const loadingMoreRef = useRef(false)
   // Store initial page from URL (read once on mount, not on every searchParams change)
   const initialPageRef = useRef(parseInt(searchParams?.get('page') || '0'))
 
@@ -73,6 +75,7 @@ export function WorksheetLibraryBrowser() {
       setLoading(true)
       setError(null)
       setHasMore(true)
+      loadingMoreRef.current = false // Reset ref when filters change
 
       try {
         // Reset to page 0 when filters change
@@ -81,13 +84,14 @@ export function WorksheetLibraryBrowser() {
         const allWorksheets: LibraryWorksheet[] = []
         let lastHasMore = true
 
-        // Load first page with current filters
-        const params = new URLSearchParams(searchParams?.toString() || '')
-        if (!params.has('sort')) {
-          params.set('sort', 'newest')
-        }
+        // Build params from individual filter values (NOT from searchParams to avoid page dependency)
+        const params = new URLSearchParams()
+        params.set('sort', sortBy)
         params.set('page', '0')
         params.set('limit', '20')
+        if (yearGroup) params.set('year_group', yearGroup)
+        if (topic) params.set('topic', topic)
+        if (subtopic) params.set('subtopic', subtopic)
 
         const response = await fetch(`/api/library/browse?${params.toString()}`)
 
@@ -111,19 +115,27 @@ export function WorksheetLibraryBrowser() {
     }
 
     loadWorksheets()
-  }, [sortBy, yearGroup, topic, subtopic, searchParams])  // Reload when sort OR filters change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortBy, yearGroup, topic, subtopic])  // Only reload when FILTERS change, NOT when page changes
 
   const loadMore = useCallback(async () => {
-    if (loadingMore || !hasMore) return
+    // Use ref for synchronous check - prevents race condition on fast scroll
+    if (loadingMoreRef.current || !hasMore) return
 
+    // Set ref immediately (synchronous) to block concurrent calls
+    loadingMoreRef.current = true
     setLoadingMore(true)
     const nextPage = page + 1
 
     try {
-      const params = new URLSearchParams(searchParams?.toString() || '')
+      // Build params from individual filter values (NOT from searchParams)
+      const params = new URLSearchParams()
+      params.set('sort', sortBy)
       params.set('page', nextPage.toString())
       params.set('limit', '20')
-      params.set('sort', sortBy)
+      if (yearGroup) params.set('year_group', yearGroup)
+      if (topic) params.set('topic', topic)
+      if (subtopic) params.set('subtopic', subtopic)
 
       const response = await fetch(`/api/library/browse?${params.toString()}`)
 
@@ -137,16 +149,22 @@ export function WorksheetLibraryBrowser() {
       setHasMore(data.has_more) // Use backend's has_more flag
 
       // Update URL for SEO and shareability (using History API to avoid scroll reset)
-      const newParams = new URLSearchParams(searchParams?.toString() || '')
-      newParams.set('page', nextPage.toString())
-      window.history.replaceState(null, '', `/library?${newParams.toString()}`)
+      // Note: This updates the URL but does NOT trigger React re-render since we're not using router.push
+      const urlParams = new URLSearchParams()
+      urlParams.set('sort', sortBy)
+      urlParams.set('page', nextPage.toString())
+      if (yearGroup) urlParams.set('year_group', yearGroup)
+      if (topic) urlParams.set('topic', topic)
+      if (subtopic) urlParams.set('subtopic', subtopic)
+      window.history.replaceState(null, '', `/library?${urlParams.toString()}`)
 
     } catch (err) {
       console.error('Failed to load more:', err)
     } finally {
+      loadingMoreRef.current = false
       setLoadingMore(false)
     }
-  }, [loadingMore, hasMore, page, searchParams, sortBy])
+  }, [hasMore, page, sortBy, yearGroup, topic, subtopic]) // Dependencies: filter values + page state
 
   // Infinite scroll using IntersectionObserver
   // IMPORTANT: This must run AFTER worksheets load (when ref div is rendered)
@@ -161,7 +179,8 @@ export function WorksheetLibraryBrowser() {
 
     const observer = new IntersectionObserver(
       entries => {
-        if (entries[0].isIntersecting && hasMore && !loadingMore) {
+        // Use ref for synchronous check - prevents race condition on fast scroll
+        if (entries[0].isIntersecting && hasMore && !loadingMoreRef.current) {
           loadMore()
         }
       },
@@ -173,7 +192,7 @@ export function WorksheetLibraryBrowser() {
     return () => {
       observer.unobserve(currentTarget)
     }
-  }, [loading, worksheets.length, hasMore, loadingMore, loadMore])
+  }, [loading, worksheets.length, hasMore, loadMore]) // Removed loadingMore - using ref instead
 
   // Handle sort change
   const handleSortChange = (newSort: string) => {
