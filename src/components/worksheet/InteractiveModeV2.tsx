@@ -252,10 +252,10 @@ export function InteractiveModeV2({ htmlContent, worksheet, onExit }: Interactiv
                     : 'bg-white border-gray-300'
               }`}
             >
-              {/* Visual checkmark for answered questions */}
+              {/* Visual indicator for answered questions - neutral blue "Filled" badge */}
               {!submitted && isAnswered && (
-                <div className="absolute top-2 right-2 bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold">
-                  ✓
+                <div className="absolute top-2 right-2 bg-blue-500 text-white rounded-full px-3 py-1 flex items-center justify-center text-sm font-medium">
+                  Filled
                 </div>
               )}
 
