@@ -1,4 +1,13 @@
 {
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.freemathprintable.com" }],
+      "destination": "https://freemathprintable.com/:path*",
+      "permanent": true
+    }
+  ],
+  "trailingSlash": false,
   "framework": "nextjs",
   "buildCommand": "npm run build",
   "outputDirectory": ".next",

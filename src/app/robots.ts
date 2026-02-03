@@ -20,11 +20,13 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: [
-          '/',           // Homepage
-          '/library',    // Public worksheet library
-          '/library/*',  // Individual worksheets
-          '/privacy',    // Privacy Policy
-          '/terms',      // Terms of Service
+          '/',                  // Homepage
+          '/library',           // Public worksheet library
+          '/library/*',         // Individual worksheets
+          '/free-printables',   // Free printables hub
+          '/free-printables/*', // Year/topic/subtopic pages
+          '/privacy',           // Privacy Policy
+          '/terms',             // Terms of Service
         ],
         disallow: [
           '/api/*',              // All API routes
