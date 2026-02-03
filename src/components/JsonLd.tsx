@@ -1,3 +1,7 @@
+'use client';
+
+import type { ReactNode } from 'react';
+
 /**
  * JsonLd Component for rendering JSON-LD structured data
  *
@@ -41,12 +45,19 @@ interface MultiJsonLdProps {
   schemas: Record<string, unknown>[];
 }
 
-export function MultiJsonLd({ schemas }: MultiJsonLdProps) {
+export function MultiJsonLd({ schemas }: MultiJsonLdProps): ReactNode {
   return (
     <>
-      {schemas.map((schema, index) => (
-        <JsonLd key={index} schema={schema} />
-      ))}
+      {schemas.map((schema, index) => {
+        const jsonLdString = JSON.stringify(schema, null, 0);
+        return (
+          <script
+            key={index}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: jsonLdString }}
+          />
+        );
+      })}
     </>
   );
 }
