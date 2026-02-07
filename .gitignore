@@ -70,3 +70,9 @@ worksheet-quality-reports/
 *ASSESSMENT*.md
 *REPORT*.md
 prompt-suggestions/
+
+# Claude Code hooks runtime artifacts
+.claude/hooks/logs/
+!.claude/hooks/logs/.gitkeep
+.claude/.build-passed
+.claude/task-queue.json
