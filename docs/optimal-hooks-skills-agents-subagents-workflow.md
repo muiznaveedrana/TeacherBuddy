@@ -40,6 +40,46 @@ A development workflow where Claude Code:
 - **Reports back** — morning reports, deploy alerts, and quality summaries keep you informed
 - **Learns over time** — agent memory accumulates project knowledge across sessions
 
+### Measuring Progress: The Thread Maturity Model
+
+Your impact scales along four vectors. Each phase in this plan advances one or more:
+
+| Vector | Metric | Current | Target |
+|--------|--------|---------|--------|
+| **Parallelism** | Concurrent agents working simultaneously | 1-2 | 5+ (P-Threads) |
+| **Autonomy** | Hours of uninterrupted autonomous work | <1h (token limit) | 8h+ (L-Threads) |
+| **Orchestration** | Agents coordinating other agents | None | Night Worker + specialist delegation (B-Threads) |
+| **Trust** | Human checkpoints per task | Every action | Only deploys + DB changes (approaching Z-Threads) |
+
+**Thread progression** (each phase unlocks the next thread type):
+
+```
+Base Thread     You prompt, agent works, you review.               [Phase 1 - DONE]
+  |
+P-Threads       Multiple agents in parallel terminals/worktrees.   [Phase 5+]
+  |
+C-Threads       Phased work chunked across context windows.        [Phase 5 - PreCompact]
+  |
+B-Threads       Agents orchestrating other agents (Scout/Build/    [Phase 3+5 - night-worker-
+  |              Review pattern).                                    coordinator]
+L-Threads       8+ hours autonomous, thousands of tool calls.      [Phase 5 - Night Worker]
+  |
+Z-Threads       Zero human review — system is trusted.             [North Star — earned
+                                                                     through Phases 2-6]
+```
+
+### Agentic Layer Classes
+
+The "Agentic Layer" surrounds your codebase with intelligence. We progress through three classes:
+
+| Class | What It Means | Our Status | Phase to Complete |
+|-------|--------------|-----------|-------------------|
+| **Class 1** | Memory files (CLAUDE.md), priming prompts, basic context | **DONE** — CLAUDE.md optimized, CONTEXT.md, session-start hook, `/primer` command | Phase 1 |
+| **Class 2** | Specialized agents with memory, tool constraints, skill preloading, and deferral rules | **In Progress** — 9 agents exist but lack memory/maxTurns/skills | Phase 2 + 3 |
+| **Class 3** | AI-powered hooks (prompt-type), closed-loop validation, custom MCP tools, agents spawning agents | **Planned** — deploy pipeline, Night Worker orchestration, prompt hooks | Phase 4 + 5 + 6 |
+
+The **Agentic Singularity** is when Class 3 becomes so robust that agents ship and maintain the software better than you can personally. Each phase below moves toward this goal.
+
 ### Three-Tier Safety Model
 
 ```
@@ -975,7 +1015,115 @@ SubagentStop:
       command: "npx tsc --noEmit"
 ```
 
-### 8.8 Files to Create
+### 10.8 AI-Powered Intent Hook — Non-Deterministic Armor (prompt-type)
+
+> **Critical gap identified**: All current hooks are `type: "command"` (regex-based). Regex catches patterns but cannot analyze *intent*. A `type: "prompt"` hook uses an LLM to evaluate whether a command is dangerous — catching hallucinations that regex misses entirely.
+
+**Event**: PreToolUse (Bash commands only)
+**Hook type**: `prompt` (single-turn LLM evaluation)
+
+```json
+{
+  "PreToolUse": [{
+    "matcher": "Bash",
+    "hooks": [{
+      "type": "prompt",
+      "prompt": "Analyze this bash command for safety. The command is: {{tool_input.command}}\n\nCheck for:\n1. Data destruction (rm -rf on non-temp directories, DROP TABLE, TRUNCATE)\n2. Production access (connecting to prod database, deploying without tests)\n3. Credential exposure (echoing secrets, piping env vars)\n4. Irreversible operations (force push, hard reset)\n\nIf the command is safe, respond: {\"decision\": \"allow\"}\nIf dangerous, respond: {\"decision\": \"block\", \"reason\": \"explanation\"}",
+      "timeout": 10
+    }]
+  }]
+}
+```
+
+**Why this matters**: The existing regex-based `pre-tool-use.js` catches known patterns (`git push --force`, `rm -rf src/`). But an AI-powered hook catches *novel* dangerous commands the regex never anticipated — like `npx supabase db execute --db-url $PROD_URL "DELETE FROM library_worksheets"`. This is the "Non-Deterministic Armor" that scales with thousands of tool calls.
+
+**Cost**: ~$0.001 per Bash command evaluation (Haiku). At 500 Bash calls per session, ~$0.50/session.
+
+**Activation strategy**: Deploy in `log-only` mode first (exit 0 always, log verdicts). After 1 week of validation, switch to blocking mode (exit 2 on "block" verdict). This prevents false positives from disrupting work.
+
+### 10.9 Parallel Workspace Script — Unlocking P-Threads
+
+> **Key insight from blog**: "Boris Cherny Setup — run 5 agents in parallel terminals." Our current workflow is 1 agent at a time. Git worktrees enable true parallel branch work without merge conflicts.
+
+**File**: `scripts/parallel-workspace.ps1`
+
+**What it does**:
+```
+parallel-workspace.ps1 -Workers 3 -Tasks "task1.md,task2.md,task3.md"
+  |
+  v
+Create git worktrees:
+  worktrees/worker-1/ (branch: parallel/worker-1)
+  worktrees/worker-2/ (branch: parallel/worker-2)
+  worktrees/worker-3/ (branch: parallel/worker-3)
+  |
+  v
+Launch Claude in each worktree with its specific task file
+  |
+  v
+Each agent works independently on its own branch
+  |
+  v
+On completion: merge branches back to feature branch
+```
+
+**Use cases**:
+- Run code-reviewer + security-reviewer in parallel (different worktrees, same files)
+- Generate Year 1, Year 2, Year 3 worksheets simultaneously
+- Fix tests in 3 year groups overnight in parallel
+
+**Shared coordination**: Set `CLAUDE_CODE_TASK_LIST_ID` so all workers share one task list. Workers claim tasks from the shared pool — no duplicate work.
+
+### 10.10 Context Priming Command — Focused Agent Setup
+
+> **Blog insight**: "Use Context Priming — reusable /prime commands that set up a focused agent for a specific task." A primed agent has the exact context it needs, nothing more.
+
+**Enhancement to existing `/primer` command**: Add task-specific priming modes.
+
+```
+/primer test    → Loads: e2e-test-patterns, test coverage plan, recent test failures
+/primer deploy  → Loads: deployment checklist, last deploy log, health check endpoints
+/primer quality → Loads: worksheet quality criteria, recent assessment results, learnings
+/primer night   → Loads: task-queue.json, CONTEXT.md, Night Worker safety rules
+```
+
+Each mode injects a focused context set instead of the generic project overview. This keeps the agent's context window lean for the specific task.
+
+### 10.11 Closed-Loop Validation Pattern — Request/Validate/Resolve
+
+> **Class 3 pattern**: Agents that validate their own work before declaring it done, creating a self-correcting loop.
+
+```
+Agent generates code
+  |
+  v
+Agent runs verification (tsc --noEmit, tests, lint)
+  |-- FAIL --> Agent reads errors, fixes, loops back to verification
+  |-- PASS after 3+ attempts --> Escalate to human
+  |-- PASS
+  v
+Agent marks task complete
+  |
+  v
+TaskCompleted hook runs independent verification
+  |-- FAIL --> Block completion, feed errors back
+  |-- PASS
+  v
+Task truly done
+```
+
+This eliminates the common failure mode where agents declare "done" when build is broken. The combination of agent self-verification + hook-based independent verification creates two layers of quality assurance.
+
+**Implementation**: Add to each agent's system prompt:
+```
+After making code changes, ALWAYS verify your work:
+1. Run `npx tsc --noEmit` to check types
+2. If you edited tests, run them
+3. If verification fails, fix the issue before reporting completion
+4. Maximum 3 self-fix attempts, then escalate to user
+```
+
+### 10.12 Files to Create
 
 | File | Purpose |
 |------|---------|
@@ -984,6 +1132,8 @@ SubagentStop:
 | `.claude/hooks/subagent-observer.js` | Subagent lifecycle logging |
 | `.claude/hooks/failure-tracker.js` | Tool failure pattern detection |
 | `.claude/hooks/session-end.js` | Cleanup and session summary |
+| `.claude/hooks/intent-safety.json` | Prompt-type hook config for AI-powered Bash command analysis |
+| `scripts/parallel-workspace.ps1` | Git worktree manager for parallel agents |
 
 ---
 
@@ -1332,6 +1482,7 @@ Rename-Item .claude\settings.local.json.bak .claude\settings.local.json
     subagent-observer.js               # Agent lifecycle logging
     failure-tracker.js                 # Error pattern detection
     session-end.js                     # Cleanup
+    intent-safety.json                 # AI-powered prompt-type hook config (Non-Deterministic Armor)
 
     logs/                              # All hook logs (gitignored)
       stop-quality-gate.log
@@ -1382,6 +1533,7 @@ Rename-Item .claude\settings.local.json.bak .claude\settings.local.json
 
 scripts/
   night-worker.ps1                     # External watchdog script (Phase 5)
+  parallel-workspace.ps1               # Git worktree manager for P-Threads (Phase 6)
 ```
 
 ### All 13 Agents (Final State)
@@ -1531,41 +1683,92 @@ scripts/
 
 ## 16. Implementation Priority & Dependencies
 
+### Gap Analysis (Assessed Against Agentic Singularity Framework)
+
+| Area | Current Score | Target | Biggest Gap |
+|------|-------------|--------|------------|
+| Core 4 (Context/Model/Prompt/Tools) | 73% | 90%+ | No `memory:` on agents, no model tier strategy active |
+| Thread Engineering | 37% | 70%+ | No L-Threads (overnight), no P-Threads (parallel worktrees) |
+| Agentic Layer Class | Class 1→2 transition | Solid Class 3 | No prompt-type hooks, no closed-loop validation |
+| Context R&D | 70% | 85%+ | No agent memory = context not truly delegated |
+| Non-Deterministic Armor | 52% | 80%+ | All hooks are regex-based; no AI-powered intent analysis |
+| Four Vectors (Para/Auto/Orch/Trust) | 35% | 65%+ | Single-terminal workflow, no auto-resume |
+
+### Priority-Ordered Implementation (Maximum Impact Per Hour)
+
+Based on the gap analysis, the implementation order is re-prioritized by **impact**, not just dependencies:
+
+```
+IMMEDIATE (Highest ROI — unlocks everything else)
+═══════════════════════════════════════════════════
+Phase 2: Agent & Skill Upgrades              [2-3h]  ← Transforms Class 1 → Class 2
+  │  Adds: memory, maxTurns, disallowedTools, skills to all 9 agents + 8 skills
+  │  Unlocks: Agent learning, tool constraints, focused context delegation
+  │  Thread impact: Thicker threads (better orchestration)
+  │
+Phase 3: New Agents & Skills                 [3-4h]  ← Fills critical specialist gaps
+  │  Creates: build-error-resolver, deploy-verifier, db-migration-expert, night-worker-coordinator
+  │  Unlocks: B-Threads (agents orchestrating agents), deploy safety, auto-recovery
+  │
+HIGH PRIORITY (Unlock autonomy)
+═══════════════════════════════════════════════════
+Phase 5: Night Worker                        [4-5h]  ← Unlocks L-Threads
+  │  Creates: pre-compact.js, task-completed-gate.js, night-worker.ps1
+  │  Unlocks: 8+ hours autonomous work, auto-resume on token limit, morning reports
+  │  Thread impact: Long-duration threads — the payoff for all prior work
+  │
+Phase 4: Deployment Pipeline                 [2-3h]  ← Safe production workflow
+  │  Creates: deploy-verify.js, post-deploy-health.js, db-promote-gate.js
+  │  Unlocks: Automated deploy verification, reduces human checkpoints for deploys
+  │  Thread impact: Fewer human-in-the-loop checkpoints (Trust vector)
+  │
+STRATEGIC (Class 3 capabilities)
+═══════════════════════════════════════════════════
+Phase 6: Intelligence & Observability        [4-5h]  ← Unlocks Class 3
+    Creates: AI-powered intent hook (prompt-type), parallel workspace script,
+             context priming, subagent observer, failure tracker, closed-loop validation
+    Unlocks: P-Threads (parallel worktrees), non-deterministic armor, self-healing agents
+    Thread impact: Parallel + thicker threads, approaching Z-Thread trust level
+```
+
 ### Dependency Graph
 
 ```
-Phase 1 (DONE) ─────────────────────────────────────────────────┐
-                                                                  │
-Phase 2 (Agent & Skill Upgrades) ──┐                             │
-  No dependencies on Phase 1       │                             │
-  Can start immediately            │                             │
-                                   ├── Phase 3 (New Agents)      │
-Phase 2 must finish first ─────────┘   Needs upgraded skills    │
-                                          │                      │
-                                          ├── Phase 4 (Deploy Pipeline)
-                                          │   Needs deploy-verifier agent
-                                          │
-                                          ├── Phase 5 (Night Worker)
-                                          │   Needs night-worker-coordinator
-                                          │   Needs build-error-resolver
-                                          │
-                                          └── Phase 6 (Intelligence)
-                                              Needs subagent-observer for agents
-                                              Can partially start in parallel
+Phase 1 (DONE) ──────────────────────────────────────────────────────────┐
+CLAUDE.md (DONE) ────────────────────────────────────────────────────────┤
+Path-Scoped Rules (DONE) ───────────────────────────────────────────────┤
+                                                                         │
+Phase 2 (Agent & Skill Upgrades) ──┐  ← START HERE                     │
+  No dependencies, immediate start  │                                    │
+                                    ├── Phase 3 (New Agents)             │
+                                    │     │                              │
+                                    │     ├── Phase 5 (Night Worker)     │
+                                    │     │     L-Threads unlocked       │
+                                    │     │                              │
+                                    │     ├── Phase 4 (Deploy Pipeline)  │
+                                    │     │     Trust vector advances    │
+                                    │     │                              │
+                                    │     └── Phase 6 (Intelligence)     │
+                                    │           P-Threads + Class 3      │
+                                    │           AI-powered hooks         │
+                                    │           Parallel workspaces      │
+                                    │                                    │
+                                    └────────────────────────────────────┘
 ```
 
-### Implementation Order
+### Phase-to-Thread Mapping
 
-| Phase | Effort | Risk | Dependencies | What Gets Built |
-|-------|--------|------|-------------|----------------|
-| **Phase 1** | DONE | — | None | 5 hooks (safety, lint, type-check, context, notification) |
-| **Phase 2** | 2-3h | LOW | None | Frontmatter on 9 agents + 8 skills |
-| **Phase 3** | 3-4h | LOW | Phase 2 | 4 new agents + 3 new skills |
-| **Phase 4** | 2-3h | MED | Phase 3 | 3 deploy hooks |
-| **Phase 5** | 4-5h | MED | Phase 3 | 2 hooks + watchdog script |
-| **Phase 6** | 3-4h | LOW | Phase 3 | 5 observability hooks |
+| Phase | Thread Types Unlocked | Agentic Class | Key Capability |
+|-------|----------------------|--------------|----------------|
+| Phase 1 (DONE) | Base Thread | Class 1 | Safety armor (Exit Code 2), quality gates |
+| CLAUDE.md (DONE) | Base Thread (optimized) | Class 1 | Context efficiency (-63% bloat) |
+| Phase 2 | Thicker Base Threads | Class 1→2 | Agent memory, constraints, skill preloading |
+| Phase 3 | B-Threads (orchestration) | Class 2 | Specialist agents, delegation, Scout/Build/Review |
+| Phase 4 | Fewer checkpoints | Class 2 | Automated deploy verification |
+| Phase 5 | L-Threads + C-Threads | Class 2→3 | Overnight autonomy, auto-resume, context persistence |
+| Phase 6 | P-Threads + approaching Z | Class 3 | AI intent hooks, parallel worktrees, closed-loop validation |
 
-**Total estimated effort**: 15-19 hours across Phases 2-6
+### Total Effort: 16-20 hours across Phases 2-6
 
 ### Checkpoint Strategy
 
@@ -1581,13 +1784,22 @@ After each phase:
 1. Each phase committed to `feature/claude-code-hooks`
 2. After Phase 5 (Night Worker), merge to master
 3. Tag as `v1.0-hooks-agents-skills`
-4. Phase 6 can continue on a new feature branch (lower priority)
+4. Phase 6 can continue on a new feature branch
+
+### Success Criteria (When Are We Done?)
+
+| Milestone | Criteria | Target Thread |
+|-----------|----------|--------------|
+| **MVP** | All agents have memory + constraints. Night Worker runs 2+ hours unattended. | L-Thread (basic) |
+| **Production** | Deploy pipeline automated. Morning reports generated. 3+ parallel agents. | L-Thread + P-Thread |
+| **Advanced** | AI-powered hooks catch novel dangers. Agents self-correct without human. Closed-loop validation. | Approaching Z-Thread |
+| **Singularity** | You sleep 8 hours, wake up to a morning report with all tasks done, all tests passing, code reviewed. You merge and deploy. | Z-Thread |
 
 ---
 
 > **This document is the single source of truth** for the hooks, skills, agents, and subagents workflow. Update this document as phases are completed. Mark phases as DONE with completion dates.
 >
-> **Applicable to any software project**: The patterns in sections 1-4 (Vision, Research, CLAUDE.md Strategy, Task System) are universal. Sections 5-16 are project-specific implementations that serve as concrete examples.
+> **Applicable to any software project**: The patterns in sections 1-4 (Vision, Research, CLAUDE.md Strategy, Task System) and the Thread Maturity Model are universal. Sections 5-16 are project-specific implementations that serve as concrete examples of each pattern.
 >
 > **Last updated**: 2026-02-07
-> **Current status**: Phase 1 COMPLETED. CLAUDE.md optimized (170->63 lines). Path-scoped rules created. Phases 2-6 planned.
+> **Current status**: Phase 1 COMPLETED. CLAUDE.md optimized (170->63 lines). Path-scoped rules created. Gap analysis scored 50% against Agentic Singularity framework. Phases 2-6 planned with priority-ordered implementation.
