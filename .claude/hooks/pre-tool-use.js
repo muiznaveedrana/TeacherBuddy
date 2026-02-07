@@ -83,8 +83,8 @@ function checkBashCommand(command) {
 
   const cmd = command.toLowerCase().trim();
 
-  // Block force pushes to master/main
-  if (/git\s+push\s+.*--force/.test(cmd) && /(master|main)/.test(cmd)) {
+  // Block force pushes to master/main (catches --force, --force-with-lease, -f)
+  if (/git\s+push\s+.*(-f|--force|--force-with-lease)\b/.test(cmd) && /\b(master|main)\b/.test(cmd)) {
     block('Force push to master/main is not allowed. Use a feature branch.');
   }
 
@@ -137,9 +137,9 @@ function checkBashCommand(command) {
     escalate('Database promotion to production detected. This will copy DEV worksheets to PROD. Please confirm.');
   }
 
-  // Block dropping database tables
-  if (/drop\s+table/i.test(cmd) || /truncate\s+table/i.test(cmd)) {
-    block('DROP/TRUNCATE TABLE commands are not allowed via Claude Code.');
+  // Block dropping database tables/schemas
+  if (/drop\s+table/i.test(cmd) || /truncate\s+table/i.test(cmd) || /drop\s+schema/i.test(cmd)) {
+    block('DROP/TRUNCATE TABLE/SCHEMA commands are not allowed via Claude Code.');
   }
 }
 
@@ -149,14 +149,14 @@ function checkFileAccess(filePath, toolName) {
   const normalized = filePath.replace(/\\/g, '/').toLowerCase();
   const basename = path.basename(normalized);
 
-  // Block access to sensitive env files
-  for (const sensitive of SENSITIVE_FILES) {
-    if (basename === sensitive.toLowerCase() || normalized.endsWith(sensitive.toLowerCase())) {
-      if (toolName === 'Read') {
-        block(`Reading "${sensitive}" is not allowed. Use environment variables or .env.example instead.`);
-      } else {
-        block(`Modifying "${sensitive}" is not allowed. Edit environment variables via Vercel dashboard or manually.`);
-      }
+  // Block access to sensitive env files (including .env.local.bak, .env.old, etc.)
+  if (basename.startsWith('.env') || basename === 'credentials.json') {
+    // Allow .env.example and .env.sample
+    if (basename === '.env.example' || basename === '.env.sample') return;
+    if (toolName === 'Read') {
+      block(`Reading "${basename}" is not allowed. Use environment variables or .env.example instead.`);
+    } else {
+      block(`Modifying "${basename}" is not allowed. Edit environment variables via Vercel dashboard or manually.`);
     }
   }
 
@@ -205,7 +205,7 @@ async function main() {
 }
 
 main().catch((err) => {
-  // Non-blocking error — log but don't block
-  process.stderr.write(`Hook error: ${err.message}\n`);
-  process.exit(1);
+  // Fail-closed: block the operation if the hook itself errors
+  process.stderr.write(`Safety hook error (blocking for safety): ${err.message}\n`);
+  process.exit(2);
 });

@@ -48,6 +48,14 @@ function ensureLogDir() {
 function log(entry) {
   ensureLogDir();
   const logFile = path.join(HOOK_LOG, 'stop-quality-gate.log');
+  // Rotate log if > 1MB
+  try {
+    const stat = fs.statSync(logFile);
+    if (stat.size > 1024 * 1024) {
+      const rotated = logFile.replace('.log', `.${Date.now()}.log`);
+      fs.renameSync(logFile, rotated);
+    }
+  } catch { /* file doesn't exist yet */ }
   const timestamp = new Date().toISOString();
   const line = `[${timestamp}] ${JSON.stringify(entry)}\n`;
   fs.appendFileSync(logFile, line);
@@ -56,16 +64,18 @@ function log(entry) {
 function hasRecentCodeChanges() {
   try {
     // Check git diff for staged + unstaged changes to source files
-    const diff = execSync('git diff --name-only HEAD 2>nul', {
+    const diff = execSync('git diff --name-only HEAD', {
       cwd: PROJECT_DIR,
       encoding: 'utf8',
       timeout: 10000,
+      stdio: ['pipe', 'pipe', 'pipe'],
     }).trim();
 
-    const stagedDiff = execSync('git diff --cached --name-only 2>nul', {
+    const stagedDiff = execSync('git diff --cached --name-only', {
       cwd: PROJECT_DIR,
       encoding: 'utf8',
       timeout: 10000,
+      stdio: ['pipe', 'pipe', 'pipe'],
     }).trim();
 
     const allChanged = [...new Set([...diff.split('\n'), ...stagedDiff.split('\n')])].filter(Boolean);
@@ -83,24 +93,25 @@ function hasRecentCodeChanges() {
   }
 }
 
-function runBuildCheck() {
+function runTypeCheck() {
   try {
-    execSync('npm run build', {
+    execSync('npx tsc --noEmit', {
       cwd: PROJECT_DIR,
       encoding: 'utf8',
-      timeout: 120000, // 2 min timeout for build
+      timeout: 60000, // 60s — much faster than full build
       stdio: ['pipe', 'pipe', 'pipe'],
     });
     return { success: true };
   } catch (err) {
     const stderr = err.stderr || '';
     const stdout = err.stdout || '';
-    // Extract the most relevant error lines
     const output = (stderr + '\n' + stdout).split('\n');
     const errorLines = output.filter((l) =>
-      /error|Error|failed|Failed|FAIL/.test(l)
+      /error TS\d+/.test(l)
     ).slice(0, 15);
-    return { success: false, errors: errorLines.join('\n') };
+    const countMatch = (stderr + stdout).match(/Found (\d+) error/);
+    const count = countMatch ? countMatch[1] : errorLines.length;
+    return { success: false, errors: errorLines.join('\n'), count };
   }
 }
 
@@ -172,23 +183,25 @@ async function main() {
 
   const reasons = [];
 
-  // Check 1: Build verification if source code was changed
+  // Check 1: Type-check verification if source code was changed
+  // Uses fast tsc --noEmit (~15-30s) instead of full build (~2min)
+  // Full build is reserved for the PreToolUse deploy gate
   if (hasRecentCodeChanges()) {
-    log({ event: 'code_changes_detected', action: 'running_build' });
-    const buildResult = runBuildCheck();
+    log({ event: 'code_changes_detected', action: 'running_typecheck' });
+    const typeResult = runTypeCheck();
 
-    if (!buildResult.success) {
+    if (!typeResult.success) {
       removeBuildMarker();
-      log({ event: 'build_failed', errors: buildResult.errors });
+      log({ event: 'typecheck_failed', errors: typeResult.errors, count: typeResult.count });
       process.stderr.write(
-        `Build verification FAILED after code changes. Fix the build errors before stopping:\n\n${buildResult.errors}\n\nRun "npm run build" to see full output.`
+        `Type-check FAILED after code changes (${typeResult.count} error(s)). Fix type errors before stopping:\n\n${typeResult.errors}\n\nRun "npx tsc --noEmit" to see full output.`
       );
       process.exit(2);
     }
 
-    // Build passed — create marker for deploy gate
+    // Type-check passed — create marker for deploy gate
     createBuildMarker();
-    log({ event: 'build_passed', action: 'marker_created' });
+    log({ event: 'typecheck_passed', action: 'marker_created' });
   }
 
   // Check 2: Task queue (for Night Worker pattern)

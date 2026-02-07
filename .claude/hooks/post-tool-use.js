@@ -80,32 +80,20 @@ async function main() {
     process.exit(0);
   }
 
-  // 1. Lint + auto-fix (replaces the old shell-based lint hook)
-  const lintResult = runSilent('npm run lint -- --fix 2>nul');
+  // 1. Lint + auto-fix — scoped to the changed file only (fast)
+  // Uses next lint --file for targeted linting instead of full project scan
+  const relativePath = path.relative(PROJECT_DIR, filePath).replace(/\\/g, '/');
+  const lintResult = runSilent(`npx next lint --file "${relativePath}" --fix`);
   if (!lintResult.success) {
-    // Extract just the error count
     const errorMatch = lintResult.output.match(/(\d+)\s+error/);
     if (errorMatch) {
-      feedback.push(`Lint: ${errorMatch[1]} error(s) remain after auto-fix`);
+      feedback.push(`Lint: ${errorMatch[1]} error(s) in ${path.basename(filePath)}`);
     }
   }
 
-  // 2. TypeScript type-check for .ts/.tsx files
-  if (isTypeScriptFile(filePath)) {
-    const tscResult = runSilent('npx tsc --noEmit --pretty 2>&1', 60000);
-    if (!tscResult.success) {
-      // Extract error count and first few errors
-      const lines = tscResult.output.split('\n');
-      const errorLines = lines.filter((l) => /error TS\d+/.test(l)).slice(0, 5);
-      const countMatch = tscResult.output.match(/Found (\d+) error/);
-      const count = countMatch ? countMatch[1] : errorLines.length;
-
-      if (parseInt(count) > 0) {
-        feedback.push(`TypeScript: ${count} type error(s) detected`);
-        errorLines.forEach((l) => feedback.push(`  ${l.trim()}`));
-      }
-    }
-  }
+  // 2. TypeScript type-check deferred to Stop hook for performance
+  // Running tsc --noEmit after every edit is too slow (~30-60s)
+  // The Stop hook runs it once before Claude finishes
 
   // 3. Targeted test run if a test file was edited
   if (isTestFile(filePath)) {

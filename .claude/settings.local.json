@@ -136,7 +136,7 @@
           {
             "type": "command",
             "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/stop-quality-gate.js\"",
-            "timeout": 180
+            "timeout": 90
           }
         ]
       }
@@ -157,7 +157,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "powershell -Command \"[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('Task completed', 'Claude Code')\""
+            "command": "powershell -Command \"[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('Task completed', 'Claude Code')\"",
+            "timeout": 30
           }
         ]
       }
