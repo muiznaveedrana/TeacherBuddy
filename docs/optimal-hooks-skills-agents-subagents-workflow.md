@@ -11,18 +11,20 @@
 
 1. [Vision & Architecture](#1-vision--architecture)
 2. [Research Foundations](#2-research-foundations)
-3. [Phase 1: Safety & Quality Hooks (COMPLETED)](#3-phase-1-safety--quality-hooks-completed)
-4. [Phase 2: Agent & Skill Upgrades](#4-phase-2-agent--skill-upgrades)
-5. [Phase 3: New Agents & Skills](#5-phase-3-new-agents--skills)
-6. [Phase 4: Deployment Pipeline](#6-phase-4-deployment-pipeline)
-7. [Phase 5: Night Worker — Autonomous 24-Hour Operation](#7-phase-5-night-worker--autonomous-24-hour-operation)
-8. [Phase 6: Worksheet Intelligence & Observability](#8-phase-6-worksheet-intelligence--observability)
-9. [All 14 Hook Events — Complete Architecture](#9-all-14-hook-events--complete-architecture)
-10. [Human-in-the-Loop Decision Guide](#10-human-in-the-loop-decision-guide)
-11. [Example Scenarios: 24-Hour Autonomous Operation](#11-example-scenarios-24-hour-autonomous-operation)
-12. [Emergency Procedures](#12-emergency-procedures)
-13. [Complete Inventory (Final State)](#13-complete-inventory-final-state)
-14. [Implementation Priority & Dependencies](#14-implementation-priority--dependencies)
+3. [CLAUDE.md Optimization Strategy](#3-claudemd-optimization-strategy)
+4. [Task System & Agentic Orchestration](#4-task-system--agentic-orchestration)
+5. [Phase 1: Safety & Quality Hooks (COMPLETED)](#5-phase-1-safety--quality-hooks-completed)
+6. [Phase 2: Agent & Skill Upgrades](#6-phase-2-agent--skill-upgrades)
+7. [Phase 3: New Agents & Skills](#7-phase-3-new-agents--skills)
+8. [Phase 4: Deployment Pipeline](#8-phase-4-deployment-pipeline)
+9. [Phase 5: Night Worker — Autonomous 24-Hour Operation](#9-phase-5-night-worker--autonomous-24-hour-operation)
+10. [Phase 6: Worksheet Intelligence & Observability](#10-phase-6-worksheet-intelligence--observability)
+11. [All 14 Hook Events — Complete Architecture](#11-all-14-hook-events--complete-architecture)
+12. [Human-in-the-Loop Decision Guide](#12-human-in-the-loop-decision-guide)
+13. [Example Scenarios: 24-Hour Autonomous Operation](#13-example-scenarios-24-hour-autonomous-operation)
+14. [Emergency Procedures](#14-emergency-procedures)
+15. [Complete Inventory (Final State)](#15-complete-inventory-final-state)
+16. [Implementation Priority & Dependencies](#16-implementation-priority--dependencies)
 
 ---
 
@@ -142,7 +144,211 @@ TIER 3 — SOFT GATES (Stop/TaskCompleted hooks)
 
 ---
 
-## 3. Phase 1: Safety & Quality Hooks (COMPLETED)
+## 3. CLAUDE.md Optimization Strategy
+
+> **Status**: IMPLEMENTED — CLAUDE.md restructured from 170 lines to 63 lines (63% reduction)
+> **Key insight**: Vercel's research showed skills are skipped 56% of the time, but CLAUDE.md content achieves 100% compliance because it's always in context.
+
+### 3.1 The Golden Rule
+
+**For every line in CLAUDE.md, ask: "Would removing this cause Claude to make mistakes?" If not, cut it.**
+
+A bloated CLAUDE.md causes Claude to ignore your actual instructions. Frontier LLMs can follow approximately 150-200 instructions reliably. Since Claude Code's system prompt already has ~50 instructions, your CLAUDE.md budget is **~100-150 instructions maximum**.
+
+### 3.2 The Five Tools — When to Use Each
+
+| Tool | Loading | Use When | Context Cost |
+|------|---------|----------|-------------|
+| **CLAUDE.md** | Always loaded, every turn | Rules that apply universally to every task | Permanent — every token costs on every turn |
+| **`.claude/rules/`** | Path-scoped, on-demand | Rules for specific directories/file types | Near-zero when not working in those paths |
+| **Skills** | Auto-discovered by description | Domain knowledge needed sometimes | Only name+description pre-loaded (~50 tokens each) |
+| **Slash Commands** | Manually invoked via `/command` | Explicit, repeatable workflows | Zero until invoked |
+| **Hooks** | Deterministic, event-driven | Actions that MUST happen 100% of the time | Zero context cost — runs as external process |
+
+### 3.3 Decision Framework
+
+```
+Does this need to happen 100% of the time, no exceptions?
+  YES --> Use a HOOK (deterministic, guaranteed, zero context cost)
+  NO  -->
+    Does this apply to every task in every session?
+      YES --> Put in CLAUDE.md (always loaded, kept concise)
+      NO  -->
+        Does it apply only when editing specific file types?
+          YES --> Put in .claude/rules/ with path glob (loaded on-demand)
+          NO  -->
+            Should Claude auto-detect when to use it?
+              YES --> Create a SKILL (auto-discovered by description)
+              NO  --> Create a SLASH COMMAND (manually triggered, zero cost)
+```
+
+### 3.4 CLAUDE.md Structure (Optimal Pattern)
+
+```markdown
+# Project Name
+One-sentence description.
+
+## Commands          # What Claude can't guess
+## Environment       # Quirks and constraints
+## Testing           # How to run tests, conventions
+## Deployment        # Production workflow
+## Key Documents     # Pointers, not copies
+## Path-Scoped Rules # Reference to .claude/rules/ (documentation)
+## Skills & Commands # Quick reference of available /commands
+```
+
+**What belongs**: Commands Claude can't guess, conventions that differ from defaults, environment quirks, pointers to detailed docs.
+
+**What does NOT belong**: Standard language conventions, detailed API docs (link instead), trigger phrases with multi-line instructions (use commands), time-sensitive information, anything Claude already does correctly.
+
+### 3.5 Path-Scoped Rules (`.claude/rules/`)
+
+Rules load only when Claude reads/edits files matching the glob pattern. This is the most context-efficient way to deliver domain-specific guidance:
+
+| Rule File | Loads When | Content |
+|-----------|-----------|---------|
+| `e2e-testing.md` | Editing `tests/e2e/**/*.ts` | Playwright patterns, cookie consent, fill() |
+| `supabase.md` | Editing `supabase/**/*` | DB safety, migration files, RLS |
+| `worksheet-prompts.md` | Editing `src/lib/prompts/**/*` | Curriculum taxonomy, image catalogs, answer keys |
+| `nextjs-app.md` | Editing `src/app/**/*` | App Router, server components, Zod |
+
+### 3.6 Anti-Patterns to Avoid
+
+| Anti-Pattern | Why It's Bad | Fix |
+|-------------|-------------|-----|
+| **Trigger phrase accumulation** | 15+ triggers with multi-line instructions permanently consuming context | Move to `/commands` or skills |
+| **Using CLAUDE.md as a linter** | "Use 2 spaces for indentation" — use ESLint/Prettier instead | Delete; use deterministic tools |
+| **Negative-only constraints** | "Never use X" without providing alternative Y | Always provide alternatives |
+| **Excessive @-mentions** | Importing full files wastes context | Tell Claude **when** to read files, not import them |
+| **Duplicating what Claude knows** | Explaining React hooks, TypeScript generics | Only document what Claude can't infer from code |
+| **Auto-generated without pruning** | `/init` output accepted verbatim | Use as starting point, then ruthlessly edit |
+
+### 3.7 Memory Hierarchy (Priority Order)
+
+| Level | Location | Shared | Priority |
+|-------|----------|--------|----------|
+| User memory | `~/.claude/CLAUDE.md` | Just you | Lowest |
+| Project memory | `./CLAUDE.md` | Team (git) | Medium |
+| Project rules | `./.claude/rules/*.md` | Team (git) | Medium (path-scoped) |
+| Project local | `./CLAUDE.local.md` | Just you | Highest |
+| Auto memory | `~/.claude/projects/*/memory/` | Just you | Auto-managed |
+
+Parent directory CLAUDE.md files load recursively upward. Child directory CLAUDE.md files load on-demand when Claude reads files in those directories.
+
+### 3.8 What We Changed
+
+**Before** (170 lines): Trigger phrases for snip, NotebookLM auth, worksheet assessment criteria, library implementation strategy, prompt engineering docs — all permanently in context.
+
+**After** (63 lines): Only universally applicable rules. Everything else moved to:
+- `/snip`, `/assess`, `/access-notebook` — slash commands (zero context when not used)
+- `.claude/rules/e2e-testing.md` — loads only when editing test files
+- `.claude/rules/supabase.md` — loads only when editing database files
+- `.claude/rules/worksheet-prompts.md` — loads only for prompt engineering
+- `.claude/rules/nextjs-app.md` — loads only for app code
+
+**Result**: 63% less permanent context, same functionality, better reliability.
+
+---
+
+## 4. Task System & Agentic Orchestration
+
+> **Key finding**: The Claude Code Task System (TaskCreate, TaskUpdate, TaskList, TaskGet) enables structured multi-step autonomous workflows with dependency graphs, subagent delegation, and multi-session persistence.
+
+### 4.1 Task System Overview
+
+Tasks persist to disk as JSON files, surviving context resets, session crashes, and machine restarts. They provide:
+- **Dependency graphs**: `addBlockedBy` creates a DAG — tasks only start when prerequisites complete
+- **Subagent delegation**: Tasks can be assigned to specialist agents via the `owner` field
+- **Multi-session coordination**: Multiple Claude terminals can share the same task list
+- **Dynamic discovery**: Subagents can create NEW tasks discovered during execution
+
+### 4.2 Task Patterns for This Project
+
+#### Pattern A: Spec-Driven Development (SDD)
+
+The most structured approach for major features:
+
+```
+Phase 1 (Research): "Create a comprehensive specification for [feature]"
+  → Produces spec.md with requirements, architecture, edge cases
+  → Human reviews and approves spec
+
+Phase 2 (Execute): "Implement the specification using tasks with subagents"
+  → Claude creates task DAG from spec
+  → Each task delegated to appropriate specialist agent
+  → Atomic commits after each task
+```
+
+**Real example**: SQLite to IndexedDB migration — 14 tasks, 14 atomic commits, 15+ files changed, one afternoon.
+
+#### Pattern B: Fan-Out / Fan-In (Parallel Work)
+
+```javascript
+// Fan out: independent tasks run in parallel
+TaskCreate({ subject: "Review frontend code" })           // #1
+TaskCreate({ subject: "Review backend code" })             // #2
+TaskCreate({ subject: "Review database migrations" })      // #3
+
+// Fan in: dependent task waits for all
+TaskCreate({ subject: "Synthesize review findings" })      // #4
+TaskUpdate({ taskId: "4", addBlockedBy: ["1", "2", "3"] })
+```
+
+#### Pattern C: Wave-Based Execution
+
+```
+Wave 1 (No Dependencies):     Task #1, Task #2 run in parallel
+Wave 2 (After Wave 1):        Task #3 [blocked by #1], Task #4 [blocked by #2]
+Wave 3 (After Wave 2):        Task #5 [blocked by #3, #4] — convergence point
+```
+
+#### Pattern D: Document & Clear (Long Tasks)
+
+For tasks exceeding context limits:
+1. Claude dumps progress into a `.md` file (CONTEXT.md)
+2. `/clear` the context
+3. New session reads the `.md` and continues
+
+This is exactly what our PreCompact hook automates (Phase 5).
+
+### 4.3 Integration with Hooks
+
+| Hook Event | Task System Integration |
+|-----------|------------------------|
+| **Stop** | Check TaskList — if pending tasks remain, block stop and continue working |
+| **TaskCompleted** | Run tests before allowing task to be marked done |
+| **PreCompact** | Save current task progress to CONTEXT.md before compaction |
+| **SessionStart** | Re-inject task queue state on session resume |
+| **SubagentStart** | Log which agent claimed which task |
+| **SubagentStop** | Update task status with agent's result |
+
+### 4.4 Task Sizing Guidelines
+
+| Size | Example | Verdict |
+|------|---------|---------|
+| Too coarse | "Build entire auth system" | Not parallelizable, no checkpoints |
+| Too fine | "Add import statement" | Coordination overhead exceeds work |
+| Just right | "Implement JWT refresh endpoint" | Meaningful unit, testable, committable |
+
+Target 5-6 tasks per agent. Each task should be: independently testable, atomically committable, and completable in one context window.
+
+### 4.5 Safe vs. Dangerous Automation
+
+The YouTube transcript referenced **Moltbot/Clawdbot** — an autonomous agent that went viral but exposed critical security risks (prompt injection, 400+ malware packages, remote access trojans). The safe alternative:
+
+| Aspect | Dangerous (Moltbot) | Safe (Our Approach) |
+|--------|---------------------|---------------------|
+| Scope | Full machine + messaging apps | Development environment only |
+| Permissions | Root-level | Hook-based blocks + user approval |
+| Task coordination | Ad-hoc messaging | Structured DAG with dependencies |
+| Safety | Trust-based | Three-tier: blocks -> approval -> soft gates |
+| Context | Shared across everything | Isolated per-subagent |
+
+**Our philosophy**: Hooks for invariants (guaranteed), tasks for coordination (structured), human approval for irreversible actions (safe).
+
+---
+
+## 5. Phase 1: Safety & Quality Hooks (COMPLETED)
 
 > **Status**: IMPLEMENTED and reviewed on `feature/claude-code-hooks` branch
 > **Commits**: 4 commits (initial implementation + critical fixes from code review)
@@ -199,7 +405,7 @@ TIER 3 — SOFT GATES (Stop/TaskCompleted hooks)
 
 ---
 
-## 4. Phase 2: Agent & Skill Upgrades
+## 6. Phase 2: Agent & Skill Upgrades
 
 > **Goal**: Upgrade all 9 existing agents and 8 existing skills with proper frontmatter, enabling memory, tool restrictions, model selection, and skill preloading.
 > **Risk**: LOW — adds capabilities without changing behavior
@@ -255,7 +461,7 @@ Match model cost to task complexity (from wshobson/agents pattern):
 
 ---
 
-## 5. Phase 3: New Agents & Skills
+## 7. Phase 3: New Agents & Skills
 
 > **Goal**: Create 4 new specialist agents and 3 new skills that fill critical gaps.
 > **Risk**: LOW — new agents don't affect existing workflows
@@ -348,7 +554,7 @@ skills: verification-loop, dispatching-agents
 
 ---
 
-## 6. Phase 4: Deployment Pipeline
+## 8. Phase 4: Deployment Pipeline
 
 > **Goal**: Make production deploys safe and verified. No deploy without build + smoke tests passing. No DB promotion without backup. Full audit trail.
 > **Risk**: MEDIUM — touches production workflows
@@ -445,7 +651,7 @@ All events logged to `.claude/hooks/logs/deploy.log`:
 
 ---
 
-## 7. Phase 5: Night Worker — Autonomous 24-Hour Operation
+## 9. Phase 5: Night Worker — Autonomous 24-Hour Operation
 
 > **Goal**: Claude Code works autonomously while you sleep. Picks up tasks from a queue, works through them, handles token limits, resumes automatically, and produces a morning report.
 > **Risk**: MEDIUM — autonomous operation requires robust safety rails
@@ -679,7 +885,7 @@ External PowerShell script that monitors Claude Code process:
 
 ---
 
-## 8. Phase 6: Worksheet Intelligence & Observability
+## 10. Phase 6: Worksheet Intelligence & Observability
 
 > **Goal**: Hooks that understand the worksheet domain — auto-suggest patterns, inject rules, validate quality, and provide observability.
 > **Risk**: LOW — informational hooks, no blocking
@@ -781,7 +987,7 @@ SubagentStop:
 
 ---
 
-## 9. All 14 Hook Events — Complete Architecture
+## 11. All 14 Hook Events — Complete Architecture
 
 ```
 SESSION LIFECYCLE
@@ -825,7 +1031,7 @@ Notification ───────> [Phase 1 DONE] Windows MessageBox on task co
 
 ---
 
-## 10. Human-in-the-Loop Decision Guide
+## 12. Human-in-the-Loop Decision Guide
 
 ### When Claude MUST Ask You
 
@@ -858,7 +1064,7 @@ Notification ───────> [Phase 1 DONE] Windows MessageBox on task co
 
 ---
 
-## 11. Example Scenarios: 24-Hour Autonomous Operation
+## 13. Example Scenarios: 24-Hour Autonomous Operation
 
 ### Scenario 1: Overnight Test Fix Campaign
 
@@ -1031,7 +1237,7 @@ Claude runs: npm run db:promote
 
 ---
 
-## 12. Emergency Procedures
+## 14. Emergency Procedures
 
 ### Stop Night Worker Immediately
 
@@ -1088,7 +1294,7 @@ Rename-Item .claude\settings.local.json.bak .claude\settings.local.json
 
 ---
 
-## 13. Complete Inventory (Final State)
+## 15. Complete Inventory (Final State)
 
 ### All Files After All Phases
 
@@ -1133,6 +1339,12 @@ Rename-Item .claude\settings.local.json.bak .claude\settings.local.json
       failures.log
       sessions/
       transcripts/
+
+  rules/                               # Path-scoped rules (IMPLEMENTED)
+    e2e-testing.md                     # Loads for tests/e2e/**
+    supabase.md                        # Loads for supabase/**
+    worksheet-prompts.md               # Loads for src/lib/prompts/**
+    nextjs-app.md                      # Loads for src/app/**
 
   agents/
     # Existing (upgraded with frontmatter)
@@ -1317,7 +1529,7 @@ scripts/
 
 ---
 
-## 14. Implementation Priority & Dependencies
+## 16. Implementation Priority & Dependencies
 
 ### Dependency Graph
 
@@ -1375,5 +1587,7 @@ After each phase:
 
 > **This document is the single source of truth** for the hooks, skills, agents, and subagents workflow. Update this document as phases are completed. Mark phases as DONE with completion dates.
 >
+> **Applicable to any software project**: The patterns in sections 1-4 (Vision, Research, CLAUDE.md Strategy, Task System) are universal. Sections 5-16 are project-specific implementations that serve as concrete examples.
+>
 > **Last updated**: 2026-02-07
-> **Current status**: Phase 1 COMPLETED. Phases 2-6 planned.
+> **Current status**: Phase 1 COMPLETED. CLAUDE.md optimized (170->63 lines). Path-scoped rules created. Phases 2-6 planned.
