@@ -351,6 +351,100 @@ For tasks exceeding context limits:
 
 This is exactly what our PreCompact hook automates (Phase 5).
 
+#### Pattern E: Template Meta-Prompts (Prompt That Generates Prompts)
+
+A reusable "meta-prompt" that generates a fully-structured task prompt in a validated format. Instead of hand-crafting each agent's instructions, you write ONE template that generates agent instructions for any task.
+
+```
+Meta-Prompt Template (stored as /plan-with-team command):
+  Input: "Add JWT refresh endpoint"
+  |
+  Template generates:
+  |
+  ├── Task Decomposition (what sub-tasks are needed)
+  ├── Agent Assignments (which specialist handles which task)
+  ├── Dependency Graph (which tasks block which)
+  ├── Validation Criteria (how to verify each task is done)
+  └── Output Format (structured JSON task list ready for TaskCreate)
+```
+
+**Why this matters**: Without meta-prompts, every new feature requires manually decomposing tasks, picking agents, and writing validation criteria. With a template meta-prompt, you describe WHAT you want and the prompt generates the HOW — consistently, every time.
+
+**Implementation**: Create `.claude/commands/plan-with-team.md` that takes a feature description and outputs a ready-to-execute task DAG with agent assignments.
+
+#### Pattern F: Builder + Validator Pairing (Systematic 2× Compute for Trust)
+
+Every build task gets a corresponding validation task — a separate agent that independently verifies the builder's output. This is NOT the same as self-validation (Pattern D's closed-loop); this is a SECOND agent with fresh context.
+
+```
+Builder Agent (sonnet)          Validator Agent (sonnet, separate context)
+  │                                │
+  │  Creates JWT endpoint          │  Reviews JWT endpoint
+  │  Writes tests                  │  Runs tests independently
+  │  Marks task complete           │  Checks edge cases
+  │                                │  Verifies security patterns
+  │                                │  Marks validation task complete
+  │                                │
+  └── If validator FAILS ──────────┘── Builder gets feedback, iterates
+```
+
+| Aspect | Self-Validation (10.11) | Builder+Validator (This) |
+|--------|------------------------|--------------------------|
+| Context | Same agent, same context | Fresh agent, fresh context |
+| Bias | May repeat own mistakes | Independent perspective |
+| Cost | 1× compute | 2× compute |
+| Trust | Good for routine tasks | Required for critical tasks |
+| When to use | Every task (cheap) | Deploys, security, migrations |
+
+**Integration with Task System**:
+```javascript
+// Builder task
+TaskCreate({ subject: "Implement JWT refresh endpoint", owner: "build-error-resolver" })  // #1
+
+// Validator task (blocked until builder completes)
+TaskCreate({ subject: "Validate JWT refresh implementation", owner: "code-reviewer" })     // #2
+TaskUpdate({ taskId: "2", addBlockedBy: ["1"] })
+```
+
+#### Pattern G: Orchestrator Prompt — Two-Input Agent Coordination
+
+The key insight: complex tasks need TWO inputs, not one.
+
+```
+Input 1: USER PROMPT (What to build)
+  "Add JWT refresh endpoint with token rotation"
+
+Input 2: ORCHESTRATOR PROMPT (How to orchestrate the team)
+  "Decompose into tasks. Use build-error-resolver for implementation,
+   code-reviewer for validation, tdd-guide for test-first approach.
+   Each task must be independently testable and committable.
+   Fan-out implementation tasks, fan-in with a review task."
+```
+
+The orchestrator prompt is reusable across projects — it encodes the team's working patterns, quality standards, and coordination rules. The user prompt changes per task.
+
+**Implementation**: The `/plan-with-team` meta-prompt command (Pattern E) IS the orchestrator prompt. It combines the user's request with pre-defined orchestration rules to generate the full task DAG.
+
+#### Pattern H: Context Refresh Between Plan and Execute
+
+Planning and execution should happen in SEPARATE context windows. The planning phase explores broadly, makes decisions, and writes a spec. The execution phase reads the spec and works with focused context.
+
+```
+Context Window 1 (Planning):
+  /plan-with-team "Add JWT refresh endpoint"
+  → Explores codebase, identifies patterns, writes spec.md
+  → Creates task DAG, assigns agents, defines validation criteria
+  → /clear
+
+Context Window 2 (Execution):
+  Read spec.md → Execute tasks from the DAG
+  → Fresh context = no planning noise, maximum execution headroom
+```
+
+**Why this matters**: Planning requires broad exploration (reading many files, considering options). Execution needs focused context (the spec + the files being changed). Mixing both wastes context window on planning artifacts that are no longer needed.
+
+**Integration with Pattern D (Document & Clear)**: This is Document & Clear applied specifically to the plan/execute boundary. The spec.md IS the document that bridges the two contexts.
+
 ### 4.3 Integration with Hooks
 
 | Hook Event | Task System Integration |
@@ -1015,6 +1109,55 @@ SubagentStop:
       command: "npx tsc --noEmit"
 ```
 
+#### Agent-Scoped PostToolUse for Micro-Validation
+
+> **Key insight from transcript**: Don't wait until the agent STOPS to validate — validate after EVERY edit. This catches errors at the point of creation, not at the end of a long chain of edits.
+
+Standard agent-scoped hooks should include PostToolUse micro-validation for all builder-type agents:
+
+```yaml
+# build-error-resolver: validate every edit immediately
+hooks:
+  PostToolUse:
+    - matcher: "Edit|Write"
+      hooks:
+        - type: command
+          command: "npx tsc --noEmit --pretty 2>&1 | head -20"
+          timeout: 30
+```
+
+**Why micro-validation beats end-of-session validation**:
+- Agent edits file A, breaks type in file B → catches immediately, fixes before editing file C
+- Without micro-validation: Agent edits A, B, C, D — Stop hook finds 4 cascading errors → much harder to fix
+
+#### Self-Validating Agents with File-Level Stop Hooks
+
+Stop hooks can verify that agents actually produced the expected output files with the expected content:
+
+```yaml
+# night-worker-coordinator: verify output artifacts exist
+hooks:
+  Stop:
+    - hooks:
+        - type: command
+          command: |
+            node -e "
+              const fs = require('fs');
+              const report = '.claude/night-worker-report.md';
+              if (!fs.existsSync(report)) {
+                console.error('BLOCK: Night worker must produce a report');
+                process.exit(2);
+              }
+              const content = fs.readFileSync(report, 'utf8');
+              if (!content.includes('## Tasks Completed')) {
+                console.error('BLOCK: Report missing required sections');
+                process.exit(2);
+              }
+            "
+```
+
+This pattern (`validate_new_file` + `validate_file_contains`) ensures agents don't declare "done" without producing the contractually-required output.
+
 ### 10.8 AI-Powered Intent Hook — Non-Deterministic Armor (prompt-type)
 
 > **Critical gap identified**: All current hooks are `type: "command"` (regex-based). Regex catches patterns but cannot analyze *intent*. A `type: "prompt"` hook uses an LLM to evaluate whether a command is dangerous — catching hallucinations that regex misses entirely.
@@ -1134,6 +1277,7 @@ After making code changes, ALWAYS verify your work:
 | `.claude/hooks/session-end.js` | Cleanup and session summary |
 | `.claude/hooks/intent-safety.json` | Prompt-type hook config for AI-powered Bash command analysis |
 | `scripts/parallel-workspace.ps1` | Git worktree manager for parallel agents |
+| `.claude/commands/plan-with-team.md` | Template meta-prompt: generates task DAGs with agent assignments from feature descriptions (Pattern E) |
 
 ---
 
@@ -1692,6 +1836,7 @@ scripts/
 | Agentic Layer Class | Class 1→2 transition | Solid Class 3 | No prompt-type hooks, no closed-loop validation |
 | Context R&D | 70% | 85%+ | No agent memory = context not truly delegated |
 | Non-Deterministic Armor | 52% | 80%+ | All hooks are regex-based; no AI-powered intent analysis |
+| Team Orchestration | 30% | 75%+ | No meta-prompts, no builder+validator pairing, no orchestrator prompt |
 | Four Vectors (Para/Auto/Orch/Trust) | 35% | 65%+ | Single-terminal workflow, no auto-resume |
 
 ### Priority-Ordered Implementation (Maximum Impact Per Hour)
@@ -1724,10 +1869,13 @@ Phase 4: Deployment Pipeline                 [2-3h]  ← Safe production workflo
   │
 STRATEGIC (Class 3 capabilities)
 ═══════════════════════════════════════════════════
-Phase 6: Intelligence & Observability        [4-5h]  ← Unlocks Class 3
+Phase 6: Intelligence & Observability        [5-6h]  ← Unlocks Class 3
     Creates: AI-powered intent hook (prompt-type), parallel workspace script,
-             context priming, subagent observer, failure tracker, closed-loop validation
-    Unlocks: P-Threads (parallel worktrees), non-deterministic armor, self-healing agents
+             context priming, subagent observer, failure tracker, closed-loop validation,
+             /plan-with-team meta-prompt command, agent-scoped micro-validation hooks,
+             builder+validator pairing patterns, self-validating file-level stop hooks
+    Unlocks: P-Threads (parallel worktrees), non-deterministic armor, self-healing agents,
+             orchestrated team execution (Pattern E-H), 2× trust via validator pairing
     Thread impact: Parallel + thicker threads, approaching Z-Thread trust level
 ```
 
@@ -1766,9 +1914,9 @@ Phase 2 (Agent & Skill Upgrades) ──┐  ← START HERE                     �
 | Phase 3 | B-Threads (orchestration) | Class 2 | Specialist agents, delegation, Scout/Build/Review |
 | Phase 4 | Fewer checkpoints | Class 2 | Automated deploy verification |
 | Phase 5 | L-Threads + C-Threads | Class 2→3 | Overnight autonomy, auto-resume, context persistence |
-| Phase 6 | P-Threads + approaching Z | Class 3 | AI intent hooks, parallel worktrees, closed-loop validation |
+| Phase 6 | P-Threads + approaching Z | Class 3 | AI intent hooks, parallel worktrees, closed-loop validation, meta-prompts, builder+validator, micro-validation |
 
-### Total Effort: 16-20 hours across Phases 2-6
+### Total Effort: 17-21 hours across Phases 2-6
 
 ### Checkpoint Strategy
 
@@ -1792,8 +1940,8 @@ After each phase:
 |-----------|----------|--------------|
 | **MVP** | All agents have memory + constraints. Night Worker runs 2+ hours unattended. | L-Thread (basic) |
 | **Production** | Deploy pipeline automated. Morning reports generated. 3+ parallel agents. | L-Thread + P-Thread |
-| **Advanced** | AI-powered hooks catch novel dangers. Agents self-correct without human. Closed-loop validation. | Approaching Z-Thread |
-| **Singularity** | You sleep 8 hours, wake up to a morning report with all tasks done, all tests passing, code reviewed. You merge and deploy. | Z-Thread |
+| **Advanced** | AI-powered hooks catch novel dangers. Agents self-correct without human. Closed-loop validation. Builder+Validator pairing on critical tasks. `/plan-with-team` generates task DAGs from feature descriptions. Agent-scoped micro-validation after every edit. | Approaching Z-Thread |
+| **Singularity** | You sleep 8 hours, wake up to a morning report with all tasks done, all tests passing, code reviewed, validator-approved. You merge and deploy. | Z-Thread |
 
 ---
 
@@ -1802,4 +1950,4 @@ After each phase:
 > **Applicable to any software project**: The patterns in sections 1-4 (Vision, Research, CLAUDE.md Strategy, Task System) and the Thread Maturity Model are universal. Sections 5-16 are project-specific implementations that serve as concrete examples of each pattern.
 >
 > **Last updated**: 2026-02-07
-> **Current status**: Phase 1 COMPLETED. CLAUDE.md optimized (170->63 lines). Path-scoped rules created. Gap analysis scored 50% against Agentic Singularity framework. Phases 2-6 planned with priority-ordered implementation.
+> **Current status**: Phase 1 COMPLETED. CLAUDE.md optimized (170->63 lines). Path-scoped rules created. Gap analysis scored 50% against Agentic Singularity framework. Phases 2-6 planned with priority-ordered implementation. Task System patterns (E-H) integrated: Template Meta-Prompts, Builder+Validator pairing, Orchestrator Prompt, Context Refresh, Agent-scoped micro-validation, Self-validating file-level hooks.
