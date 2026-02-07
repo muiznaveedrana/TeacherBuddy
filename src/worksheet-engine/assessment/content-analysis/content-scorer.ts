@@ -145,7 +145,7 @@ export class ContentScorer {
       // Check for mathematical expressions and validate basic ones
       const mathExpressions = this.extractMathExpressions(allText)
       let correctExpressions = 0
-      let totalExpressions = mathExpressions.length
+      const totalExpressions = mathExpressions.length
 
       mathExpressions.forEach(expr => {
         if (this.validateMathExpression(expr)) {

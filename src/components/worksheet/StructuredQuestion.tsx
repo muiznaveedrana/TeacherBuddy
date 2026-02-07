@@ -367,7 +367,7 @@ export function StructuredQuestion({
     const questionNumMatch = question.questionHTML.match(/<span[^>]*class="[^"]*question-number[^"]*"[^>]*>([^<]+)<\/span>/i)
 
     // Remove equation-row/addition-equation/subtraction-equation and answer-prompt from HTML for visual rendering
-    let visualHTML = question.questionHTML
+    const visualHTML = question.questionHTML
       .replace(/<div[^>]*class="[^"]*equation-row[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '')
       .replace(/<div[^>]*class="[^"]*addition-equation[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '')
       .replace(/<div[^>]*class="[^"]*subtraction-equation[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '')

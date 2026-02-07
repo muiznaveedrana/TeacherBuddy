@@ -77,6 +77,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - when I say run agent then it should default 3 worksheets(iterations) per cycle and two cycles
 - when I say run paralell agent then run batch-paralell-agent and show html report with screenshots after worksheet vision assessment in the same agent and open final html with screenshots and assessment using chrome
 - **Screenshot workflow (snip)**: When user says "snip", automatically run `powershell -ExecutionPolicy Bypass -File save-snip.ps1` to save clipboard screenshot as latest-snip.png, then immediately read and display the image. User workflow: Win+Shift+S → take screenshot → type "snip" to Claude.
+- **NotebookLM Access (TRIGGER: "access notebook")**: When user says "access notebook" or asks to access NotebookLM:
+  1. First try `mcp__notebooklm__notebook_list` to check if auth works
+  2. If auth error, run this exact sequence:
+     ```
+     # Step 1: Delete stale auth files
+     powershell -Command "Remove-Item 'C:\Users\muizn\.notebooklm-mcp-cli\profiles\default\cookies.json' -Force -ErrorAction SilentlyContinue; Remove-Item 'C:\Users\muizn\.notebooklm-mcp-cli\auth.json' -Force -ErrorAction SilentlyContinue"
+
+     # Step 2: Get fresh tokens (launches Chrome, extracts cookies)
+     notebooklm-mcp-auth
+
+     # Step 3: Reload tokens into running MCP server
+     mcp__notebooklm__refresh_auth
+
+     # Step 4: Verify access
+     mcp__notebooklm__notebook_list
+     ```
+  3. **Root cause**: Two auth systems exist (`auth.json` vs `profiles/default/cookies.json`) - deleting both and refreshing ensures sync
+  4. **NEVER** add `NOTEBOOKLM_COOKIES_PATH` env var to `.mcp.json` - it overrides default behavior and causes auth mismatch
+  5. Available notebooks: "Claude-Code-WorkFlow" (46 sources), "COMPLETE CLAUDE CODE PRODUCTIVITY SETUP" (21 sources)
 
 ## Worksheet Vision Assessment (CRITICAL - STRICT CRITERIA)
 - **When user says "assess worksheets"**: Apply STRICT criteria from `scripts/STRICT-VISION-ASSESSMENT-CRITERIA.md`

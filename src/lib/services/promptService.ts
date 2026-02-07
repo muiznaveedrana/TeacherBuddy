@@ -1035,7 +1035,7 @@ Your response must be parseable as HTML. Start immediately with <!DOCTYPE html> 
 
     // Generate contextual image suggestions based on topic/theme
     const topicContext = `${config.topic} ${config.subtopic}`.toLowerCase()
-    let suggestedImages: string[] = []
+    const suggestedImages: string[] = []
 
     // Get contextually relevant images
     const contextualImage = await imageLibraryService.getContextualImage(topicContext)
