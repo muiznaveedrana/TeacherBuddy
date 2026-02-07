@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Remove trailing slashes from URLs
+  trailingSlash: false,
+
   // Optimize for Vercel serverless deployment
   experimental: {
     serverComponentsExternalPackages: [

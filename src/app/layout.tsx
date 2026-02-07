@@ -31,6 +31,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://freemathprintable.com'),
   title: "Free Math Worksheets | FreeMathPrintable.com",
   description: "Download thousands of free printable math worksheets for Kindergarten through Grade 6 (ages 4-11). Common Core aligned. No signup required.",
   keywords: "free math worksheets, printable worksheets, kindergarten worksheets, elementary math worksheets, free printables, math practice sheets, grade 1 worksheets, grade 2 worksheets",
