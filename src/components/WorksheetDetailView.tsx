@@ -312,7 +312,7 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
                     <Button
                       onClick={handleDownloadPDF}
                       disabled={isGeneratingPDF}
-                      className="w-full"
+                      className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white"
                       size="lg"
                     >
                       {isGeneratingPDF ? (
@@ -334,8 +334,7 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
                   <TooltipTrigger asChild>
                     <Link href={`/library/${worksheet.slug}/edit`} className="block w-full">
                       <Button
-                        variant="outline"
-                        className="w-full"
+                        className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white"
                         size="lg"
                       >
                         ✏️ Edit & Download
