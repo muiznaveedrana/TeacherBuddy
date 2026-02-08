@@ -318,7 +318,7 @@ export async function generateWorksheetPdf(
       margin: PDF_MARGINS.default,
       preferCSSPageSize: true,
       displayHeaderFooter: false,
-      scale: 1.0,
+      scale: 0.60,
       omitBackground: false
     })
 
