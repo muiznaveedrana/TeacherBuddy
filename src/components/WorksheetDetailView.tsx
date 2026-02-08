@@ -12,6 +12,7 @@ import { Home, PlusCircle, ArrowLeft, LogOut, Loader2 } from 'lucide-react'
 import type { LibraryWorksheet } from '@/lib/types/library'
 import { createBrowserClient } from '@supabase/ssr'
 import { yearGroupToDualLabel } from '@/lib/types/hub'
+import { findParentTopic } from '@/lib/data/curriculum'
 
 interface WorksheetDetailViewProps {
   worksheet: LibraryWorksheet
@@ -202,12 +203,17 @@ export function WorksheetDetailView({ worksheet }: WorksheetDetailViewProps) {
 
       {/* Breadcrumb Navigation - Links to Hub Pages for SEO */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <Breadcrumb items={[
-          { label: 'Free Printables', href: '/free-printables' },
-          { label: yearGroupToDualLabel(worksheet.year_group), href: `/free-printables/${worksheet.year_group.toLowerCase().replace(/\s+/g, '-')}` },
-          { label: worksheet.subtopic.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '), href: `/free-printables/${worksheet.year_group.toLowerCase().replace(/\s+/g, '-')}/${worksheet.subtopic}` },
-          { label: worksheet.title, current: true }
-        ]} />
+        <Breadcrumb items={(() => {
+          const yearGroupSlug = worksheet.year_group.toLowerCase().replace(/\s+/g, '-')
+          const resolvedTopic = findParentTopic(worksheet.year_group, worksheet.topic) || worksheet.topic
+          const formatLabel = (str: string) => str.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+          return [
+            { label: 'Free Printables', href: '/free-printables' },
+            { label: yearGroupToDualLabel(worksheet.year_group), href: `/free-printables/${yearGroupSlug}` },
+            { label: formatLabel(resolvedTopic), href: `/free-printables/${yearGroupSlug}/${resolvedTopic}` },
+            { label: worksheet.title, current: true }
+          ]
+        })()} />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

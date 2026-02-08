@@ -457,9 +457,9 @@ export default function LandingPage() {
             <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
               <Link href="/free-printables/reception/number-counting/counting-to-10" className="text-gray-400 hover:text-white">Counting to 10</Link>
               <Link href="/free-printables/reception/number-counting/number-recognition" className="text-gray-400 hover:text-white">Number Recognition</Link>
-              <Link href="/free-printables/year-1/addition-subtraction/addition-to-10" className="text-gray-400 hover:text-white">Addition to 10</Link>
+              <Link href="/free-printables/year-1/addition-subtraction/adding-to-20" className="text-gray-400 hover:text-white">Adding to 20</Link>
               <Link href="/free-printables/reception/shape-space/basic-shapes" className="text-gray-400 hover:text-white">Basic Shapes</Link>
-              <Link href="/free-printables/year-1/number-place-value/number-bonds" className="text-gray-400 hover:text-white">Number Bonds</Link>
+              <Link href="/free-printables/year-1/number-place-value/number-bonds-10" className="text-gray-400 hover:text-white">Number Bonds</Link>
             </div>
           </div>
           <div className="mt-6 pt-6 border-t border-gray-800 text-center">

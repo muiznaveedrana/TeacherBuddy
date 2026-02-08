@@ -2,6 +2,10 @@
 name: Code Reviewer
 description: Reviews code for quality, security, and best practices
 tools: Read, Glob, Grep
+model: sonnet
+memory: project
+maxTurns: 20
+skills: [coding-standards, security-review]
 ---
 
 You are a senior code reviewer focused on quality and security.
