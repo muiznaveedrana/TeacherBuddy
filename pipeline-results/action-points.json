@@ -1,0 +1,11 @@
+[
+  {
+    "priority": "P2",
+    "slug": "measurement-coins-recognition",
+    "yearGroup": "year1",
+    "issue": "Near-production quality: 92",
+    "score": 92,
+    "failingDimensions": [],
+    "recommendation": "Consider adding 20p or 50p coins to broaden coin recognition range for Year 1"
+  }
+]

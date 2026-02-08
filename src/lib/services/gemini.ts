@@ -85,20 +85,20 @@ function injectDevMetrics(html: string, metrics: GenerationMetrics): string {
 
 /**
  * BRANDING: Inject copyright notice into worksheet HTML
- * Adds "© freemathprintable.com" in top right corner (10pt font)
+ * Adds "© freemathprintable.com" at bottom center (10pt font)
  *
  * Always visible in production and development
- * Positioned absolutely to avoid affecting worksheet layout
+ * Injected before </body> to appear at the bottom of the worksheet
  */
 function injectCopyright(html: string): string {
   const copyrightNotice = `
-<div style="position: absolute; top: 10px; right: 10px; font-size: 10pt; color: #666; font-family: Arial, sans-serif; z-index: 1000; background: rgba(255, 255, 255, 0.9); padding: 2px 6px; border-radius: 3px;">
-  © freemathprintable.com
+<div style="text-align: center; font-size: 10pt; color: #999; font-family: Arial, sans-serif; margin-top: 20px; padding: 8px 0;">
+  freemathprintable.com
 </div>
 `
 
-  // Inject after <body> tag
-  return html.replace(/<body[^>]*>/i, (match) => match + copyrightNotice)
+  // Inject before </body> tag to place at bottom
+  return html.replace(/<\/body>/i, copyrightNotice + '</body>')
 }
 
 /**

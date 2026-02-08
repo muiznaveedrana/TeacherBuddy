@@ -56,6 +56,8 @@ test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
 
     // Submit
     const submitButton = page.locator('.sticky.bottom-0 button').first()
+    await page.screenshot({ path: `test-results/quality-screenshots/number-place-value-comparing-numbers.png`, fullPage: true })
+
     await submitButton.click({ force: true })
 
     // Verify celebration overlay and 100% score

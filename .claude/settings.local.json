@@ -105,38 +105,7 @@
       "M:\\ClaudeCodeProjects"
     ]
   },
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "npm run lint -- --fix 2>nul || exit 0"
-          }
-        ]
-      },
-      {
-        "matcher": "Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "npm run lint -- --fix 2>nul || exit 0"
-          }
-        ]
-      }
-    ],
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "powershell -Command \"[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('Task completed', 'Claude Code')\""
-          }
-        ]
-      }
-    ]
-  },
+  "hooks": {},
   "enabledMcpjsonServers": [
     "playwright-test",
     "notebooklm"

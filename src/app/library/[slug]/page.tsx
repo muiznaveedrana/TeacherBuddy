@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { getWorksheetBySlug } from '@/lib/services/libraryService'
 import { WorksheetDetailView } from '@/components/WorksheetDetailView'
 import { yearGroupToDualLabel, yearGroupToUSLabel } from '@/lib/types/hub'
+import { findParentTopic } from '@/lib/data/curriculum'
 
 export const revalidate = 3600
 
@@ -58,6 +59,10 @@ export default async function WorksheetDetailPage({ params }: PageProps) {
 
   // Format topic for display
   const formatLabel = (str: string) => str.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+
+  // Resolve topic to valid curriculum topic ID (handles cases where worksheet.topic contains a subtopic value)
+  const yearGroupSlug = worksheet.year_group.toLowerCase().replace(' ', '-')
+  const resolvedTopic = findParentTopic(worksheet.year_group, worksheet.topic) || worksheet.topic
 
   // JSON-LD structured data for SEO (US-first)
   const jsonLd = {
@@ -123,8 +128,8 @@ export default async function WorksheetDetailPage({ params }: PageProps) {
       {
         '@type': 'ListItem',
         position: 4,
-        name: formatLabel(worksheet.topic),
-        item: `${baseUrl}/free-printables/${worksheet.year_group.toLowerCase().replace(' ', '-')}/${worksheet.topic}`,
+        name: formatLabel(resolvedTopic),
+        item: `${baseUrl}/free-printables/${yearGroupSlug}/${resolvedTopic}`,
       },
       {
         '@type': 'ListItem',

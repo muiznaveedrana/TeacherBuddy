@@ -58,6 +58,8 @@ test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
 
     // Submit
     const submitButton = page.locator('.sticky.bottom-0 button').first()
+    await page.screenshot({ path: `test-results/quality-screenshots/equal-groups-baking-fun-with-baking-counting-standard-layout.png`, fullPage: true })
+
     await submitButton.click({ force: true })
 
     // Verify celebration overlay and 100% score

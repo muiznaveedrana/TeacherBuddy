@@ -2163,7 +2163,7 @@ export function StructuredQuestion({
       }
     }, []) // Empty deps - run only on mount
 
-    // Sync input styles when submission state changes
+    // Sync input styles when submission state changes (including retry reset)
     useEffect(() => {
       if (!containerRef.current) return
 
@@ -2173,6 +2173,12 @@ export function StructuredQuestion({
           input.disabled = true
           input.style.backgroundColor = isCorrect ? '#F0FDF4' : '#FEF2F2'
           input.style.borderColor = isCorrect ? '#22C55E' : '#EF4444'
+        } else {
+          // Reset on retry: re-enable inputs, clear values, restore default styles
+          input.disabled = false
+          input.value = ''
+          input.style.backgroundColor = '#FFF9C4'
+          input.style.borderColor = '#333'
         }
       })
     }, [submitted, isCorrect])

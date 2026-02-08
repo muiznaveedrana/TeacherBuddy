@@ -55,6 +55,8 @@ test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
 
     // Submit
     const submitButton = page.locator('.sticky.bottom-0 button').first()
+    await page.screenshot({ path: `test-results/quality-screenshots/shape-space-size-comparison-v2.png`, fullPage: true })
+
     await submitButton.click({ force: true })
 
     // Verify celebration overlay and 100% score

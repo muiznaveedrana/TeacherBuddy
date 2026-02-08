@@ -36,6 +36,8 @@ test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
 
     // Submit
     const submitButton = page.locator('.sticky.bottom-0 button').first()
+    await page.screenshot({ path: `test-results/quality-screenshots/multiplication-division-times-tables-2-5-10-v2.png`, fullPage: true })
+
     await submitButton.click({ force: true })
 
     // Verify 100% score

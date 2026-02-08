@@ -40,6 +40,8 @@ test.describe(`Interactive: Number Recognition Mixed Layout`, () => {
     // Submit
     const submitButton = page.locator('button:has-text("Answer all"), button:has-text("Check"), .sticky.bottom-0 button').first()
     await submitButton.scrollIntoViewIfNeeded()
+    await page.screenshot({ path: `test-results/quality-screenshots/number-counting-number-recognition-v4.png`, fullPage: true })
+
     await submitButton.click({ force: true })
 
     // Verify score

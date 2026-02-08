@@ -33,6 +33,8 @@ test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
 
     await dismissCookieConsent(page)
     const submitButton = page.locator('.sticky.bottom-0 button').first()
+    await page.screenshot({ path: `test-results/quality-screenshots/reading-and-writing-numbers-to-1000-challenge-default.png`, fullPage: true })
+
     await submitButton.click({ force: true })
 
     const celebrationOverlay = page.locator('.fixed.inset-0.z-50')

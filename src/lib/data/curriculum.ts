@@ -829,6 +829,29 @@ export function getAvailableSubtopics(yearGroup: string, topicId: string): Array
   return yearData.topics[topicId].subtopics
 }
 
+/**
+ * Given a year group and a value that might be a topic ID or subtopic value,
+ * resolve it to the correct parent topic ID.
+ * Returns the topic ID if the value is already a valid topic, or finds the
+ * parent topic if the value is a subtopic. Returns null if not found.
+ */
+export function findParentTopic(yearGroup: string, value: string): string | null {
+  const yearData = CURRICULUM_MAPPING[yearGroup]
+  if (!yearData) return null
+
+  // Check if value is already a valid topic ID
+  if (yearData.topics[value]) return value
+
+  // Search subtopics for the value
+  for (const [topicId, topic] of Object.entries(yearData.topics)) {
+    if (topic.subtopics.some(st => st.value === value)) {
+      return topicId
+    }
+  }
+
+  return null
+}
+
 export function getTopicDetails(yearGroup: string, topicId: string): CurriculumTopic | null {
   const yearData = CURRICULUM_MAPPING[yearGroup]
   if (!yearData || !yearData.topics[topicId]) return null

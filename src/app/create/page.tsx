@@ -1192,6 +1192,35 @@ function DashboardContent() {
 
 
 
+                {/* Generate Button */}
+                <Button
+                  onClick={handleGenerate}
+                  disabled={!canGenerate}
+                  size="touch"
+                  className={`w-full text-lg md:text-base font-semibold ${
+                    !hasConfiguration ? 'bg-slate-300 cursor-not-allowed' : ''
+                  }`}
+                >
+                  {generationState === 'generating' ? (
+                    <>
+                      <Loader2 className="h-5 w-5 md:h-4 md:w-4 animate-spin mr-2" />
+                      Generating...
+                    </>
+                  ) : showPreview ? (
+                    'Regenerate'
+                  ) : hasConfiguration ? (
+                    'Generate Printable'
+                  ) : (
+                    `Complete Configuration (${[!layout && 'Layout', !yearGroup && 'Year Group', !topic && 'Topic', !subtopic && 'Subtopic'].filter(Boolean).join(', ')})`
+                  )}
+                </Button>
+
+                {!hasConfiguration && (
+                  <p className="text-sm text-slate-600 text-center">
+                    Follow the flow: Layout → Year Group → Topic → Subtopic
+                  </p>
+                )}
+
                 {/* Generation Progress */}
                 {generationState === 'generating' && (
                   <div className="space-y-3 p-4 bg-blue-50 rounded-lg border">
@@ -1395,39 +1424,8 @@ function DashboardContent() {
         </div>
 
         {/* Action Buttons - Mobile optimized */}
-        <div className="flex flex-col md:flex-row justify-center gap-3 md:gap-4 mt-6">
-          <Button 
-            onClick={handleGenerate}
-            disabled={!canGenerate}
-            size="touch"
-            className={`w-full md:w-auto md:min-w-32 text-lg md:text-base font-semibold ${
-              !hasConfiguration ? 'bg-slate-300 cursor-not-allowed' : ''
-            }`}
-          >
-            {generationState === 'generating' ? (
-              <>
-                <Loader2 className="h-5 w-5 md:h-4 md:w-4 animate-spin mr-2" />
-                Generating...
-              </>
-            ) : showPreview ? (
-              'Regenerate'
-            ) : hasConfiguration ? (
-              'Generate Printable'
-            ) : (
-              `Complete Configuration (${[!layout && 'Layout', !yearGroup && 'Year Group', !topic && 'Topic', !subtopic && 'Subtopic'].filter(Boolean).join(', ')})`
-            )}
-          </Button>
-          
-          {!hasConfiguration && (
-            <div className="text-center">
-              <p className="text-sm text-slate-600 mt-2">
-                Follow the flow: Layout → Year Group → Topic → Subtopic
-              </p>
-            </div>
-          )}
-          
-          {showPreview && (
-            <>
+        {showPreview && (
+          <div className="flex flex-col md:flex-row justify-center gap-3 md:gap-4 mt-6">
               <Button
                 variant="outline"
                 size="touch"
@@ -1487,9 +1485,8 @@ function DashboardContent() {
                   💾 Save to Library
                 </Button>
               )}
-            </>
-          )}
-        </div>
+          </div>
+        )}
       </main>
 
       {/* Welcome Tour */}

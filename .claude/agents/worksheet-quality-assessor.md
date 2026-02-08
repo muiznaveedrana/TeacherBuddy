@@ -1,7 +1,10 @@
 ---
 name: worksheet-quality-assessor
 description: SINGLE SOURCE OF TRUTH - Autonomous agent that generates worksheets, uses Claude Code vision to assess screenshots, self-heals with prompt improvements, and iterates until production-ready. One agent, complete workflow.
-model: sonnet
+model: opus
+memory: project
+maxTurns: 100
+skills: [worksheet-quality-criteria]
 color: red
 ---
 

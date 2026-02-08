@@ -38,6 +38,8 @@ test.describe(`Interactive: Early Subtraction Mixed Layout`, () => {
     // Click submit button
     const submitButton = page.locator('button:has-text("Answer all"), button:has-text("Check Answers"), .sticky.bottom-0 button').first()
     await submitButton.scrollIntoViewIfNeeded()
+    await page.screenshot({ path: `test-results/quality-screenshots/number-counting-early-subtraction-v4.png`, fullPage: true })
+
     await submitButton.click({ force: true })
 
     // Wait for celebration modal or score display

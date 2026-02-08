@@ -1,0 +1,2820 @@
+{
+  "config": {
+    "configFile": "M:\\ClaudeCodeProjects\\worksheetgenerator-ai\\playwright.config.ts",
+    "rootDir": "M:/ClaudeCodeProjects/worksheetgenerator-ai/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "M:/ClaudeCodeProjects/worksheetgenerator-ai/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium-desktop",
+        "name": "chromium-desktop",
+        "testDir": "M:/ClaudeCodeProjects/worksheetgenerator-ai/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 4,
+    "webServer": {
+      "command": "npm run dev",
+      "url": "http://localhost:3000",
+      "reuseExistingServer": true,
+      "timeout": 180000,
+      "stdout": "pipe",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "interactive\\reception\\basic-shapes-all.spec.ts",
+      "file": "interactive/reception/basic-shapes-all.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Basic Shapes - All 3 Worksheets",
+          "file": "interactive/reception/basic-shapes-all.spec.ts",
+          "line": 38,
+          "column": 6,
+          "specs": [
+            {
+              "title": "WS1 Foundation - should achieve 100%",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 22449,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs, have 5 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:48:14.634Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f18dd87a92026045f821-be116bd0113a476d4e83",
+              "file": "interactive/reception/basic-shapes-all.spec.ts",
+              "line": 46,
+              "column": 7
+            },
+            {
+              "title": "WS2 Varied - should achieve 100%",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 19167,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs, have 5 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:48:14.747Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f18dd87a92026045f821-c203279323beed6ea162",
+              "file": "interactive/reception/basic-shapes-all.spec.ts",
+              "line": 69,
+              "column": 7
+            },
+            {
+              "title": "WS3 Challenge - should achieve 100%",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 18140,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs, have 5 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:48:14.706Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f18dd87a92026045f821-bd289172e12c1ca6c555",
+              "file": "interactive/reception/basic-shapes-all.spec.ts",
+              "line": 92,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\basic-shapes-v1.spec.ts",
+      "file": "interactive/reception/basic-shapes-v1.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive Worksheet: Basic Shapes V1",
+          "file": "interactive/reception/basic-shapes-v1.spec.ts",
+          "line": 15,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete worksheet and achieve 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 19743,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 input fields\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:48:14.666Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e49ebe5c2a26d86351cd-d1302d865bc9729cc458",
+              "file": "interactive/reception/basic-shapes-v1.spec.ts",
+              "line": 16,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\basic-shapes-v2.spec.ts",
+      "file": "interactive/reception/basic-shapes-v2.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive Worksheet: Basic Shapes V2",
+          "file": "interactive/reception/basic-shapes-v2.spec.ts",
+          "line": 15,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete worksheet and achieve 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 10536,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 input fields\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:48:33.215Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d0bac6b98331955244c7-fb1bc0c3e98f8cfd96bb",
+              "file": "interactive/reception/basic-shapes-v2.spec.ts",
+              "line": 16,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\basic-shapes-v3.spec.ts",
+      "file": "interactive/reception/basic-shapes-v3.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive Worksheet: Basic Shapes V3",
+          "file": "interactive/reception/basic-shapes-v3.spec.ts",
+          "line": 15,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete worksheet and achieve 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 33019,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 input fields\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:48:34.412Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "019dc51a6a4ea37cc58c-4226fc3028be34f01733",
+              "file": "interactive/reception/basic-shapes-v3.spec.ts",
+              "line": 16,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\capacity-v1.spec.ts",
+      "file": "interactive/reception/capacity-v1.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: capacity-which-holds-more-comparison",
+          "file": "interactive/reception/capacity-v1.spec.ts",
+          "line": 15,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 9076,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs, have 5 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:48:34.854Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cb3d3afac12e9228aa75-60ee3ebdb22922e6ddea",
+              "file": "interactive/reception/capacity-v1.spec.ts",
+              "line": 16,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\capacity-v2.spec.ts",
+      "file": "interactive/reception/capacity-v2.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: capacity-containers-containers-comparison",
+          "file": "interactive/reception/capacity-v2.spec.ts",
+          "line": 15,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9038,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs, have 5 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:48:37.433Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "60593da5c4e8ac67dc01-edf5b4e1bc5cec99590a",
+              "file": "interactive/reception/capacity-v2.spec.ts",
+              "line": 16,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\capacity-v3.spec.ts",
+      "file": "interactive/reception/capacity-v3.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: measurement-capacity",
+          "file": "interactive/reception/capacity-v3.spec.ts",
+          "line": 15,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 14389,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs, have 5 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:48:43.803Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76cada04f9be84dd1090-95d8eb8e03f88a161384",
+              "file": "interactive/reception/capacity-v3.spec.ts",
+              "line": 16,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\early-addition-mixed.spec.ts",
+      "file": "interactive/reception/early-addition-mixed.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: Early Addition Mixed Layout",
+          "file": "interactive/reception/early-addition-mixed.spec.ts",
+          "line": 15,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 14660,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs, have 5 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:48:44.000Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "6ca74ab10cb46b5aa38e-5478cca8789a321e7247",
+              "file": "interactive/reception/early-addition-mixed.spec.ts",
+              "line": 16,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\early-subtraction-mixed.spec.ts",
+      "file": "interactive/reception/early-subtraction-mixed.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: Early Subtraction Mixed Layout",
+          "file": "interactive/reception/early-subtraction-mixed.spec.ts",
+          "line": 15,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 12328,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs, have 5 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:48:46.535Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "12bd9457d5d7d437c2a4-7f4cf2d9fdd19cd21f68",
+              "file": "interactive/reception/early-subtraction-mixed.spec.ts",
+              "line": 16,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\interactive-measurement-capacity-v2-mixed.spec.ts",
+      "file": "interactive/reception/interactive-measurement-capacity-v2-mixed.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: Capacity Mixed Layout",
+          "file": "interactive/reception/interactive-measurement-capacity-v2-mixed.spec.ts",
+          "line": 15,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 13130,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs, have 5 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:48:58.266Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d98fcef9f115a86cf3d5-476bc27891ddcfe75a0c",
+              "file": "interactive/reception/interactive-measurement-capacity-v2-mixed.spec.ts",
+              "line": 16,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\interactive-measurement-length-comparison-mixed.spec.ts",
+      "file": "interactive/reception/interactive-measurement-length-comparison-mixed.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: Length Comparison Mixed Layout",
+          "file": "interactive/reception/interactive-measurement-length-comparison-mixed.spec.ts",
+          "line": 15,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 15943,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs, have 5 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:48:58.794Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "217db1e7d4ce51428578-46a7c36e39613ffa3597",
+              "file": "interactive/reception/interactive-measurement-length-comparison-mixed.spec.ts",
+              "line": 16,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\interactive-measurement-time-concepts-mixed.spec.ts",
+      "file": "interactive/reception/interactive-measurement-time-concepts-mixed.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: Time Concepts Mixed Layout",
+          "file": "interactive/reception/interactive-measurement-time-concepts-mixed.spec.ts",
+          "line": 15,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 20565,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs, have 5 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:48:59.088Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d642914f2f31e25b2e77-d5479f9ec07a25b314d8",
+              "file": "interactive/reception/interactive-measurement-time-concepts-mixed.spec.ts",
+              "line": 16,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\interactive-measurement-weight-comparison-mixed.spec.ts",
+      "file": "interactive/reception/interactive-measurement-weight-comparison-mixed.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: Weight Comparison Mixed Layout",
+          "file": "interactive/reception/interactive-measurement-weight-comparison-mixed.spec.ts",
+          "line": 15,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 15103,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs, have 5 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:49:07.982Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9548b6be1dd40562f9b5-34387d16454b3dd827ca",
+              "file": "interactive/reception/interactive-measurement-weight-comparison-mixed.spec.ts",
+              "line": 16,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\length-comparison.spec.ts",
+      "file": "interactive/reception/length-comparison.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Length Comparison - School Objects",
+          "file": "interactive/reception/length-comparison.spec.ts",
+          "line": 38,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should achieve 100%",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 11617,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs, have 5 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:49:11.599Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "33e822c07d60e89e3e0e-a719c85ee6963b4fc6fc",
+              "file": "interactive/reception/length-comparison.spec.ts",
+              "line": 45,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\more-or-less-mixed.spec.ts",
+      "file": "interactive/reception/more-or-less-mixed.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: More or Less Mixed Layout",
+          "file": "interactive/reception/more-or-less-mixed.spec.ts",
+          "line": 15,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 21182,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs, have 5 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:49:14.943Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1b7fb305a1b80b967231-20b8265e2e974ff91e83",
+              "file": "interactive/reception/more-or-less-mixed.spec.ts",
+              "line": 16,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\more-or-less-v2.spec.ts",
+      "file": "interactive/reception/more-or-less-v2.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-more-or-less-v2",
+          "file": "interactive/reception/more-or-less-v2.spec.ts",
+          "line": 24,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 15700,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 input fields\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:49:19.822Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2d55031ba09cd0cea742-f5a7738541516f1b65eb",
+              "file": "interactive/reception/more-or-less-v2.spec.ts",
+              "line": 25,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\more-or-less-v4.spec.ts",
+      "file": "interactive/reception/more-or-less-v4.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-more-or-less-v4",
+          "file": "interactive/reception/more-or-less-v4.spec.ts",
+          "line": 25,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 17222,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 input fields\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:49:23.254Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "225451c638638c4106b6-4ac692257c94c7e318c1",
+              "file": "interactive/reception/more-or-less-v4.spec.ts",
+              "line": 26,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\more-or-less.spec.ts",
+      "file": "interactive/reception/more-or-less.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-more-or-less",
+          "file": "interactive/reception/more-or-less.spec.ts",
+          "line": 25,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 17219,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 input fields\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:49:23.397Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a1dc183917b173dcf298-853b5ba5bc2f21befa78",
+              "file": "interactive/reception/more-or-less.spec.ts",
+              "line": 26,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-bonds-mixed.spec.ts",
+      "file": "interactive/reception/number-bonds-mixed.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: Number Bonds Mixed Layout",
+          "file": "interactive/reception/number-bonds-mixed.spec.ts",
+          "line": 15,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 14552,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs, have 5 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:49:35.667Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c14a63583f274610bccc-555ad4f5df2977d39f0e",
+              "file": "interactive/reception/number-bonds-mixed.spec.ts",
+              "line": 16,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-counting-to-10-v2.spec.ts",
+      "file": "interactive/reception/number-counting-counting-to-10-v2.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-counting-to-10-v2",
+          "file": "interactive/reception/number-counting-counting-to-10-v2.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 13157,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:49:36.200Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c01807f5ff50b39f52b2-0c206a056b4b955aec93",
+              "file": "interactive/reception/number-counting-counting-to-10-v2.spec.ts",
+              "line": 21,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-counting-to-10-v3.spec.ts",
+      "file": "interactive/reception/number-counting-counting-to-10-v3.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-counting-to-10-v3",
+          "file": "interactive/reception/number-counting-counting-to-10-v3.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 9652,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:49:40.527Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7a6db24b4821f4b10277-2c9aadf1e7c5f18f9b46",
+              "file": "interactive/reception/number-counting-counting-to-10-v3.spec.ts",
+              "line": 21,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-counting-to-10.spec.ts",
+      "file": "interactive/reception/number-counting-counting-to-10.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-counting-to-10",
+          "file": "interactive/reception/number-counting-counting-to-10.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 14230,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:49:40.674Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05769326971f98e6ffeb-dd419ad028cdf5cdd5be",
+              "file": "interactive/reception/number-counting-counting-to-10.spec.ts",
+              "line": 21,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-early-addition-v2.spec.ts",
+      "file": "interactive/reception/number-counting-early-addition-v2.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-early-addition-v2",
+          "file": "interactive/reception/number-counting-early-addition-v2.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 13430,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:49:49.423Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "8b0b5fdd6bdfb513135d-1c973c4ea47eb002c8ba",
+              "file": "interactive/reception/number-counting-early-addition-v2.spec.ts",
+              "line": 21,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-early-addition-v3.spec.ts",
+      "file": "interactive/reception/number-counting-early-addition-v3.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-early-addition-v3",
+          "file": "interactive/reception/number-counting-early-addition-v3.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 16111,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:49:50.220Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "06127821abce1505a0e4-9cdb14386b09ca15c783",
+              "file": "interactive/reception/number-counting-early-addition-v3.spec.ts",
+              "line": 21,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-early-addition.spec.ts",
+      "file": "interactive/reception/number-counting-early-addition.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-early-addition",
+          "file": "interactive/reception/number-counting-early-addition.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 13603,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:49:50.274Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c88bd4f9e82adcfb70b5-ca7ea5b565f039288d75",
+              "file": "interactive/reception/number-counting-early-addition.spec.ts",
+              "line": 21,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-early-subtraction-v2.spec.ts",
+      "file": "interactive/reception/number-counting-early-subtraction-v2.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-early-subtraction-v2",
+          "file": "interactive/reception/number-counting-early-subtraction-v2.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 16827,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:49:54.943Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f3dfe739b4b630712b9d-b57b7ca13ce8ed47e0ef",
+              "file": "interactive/reception/number-counting-early-subtraction-v2.spec.ts",
+              "line": 21,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-early-subtraction-v3.spec.ts",
+      "file": "interactive/reception/number-counting-early-subtraction-v3.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-early-subtraction-v3",
+          "file": "interactive/reception/number-counting-early-subtraction-v3.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 24619,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:50:02.914Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "835023899f6b4ad63673-8fdb53088ea08a4006a0",
+              "file": "interactive/reception/number-counting-early-subtraction-v3.spec.ts",
+              "line": 21,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-early-subtraction.spec.ts",
+      "file": "interactive/reception/number-counting-early-subtraction.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-early-subtraction",
+          "file": "interactive/reception/number-counting-early-subtraction.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 10203,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:50:03.925Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "663b2196713cf1a1715d-dc8fa12332d2f95d12af",
+              "file": "interactive/reception/number-counting-early-subtraction.spec.ts",
+              "line": 21,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-more-or-less-v3.spec.ts",
+      "file": "interactive/reception/number-counting-more-or-less-v3.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-more-or-less-v3",
+          "file": "interactive/reception/number-counting-more-or-less-v3.spec.ts",
+          "line": 21,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 16574,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 input fields\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:50:06.373Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "87c249a5a51f03c52eca-e9230aefbca55919ef21",
+              "file": "interactive/reception/number-counting-more-or-less-v3.spec.ts",
+              "line": 22,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-number-bonds-with-animals.spec.ts",
+      "file": "interactive/reception/number-counting-number-bonds-with-animals.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-number-bonds-with-animals",
+          "file": "interactive/reception/number-counting-number-bonds-with-animals.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 11546,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:50:11.820Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9185f327f1aa4a402e73-508ec2b5c4cb2cdd26d9",
+              "file": "interactive/reception/number-counting-number-bonds-with-animals.spec.ts",
+              "line": 21,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-number-bonds-with-everyday.spec.ts",
+      "file": "interactive/reception/number-counting-number-bonds-with-everyday.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-number-bonds-with-everyday",
+          "file": "interactive/reception/number-counting-number-bonds-with-everyday.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11927,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:50:14.187Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3a8bb92111aab9886aa4-00f3fec32fcc6969481d",
+              "file": "interactive/reception/number-counting-number-bonds-with-everyday.spec.ts",
+              "line": 21,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-number-bonds-with-nature.spec.ts",
+      "file": "interactive/reception/number-counting-number-bonds-with-nature.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-number-bonds-with-nature",
+          "file": "interactive/reception/number-counting-number-bonds-with-nature.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 24789,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:50:22.993Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2732f3685dfe10ee8cb5-b26a46baadf32bb8af48",
+              "file": "interactive/reception/number-counting-number-bonds-with-nature.spec.ts",
+              "line": 21,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-number-recognition-v2.spec.ts",
+      "file": "interactive/reception/number-counting-number-recognition-v2.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-number-recognition-v2",
+          "file": "interactive/reception/number-counting-number-recognition-v2.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 9621,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 6 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:50:23.410Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e6e083a0e1feb4f77e2b-8405b0e1c90adca934db",
+              "file": "interactive/reception/number-counting-number-recognition-v2.spec.ts",
+              "line": 21,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-number-recognition-v3.spec.ts",
+      "file": "interactive/reception/number-counting-number-recognition-v3.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-number-recognition-v3",
+          "file": "interactive/reception/number-counting-number-recognition-v3.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7364,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 6 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:50:26.160Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5fc696c9d74317310ded-01d3053bac6bda2e5c5f",
+              "file": "interactive/reception/number-counting-number-recognition-v3.spec.ts",
+              "line": 21,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-number-recognition.spec.ts",
+      "file": "interactive/reception/number-counting-number-recognition.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-number-recognition",
+          "file": "interactive/reception/number-counting-number-recognition.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 9751,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 6 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:50:27.612Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "6e252f6bec68195830eb-0c15a4c4c2b2bca54934",
+              "file": "interactive/reception/number-counting-number-recognition.spec.ts",
+              "line": 21,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-subitising-with-food.spec.ts",
+      "file": "interactive/reception/number-counting-subitising-with-food.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-subitising-with-food",
+          "file": "interactive/reception/number-counting-subitising-with-food.spec.ts",
+          "line": 25,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 30109,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:50:33.072Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "dc452eff1fa9a1350b9b-4f1e84f718559e4be1b6",
+              "file": "interactive/reception/number-counting-subitising-with-food.spec.ts",
+              "line": 26,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-subitising-with-nature.spec.ts",
+      "file": "interactive/reception/number-counting-subitising-with-nature.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-subitising-with-nature",
+          "file": "interactive/reception/number-counting-subitising-with-nature.spec.ts",
+          "line": 25,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6425,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:50:33.560Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b749ad6fd272857d384c-f80d86e4515fbaf1ea81",
+              "file": "interactive/reception/number-counting-subitising-with-nature.spec.ts",
+              "line": 26,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-subitising-with-stars-hearts.spec.ts",
+      "file": "interactive/reception/number-counting-subitising-with-stars-hearts.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-subitising-with-stars-hearts",
+          "file": "interactive/reception/number-counting-subitising-with-stars-hearts.spec.ts",
+          "line": 25,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 10162,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:50:37.402Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ff7bb5409f70b3e982f2-ba0d6c3f0bef162212c7",
+              "file": "interactive/reception/number-counting-subitising-with-stars-hearts.spec.ts",
+              "line": 26,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-counting-subitising.spec.ts",
+      "file": "interactive/reception/number-counting-subitising.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: number-counting-subitising (Reception Subitising)",
+          "file": "interactive/reception/number-counting-subitising.spec.ts",
+          "line": 21,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11305,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs, have 5 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:50:40.021Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4613207eecc9b36192d2-0c2370bd5dd6e3902f41",
+              "file": "interactive/reception/number-counting-subitising.spec.ts",
+              "line": 22,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\number-recognition-mixed.spec.ts",
+      "file": "interactive/reception/number-recognition-mixed.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: Number Recognition Mixed Layout",
+          "file": "interactive/reception/number-recognition-mixed.spec.ts",
+          "line": 15,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 15549,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 7 inputs, have 7 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:50:47.606Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "6cd4d7503814d1a1a4b3-ab2486d3af658ce70fb6",
+              "file": "interactive/reception/number-recognition-mixed.spec.ts",
+              "line": 16,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\shape-space-size-comparison.spec.ts",
+      "file": "interactive/reception/shape-space-size-comparison.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: shape-space-size-comparison",
+          "file": "interactive/reception/shape-space-size-comparison.spec.ts",
+          "line": 25,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 10493,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 input fields\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:50:47.824Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0feef38569d485d69849-9c7866889c86cb5a6a05",
+              "file": "interactive/reception/shape-space-size-comparison.spec.ts",
+              "line": 26,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\size-farm-animals-farm-animals-comparison.spec.ts",
+      "file": "interactive/reception/size-farm-animals-farm-animals-comparison.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: size-comparison-farm-animals-farm-animals-comparison",
+          "file": "interactive/reception/size-farm-animals-farm-animals-comparison.spec.ts",
+          "line": 25,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11989,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 input fields\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:50:51.366Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "bb997582c60912a887cc-08b2450d43bbe810c5c4",
+              "file": "interactive/reception/size-farm-animals-farm-animals-comparison.spec.ts",
+              "line": 26,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\size-school-treats-school-treats-comparison.spec.ts",
+      "file": "interactive/reception/size-school-treats-school-treats-comparison.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: size-comparison-school-treats-school-treats-comparison",
+          "file": "interactive/reception/size-school-treats-school-treats-comparison.spec.ts",
+          "line": 25,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 11454,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 input fields\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:50:58.364Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9656266be124b02717f1-256c6680e5f9f59f45ed",
+              "file": "interactive/reception/size-school-treats-school-treats-comparison.spec.ts",
+              "line": 26,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\size-v2.spec.ts",
+      "file": "interactive/reception/size-v2.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: shape-space-size-comparison-v2",
+          "file": "interactive/reception/size-v2.spec.ts",
+          "line": 25,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 14567,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 input fields\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:51:03.192Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "832b6bb5932a896e2ed3-368667a863d9763b6f68",
+              "file": "interactive/reception/size-v2.spec.ts",
+              "line": 26,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\weight-animals-comparison.spec.ts",
+      "file": "interactive/reception/weight-animals-comparison.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: weight-comparison-animals-comparison",
+          "file": "interactive/reception/weight-animals-comparison.spec.ts",
+          "line": 25,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 8092,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 input fields\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:51:03.220Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "62695e040b1d88ee037b-b926993b43d3010ab474",
+              "file": "interactive/reception/weight-animals-comparison.spec.ts",
+              "line": 26,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interactive\\reception\\weight-comparison-v3.spec.ts",
+      "file": "interactive/reception/weight-comparison-v3.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Interactive: weight-comparison-food-nature-food-nature-comparison",
+          "file": "interactive/reception/weight-comparison-v3.spec.ts",
+          "line": 15,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete with 100% score",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium-desktop",
+                  "projectName": "chromium-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7651,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 5 inputs, have 5 answers\n"
+                        },
+                        {
+                          "text": "Score: 100%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-07T21:51:03.398Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "dc2ebc95a9862dec702c-d9e9c332147b1c3136fc",
+              "file": "interactive/reception/weight-comparison-v3.spec.ts",
+              "line": 16,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-02-07T21:48:11.499Z",
+    "duration": 186524.204,
+    "expected": 48,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

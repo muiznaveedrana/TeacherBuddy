@@ -1,0 +1,24 @@
+[
+  {
+    "slug": "measurement-coins-recognition",
+    "yearGroup": "year1",
+    "testId": "9ed230e72aa6b8c8f9c0-6c1f00d2179b0f19b04a",
+    "dimensions": [
+      {"id": "curriculumAlignment", "score": 9, "feedback": "Year 1 coins recognition. Denominations 1p, 2p, 5p, 10p are age-appropriate. Values stay within 1-20 range. 5 questions with good progression from identification to addition to comparison. Topic correctly reflected in every question."},
+      {"id": "answerCorrectness", "score": 10, "feedback": "All 5 answers mathematically correct: 10p coin=10, 3x2p=6, 1+2+5+10=18, 1+2+5=8, 15p>10p so Bear costs more."},
+      {"id": "intuitiveLookAndFeel", "score": 9, "feedback": "Clear numbered questions with obvious input fields. Nice progression from simple coin identification to multi-coin addition to comparison. Comparison layout (VS) is intuitive. Child immediately knows what to do."},
+      {"id": "imageIntegrity", "score": 9, "feedback": "All coin images load correctly and are recognizable. Item images (orange, bear) render properly. Good contrast and sizing. Different card background colors add visual variety."},
+      {"id": "visualAnswerability", "score": 9, "feedback": "Coins are clearly visible and countable. A 5-6 year old can identify coins and count them. Comparison items show clear price labels. The working-out boxes in Q3/Q4 help scaffold the addition."},
+      {"id": "presentationQuality", "score": 9, "feedback": "Clean layout with progress bar at 100%. All 5 questions visible with good spacing. No cut-off content. Different colored cards (yellow, blue, white, pink, orange) add visual interest without being distracting."},
+      {"id": "imageQuestionMatch", "score": 9, "feedback": "All images semantically match: coin images for coin questions, item images with price tags for comparison question. Working-out sections correctly list the coin values shown."}
+    ],
+    "autoFails": [],
+    "actionPoints": ["Consider adding 20p or 50p coins to broaden coin recognition range for Year 1"],
+    "rawScore": 92,
+    "finalScore": 92,
+    "appliedCaps": [],
+    "classification": "AMBER",
+    "productionReady": false,
+    "screenshotPath": "M:\\ClaudeCodeProjects\\worksheetgenerator-ai\\test-results\\quality-screenshots\\measurement-coins-recognition.png"
+  }
+]

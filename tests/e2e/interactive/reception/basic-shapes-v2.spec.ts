@@ -45,6 +45,8 @@ test.describe('Interactive Worksheet: Basic Shapes V2', () => {
 
     // Submit
     const submitButton = page.locator('.sticky.bottom-0 button').first()
+    await page.screenshot({ path: `test-results/quality-screenshots/shape-space-basic-shapes-v2.png`, fullPage: true })
+
     await submitButton.click({ force: true })
 
     // Verify celebration overlay and 100% score
