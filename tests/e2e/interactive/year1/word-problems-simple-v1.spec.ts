@@ -45,6 +45,8 @@ test.describe('Interactive Worksheet: Word Problems Simple V1', () => {
 
     // Submit
     const submitButton = page.locator('.sticky.bottom-0 button').first()
+    await page.screenshot({ path: `test-results/quality-screenshots/addition-subtraction-word-problems-simple.png`, fullPage: true })
+
     await submitButton.click({ force: true })
 
     // Verify celebration overlay and 100% score

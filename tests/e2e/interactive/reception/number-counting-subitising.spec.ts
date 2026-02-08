@@ -45,6 +45,8 @@ test.describe(`Interactive: ${WORKSHEET_SLUG} (Reception Subitising)`, () => {
     
     // Click Submit button
     const submitButton = page.locator('.sticky.bottom-0 button').first()
+    await page.screenshot({ path: `test-results/quality-screenshots/number-counting-subitising.png`, fullPage: true })
+
     await submitButton.click({ force: true })
 
     // Wait for celebration overlay (result screen)

@@ -70,6 +70,8 @@ test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
 
     // 8. Submit the completed worksheet to verify 100% score
     const submitButton = page.locator('.sticky.bottom-0 button').first()
+    await page.screenshot({ path: `test-results/quality-screenshots/shape-space-size-comparison.png`, fullPage: true })
+
     await submitButton.click({ force: true })
 
     // 9. Wait for celebration overlay

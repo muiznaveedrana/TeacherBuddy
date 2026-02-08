@@ -37,6 +37,8 @@ test.describe(`Interactive: More or Less Mixed Layout`, () => {
     await dismissCookieConsent(page)
     const submitButton = page.locator('button:has-text("Answer all"), button:has-text("Check"), .sticky.bottom-0 button').first()
     await submitButton.scrollIntoViewIfNeeded()
+    await page.screenshot({ path: `test-results/quality-screenshots/number-counting-more-or-less-v5.png`, fullPage: true })
+
     await submitButton.click({ force: true })
 
     await page.waitForTimeout(2000)

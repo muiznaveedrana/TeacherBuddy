@@ -33,6 +33,8 @@ test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
 
     await dismissCookieConsent(page)
     const submitButton = page.locator('.sticky.bottom-0 button').first()
+    await page.screenshot({ path: `test-results/quality-screenshots/number-place-value-counting-4s-8s-50s-100s-mixed-layout-v5.png`, fullPage: true })
+
     await submitButton.click({ force: true })
 
     const celebrationOverlay = page.locator('.fixed.inset-0.z-50')

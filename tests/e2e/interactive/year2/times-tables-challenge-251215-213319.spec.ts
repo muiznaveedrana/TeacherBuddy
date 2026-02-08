@@ -39,6 +39,8 @@ test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
 
     await dismissCookieConsent(page)
     const submitButton = page.locator('.sticky.bottom-0 button').first()
+    await page.screenshot({ path: `test-results/quality-screenshots/times-tables-2-5-10-challenge-mixed-problem-solving-251215-213319.png`, fullPage: true })
+
     await submitButton.click({ force: true })
 
     const celebrationOverlay = page.locator('.fixed.inset-0.z-50')

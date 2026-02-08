@@ -48,6 +48,8 @@ test.describe(`Interactive: ${WORKSHEET_SLUG}`, () => {
 
     await dismissCookieConsent(page)
     const submitButton = page.locator('.sticky.bottom-0 button').first()
+    await page.screenshot({ path: `test-results/quality-screenshots/measurement-time-test.png`, fullPage: true })
+
     await submitButton.click({ force: true })
 
     // Verify celebration overlay and 100% score

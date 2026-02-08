@@ -1,0 +1,24 @@
+{
+  "phase1Results": [
+    {
+      "slug": "measurement-coins-recognition",
+      "testId": "9ed230e72aa6b8c8f9c0-6c1f00d2179b0f19b04a",
+      "title": "coins-recognition",
+      "file": "interactive/year1/coins-recognition.spec.ts",
+      "yearGroup": "year1",
+      "status": "passed",
+      "duration": 8171
+    }
+  ],
+  "phase2Results": [],
+  "startTime": 1738939422000,
+  "opts": {
+    "year": "year1",
+    "skipHealer": false,
+    "skipQuality": false,
+    "openReport": false,
+    "workers": 4,
+    "qualityParallel": 4,
+    "timeout": 30000
+  }
+}
