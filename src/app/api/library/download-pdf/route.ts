@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getWorksheetBySlug, recordDownload } from '@/lib/services/libraryService'
 import { generateWorksheetPdf } from '@/lib/services/pdfGenerationService'
+import { removeAnswerKey } from '@/lib/utils/htmlSanitize'
 import crypto from 'crypto'
 
 export const dynamic = 'force-dynamic'
@@ -32,11 +33,9 @@ export async function POST(request: NextRequest) {
 
     // IMPORTANT: Always remove answer key from PDFs for download
     // Answer keys should never be included in downloaded PDFs
-    htmlContent = htmlContent.replace(/<div class="answer-key">[\s\S]*?<\/div>(?=\s*<\/body>)/gi, '')
-
-    // Also remove any "Answer Key:" headers that might be outside the div
-    htmlContent = htmlContent.replace(/<h[1-6][^>]*>\s*(?:Answer Key|ANSWER KEY):?\s*<\/h[1-6]>/gi, '')
-    htmlContent = htmlContent.replace(/<p[^>]*>\s*\*\*Answer Key:\*\*\s*<\/p>/gi, '')
+    // Uses depth-counting approach to avoid breaking when branding/copyright
+    // elements sit between the answer-key div and </body>
+    htmlContent = removeAnswerKey(htmlContent)
 
     console.log('✂️ Answer key removed from PDF content')
 

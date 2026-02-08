@@ -240,20 +240,26 @@ export async function generateWorksheetPdf(
       }
     } else if (isDevelopment) {
       // Development environment - use bundled Chromium from puppeteer
+      const fs = await import('fs')
+      let executablePath = ''
+
       try {
         const puppeteerFull = await import('puppeteer')
-        const executablePath = puppeteerFull.default.executablePath()
-        console.log('Using Puppeteer bundled Chrome:', executablePath)
-        
-        browserConfig = {
-          executablePath,
-          headless: true,
-          args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+        const bundledPath = puppeteerFull.default.executablePath()
+
+        // Verify the binary actually exists (executablePath() doesn't throw when missing)
+        if (fs.existsSync(bundledPath)) {
+          executablePath = bundledPath
+          console.log('Using Puppeteer bundled Chrome:', executablePath)
+        } else {
+          console.warn('Puppeteer bundled Chrome not found at:', bundledPath)
         }
       } catch (puppeteerError) {
-        console.warn('Puppeteer bundled Chrome not available, trying system Chrome:', puppeteerError)
-        
-        // Fallback to system Chrome paths
+        console.warn('Puppeteer import failed, trying system Chrome:', puppeteerError)
+      }
+
+      // Fallback to system Chrome paths
+      if (!executablePath) {
         const systemChromePaths = [
           'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', // Windows
           'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe', // Windows x86
@@ -262,10 +268,7 @@ export async function generateWorksheetPdf(
           '/usr/bin/chromium-browser', // Linux Chromium
           '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' // macOS
         ]
-        
-        const fs = await import('fs')
-        let executablePath = ''
-        
+
         for (const chromePath of systemChromePaths) {
           if (fs.existsSync(chromePath)) {
             executablePath = chromePath
@@ -273,18 +276,18 @@ export async function generateWorksheetPdf(
             break
           }
         }
-        
-        if (!executablePath) {
-          throw new Error(
-            'Chrome executable not found. Please install Google Chrome or run: npx puppeteer browsers install chrome'
-          )
-        }
-        
-        browserConfig = {
-          executablePath,
-          headless: true,
-          args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-        }
+      }
+
+      if (!executablePath) {
+        throw new Error(
+          'Chrome executable not found. Please install Google Chrome or run: npx puppeteer browsers install chrome'
+        )
+      }
+
+      browserConfig = {
+        executablePath,
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
       }
     }
     
