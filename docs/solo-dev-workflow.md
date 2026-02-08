@@ -43,10 +43,11 @@ Load automatically when editing files in matching directories — zero context c
 | **refactor-cleaner** | Remove dead code, improve structure |
 | **tdd-guide** | Red-green-refactor workflow |
 
-### Slash Commands (13 available)
+### Slash Commands (14 available)
 
 | Command | Purpose |
 |---------|---------|
+| `/pipeline` | Full test pipeline: run tests, heal failures, assess quality, HTML report |
 | `/assess` | Worksheet quality assessment |
 | `/test-year` | Run E2E tests by year group |
 | `/deploy` | Two-step production deployment |
@@ -109,6 +110,8 @@ Does this need to happen 100% of the time, no exceptions?
 
 | I want to... | Use |
 |-------------|-----|
+| Run all tests + heal + quality in one go | `/pipeline` |
+| Quick test a single year group | `/pipeline` with `--year=reception --skip-quality` |
 | Check worksheet quality | `/assess` or worksheet-quality-assessor agent |
 | Write new E2E tests | Playwright agents in order: **planner -> generator -> healer** |
 | Fix failing tests | playwright-test-healer agent |
@@ -154,6 +157,95 @@ When multiple tests are failing:
 1. Run `/test-year` to see what's broken
 2. Let playwright-test-healer fix them one by one
 3. Re-run the full suite to confirm
+
+### Pattern 5: Pipeline (Test + Heal + Quality)
+
+The pipeline replaces manually running tests, healing, and assessing quality separately. One command does all three phases and produces a single HTML report.
+
+**How it works**: Phase 0 adds screenshot capture to all test files (one-time) → Phase 1 runs all Playwright tests at 8 workers → Phase 2 auto-heals failures via the healer agent → Phase 3 reads each screenshot with Claude Code vision and scores 7 quality dimensions → Report updates progressively after each phase.
+
+**Quality scoring**: 7 dimensions (Curriculum Alignment 50%, Answer Correctness 20%, Intuitive Look & Feel 10%, Image Integrity 5%, Visual Answerability 5%, Presentation Quality 5%, Image-Question Match 5%). GREEN >= 95 with zero auto-fails, AMBER 70-94, RED < 70 or test failed.
+
+---
+
+## Pipeline Examples
+
+### Example 1: Full Suite Before a Release
+
+Run everything on all 455 tests. Takes ~60-90 min with quality assessment.
+
+```bash
+node scripts/pipeline-orchestrator.js --open-report
+```
+
+**What you get**: `pipeline-results/pipeline-report.html` with GREEN/AMBER/RED for every worksheet, plus `pipeline-results/action-points.json` listing what to fix, sorted P0 → P1 → P2.
+
+**When to use**: Before a major deploy. Gives you confidence that all tests pass AND all worksheets are production-quality.
+
+### Example 2: Quick Validation After Changes
+
+You just changed a component that affects Year 2 worksheets. Run tests + healer on Year 2 only, skip the slow quality assessment.
+
+```bash
+node scripts/pipeline-orchestrator.js --year=year2 --skip-quality --open-report
+```
+
+**What you get**: Pass/fail for all Year 2 tests, healer fixes for any breakages, report in ~5 min.
+
+**When to use**: After UI changes, component refactors, or CSS updates that might break specific year groups.
+
+### Example 3: Quality Audit on Reception
+
+You want to know which Reception worksheets are production-ready. Run full pipeline on just reception.
+
+```bash
+node scripts/pipeline-orchestrator.js --year=reception --open-report
+```
+
+**What you get**: All 46 reception tests run, failures healed, every passing worksheet scored on 7 dimensions. Action points tell you exactly which worksheets need image fixes, answer corrections, or layout improvements.
+
+**When to use**: When populating a new year group or auditing an existing one before promoting to production.
+
+### Example 4: Test-Only Run (CI-Style)
+
+Just want to know what passes and what fails. No healing, no quality — raw results.
+
+```bash
+node scripts/pipeline-orchestrator.js --skip-healer --skip-quality
+```
+
+**What you get**: Pass/fail counts in ~3-5 min. Report shows first-pass results only.
+
+**When to use**: Quick smoke test. Fastest pipeline mode.
+
+### Example 5: Slow Machine / Limited Resources
+
+Running on a laptop or low-spec machine. Reduce parallelism.
+
+```bash
+node scripts/pipeline-orchestrator.js --workers=4 --quality-parallel=2 --year=year1
+```
+
+**What you get**: Same results, just slower. Workers=4 means 4 parallel Playwright browsers, quality-parallel=2 means 2 concurrent Claude Code vision assessments.
+
+### Example 6: Fix Everything in One Session
+
+Full pipeline, review the report, then fix AMBER issues:
+
+```bash
+# Step 1: Run the pipeline
+node scripts/pipeline-orchestrator.js --open-report
+
+# Step 2: Review action-points.json
+# P0 = auto-fail (broken images, wrong answers) — fix first
+# P1 = low quality (score < 80) — fix second
+# P2 = near-production (score 80-94) — polish last
+
+# Step 3: Fix issues, then re-run just the affected year group
+node scripts/pipeline-orchestrator.js --year=year3 --open-report
+```
+
+**When to use**: Dedicated quality improvement session. The action points file is your TODO list.
 
 ---
 
@@ -261,7 +353,9 @@ These ideas from the original plan sound good but aren't worth the complexity fo
 | 5 agent memory stores | Start with 1-2, prove it helps |
 | Subagent observer/failure tracker | Nice for debugging but not urgent |
 
-**Revisit these if**: You find yourself doing the same 3+ step workflow repeatedly, or you consistently wish Claude could keep working while you sleep.
+**Note**: The pipeline (`/pipeline`) already covers the "agent dispatching orchestrator" pattern for the test+heal+quality workflow. Other orchestration patterns should prove their value before building.
+
+**Revisit the rest if**: You consistently wish Claude could keep working while you sleep, or you find another 3+ step workflow you repeat often.
 
 ---
 
@@ -312,7 +406,22 @@ If the Stop hook keeps blocking Claude from stopping:
     nextjs-app.md               # Loads for src/app/**
   agents/                       # 9 specialist agents
   skills/                       # 8 knowledge modules
-  commands/                     # 13 slash commands
+  commands/                     # 14 slash commands (incl. /pipeline)
+
+scripts/
+  pipeline-orchestrator.js      # Pipeline entry point (all 4 phases)
+  pipeline/
+    add-quality-screenshots.js  # Phase 0: inject screenshot line into tests
+    phase1-runner.js            # Phase 1: Playwright execution + JSON parse
+    phase2-healer.js            # Phase 2: healer agent invocation + regression
+    phase3-quality.js           # Phase 3: Claude Code vision assessment
+    report-generator.js         # Progressive HTML report builder
+    quality-criteria.js         # 7-dimension scoring + auto-fail logic
+    utils.js                    # Slug extraction, path helpers, logging
+
+pipeline-results/               # Generated output (gitignored)
+  pipeline-report.html          # HTML report with filters + expandable rows
+  action-points.json            # Prioritized fixes (P0/P1/P2)
 ```
 
 ---
